@@ -7,16 +7,21 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<title>归档 - kun&#39;s blog</title>
+<title>Hexo个人博客搭建及配置 - kun&#39;s blog</title>
 
 
-    <meta property="og:type" content="website">
-<meta property="og:title" content="kun&#39;s blog">
-<meta property="og:url" content="http://yoursite.com/archives/index.html">
+    <meta name="description" content="Hexo个人博客简介　　 　　回到太原之后，有一次看到一个广东的up主在珠海玩，看bilibili在广州">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo个人博客搭建及配置">
+<meta property="og:url" content="http://yoursite.com/2020/03/02/hexo/index.html">
 <meta property="og:site_name" content="kun&#39;s blog">
+<meta property="og:description" content="Hexo个人博客简介　　 　　回到太原之后，有一次看到一个广东的up主在珠海玩，看bilibili在广州">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://yoursite.com/images/og_image.png">
+<meta property="article:published_time" content="2020-03-02T13:40:33.000Z">
+<meta property="article:modified_time" content="2020-03-04T15:23:58.448Z">
 <meta property="article:author" content="Kun Zhang">
+<meta property="article:tag" content="兴趣，幸福">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://yoursite.com/images/og_image.png">
 
@@ -76,7 +81,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="http://q6mb9zdoi.bkt.clouddn.com/kun.png" alt="kun&#39;s blog" height="28">
+                <img src="http://q6mb9zdoi.bkt.clouddn.com/kun.png" alt="Hexo个人博客搭建及配置" height="28">
             
             </a>
         </div>
@@ -87,7 +92,7 @@
                 <a class="navbar-item"
                 href="/">首页</a>
                 
-                <a class="navbar-item is-active"
+                <a class="navbar-item"
                 href="/archives">最近发布</a>
                 
                 <a class="navbar-item"
@@ -112,6 +117,10 @@
                     
                 
                 
+                <a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
                 
                 <a class="navbar-item search" title="搜索" href="javascript:;">
                     <i class="fas fa-search"></i>
@@ -126,179 +135,156 @@
         <div class="container">
             <div class="columns">
                 <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-content article ">
         
-<div class="card widget">
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-03-02T13:40:33.000Z">2020-03-02</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">技术博客</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    5 分钟 读完 (大约 746 个字)
+                </span>
+                
+                
+                <span class="level-item has-text-grey" id="busuanzi_container_page_pv">
+                    <i class="far fa-eye"></i>
+                    <span id="busuanzi_value_page_pv">0</span>次访问
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Hexo个人博客搭建及配置
+            
+        </h1>
+        <div class="content">
+            <h2 id="Hexo个人博客简介"><a href="#Hexo个人博客简介" class="headerlink" title="Hexo个人博客简介"></a>Hexo个人博客简介</h2><p>　　</p>
+<p>　　回到太原之后，有一次看到一个广东的up主在珠海玩，看bilibili在广州<a id="more"></a>举办bw，关于广东的记忆一点一点浮现。我吃过的点都德，肠粉，去过小小的珠海，小小的澳门，去过广州举办漫展的展馆，去过深圳的市民中心，和师兄一起拍过照，还有一起工作过的博士联系我的时候，所有的经历就一点一点浮现，他们告诉我，在深圳发生过的一切不是一场梦，它已经成为我生命中的一部分—让我对于南方、对于广东不那么陌生，打开了新世界，对于未知的世界更加充满了好奇。</p>
+<h2 id="基本搭建环境"><a href="#基本搭建环境" class="headerlink" title="基本搭建环境"></a>基本搭建环境</h2><p>　Node.js</p>
+<p>​         在<a href>Node官网</a>下载最新版安装即可</p>
+<p>​    Git</p>
+<h2 id="本地搭建博客"><a href="#本地搭建博客" class="headerlink" title="本地搭建博客　　"></a>本地搭建博客　　</h2><p>在一个空文件夹(可以新建，例:Blog)下，点击右键，运行Git bash,输入命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo init</span><br></pre></td></tr></table></figure>
+
+<p>就会从官网下载Hexo 模板，下载完运行 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo server</span><br></pre></td></tr></table></figure>
+
+<p>启动成功。</p>
+<p>打开浏览器，输入local host：4000（hexo服务器默认端口为4000），就能看到博客页面，只不过现在的页面是默认的模板，没有任何你自己的东西。</p>
+<h2 id="在Github下访问"><a href="#在Github下访问" class="headerlink" title="在Github下访问"></a>在Github下访问</h2><p>　　在github下创建仓库，仓库名字必须为 [用户名].github.io,</p>
+<p>在本地的Blog文件下打开Blog/_config.yml文件，在deploy输入以下代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repository:                    https:&#x2F;&#x2F;github.com&#x2F;tengzhangchao&#x2F;tengzhangchao.github.io.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
+
+<p>保存</p>
+<p>打开Git bash，使用npm安装发布模块，运行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
+
+<p>安装模块，安装完后运行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo generate</span><br><span class="line">hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>在首次运行Hexo deploy时会提醒你需要输入Git hub用户名及密码。</p>
+<p>运行完后在浏览器输入<a href="Kun8018.github.io">Kun8018.github.io</a>,即可访问</p>
+<h2 id="绑定个人域名"><a href="#绑定个人域名" class="headerlink" title="绑定个人域名"></a>绑定个人域名</h2><p>绑定个人域名需在域名与Git hub仓库、本地文件夹三个地方分别设置</p>
+<p>   首先Ctrl+R,打开CMD窗口，使用ping方法寻找你的博客ip地址，</p>
+<p>​         我在ping的时候发现我的博客地址在185.199.108.153，185.199.109.153，185.199.110.153，185.199.111.153四个IP地址自动转换，后来在网上查找发现这是Git hub 的四个IP，所以我把我的个人域名下把这四个IP全部解析，解析时选择添加A类型地址及@属性</p>
+<p>　　</p>
+<h2 id="Hexo与Icarus主题详细配置"><a href="#Hexo与Icarus主题详细配置" class="headerlink" title="Hexo与Icarus主题详细配置"></a>Hexo与Icarus主题详细配置</h2><p>　　Hexo默认的主题为landscape，我个人不是很喜欢这个主题，特别推荐使用较多的Next主题，以及我个人使用的icarus主题</p>
+<h3 id="博客加密"><a href="#博客加密" class="headerlink" title="博客加密"></a>博客加密</h3><p>npm install –save </p>
+<p>hexo-blog-encrypt</p>
+<h3 id="添加评论"><a href="#添加评论" class="headerlink" title="添加评论"></a>添加评论</h3><h3 id="添加访问量和阅读量"><a href="#添加访问量和阅读量" class="headerlink" title="添加访问量和阅读量"></a>添加访问量和阅读量</h3>
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" rel="tag">兴趣，幸福</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+<div class="card">
     <div class="card-content">
-        <h3 class="tag is-link">
-        2020
-        </h3>
-        <div class="timeline">
-        
-            <article class="media">
+        <h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3>
+        <div class="buttons is-centered">
+            
                 
-                <div class="media-content">
-                    <div class="content">
-                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2020-03-02T13:40:33.000Z">2020-03-02</time>
-                        <a href="/2020/03/02/1/" class="title has-link-black-ter is-size-6 has-text-weight-normal">她，不会想起我吧</a>
-                        <div class="level article-meta is-mobile">
-                            <div class="level-left">
-                                
-                                <div class="level-item is-size-7 is-uppercase">
-                                <a class="has-link-grey -link" href="/categories/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">个人生活</a>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        
-            <article class="media">
+<a class="button is-info donate">
+    <span class="icon is-small">
+        <i class="fab fa-alipay"></i>
+    </span>
+    <span>支付宝</span>
+    <div class="qrcode"><img src="http://q6mb9zdoi.bkt.clouddn.com/alipay.jpg" alt="支付宝"></div>
+</a>
+
                 
-                <div class="media-content">
-                    <div class="content">
-                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2020-03-02T13:40:33.000Z">2020-03-02</time>
-                        <a href="/2020/03/02/%E6%8A%80%E6%9C%AF%E5%8F%8D%E6%80%9D/" class="title has-link-black-ter is-size-6 has-text-weight-normal">技术反思</a>
-                        <div class="level article-meta is-mobile">
-                            <div class="level-left">
-                                
-                                <div class="level-item is-size-7 is-uppercase">
-                                <a class="has-link-grey -link" href="/categories/%E6%9C%8B%E5%8F%8B/">朋友</a>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        
-            <article class="media">
                 
-                <div class="media-content">
-                    <div class="content">
-                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2020-03-02T13:40:33.000Z">2020-03-02</time>
-                        <a href="/2020/03/02/hexo/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Hexo个人博客搭建及配置</a>
-                        <div class="level article-meta is-mobile">
-                            <div class="level-left">
-                                
-                                <div class="level-item is-size-7 is-uppercase">
-                                <a class="has-link-grey -link" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">技术博客</a>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        
-            <article class="media">
+<a class="button is-success donate">
+    <span class="icon is-small">
+        <i class="fab fa-weixin"></i>
+    </span>
+    <span>微信</span>
+    <div class="qrcode"><img src="http://q6mb9zdoi.bkt.clouddn.com/wechatpay.jpg" alt="微信"></div>
+</a>
+
                 
-                <div class="media-content">
-                    <div class="content">
-                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2020-03-02T13:40:33.000Z">2020-03-02</time>
-                        <a href="/2020/03/02/%E8%B6%B3%E7%90%83/" class="title has-link-black-ter is-size-6 has-text-weight-normal">足球</a>
-                        <div class="level article-meta is-mobile">
-                            <div class="level-left">
-                                
-                                <div class="level-item is-size-7 is-uppercase">
-                                <a class="has-link-grey -link" href="/categories/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">个人生活</a>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        
-            <article class="media">
-                
-                <a href="/2020/03/02/%E9%99%88%E5%90%9B/" class="media-left">
-                    <p class="image is-64x64">
-                        <img class="thumbnail" src="http://q6mb9zdoi.bkt.clouddn.com/great.jpg" alt="陈君">
-                    </p>
-                </a>
-                
-                <div class="media-content">
-                    <div class="content">
-                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2020-03-02T13:40:33.000Z">2020-03-02</time>
-                        <a href="/2020/03/02/%E9%99%88%E5%90%9B/" class="title has-link-black-ter is-size-6 has-text-weight-normal">陈君</a>
-                        <div class="level article-meta is-mobile">
-                            <div class="level-left">
-                                
-                                <div class="level-item is-size-7 is-uppercase">
-                                <a class="has-link-grey -link" href="/categories/%E6%9C%8B%E5%8F%8B/">朋友</a>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        
-            <article class="media">
-                
-                <div class="media-content">
-                    <div class="content">
-                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2020-03-02T13:40:33.000Z">2020-03-02</time>
-                        <a href="/2020/03/02/friends-summ/" class="title has-link-black-ter is-size-6 has-text-weight-normal">个人反思</a>
-                        <div class="level article-meta is-mobile">
-                            <div class="level-left">
-                                
-                                <div class="level-item is-size-7 is-uppercase">
-                                <a class="has-link-grey -link" href="/categories/%E6%9C%8B%E5%8F%8B/">朋友</a>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        
-            <article class="media">
-                
-                <div class="media-content">
-                    <div class="content">
-                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2020-03-02T13:40:33.000Z">2020-03-02</time>
-                        <a href="/2020/03/02/Start/" class="title has-link-black-ter is-size-6 has-text-weight-normal">第一篇博客</a>
-                        <div class="level article-meta is-mobile">
-                            <div class="level-left">
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        
-            <article class="media">
-                
-                <a href="/2020/03/02/%E6%B7%B1%E5%9C%B3/" class="media-left">
-                    <p class="image is-64x64">
-                        <img class="thumbnail" src="http://q6mb9zdoi.bkt.clouddn.com/shenzhenbay.png" alt="深圳">
-                    </p>
-                </a>
-                
-                <div class="media-content">
-                    <div class="content">
-                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2020-03-02T13:40:33.000Z">2020-03-02</time>
-                        <a href="/2020/03/02/%E6%B7%B1%E5%9C%B3/" class="title has-link-black-ter is-size-6 has-text-weight-normal">深圳</a>
-                        <div class="level article-meta is-mobile">
-                            <div class="level-left">
-                                
-                                <div class="level-item is-size-7 is-uppercase">
-                                <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB%E6%84%9F%E6%82%9F/">生活感悟</a>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        
         </div>
     </div>
 </div>
 
-    
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/03/02/%E6%8A%80%E6%9C%AF%E5%8F%8D%E6%80%9D/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">技术反思</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/03/02/%E8%B6%B3%E7%90%83/">
+                <span class="level-item">足球</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">评论</h3>
+        
+<div class="notification is-danger">
+    You forgot to set the <code>app_id</code> or <code>app_key</code> for Valine. Please set it in <code>_config.yml</code>.
+</div>
+
+    </div>
+</div>
 </div>
                 
 
@@ -425,6 +411,54 @@
 </div>
     
         
+
+    <div class="card widget" id="toc">
+        <div class="card-content">
+            <div class="menu">
+                <h3 class="menu-label">
+                    目录
+                </h3>
+                <ul class="menu-list"><li>
+        <a class="is-flex" href="#Hexo个人博客简介">
+        <span class="has-mr-6">1</span>
+        <span>Hexo个人博客简介</span>
+        </a></li><li>
+        <a class="is-flex" href="#基本搭建环境">
+        <span class="has-mr-6">2</span>
+        <span>基本搭建环境</span>
+        </a></li><li>
+        <a class="is-flex" href="#本地搭建博客">
+        <span class="has-mr-6">3</span>
+        <span>本地搭建博客　　</span>
+        </a></li><li>
+        <a class="is-flex" href="#在Github下访问">
+        <span class="has-mr-6">4</span>
+        <span>在Github下访问</span>
+        </a></li><li>
+        <a class="is-flex" href="#绑定个人域名">
+        <span class="has-mr-6">5</span>
+        <span>绑定个人域名</span>
+        </a></li><li>
+        <a class="is-flex" href="#Hexo与Icarus主题详细配置">
+        <span class="has-mr-6">6</span>
+        <span>Hexo与Icarus主题详细配置</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#博客加密">
+        <span class="has-mr-6">6.1</span>
+        <span>博客加密</span>
+        </a></li><li>
+        <a class="is-flex" href="#添加评论">
+        <span class="has-mr-6">6.2</span>
+        <span>添加评论</span>
+        </a></li><li>
+        <a class="is-flex" href="#添加访问量和阅读量">
+        <span class="has-mr-6">6.3</span>
+        <span>添加访问量和阅读量</span>
+        </a></li></ul></li></ul>
+            </div>
+        </div>
+    </div>
+
     
         <div class="card widget">
     <div class="card-content">
@@ -909,7 +943,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="http://q6mb9zdoi.bkt.clouddn.com/kun.png" alt="kun&#39;s blog" height="28">
+                    <img src="http://q6mb9zdoi.bkt.clouddn.com/kun.png" alt="Hexo个人博客搭建及配置" height="28">
                 
                 </a>
                 <p class="is-size-7">
