@@ -7,21 +7,21 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<title>PHP与Laravel开发 - kun&#39;s blog</title>
+<title>React与Vue - kun&#39;s blog</title>
 
 
-    <meta name="description" content="php是世界上最好的语言？">
+    <meta name="description" content="Node与Webpack　　Webpack是一种打包js、css、html文件的技术，">
 <meta property="og:type" content="article">
-<meta property="og:title" content="PHP与Laravel开发">
+<meta property="og:title" content="React与Vue">
 <meta property="og:url" content="http://yoursite.com/2020/03/02/react/index.html">
 <meta property="og:site_name" content="kun&#39;s blog">
-<meta property="og:description" content="php是世界上最好的语言？">
+<meta property="og:description" content="Node与Webpack　　Webpack是一种打包js、css、html文件的技术，">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://q6mb9zdoi.bkt.clouddn.com/react.png">
 <meta property="article:published_time" content="2020-03-02T13:40:33.000Z">
-<meta property="article:modified_time" content="2020-03-07T16:47:23.608Z">
+<meta property="article:modified_time" content="2020-04-15T08:41:44.490Z">
 <meta property="article:author" content="Kun Zhang">
-<meta property="article:tag" content="IT，Web,PHP">
+<meta property="article:tag" content="IT，Web,Node，React">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://q6mb9zdoi.bkt.clouddn.com/react.png">
 
@@ -82,7 +82,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="http://q6mb9zdoi.bkt.clouddn.com/kun.png" alt="PHP与Laravel开发" height="28">
+                <img src="http://q6mb9zdoi.bkt.clouddn.com/kun.png" alt="React与Vue" height="28">
             
             </a>
         </div>
@@ -135,12 +135,12 @@
     <section class="section">
         <div class="container">
             <div class="columns">
-                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
+                <div class="column is-8-tablet is-8-desktop is-9-widescreen has-order-2 column-main">
 <div class="card">
     
     <div class="card-image">
         <span  class="image is-7by1">
-            <img class="thumbnail" src="http://q6mb9zdoi.bkt.clouddn.com/react.png" alt="PHP与Laravel开发">
+            <img class="thumbnail" src="http://q6mb9zdoi.bkt.clouddn.com/react.png" alt="React与Vue">
         </span>
     </div>
     
@@ -158,7 +158,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    几秒 读完 (大约 23 个字)
+                    5 分钟 读完 (大约 812 个字)
                 </span>
                 
                 
@@ -172,31 +172,173 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                PHP与Laravel开发
+                React与Vue
             
         </h1>
         <div class="content">
-            <h2 id="php是世界上最好的语言？"><a href="#php是世界上最好的语言？" class="headerlink" title="php是世界上最好的语言？"></a>php是世界上最好的语言？</h2><p>　　</p>
+            <h2 id="Node与Webpack"><a href="#Node与Webpack" class="headerlink" title="Node与Webpack"></a>Node与Webpack</h2><p>　　Webpack是一种打包js、css、html文件的技术，</p>
 <a id="more"></a>
 
-<h2 id><a href="#" class="headerlink" title></a></h2><p>　　</p>
+<p>Webpack</p>
+<p>安装Webpack</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn add webpack --dev</span><br></pre></td></tr></table></figure>
+
+<p>安装插件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yarn add webpack-dev-server html-webpack-plugin --dev</span><br><span class="line">&#x2F;&#x2F;html-webpack-plugin是用webpack生成html文件的</span><br></pre></td></tr></table></figure>
+
+<p>新建 webpack.config.js文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">const path &#x3D; require(&#39;path&#39;)</span><br><span class="line">const htmlWebpackPlugin &#x3D; require(&#39;html-webpack-plugin&#39;)</span><br><span class="line"></span><br><span class="line">module.exports &#x3D; &#123;</span><br><span class="line">&#x2F;&#x2F;配置webpack生成js文件</span><br><span class="line">entry: path.join(__dirname,&#39;.&#x2F;src&#x2F;main.js&#39;),</span><br><span class="line">output:&#123;</span><br><span class="line">   path:path.join(_dirname,&#39;.&#x2F;dist&#39;),</span><br><span class="line">   filename:&#39;bundle.js&#39;</span><br><span class="line">&#125;,</span><br><span class="line">&#x2F;&#x2F;配置webpack生成html文件</span><br><span class="line">plugins：[</span><br><span class="line">new htmlWebpackPlugin(&#123;</span><br><span class="line">  template:path.join(_dirname,&#39;.&#x2F;src&#x2F;index.html&#39;),</span><br><span class="line">  filename:&#39;index.html&#39;</span><br><span class="line">&#125;)</span><br><span class="line">],</span><br><span class="line">&#x2F;&#x2F;配置使用css和scss、图片</span><br><span class="line">module:&#123;</span><br><span class="line">rules:[</span><br><span class="line">&#123;test:&#x2F;\.css$&#x2F;,use:[&#39;style-loader&#39;,&#39;css-loader&#39;]&#125;,</span><br><span class="line">]</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Webpack服务器热启动配置</p>
+<p>在package.json下配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&quot;scripts&quot;:&#123;</span><br><span class="line">&quot;dev&quot;:&quot;webpack-dev-server --open --port 3000 --hot&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用CSS、SCSS</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn add style-loader css-loader sass-loader node-sass url-loader file-loader --dev</span><br></pre></td></tr></table></figure>
+
+<p>安装babel</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn add babel-core babel-loader babel-plugin-transform-runtime babel-preset-dev babel-preset-stage-0 --dev</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>发布</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;pub&quot;:&quot;webpack --config wecpack.pub.config.js&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>发布命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run pub</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="Webpack每次打包前清空自动发布目录（类似与hexo-clean）"><a href="#Webpack每次打包前清空自动发布目录（类似与hexo-clean）" class="headerlink" title="Webpack每次打包前清空自动发布目录（类似与hexo clean）"></a>Webpack每次打包前清空自动发布目录（类似与hexo clean）</h3><p>安装包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn add clean-webpack-plugin --dev</span><br></pre></td></tr></table></figure>
+
+<p>在配置文件webpack.config.js中导入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const cleanWebpackPlugin &#x3D; require(&#39;clean-webpack-plugin&#39;)</span><br></pre></td></tr></table></figure>
+
+<p>在插件中创建</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">new cleanWebpackPlugin([&#39;dist&#39;])</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="s"><a href="#s" class="headerlink" title="s"></a>s</h2><p>安装vue</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i -g @vue&#x2F;cli</span><br></pre></td></tr></table></figure>
+
+<p>添加element</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vue add element</span><br></pre></td></tr></table></figure>
+
+<p>添加路由</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vue add router</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="JSX语法"><a href="#JSX语法" class="headerlink" title="JSX语法"></a>JSX语法</h2><p>　JSX是React中为了便于编写而创建的语法，使用前安装包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cnpm i babel-present-react -D</span><br></pre></td></tr></table></figure>
+
+
+
+<p>组件</p>
+<p>函数  function </p>
+<h3 id="ES6-语法"><a href="#ES6-语法" class="headerlink" title="ES6 语法"></a>ES6 语法</h3><p>参数传递</p>
+<p>外部<code>...perpson</code>表示接收外部数组内的所有东西，称为属性扩散</p>
+<p>构造函数使用组件外部参数时，必须使用在构造函数的参数列表中定义props属性接收，props是形参，只能读取，不能更改外部数据</p>
+<p>类</p>
+<p>使用类时默认类中默认有constructor构造器</p>
+<p>类继承</p>
+<p>关键字 extends </p>
+<p>继承类中的constructor必须在第一行有super(),表示对父类中的constructor 的引用</p>
+<p>在constructor中引用外部数据也必须用形参</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"> render ()&#123;</span><br><span class="line">   return &#123;</span><br><span class="line">       </span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>render中直接用this.props使用外界传递的参数</p>
+<p>导出函数组件和类组件</p>
+<p>export default class </p>
+<p>类组件是有状态组件，有自己的state和生命周期函数，函数组件是无状态组件</p>
+<h3 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h3><p>生命周期函数</p>
+<p>componentWillMount(){}</p>
+<p>ComponentDidMount(){}</p>
+<p>componentWillReceiveProps(Props)</p>
+<p>shouldComponentUpdate(Props){}</p>
+<p>ComponentWillUpdate(Props){}</p>
+<p>componentDidUpdate(Props){}</p>
+<p>componentWillUnmount</p>
+<p>绑定this参数的三种方式</p>
+<p>直接使用bind绑定this参数</p>
+<p>在构造函数中传参</p>
+<p>箭头函数</p>
+<p>()=&gt;(){}</p>
+<h3 id="路由"><a href="#路由" class="headerlink" title="路由"></a>路由</h3><p>安装包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i --save react-router-dom</span><br></pre></td></tr></table></figure>
+
+<p>导入包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">import &#123;HashRouter,Route,Link&#125; from &#39;react-router-dom&#39;</span><br><span class="line">&#x2F;&#x2F;Route用来表示路由规则，有path和component、exact</span><br><span class="line">&#x2F;&#x2F;Link用来表示链接</span><br></pre></td></tr></table></figure>
+
+<p>代码/使用范例</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;HashRouter&gt;</span><br><span class="line">        &lt;Link to&#x3D;&quot;&#x2F;home&quot;&gt;&lt;&#x2F;Link&gt;</span><br><span class="line">        &lt;Link to&#x3D;&quot;&#x2F;movie&quot;&gt;&lt;&#x2F;Link&gt;</span><br><span class="line">        &lt;Link to&#x3D;&quot;&#x2F;about&quot;&gt;&lt;&#x2F;Link&gt;</span><br><span class="line">    &lt;Route path&#x3D;&quot;&#x2F;home&quot; compoent&#x3D;&#123;&#125; exact&gt;&lt;&#x2F;Route&gt;</span><br><span class="line">    &lt;Route path&#x3D;&quot;&#x2F;movie&#x2F;:type&#x2F;:id&quot; compoent&#x3D;&#123;&#125; exact&gt;&lt;&#x2F;Route&gt;</span><br><span class="line">    &lt;Route path&#x3D;&quot;&#x2F;about&quot; compoent&#x3D;&#123;&#125; exact&gt;&lt;&#x2F;Route&gt;</span><br><span class="line">&lt;&#x2F;HashRouter&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="创建React项目"><a href="#创建React项目" class="headerlink" title="创建React项目"></a>创建React项目</h2><p>安装包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i react-router-dom --save</span><br></pre></td></tr></table></figure>
+
+
+
+<p>创建react项目</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g create-react-app</span><br></pre></td></tr></table></figure>
+
+<p>使用create-react-app命令创建项目</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create-react-app [项目名]</span><br></pre></td></tr></table></figure>
+
+<p>启动项目</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm start</span><br></pre></td></tr></table></figure>
+
+
+
 <p>　　</p>
-<h2 id="-1"><a href="#-1" class="headerlink" title></a></h2><p>　</p>
-<h2 id="-2"><a href="#-2" class="headerlink" title></a></h2><p>　　</p>
-<h2 id="-3"><a href="#-3" class="headerlink" title></a></h2><p>　　</p>
-<h2 id="-4"><a href="#-4" class="headerlink" title></a></h2>
+<h2 id="使用库Ant-Design"><a href="#使用库Ant-Design" class="headerlink" title="使用库Ant-Design"></a>使用库Ant-Design</h2><p>Ant-Design是蚂蚁金服开发的面向React和Vue的类似于bootstrap的框架，官网链接为：<a href="https://ant.design/index-cn">https://ant.design/index-cn</a></p>
+<p>安装包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install antd --save</span><br><span class="line">cnpm i antd -S</span><br></pre></td></tr></table></figure>
+
+
+
+<p>在App.css文件中导入样式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@import &#39;~antd&#x2F;dist&#x2F;antd.css&#39;;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>按需导入包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import &#123;  &#125; from &#39;antd&#39;;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>组件</p>
+<h2 id="发布项目到服务器"><a href="#发布项目到服务器" class="headerlink" title="发布项目到服务器"></a>发布项目到服务器</h2>
         </div>
         
         <div class="level is-size-7 is-uppercase">
             <div class="level-start">
                 <div class="level-item">
                     <span class="is-size-6 has-text-grey has-mr-7">#</span>
-                    <a class="has-link-grey -link" href="/tags/IT%EF%BC%8CWeb-PHP/" rel="tag">IT，Web,PHP</a>
+                    <a class="has-link-grey -link" href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" rel="tag">IT，Web,Node，React</a>
                 </div>
             </div>
         </div>
         
         
+        
+        <div class="social-share" data-disabled="tencent,linkedin,douban,diandian,google"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css">
+<script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script>
+
         
     </div>
 </div>
@@ -246,8 +388,8 @@
         
         
         <div class="level-end">
-            <a class="level level-item has-link-grey  article-nav-next" href="/2020/03/02/node/">
-                <span class="level-item">Node开发</span>
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/03/02/NoSql/">
+                <span class="level-item">NoSQL</span>
                 <i class="level-item fas fa-chevron-right"></i>
             </a>
         </div>
@@ -289,7 +431,7 @@
 
 
 
-<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+<div class="column is-4-tablet is-5-desktop is-3-widescreen  has-order-1 column-left ">
     
         
 <div class="card widget">
@@ -328,7 +470,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            17
+                            35
                         </p>
                     </a>
                 </div>
@@ -352,7 +494,7 @@
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            15
+                            27
                         </p>
                     </a>
                 </div>
@@ -398,7 +540,11 @@
             
         </div>
         
-    </div>
+		<hr>
+        <p id="evan">IT学徒、技术民工、斜杠青年</p>
+          <p id="evan">机器人爱好者、摄影爱好者</p>
+          <p id="evan">PS、PR、LR、达芬奇潜在学习者</p>
+		  </div>
 </div>
     
         
@@ -410,29 +556,45 @@
                     目录
                 </h3>
                 <ul class="menu-list"><li>
-        <a class="is-flex" href="#php是世界上最好的语言？">
+        <a class="is-flex" href="#Node与Webpack">
         <span class="has-mr-6">1</span>
-        <span>php是世界上最好的语言？</span>
-        </a></li><li>
-        <a class="is-flex" href="#">
+        <span>Node与Webpack</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#Webpack每次打包前清空自动发布目录（类似与hexo-clean）">
+        <span class="has-mr-6">1.1</span>
+        <span>Webpack每次打包前清空自动发布目录（类似与hexo clean）</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#s">
         <span class="has-mr-6">2</span>
-        <span></span>
+        <span>s</span>
         </a></li><li>
-        <a class="is-flex" href="#-1">
+        <a class="is-flex" href="#JSX语法">
         <span class="has-mr-6">3</span>
-        <span></span>
+        <span>JSX语法</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#ES6-语法">
+        <span class="has-mr-6">3.1</span>
+        <span>ES6 语法</span>
         </a></li><li>
-        <a class="is-flex" href="#-2">
+        <a class="is-flex" href="#生命周期">
+        <span class="has-mr-6">3.2</span>
+        <span>生命周期</span>
+        </a></li><li>
+        <a class="is-flex" href="#路由">
+        <span class="has-mr-6">3.3</span>
+        <span>路由</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#创建React项目">
         <span class="has-mr-6">4</span>
-        <span></span>
+        <span>创建React项目</span>
         </a></li><li>
-        <a class="is-flex" href="#-3">
+        <a class="is-flex" href="#使用库Ant-Design">
         <span class="has-mr-6">5</span>
-        <span></span>
+        <span>使用库Ant-Design</span>
         </a></li><li>
-        <a class="is-flex" href="#-4">
+        <a class="is-flex" href="#发布项目到服务器">
         <span class="has-mr-6">6</span>
-        <span></span>
+        <span>发布项目到服务器</span>
         </a></li></ul>
             </div>
         </div>
@@ -489,7 +651,7 @@
                 <span class="level-item">IT</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">3</span>
+                <span class="level-item tag">9</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">
@@ -497,7 +659,7 @@
                 <span class="level-item">个人生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">5</span>
+                <span class="level-item tag">12</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">
@@ -505,7 +667,7 @@
                 <span class="level-item">技术博客</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">4</span>
+                <span class="level-item tag">7</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%9C%8B%E5%8F%8B/">
@@ -513,7 +675,7 @@
                 <span class="level-item">朋友</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">3</span>
+                <span class="level-item tag">5</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E7%94%9F%E6%B4%BB%E6%84%9F%E6%82%9F/">
@@ -534,12 +696,12 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 10px;">IT,Web</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 10px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 20px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 10px;">IT，未来</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 20px;">兴趣，幸福</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 10px;">友情</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 10px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 10px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a>
+        <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 10px;">IT,Web</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 10px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 15px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 10px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-React%EF%BC%8CVue/" style="font-size: 10px;">IT，Web,React，Vue</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 10px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 10px;">Web,IT,Go</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 20px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 15px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 20px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 10px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 10px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 15px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">生活、幸福</a>
     </div>
 </div>
     
     
-        <div class="column-right-shadow is-hidden-widescreen ">
+        <div class="column-right-shadow  ">
         
             <div class="card widget">
     <div class="card-content">
@@ -549,16 +711,16 @@
         
         <article class="media">
             
-            <a href="/2020/03/08/ROS/" class="media-left">
+            <a href="/2020/04/08/flutter/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="http://q6mb9zdoi.bkt.clouddn.com/ros-logo.jpg" alt="ROS与机器人控制">
+                    <img class="thumbnail" src="https://s1.ax1x.com/2020/04/20/J1IMCD.th.png" alt="Flutter移动开发">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-08T13:40:33.000Z">2020-03-08</time></div>
-                    <a href="/2020/03/08/ROS/" class="title has-link-black-ter is-size-6 has-text-weight-normal">ROS与机器人控制</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-04-08T13:40:33.000Z">2020-04-08</time></div>
+                    <a href="/2020/04/08/flutter/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Flutter移动开发</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">技术博客</a>
                     </p>
@@ -568,16 +730,16 @@
         
         <article class="media">
             
-            <a href="/2020/03/07/SpingBoot/" class="media-left">
+            <a href="/2020/03/30/mood/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="http://q6mb9zdoi.bkt.clouddn.com/springboot.png" alt="Spring Boot学习">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="关于心情">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-07T13:40:33.000Z">2020-03-07</time></div>
-                    <a href="/2020/03/07/SpingBoot/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring Boot学习</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-30T13:40:33.000Z">2020-03-30</time></div>
+                    <a href="/2020/03/30/mood/" class="title has-link-black-ter is-size-6 has-text-weight-normal">关于心情</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">个人生活</a>
                     </p>
@@ -587,18 +749,18 @@
         
         <article class="media">
             
-            <a href="/2020/03/06/%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91%E6%A6%82%E8%BF%B0/" class="media-left">
+            <a href="/2020/03/26/Opinions/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="http://q6mb9zdoi.bkt.clouddn.com/behind.jpg" alt="后端开发概述">
+                    <img class="thumbnail" src="https://s1.ax1x.com/2020/03/28/GA9Y8O.th.png" alt="关于一些事情的看法">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-06T13:40:33.000Z">2020-03-06</time></div>
-                    <a href="/2020/03/06/%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91%E6%A6%82%E8%BF%B0/" class="title has-link-black-ter is-size-6 has-text-weight-normal">后端开发概述</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-26T13:40:33.000Z">2020-03-26</time></div>
+                    <a href="/2020/03/26/Opinions/" class="title has-link-black-ter is-size-6 has-text-weight-normal">关于一些事情的看法</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">个人生活</a>
+                        <a class="has-link-grey -link" href="/categories/IT/">IT</a>
                     </p>
                 </div>
             </div>
@@ -606,18 +768,18 @@
         
         <article class="media">
             
-            <a href="/2020/03/04/windows%E6%B0%B8%E4%B9%85%E7%BF%BB%E5%A2%99%E6%8A%80%E5%B7%A7/" class="media-left">
+            <a href="/2020/03/25/%E5%A4%A7%E5%AD%A6%E8%AE%B0/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="http://q6mb9zdoi.bkt.clouddn.com/wall.jpg" alt="Windows免费永久翻墙技巧">
+                    <img class="thumbnail" src="https://s1.ax1x.com/2020/03/28/GA9TiV.jpg" alt="大学记--Kun">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-04T13:40:33.000Z">2020-03-04</time></div>
-                    <a href="/2020/03/04/windows%E6%B0%B8%E4%B9%85%E7%BF%BB%E5%A2%99%E6%8A%80%E5%B7%A7/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Windows免费永久翻墙技巧</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-25T13:40:33.000Z">2020-03-25</time></div>
+                    <a href="/2020/03/25/%E5%A4%A7%E5%AD%A6%E8%AE%B0/" class="title has-link-black-ter is-size-6 has-text-weight-normal">大学记--Kun</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">技术博客</a>
+                        <a class="has-link-grey -link" href="/categories/IT/">IT</a>
                     </p>
                 </div>
             </div>
@@ -625,18 +787,18 @@
         
         <article class="media">
             
-            <a href="/2020/03/02/hexo/" class="media-left">
+            <a href="/2020/03/18/reactnative/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="http://q6mb9zdoi.bkt.clouddn.com/logo.jpg" alt="Hexo个人博客搭建及配置">
+                    <img class="thumbnail" src="https://s1.ax1x.com/2020/03/27/G9OXNR.th.png" alt="React Native入门">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-02T13:40:33.000Z">2020-03-02</time></div>
-                    <a href="/2020/03/02/hexo/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Hexo个人博客搭建及配置</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-18T13:40:33.000Z">2020-03-18</time></div>
+                    <a href="/2020/03/18/reactnative/" class="title has-link-black-ter is-size-6 has-text-weight-normal">React Native入门</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">技术博客</a>
+                        <a class="has-link-grey -link" href="/categories/IT/">IT</a>
                     </p>
                 </div>
             </div>
@@ -654,12 +816,23 @@
         <ul class="menu-list">
         
         <li>
+            <a class="level is-marginless" href="/archives/2020/04/">
+                <span class="level-start">
+                    <span class="level-item">四月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
             <a class="level is-marginless" href="/archives/2020/03/">
                 <span class="level-start">
                     <span class="level-item">三月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">17</span>
+                    <span class="level-item tag">34</span>
                 </span>
             </a>
         </li>
@@ -706,8 +879,36 @@
                 </div>
                 
                 <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CApp-Node-Electron/">
+                        <span class="tag">IT，App,Node,Electron</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CGithub/">
+                        <span class="tag">IT，Github</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CRN%EF%BC%8C/">
+                        <span class="tag">IT，RN，</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Node/">
                         <span class="tag">IT，Web,Node</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/">
+                        <span class="tag">IT，Web,Node，React</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -715,7 +916,21 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-PHP/">
                         <span class="tag">IT，Web,PHP</span>
-                        <span class="tag is-grey">2</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-React%EF%BC%8CVue/">
+                        <span class="tag">IT，Web,React，Vue</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/">
+                        <span class="tag">IT，Web,数据库</span>
+                        <span class="tag is-grey">1</span>
                     </a>
                 </div>
                 
@@ -727,6 +942,27 @@
                 </div>
                 
                 <div class="control">
+                    <a class="tags has-addons" href="/tags/Web-IT-Flutter/">
+                        <span class="tag">Web,IT,Flutter</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Web-IT-Go/">
+                        <span class="tag">Web,IT,Go</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/">
+                        <span class="tag">个人生活，幸福</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
                     <a class="tags has-addons" href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/">
                         <span class="tag">兴趣，幸福</span>
                         <span class="tag is-grey">2</span>
@@ -734,8 +970,22 @@
                 </div>
                 
                 <div class="control">
+                    <a class="tags has-addons" href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/">
+                        <span class="tag">励志、文学</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
                     <a class="tags has-addons" href="/tags/%E5%8F%8B%E6%83%85/">
                         <span class="tag">友情</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">
+                        <span class="tag">幸福，个人生活</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -771,7 +1021,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/">
                         <span class="tag">爱情，幸福</span>
-                        <span class="tag is-grey">1</span>
+                        <span class="tag is-grey">2</span>
                     </a>
                 </div>
                 
@@ -782,260 +1032,9 @@
                     </a>
                 </div>
                 
-            </div>
-        </div>
-    </div>
-</div>
-        
-        </div>
-    
-</div>
-
-                
-
-
-
-
-
-<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
-    
-        <div class="card widget">
-    <div class="card-content">
-        <h3 class="menu-label">
-            最新文章
-        </h3>
-        
-        <article class="media">
-            
-            <a href="/2020/03/08/ROS/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="http://q6mb9zdoi.bkt.clouddn.com/ros-logo.jpg" alt="ROS与机器人控制">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-08T13:40:33.000Z">2020-03-08</time></div>
-                    <a href="/2020/03/08/ROS/" class="title has-link-black-ter is-size-6 has-text-weight-normal">ROS与机器人控制</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">技术博客</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2020/03/07/SpingBoot/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="http://q6mb9zdoi.bkt.clouddn.com/springboot.png" alt="Spring Boot学习">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-07T13:40:33.000Z">2020-03-07</time></div>
-                    <a href="/2020/03/07/SpingBoot/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring Boot学习</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">个人生活</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2020/03/06/%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91%E6%A6%82%E8%BF%B0/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="http://q6mb9zdoi.bkt.clouddn.com/behind.jpg" alt="后端开发概述">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-06T13:40:33.000Z">2020-03-06</time></div>
-                    <a href="/2020/03/06/%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91%E6%A6%82%E8%BF%B0/" class="title has-link-black-ter is-size-6 has-text-weight-normal">后端开发概述</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">个人生活</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2020/03/04/windows%E6%B0%B8%E4%B9%85%E7%BF%BB%E5%A2%99%E6%8A%80%E5%B7%A7/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="http://q6mb9zdoi.bkt.clouddn.com/wall.jpg" alt="Windows免费永久翻墙技巧">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-04T13:40:33.000Z">2020-03-04</time></div>
-                    <a href="/2020/03/04/windows%E6%B0%B8%E4%B9%85%E7%BF%BB%E5%A2%99%E6%8A%80%E5%B7%A7/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Windows免费永久翻墙技巧</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">技术博客</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2020/03/02/hexo/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="http://q6mb9zdoi.bkt.clouddn.com/logo.jpg" alt="Hexo个人博客搭建及配置">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-02T13:40:33.000Z">2020-03-02</time></div>
-                    <a href="/2020/03/02/hexo/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Hexo个人博客搭建及配置</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">技术博客</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-    </div>
-</div>
-    
-        <div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-        <h3 class="menu-label">
-            归档
-        </h3>
-        <ul class="menu-list">
-        
-        <li>
-            <a class="level is-marginless" href="/archives/2020/03/">
-                <span class="level-start">
-                    <span class="level-item">三月 2020</span>
-                </span>
-                <span class="level-end">
-                    <span class="level-item tag">17</span>
-                </span>
-            </a>
-        </li>
-        
-        </ul>
-        </div>
-    </div>
-</div>
-    
-        <div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-            <h3 class="menu-label">
-                标签
-            </h3>
-            <div class="field is-grouped is-grouped-multiline">
-                
                 <div class="control">
-                    <a class="tags has-addons" href="/tags/IT-Java-Web/">
-                        <span class="tag">IT,Java,Web</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/IT-Web/">
-                        <span class="tag">IT,Web</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/">
-                        <span class="tag">IT、友情</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/IT%EF%BC%8C/">
-                        <span class="tag">IT，</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Node/">
-                        <span class="tag">IT，Web,Node</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-PHP/">
-                        <span class="tag">IT，Web,PHP</span>
-                        <span class="tag is-grey">2</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/">
-                        <span class="tag">IT，未来</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/">
-                        <span class="tag">兴趣，幸福</span>
-                        <span class="tag is-grey">2</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/%E5%8F%8B%E6%83%85/">
-                        <span class="tag">友情</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/">
-                        <span class="tag">技术宅、IT</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/">
-                        <span class="tag">技术，Robotic，IT</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/">
-                        <span class="tag">摄影，记录，生活</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/%E6%B7%B1%E5%9C%B3/">
-                        <span class="tag">深圳</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/">
-                        <span class="tag">爱情，幸福</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/%E7%94%9F%E6%B4%BB/">
-                        <span class="tag">生活#</span>
+                    <a class="tags has-addons" href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/">
+                        <span class="tag">生活、幸福</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -1044,10 +1043,12 @@
         </div>
     </div>
 </div>
-    
+        
+        </div>
     
 </div>
 
+				
             </div>
         </div>
     </section>
@@ -1057,7 +1058,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="http://q6mb9zdoi.bkt.clouddn.com/kun.png" alt="PHP与Laravel开发" height="28">
+                    <img src="http://q6mb9zdoi.bkt.clouddn.com/kun.png" alt="React与Vue" height="28">
                 
                 </a>
                 <p class="is-size-7">
