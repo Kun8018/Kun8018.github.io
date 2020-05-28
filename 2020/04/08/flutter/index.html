@@ -19,7 +19,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://s1.ax1x.com/2020/04/20/J1IMCD.th.png">
 <meta property="article:published_time" content="2020-04-08T13:40:33.000Z">
-<meta property="article:modified_time" content="2020-05-22T14:25:05.741Z">
+<meta property="article:modified_time" content="2020-05-23T00:30:48.012Z">
 <meta property="article:author" content="Kun Zhang">
 <meta property="article:tag" content="Web,IT,Flutter">
 <meta name="twitter:card" content="summary">
@@ -31,7 +31,7 @@
 
 
 
-<link rel="icon" href="http://q6mb9zdoi.bkt.clouddn.com/kun.png">
+<link rel="icon" href="https://s1.ax1x.com/2020/03/27/G9OfNn.th.png">
 
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
@@ -82,7 +82,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="http://q6mb9zdoi.bkt.clouddn.com/kun.png" alt="Flutter移动开发" height="28">
+                <img src="https://s1.ax1x.com/2020/03/27/G9OfNn.th.png" alt="Flutter移动开发" height="28">
             
             </a>
         </div>
@@ -158,7 +158,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    29 分钟 读完 (大约 4282 个字)
+                    29 分钟 读完 (大约 4318 个字)
                 </span>
                 
                 
@@ -463,7 +463,19 @@
 
 <h2 id="图片与视频"><a href="#图片与视频" class="headerlink" title="图片与视频"></a>图片与视频</h2><p>与node包类似，flutter也有类似的包管理工具，官网地址是<a href="https://pub.dev/flutter/packages，可以根据功能在上面搜索需要的包">https://pub.dev/flutter/packages，可以根据功能在上面搜索需要的包</a></p>
 <p>video-player</p>
-<h2 id="地图组件"><a href="#地图组件" class="headerlink" title="地图组件"></a>地图组件</h2><h2 id="二维码"><a href="#二维码" class="headerlink" title="二维码"></a>二维码</h2><h2 id="组件"><a href="#组件" class="headerlink" title="组件"></a>组件</h2><h3 id="各种边框（矩形框、圆角框）"><a href="#各种边框（矩形框、圆角框）" class="headerlink" title="各种边框（矩形框、圆角框）"></a>各种边框（矩形框、圆角框）</h3><p><a href="https://blog.csdn.net/zl18603543572/article/details/95641481">https://blog.csdn.net/zl18603543572/article/details/95641481</a></p>
+<h2 id="地图组件"><a href="#地图组件" class="headerlink" title="地图组件"></a>地图组件</h2><h2 id="二维码"><a href="#二维码" class="headerlink" title="二维码"></a>二维码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dependencies:</span><br><span class="line">  qrcode_reader: ^0.4.4</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import &#39;package:qrcode_reader&#x2F;qrcode_reader.dart&#39;;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Future&lt;String&gt; futureString &#x3D; new QRCodeReader()</span><br><span class="line">               .setAutoFocusIntervalInMs(200) &#x2F;&#x2F; default 5000</span><br><span class="line">               .setForceAutoFocus(true) &#x2F;&#x2F; default false</span><br><span class="line">               .setTorchEnabled(true) &#x2F;&#x2F; default false</span><br><span class="line">               .setHandlePermissions(true) &#x2F;&#x2F; default true</span><br><span class="line">               .setExecuteAfterPermissionGranted(true) &#x2F;&#x2F; default true</span><br><span class="line">               .scan();</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="组件"><a href="#组件" class="headerlink" title="组件"></a>组件</h2><h3 id="各种边框（矩形框、圆角框）"><a href="#各种边框（矩形框、圆角框）" class="headerlink" title="各种边框（矩形框、圆角框）"></a>各种边框（矩形框、圆角框）</h3><p><a href="https://blog.csdn.net/zl18603543572/article/details/95641481">https://blog.csdn.net/zl18603543572/article/details/95641481</a></p>
 <h3 id="文本输入框"><a href="#文本输入框" class="headerlink" title="文本输入框"></a>文本输入框</h3><p><a href="https://blog.csdn.net/u011272795/article/details/82528432?depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-1&amp;utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-1">https://blog.csdn.net/u011272795/article/details/82528432?depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-1&amp;utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-1</a></p>
 <p>decoration属性介绍:<br>border：增加一个边框，<br>hintText：未输入文字时，输入框中的提示文字，<br>prefixIcon：输入框内侧左面的控件，<br>labelText：一个提示文字。输入框获取焦点/输入框有内容 会移动到左上角，否则在输入框内，labelTex的位置.<br>suffixIcon: 输入框内侧右面的图标.<br>icon : 输入框左侧添加个图标</p>
 <h3 id="列表条"><a href="#列表条" class="headerlink" title="列表条"></a>列表条</h3><p>ListTile</p>
@@ -1535,7 +1547,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="http://q6mb9zdoi.bkt.clouddn.com/kun.png" alt="Flutter移动开发" height="28">
+                    <img src="https://s1.ax1x.com/2020/03/27/G9OfNn.th.png" alt="Flutter移动开发" height="28">
                 
                 </a>
                 <p class="is-size-7">
