@@ -10,16 +10,16 @@
 <title>Node开发 - kun&#39;s blog</title>
 
 
-    <meta name="description" content="Node　　 前端：写界面、请求数据 数据处理 后端：写Api接口，接收用户数据，处理数据（数据库），返回数据">
+    <meta name="description" content="Node　　 前端：vue写界面、请求数据 数据处理 后端：写Api接口，接收用户数据，处理数据（数据库），返回数据">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Node开发">
 <meta property="og:url" content="http://yoursite.com/2020/03/18/Node/index.html">
 <meta property="og:site_name" content="kun&#39;s blog">
-<meta property="og:description" content="Node　　 前端：写界面、请求数据 数据处理 后端：写Api接口，接收用户数据，处理数据（数据库），返回数据">
+<meta property="og:description" content="Node　　 前端：vue写界面、请求数据 数据处理 后端：写Api接口，接收用户数据，处理数据（数据库），返回数据">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://s1.ax1x.com/2020/03/27/G9OqHJ.th.png">
 <meta property="article:published_time" content="2020-03-18T13:40:33.000Z">
-<meta property="article:modified_time" content="2020-05-31T02:13:04.261Z">
+<meta property="article:modified_time" content="2020-06-25T14:31:56.849Z">
 <meta property="article:author" content="Kun Zhang">
 <meta property="article:tag" content="IT，Web,Node">
 <meta name="twitter:card" content="summary">
@@ -158,7 +158,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    8 分钟 读完 (大约 1232 个字)
+                    14 分钟 读完 (大约 2078 个字)
                 </span>
                 
                 
@@ -177,7 +177,7 @@
         </h1>
         <div class="content">
             <h2 id="Node"><a href="#Node" class="headerlink" title="Node"></a>Node</h2><p>　　</p>
-<p>前端：写界面、请求数据 数据处理</p>
+<p>前端：vue写界面、请求数据 数据处理</p>
 <p>后端：写Api接口，接收用户数据，处理数据（数据库），返回数据</p>
 <a id="more"></a>
 
@@ -201,6 +201,23 @@
 
 
 <h2 id="读取文件夹、文件"><a href="#读取文件夹、文件" class="headerlink" title="读取文件夹、文件"></a>读取文件夹、文件</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">var fs &#x3D; require(&#39;fs&#39;)</span><br><span class="line">&#x2F;&#x2F;读、写文件</span><br><span class="line">var readme &#x3D; fs.readFileSync(&quot;readme.txt&quot;,&quot;utf8&quot;);&#x2F;&#x2F;同步读文件</span><br><span class="line"></span><br><span class="line">var readme &#x3D; fs.readFile(&quot;readme.txt&quot;,&quot;utf8&quot;,function(err,data)&#123;</span><br><span class="line">    </span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">fs.writeFileSync(&quot;writeme.txt&quot;,readme)</span><br><span class="line">fs.writeFile(&#39;writeme.txt&#39;,data,function()&#123;</span><br><span class="line"></span><br><span class="line">&#125;)</span><br><span class="line">&#x2F;&#x2F;创建、读取、移除目录</span><br><span class="line">fs.mkdir(&#39;&#39;,function()&#123;</span><br><span class="line"></span><br><span class="line">&#125;)</span><br><span class="line">fs.readdir(&#39;&#39;,function()&#123;</span><br><span class="line"></span><br><span class="line">&#125;)</span><br><span class="line">fs.rmdir(&#39;&#39;)</span><br><span class="line">&#x2F;&#x2F;识别文件、目录类型</span><br><span class="line">fs.stat(&#39;&#39;,function()&#123;</span><br><span class="line">stats.isFile()</span><br><span class="line">stats.isDirectory()</span><br><span class="line">&#125;)</span><br><span class="line">&#x2F;&#x2F;删除文件</span><br><span class="line">fs.unlink(&#39;input.txt&#39;, function(err) &#123;</span><br><span class="line">   if (err) &#123;</span><br><span class="line">       return console.error(err);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="七牛云存储"><a href="#七牛云存储" class="headerlink" title="七牛云存储"></a>七牛云存储</h2><p>安装七牛包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install qiniu</span><br></pre></td></tr></table></figure>
+
+<p>新建文件，设置七牛云参数</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> bucket=<span class="string">''</span>,</span><br><span class="line"><span class="keyword">var</span> imageUrl=<span class="string">''</span>,</span><br><span class="line"><span class="keyword">var</span> accessKey = <span class="string">''</span>,</span><br><span class="line"><span class="keyword">var</span> secretKey = <span class="string">''</span>,</span><br><span class="line"><span class="keyword">var</span> mac = <span class="keyword">new</span> qiniu.auth.digest.Mac(accessKey,secretKey);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> option=&#123;</span><br><span class="line">    scope:bucket,</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> putPolicy= <span class="keyword">new</span> qiniu.rs.PutPolicy(option)</span><br><span class="line"><span class="keyword">var</span> uploadToken = putPolicy.uploadToken(mac);</span><br></pre></td></tr></table></figure>
+
+<p>上传代码</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> config = <span class="keyword">new</span> qiniu.conf.Config()</span><br><span class="line"></span><br><span class="line">config.zone= qiniu.zone.Zone_z0;<span class="comment">//选择七牛云的机房</span></span><br><span class="line"><span class="comment">//是否使用https、是否使用cdn加速</span></span><br><span class="line">config.usehttpsDomain=<span class="literal">true</span>;</span><br><span class="line">config.useCdnDomain = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> formUploader = <span class="keyword">new</span> qiniu.form_up.FormUploader(config);</span><br><span class="line"><span class="keyword">var</span> putExtra = <span class="keyword">new</span> qiniu.form_up.PutExtra();</span><br><span class="line"><span class="keyword">var</span> key = <span class="string">''</span>;</span><br><span class="line"></span><br><span class="line">formUploader.putFile(uploadToken,key,path.resolve(pathName),putExtra,<span class="function"><span class="keyword">function</span>(<span class="params">respErr,respBody,respInfo</span>)</span>&#123;</span><br><span class="line">       <span class="keyword">if</span>(resqErr)&#123;</span><br><span class="line">         <span class="keyword">throw</span> respErr;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">if</span>(respInfo.statusCode == <span class="number">200</span>)&#123;</span><br><span class="line">       <span class="built_in">console</span>.log(respBody);</span><br><span class="line">       &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">           <span class="built_in">console</span>.log(respInfo.statusCode);</span><br><span class="line">           <span class="built_in">console</span>.log(respBody)</span><br><span class="line">       &#125;                                                   &#125;);</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
 
 
 
@@ -256,9 +273,22 @@
 <li><code>express.urlencoded</code> 解析传入的用 URL 编码的有效载荷请求。</li>
 </ul>
 <h4 id="错误处理中间件"><a href="#错误处理中间件" class="headerlink" title="错误处理中间件"></a><strong>错误处理中间件</strong></h4><p>错误处理中间件始终采用四个参数<strong>（err，req，res，next）</strong>。</p>
-<h3 id="第三方登录"><a href="#第三方登录" class="headerlink" title="第三方登录"></a>第三方登录</h3><h3 id="与Mongo数据库交互"><a href="#与Mongo数据库交互" class="headerlink" title="与Mongo数据库交互"></a>与Mongo数据库交互</h3><p>MongoDB的安装教程不在赘述，在官网下载即可</p>
+<h3 id="第三方登录"><a href="#第三方登录" class="headerlink" title="第三方登录"></a>第三方登录</h3><h3 id="Mysql"><a href="#Mysql" class="headerlink" title="Mysql"></a>Mysql</h3><p>安装包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install mysql</span><br></pre></td></tr></table></figure>
+
+<p>建立连接</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var mysql &#x3D; require(&#39;mysql&#39;)</span><br><span class="line">var connection &#x3D; mysql.createConnection(&#123;</span><br><span class="line">  host:&#39;localhost&#39;,</span><br><span class="line">  user:&#39;root&#39;,</span><br><span class="line">  password:&#39;&#39;,</span><br><span class="line">  database:&#39;my_db&#39;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">connection.connect();</span><br></pre></td></tr></table></figure>
+
+<p>增删改查</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="与Mongo数据库交互"><a href="#与Mongo数据库交互" class="headerlink" title="与Mongo数据库交互"></a>与Mongo数据库交互</h3><p>MongoDB的安装教程不在赘述，在官网下载即可</p>
 <p>在Mongo的安装目录bin目录下打开CMD窗口，运行</p>
-<p>安装Mongoose</p>
+<p>安装Node的Mongo数据库工具Mongoose</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i mongoose</span><br></pre></td></tr></table></figure>
 
 <p>连接代码</p>
@@ -272,14 +302,31 @@
 
 
 
+<h3 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h3><p>安装node驱动包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install redis</span><br></pre></td></tr></table></figure>
+
+<p>Redis支持多种数据类型，有键值对、哈希表、链表、集合等</p>
+<p>在node中创建redis客户端，运行redis,</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> redis = <span class="built_in">require</span>(<span class="string">'redis'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> client = redis.createClient(<span class="number">6379</span>,<span class="string">'127.0.0.1'</span>)</span><br><span class="line">client.on(<span class="string">'error'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">err</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'Error'</span>+error)</span><br><span class="line">&#125;)；</span><br></pre></td></tr></table></figure>
+
+<p>创建键值对</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">client.set(<span class="string">'color'</span>,<span class="string">'red'</span>,redis.print)</span><br><span class="line">client.get(<span class="string">'color'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">err,value</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(err)<span class="keyword">throw</span> err;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'Got:'</span>+value)</span><br><span class="line">    client.quit();</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>redis除了键值对，还有散列（哈希）、列表（list）、集合（set)、有序集合（zset）等数据类型，并有对的处理函数</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//对键（key）的操作</span></span><br><span class="line">del(<span class="string">'key'</span>) <span class="comment">//删除key</span></span><br><span class="line">exists(<span class="string">'key'</span>) <span class="comment">//查询key</span></span><br><span class="line">expire/pexpire(<span class="string">'key'</span>,seconds/milliseconds) <span class="comment">//设置key的过期秒数/毫秒数</span></span><br><span class="line">persist(<span class="string">'key'</span>)<span class="comment">//移除key的过期时间</span></span><br><span class="line">flushdb<span class="comment">//清空当前数据库</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//对键值对的操作</span></span><br><span class="line"><span class="keyword">set</span>('key','value')//设置键的值</span><br><span class="line"><span class="keyword">get</span>('key')//获取键对应的值</span><br><span class="line">del('key')//删除键对应的值</span><br><span class="line">增加键对应的值</span><br><span class="line">incrby('key',increment)</span><br><span class="line">减去键对应的值</span><br><span class="line">der('key',increment)</span><br><span class="line"></span><br><span class="line">//对列表（队列）的操作</span><br><span class="line">lrange('key',0,-1)//获取列表内指定范围的值</span><br><span class="line">lindex('key',1)//获取列表在指定位置的值</span><br><span class="line">lpop('key')//在列表左边弹出一个值，并返回</span><br><span class="line">rpop('key')//在列表右边弹出一个值，并返回</span><br><span class="line">rpush('key','value')//在列表右边推入指定值</span><br><span class="line">rtrim('key','start','end')//将列表的内容在指定范围裁剪</span><br><span class="line"></span><br><span class="line">//对有序集合(zset)的操作</span><br><span class="line">zadd('zset-key',score,key)//添加元素到集合</span><br><span class="line">zrange  //获取集合中指定位置的元素</span><br><span class="line">zrangebyscore  //获取集合中指定范围的元素</span><br><span class="line">zcard('key')  //获取一个有序集合中成员数量</span><br><span class="line">zrem //移除有序集合中的成员</span><br><span class="line"></span><br><span class="line">//对集合的操作</span><br><span class="line">smembers('key')//返回集合中包含的所有元素</span><br><span class="line">scad('key')//返回集合中元素的数量</span><br><span class="line">sismenber('key','value')//检查元素是否存在于集合中</span><br><span class="line">smove('source-key','dest-key','item')//一个集合迁移到另一个集合</span><br><span class="line">srem('key','value')//移除集合中指定元素</span><br><span class="line">spop('key')//随机删除集合元素，并返回值</span><br><span class="line">sdiff('key','key2')//返回存在于第一个集合，但不存在于其他集合的元素（差集）</span><br><span class="line">sdiffstore('dest-key','key','key2')//将存在于第一个集合，但不存在于其他集合的元素存储到指定键</span><br><span class="line">sinter('key','key2')//返回不同集合的交集部分</span><br><span class="line">sinterstore('dest-key','key','key2')//将不同集合的交集部分存储到指定键</span><br><span class="line">sunion('key','key2')//返回不同集合的并集</span><br><span class="line">sunionstore('dest-key','key','key2')////将不同集合的并集存储到指定键</span><br><span class="line"></span><br><span class="line">//对哈希散列的操作</span><br></pre></td></tr></table></figure>
 
 
-<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><p>　设置镜像源</p>
+
+<h2 id="Koajs"><a href="#Koajs" class="headerlink" title="Koajs"></a>Koajs</h2><h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><p>　设置镜像源</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">npm config get registry  &#x2F;&#x2F; 查看npm当前镜像源</span><br><span class="line"></span><br><span class="line">https:&#x2F;&#x2F;registry.npm.taobao.org&#x2F;  &#x2F;&#x2F; 设置npm镜像源为淘宝镜像</span><br><span class="line"></span><br><span class="line">yarn config get registry  &#x2F;&#x2F; 查看yarn当前镜像源</span><br><span class="line"></span><br><span class="line">https:&#x2F;&#x2F;registry.npm.taobao.org&#x2F;  &#x2F;&#x2F; 设置yarn镜像源为淘宝镜像</span><br></pre></td></tr></table></figure>
 
 
 
-<h2 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h2><h2 id="Node常见问题汇总"><a href="#Node常见问题汇总" class="headerlink" title="Node常见问题汇总"></a>Node常见问题汇总</h2><h3 id="npm-ERR-Maximum-call-stack-size-exceeded"><a href="#npm-ERR-Maximum-call-stack-size-exceeded" class="headerlink" title="npm ERR! Maximum call stack size exceeded"></a>npm ERR! Maximum call stack size exceeded</h3><p>解决方法：全局更新npm</p>
+
+
+
+
+<h2 id="Node常见问题汇总"><a href="#Node常见问题汇总" class="headerlink" title="Node常见问题汇总"></a>Node常见问题汇总</h2><h3 id="npm-ERR-Maximum-call-stack-size-exceeded"><a href="#npm-ERR-Maximum-call-stack-size-exceeded" class="headerlink" title="npm ERR! Maximum call stack size exceeded"></a>npm ERR! Maximum call stack size exceeded</h3><p>解决方法：全局更新npm</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install npm -g</span><br></pre></td></tr></table></figure>
 
 
@@ -437,7 +484,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            36
+                            24
                         </p>
                     </a>
                 </div>
@@ -449,7 +496,7 @@
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            5
+                            4
                         </p>
                     </a>
                 </div>
@@ -461,7 +508,7 @@
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            27
+                            21
                         </p>
                     </a>
                 </div>
@@ -543,84 +590,96 @@
         <span class="has-mr-6">5</span>
         <span>读取文件夹、文件</span>
         </a></li><li>
-        <a class="is-flex" href="#路径操作">
+        <a class="is-flex" href="#七牛云存储">
         <span class="has-mr-6">6</span>
+        <span>七牛云存储</span>
+        </a></li><li>
+        <a class="is-flex" href="#路径操作">
+        <span class="has-mr-6">7</span>
         <span>路径操作</span>
         </a></li><li>
         <a class="is-flex" href="#全局变量">
-        <span class="has-mr-6">7</span>
+        <span class="has-mr-6">8</span>
         <span>全局变量</span>
         </a><ul class="menu-list"><ul class="menu-list"><li>
         <a class="is-flex" href="#当前目录与当前文件">
-        <span class="has-mr-6">7.1.1</span>
+        <span class="has-mr-6">8.1.1</span>
         <span>当前目录与当前文件</span>
         </a></li><li>
         <a class="is-flex" href="#定时器函数">
-        <span class="has-mr-6">7.1.2</span>
+        <span class="has-mr-6">8.1.2</span>
         <span>定时器函数</span>
         </a></li><li>
         <a class="is-flex" href="#控制台输出函数">
-        <span class="has-mr-6">7.1.3</span>
+        <span class="has-mr-6">8.1.3</span>
         <span>控制台输出函数</span>
         </a></li><li>
         <a class="is-flex" href="#Process">
-        <span class="has-mr-6">7.1.4</span>
+        <span class="has-mr-6">8.1.4</span>
         <span>Process</span>
         </a></li></ul></ul></li><li>
         <a class="is-flex" href="#服务器">
-        <span class="has-mr-6">8</span>
+        <span class="has-mr-6">9</span>
         <span>服务器</span>
         </a></li><li>
         <a class="is-flex" href="#Express框架">
-        <span class="has-mr-6">9</span>
+        <span class="has-mr-6">10</span>
         <span>Express框架</span>
         </a><ul class="menu-list"><li>
         <a class="is-flex" href="#路由">
-        <span class="has-mr-6">9.1</span>
+        <span class="has-mr-6">10.1</span>
         <span>路由</span>
         </a></li><li>
         <a class="is-flex" href="#中间件">
-        <span class="has-mr-6">9.2</span>
+        <span class="has-mr-6">10.2</span>
         <span>中间件</span>
         </a><ul class="menu-list"><li>
         <a class="is-flex" href="#内置中间件">
-        <span class="has-mr-6">9.2.1</span>
+        <span class="has-mr-6">10.2.1</span>
         <span>内置中间件</span>
         </a></li><li>
         <a class="is-flex" href="#错误处理中间件">
-        <span class="has-mr-6">9.2.2</span>
+        <span class="has-mr-6">10.2.2</span>
         <span>错误处理中间件</span>
         </a></li></ul></li><li>
         <a class="is-flex" href="#第三方登录">
-        <span class="has-mr-6">9.3</span>
+        <span class="has-mr-6">10.3</span>
         <span>第三方登录</span>
         </a></li><li>
+        <a class="is-flex" href="#Mysql">
+        <span class="has-mr-6">10.4</span>
+        <span>Mysql</span>
+        </a></li><li>
         <a class="is-flex" href="#与Mongo数据库交互">
-        <span class="has-mr-6">9.4</span>
+        <span class="has-mr-6">10.5</span>
         <span>与Mongo数据库交互</span>
-        </a></li></ul></li><li>
-        <a class="is-flex" href="#常用命令">
-        <span class="has-mr-6">10</span>
-        <span>常用命令</span>
         </a></li><li>
         <a class="is-flex" href="#Redis">
-        <span class="has-mr-6">11</span>
+        <span class="has-mr-6">10.6</span>
         <span>Redis</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#Koajs">
+        <span class="has-mr-6">11</span>
+        <span>Koajs</span>
+        </a></li><li>
+        <a class="is-flex" href="#常用命令">
+        <span class="has-mr-6">12</span>
+        <span>常用命令</span>
         </a></li><li>
         <a class="is-flex" href="#Node常见问题汇总">
-        <span class="has-mr-6">12</span>
+        <span class="has-mr-6">13</span>
         <span>Node常见问题汇总</span>
         </a><ul class="menu-list"><li>
         <a class="is-flex" href="#npm-ERR-Maximum-call-stack-size-exceeded">
-        <span class="has-mr-6">12.1</span>
+        <span class="has-mr-6">13.1</span>
         <span>npm ERR! Maximum call stack size exceeded</span>
         </a></li><li>
         <a class="is-flex" href="#warning-react-native-gt-create-react-class-gt-fbjs-gt-core-js-1-2-7-core-js-lt-2-6-8-is-no-longer-maintained-Please-upgrade-to-core-js-3-or-at-least-to-actual-version-of-core-js-2">
-        <span class="has-mr-6">12.2</span>
+        <span class="has-mr-6">13.2</span>
         <span>warning react-native > create-react-class > fbjs > core-js@1.2.7: core-js@<2.6.8 is no longer maintained. Please, upgrade to core-js@3 or at least to actual version of core-js@2</span>
         </a></li></ul></li><li>
         <a class="is-flex" href="#">
-        <span class="has-mr-6">13</span>
+        <span class="has-mr-6">14</span>
         <span></span>
         </a></li></ul>
             </div>
@@ -686,7 +745,7 @@
                 <span class="level-item">个人生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">
@@ -702,15 +761,7 @@
                 <span class="level-item">朋友</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">5</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E7%94%9F%E6%B4%BB%E6%84%9F%E6%82%9F/">
-            <span class="level-start">
-                <span class="level-item">生活感悟</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
+                <span class="level-item tag">2</span>
             </span>
         </a></li>
             </ul>
@@ -723,7 +774,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 10px;">IT,Web</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 10px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 15px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 10px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-React%EF%BC%8CVue/" style="font-size: 10px;">IT，Web,React，Vue</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 15px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 10px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 10px;">Web,IT,Go</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 20px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 15px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 20px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 10px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 10px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 15px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">生活、幸福</a>
+        <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 20px;">IT,Web</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 10px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 20px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 10px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 10px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 10px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 10px;">Web,IT,Go</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 10px;">友情</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 10px;">技术，Robotic，IT</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a>
     </div>
 </div>
     
@@ -738,25 +789,6 @@
         
         <article class="media">
             
-            <a href="/2020/04/15/php%E4%B8%8Elaravel/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s1.ax1x.com/2020/03/27/G9O590.png" alt="PHP与Laravel开发">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-04-15T13:40:33.000Z">2020-04-15</time></div>
-                    <a href="/2020/04/15/php%E4%B8%8Elaravel/" class="title has-link-black-ter is-size-6 has-text-weight-normal">PHP与Laravel开发</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/IT/">IT</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
             <a href="/2020/04/15/Electron/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="https://s1.ax1x.com/2020/03/27/G9Or1f.png" alt="Electron开发">
@@ -767,6 +799,25 @@
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-04-15T13:40:33.000Z">2020-04-15</time></div>
                     <a href="/2020/04/15/Electron/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Electron开发</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/IT/">IT</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/04/15/php%E4%B8%8Elaravel/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s1.ax1x.com/2020/03/27/G9O590.png" alt="PHP与Laravel开发">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-04-15T13:40:33.000Z">2020-04-15</time></div>
+                    <a href="/2020/04/15/php%E4%B8%8Elaravel/" class="title has-link-black-ter is-size-6 has-text-weight-normal">PHP与Laravel开发</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/IT/">IT</a>
                     </p>
@@ -859,7 +910,7 @@
                     <span class="level-item">三月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">31</span>
+                    <span class="level-item tag">19</span>
                 </span>
             </a>
         </li>
@@ -887,14 +938,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT-Web/">
                         <span class="tag">IT,Web</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/">
-                        <span class="tag">IT、友情</span>
-                        <span class="tag is-grey">1</span>
+                        <span class="tag is-grey">2</span>
                     </a>
                 </div>
                 
@@ -948,8 +992,15 @@
                 </div>
                 
                 <div class="control">
-                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-React%EF%BC%8CVue/">
-                        <span class="tag">IT，Web,React，Vue</span>
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Vue/">
+                        <span class="tag">IT，Web,Vue</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/">
+                        <span class="tag">IT，Web,Vue，Node、React</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -983,16 +1034,9 @@
                 </div>
                 
                 <div class="control">
-                    <a class="tags has-addons" href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/">
-                        <span class="tag">个人生活，幸福</span>
-                        <span class="tag is-grey">3</span>
-                    </a>
-                </div>
-                
-                <div class="control">
                     <a class="tags has-addons" href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/">
                         <span class="tag">兴趣，幸福</span>
-                        <span class="tag is-grey">2</span>
+                        <span class="tag is-grey">1</span>
                     </a>
                 </div>
                 
@@ -1006,13 +1050,6 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/%E5%8F%8B%E6%83%85/">
                         <span class="tag">友情</span>
-                        <span class="tag is-grey">3</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">
-                        <span class="tag">幸福，个人生活</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -1032,36 +1069,8 @@
                 </div>
                 
                 <div class="control">
-                    <a class="tags has-addons" href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/">
-                        <span class="tag">摄影，记录，生活</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/%E6%B7%B1%E5%9C%B3/">
-                        <span class="tag">深圳</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/">
-                        <span class="tag">爱情，幸福</span>
-                        <span class="tag is-grey">2</span>
-                    </a>
-                </div>
-                
-                <div class="control">
                     <a class="tags has-addons" href="/tags/%E7%94%9F%E6%B4%BB/">
                         <span class="tag">生活#</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/">
-                        <span class="tag">生活、幸福</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
