@@ -1,0 +1,1540 @@
+<!DOCTYPE html>
+<html  lang="zh">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 4.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>前后端开发概述 - kun&#39;s blog</title>
+
+
+    <meta name="description" content="概述​      把一些前后端概念性比较强的理念放在这里，不放代码，不提供案例，仅供理解核心概念参考。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前后端开发概述">
+<meta property="og:url" content="http://yoursite.com/2020/06/06/%E5%89%8D%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91%E6%A6%82%E8%BF%B0/index.html">
+<meta property="og:site_name" content="kun&#39;s blog">
+<meta property="og:description" content="概述​      把一些前后端概念性比较强的理念放在这里，不放代码，不提供案例，仅供理解核心概念参考。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://cdn.kunkunzhang.top/graphql.png">
+<meta property="article:published_time" content="2020-06-06T13:40:33.000Z">
+<meta property="article:modified_time" content="2020-10-04T18:05:55.792Z">
+<meta property="article:author" content="Kun Zhang">
+<meta property="article:tag" content="IT,Web,">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://cdn.kunkunzhang.top/graphql.png">
+
+
+
+
+
+
+
+<link rel="icon" href="https://s1.ax1x.com/2020/03/27/G9OfNn.th.png">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    <script async="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="https://s1.ax1x.com/2020/03/27/G9OfNn.th.png" alt="前后端开发概述" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">首页</a>
+                
+                <a class="navbar-item"
+                href="/archives">最近发布</a>
+                
+                <a class="navbar-item"
+                href="/categories">目录</a>
+                
+                <a class="navbar-item"
+                href="/tags">分类</a>
+                
+                <a class="navbar-item"
+                href="/about">关于我</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    <a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-9-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-image">
+        <span  class="image is-7by1">
+            <img class="thumbnail" src="http://cdn.kunkunzhang.top/graphql.png" alt="前后端开发概述">
+        </span>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-06-06T13:40:33.000Z">2020-06-06</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">技术博客</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    1 小时 读完 (大约 7997 个字)
+                </span>
+                
+                
+                <span class="level-item has-text-grey" id="busuanzi_container_page_pv">
+                    <i class="far fa-eye"></i>
+                    <span id="busuanzi_value_page_pv">0</span>次访问
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                前后端开发概述
+            
+        </h1>
+        <div class="content">
+            <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>​      把一些前后端概念性比较强的理念放在这里，不放代码，不提供案例，仅供理解核心概念参考。</p>
+<a id="more"></a>　　
+
+<h2 id="2019、2020前端开发技术指南"><a href="#2019、2020前端开发技术指南" class="headerlink" title="2019、2020前端开发技术指南"></a>2019、2020前端开发技术指南</h2><p>本指南通过简单分类列出了技术选项，为前端开发者提供技术方向参考</p>
+<p>如果你是一个基础的前端开发者，你应该具备以下技能或者推荐你具备以下技能：</p>
+<p>​        1.HTML&amp;CSS。语义化的html元素、基础的css语法、flexbox&amp;grid、CSS变量、浏览器开发者工具。</p>
+<p>​        2.响应式布局。响应式设计将不再是网页的加分项, 而是必须的。设置viewport、非固定宽度、媒体查询、移动端优先、柱状优先、使用rem替代px（或者等效计算，不能是纯px）。</p>
+<p>​        3.基础的部署工作。注册一个域名、管理共享主机或者虚拟主机、FTP, SFTP 文件上传、静态页面托管</p>
+<p>​        4.SASS预处理器。虽然不是必须的, 但是推荐去学, 基础知识的掌握很简单。结构化CSS、变量、嵌套样式表、继承、Mixin&amp;函数。</p>
+<p>​        5.原生JavaScript语法。是基础中最重要的。包括但不限于js的基础变量类型、函数、条件判断、循环、计算符，DOM操作与事件、JSON、Fetch、ES6语法（箭头函数、promise、async/await、结构）。</p>
+<p>​        掌握或者基本掌握了以上技能，你可以做到：构建静态网站、构建UI布局、添加交互功能、部署和维护网站。然而这些作为前端开发的工具是远远不够的。</p>
+<p>如果你是一个成熟的前端开发者，你应该具备以下技能或者推荐你具备以下技能：</p>
+<p>​        1.HTML &amp; CSS框架。推荐bootstrap或者bulma。</p>
+<p>​        2.Git和其他工作流工具。基础的命令行、Git版本控制、npm(yarn)包管理、webpack或者gulp打包工具、编辑器插件(ESLint, Prettier, Live Server等)。</p>
+<p>​        3.前端框架。三大框架angular、vue、react至少熟悉或者掌握一个。这三大框架在大公司开发中非常流行，具有更有趣的交互和设计、可以实现前端代码组件化、对团队非常有利。</p>
+<p>​        4.状态管理。对于使用框架的大型前端项目, 你也许需要使用状态管理工具去管理你的应用级的状态。推荐框架有redux、vuex、apollo。</p>
+<p>​          掌握或者基本掌握了以上技能，你可以做到：构建一个优秀的前端应用、流畅和稳定的前端工作流、多人开发&amp;熟练使用Git、请求后端APi</p>
+<p>如果你是一个进阶的前端开发者，你应该具备以下技能或者推荐你具备以下技能：</p>
+<p>​         1.学习一门后端语言。成为一个全栈工程师或软件工程师, 你将需要学习一个服务端语言和相关技术。Nodejs、PHP、Python、C#、golang。学习的顺序为基础的后端语法、数据结构和工作流、包管理、http路由。</p>
+<p>​         2.服务端框架。不要重复造轮子, 学习一门框架去构建更好和更快的应用。Nodejs有express、koa、nest，python有django和flask，php有larvael和symphony，c#有asp.net。</p>
+<p>​         3.数据库。绝大多数觉得应用都会使用到数据库, 这里有一些选择:关系型（mysql、PostgreSQL）、非关系型（mongoDB）、轻量级（Redis、SQlite）、云数据库（Azure、AWS、Firebase）。</p>
+<p>​         4.服务端渲染。像React, Vue 和 Angular等框架都可以进行服务端渲染。</p>
+<p>​         5.内容管理系统。内容管理系统允许快速开发并为您的客户提供更新内容的能力. 在你需要快速开发网站的时候, 它们是很适合的. 特别是对于自由开发者.比较好用的CMS管理系统：基于PHP的(wordpress、drupal)、基于JS的(Ghost、keystone)、基于python的(Mezzazine)。</p>
+<p>​         6.安装和部署。学习语言和框架是一回事, 但是安装环境, 测试和部署又是另外一回事。部署(Linux, SSH, Git, Nginx, Apache)、平台(Digital Ocean, AWS, Heroku, Azure)、可视化(Docker, Vagrant)、测试(单元测试, 集成测试, 函数式测试, 系统测试)。</p>
+<p>​         掌握或者基本掌握了以上技能，你可以做到：设置全栈的开发环境和工作流、构建后端服务API和微服务、数据库操作、能够独立开发应用(前后端)、部署到云端。</p>
+<p>如果你是一个展望未来的前端开发者，下面这些技术也许是你应该关心或者下一步发展的技能：</p>
+<p>​         1.原生应用开发。ReactNative、Flutter、Ionic、NativeScirpt。</p>
+<p>​         2.使用Electron开发桌面应用.Electron是一个使用JavaScript构建跨平台的桌面应用工具。</p>
+<p>​         3.GraphQL &amp; Apollo.GraphQl是对于API的一种革命性新方法，查询语言比标准RESET严格得多。</p>
+<p>​         4.TypeScript.TypeScript是一个JavaScript的超集, 它添加了静态类型等很多特性。</p>
+<p>​         5.无服务架构.无需创建和管理自己的服务器</p>
+<p>​         6.PWA.Progressive Web Apps是一个web app但是在功能和样式上给用户带来原生应用使用体验的一项技术.</p>
+<p>​         7.AI和机器学习.AI和机器学习已经被广泛应用在所有的程序和技术中, 甚至包括web开发中.</p>
+<p>​         8.区块链技术.现在许多公司使用区块链技术进行数字交易, 因为它们更安全和有效率.</p>
+<p>​         9.Web Assembly</p>
+<p><a href="https://segmentfault.com/a/1190000017483325">https://segmentfault.com/a/1190000017483325</a></p>
+<h2 id="Restful"><a href="#Restful" class="headerlink" title="Restful"></a>Restful</h2><p>restful架构：</p>
+<p>每一个URI代表一种资源</p>
+<p>客户端与服务器之间传递这种资源的表现层</p>
+<p>客户端通过四个http动词对服务器端资源进行操作，实现表现层状态转化</p>
+<p>restful中一般包含以下数据：</p>
+<p>接口地址、请求方法、请求参数:即传输参数时要带什么参数、携带什么字段，规则是什么、返回内容：一般为json或者xml形式，错误代码</p>
+<h3 id="Swagger"><a href="#Swagger" class="headerlink" title="Swagger"></a>Swagger</h3><p>swagger是rest API生成工具，swagger是一个完整的框架，用于生成、描述、调用和可视化restfulapi的web服务</p>
+<h2 id="Oauth"><a href="#Oauth" class="headerlink" title="Oauth"></a>Oauth</h2><p>　</p>
+<h2 id="GraphQL"><a href="#GraphQL" class="headerlink" title="GraphQL"></a>GraphQL</h2><p>GraphQL是一种用于API的查询语言。对API提供了一套易于理解的完整描述，使客户端能够准确获得需要的数据</p>
+<p>使用GraphQL后端将不再产出api，与前端约定一套schema，用来生成接口文档，前端通过schema进行自己期望的请求</p>
+<p>GraphQL并没有和特定的数据库或者存储引擎绑定，而是依靠现有的代码和数据支撑。一个GraphQL是通过定义类型和类型上的字段来创建的，然后给每个类型的字段提供解析函数</p>
+<p>目前很多语言也提供了对GraphQL的支持，比如javascript/nodejs，Java、php、Ruby、Python、Go、C#等</p>
+<h3 id="与Restful接口相比"><a href="#与Restful接口相比" class="headerlink" title="与Restful接口相比"></a>与Restful接口相比</h3><p>当今很多页面需要向多个资源发送请求，有的页面甚至发3个以上的请求，而且请求之间可能存在依赖关系，后一个请求需要根据前一个请求的结果进行下一步</p>
+<p>传统restful：</p>
+<p>数据请求冗余：一个用户的信息可能包含id、昵称、年龄、性别、头像、等级等很多字段，但是有时我们只需要用户的一两个字段而不得不请求到所有的数据，其他的数据是无用的，或者需要获得一个用户列表时，需要调用多个接口，给后端造成麻烦</p>
+<p>restful接口改动麻烦：restful一旦要改变API，改变APIurl、增减数量、前后端都需改变</p>
+<p>GraphQL：</p>
+<p>减少数据和请求冗余：正如官网所说，请求的数据不多也不少，节省带宽，获取多个资源可以只用一个请求</p>
+<p>schema格式化：通过schema限制了req和rep的格式和类型，且自动生成文档，减少前后端沟通成本</p>
+<p>接口校验：</p>
+<p>接口变动，维护与文档：客户端只声明数据，不需要具体格式，API也无需划分版本，只要服务端包含请求方的数据，不需要更改接口</p>
+<p>劣势：学习成本，对后端的要求高，这也是graphql推广难的原因，后端需要重新构建</p>
+<p>简言之：</p>
+<p>restful一个接口返回一个资源，graphql一次获取多个资源</p>
+<p>restful用url定义资源，graphql用类型定义资源</p>
+<h3 id="GraphQL中的基本概念"><a href="#GraphQL中的基本概念" class="headerlink" title="GraphQL中的基本概念"></a>GraphQL中的基本概念</h3><p>操作类型</p>
+<p>​            query：查询：获取数据，查</p>
+<p>​            mutation：修改，对数据进行变更，增删改</p>
+<p>​            substription:订阅：当数据发生更改时进行消息推送</p>
+<p>​            GraphQL在query查询语句时是并行执行的，在mutation变更时是线性执行的，一个接着一个</p>
+<p>数据类型</p>
+<p>​            GraphQL中定义了两种类型：对象类型和标量类型</p>
+<p>​            对象类型是用户在schema中定义的type</p>
+<p>​            GraphQL中定义了标量类型，String、Int、Float、Boolean、ID，此外，用户还可以自己定义自己的标量类型</p>
+<p>​            参数后通常跟！表示参数不能为空</p>
+<p>​            GraphQL服务器接收到query请求后，从Root Query开始查找，找到对象类型后到它的解析函数Resolver获取内容，如果返回的是标量内容则结束获取，直到获取最后一个标量类型</p>
+<p>模式schema</p>
+<p>​            在schema中定义了字段的类型，数据的结构，即接口数据请求的规则，</p>
+<p>​            schema使用强类型模式语法，称为模式描述语言</p>
+<p>解析函数Resolver</p>
+<p>​            前端请求到达后端后，由Resolver函数提供数据，</p>
+<p>​            解析函数接受四个参数</p>
+<p>​            parent:当前上一个解析函数的返回值</p>
+<p>​            args:查询函数中传入的参数</p>
+<p>​            context:提供给所有解析器的上下文信息</p>
+<p>​            info:一个保存与当前查询相关的字段特定信息</p>
+<p>请求格式：</p>
+<p>​             GraphQL是通过http来发送请求的</p>
+<p>异常处理</p>
+<p>​            查询错误：返回状态码200，返回data字段为null，如query语法错误时</p>
+<p>​            HTTP错误：返回码4** 或5**，如token失效等</p>
+<p>​            网络异常：fetch方法异常，如无网络</p>
+<p>​            JSON解析异常：response.json方法异常</p>
+<h2 id="PWA"><a href="#PWA" class="headerlink" title="PWA"></a>PWA</h2><p>PWA(progressing web app)，渐进式网页应用程序，是Google在2016年GoogleI/O大会上提出的下一代web应用模型，并在随后的日子里迅速发展。 一个 PWA 应用首先是一个网页, 可以通过 Web 技术编写出一个网页应用. 随后借助于 App Manifest 和 Service Worker 来实现 PWA 的安装和离线等功能。</p>
+<p>PWA的特点：</p>
+<p><strong>渐进式</strong>：适用于选用任何浏览器的所有用户，因为它是以渐进式增强作为核心宗旨来开发的。</p>
+<p><strong>自适应</strong>：适合任何机型：桌面设备、移动设备、平板电脑或任何未来设备。</p>
+<p><strong>连接无关性</strong>：能够借助于服务工作线程在离线或低质量网络状况下工作。</p>
+<p><strong>离线推送</strong>：使用推送消息通知，能够让我们的应用像 Native App 一样，提升用户体验。</p>
+<p><strong>及时更新</strong>：在服务工作线程更新进程的作用下时刻保持最新状态。</p>
+<p><strong>安全性</strong>：通过 HTTPS 提供，以防止窥探和确保内容不被篡改。</p>
+<p>基于这些特点，对于移动端h5页面和app，增加了可以添加至屏幕的功能，点击主屏幕图标可以实现启动动画以及隐藏地址栏实现离线缓存功能，即使用户手机没有网络，依然可以使用一些离线功能。 这些特点和功能不正是我们目前针对移动web的优化方向吗，有了这些特性将使得 Web 应用渐进式接近原生 App，真正实现秒开优化。</p>
+<p>Service Worker 是一个 基于HTML5 API ，也是PWA技术栈中最重要的特性， 它在 Web Worker 的基础上加上了持久离线缓存和网络代理能力，结合Cache API面向提供了JavaScript来操作浏览器缓存的能力，这使得Service Worker和PWA密不可分。</p>
+<p>Service Worker的特点</p>
+<p>一个独立的执行线程，单独的作用域范围，单独的运行环境，有自己独立的context上下文。</p>
+<p>一旦被 install，就永远存在，除非被手动 unregister。即使Chrome（浏览器）关闭也会在后台运行。利用这个特性可以实现离线消息推送功能。</p>
+<p>处于安全性考虑，必须在 HTTPS 环境下才能工作。当然在本地调试时，使用localhost则不受HTTPS限制。</p>
+<p>提供拦截浏览器请求的接口，可以控制打开的作用域范围下所有的页面请求。需要注意的是一旦请求被Service Worker接管，意味着任何请求都由你来控制，一定要做好容错机制，保证页面的正常运行。</p>
+<p>由于是独立线程，Service Worker不能直接操作页面 DOM。但可以通过事件机制来处理。例如使用postMessage。</p>
+<p>Service Worker的生命周期</p>
+<p>注册（register）：在浏览器解析到JavaScript需要先注册Service Worker时的逻辑，即调用navigator.serviceWorker.register()时所处理的事情。</p>
+<p>安装中( installing )：发生在 Service Worker 注册之后，表示开始安装。</p>
+<p>安装后( installed/waiting )：Service Worker 已经完成了安装，这时会触发install事件，在这里一般会做一些静态资源的离线缓存。如果还有旧的Service Worker正在运行，会进入waiting状态，如果你关闭当前浏览器，或者调用self.skipWaiting()，方法表示强制当前处在 waiting 状态的 Service Worker 进入 activate 状态。</p>
+<p>激活中( activating )：表示正在进入activate状态，调用self.clients.claim())会来强制控制未受控制的客户端，例如你的浏览器开了多个含有Service Worker的窗口，会在不切的情况下，替换旧的 Service Worker 脚本不再控制着这些页面，之后会被停止。此时会触发activate事件。</p>
+<p>激活后( activated )：Service Worker激活成功，在activate事件回调中，一般会清除上一个版本的静态资源缓存，或者其他更新缓存的策略。这代表Service Worker已经可以处理功能性的事件fetch (请求)、sync (后台同步)、push (推送)，message（操作dom）。</p>
+<p>废弃状态 ( redundant )：Service Worker 的生命周期结束。</p>
+<p>利用web</p>
+<p>Web Push是一个基于客户端，服务端和推送服务器三者组成的一种流程规范，可以分为三个步骤：</p>
+<ol>
+<li>客户端完成请求订阅一个用户的逻辑。</li>
+<li>服务端调用遵从 web push 协议的接口，传送消息推送（push message）到推送服务器（该服务器由浏览器决定，开发者所能做的只有控制发送的数据）。</li>
+<li>推送服务器将该消息推送至对应的浏览器，用户收到该推送。</li>
+</ol>
+<p>实例（js）</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//在页面代码里面监听onload事件，使用sw的配置文件注册一个service worker</span></span><br><span class="line"> <span class="keyword">if</span> (<span class="string">'serviceWorker'</span> <span class="keyword">in</span> navigator) &#123;</span><br><span class="line">        <span class="built_in">window</span>.addEventListener(<span class="string">'load'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">            navigator.serviceWorker.register(<span class="string">'serviceWorker.js'</span>)</span><br><span class="line">                .then(<span class="function"><span class="keyword">function</span> (<span class="params">registration</span>) </span>&#123;</span><br><span class="line">                    <span class="comment">// 注册成功</span></span><br><span class="line">                    <span class="built_in">console</span>.log(<span class="string">'ServiceWorker registration successful with scope: '</span>, registration.scope);</span><br><span class="line">                &#125;)</span><br><span class="line">                .catch(<span class="function"><span class="keyword">function</span> (<span class="params">err</span>) </span>&#123;</span><br><span class="line">                    <span class="comment">// 注册失败</span></span><br><span class="line">                    <span class="built_in">console</span>.log(<span class="string">'ServiceWorker registration failed: '</span>, err);</span><br><span class="line">                &#125;);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">//serviceWorker.js</span></span><br><span class="line"><span class="keyword">var</span> CACHE_NAME = <span class="string">'my-first-sw'</span>;</span><br><span class="line"><span class="keyword">var</span> urlsToCache = [</span><br><span class="line">    <span class="string">'/'</span>,</span><br><span class="line">    <span class="string">'/styles/main.css'</span>,</span><br><span class="line">    <span class="string">'/script/main.js'</span></span><br><span class="line">];</span><br><span class="line"></span><br><span class="line">self.addEventListener(<span class="string">'install'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 在install阶段里可以预缓存一些资源</span></span><br><span class="line">    event.waitUntil(</span><br><span class="line">        caches.open(CACHE_NAME)</span><br><span class="line">            .then(<span class="function"><span class="keyword">function</span>(<span class="params">cache</span>) </span>&#123;</span><br><span class="line">                <span class="built_in">console</span>.log(<span class="string">'Opened cache'</span>);</span><br><span class="line">                <span class="keyword">return</span> cache.addAll(urlsToCache);</span><br><span class="line">            &#125;)</span><br><span class="line">    );</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">//在fetch事件里能拦截网络请求，进行一些处理</span></span><br><span class="line">self.addEventListener(<span class="string">'fetch'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">event</span>) </span>&#123;</span><br><span class="line">    event.respondWith(</span><br><span class="line">        caches.match(event.request).then(<span class="function"><span class="keyword">function</span> (<span class="params">response</span>) </span>&#123;</span><br><span class="line">            <span class="comment">// 如果匹配到缓存里的资源，则直接返回</span></span><br><span class="line">            <span class="keyword">if</span> (response) &#123;</span><br><span class="line">                <span class="keyword">return</span> response;</span><br><span class="line">            &#125;</span><br><span class="line">          </span><br><span class="line">            <span class="comment">// 匹配失败则继续请求</span></span><br><span class="line">            <span class="keyword">var</span> request = event.request.clone(); <span class="comment">// 把原始请求拷过来</span></span><br><span class="line"></span><br><span class="line">            <span class="comment">//默认情况下，从不支持 CORS 的第三方网址中获取资源将会失败。</span></span><br><span class="line">            <span class="comment">// 您可以向请求中添加 no-CORS 选项来克服此问题，不过这可能会导致“不透明”的响应，这意味着您无法辨别响应是否成功。</span></span><br><span class="line">            <span class="keyword">if</span> (request.mode !== <span class="string">'navigate'</span> &amp;&amp; request.url.indexOf(request.referrer) === <span class="number">-1</span>) 						&#123;</span><br><span class="line">                request = <span class="keyword">new</span> Request(request, &#123; <span class="attr">mode</span>: <span class="string">'no-cors'</span> &#125;)</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span> fetch(request).then(<span class="function"><span class="keyword">function</span> (<span class="params">httpRes</span>) </span>&#123;</span><br><span class="line">								<span class="comment">//拿到了http请求返回的数据，进行一些操作</span></span><br><span class="line">              </span><br><span class="line">              	<span class="comment">//请求失败了则直接返回、对于post请求也直接返回，sw不能缓存post请求</span></span><br><span class="line">                <span class="keyword">if</span> (!httpRes  || ( httpRes.status !== <span class="number">200</span> &amp;&amp; httpRes.status !== <span class="number">304</span> &amp;&amp; httpRes.type !== <span class="string">'opaque'</span>) || request.method === <span class="string">'POST'</span>) &#123;</span><br><span class="line">                    <span class="keyword">return</span> httpRes;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="comment">// 请求成功的话，将请求缓存起来。</span></span><br><span class="line">                <span class="keyword">var</span> responseClone = httpRes.clone();</span><br><span class="line">                caches.open(<span class="string">'my-first-sw'</span>).then(<span class="function"><span class="keyword">function</span> (<span class="params">cache</span>) </span>&#123;</span><br><span class="line">                    cache.put(event.request, responseClone);</span><br><span class="line">                &#125;);</span><br><span class="line"></span><br><span class="line">                <span class="keyword">return</span> httpRes;</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;)</span><br><span class="line">    );</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="service-worker的局限"><a href="#service-worker的局限" class="headerlink" title="service worker的局限"></a>service worker的局限</h3><p>Service Worker必须是https协议的，但本地环境下<a href="http://localhost或者http://127.0.0.1也可以的。">http://localhost或者http://127.0.0.1也可以的。</a></p>
+<p>浏览器兼容性：部分浏览器不支持</p>
+<h3 id="serviceworker缓存与http缓存"><a href="#serviceworker缓存与http缓存" class="headerlink" title="serviceworker缓存与http缓存"></a>serviceworker缓存与http缓存</h3><p>http缓存是涉及到<code>cache-control, Etag, last-modified</code> 等字段，断网的时候，都不能访问，缓存不能编程，不能精细地对需要缓存的内容增删改查，</p>
+<p>serviceworker缓存：基于 Web Worker ，一个独立的 worker 线程，独立于当前网页进程；让缓存做到优雅和极致</p>
+<p>Service Worker为PWA赋能离线可用性以及push消息：</p>
+<p>和 CacheStorage 搭配，可以做离线应用</p>
+<p>和 Notification 搭配，可以做像 Native APP 那样的消息推送</p>
+<p>再加上 Manifest 等，就差不多成了 PWA 了</p>
+<p><a href="https://juejin.im/post/6844903896893095949#heading-5">https://juejin.im/post/6844903896893095949#heading-5</a></p>
+<p><a href="https://juejin.im/post/6844904182839771143">https://juejin.im/post/6844904182839771143</a></p>
+<h2 id="状态机"><a href="#状态机" class="headerlink" title="状态机"></a>状态机</h2><p>有限状态机，英文翻译是 Finite State Machine，缩写为 FSM，简称为状态机。状态机有 3 个组成部分：状态（State）、事件（Event）、动作（Action）。其中，事件也称为转移条件（Transition Condition）。事件触发状态的转移及动作的执行。不过，动作不是必须的，也可能只转移状态，不执行任何动作。</p>
+<h2 id="Websocket"><a href="#Websocket" class="headerlink" title="Websocket"></a>Websocket</h2><p>Http协议是无状态的，只能由客户端主动发起，服务端再被动响应，服务端无法向客户端主动推送内容，并且一旦服务器响应结束，链接就会断开(见注解部分)，所以无法进行实时通信。WebSocket协议正是为解决客户端与服务端实时通信而产生的技术</p>
+<p>WebSocket协议本质上是一个基于tcp的协议，它是先通过HTTP协议发起一条特殊的http请求进行握手后，如果服务端支持WebSocket协议，则会进行协议升级。WebSocket会使用http协议握手后创建的tcp链接，和http协议不同的是，WebSocket的tcp链接是个长链接（不会断开），所以服务端与客户端就可以通过此TCP连接进行实时通信。</p>
+<p><a href="http://websocket.org/">WebSocket</a>是html5规范中的一个部分，它借鉴了socket这种思想，为web应用程序客户端和服务端之间（注意是客户端服务端）提供了一种全双工通信机制。同时，它又是一种新的应用层协议，WebSocket协议是为了提供web应用程序和服务端全双工通信而专门制定的一种应用层协议，</p>
+<p>websocket的特点：</p>
+<ul>
+<li>1）建立在 TCP 协议之上，服务器端的实现比较容易；</li>
+<li>2）与 HTTP 协议有着良好的兼容性。默认端口也是80和443，并且握手阶段采用 HTTP 协议，因此握手时不容易屏蔽，能通过各种 HTTP 代理服务器；</li>
+<li>3）数据格式比较轻量，性能开销小，通信高效；</li>
+<li>4）可以发送文本，也可以发送二进制数据；</li>
+<li>5）没有同源限制，客户端可以与任意服务器通信；</li>
+<li>6）协议标识符是ws（如果加密，则为wss），服务器网址就是 URL，形如：ws://example.com:80/some/path。</li>
+</ul>
+<h2 id="前后端跨域9种方式"><a href="#前后端跨域9种方式" class="headerlink" title="前后端跨域9种方式"></a>前后端跨域9种方式</h2><p>浏览器的同源策略/SOP（Same origin policy）是一种约定，所谓同源是指”协议+域名+端口”三者相同，即便两个不同的域名指向同一个ip地址，也非同源。它是浏览器最核心也最基本的安全功能，如果缺少了同源策略，浏览器很容易受到XSS、CSFR等攻击。</p>
+<p>非同源的两个对象，Cookie、LocalStorage 和 IndexDB 无法读取2、 DOM 和 Js对象无法获得3、 AJAX 请求不能发送</p>
+<p>对于前后端分离，跨域是需要解决的问题</p>
+<p>跨域解决方法</p>
+<p>1.jsonp</p>
+<p>浏览器允许在html页面中再通过相应的标签从不同域名下加载静态资源，而被浏览器允许，基于此原理，我们可以通过动态创建script，再请求一个带参网址实现跨域通信。</p>
+<p>手撸jsonp</p>
+<p>2.跨域资源共享（CORS）</p>
+<p>服务端设置Access-Control-Allow-Origin即可，前端无须设置，若要带cookie请求：前后端都需要设置。CORS也已经成为主流的跨域解决方案。</p>
+<p>3.Nodejs中间件/Nginx代理跨域</p>
+<p>通过启一个代理服务器，实现数据的转发，也可以通过设置cookieDomainRewrite参数修改响应头中cookie中域名，实现当前域的cookie写入，方便接口登录认证。</p>
+<p>利用node + express + http-proxy-middleware搭建一个proxy代理服务器。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>);</span><br><span class="line"><span class="keyword">var</span> app = express();</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> proxy = <span class="built_in">require</span>(<span class="string">'http-proxy-middleware'</span>);</span><br><span class="line"></span><br><span class="line">app.use(<span class="string">'/'</span>, proxy(&#123;</span><br><span class="line">    <span class="comment">// 代理跨域目标接口</span></span><br><span class="line">    target: <span class="string">'http://www.demo2.com:8080'</span>,</span><br><span class="line">    changeOrigin: <span class="literal">true</span>,</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 修改响应头信息，实现跨域并允许带cookie    </span></span><br><span class="line">      onProxyRes: <span class="function"><span class="keyword">function</span>(<span class="params">proxyRes, req, res</span>) </span>&#123;</span><br><span class="line">          res.header(<span class="string">'Access-Control-Allow-Origin'</span>, <span class="string">'http://www.domain1.com'</span>);</span><br><span class="line">          res.header(<span class="string">'Access-Control-Allow-Credentials'</span>, <span class="string">'true'</span>);</span><br><span class="line">      &#125;,</span><br><span class="line"></span><br><span class="line">      <span class="comment">// 修改响应信息中的cookie域名</span></span><br><span class="line">      cookieDomainRewrite: <span class="string">'www.demo1.com'</span>  <span class="comment">// 可以为false，表示不修改</span></span><br><span class="line">      &#125;)</span><br><span class="line">    );</span><br></pre></td></tr></table></figure>
+
+<p>实现思路：通过nginx配置一个代理服务器（域名与demo1相同，端口不同）做跳板机，反向代理访问demo2接口，并且可以顺便修改cookie中demo信息，方便当前域cookie写入，实现跨域登录。</p>
+<p>4.WebSocket协议跨域</p>
+<p>WebSocket protocol是HTML5一种新的协议。它实现了浏览器与服务器全双工通信，同时允许跨域通讯，是server push技术的一种很好的实现。</p>
+<p>原生WebSocket API使用起来不太方便，我们使用Socket.io，它很好地封装了webSocket接口，提供了更简单、灵活的接口，也对不支持webSocket的浏览器提供了向下兼容。</p>
+<p>5.XMLHttpRequest</p>
+<p>HTML5 XMLHttpRequest Level 2中的API，且是为数不多可以跨域操作的window属性之一，</p>
+<p>6.axios</p>
+<p>其他</p>
+<p>window.name + iframe跨域</p>
+<p> document.domain + iframe跨域</p>
+<p>location.hash + iframe跨域</p>
+<p><a href="https://docs.qq.com/doc/BqI21X2yZIht1bfJDW0BNxAF0cqHEb1racd94Lv8jM4Uatg11">https://docs.qq.com/doc/BqI21X2yZIht1bfJDW0BNxAF0cqHEb1racd94Lv8jM4Uatg11</a></p>
+<h2 id="直播"><a href="#直播" class="headerlink" title="直播"></a>直播</h2><p>视频直播服务目前支持三种直播协议，分别是RTMP、HLS、FLV</p>
+<ul>
+<li>RTMP <code>实时消息传输协议，由Adobe公司研发，但当前还没有收入国际标准（wikipedia）</code>。协议比较全能，既可以用来推送又可以用来直播，其核心理念是将大块的视频帧和音频帧“剁碎”，然后以小数据包的形式在互联网上进行传输，且支持加密，因此隐私性相对比较理想，但拆包组包的过程比较复杂，所以在海量并发时容易出现一些不可预期的稳定性问题。</li>
+<li>HLS 协议：<code>基于HTTP协议的流直播（wikipedia）</code>。苹果推出的解决方案，将视频分成 5-10 秒的视频小分片，然后用 m3u8 索引表进行管理。由于客户端下载到的视频都是 5-10 秒的完整数据，故视频的流畅性很好，但也同样引入了很大的延迟（HLS 的一般延迟在 10-30s 左右）。相比于 FLV， HLS 在iPhone 和大部分 Android 手机浏览器上的支持非常给力，所以常用于 QQ 和微信朋友圈的 URL 分享。</li>
+<li>HTTP-FLV 协议由 Adobe 公司主推，格式极其简单，只是在大块的视频帧和音视频头部加入一些标记头信息，由于这种极致的简洁，在延迟表现和大规模并发方面都很成熟。唯一的不足就是在手机浏览器上的支持非常有限，但是用作手机端 APP 直播协议却异常合适。</li>
+</ul>
+<h2 id="跨域验证"><a href="#跨域验证" class="headerlink" title="跨域验证"></a>跨域验证</h2><p>方案一：cookie/session认证</p>
+<p>用户填写用户名和密码，发送给服务器</p>
+<p>局限：</p>
+<p>无法数据共享。如果A网站和B网站是同一家公司的</p>
+<p>方式二：JWT(Json Web Token)是最流行的跨域验证方案</p>
+<p>JWT的原理是服务器认证以后，生成一个json对象，发回给用户。用户与服务器通信都靠这个对象。为了防止用户篡改数据，服务端生成对象时会加上签名。</p>
+<p>JWT是一个很长的字符串，中间用点分隔成3个部分。JWT的三个部分依次是头部Header、负载Payload、签名Signature。</p>
+<p>头部定义签名的算法和令牌类型（默认为JWT），负载包含实际需要传递的数据，其中定义了七个字段</p>
+<p>iss：签发人，exp：过期时间 sub：主题。aud：受众 nbf：生效时间 iat：签发时间  jti:编号</p>
+<p>签名是对前两部分的签名，防止数据篡改</p>
+<p>使用方式：</p>
+<p>客户端收到服务器返回的JWT，可以存储在cookie中，也可以存储在localstorage中，</p>
+<p>客户端每次与服务器通信都带上JWT，把JWT放在http请求的头信息Authorization字段里面，就可以跨域访问。</p>
+<p>JWT的使用特点：</p>
+<p>JWT默认是不加密的，也可以加密，不加密时不能讲秘密数据写入JWT，加密时生成原生token用密钥加密。</p>
+<p>JWT不仅可以用于验证，也可以用于交换信息。有效使用JWT可以降低服务器查询数据库的次数</p>
+<h2 id="Serverless"><a href="#Serverless" class="headerlink" title="Serverless"></a>Serverless</h2><p>Serverless 是前端圈近两年比较火热的词汇,通过 Serverless 这种服务形态，用户在使用对应的服务时，不需要关心或较少关心服务器的硬件资源、软件资源、稳定性等等，完全托管给云计算厂商，用户只需要专注自己应用代码本身，上传执行函数到相应云计算平台，按照函数运行的时长按量付费即可</p>
+<p>　　演进史</p>
+<p>云计算诞生后，用户可以直接购买云主机（VM），把基础物理硬件和网络的管理都交由供应商管理，多用户租用一台物理机，减少了用户硬件管理成本，我们通常称之为 IaaS（Infrastructure-as-a-Service）。</p>
+<p>随着软件的发展和容器技术的兴起，计算环境由 VM 发展到更小粒度的容器，在容器中可以运行不同的软件服务，PaaS（Platform-as-a-Service） 和 CaaS（Container-as-a-Service） 也开始映入眼帘。用户使用平台基础软件如 Database、消息等开发自己的应用，使用容器镜像构建和部署应用，最后托管给平台。</p>
+<p>继续向前发展，应用的运行演变为更细粒度函数的运行，用户开发特定业务的处理函数，托管给函数平台，按需使用相关的后端服务，通过特定条件的触发完成开发者业务逻辑函数的计算。用户无需为应用持续付费，只需支付函数运行时产生的资源消耗费用，而这，就是 Serverless 服务的模型。</p>
+<p>Serverless 架构由两部分组成，即 Faas 和 BaaS。</p>
+<p>FaaS（Function-as-a-Service）即为函数运行平台，用户无需搭建庞大的服务系统，只需要上传自己的逻辑函数如一些定时任务、数据处理任务等到云函数平台，配置执行条件触发器、路由等等，完成基础函数的注册。</p>
+<p>BaaS（Backend-as-a-Service）包含了后端服务组件，它是基于 API 的第三方服务，用于实现应用程序中的核心功能，包含常用的数据库、对象存储、消息队列、日志服务等等</p>
+<p>Serverless 其实是通过事件驱动的，当一个任务被触发时，比如 HTTP 请求，API Gateway 接受请求、解析和认证，传递对应参数给云函数平台，平台中执行对应回调函数，配合 DB、MQ 等 BaaS 服务在特定容器中完成计算，最终将结果返回给用户。函数执行完成后，一般会被 FaaS 平台销毁，释放对应容器，等待下一个函数运行。</p>
+<h3 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h3><p>Serverless 其实是通过事件驱动的，当一个任务被触发时，比如 HTTP 请求，API Gateway 接受请求、解析和认证，传递对应参数给云函数平台，平台中执行对应回调函数，配合 DB、MQ 等 BaaS 服务在特定容器中完成计算，最终将结果返回给用户。函数执行完成后，一般会被 FaaS 平台销毁，释放对应容器，等待下一个函数运行。</p>
+<h2 id="内网穿透"><a href="#内网穿透" class="headerlink" title="内网穿透"></a>内网穿透</h2><p>测试时用</p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/IT-Web/" rel="tag">IT,Web,</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        <div class="social-share" data-disabled="tencent,linkedin,douban,diandian,google"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css">
+<script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script>
+
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3>
+        <div class="buttons is-centered">
+            
+                
+<a class="button is-info donate">
+    <span class="icon is-small">
+        <i class="fab fa-alipay"></i>
+    </span>
+    <span>支付宝</span>
+    <div class="qrcode"><img src="http://q6mb9zdoi.bkt.clouddn.com/alipay.jpg" alt="支付宝"></div>
+</a>
+
+                
+                
+<a class="button is-success donate">
+    <span class="icon is-small">
+        <i class="fab fa-weixin"></i>
+    </span>
+    <span>微信</span>
+    <div class="qrcode"><img src="http://q6mb9zdoi.bkt.clouddn.com/wechatpay.jpg" alt="微信"></div>
+</a>
+
+                
+        </div>
+    </div>
+</div>
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/06/15/Electron/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">Electron开发</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/06/02/react/">
+                <span class="level-item">React</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">评论</h3>
+        
+<div class="notification is-danger">
+    You forgot to set the <code>app_id</code> or <code>app_key</code> for Valine. Please set it in <code>_config.yml</code>.
+</div>
+
+    </div>
+</div>
+
+
+<div class="level is-size-7 has-text-grey">
+</br>
+    <div class="level-left">
+	
+        <i class="far fa-eye"></i>
+		<span>&nbsp;</span>
+		
+		<h3>本文章阅读量：</h3>
+        <span>&nbsp;</span>
+        <span id="busuanzi_container_page_pv" style="display: inline;">
+            <span id="busuanzi_value_page_pv">0</span>
+        </span>
+    </div>
+</div></div>
+                
+
+
+
+
+
+<div class="column is-4-tablet is-5-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="" src="https://s1.ax1x.com/2020/03/27/G9OfNn.th.png" alt="张坤">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        张坤
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        Undergraduates/Tech Learner
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>山西·太原</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <a href="/archives">
+                        <p class="title has-text-weight-normal">
+                            67
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <a href="/categories">
+                        <p class="title has-text-weight-normal">
+                            6
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <a href="/tags">
+                        <p class="title has-text-weight-normal">
+                            41
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/Kun8018" target="_blank" rel="noopener">
+                关注我</a>
+        </div>
+        
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="微信" href="http://q6mb9zdoi.bkt.clouddn.com/alipay.jpg">
+                
+                <i class="fab fa-weixin"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="QQ" href="https://facebook.com">
+                
+                <i class="fab fa-qq"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="邮箱" href="https://twitter.com">
+                
+                <i class="fa fa-envelope"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="B站" href="https://dribbble.com">
+                
+                <i class="fab fa-dribbble"></i>
+                
+            </a>
+            
+        </div>
+        
+		<hr>
+        <p id="evan">IT学徒、技术民工、斜杠青年</p>
+          <p id="evan">机器人爱好者、摄影爱好者</p>
+          <p id="evan">PS、PR、LR、达芬奇潜在学习者</p>
+		  </div>
+</div>
+    
+        
+
+    <div class="card widget" id="toc">
+        <div class="card-content">
+            <div class="menu">
+                <h3 class="menu-label">
+                    目录
+                </h3>
+                <ul class="menu-list"><li>
+        <a class="is-flex" href="#概述">
+        <span class="has-mr-6">1</span>
+        <span>概述</span>
+        </a></li><li>
+        <a class="is-flex" href="#2019、2020前端开发技术指南">
+        <span class="has-mr-6">2</span>
+        <span>2019、2020前端开发技术指南</span>
+        </a></li><li>
+        <a class="is-flex" href="#Restful">
+        <span class="has-mr-6">3</span>
+        <span>Restful</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#Swagger">
+        <span class="has-mr-6">3.1</span>
+        <span>Swagger</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#Oauth">
+        <span class="has-mr-6">4</span>
+        <span>Oauth</span>
+        </a></li><li>
+        <a class="is-flex" href="#GraphQL">
+        <span class="has-mr-6">5</span>
+        <span>GraphQL</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#与Restful接口相比">
+        <span class="has-mr-6">5.1</span>
+        <span>与Restful接口相比</span>
+        </a></li><li>
+        <a class="is-flex" href="#GraphQL中的基本概念">
+        <span class="has-mr-6">5.2</span>
+        <span>GraphQL中的基本概念</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#PWA">
+        <span class="has-mr-6">6</span>
+        <span>PWA</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#service-worker的局限">
+        <span class="has-mr-6">6.1</span>
+        <span>service worker的局限</span>
+        </a></li><li>
+        <a class="is-flex" href="#serviceworker缓存与http缓存">
+        <span class="has-mr-6">6.2</span>
+        <span>serviceworker缓存与http缓存</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#状态机">
+        <span class="has-mr-6">7</span>
+        <span>状态机</span>
+        </a></li><li>
+        <a class="is-flex" href="#Websocket">
+        <span class="has-mr-6">8</span>
+        <span>Websocket</span>
+        </a></li><li>
+        <a class="is-flex" href="#前后端跨域9种方式">
+        <span class="has-mr-6">9</span>
+        <span>前后端跨域9种方式</span>
+        </a></li><li>
+        <a class="is-flex" href="#直播">
+        <span class="has-mr-6">10</span>
+        <span>直播</span>
+        </a></li><li>
+        <a class="is-flex" href="#跨域验证">
+        <span class="has-mr-6">11</span>
+        <span>跨域验证</span>
+        </a></li><li>
+        <a class="is-flex" href="#Serverless">
+        <span class="has-mr-6">12</span>
+        <span>Serverless</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#应用场景">
+        <span class="has-mr-6">12.1</span>
+        <span>应用场景</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#内网穿透">
+        <span class="has-mr-6">13</span>
+        <span>内网穿透</span>
+        </a></li></ul>
+            </div>
+        </div>
+    </div>
+
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https:www.iros2019.org" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">IEEE-IROS</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.iros2019.org</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https:www.icra2020.org" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">IEEE-ICRA</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.icra2020.org</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/IT/">
+            <span class="level-start">
+                <span class="level-item">IT</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">21</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">
+            <span class="level-start">
+                <span class="level-item">个人生活</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">16</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">
+            <span class="level-start">
+                <span class="level-item">技术博客</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">23</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%9C%8B%E5%8F%8B/">
+            <span class="level-start">
+                <span class="level-item">朋友</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E7%94%9F%E6%B4%BB/">
+            <span class="level-start">
+                <span class="level-item">生活</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E7%94%9F%E6%B4%BB%E6%84%9F%E6%82%9F/">
+            <span class="level-start">
+                <span class="level-item">生活感悟</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            标签云
+        </h3>
+        <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 13.33px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 10px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 13.33px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 13.33px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 13.33px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 10px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb-Javascript/" style="font-size: 10px;">IT，Web,Javascript</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 20px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 10px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 13.33px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 10px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 10px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 13.33px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 10px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 20px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 16.67px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 16.67px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 10px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 10px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 16.67px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">生活、幸福</a>
+    </div>
+</div>
+    
+    
+        <div class="column-right-shadow  ">
+        
+            <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/09/02/H5%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/Phaser.jpg" alt="H5游戏开发">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-09-02T13:40:33.000Z">2020-09-02</time></div>
+                    <a href="/2020/09/02/H5%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/" class="title has-link-black-ter is-size-6 has-text-weight-normal">H5游戏开发</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/IT/">IT</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/09/02/flutter4/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="flutter移动开发（四）">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-09-02T13:40:33.000Z">2020-09-02</time></div>
+                    <a href="/2020/09/02/flutter4/" class="title has-link-black-ter is-size-6 has-text-weight-normal">flutter移动开发（四）</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">技术博客</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/08/28/flutter3/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="flutter移动开发（三）">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-08-28T13:40:33.000Z">2020-08-28</time></div>
+                    <a href="/2020/08/28/flutter3/" class="title has-link-black-ter is-size-6 has-text-weight-normal">flutter移动开发（三）</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">技术博客</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/08/28/flutter2/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="flutter移动开发（二）">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-08-28T13:40:33.000Z">2020-08-28</time></div>
+                    <a href="/2020/08/28/flutter2/" class="title has-link-black-ter is-size-6 has-text-weight-normal">flutter移动开发（二）</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">技术博客</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/08/28/flutter/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s1.ax1x.com/2020/04/20/J1IMCD.png" alt="Flutter移动开发（一）">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-08-28T13:40:33.000Z">2020-08-28</time></div>
+                    <a href="/2020/08/28/flutter/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Flutter移动开发（一）</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">技术博客</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            归档
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/09/">
+                <span class="level-start">
+                    <span class="level-item">九月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/08/">
+                <span class="level-start">
+                    <span class="level-item">八月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/07/">
+                <span class="level-start">
+                    <span class="level-item">七月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/06/">
+                <span class="level-start">
+                    <span class="level-item">六月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/04/">
+                <span class="level-start">
+                    <span class="level-item">四月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/03/">
+                <span class="level-start">
+                    <span class="level-item">三月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">41</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/02/">
+                <span class="level-start">
+                    <span class="level-item">二月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                标签
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Java-Web/">
+                        <span class="tag">IT,Java,Web</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web/">
+                        <span class="tag">IT,Web</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web/">
+                        <span class="tag">IT,Web,</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/">
+                        <span class="tag">IT,Web，Android、Java</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8CC/">
+                        <span class="tag">IT,Web，C++</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8CFlutter/">
+                        <span class="tag">IT,Web，Flutter</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8CIOS/">
+                        <span class="tag">IT,Web，IOS</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8CMac/">
+                        <span class="tag">IT,Web，Mac</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/">
+                        <span class="tag">IT,Web，算法</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/">
+                        <span class="tag">IT、友情</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/">
+                        <span class="tag">IT、小程序、H5App</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8C/">
+                        <span class="tag">IT，</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CApp-Node-Electron/">
+                        <span class="tag">IT，App,Node,Electron</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CFlutter/">
+                        <span class="tag">IT，Flutter</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CGithub/">
+                        <span class="tag">IT，Github</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CRN%EF%BC%8C/">
+                        <span class="tag">IT，RN，</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Javascript/">
+                        <span class="tag">IT，Web,Javascript</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Node/">
+                        <span class="tag">IT，Web,Node</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/">
+                        <span class="tag">IT，Web,Node，React</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-PHP/">
+                        <span class="tag">IT，Web,PHP</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Vue/">
+                        <span class="tag">IT，Web,Vue</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/">
+                        <span class="tag">IT，Web,Vue，Node、React</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/">
+                        <span class="tag">IT，Web,数据库</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8Cweb/">
+                        <span class="tag">IT，web</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/">
+                        <span class="tag">IT，未来</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Web-IT-Flutter/">
+                        <span class="tag">Web,IT,Flutter</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Web-IT-Go/">
+                        <span class="tag">Web,IT,Go</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/">
+                        <span class="tag">Web，IT，HTML，CSS</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/">
+                        <span class="tag">个人生活，幸福</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/">
+                        <span class="tag">兴趣，幸福</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/">
+                        <span class="tag">励志、文学</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E5%8F%8B%E6%83%85/">
+                        <span class="tag">友情</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">
+                        <span class="tag">幸福，个人生活</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/">
+                        <span class="tag">技术宅、IT</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/">
+                        <span class="tag">技术，Robotic，IT</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/">
+                        <span class="tag">摄影，记录，生活</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%B7%B1%E5%9C%B3/">
+                        <span class="tag">深圳</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/">
+                        <span class="tag">爱情，幸福</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E7%94%9F%E6%B4%BB/">
+                        <span class="tag">生活</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E7%94%9F%E6%B4%BB/">
+                        <span class="tag">生活#</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/">
+                        <span class="tag">生活、幸福</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+				
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="https://s1.ax1x.com/2020/03/27/G9OfNn.th.png" alt="前后端开发概述" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2020 Kun Zhang&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+               <!-- 
+                <br>
+                <span id="busuanzi_container_site_uv">
+                共<span id="busuanzi_value_site_uv">0</span>个访客
+                </span>
+                 -->
+				
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+	
+	   <div style="text-align: center;">
+			<br>
+			<p class="is-size-7">
+				
+				<span id="busuanzi_container_site_uv">
+					<i class="fa fa-user"></i> 本站访客数 <span id="busuanzi_value_site_uv"></span> 人次
+				</span>
+				<span id="busuanzi_container_site_pv">
+					|  <i class="fa fa-eye"></i> 本站总访问量 <span id="busuanzi_value_site_pv"></span> 次
+				</span>
+				
+			</p>
+			<span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+		<script>
+			var now = new Date(); 
+			function createtime() { 
+				var grt= new Date("3/2/2020 08:00:00");// 此处修改你的建站时间或者网站上线时间 
+				now.setTime(now.getTime()+250); 
+				days = (now - grt) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+				hours = (now - grt) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+				if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+				mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+				seconds = (now - grt) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+				snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+				document.getElementById("timeDate").innerHTML = "本站已安全运行"+dnum+"天"; 
+				document.getElementById("times").innerHTML = hnum + "小时" + mnum + "分" + snum + "秒"; 
+			} 
+			setInterval("createtime()",250);
+		</script>
+		</div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'http://yoursite.com',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'unfolded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

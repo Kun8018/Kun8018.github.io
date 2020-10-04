@@ -1,0 +1,1477 @@
+<!DOCTYPE html>
+<html  lang="zh">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 4.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>flutter移动开发（三） - kun&#39;s blog</title>
+
+
+    <meta name="description" content="概述​     跨平台移动开发工具。 ​    看了一些大佬的博客，我也试图收录一些对flutter 的语法、跨平台属性进行深入探索与总结">
+<meta property="og:type" content="article">
+<meta property="og:title" content="flutter移动开发（三）">
+<meta property="og:url" content="http://yoursite.com/2020/08/28/flutter3/index.html">
+<meta property="og:site_name" content="kun&#39;s blog">
+<meta property="og:description" content="概述​     跨平台移动开发工具。 ​    看了一些大佬的博客，我也试图收录一些对flutter 的语法、跨平台属性进行深入探索与总结">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://yoursite.com/images/og_image.png">
+<meta property="article:published_time" content="2020-08-28T13:40:33.000Z">
+<meta property="article:modified_time" content="2020-10-04T18:07:16.821Z">
+<meta property="article:author" content="Kun Zhang">
+<meta property="article:tag" content="IT,Web，Flutter">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="https://s1.ax1x.com/2020/03/27/G9OfNn.th.png">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    <script async="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="https://s1.ax1x.com/2020/03/27/G9OfNn.th.png" alt="flutter移动开发（三）" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">首页</a>
+                
+                <a class="navbar-item"
+                href="/archives">最近发布</a>
+                
+                <a class="navbar-item"
+                href="/categories">目录</a>
+                
+                <a class="navbar-item"
+                href="/tags">分类</a>
+                
+                <a class="navbar-item"
+                href="/about">关于我</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    <a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-9-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-08-28T13:40:33.000Z">2020-08-28</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">技术博客</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    24 分钟 读完 (大约 3528 个字)
+                </span>
+                
+                
+                <span class="level-item has-text-grey" id="busuanzi_container_page_pv">
+                    <i class="far fa-eye"></i>
+                    <span id="busuanzi_value_page_pv">0</span>次访问
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                flutter移动开发（三）
+            
+        </h1>
+        <div class="content">
+            <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>​     跨平台移动开发工具。</p>
+<p>​    看了一些大佬的博客，我也试图收录一些对flutter 的语法、跨平台属性进行深入探索与总结</p>
+<a id="more"></a>
+
+<h2 id="基础组件"><a href="#基础组件" class="headerlink" title="基础组件"></a>基础组件</h2><h3 id="图片"><a href="#图片" class="headerlink" title="图片"></a>图片</h3><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Image.asset(name);<span class="comment">//从资源中获取图片</span></span><br><span class="line">Image.file(file);<span class="comment">//从文件中获取图片</span></span><br><span class="line">Image.memory(bytes);<span class="comment">//从内存中获取图片</span></span><br><span class="line">Image.network(src);<span class="comment">//从网络中获取图片</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="文本输入框"><a href="#文本输入框" class="headerlink" title="文本输入框"></a>文本输入框</h3><p>TextField有很多属性</p>
+<p>decoration属性介绍:<br>border：增加一个边框，<br>hintText：未输入文字时，输入框中的提示文字，<br>prefixIcon：输入框内侧左面的控件，<br>labelText：一个提示文字。输入框获取焦点/输入框有内容 会移动到左上角，否则在输入框内，labelTex的位置.<br>suffixIcon: 输入框内侧右面的图标.<br>icon : 输入框左侧添加个图标</p>
+<p>监听文本变化</p>
+<p>监听文本变化有两种方式，一种是设置onChange回调，一种是controller监听，onChange专用于监听文本变化，controller还可以使用默认值，选择文本等，通常使用第二种</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">TextEditingController _selectionController = TextEdittingController()<span class="comment">//创建controller</span></span><br><span class="line"><span class="comment">//创建监听</span></span><br><span class="line"><span class="meta">@override</span> </span><br><span class="line"><span class="keyword">void</span> initState() &#123;</span><br><span class="line">    _selectionController.addlistener()&#123;</span><br><span class="line">        <span class="built_in">print</span>(_selectionController.text);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//设置默认值，并选中字符</span></span><br><span class="line">_selectionController.text=<span class="string">"helloworld"</span>;</span><br><span class="line">_selectionController.selection = TextSelection(</span><br><span class="line">    baseOffset: <span class="number">2</span>,</span><br><span class="line">    extentOffset: _selectionController.text.length;<span class="comment">//动态获取前两个字符之后的长度</span></span><br><span class="line">)</span><br><span class="line"><span class="comment">//设置controller</span></span><br><span class="line">TextField(</span><br><span class="line">    controller: _selectionController,</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>控制焦点</p>
+<p><a href="https://blog.csdn.net/u011272795/article/details/82528432?depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-1&amp;utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-1">https://blog.csdn.net/u011272795/article/details/82528432?depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-1&amp;utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-1</a></p>
+<h3 id="文本显示"><a href="#文本显示" class="headerlink" title="文本显示"></a>文本显示</h3><p>Text用于显示简单文本，具有文本样式控制属性</p>
+<p>textAlign：文本的对齐方式，可以选择居中、左侧或者右侧</p>
+<p>maxlines、overflow：指定文本显示的最大行数。如果有多余的文本，可以通过overflow指定截断方式。</p>
+<p>textScaleFactor：代表文本相对于当前字体的缩放因子。相当于调整样式的字体大小属性,但是是根据系统字体大小全局调整而不是指定某段字体具体大小</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Text(<span class="string">"helloworld"</span>*<span class="number">6</span><span class="comment">//字符串重复6次</span></span><br><span class="line">     textAlign: TextAlign.center,<span class="comment">//居中</span></span><br><span class="line">     maxLines: <span class="number">1</span>,<span class="comment">//最大行数一行</span></span><br><span class="line">     overflow: TextOverflow.ellipsis,<span class="comment">//多余的文本以省略号显示</span></span><br><span class="line">     textScaleFactor: <span class="number">1.5</span>,<span class="comment">//默认为1</span></span><br><span class="line">  )；</span><br></pre></td></tr></table></figure>
+
+<p>Textstyle用于指定文本显示的样式如颜色、字体、粗细、背景等</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Text(<span class="string">"helloworld"</span></span><br><span class="line">    style: TextStyle(</span><br><span class="line">      color: Colors.blue,<span class="comment">//颜色</span></span><br><span class="line">      fontSize: <span class="number">18.0</span>,<span class="comment">//大小</span></span><br><span class="line">      height: <span class="number">1.2</span>,  <span class="comment">//行高</span></span><br><span class="line">      fontFamily: <span class="string">"Courier"</span>,<span class="comment">//字体</span></span><br><span class="line">      background: <span class="keyword">new</span> Paint()..color=Colors.yellow,<span class="comment">//背景颜色</span></span><br><span class="line">      decoration:TextDecoration.underline,<span class="comment">//下划线</span></span><br><span class="line">      decorationStyle: TextDecorationStyle.dashed</span><br><span class="line">    ),</span><br><span class="line">  );</span><br></pre></td></tr></table></figure>
+
+<p>Textspan对一个text中的字体进行不同样式的显示</p>
+<h3 id="各种按钮"><a href="#各种按钮" class="headerlink" title="各种按钮"></a>各种按钮</h3><p>在 Flutter 里有很多的 Button，包括了：MaterialButton、RaisedButton、FloatingActionButton、FlatButton、IconButton、ButtonBar、DropdownButton 等。</p>
+<p><strong>MaterialButton</strong> 是一个 Materia 风格的按钮。</p>
+<p><strong>RaisedButton</strong> 与 <strong>MaterialButton</strong> 类似</p>
+<p><strong>OutlineButton</strong>是一个有默认边线且背景透明的按钮，也就是说我们设置其边线和颜色是无效的，其他属性跟MaterialButton中属性基本一致</p>
+<p><strong>FlatButton</strong> 与 <strong>MaterialButton</strong> 类似，不同的是它是透明背景的。如果一个 Container 想要点击事件时，可以使用 FlatButton 包裹，而不是 MaterialButton。因为 MaterialButton 默认带背景，而 FlatButton 默认不带背景。</p>
+<p><strong>IconButton</strong> 顾名思义就是 Icon + Button 的复合体，当某个 Icon 需要点击事件时，使用 IconButton 最好不过。</p>
+<p><strong>FloatingActionButton</strong> 是一个浮动在页面右下角的浮动按钮。</p>
+<p><strong>ButtonBar</strong> 是一个布局组件，可以让 Button 排列在一行。</p>
+<p>*<em>DropdownButton *</em> 是下拉菜单按钮</p>
+<p><a href="https://www.jianshu.com/p/2f887cadd527">https://www.jianshu.com/p/2f887cadd527</a></p>
+<p>按钮button样式实例</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//基本样式 </span></span><br><span class="line">RaisedButton(</span><br><span class="line">      onPressed: _log,<span class="comment">//点击回调事件</span></span><br><span class="line">      child: Text(<span class="string">"浮动按钮"</span>),<span class="comment">//按钮显示的文本</span></span><br><span class="line">      color: Colors.red,<span class="comment">//按钮的主颜色</span></span><br><span class="line">      textColor: Colors.white,<span class="comment">//按钮文本的颜色</span></span><br><span class="line">      splashColor: Colors.black,<span class="comment">//点击按钮时水波纹的颜色</span></span><br><span class="line">      highlightColor: Colors.green,<span class="comment">//长按按钮后显示的颜色</span></span><br><span class="line">      elevation: <span class="number">30</span>,<span class="comment">//按钮下显示的阴影，一般设置小一点</span></span><br><span class="line">      shape: BeveledRectangleBorder(<span class="comment">//边框形状，带斜角的长方形边框</span></span><br><span class="line">         side: BorderSide(</span><br><span class="line">        color: Colors.white,</span><br><span class="line">      ),</span><br><span class="line">      borderRadius: BorderRadius.all(Radius.circular(<span class="number">10</span>))</span><br><span class="line">      ),</span><br><span class="line">    );</span><br><span class="line"><span class="comment">//其他边框形状</span></span><br><span class="line">shape: CircleBorder(<span class="comment">//圆形边框</span></span><br><span class="line">        side: BorderSide(</span><br><span class="line">          color: Colors.white,</span><br><span class="line">        ),</span><br><span class="line">      ),</span><br><span class="line">shape: RoundedRectangleBorder(<span class="comment">//圆角矩形边框</span></span><br><span class="line">        borderRadius: BorderRadius.all(Radius.circular(<span class="number">10</span>)),</span><br><span class="line">      ),</span><br><span class="line">shape: StadiumBorder(),<span class="comment">//两边是半圆的边框</span></span><br></pre></td></tr></table></figure>
+
+<p>浮动按钮组</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">floatingActionButton: ButtonBar(</span><br><span class="line">          <span class="comment">// alignment 属性用来指定子元素如何在横轴上进行排列</span></span><br><span class="line">          <span class="comment">// MainAxisAlignment.spaceAround 表示分散对齐,浮动按钮默认是靠右侧堆叠</span></span><br><span class="line">          alignment: MainAxisAlignment.spaceAround,</span><br><span class="line">          <span class="comment">// 子元素</span></span><br><span class="line">          children: &lt;Widget&gt;[</span><br><span class="line">                <span class="comment">// 第一个浮动按钮</span></span><br><span class="line">                FloatingActionButton(</span><br><span class="line">                  onPressed: () &#123;</span><br><span class="line">                    choosePic(ImageSource.camera);</span><br><span class="line">                  &#125;,</span><br><span class="line">                  tooltip: <span class="string">'takephoto'</span>,</span><br><span class="line">                  child: Icon(Icons.photo_camera),</span><br><span class="line">                ),</span><br><span class="line">                <span class="comment">// 第二个浮动按钮</span></span><br><span class="line">                FloatingActionButton(</span><br><span class="line">                  onPressed: () &#123;</span><br><span class="line">                    choosePic(ImageSource.gallery);</span><br><span class="line">                  &#125;,</span><br><span class="line">                  tooltip: <span class="string">'takepicture'</span>,</span><br><span class="line">                  child: Icon(Icons.photo_library),</span><br><span class="line">                )</span><br><span class="line">           ],</span><br><span class="line">        )</span><br></pre></td></tr></table></figure>
+
+<h4 id="折叠浮动按钮"><a href="#折叠浮动按钮" class="headerlink" title="折叠浮动按钮"></a>折叠浮动按钮</h4><p>安装包</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">dependencies:</span></span><br><span class="line">  <span class="attr">flutter_speed_dial:</span> <span class="string">^1.2.4</span></span><br></pre></td></tr></table></figure>
+
+<p>引入包</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">'package:flutter_speed_dial/flutter_speed_dial.dart'</span>;</span><br></pre></td></tr></table></figure>
+
+<p>实例</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="布局"><a href="#布局" class="headerlink" title="布局"></a>布局</h2><h3 id="简单布局"><a href="#简单布局" class="headerlink" title="简单布局"></a>简单布局</h3><h3 id="线性布局Row、Column"><a href="#线性布局Row、Column" class="headerlink" title="线性布局Row、Column"></a>线性布局Row、Column</h3><p>线性布局是指水平方向和垂直方向。</p>
+<p>线性布局有主轴和纵轴之分。水平方向布局中，主轴为水平方向，纵轴为垂直方向</p>
+<p>垂直方向布局中，主轴为垂直方向，纵轴为水平方向。</p>
+<p>Row在水平方向排列其子组件widget，Column在垂直方向排列其子组件widget</p>
+<p>具体方法</p>
+<p>textDirection：水平方向子组件的布局顺序。默认为中文、英文从左向右，阿拉伯语从右向左。指定赋值时，.ltr表示从左向右，.rtl表示从右向左</p>
+<p>verticalDirection: Row自身在纵轴的对齐方式，默认为.down为从上到下</p>
+<p>maxnAxisSize: 表示Row在水平方向的占用空间。max为尽可能多的占用水平空间，此时Row的宽度始终等于水平方向最大宽度，min为尽可能少的占用水平空间，此时Row的宽度为所有子组件占用的水平空间。</p>
+<p>mainAxisAlignment：子组件在主轴上的对齐方式。Row中为水平方向，Column中为垂直方向 。值有.start 表示从textDirection指定的方向首端.center 居中对齐 .end 表示从textDirection指定的方向尾端，.spacebetween</p>
+<p>crossAxisAlignment: 子组件在纵轴上的对齐方式。Row中为垂直方向，Column中为水平方向。值有.start 表示从verticalDirection指定的方向首端.center 居中对齐.end 表示从verticalDirection指定的方向尾端, .spacebetween</p>
+<p>crossAxisAlignment: 子组件在纵轴上的对齐方式。Row中为垂直方向，Column中为水平方向</p>
+<p>children: 子组件</p>
+<p>实例</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="弹性布局Flex"><a href="#弹性布局Flex" class="headerlink" title="弹性布局Flex"></a>弹性布局Flex</h3><p>Expanded可以按比例扩伸Row、Column。</p>
+<h3 id="边距Padding"><a href="#边距Padding" class="headerlink" title="边距Padding"></a>边距Padding</h3><p>Padding为子节点控制边距，通常使用Padding中的EdgeInsets类，其中定义了一些设置边距的便捷方法</p>
+<p>EdgeInsets中的方法：</p>
+<ul>
+<li><p>fromLTRB{double left, double top, double right, double bottom} 分别指定四个方向的填充</p>
+</li>
+<li><p>all(double value)：设置所有方向，相同数值填充</p>
+</li>
+<li><p>only({left, top, right, bottom}): 设置具体某个方向的边距，也可以设置两个或三个</p>
+</li>
+<li><p>symmetric({ vertical, horizontal }): 用于设置对称方向的边距，vertical指top和bottom，horizontal指left和right</p>
+</li>
+</ul>
+<p>实例</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PaddingTest</span> <span class="keyword">extends</span> <span class="title">statelessWidget</span> </span>&#123;</span><br><span class="line">    <span class="meta">@override</span></span><br><span class="line">    Widget build(BuildContext context) &#123;</span><br><span class="line">        <span class="keyword">return</span> Padding(</span><br><span class="line">            <span class="comment">//上下左右添加相同16像素边距</span></span><br><span class="line">            padding: EdgeInsets.all(<span class="number">16.0</span>),</span><br><span class="line">            child: Column(</span><br><span class="line">                children: &lt;Widget&gt; [</span><br><span class="line">                    Padding(</span><br><span class="line">                        <span class="comment">//左侧添加8像素边距</span></span><br><span class="line">                        padding: <span class="keyword">const</span> EdgeInsets.only(left: <span class="number">8.0</span>),</span><br><span class="line">                        child: Text(<span class="string">"Helloworld"</span>),</span><br><span class="line">                    ),</span><br><span class="line">                    Padding(</span><br><span class="line">                        <span class="comment">//上下对称添加8像素边距</span></span><br><span class="line">                        padding: <span class="keyword">const</span> EdgeInsets.symmetric(vertical: <span class="number">8.0</span>),</span><br><span class="line">                        child: Text(<span class="string">"Helloworld"</span>),</span><br><span class="line">                    ),</span><br><span class="line">                    Padding(</span><br><span class="line">                        <span class="comment">//指定四个方向的边距</span></span><br><span class="line">                        padding: <span class="keyword">const</span> EdgeInsets.fromLTRB(<span class="number">20.0</span>,<span class="number">0</span>,<span class="number">20.0</span>,<span class="number">8.0</span>),</span><br><span class="line">                        child: Text(<span class="string">"Helloworld"</span>),</span><br><span class="line">                    ),</span><br><span class="line">                ],</span><br><span class="line">            ),</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="样式装饰器DecoratedBox"><a href="#样式装饰器DecoratedBox" class="headerlink" title="样式装饰器DecoratedBox"></a>样式装饰器DecoratedBox</h3><p>装饰器可以向子组件添加一些特殊样式，如背景、边框，渐变等。使用时一般使用子类BoxDecoration，实现常用元素的装饰绘制</p>
+<p>具体</p>
+<p>color、//颜色 image//图片、border//边框，borderRadius//圆角，</p>
+<p>boxShadow//阴影，gradient//渐变、 boxshape//形状、backgroundBlendMode//背景混合模式</p>
+<p>实例</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Container(</span><br><span class="line">   decoration: BoxDecoration(</span><br><span class="line">        gradient: LinearGradient(colors:[Colors.red,Colors.orange[<span class="number">700</span>]]),<span class="comment">//背景渐变</span></span><br><span class="line">        borderRadius: BorderRadius: circular(<span class="number">3.0</span>),<span class="comment">//3像素圆角</span></span><br><span class="line">        boxShadow: [<span class="comment">//阴影</span></span><br><span class="line">            BoxShadow(</span><br><span class="line">                color:Colors.black54,</span><br><span class="line">                offset: Offset(<span class="number">2.0</span>,<span class="number">2.0</span>),</span><br><span class="line">                blurRadius: <span class="number">4.0</span>,</span><br><span class="line">            )</span><br><span class="line">    	]</span><br><span class="line">       child: Text(<span class="string">"login"</span>,style: TextStyle(color: Colors.white),),</span><br><span class="line">   )</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h3 id="对齐"><a href="#对齐" class="headerlink" title="对齐"></a>对齐</h3><h3 id="堆叠布局"><a href="#堆叠布局" class="headerlink" title="堆叠布局"></a>堆叠布局</h3><p>return stack</p>
+<h2 id="滚动组件"><a href="#滚动组件" class="headerlink" title="滚动组件"></a>滚动组件</h2><h3 id="Listview"><a href="#Listview" class="headerlink" title="Listview"></a>Listview</h3><p>参数：</p>
+<p>physics: 此对象接受一个ScrollPhysics类型的对象，用以滚动组件如何响应用户操作，比如抬起手指之后继续执行动画，滑动到底部时如何显示。默认情况下flutter会根据平台显示不同效果。</p>
+<p>shrinkWrap：是否根据子组件的总长度设置Listview的长度，默认为false，也就是默认情况下Liseview会尽可能地占用较多空间</p>
+<p>controller：此对象接受一个ScrollController对象，控制滚动位置和监听滚动事件。ScrollController常用属性和方法：</p>
+<p>offset：可滚动组件当前的滚动位置</p>
+<p>jupmTo(double offset)、animateTo(double offset)：这两个方法用于跳转到指定位置，后者会执行一个动画而前者不会</p>
+<p>reverse: 是否与滑动方向相反，默认为false</p>
+<p>itemExtent：滚动为垂直方向时为子组件的高度，滚动为水平方向时为子组件的宽度</p>
+<p>列表项不多时使用ListView，用构造函数中的children参数</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">ListView(</span><br><span class="line">   shrinkWrap: <span class="keyword">true</span>,</span><br><span class="line">   padding: <span class="keyword">const</span> EdgeInsets.all(<span class="number">20.0</span>),</span><br><span class="line">   children:&lt;Widget&gt;[</span><br><span class="line">       <span class="keyword">const</span> Text(<span class="string">'i am'</span>),</span><br><span class="line">       <span class="keyword">const</span> Text(<span class="string">'i am'</span>),</span><br><span class="line">       <span class="keyword">const</span> Text(<span class="string">'i am'</span>),</span><br><span class="line">       <span class="keyword">const</span> Text(<span class="string">'i am'</span>),</span><br><span class="line">   ],</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>ListView.builder方法适用于列表项比较多的情况，该方法创建子组件时只有子组件真正显示时才会被创建，也就是基于Sliver的懒加载模型</p>
+<p>参数:</p>
+<p>itemCount:指定列表项的数目，null为无限</p>
+<p>itemBuilder：列表项构造器</p>
+<p>ListView.seperated方法可以在生成的列表之间添加一个分割组件，它比Listview.builder多了一个separatorbuilder的参数，该参数可以生成一个分割组件生成器。</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建一个奇数行蓝色下划线，偶数行绿色下划线的列表</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ListView</span> <span class="keyword">extends</span> <span class="title">StatelessWidget</span> </span>&#123;</span><br><span class="line">    <span class="meta">@override</span></span><br><span class="line">    Widget build(BuildContext context)&#123;</span><br><span class="line">      Widget divide1= Divider(color: Colors.blue,);</span><br><span class="line">      Widget divide2= Divider(color: Colors.green,);</span><br><span class="line">      <span class="keyword">return</span> ListView.separated(</span><br><span class="line">        itemCount: <span class="number">100</span>,</span><br><span class="line">        itemBuilder: (BuildContext context,<span class="built_in">int</span> index)&#123;</span><br><span class="line">            <span class="keyword">return</span> ListTile(title: Text(<span class="string">"<span class="subst">$index</span>"</span>));</span><br><span class="line">        &#125;,</span><br><span class="line">        separatorBuilder: (BuildContext context,<span class="built_in">int</span> index)&#123;</span><br><span class="line">           <span class="keyword">return</span> index$<span class="number">2</span>==<span class="number">0</span>?divider1:divider2;    </span><br><span class="line">        &#125;,</span><br><span class="line">      );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Gridview"><a href="#Gridview" class="headerlink" title="Gridview"></a>Gridview</h3><p>Gridview可以构造二维网格列表</p>
+<p>主要参数：</p>
+<p>crossAxisCount：横轴子元素的数量</p>
+<p>mainAxisSpacing：主轴方向的间距</p>
+<p>crossAxisSpacing：横轴方向子元素的间距</p>
+<p>childAspectRatio：子元素在横轴长度和主轴长度的比例。一般由crossAxisCount指定子元素的横轴长度，再通过此参数确定子元素的主轴长度</p>
+<p>Gridview.count 创建横轴固定数量子元素的gridview，内部包含SliverGridDelegateWithFixedCrossAxisCount类</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">GridView.extent(</span><br><span class="line">    crossAxisCount: <span class="number">3</span>,<span class="comment">//子元素数量为3</span></span><br><span class="line">    childAspectRatio: <span class="number">1.0</span>,<span class="comment">//宽高比为2</span></span><br><span class="line">    children: &lt;Widget&gt;[</span><br><span class="line">        Icons(Icons.ac_unit),</span><br><span class="line">        Icons(Icons.airport_shuttle),</span><br><span class="line">        Icons(Icons.all_inclusive),</span><br><span class="line">        Icons(Icons.beach_access),</span><br><span class="line">        Icons(Icons.cake),</span><br><span class="line">        Icons(Icons.free_breakfast),</span><br><span class="line">    ],</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>Gridview.extent 创建纵轴子元素为固定长度的gridview，内部包含SliverGridDelegateWithMaxCrossAxisExtent类，</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">GridView.extent(</span><br><span class="line">    maxCrossAxisExtent: <span class="number">120.0</span>,<span class="comment">//子元素在横轴上的最大长度</span></span><br><span class="line">    childAspectRatio: <span class="number">2.0</span>,<span class="comment">//宽高比为2</span></span><br><span class="line">    children: &lt;Widget&gt;[</span><br><span class="line">        Icons(Icons.ac_unit),</span><br><span class="line">        Icons(Icons.airport_shuttle),</span><br><span class="line">        Icons(Icons.all_inclusive),</span><br><span class="line">        Icons(Icons.beach_access),</span><br><span class="line">        Icons(Icons.cake),</span><br><span class="line">        Icons(Icons.free_breakfast),</span><br><span class="line">    ],</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>Gridview.builder 当子组件较多时通过Gridview.builder动态创建子widget，使用ItemBuilder创建子widget</p>
+<h3 id="CustomScrollView"><a href="#CustomScrollView" class="headerlink" title="CustomScrollView"></a>CustomScrollView</h3><p>当一个页面同时使用gridview和listview时，由于两个组件相互独立，不能保证他们滚动效果一致，因此需要一个粘合剂使他们成为一体，使用CustomScrollView</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> Material(</span><br><span class="line">      child: CustomScrollView(</span><br><span class="line">        slivers: &lt;Widget&gt;[</span><br><span class="line">          <span class="comment">//AppBar，包含一个导航栏</span></span><br><span class="line">          SliverAppBar(</span><br><span class="line">            pinned: <span class="keyword">true</span>,</span><br><span class="line">            expandedHeight: <span class="number">250.0</span>,</span><br><span class="line">            flexibleSpace: FlexibleSpaceBar(</span><br><span class="line">              title: <span class="keyword">const</span> Text(<span class="string">'Demo'</span>),</span><br><span class="line">              background: Image.asset(</span><br><span class="line">                <span class="string">"./images/avatar.png"</span>, fit: BoxFit.cover,),</span><br><span class="line">            ),</span><br><span class="line">          ),</span><br><span class="line">          SliverPadding(</span><br><span class="line">            padding: <span class="keyword">const</span> EdgeInsets.all(<span class="number">8.0</span>),</span><br><span class="line">            sliver: <span class="keyword">new</span> SliverGrid( <span class="comment">//Grid</span></span><br><span class="line">              gridDelegate: <span class="keyword">new</span> SliverGridDelegateWithFixedCrossAxisCount(</span><br><span class="line">                crossAxisCount: <span class="number">2</span>, <span class="comment">//Grid按两列显示</span></span><br><span class="line">                mainAxisSpacing: <span class="number">10.0</span>,</span><br><span class="line">                crossAxisSpacing: <span class="number">10.0</span>,</span><br><span class="line">                childAspectRatio: <span class="number">4.0</span>,</span><br><span class="line">              ),</span><br><span class="line">              delegate: <span class="keyword">new</span> SliverChildBuilderDelegate(</span><br><span class="line">                    (BuildContext context, <span class="built_in">int</span> index) &#123;</span><br><span class="line">                  <span class="comment">//创建子widget      </span></span><br><span class="line">                  <span class="keyword">return</span> <span class="keyword">new</span> Container(</span><br><span class="line">                    alignment: Alignment.center,</span><br><span class="line">                    color: Colors.cyan[<span class="number">100</span> * (index % <span class="number">9</span>)],</span><br><span class="line">                    child: <span class="keyword">new</span> Text(<span class="string">'grid item <span class="subst">$index</span>'</span>),</span><br><span class="line">                  );</span><br><span class="line">                &#125;,</span><br><span class="line">                childCount: <span class="number">20</span>,</span><br><span class="line">              ),</span><br><span class="line">            ),</span><br><span class="line">          ),</span><br><span class="line">          <span class="keyword">new</span> SliverFixedExtentList(</span><br><span class="line">            itemExtent: <span class="number">50.0</span>,</span><br><span class="line">            delegate: <span class="keyword">new</span> SliverChildBuilderDelegate(</span><br><span class="line">                    (BuildContext context, <span class="built_in">int</span> index) &#123;</span><br><span class="line">                  <span class="comment">//创建列表项      </span></span><br><span class="line">                  <span class="keyword">return</span> <span class="keyword">new</span> Container(</span><br><span class="line">                    alignment: Alignment.center,</span><br><span class="line">                    color: Colors.lightBlue[<span class="number">100</span> * (index % <span class="number">9</span>)],</span><br><span class="line">                    child: <span class="keyword">new</span> Text(<span class="string">'list item <span class="subst">$index</span>'</span>),</span><br><span class="line">                  );</span><br><span class="line">                &#125;,</span><br><span class="line">                childCount: <span class="number">50</span> <span class="comment">//50个列表项</span></span><br><span class="line">            ),</span><br><span class="line">          ),</span><br><span class="line">        ],</span><br></pre></td></tr></table></figure>
+
+<h3 id="上拉刷新下拉加载"><a href="#上拉刷新下拉加载" class="headerlink" title="上拉刷新下拉加载"></a>上拉刷新下拉加载</h3><p>安装包</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">dependencies:</span></span><br><span class="line">    <span class="attr">pull_to_refresh:</span> <span class="string">^1.6.0</span></span><br></pre></td></tr></table></figure>
+
+<p>引入包</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">'package:pull_to_refresh/pull_to_refresh.dart'</span>;</span><br></pre></td></tr></table></figure>
+
+<p>实例</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line">RefreshController _refreshController =</span><br><span class="line">      RefreshController(initialRefresh: <span class="keyword">false</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">void</span> _onRefresh() <span class="keyword">async</span>&#123;</span><br><span class="line">    <span class="comment">// monitor network fetch</span></span><br><span class="line">    <span class="keyword">await</span> Future.delayed(<span class="built_in">Duration</span>(milliseconds: <span class="number">1000</span>));</span><br><span class="line">    <span class="comment">// if failed,use refreshFailed()</span></span><br><span class="line">    _refreshController.refreshCompleted();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">void</span> _onLoading() <span class="keyword">async</span>&#123;</span><br><span class="line">    <span class="comment">// monitor network fetch</span></span><br><span class="line">    <span class="keyword">await</span> Future.delayed(<span class="built_in">Duration</span>(milliseconds: <span class="number">1000</span>));</span><br><span class="line">    <span class="comment">// if failed,use loadFailed(),if no data return,use LoadNodata()</span></span><br><span class="line">    items.add((items.length+<span class="number">1</span>).toString());</span><br><span class="line">    <span class="keyword">if</span>(mounted)</span><br><span class="line">    setState(() &#123;</span><br><span class="line"></span><br><span class="line">    &#125;);</span><br><span class="line">    _refreshController.loadComplete();</span><br><span class="line">  &#125;</span><br><span class="line"><span class="meta">@override</span></span><br><span class="line">  Widget build(BuildContext context) &#123;</span><br><span class="line">    <span class="keyword">return</span> Scaffold(</span><br><span class="line">      body: SmartRefresher(</span><br><span class="line">        enablePullDown: <span class="keyword">true</span>,</span><br><span class="line">        enablePullUp: <span class="keyword">true</span>,</span><br><span class="line">        header: WaterDropHeader(),</span><br><span class="line">        footer: CustomFooter(</span><br><span class="line">          builder: (BuildContext context,LoadStatus mode)&#123;</span><br><span class="line">            Widget body ;</span><br><span class="line">            <span class="keyword">if</span>(mode==LoadStatus.idle)&#123;</span><br><span class="line">              body =  Text(<span class="string">"上拉加载"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(mode==LoadStatus.loading)&#123;</span><br><span class="line">              body =  CupertinoActivityIndicator();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(mode == LoadStatus.failed)&#123;</span><br><span class="line">              body = Text(<span class="string">"加载失败！点击重试！"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(mode == LoadStatus.canLoading)&#123;</span><br><span class="line">               body = Text(<span class="string">"松手,加载更多!"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span>&#123;</span><br><span class="line">              body = Text(<span class="string">"没有更多数据了!"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> Container(</span><br><span class="line">              height: <span class="number">55.0</span>,</span><br><span class="line">              child: Center(child:body),</span><br><span class="line">            );</span><br><span class="line">          &#125;,</span><br><span class="line">        ),</span><br><span class="line">  			controller: _refreshController,</span><br><span class="line">        onRefresh: _onRefresh,</span><br><span class="line">        onLoading: _onLoading,</span><br><span class="line">        child: ListView.builder(</span><br><span class="line">          itemBuilder: (c, i) =&gt; Card(child: Center(child: Text(items[i]))),</span><br><span class="line">          itemExtent: <span class="number">100.0</span>,</span><br><span class="line">          itemCount: items.length,</span><br><span class="line">        ),</span><br><span class="line">      ),</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以自定义上拉或下拉刷新加载样式，</p>
+<p>下拉样式 RefreshStyle.Follow，RefreshStyle.UnFollow，RefreshStyle.Front，RefreshStyle.Behind</p>
+<p>上拉样式 LoadStyle.ShowAlways，LoadStyle.HideAlways，LoadStyle.ShowWhenLoading</p>
+<p>全局配置RefreshConfiguration用于配置子树下的所有智能刷新器表示形式，通常存储在MaterialApp的根目录下，其用法与ScrollConfiguration类似. </p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 全局配置子树下的SmartRefresher,下面列举几个特别重要的属性</span></span><br><span class="line">     RefreshConfiguration(</span><br><span class="line">         <span class="comment">// 如果每个页面的头部指示器都一样的话,可以设置默认头部指示器</span></span><br><span class="line">         headerBuilder: () =&gt; WaterDropHeader(),</span><br><span class="line">         <span class="comment">// 配置默认底部指示器</span></span><br><span class="line">         footerBuilder:  () =&gt; ClassicFooter(),</span><br><span class="line">         headerTriggerDistance: <span class="number">80.0</span>,        <span class="comment">// 头部触发刷新的越界距离</span></span><br><span class="line">         <span class="comment">// 自定义回弹动画,三个属性值意义请查询flutter api</span></span><br><span class="line">         springDescription:SpringDescription(stiffness: <span class="number">170</span>, damping: <span class="number">16</span>, mass: <span class="number">1.9</span>),   </span><br><span class="line">         maxOverScrollExtent :<span class="number">100</span>, <span class="comment">//头部最大可以拖动的范围,如果发生冲出视图范围区域,请设置这个属性</span></span><br><span class="line">         maxUnderScrollExtent:<span class="number">0</span>, <span class="comment">// 底部最大可以拖动的范围</span></span><br><span class="line">         <span class="comment">//这个属性不兼容PageView和TabBarView,如果你特别需要TabBarView左右滑动,你需要把它设置为true</span></span><br><span class="line">         enableScrollWhenRefreshCompleted: <span class="keyword">true</span>, </span><br><span class="line">         enableLoadingWhenFailed : <span class="keyword">true</span>, <span class="comment">//在加载失败的状态下,用户仍然可以通过手势上拉来触发加载更多</span></span><br><span class="line">         hideFooterWhenNotFull: <span class="keyword">false</span>, <span class="comment">// Viewport不满一屏时,禁用上拉加载更多功能</span></span><br><span class="line">         enableBallisticLoad: <span class="keyword">true</span>, <span class="comment">// 可以通过惯性滑动触发加载更多</span></span><br><span class="line">        child: MaterialApp(</span><br><span class="line">            ........</span><br><span class="line">        )</span><br><span class="line">    );</span><br></pre></td></tr></table></figure>
+
+<p>国际化，根据App语言显示下拉文字为中文或英文</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">MaterialApp(</span><br><span class="line">            localizationsDelegates: [</span><br><span class="line">              <span class="comment">// 这行是关键</span></span><br><span class="line">              RefreshLocalizations.delegate,</span><br><span class="line">              GlobalWidgetsLocalizations.delegate,</span><br><span class="line">              GlobalMaterialLocalizations.delegate</span><br><span class="line">            ],</span><br><span class="line">            supportedLocales: [</span><br><span class="line">              <span class="keyword">const</span> Locale(<span class="string">'en'</span>),</span><br><span class="line">              <span class="keyword">const</span> Locale(<span class="string">'zh'</span>),</span><br><span class="line">            ],</span><br><span class="line">            localeResolutionCallback:</span><br><span class="line">                (Locale locale, <span class="built_in">Iterable</span>&lt;Locale&gt; supportedLocales) &#123;</span><br><span class="line">              <span class="comment">//print("change language");</span></span><br><span class="line">              <span class="keyword">return</span> locale;</span><br><span class="line">            &#125;,</span><br><span class="line">    )</span><br></pre></td></tr></table></figure>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/IT-Web%EF%BC%8CFlutter/" rel="tag">IT,Web，Flutter</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        <div class="social-share" data-disabled="tencent,linkedin,douban,diandian,google"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css">
+<script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script>
+
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3>
+        <div class="buttons is-centered">
+            
+                
+<a class="button is-info donate">
+    <span class="icon is-small">
+        <i class="fab fa-alipay"></i>
+    </span>
+    <span>支付宝</span>
+    <div class="qrcode"><img src="http://q6mb9zdoi.bkt.clouddn.com/alipay.jpg" alt="支付宝"></div>
+</a>
+
+                
+                
+<a class="button is-success donate">
+    <span class="icon is-small">
+        <i class="fab fa-weixin"></i>
+    </span>
+    <span>微信</span>
+    <div class="qrcode"><img src="http://q6mb9zdoi.bkt.clouddn.com/wechatpay.jpg" alt="微信"></div>
+</a>
+
+                
+        </div>
+    </div>
+</div>
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/09/02/flutter4/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">flutter移动开发（四）</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/08/28/flutter2/">
+                <span class="level-item">flutter移动开发（二）</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">评论</h3>
+        
+<div class="notification is-danger">
+    You forgot to set the <code>app_id</code> or <code>app_key</code> for Valine. Please set it in <code>_config.yml</code>.
+</div>
+
+    </div>
+</div>
+
+
+<div class="level is-size-7 has-text-grey">
+</br>
+    <div class="level-left">
+	
+        <i class="far fa-eye"></i>
+		<span>&nbsp;</span>
+		
+		<h3>本文章阅读量：</h3>
+        <span>&nbsp;</span>
+        <span id="busuanzi_container_page_pv" style="display: inline;">
+            <span id="busuanzi_value_page_pv">0</span>
+        </span>
+    </div>
+</div></div>
+                
+
+
+
+
+
+<div class="column is-4-tablet is-5-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="" src="https://s1.ax1x.com/2020/03/27/G9OfNn.th.png" alt="张坤">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        张坤
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        Undergraduates/Tech Learner
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>山西·太原</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <a href="/archives">
+                        <p class="title has-text-weight-normal">
+                            67
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <a href="/categories">
+                        <p class="title has-text-weight-normal">
+                            6
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <a href="/tags">
+                        <p class="title has-text-weight-normal">
+                            41
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/Kun8018" target="_blank" rel="noopener">
+                关注我</a>
+        </div>
+        
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="微信" href="http://q6mb9zdoi.bkt.clouddn.com/alipay.jpg">
+                
+                <i class="fab fa-weixin"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="QQ" href="https://facebook.com">
+                
+                <i class="fab fa-qq"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="邮箱" href="https://twitter.com">
+                
+                <i class="fa fa-envelope"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="B站" href="https://dribbble.com">
+                
+                <i class="fab fa-dribbble"></i>
+                
+            </a>
+            
+        </div>
+        
+		<hr>
+        <p id="evan">IT学徒、技术民工、斜杠青年</p>
+          <p id="evan">机器人爱好者、摄影爱好者</p>
+          <p id="evan">PS、PR、LR、达芬奇潜在学习者</p>
+		  </div>
+</div>
+    
+        
+
+    <div class="card widget" id="toc">
+        <div class="card-content">
+            <div class="menu">
+                <h3 class="menu-label">
+                    目录
+                </h3>
+                <ul class="menu-list"><li>
+        <a class="is-flex" href="#概述">
+        <span class="has-mr-6">1</span>
+        <span>概述</span>
+        </a></li><li>
+        <a class="is-flex" href="#基础组件">
+        <span class="has-mr-6">2</span>
+        <span>基础组件</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#图片">
+        <span class="has-mr-6">2.1</span>
+        <span>图片</span>
+        </a></li><li>
+        <a class="is-flex" href="#文本输入框">
+        <span class="has-mr-6">2.2</span>
+        <span>文本输入框</span>
+        </a></li><li>
+        <a class="is-flex" href="#文本显示">
+        <span class="has-mr-6">2.3</span>
+        <span>文本显示</span>
+        </a></li><li>
+        <a class="is-flex" href="#各种按钮">
+        <span class="has-mr-6">2.4</span>
+        <span>各种按钮</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#折叠浮动按钮">
+        <span class="has-mr-6">2.4.1</span>
+        <span>折叠浮动按钮</span>
+        </a></li></ul></li></ul></li><li>
+        <a class="is-flex" href="#布局">
+        <span class="has-mr-6">3</span>
+        <span>布局</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#简单布局">
+        <span class="has-mr-6">3.1</span>
+        <span>简单布局</span>
+        </a></li><li>
+        <a class="is-flex" href="#线性布局Row、Column">
+        <span class="has-mr-6">3.2</span>
+        <span>线性布局Row、Column</span>
+        </a></li><li>
+        <a class="is-flex" href="#弹性布局Flex">
+        <span class="has-mr-6">3.3</span>
+        <span>弹性布局Flex</span>
+        </a></li><li>
+        <a class="is-flex" href="#边距Padding">
+        <span class="has-mr-6">3.4</span>
+        <span>边距Padding</span>
+        </a></li><li>
+        <a class="is-flex" href="#样式装饰器DecoratedBox">
+        <span class="has-mr-6">3.5</span>
+        <span>样式装饰器DecoratedBox</span>
+        </a></li><li>
+        <a class="is-flex" href="#对齐">
+        <span class="has-mr-6">3.6</span>
+        <span>对齐</span>
+        </a></li><li>
+        <a class="is-flex" href="#堆叠布局">
+        <span class="has-mr-6">3.7</span>
+        <span>堆叠布局</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#滚动组件">
+        <span class="has-mr-6">4</span>
+        <span>滚动组件</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#Listview">
+        <span class="has-mr-6">4.1</span>
+        <span>Listview</span>
+        </a></li><li>
+        <a class="is-flex" href="#Gridview">
+        <span class="has-mr-6">4.2</span>
+        <span>Gridview</span>
+        </a></li><li>
+        <a class="is-flex" href="#CustomScrollView">
+        <span class="has-mr-6">4.3</span>
+        <span>CustomScrollView</span>
+        </a></li><li>
+        <a class="is-flex" href="#上拉刷新下拉加载">
+        <span class="has-mr-6">4.4</span>
+        <span>上拉刷新下拉加载</span>
+        </a></li></ul></li></ul>
+            </div>
+        </div>
+    </div>
+
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https:www.iros2019.org" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">IEEE-IROS</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.iros2019.org</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https:www.icra2020.org" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">IEEE-ICRA</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.icra2020.org</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/IT/">
+            <span class="level-start">
+                <span class="level-item">IT</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">21</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">
+            <span class="level-start">
+                <span class="level-item">个人生活</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">16</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">
+            <span class="level-start">
+                <span class="level-item">技术博客</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">23</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%9C%8B%E5%8F%8B/">
+            <span class="level-start">
+                <span class="level-item">朋友</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E7%94%9F%E6%B4%BB/">
+            <span class="level-start">
+                <span class="level-item">生活</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E7%94%9F%E6%B4%BB%E6%84%9F%E6%82%9F/">
+            <span class="level-start">
+                <span class="level-item">生活感悟</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            标签云
+        </h3>
+        <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 13.33px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 10px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 13.33px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 13.33px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 13.33px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 10px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb-Javascript/" style="font-size: 10px;">IT，Web,Javascript</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 20px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 10px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 13.33px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 10px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 10px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 13.33px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 10px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 20px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 16.67px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 16.67px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 10px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 10px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 16.67px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">生活、幸福</a>
+    </div>
+</div>
+    
+    
+        <div class="column-right-shadow  ">
+        
+            <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/09/02/H5%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/Phaser.jpg" alt="H5游戏开发">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-09-02T13:40:33.000Z">2020-09-02</time></div>
+                    <a href="/2020/09/02/H5%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/" class="title has-link-black-ter is-size-6 has-text-weight-normal">H5游戏开发</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/IT/">IT</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/09/02/flutter4/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="flutter移动开发（四）">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-09-02T13:40:33.000Z">2020-09-02</time></div>
+                    <a href="/2020/09/02/flutter4/" class="title has-link-black-ter is-size-6 has-text-weight-normal">flutter移动开发（四）</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">技术博客</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/08/28/flutter3/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="flutter移动开发（三）">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-08-28T13:40:33.000Z">2020-08-28</time></div>
+                    <a href="/2020/08/28/flutter3/" class="title has-link-black-ter is-size-6 has-text-weight-normal">flutter移动开发（三）</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">技术博客</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/08/28/flutter2/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="flutter移动开发（二）">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-08-28T13:40:33.000Z">2020-08-28</time></div>
+                    <a href="/2020/08/28/flutter2/" class="title has-link-black-ter is-size-6 has-text-weight-normal">flutter移动开发（二）</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">技术博客</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/08/28/flutter/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s1.ax1x.com/2020/04/20/J1IMCD.png" alt="Flutter移动开发（一）">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-08-28T13:40:33.000Z">2020-08-28</time></div>
+                    <a href="/2020/08/28/flutter/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Flutter移动开发（一）</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">技术博客</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            归档
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/09/">
+                <span class="level-start">
+                    <span class="level-item">九月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/08/">
+                <span class="level-start">
+                    <span class="level-item">八月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/07/">
+                <span class="level-start">
+                    <span class="level-item">七月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/06/">
+                <span class="level-start">
+                    <span class="level-item">六月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/04/">
+                <span class="level-start">
+                    <span class="level-item">四月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/03/">
+                <span class="level-start">
+                    <span class="level-item">三月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">41</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/02/">
+                <span class="level-start">
+                    <span class="level-item">二月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                标签
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Java-Web/">
+                        <span class="tag">IT,Java,Web</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web/">
+                        <span class="tag">IT,Web</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web/">
+                        <span class="tag">IT,Web,</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/">
+                        <span class="tag">IT,Web，Android、Java</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8CC/">
+                        <span class="tag">IT,Web，C++</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8CFlutter/">
+                        <span class="tag">IT,Web，Flutter</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8CIOS/">
+                        <span class="tag">IT,Web，IOS</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8CMac/">
+                        <span class="tag">IT,Web，Mac</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/">
+                        <span class="tag">IT,Web，算法</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/">
+                        <span class="tag">IT、友情</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/">
+                        <span class="tag">IT、小程序、H5App</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8C/">
+                        <span class="tag">IT，</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CApp-Node-Electron/">
+                        <span class="tag">IT，App,Node,Electron</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CFlutter/">
+                        <span class="tag">IT，Flutter</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CGithub/">
+                        <span class="tag">IT，Github</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CRN%EF%BC%8C/">
+                        <span class="tag">IT，RN，</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Javascript/">
+                        <span class="tag">IT，Web,Javascript</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Node/">
+                        <span class="tag">IT，Web,Node</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/">
+                        <span class="tag">IT，Web,Node，React</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-PHP/">
+                        <span class="tag">IT，Web,PHP</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Vue/">
+                        <span class="tag">IT，Web,Vue</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/">
+                        <span class="tag">IT，Web,Vue，Node、React</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/">
+                        <span class="tag">IT，Web,数据库</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8Cweb/">
+                        <span class="tag">IT，web</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/">
+                        <span class="tag">IT，未来</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Web-IT-Flutter/">
+                        <span class="tag">Web,IT,Flutter</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Web-IT-Go/">
+                        <span class="tag">Web,IT,Go</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/">
+                        <span class="tag">Web，IT，HTML，CSS</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/">
+                        <span class="tag">个人生活，幸福</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/">
+                        <span class="tag">兴趣，幸福</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/">
+                        <span class="tag">励志、文学</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E5%8F%8B%E6%83%85/">
+                        <span class="tag">友情</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">
+                        <span class="tag">幸福，个人生活</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/">
+                        <span class="tag">技术宅、IT</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/">
+                        <span class="tag">技术，Robotic，IT</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/">
+                        <span class="tag">摄影，记录，生活</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%B7%B1%E5%9C%B3/">
+                        <span class="tag">深圳</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/">
+                        <span class="tag">爱情，幸福</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E7%94%9F%E6%B4%BB/">
+                        <span class="tag">生活</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E7%94%9F%E6%B4%BB/">
+                        <span class="tag">生活#</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/">
+                        <span class="tag">生活、幸福</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+				
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="https://s1.ax1x.com/2020/03/27/G9OfNn.th.png" alt="flutter移动开发（三）" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2020 Kun Zhang&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+               <!-- 
+                <br>
+                <span id="busuanzi_container_site_uv">
+                共<span id="busuanzi_value_site_uv">0</span>个访客
+                </span>
+                 -->
+				
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+	
+	   <div style="text-align: center;">
+			<br>
+			<p class="is-size-7">
+				
+				<span id="busuanzi_container_site_uv">
+					<i class="fa fa-user"></i> 本站访客数 <span id="busuanzi_value_site_uv"></span> 人次
+				</span>
+				<span id="busuanzi_container_site_pv">
+					|  <i class="fa fa-eye"></i> 本站总访问量 <span id="busuanzi_value_site_pv"></span> 次
+				</span>
+				
+			</p>
+			<span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+		<script>
+			var now = new Date(); 
+			function createtime() { 
+				var grt= new Date("3/2/2020 08:00:00");// 此处修改你的建站时间或者网站上线时间 
+				now.setTime(now.getTime()+250); 
+				days = (now - grt) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+				hours = (now - grt) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+				if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+				mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+				seconds = (now - grt) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+				snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+				document.getElementById("timeDate").innerHTML = "本站已安全运行"+dnum+"天"; 
+				document.getElementById("times").innerHTML = hnum + "小时" + mnum + "分" + snum + "秒"; 
+			} 
+			setInterval("createtime()",250);
+		</script>
+		</div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'http://yoursite.com',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'unfolded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

@@ -1,0 +1,1595 @@
+<!DOCTYPE html>
+<html  lang="zh">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 4.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>flutter移动开发（四） - kun&#39;s blog</title>
+
+
+    <meta name="description" content="概述　　不知不觉已经第四篇了，这篇注重flutter全局观">
+<meta property="og:type" content="article">
+<meta property="og:title" content="flutter移动开发（四）">
+<meta property="og:url" content="http://yoursite.com/2020/09/02/flutter4/index.html">
+<meta property="og:site_name" content="kun&#39;s blog">
+<meta property="og:description" content="概述　　不知不觉已经第四篇了，这篇注重flutter全局观">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://yoursite.com/images/og_image.png">
+<meta property="article:published_time" content="2020-09-02T13:40:33.000Z">
+<meta property="article:modified_time" content="2020-10-04T18:07:22.341Z">
+<meta property="article:author" content="Kun Zhang">
+<meta property="article:tag" content="IT，Flutter">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="https://s1.ax1x.com/2020/03/27/G9OfNn.th.png">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    <script async="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="https://s1.ax1x.com/2020/03/27/G9OfNn.th.png" alt="flutter移动开发（四）" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">首页</a>
+                
+                <a class="navbar-item"
+                href="/archives">最近发布</a>
+                
+                <a class="navbar-item"
+                href="/categories">目录</a>
+                
+                <a class="navbar-item"
+                href="/tags">分类</a>
+                
+                <a class="navbar-item"
+                href="/about">关于我</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    <a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-9-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-09-02T13:40:33.000Z">2020-09-02</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">技术博客</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    35 分钟 读完 (大约 5313 个字)
+                </span>
+                
+                
+                <span class="level-item has-text-grey" id="busuanzi_container_page_pv">
+                    <i class="far fa-eye"></i>
+                    <span id="busuanzi_value_page_pv">0</span>次访问
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                flutter移动开发（四）
+            
+        </h1>
+        <div class="content">
+            <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>　　不知不觉已经第四篇了，这篇注重flutter全局观</p>
+<p>　　<a id="more"></a></p>
+<h2 id="Dart语法"><a href="#Dart语法" class="headerlink" title="Dart语法"></a>Dart语法</h2><h3 id="dart内置包"><a href="#dart内置包" class="headerlink" title="dart内置包"></a>dart内置包</h3><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">'dart:core'</span>;</span><br></pre></td></tr></table></figure>
+
+<p>提供了小型但关键的内置功能，这个包库被自动导入每个dart程序</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">'dart:async'</span>;</span><br></pre></td></tr></table></figure>
+
+<p>异步编程通常使用回调函数，dart提供其他方法：future和stream，dart:async库中包含了future和Stream的更多信息</p>
+<p>Future就像对未来某个时刻的结果的承诺。Stream是一种获取值序列(如事件)的方法。</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">'dart:math'</span>;</span><br></pre></td></tr></table></figure>
+
+<p>dart:math库提供常见的函数，如正弦余弦、最大值最小值，pi和e等</p>
+<p>Api：<a href="https://api.dart.dev/stable/2.8.4/dart-math/dart-math-library.html">https://api.dart.dev/stable/2.8.4/dart-math/dart-math-library.html</a></p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">'dart:convert'</span>;</span><br></pre></td></tr></table></figure>
+
+<p>jsonDecode将json编码的字符串解码为dart对象</p>
+<p>jsonEncode将受支持的Dart对象编码为json格式的字符串</p>
+<p>utf8.decode()将utf8编码的字节解码为dart字符串</p>
+<p>utf8.encode()将Dart字符串编码为utf8编码字节的列表:</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">'dart:io'</span></span><br></pre></td></tr></table></figure>
+
+<p>网络实现</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> httpClient = <span class="keyword">new</span> HttpClient();</span><br><span class="line"><span class="keyword">var</span> uri = <span class="keyword">new</span> <span class="built_in">Uri</span>.http()</span><br><span class="line"><span class="keyword">var</span> request = <span class="keyword">await</span> httpClient.getUrl(uri);</span><br><span class="line"><span class="keyword">var</span> response = <span class="keyword">await</span> request.close();</span><br></pre></td></tr></table></figure>
+
+<h3 id="变量和基本类型"><a href="#变量和基本类型" class="headerlink" title="变量和基本类型"></a>变量和基本类型</h3><p>变量 var</p>
+<p>如果不希望变量修改，可以使用final或者const定义变量</p>
+<p>数字类型：int整数、double浮点数类型、num数字类型</p>
+<p>布尔类型 </p>
+<p>枚举类型  enum</p>
+<p>List数组</p>
+<p>List,是泛型类型数据结构，支持任意数据类型的数组。默认定义方式为可扩展数组</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 通过List对象定义int数组</span></span><br><span class="line"><span class="built_in">List</span>&lt;<span class="built_in">int</span>&gt; a = <span class="built_in">List</span>(); <span class="comment">// 在Dart语言中new是可选的</span></span><br><span class="line"><span class="comment">// 定义int数组</span></span><br><span class="line"><span class="keyword">var</span> b = <span class="built_in">List</span>&lt;<span class="built_in">int</span>&gt;(); <span class="comment">// 也可以通过指定List泛型类型定义数组.</span></span><br><span class="line"><span class="comment">// 定义String数组</span></span><br><span class="line"><span class="built_in">List</span>&lt;<span class="built_in">String</span>&gt; strs = [<span class="string">"字符串1"</span>, <span class="string">"字符串2"</span>];</span><br><span class="line"><span class="comment">//创建固定长度的数组  </span></span><br><span class="line"><span class="built_in">List</span>&lt;<span class="built_in">int</span>&gt; fixedLengthList = <span class="built_in">List</span>(<span class="number">5</span>);</span><br><span class="line"><span class="comment">//合并数组</span></span><br><span class="line"><span class="keyword">var</span> list = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"><span class="keyword">var</span> list2 = [<span class="number">0</span>, ...list]; <span class="comment">// 将list数组的所有元素一个个展开来，插入到list2中，...为伸展运算符</span></span><br><span class="line"><span class="comment">// 往数组尾巴添加一个元素</span></span><br><span class="line"><span class="keyword">var</span> a = [<span class="number">5</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">6</span>,<span class="number">3</span>]</span><br><span class="line">a.add(<span class="number">100</span>);</span><br><span class="line"><span class="comment">// 通过数组下标，读取第一个元素， 数组下标从0开始计算,固定长度数组只能通过下面的下标的方式读写数组，而且数组下标不能超过数组长度。</span></span><br><span class="line"><span class="keyword">var</span> data = a[<span class="number">0</span>];</span><br><span class="line"><span class="comment">// 修改第一个元素的值</span></span><br><span class="line">a[<span class="number">0</span>] = <span class="number">101</span>;</span><br><span class="line"><span class="comment">// 在数组0位置，插入100</span></span><br><span class="line">a.insert(<span class="number">0</span>,<span class="number">100</span>);</span><br><span class="line"><span class="comment">// 删除一个数据</span></span><br><span class="line">a.remove(<span class="number">100</span>);</span><br><span class="line"><span class="comment">// 清空List，删除所有数据</span></span><br><span class="line">a.clear();</span><br><span class="line"><span class="comment">//获取数组大小</span></span><br><span class="line"><span class="built_in">print</span>(a.length)</span><br><span class="line"><span class="comment">//排序</span></span><br><span class="line">a.sort();<span class="comment">//默认从小到大排序</span></span><br><span class="line"><span class="comment">//查找数据元素</span></span><br><span class="line"><span class="keyword">var</span> pos = list.indexOf(<span class="number">5</span>)<span class="comment">//数组中第5个位置元素的值</span></span><br><span class="line"><span class="comment">//判断数组是否包含某元素，返回布尔值</span></span><br><span class="line"><span class="keyword">var</span> v = list.contains(<span class="number">3</span>);</span><br></pre></td></tr></table></figure>
+
+<p>Set集合</p>
+<p>Set是无序集合类型，Set跟List都能保存一组数据，区别就是Set的元素都是唯一的。</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//初始化set</span></span><br><span class="line"><span class="keyword">var</span> halogens = &#123;<span class="string">'fluorine'</span>, <span class="string">'chlorine'</span>, <span class="string">'bromine'</span>, <span class="string">'iodine'</span>, <span class="string">'astatine'</span>&#125;;</span><br><span class="line"><span class="keyword">var</span> names = <span class="built_in">Set</span>&lt;<span class="built_in">String</span>&gt;();</span><br><span class="line"><span class="comment">//set集合中添加一个元素</span></span><br><span class="line">names.add(<span class="string">"tizi365"</span>);</span><br><span class="line"><span class="comment">//将集合类型的数据导入到另一个Set中</span></span><br><span class="line"><span class="keyword">var</span> titles = [<span class="string">"Dart语言教程"</span>, <span class="string">"Flutter教程"</span>];</span><br><span class="line">names.addAll(titles);</span><br><span class="line"><span class="comment">// 删除Set元素</span></span><br><span class="line">names.remove(<span class="string">"Dart语言教程"</span>);</span><br><span class="line"><span class="comment">// 删除所有Set元素</span></span><br><span class="line">names.clear();</span><br><span class="line"><span class="comment">//获取set集合元素个数</span></span><br><span class="line">names.length</span><br><span class="line"><span class="comment">//检测set中是否含有元素</span></span><br><span class="line">names.contains(<span class="string">"tizi"</span>)</span><br><span class="line"><span class="comment">// 循环遍历Set元素</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> x <span class="keyword">in</span> names) &#123;</span><br><span class="line">	<span class="built_in">print</span>(x); <span class="comment">// 打印元素</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Map类型</p>
+<p>Map是一种哈希类型数据，map类型的数据都是由key和value两个值组成，key是唯一的，value不必唯一，key和value可以为相同类型，也可以将key和value分别指定为别的类型</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//初始化map</span></span><br><span class="line"><span class="comment">//直接赋值</span></span><br><span class="line"><span class="keyword">var</span> gifts = &#123;</span><br><span class="line">  <span class="string">'first'</span>: <span class="string">'partridge'</span>,</span><br><span class="line">  <span class="string">'second'</span>: <span class="string">'turtledoves'</span>,</span><br><span class="line">  <span class="string">'fifth'</span>: <span class="string">'golden rings'</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> data = <span class="built_in">Map</span>&lt;<span class="built_in">String</span>, <span class="built_in">int</span>&gt;();<span class="comment">//指定类型</span></span><br><span class="line"><span class="keyword">var</span> nobleGases = <span class="built_in">Map</span>();<span class="comment">//默认为&lt;Object,Object&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>修改map</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//添加数据</span></span><br><span class="line">data[<span class="string">"key1"</span>] = <span class="string">"value1"</span>;   </span><br><span class="line">data[<span class="string">"key2"</span>] = <span class="string">"value2"</span>;</span><br><span class="line"><span class="comment">//查询数据</span></span><br><span class="line"><span class="keyword">var</span> v = data[<span class="string">"tizi"</span>];<span class="comment">//根据key为tizi的value返回给v，如果没有默认为null</span></span><br><span class="line"><span class="comment">//更新数据</span></span><br><span class="line">data[<span class="string">"tizi"</span>] = <span class="number">1001</span>;</span><br><span class="line"><span class="comment">//删除map数据</span></span><br><span class="line">data.remove(<span class="string">"tizi"</span>);<span class="comment">//根据key指定删除数据</span></span><br><span class="line"><span class="comment">//删除map所有数据</span></span><br><span class="line">data.clear();</span><br><span class="line"><span class="comment">//获取map大小</span></span><br><span class="line"><span class="keyword">var</span> len = data.length;</span><br><span class="line"><span class="comment">//遍历数据</span></span><br><span class="line">data.forEach((k, v) &#123;<span class="comment">// 通过给forEach函数传递一个闭包函数遍历map</span></span><br><span class="line">    <span class="comment">// 这个闭包函数有两个参数: k 代表map的key, v 代表map的value值</span></span><br><span class="line">    <span class="built_in">print</span>(k + <span class="string">" = "</span> + v.toString()); <span class="comment">// 打印数据</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>final表示这个变量不能在发生更改，但是这个初始化的值在编译时是不确定的，在运行时确定其值，且不能更改，如http接口、三方库的随机数据</p>
+<p>const是在定义时初始化</p>
+<h3 id="泛型"><a href="#泛型" class="headerlink" title="泛型"></a>泛型</h3><p>类泛型</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//定义类的泛型很简单，只需要在类名后加: &lt;T&gt;；如果需要多个泛型类型参数，可以在尖括号中追加，用逗号分隔</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">List</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">  T element;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">void</span> add(T element) &#123;</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>函数泛型</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//定义函数的泛型</span></span><br><span class="line"><span class="keyword">void</span> add(T elememt) &#123;<span class="comment">//函数参数类型为泛型类型</span></span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">T elementAt(<span class="built_in">int</span> index) &#123;<span class="comment">//函数参数返回值类型为泛型类型</span></span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">E transform(R data) &#123;<span class="comment">//函数参数类型和函数参数返回值类型均为泛型类型</span></span><br><span class="line">   <span class="comment">//... </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>集合泛型</p>
+<p>Map&lt;string,int&gt;={}</p>
+<h3 id="运算符"><a href="#运算符" class="headerlink" title="运算符"></a>运算符</h3><p>is对象是该类型，返回true</p>
+<p> is！对象不是该类型返回false</p>
+<p> as类型转换</p>
+<h3 id="引入与导出"><a href="#引入与导出" class="headerlink" title="引入与导出"></a>引入与导出</h3><p>引入分为引入内置库、引入pub包管理器提供的库、引入本地文件(自定义的库)</p>
+<p>内置库随flutter sdk安装到本地，</p>
+<p>dart语言使用pub管理第三方开源包，</p>
+<p>导入本地包时直接通过路径访问dart脚本</p>
+<p>指定库的别名</p>
+<p>如果导入的两个包，包含了同名的类或者函数，就会出现命名冲突，因此提供别名机制。</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">'dart:math'</span> <span class="keyword">as</span> math;<span class="comment">// 使用 as 关键词，指定包的别名,通过别名访问包中的方法</span></span><br></pre></td></tr></table></figure>
+
+<p>部分导入</p>
+<p>分为只导入需要的部分和隐藏不需要的部分两种</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">'package:lib1/lib1.dart'</span> <span class="keyword">show</span> foo;</span><br><span class="line"><span class="keyword">import</span> <span class="string">'package:lib1/lib1.dart'</span> <span class="keyword">hide</span> foo;</span><br></pre></td></tr></table></figure>
+
+<p>延迟加载：</p>
+<p>在需要的时候进行加载，可以减少app启动时间</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">'package:deferred/hello.dart'</span> <span class="keyword">deferred</span> <span class="keyword">as</span> hello;</span><br><span class="line">    </span><br><span class="line">greet() <span class="keyword">async</span> &#123;</span><br><span class="line">    <span class="keyword">await</span> hello.loadLibrary();</span><br><span class="line">    hello.printGreeting();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>flutter对于平台级的包是plugin，主要是与平台相关的功能</p>
+<p>flutter对于纯dart开发的包的package，与平台无关，第三方包的前缀为package</p>
+<p>导出更大的库 export</p>
+<p>library</p>
+<h3 id="类"><a href="#类" class="headerlink" title="类"></a>类</h3><p>默认类的成员属性和方法都是共有的，以下划线 ( _ ) 开头命名的属性和方法代表私有（private）成员属性，</p>
+<p>类中跟类名同名的方法，为构造方法，如果没有自定义构造方法，会自动生成一个不带参数的默认构造方法</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//实例化</span></span><br><span class="line"><span class="keyword">var</span> p = Person(<span class="string">"tizi"</span>, <span class="number">20</span>);</span><br><span class="line"><span class="comment">//通过.调用对象中的属性和方法</span></span><br><span class="line"><span class="keyword">var</span> ret = p.greet(<span class="string">"dacui"</span>);</span><br></pre></td></tr></table></figure>
+
+<p>Factory构造方法类似设计模式中的工厂模式，用来创建对象。factory 构造方法只能访问静态属性和静态成员方法，因此不能访问this引用。</p>
+<p>extends是继承，调用父类的方法要用<code>super</code>，重写父类的方法要用<code>@override</code>，子类中实现父类的方法时要加<code>override</code></p>
+<p>flutter中只支持单继承，且构造函数不能继承，Dart语言中一个类只能继承一个父类，但是Dart语言提供了mixins机制，可以复用多个类，达到类似多继承的效果</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定一个父类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Television</span> </span>&#123;</span><br><span class="line">  <span class="keyword">void</span> turnOn() &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"i am father"</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 定义一个子类, 继承Television父类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SmartTelevision</span> <span class="keyword">extends</span> <span class="title">Television</span> </span>&#123;</span><br><span class="line">  <span class="comment">// 重写父类的方法</span></span><br><span class="line">  <span class="keyword">void</span> turnOn() &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"i am son"</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>implement接口</p>
+<p>flutter没有专门的接口，每一个类有一个隐形的接口，接口中包含类中所有变量和方法，可以拥有父类的api，类bimplement类a</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Point</span> <span class="keyword">implements</span> <span class="title">Comparable</span>, <span class="title">Location</span> </span>&#123;...&#125;</span><br></pre></td></tr></table></figure>
+
+<p>抽象类是不能实例化的类，一般都是用来定义接口，抽象方法就是没有实现的方法。只能继承或写接口</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用abstract关键词修饰的类，就是抽象类</span></span><br><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Doer</span> </span>&#123;</span><br><span class="line">  <span class="comment">// 定义个抽象方法，这个方法我们没有实现具体的功能。</span></span><br><span class="line">  <span class="keyword">void</span> doSomething(); </span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">EffectiveDoer</span> <span class="keyword">extends</span> <span class="title">Doer</span> </span>&#123;</span><br><span class="line">  <span class="comment">// 实现抽象类的抽象方法</span></span><br><span class="line">  <span class="keyword">void</span> doSomething() &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"实现了抽象方法doSomething"</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>混合mixins的对象是类，可以混合多个</p>
+<p>dart中..符号（两个连点）代表连续调用函数或方法，属于流式编程。</p>
+<h3 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h3><p>函数允许定义0个或多个参数，也可以使用命名参数，就是在函数调用传参的时候，直接根据参数名传递参数，忽略参数定义的顺序。</p>
+<p>命名参数用花括号{}表示，命名参数定义后，调用函数时可以不传参，不传参的时候默认参数为null，也可以自定义默认参数</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 参数包括在 花括号&#123;&#125; 之间</span></span><br><span class="line"><span class="keyword">void</span> enableFlags(&#123;<span class="built_in">bool</span> bold, <span class="built_in">bool</span> hidden&#125;) &#123;</span><br><span class="line">	<span class="comment">// 忽略函数代码</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 调用函数，多个参数使用逗号分隔，参数顺序无关紧要。</span></span><br><span class="line">enableFlags(hidden: <span class="keyword">true</span>, bold: <span class="keyword">false</span>);</span><br></pre></td></tr></table></figure>
+
+<p>闭包函数又叫匿名函数，就是没有函数名的函数，直接将函数赋值给一个变量，通过变量名调用函数即可。</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> f = (a, b) &#123;</span><br><span class="line">    <span class="keyword">return</span> a &gt; b;  <span class="comment">// 返回bool类型参数</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// 调用闭包函数</span></span><br><span class="line">f(<span class="number">1</span>,<span class="number">2</span>);</span><br></pre></td></tr></table></figure>
+
+<p>闭包函数的一种是箭头函数，如果闭包函数只有一个表达式的时候，可以使用箭头函数简写。</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//上面的函数等价于</span></span><br><span class="line"><span class="keyword">var</span> f = (a, b) =&gt; a &gt; b;</span><br></pre></td></tr></table></figure>
+
+<p>闭包函数内部可以引用包含闭包函数的所有层级作用域中的变量，与闭包函数调用的位置无关。</p>
+<h3 id="值传递"><a href="#值传递" class="headerlink" title="值传递"></a>值传递</h3><p>dart是值传递而非引用传递</p>
+<p>值传递和引用传递属于函数调用时参数的求值策略，是用于区分两种内存分配方式，值传递在调用栈上分配，引用传递在堆上分配。</p>
+<p>值传递是原来函数的一份拷贝，拷贝的是值，而引用传递拷贝的是指针地址，可以改变值或者指针地址，</p>
+<p>除了c、c#、c++，其他的语言如java、oc、Dart等都是值传递。值传递用起来更简单，同时还能规避很多因为此而产生的不必要的问题</p>
+<h3 id="flutter页面间传参"><a href="#flutter页面间传参" class="headerlink" title="flutter页面间传参"></a>flutter页面间传参</h3><p>1.通过定义构造方法传值</p>
+<p>需要在接收数据的页面事先定义好构造方法，构造方法中是要接收的参数。</p>
+<p>2.通过指定路由传递参数</p>
+<p>在Flutter中我们可以把要传递的参数放到<strong>Navigator</strong>中，然后传递给指定的路由，在接收的页面提取出需要的参数即可，这种方式相比方式一更加灵活一些。</p>
+<p>3.通过onGenerateRoute提取参数后传给相应Widget</p>
+<p>这种方式可以看做是前两种方式的结合体，我们可以在onGenerateRoute提取参数，然后传递给指定的Widget。</p>
+<h3 id="Key"><a href="#Key" class="headerlink" title="Key"></a>Key</h3><p>flutter受到react或vue启发，每个wideget的构建方法都会有一个key的参数可选，用key标识元素，当移除或添加元素时可以准确识别</p>
+<p>Key对于每个元素是独一无二的</p>
+<p>ObjectKey与ValueKey</p>
+<p>GlobalKey的使用场景是从父组件跨子Widget来传递状态时使用</p>
+<h3 id="future异步"><a href="#future异步" class="headerlink" title="future异步"></a>future异步</h3><p>dart是单线程语言，flutter中的异步操作是通过单线程再通过调度任务优先级执行的，也就是future。future是对zone的封装</p>
+<p>future与await、async 的区别是future提供了链式调用，future中的.then没有创建新的Event，而是一个个普通函数，全部执行完在开始执行下一个future</p>
+<p>创建future</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> testFuture()&#123;</span><br><span class="line">    Future future = <span class="keyword">new</span> Future(() =&gt; <span class="keyword">null</span>);</span><br><span class="line">    future.then((_)&#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"then"</span>);</span><br><span class="line">    &#125;).then(()&#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"whenComplete"</span>);</span><br><span class="line">    &#125;).catchError((_)&#123;</span><br><span class="line">        </span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>多个future的执行顺序</p>
+<p>future的执行顺序为future在EventQueue中的排列顺序，当需要延迟执行时，采用future.delay()执行，放在最后执行</p>
+<p>future如果执行完才添加.then函数，则该任务会被放到MicroTask，当前future执行完才去执行microtask，microtask执行完才去下一个future</p>
+<h3 id="Flutter-与Native通信"><a href="#Flutter-与Native通信" class="headerlink" title="Flutter 与Native通信"></a>Flutter 与Native通信</h3><p>Flutter中定义了三种不同类型的channel，分别是</p>
+<p>BasicMessageChannel:用于传递字符串和半结构化的信息</p>
+<p>MethodChannel：传递方法调用</p>
+<p>EventChannel：用于数据流通信</p>
+<h3 id="Isolate多线程"><a href="#Isolate多线程" class="headerlink" title="Isolate多线程"></a>Isolate多线程</h3><p>flutter中isolate是有自己的内存和单线程控制的运行实体，isolate类似于线程，默认情况Dart启动一个Isolate，main函数就是他的入口。运行中的flutter程序是由一个或多个isolate组成的，通常情况下程序运行在main isolate中。</p>
+<p>isolate是通过flutter Engine层面的线程实现的。多个isolate无法共享内存，必须通过api进行通信。</p>
+<p>执行完后检查并执行Microtask Queue，通常使用scheduleMicrotask将事件添加到MicroTask Queue</p>
+<p>最后执行EventQueue队列中的代码，通常使用future向EventQueue加入时间，也可以使用async和await添加事件</p>
+<p>针对比较消耗CPU的任务，最好创建一个新的 Isolate 去处理，避免阻塞主 Isolate （也就是主线程），这样可以利用设备的多核特性。</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 导入isolate包</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">'dart:isolate'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> main asyc&#123;</span><br><span class="line">  <span class="comment">// 创建一个ReceivePort用于接收消息</span></span><br><span class="line">    <span class="keyword">var</span> recv = ReceivePort();</span><br><span class="line">  <span class="comment">// 通过Isolate.spawn静态函数，创建一个新的Isolate</span></span><br><span class="line">  Isolate.spawn&lt;<span class="built_in">String</span>&gt;(subTask, <span class="string">"Task1 parameter"</span>);<span class="comment">//</span></span><br><span class="line">  <span class="comment">// 泛型参数为SendPort，入口函数为subTask</span></span><br><span class="line">  Isolate.spawn&lt;SendPort&gt;(subTask, recv.sendPort);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 入口函数，参数类型由上面的spawn的泛型参数决定。</span></span><br><span class="line"><span class="keyword">void</span> subTask(<span class="built_in">String</span> msg) &#123;</span><br><span class="line">	<span class="built_in">print</span>(<span class="string">"subTask recv: <span class="subst">$msg</span>"</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// Isolate入口函数定义，接收一个SendPort对象作为参数</span></span><br><span class="line"><span class="keyword">void</span> subTask(SendPort port) &#123;</span><br><span class="line">    <span class="comment">// 使用SendPort发送一条字符串消息</span></span><br><span class="line">	port.send(<span class="string">"subTask Result."</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>多个Isolate 之间只能通过消息通讯，主要通过ReceivePort和SendPort两个类处理消息通讯。</p>
+<p>ReceivePort 负责接收 SendPort 发送的消息， SendPort 和 ReceivePort 是捆绑关系， SendPort 是由 ReceivePort 创建的。</p>
+<h3 id="事件流"><a href="#事件流" class="headerlink" title="事件流"></a>事件流</h3><p>Stream是dart语言自带的，可以把stream想象成管道，只从一端流入数据，通过管道从另一端流出数据。通过StreamController控制stream，</p>
+<p>Stream支持任何数据的传输，包括基本值、对象、事件、集合等。传输数据时可以通过listen监听来自StreamController的属性，监听之后可以通过StreamSubscription订阅对象并接受stream发送数据变更的通知。</p>
+<p>Stream也是异步处理的核心，与Future相比，Future表示将来一次异步获得的数据，而Stream是多次异步获取的数据。Future是返回一次值，Stream返回多次值。Stream有StreamBuilder负责监听Stream，当Stream数据流出时会自动重新构建组件，并通过Builder进行回调。</p>
+<h2 id="Flutter底层原理"><a href="#Flutter底层原理" class="headerlink" title="Flutter底层原理"></a>Flutter底层原理</h2><h3 id="flutter开发概述（拷贝）"><a href="#flutter开发概述（拷贝）" class="headerlink" title="flutter开发概述（拷贝）"></a>flutter开发概述（拷贝）</h3><p>flutter的开发通过继承无状态的<code>StatelessWidget</code>控件还有有状态的<code>StatefulWidget</code>，然后通过嵌套<code>Widget</code>下的<code>child/children</code>，在对应的<code>Widget</code>下面建立控件及控件样式</p>
+<p>flutter中container控件就是结合<code>Align</code>、<code>Padding</code>、<code>DecoratedBox</code>、<code>ConstrainedBox</code>、<code>Transform</code>等组合而成，形成编辑好的业务模板</p>
+<p>对于状态管理，flutter通过继承statefulwidget，然后在state对象内通过变量访问和setstate出发更新</p>
+<p>flutter中存在Widget、Element、RenderObject、Layer四棵树，Element与RenderObject是一一对应的关系，与Widget是多对一的关系，</p>
+<h3 id="flutter执行原理"><a href="#flutter执行原理" class="headerlink" title="flutter执行原理"></a>flutter执行原理</h3><p>flutter ui是直接通过skia渲染的。</p>
+<p>flutter内部执行事件循环机制。App执行main函数时，优先处理microtask queue，直到队列为空，microtask queue为空后开始处理event queue。每执行一次event，又会判断此时新的microytask queue是否为空，如果有再取出执行。执行microtask queue时eventqueue会被阻塞，直到再次为空。</p>
+<p>当microtask queue和event queue都为空时，App正常退出。</p>
+<p>microtask queue中尽量避免任务太多或者长时间处理，否则会使App的绘制和交互等行为卡住，因此绘制和交互这些作为event存放在event queue中。</p>
+<h3 id="flutter渠道"><a href="#flutter渠道" class="headerlink" title="flutter渠道"></a>flutter渠道</h3><p>flutter定义了master、beta、dev、stable四个渠道</p>
+<p>master为最新的channel</p>
+<p>dev为当月最新且充分测试的channel</p>
+<p>beta为每月最新且充分测试后的channel</p>
+<p>stable为当月最稳定的channel</p>
+<p>稳定性依次提高</p>
+<h3 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h3><p>生命周期存在于有状态组件statefulwidget中</p>
+<p><code>createState()</code>创建一个StatefulWidget时立即调用，当要创建新的 StatefulWidget 的时候，会立即执行 createState，而且只执行一次，createState 必须要实现：</p>
+<p><code>initState()</code>此方法只会调用一次，初始化state，将state与对应的Buildcontext产生关联,必须调用super.initState()。在此方法内注册streams ChangeNotifiers或其他会改变的数据的监听</p>
+<p><code>didChangeDependencies()</code>state的依赖对象发生变化时调用该方法，同时build()方法会被调用</p>
+<p><code>build()</code>这个方法经常被调用，build 是用来创建 Widget 的，但因为 build 在每次界面刷新的时候都会调用，所以不要在 build 里写业务逻辑，可以把业务逻辑写到你的 StatelessWidget 的构造函数里。</p>
+<p><code>didUpdateWidge</code>当widget的状态变化时调用，一般不会用到，只有在使用 key 对 Widget 进行复用的时候才会调用。</p>
+<p><code>deactivate()</code>当切换页面时会调用该方法</p>
+<p><code>dispose()</code>widget销毁前调用该方法。当 View 不需要再显示，从渲染树中移除的时候，State 就会永久的从渲染树中移除，就会调用 <strong>dispose</strong> 生命周期，这时候就可以在 <strong>dispose</strong> 里做一些取消监听、动画的操作，和 <strong>initState</strong> 是相反的。</p>
+<p><code>setState()</code>通知组件刷新</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@override</span></span><br><span class="line">initState()&#123;</span><br><span class="line">    <span class="keyword">super</span>.initState();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>App生命周期</p>
+<p>想知道flutterapp是在前台还是后台等，需要了解app生命周期，使用<strong>WidgetsBindingObserver</strong> ，</p>
+<p>在首页mix<strong>WidgetsBindingObserver</strong>类，同时初始化监听和移除，</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">_MyHomePageState</span> <span class="keyword">extends</span> <span class="title">State</span>&lt;<span class="title">MyHomePage</span>&gt; <span class="title">with</span> <span class="title">WidgetsBindingObserver</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  <span class="keyword">void</span> initState()&#123;</span><br><span class="line">    <span class="keyword">super</span>.initState();</span><br><span class="line">    WidgetsBinding.instance.addObserver(<span class="keyword">this</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  <span class="keyword">void</span> dispose() &#123;</span><br><span class="line">    <span class="comment">// <span class="doctag">TODO:</span> implement dispose</span></span><br><span class="line">    <span class="keyword">super</span>.dispose();</span><br><span class="line">    WidgetsBinding.instance.removeObserver(<span class="keyword">this</span>);</span><br><span class="line">  &#125;</span><br><span class="line"><span class="meta">@override</span></span><br><span class="line"><span class="keyword">void</span> didChangeAppLifecycleState(AppLifecycleState state) &#123;</span><br><span class="line">  <span class="keyword">super</span>.didChangeAppLifecycleState(state);</span><br><span class="line">  <span class="keyword">if</span> (state == AppLifecycleState.paused) &#123;</span><br><span class="line">    <span class="comment">// went to Background</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (state == AppLifecycleState.resumed) &#123;</span><br><span class="line">    <span class="comment">// came back to Foreground</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>AppLifecycleState 就是 App 的生命周期，有：</p>
+<ul>
+<li>resumed</li>
+<li>inactive</li>
+<li>paused</li>
+<li>suspending</li>
+</ul>
+<h2 id="在Android程序中插入flutter组件"><a href="#在Android程序中插入flutter组件" class="headerlink" title="在Android程序中插入flutter组件"></a>在Android程序中插入flutter组件</h2><h2 id="在IOS中插入flutter组件"><a href="#在IOS中插入flutter组件" class="headerlink" title="在IOS中插入flutter组件"></a>在IOS中插入flutter组件</h2><h2 id="音视频"><a href="#音视频" class="headerlink" title="音视频"></a>音视频</h2><p>对于flutter或者ios、android开发，在会写界面的基础上，在音视频、性能优化、监控、热修插件、动画效果、渲染等有深入就会很抢手。</p>
+<p>音视频基础</p>
+<p>视频流从加载到播放一般经过解协议、解封装、解编码等过程</p>
+<p>视频封装协议是指我们常见的mp4、avi、rmvb、mkv、flv等常见后缀格式，在传输过程中把音频和视频都打包在一起的封装</p>
+<p>流媒体协议一般有http、rtsp、RTMP等，最常见的就说http网络协议，RTSP和RTMP一般用于直播流或远程监控。</p>
+<p>对于编码，音频编码是指音频数据的编码方式，有mp3、pcm、aac、ac-3等，数据大小按采样率<em>声道数</em>样本格式计算。一般来说，wav/pcm编码的音频质量比较好，体积也会比较大，MP3有损压缩会在保证音频质量的同时压缩体积，aac也是有损压缩</p>
+<p>视频编码是图像的编码方式，有h263、h264、h265（HEVC）、MPEG-2、MPEG-4等，</p>
+<p>音视频开发接sdk和视频源url，确认自己需要支持的封装协议、视频编码和音频编码。如果允许客户上传，最好在服务端提供转格式与编码率等功能</p>
+<p>ffmpeg</p>
+<h2 id="Flutter-Web"><a href="#Flutter-Web" class="headerlink" title="Flutter Web"></a>Flutter Web</h2><p>　flutterweb要求flutter版本大于1.5.4</p>
+<p>安装webdev工具</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flutter packages pub global activate webdev</span><br></pre></td></tr></table></figure>
+
+<p>如果提示出错安装stagehand，输入命令</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flutter packages pub global activate stagehand</span><br></pre></td></tr></table></figure>
+
+<p>以git方式在pubspec.yaml中引入web库</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">dependencies:</span><br><span class="line">     flutter_web: any</span><br><span class="line">     flutter_web_ui: any</span><br><span class="line"> </span><br><span class="line">dev_dependencies:</span><br><span class="line">     builder_runner: ^<span class="number">1.4</span><span class="number">.0</span></span><br><span class="line">     builder_web_compilers: ^<span class="number">1.4</span><span class="number">.0</span>   </span><br><span class="line">     </span><br><span class="line">dependency_overrides:</span><br><span class="line">     flutter_web:</span><br><span class="line">       git:</span><br><span class="line">         url: https:<span class="comment">//github.com/flutter/flutter_web</span></span><br><span class="line">         path: packages/flutter_web</span><br><span class="line">     flutter_web_ui:</span><br><span class="line">       git:</span><br><span class="line">         url: https:<span class="comment">//github.com/flutter/flutter_web</span></span><br><span class="line">         path: packages/flutter_web_ui</span><br></pre></td></tr></table></figure>
+
+<p>热更新</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">webdev serve --auto restart</span><br></pre></td></tr></table></figure>
+
+<p>输出静态文件</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">webdev build</span><br></pre></td></tr></table></figure>
+
+<h3 id="dart2js"><a href="#dart2js" class="headerlink" title="dart2js"></a>dart2js</h3><h2 id="Flutter-Windows"><a href="#Flutter-Windows" class="headerlink" title="Flutter Windows"></a>Flutter Windows</h2><p>开启windows支持</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flutter config --enable-windows-desktop</span><br></pre></td></tr></table></figure>
+
+<p>windows应用编译需要visual studio工具</p>
+<h3 id="窗口尺寸"><a href="#窗口尺寸" class="headerlink" title="窗口尺寸"></a>窗口尺寸</h3><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">'package:window_size/window_size.dart'</span> <span class="keyword">as</span> window_size</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="file-chooser"><a href="#file-chooser" class="headerlink" title="file_chooser"></a>file_chooser</h3><h2 id><a href="#" class="headerlink" title></a></h2><p>　　</p>
+<h2 id="-1"><a href="#-1" class="headerlink" title></a></h2>
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/IT%EF%BC%8CFlutter/" rel="tag">IT，Flutter</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        <div class="social-share" data-disabled="tencent,linkedin,douban,diandian,google"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css">
+<script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script>
+
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3>
+        <div class="buttons is-centered">
+            
+                
+<a class="button is-info donate">
+    <span class="icon is-small">
+        <i class="fab fa-alipay"></i>
+    </span>
+    <span>支付宝</span>
+    <div class="qrcode"><img src="http://q6mb9zdoi.bkt.clouddn.com/alipay.jpg" alt="支付宝"></div>
+</a>
+
+                
+                
+<a class="button is-success donate">
+    <span class="icon is-small">
+        <i class="fab fa-weixin"></i>
+    </span>
+    <span>微信</span>
+    <div class="qrcode"><img src="http://q6mb9zdoi.bkt.clouddn.com/wechatpay.jpg" alt="微信"></div>
+</a>
+
+                
+        </div>
+    </div>
+</div>
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/09/02/H5%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">H5游戏开发</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/08/28/flutter3/">
+                <span class="level-item">flutter移动开发（三）</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">评论</h3>
+        
+<div class="notification is-danger">
+    You forgot to set the <code>app_id</code> or <code>app_key</code> for Valine. Please set it in <code>_config.yml</code>.
+</div>
+
+    </div>
+</div>
+
+
+<div class="level is-size-7 has-text-grey">
+</br>
+    <div class="level-left">
+	
+        <i class="far fa-eye"></i>
+		<span>&nbsp;</span>
+		
+		<h3>本文章阅读量：</h3>
+        <span>&nbsp;</span>
+        <span id="busuanzi_container_page_pv" style="display: inline;">
+            <span id="busuanzi_value_page_pv">0</span>
+        </span>
+    </div>
+</div></div>
+                
+
+
+
+
+
+<div class="column is-4-tablet is-5-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="" src="https://s1.ax1x.com/2020/03/27/G9OfNn.th.png" alt="张坤">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        张坤
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        Undergraduates/Tech Learner
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>山西·太原</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <a href="/archives">
+                        <p class="title has-text-weight-normal">
+                            67
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <a href="/categories">
+                        <p class="title has-text-weight-normal">
+                            6
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <a href="/tags">
+                        <p class="title has-text-weight-normal">
+                            41
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/Kun8018" target="_blank" rel="noopener">
+                关注我</a>
+        </div>
+        
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="微信" href="http://q6mb9zdoi.bkt.clouddn.com/alipay.jpg">
+                
+                <i class="fab fa-weixin"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="QQ" href="https://facebook.com">
+                
+                <i class="fab fa-qq"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="邮箱" href="https://twitter.com">
+                
+                <i class="fa fa-envelope"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="B站" href="https://dribbble.com">
+                
+                <i class="fab fa-dribbble"></i>
+                
+            </a>
+            
+        </div>
+        
+		<hr>
+        <p id="evan">IT学徒、技术民工、斜杠青年</p>
+          <p id="evan">机器人爱好者、摄影爱好者</p>
+          <p id="evan">PS、PR、LR、达芬奇潜在学习者</p>
+		  </div>
+</div>
+    
+        
+
+    <div class="card widget" id="toc">
+        <div class="card-content">
+            <div class="menu">
+                <h3 class="menu-label">
+                    目录
+                </h3>
+                <ul class="menu-list"><li>
+        <a class="is-flex" href="#概述">
+        <span class="has-mr-6">1</span>
+        <span>概述</span>
+        </a></li><li>
+        <a class="is-flex" href="#Dart语法">
+        <span class="has-mr-6">2</span>
+        <span>Dart语法</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#dart内置包">
+        <span class="has-mr-6">2.1</span>
+        <span>dart内置包</span>
+        </a></li><li>
+        <a class="is-flex" href="#变量和基本类型">
+        <span class="has-mr-6">2.2</span>
+        <span>变量和基本类型</span>
+        </a></li><li>
+        <a class="is-flex" href="#泛型">
+        <span class="has-mr-6">2.3</span>
+        <span>泛型</span>
+        </a></li><li>
+        <a class="is-flex" href="#运算符">
+        <span class="has-mr-6">2.4</span>
+        <span>运算符</span>
+        </a></li><li>
+        <a class="is-flex" href="#引入与导出">
+        <span class="has-mr-6">2.5</span>
+        <span>引入与导出</span>
+        </a></li><li>
+        <a class="is-flex" href="#类">
+        <span class="has-mr-6">2.6</span>
+        <span>类</span>
+        </a></li><li>
+        <a class="is-flex" href="#函数">
+        <span class="has-mr-6">2.7</span>
+        <span>函数</span>
+        </a></li><li>
+        <a class="is-flex" href="#值传递">
+        <span class="has-mr-6">2.8</span>
+        <span>值传递</span>
+        </a></li><li>
+        <a class="is-flex" href="#flutter页面间传参">
+        <span class="has-mr-6">2.9</span>
+        <span>flutter页面间传参</span>
+        </a></li><li>
+        <a class="is-flex" href="#Key">
+        <span class="has-mr-6">2.10</span>
+        <span>Key</span>
+        </a></li><li>
+        <a class="is-flex" href="#future异步">
+        <span class="has-mr-6">2.11</span>
+        <span>future异步</span>
+        </a></li><li>
+        <a class="is-flex" href="#Flutter-与Native通信">
+        <span class="has-mr-6">2.12</span>
+        <span>Flutter 与Native通信</span>
+        </a></li><li>
+        <a class="is-flex" href="#Isolate多线程">
+        <span class="has-mr-6">2.13</span>
+        <span>Isolate多线程</span>
+        </a></li><li>
+        <a class="is-flex" href="#事件流">
+        <span class="has-mr-6">2.14</span>
+        <span>事件流</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#Flutter底层原理">
+        <span class="has-mr-6">3</span>
+        <span>Flutter底层原理</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#flutter开发概述（拷贝）">
+        <span class="has-mr-6">3.1</span>
+        <span>flutter开发概述（拷贝）</span>
+        </a></li><li>
+        <a class="is-flex" href="#flutter执行原理">
+        <span class="has-mr-6">3.2</span>
+        <span>flutter执行原理</span>
+        </a></li><li>
+        <a class="is-flex" href="#flutter渠道">
+        <span class="has-mr-6">3.3</span>
+        <span>flutter渠道</span>
+        </a></li><li>
+        <a class="is-flex" href="#生命周期">
+        <span class="has-mr-6">3.4</span>
+        <span>生命周期</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#在Android程序中插入flutter组件">
+        <span class="has-mr-6">4</span>
+        <span>在Android程序中插入flutter组件</span>
+        </a></li><li>
+        <a class="is-flex" href="#在IOS中插入flutter组件">
+        <span class="has-mr-6">5</span>
+        <span>在IOS中插入flutter组件</span>
+        </a></li><li>
+        <a class="is-flex" href="#音视频">
+        <span class="has-mr-6">6</span>
+        <span>音视频</span>
+        </a></li><li>
+        <a class="is-flex" href="#Flutter-Web">
+        <span class="has-mr-6">7</span>
+        <span>Flutter Web</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#dart2js">
+        <span class="has-mr-6">7.1</span>
+        <span>dart2js</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#Flutter-Windows">
+        <span class="has-mr-6">8</span>
+        <span>Flutter Windows</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#窗口尺寸">
+        <span class="has-mr-6">8.1</span>
+        <span>窗口尺寸</span>
+        </a></li><li>
+        <a class="is-flex" href="#file-chooser">
+        <span class="has-mr-6">8.2</span>
+        <span>file_chooser</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#">
+        <span class="has-mr-6">9</span>
+        <span></span>
+        </a></li><li>
+        <a class="is-flex" href="#-1">
+        <span class="has-mr-6">10</span>
+        <span></span>
+        </a></li></ul>
+            </div>
+        </div>
+    </div>
+
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https:www.iros2019.org" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">IEEE-IROS</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.iros2019.org</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https:www.icra2020.org" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">IEEE-ICRA</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.icra2020.org</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/IT/">
+            <span class="level-start">
+                <span class="level-item">IT</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">21</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">
+            <span class="level-start">
+                <span class="level-item">个人生活</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">16</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">
+            <span class="level-start">
+                <span class="level-item">技术博客</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">23</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%9C%8B%E5%8F%8B/">
+            <span class="level-start">
+                <span class="level-item">朋友</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E7%94%9F%E6%B4%BB/">
+            <span class="level-start">
+                <span class="level-item">生活</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E7%94%9F%E6%B4%BB%E6%84%9F%E6%82%9F/">
+            <span class="level-start">
+                <span class="level-item">生活感悟</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            标签云
+        </h3>
+        <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 13.33px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 10px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 13.33px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 13.33px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 13.33px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 10px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb-Javascript/" style="font-size: 10px;">IT，Web,Javascript</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 20px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 10px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 13.33px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 10px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 10px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 13.33px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 10px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 20px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 16.67px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 16.67px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 10px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 10px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 16.67px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">生活、幸福</a>
+    </div>
+</div>
+    
+    
+        <div class="column-right-shadow  ">
+        
+            <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/09/02/H5%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/Phaser.jpg" alt="H5游戏开发">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-09-02T13:40:33.000Z">2020-09-02</time></div>
+                    <a href="/2020/09/02/H5%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/" class="title has-link-black-ter is-size-6 has-text-weight-normal">H5游戏开发</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/IT/">IT</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/09/02/flutter4/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="flutter移动开发（四）">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-09-02T13:40:33.000Z">2020-09-02</time></div>
+                    <a href="/2020/09/02/flutter4/" class="title has-link-black-ter is-size-6 has-text-weight-normal">flutter移动开发（四）</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">技术博客</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/08/28/flutter3/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="flutter移动开发（三）">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-08-28T13:40:33.000Z">2020-08-28</time></div>
+                    <a href="/2020/08/28/flutter3/" class="title has-link-black-ter is-size-6 has-text-weight-normal">flutter移动开发（三）</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">技术博客</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/08/28/flutter2/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="flutter移动开发（二）">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-08-28T13:40:33.000Z">2020-08-28</time></div>
+                    <a href="/2020/08/28/flutter2/" class="title has-link-black-ter is-size-6 has-text-weight-normal">flutter移动开发（二）</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">技术博客</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/08/28/flutter/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s1.ax1x.com/2020/04/20/J1IMCD.png" alt="Flutter移动开发（一）">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-08-28T13:40:33.000Z">2020-08-28</time></div>
+                    <a href="/2020/08/28/flutter/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Flutter移动开发（一）</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">技术博客</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            归档
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/09/">
+                <span class="level-start">
+                    <span class="level-item">九月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/08/">
+                <span class="level-start">
+                    <span class="level-item">八月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/07/">
+                <span class="level-start">
+                    <span class="level-item">七月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/06/">
+                <span class="level-start">
+                    <span class="level-item">六月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/04/">
+                <span class="level-start">
+                    <span class="level-item">四月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/03/">
+                <span class="level-start">
+                    <span class="level-item">三月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">41</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/02/">
+                <span class="level-start">
+                    <span class="level-item">二月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                标签
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Java-Web/">
+                        <span class="tag">IT,Java,Web</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web/">
+                        <span class="tag">IT,Web</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web/">
+                        <span class="tag">IT,Web,</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/">
+                        <span class="tag">IT,Web，Android、Java</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8CC/">
+                        <span class="tag">IT,Web，C++</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8CFlutter/">
+                        <span class="tag">IT,Web，Flutter</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8CIOS/">
+                        <span class="tag">IT,Web，IOS</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8CMac/">
+                        <span class="tag">IT,Web，Mac</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/">
+                        <span class="tag">IT,Web，算法</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/">
+                        <span class="tag">IT、友情</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/">
+                        <span class="tag">IT、小程序、H5App</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8C/">
+                        <span class="tag">IT，</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CApp-Node-Electron/">
+                        <span class="tag">IT，App,Node,Electron</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CFlutter/">
+                        <span class="tag">IT，Flutter</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CGithub/">
+                        <span class="tag">IT，Github</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CRN%EF%BC%8C/">
+                        <span class="tag">IT，RN，</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Javascript/">
+                        <span class="tag">IT，Web,Javascript</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Node/">
+                        <span class="tag">IT，Web,Node</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/">
+                        <span class="tag">IT，Web,Node，React</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-PHP/">
+                        <span class="tag">IT，Web,PHP</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Vue/">
+                        <span class="tag">IT，Web,Vue</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/">
+                        <span class="tag">IT，Web,Vue，Node、React</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/">
+                        <span class="tag">IT，Web,数据库</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8Cweb/">
+                        <span class="tag">IT，web</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/">
+                        <span class="tag">IT，未来</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Web-IT-Flutter/">
+                        <span class="tag">Web,IT,Flutter</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Web-IT-Go/">
+                        <span class="tag">Web,IT,Go</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/">
+                        <span class="tag">Web，IT，HTML，CSS</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/">
+                        <span class="tag">个人生活，幸福</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/">
+                        <span class="tag">兴趣，幸福</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/">
+                        <span class="tag">励志、文学</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E5%8F%8B%E6%83%85/">
+                        <span class="tag">友情</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">
+                        <span class="tag">幸福，个人生活</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/">
+                        <span class="tag">技术宅、IT</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/">
+                        <span class="tag">技术，Robotic，IT</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/">
+                        <span class="tag">摄影，记录，生活</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%B7%B1%E5%9C%B3/">
+                        <span class="tag">深圳</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/">
+                        <span class="tag">爱情，幸福</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E7%94%9F%E6%B4%BB/">
+                        <span class="tag">生活</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E7%94%9F%E6%B4%BB/">
+                        <span class="tag">生活#</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/">
+                        <span class="tag">生活、幸福</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+				
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="https://s1.ax1x.com/2020/03/27/G9OfNn.th.png" alt="flutter移动开发（四）" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2020 Kun Zhang&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+               <!-- 
+                <br>
+                <span id="busuanzi_container_site_uv">
+                共<span id="busuanzi_value_site_uv">0</span>个访客
+                </span>
+                 -->
+				
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+	
+	   <div style="text-align: center;">
+			<br>
+			<p class="is-size-7">
+				
+				<span id="busuanzi_container_site_uv">
+					<i class="fa fa-user"></i> 本站访客数 <span id="busuanzi_value_site_uv"></span> 人次
+				</span>
+				<span id="busuanzi_container_site_pv">
+					|  <i class="fa fa-eye"></i> 本站总访问量 <span id="busuanzi_value_site_pv"></span> 次
+				</span>
+				
+			</p>
+			<span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+		<script>
+			var now = new Date(); 
+			function createtime() { 
+				var grt= new Date("3/2/2020 08:00:00");// 此处修改你的建站时间或者网站上线时间 
+				now.setTime(now.getTime()+250); 
+				days = (now - grt) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+				hours = (now - grt) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+				if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+				mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+				seconds = (now - grt) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+				snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+				document.getElementById("timeDate").innerHTML = "本站已安全运行"+dnum+"天"; 
+				document.getElementById("times").innerHTML = hnum + "小时" + mnum + "分" + snum + "秒"; 
+			} 
+			setInterval("createtime()",250);
+		</script>
+		</div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'http://yoursite.com',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'unfolded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>
