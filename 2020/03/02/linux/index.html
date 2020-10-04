@@ -19,7 +19,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://s1.ax1x.com/2020/03/27/G9OI3V.th.jpg">
 <meta property="article:published_time" content="2020-03-02T13:40:33.000Z">
-<meta property="article:modified_time" content="2020-05-23T00:12:48.235Z">
+<meta property="article:modified_time" content="2020-09-08T05:38:09.487Z">
 <meta property="article:author" content="Kun Zhang">
 <meta property="article:tag" content="IT，">
 <meta name="twitter:card" content="summary">
@@ -158,7 +158,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    1 分钟 读完 (大约 224 个字)
+                    11 分钟 读完 (大约 1698 个字)
                 </span>
                 
                 
@@ -181,15 +181,147 @@
 <h2 id="下载与安装"><a href="#下载与安装" class="headerlink" title="下载与安装"></a>下载与安装</h2><p>​       以linux为内核的有Ubuntu，Debian、Centos，操作方式大同小异</p>
 <p>​       因为linux是开源系统，所以在百度或者谷歌直接搜索ubuntu16.0，就能找到安装包。安装的时候找阿里镜像源，会下载的快一些。</p>
 <h2 id="修改镜像源和网络"><a href="#修改镜像源和网络" class="headerlink" title="修改镜像源和网络"></a>修改镜像源和网络</h2><p>　　</p>
-<p>　　</p>
+<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><p>查看进程</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ps aux</span><br><span class="line">ps -elf</span><br></pre></td></tr></table></figure>
+
+<p>查看端口状态</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">lsof -i:端口号</span><br><span class="line">&#x2F;*查看tcp udp端口和进程等情况*&#x2F;</span><br><span class="line">netstat -tunlp | grep 端口号</span><br><span class="line">netstat -ntlp&#x2F;&#x2F;查看当前所有tcp端口</span><br><span class="line">netstat -ntulp | grep 80 &#x2F;&#x2F;查看所有80端口使用情况</span><br></pre></td></tr></table></figure>
+
+<p>清除端口进程</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kill -9 PID&#x2F;&#x2F;pid号</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="连接"><a href="#连接" class="headerlink" title="连接"></a>连接</h2><p>linux最重要的用途还是服务器吧，目前绝大多数服务器都是linux系统。centos或者ubuntu、debian，在本地可以远程连接服务器进行操作</p>
+<p>通过密码连接服务器</p>
+<p>直接输入命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh 用户名@IP地址 -p 端口号</span><br></pre></td></tr></table></figure>
+
+<p>运行后会要求输入密码，输入即可登录</p>
+<p>通过密钥连接服务器</p>
+<p>首先在服务器端创建密钥对，下载私钥</p>
+<p>将私钥保存在.ssh文件下，如果没有.ssh目录，创建一个</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd ~</span><br><span class="line">mkdir .ssh</span><br></pre></td></tr></table></figure>
+
+<p>修改密钥权限</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd ~&#x2F;.ssh</span><br><span class="line">chmod 400 密钥文件名</span><br></pre></td></tr></table></figure>
+
+<p>通过ssh密钥方式连接服务器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -i ~&#x2F;.ssh&#x2F;mac root@192.168.0.1</span><br></pre></td></tr></table></figure>
+
+<p>~/.ssh/mac为下载的私钥的路径和文件名</p>
+<p>root是服务器端管理员账号，一般是root</p>
+<p>192.168.0.1是服务器的公网ip</p>
+<p>终端变成root就说明连接成功</p>
+<p>让mac终端始终保持与远程连接状态（Broken pipe）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim &#x2F;etc&#x2F;ssh&#x2F;ssh_config</span><br></pre></td></tr></table></figure>
+
+<p>添加设置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 断开时重试连接的次数</span><br><span class="line">ServerAliveCountMax 5</span><br><span class="line"># 每隔5s发送一个空请求以保持连接</span><br><span class="line">ServerAliveInterval 5</span><br></pre></td></tr></table></figure>
+
+
+
+
+
 <h2 id="快捷键"><a href="#快捷键" class="headerlink" title="快捷键"></a>快捷键</h2><p>　　启动终端：ctrl+alt+T</p>
 <p>​        创建目录：mkdir</p>
 <p>​        返回上层目录：cd ..</p>
 <p>​        停止运行：Ctrl+c</p>
 <p>​        关闭终端   Ctrl+alt+Q</p>
 <p>​        新建终端   Ctrl+alt+N</p>
-<h2 id><a href="#" class="headerlink" title></a></h2><h2 id="-1"><a href="#-1" class="headerlink" title></a></h2><p>　　</p>
-<h2 id="-2"><a href="#-2" class="headerlink" title></a></h2>
+<h2 id="Vim"><a href="#Vim" class="headerlink" title="Vim"></a>Vim</h2><p>vim命令</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">:<span class="keyword">w</span> 保存文件但不退出<span class="keyword">vim</span> </span><br><span class="line">:w! 强制保存文件但不退出<span class="keyword">vim</span> </span><br><span class="line">:<span class="keyword">wq</span> 保存文件并退出<span class="keyword">vim</span></span><br><span class="line">:wq!强制保存文件并退出<span class="keyword">vim</span></span><br><span class="line">:q 不保存文件直接退出</span><br><span class="line">:q! 不保存文件强制退出<span class="keyword">vim</span></span><br><span class="line">:e! 放弃所有修改，从上次保存文件开始再编辑命令历史</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a>Nginx</h2><p>Nginx是常用的网络服务器，ubuntu和debian类似，这里以centos7为例</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">yum</span> install nginx</span><br></pre></td></tr></table></figure>
+
+<p>nginx的默认安装目录为<code>/usr/local/nginx</code>,配置文件的目录为<code>/usr/local/nginx/conf/nginx.conf</code></p>
+<p>启动nginx服务</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">systemctl</span> enable nginx.service </span><br><span class="line">systemctl start nginx.service</span><br><span class="line">systemctl stop nginx.service</span><br><span class="line">systemctl restart nginx.service</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="Apache"><a href="#Apache" class="headerlink" title="Apache"></a>Apache</h2><p>apache在linux下的文件是httpd，centos自带apache,文件目录为cd/etc/init.d</p>
+<p>启动apache服务</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">service httpd start</span><br><span class="line">service httpd restart</span><br><span class="line">service httpd stop</span><br></pre></td></tr></table></figure>
+
+
+
+<p>　　</p>
+<h2 id="docker"><a href="#docker" class="headerlink" title="docker"></a>docker</h2><p>Docker作为容器管理的平台，早已在服务部署等领域有非常广泛的应用。容器是轻量级的虚拟化方案，依托于overlayfs、Linux下的namespace、cgroups等OS级别的虚拟化技术，性能相比于基于VM的虚拟化更加突出。</p>
+<p>更重要的是，通过Docker安装和配置软件更加方便</p>
+<p>安装依赖和设置仓库源</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">yum install -y yum-utils device-mapper-persistent-data lvm2</span><br><span class="line">yum-config-manager \ </span><br><span class="line">    --add-repo \</span><br><span class="line">    https:&#x2F;&#x2F;download.docker.com&#x2F;linux&#x2F;centos&#x2F;docker-ce.repo</span><br></pre></td></tr></table></figure>
+
+<p>安装docker-ce</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">##最新稳定版</span><br><span class="line">yum install docker-ce docker-ce-cli containerd.io</span><br><span class="line">##指定版本</span><br><span class="line">yum install docker-ce-18.09.6 docker-ce-cli-18.09.6 containerd.io</span><br></pre></td></tr></table></figure>
+
+<p>启动docker服务</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl start docker</span><br></pre></td></tr></table></figure>
+
+<p>验证docker</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="keyword">run</span><span class="bash"> hello-world</span></span><br></pre></td></tr></table></figure>
+
+<p>docker安容器</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull gitlab/gitlab-ce</span><br></pre></td></tr></table></figure>
+
+<p>如果docker拉取较慢更换docker源，docker默认为docker国内镜像，可以腾讯源、中科大源或者dcloud</p>
+<p>启动容器</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="keyword">run</span></span><br></pre></td></tr></table></figure>
+
+<p>查看容器</p>
+<h2 id="V2ray"><a href="#V2ray" class="headerlink" title="V2ray"></a>V2ray</h2><p>一键安装脚本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bash &lt;(curl -s -L https:&#x2F;&#x2F;git.io&#x2F;v2ray.sh)</span><br></pre></td></tr></table></figure>
+
+<p>运行后自动安装，安装过程中：</p>
+<p>输入1进行安装</p>
+<p>选择tcp协议（默认）</p>
+<p>选择端口号：为了不和别的软件冲突，推荐使用10000以上不超过65535的端口号，我选的10086</p>
+<p>广告拦截：是否开启广告拦截，推荐不要开启，开启广告拦截会消耗服务器资源，且国外环境略由于国内环境</p>
+<p>配置shadowsocks：选择开启，后面使用游戏加速器会用上</p>
+<p>选择shadowsocks端口号：随意，不要和上面v2ray一样，我选2333</p>
+<p>ss连接密码：123456</p>
+<p>ss加密协议：选择默认</p>
+<p>然后继续回车，直到安装完毕</p>
+<p>开启BBR加速：google BBR是一款免费开源的TCP拥塞控制传输协议，可以使linux服务器显著提高吞吐量和减少TCP连接的延迟</p>
+<p>修改系统变量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;net.core.default_qdisc&#x3D;fq&quot; &gt;&gt; &#x2F;etc&#x2F;sysctl.conf</span><br><span class="line">echo &quot;net.ipv4.tcp_congestion_control&#x3D;bbr&quot; &gt;&gt;&#x2F;etc&#x2F;sysctl.conf</span><br></pre></td></tr></table></figure>
+
+<p>保存生效</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sysctl -p</span><br></pre></td></tr></table></figure>
+
+<p>检查BBR是否开启</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sysctl net.ipv4.tcp_available_congestion_control</span><br></pre></td></tr></table></figure>
+
+<p>返回变量==bbr则说明开启成功</p>
+<p>检查BBR是否启动成功</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lsmod | grep bbr</span><br></pre></td></tr></table></figure>
+
+<p>如果返回tcp_bar 20480说明启动成功</p>
+<h3 id="客户端使用"><a href="#客户端使用" class="headerlink" title="客户端使用"></a>客户端使用</h3><p>windows客户端使用v2rayN</p>
+<p>​       在服务器端输入v2ray url，复制vmess链接</p>
+<p>​      下载v2rayN软件，打开软件点击服务器，点击从剪贴板批量导入url</p>
+<p>​      右键点击刚刚导入的服务器，测试服务器延迟，表示连接成功</p>
+<p>​      在小图标点击右键，选择pcahttp代理模式，表示只有被墙的网站才会启用代理，全局模式是所有链接都走代理</p>
+<p>mac端使用v2rayU</p>
+<p>ios端使用shadowsocks扫描</p>
+<p>Android端使用v2rayNG</p>
+<p>在服务器端输入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">v2ray qr</span><br></pre></td></tr></table></figure>
+
+<p>打开二维码链接，然后在手机上下载v2rayNG，打开客户端用扫一扫扫描二维码就能添加到节点</p>
+<p>路由器端</p>
+<p>在服务器段输入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">v2ray url</span><br></pre></td></tr></table></figure>
+
+<p>复制链接，代开路由器端openwrt，勾选代理开关，点击服务器列表，在通过vmess链接添加节点处粘贴刚刚复制的链接</p>
+<p>然后点击账号设置，代理模式选择gtwlist模式，服务器选择刚刚添加的服务器，点击提交就完成</p>
+<p><a href="https://noobyy.com/31.html">https://noobyy.com/31.html</a></p>
+<h2 id="Nextcloud个人网盘服务器"><a href="#Nextcloud个人网盘服务器" class="headerlink" title="Nextcloud个人网盘服务器"></a>Nextcloud个人网盘服务器</h2>
         </div>
         
         <div class="level is-size-7 is-uppercase">
@@ -338,7 +470,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            23
+                            66
                         </p>
                     </a>
                 </div>
@@ -350,7 +482,7 @@
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            3
+                            6
                         </p>
                     </a>
                 </div>
@@ -362,7 +494,7 @@
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            19
+                            39
                         </p>
                     </a>
                 </div>
@@ -436,21 +568,45 @@
         <span class="has-mr-6">3</span>
         <span>修改镜像源和网络</span>
         </a></li><li>
-        <a class="is-flex" href="#快捷键">
+        <a class="is-flex" href="#常用命令">
         <span class="has-mr-6">4</span>
+        <span>常用命令</span>
+        </a></li><li>
+        <a class="is-flex" href="#连接">
+        <span class="has-mr-6">5</span>
+        <span>连接</span>
+        </a></li><li>
+        <a class="is-flex" href="#快捷键">
+        <span class="has-mr-6">6</span>
         <span>快捷键</span>
         </a></li><li>
-        <a class="is-flex" href="#">
-        <span class="has-mr-6">5</span>
-        <span></span>
-        </a></li><li>
-        <a class="is-flex" href="#-1">
-        <span class="has-mr-6">6</span>
-        <span></span>
-        </a></li><li>
-        <a class="is-flex" href="#-2">
+        <a class="is-flex" href="#Vim">
         <span class="has-mr-6">7</span>
-        <span></span>
+        <span>Vim</span>
+        </a></li><li>
+        <a class="is-flex" href="#Nginx">
+        <span class="has-mr-6">8</span>
+        <span>Nginx</span>
+        </a></li><li>
+        <a class="is-flex" href="#Apache">
+        <span class="has-mr-6">9</span>
+        <span>Apache</span>
+        </a></li><li>
+        <a class="is-flex" href="#docker">
+        <span class="has-mr-6">10</span>
+        <span>docker</span>
+        </a></li><li>
+        <a class="is-flex" href="#V2ray">
+        <span class="has-mr-6">11</span>
+        <span>V2ray</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#客户端使用">
+        <span class="has-mr-6">11.1</span>
+        <span>客户端使用</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#Nextcloud个人网盘服务器">
+        <span class="has-mr-6">12</span>
+        <span>Nextcloud个人网盘服务器</span>
         </a></li></ul>
             </div>
         </div>
@@ -507,7 +663,7 @@
                 <span class="level-item">IT</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">11</span>
+                <span class="level-item tag">21</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">
@@ -515,7 +671,7 @@
                 <span class="level-item">个人生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">4</span>
+                <span class="level-item tag">16</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">
@@ -523,7 +679,31 @@
                 <span class="level-item">技术博客</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">7</span>
+                <span class="level-item tag">20</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%9C%8B%E5%8F%8B/">
+            <span class="level-start">
+                <span class="level-item">朋友</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E7%94%9F%E6%B4%BB/">
+            <span class="level-start">
+                <span class="level-item">生活</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E7%94%9F%E6%B4%BB%E6%84%9F%E6%82%9F/">
+            <span class="level-start">
+                <span class="level-item">生活感悟</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
             </span>
         </a></li>
             </ul>
@@ -536,7 +716,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 20px;">IT,Web</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 10px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 20px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 10px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 10px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 10px;">Web,IT,Go</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 10px;">技术，Robotic，IT</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a>
+        <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 12.5px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 10px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 10px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 12.5px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 12.5px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 10px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 20px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 10px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 12.5px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 17.5px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 10px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 10px;">IT，未来</a> <a href="/tags/Web-IT-Go/" style="font-size: 10px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 10px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 17.5px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 15px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 15px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 10px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 10px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 15px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">生活、幸福</a>
     </div>
 </div>
     
@@ -551,16 +731,73 @@
         
         <article class="media">
             
-            <a href="/2020/04/15/Electron/" class="media-left">
+            <a href="/2020/07/23/flutter2/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s1.ax1x.com/2020/03/27/G9Or1f.png" alt="Electron开发">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="flutter2">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-04-15T13:40:33.000Z">2020-04-15</time></div>
-                    <a href="/2020/04/15/Electron/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Electron开发</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-22T17:46:43.303Z">2020-07-23</time></div>
+                    <a href="/2020/07/23/flutter2/" class="title has-link-black-ter is-size-6 has-text-weight-normal">flutter2</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/23/flutter/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="flutter">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-22T17:46:43.290Z">2020-07-23</time></div>
+                    <a href="/2020/07/23/flutter/" class="title has-link-black-ter is-size-6 has-text-weight-normal">flutter</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/02/%E7%9B%B8%E4%BF%A1%E4%B8%8E%E4%B8%8D%E7%9B%B8%E4%BF%A1/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="《相信与不相信》">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-02T13:40:33.000Z">2020-07-02</time></div>
+                    <a href="/2020/07/02/%E7%9B%B8%E4%BF%A1%E4%B8%8E%E4%B8%8D%E7%9B%B8%E4%BF%A1/" class="title has-link-black-ter is-size-6 has-text-weight-normal">《相信与不相信》</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">个人生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/05/18/Node3/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s1.ax1x.com/2020/03/27/G9OqHJ.th.png" alt="Node开发（三）">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-05-18T13:40:33.000Z">2020-05-18</time></div>
+                    <a href="/2020/05/18/Node3/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Node开发（三）</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/IT/">IT</a>
                     </p>
@@ -570,75 +807,18 @@
         
         <article class="media">
             
-            <a href="/2020/04/15/php%E4%B8%8Elaravel/" class="media-left">
+            <a href="/2020/05/18/%E6%99%AE%E7%BD%97%E6%96%AF%E7%89%B9%E9%97%AE%E5%8D%B7/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s1.ax1x.com/2020/03/27/G9O590.png" alt="PHP与Laravel开发">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的普罗斯特问卷">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-04-15T13:40:33.000Z">2020-04-15</time></div>
-                    <a href="/2020/04/15/php%E4%B8%8Elaravel/" class="title has-link-black-ter is-size-6 has-text-weight-normal">PHP与Laravel开发</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-05-18T13:40:33.000Z">2020-05-18</time></div>
+                    <a href="/2020/05/18/%E6%99%AE%E7%BD%97%E6%96%AF%E7%89%B9%E9%97%AE%E5%8D%B7/" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的普罗斯特问卷</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/IT/">IT</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2020/04/08/flutter/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s1.ax1x.com/2020/04/20/J1IMCD.png" alt="Flutter移动开发">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-04-08T13:40:33.000Z">2020-04-08</time></div>
-                    <a href="/2020/04/08/flutter/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Flutter移动开发</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">技术博客</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2020/04/02/hexo/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s1.ax1x.com/2020/03/27/G9OocT.jpg" alt="Hexo个人博客搭建及配置">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-04-02T13:40:33.000Z">2020-04-02</time></div>
-                    <a href="/2020/04/02/hexo/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Hexo个人博客搭建及配置</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">技术博客</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2020/04/02/reactnative/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s1.ax1x.com/2020/03/27/G9OXNR.png" alt="React Native入门">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-04-02T13:40:33.000Z">2020-04-02</time></div>
-                    <a href="/2020/04/02/reactnative/" class="title has-link-black-ter is-size-6 has-text-weight-normal">React Native入门</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/IT/">IT</a>
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
                     </p>
                 </div>
             </div>
@@ -656,12 +836,34 @@
         <ul class="menu-list">
         
         <li>
+            <a class="level is-marginless" href="/archives/2020/07/">
+                <span class="level-start">
+                    <span class="level-item">七月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">10</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
             <a class="level is-marginless" href="/archives/2020/04/">
                 <span class="level-start">
                     <span class="level-item">四月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">5</span>
+                    <span class="level-item tag">6</span>
                 </span>
             </a>
         </li>
@@ -672,7 +874,7 @@
                     <span class="level-item">三月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">18</span>
+                    <span class="level-item tag">47</span>
                 </span>
             </a>
         </li>
@@ -705,6 +907,69 @@
                 </div>
                 
                 <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web/">
+                        <span class="tag">IT,Web,</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/">
+                        <span class="tag">IT,Web，Android、Java</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8CC/">
+                        <span class="tag">IT,Web，C++</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8CFlutter/">
+                        <span class="tag">IT,Web，Flutter</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8CIOS/">
+                        <span class="tag">IT,Web，IOS</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8CMac/">
+                        <span class="tag">IT,Web，Mac</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/">
+                        <span class="tag">IT,Web，算法</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/">
+                        <span class="tag">IT、友情</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/">
+                        <span class="tag">IT、小程序、H5App</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8C/">
                         <span class="tag">IT，</span>
                         <span class="tag is-grey">1</span>
@@ -714,6 +979,13 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CApp-Node-Electron/">
                         <span class="tag">IT，App,Node,Electron</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CFlutter/">
+                        <span class="tag">IT，Flutter</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -735,7 +1007,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Node/">
                         <span class="tag">IT，Web,Node</span>
-                        <span class="tag is-grey">2</span>
+                        <span class="tag is-grey">5</span>
                     </a>
                 </div>
                 
@@ -756,7 +1028,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Vue/">
                         <span class="tag">IT，Web,Vue</span>
-                        <span class="tag is-grey">1</span>
+                        <span class="tag is-grey">2</span>
                     </a>
                 </div>
                 
@@ -770,13 +1042,20 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/">
                         <span class="tag">IT，Web,数据库</span>
-                        <span class="tag is-grey">2</span>
+                        <span class="tag is-grey">4</span>
                     </a>
                 </div>
                 
                 <div class="control">
-                    <a class="tags has-addons" href="/tags/Web-IT-Flutter/">
-                        <span class="tag">Web,IT,Flutter</span>
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8Cweb/">
+                        <span class="tag">IT，web</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/">
+                        <span class="tag">IT，未来</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -789,15 +1068,43 @@
                 </div>
                 
                 <div class="control">
+                    <a class="tags has-addons" href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/">
+                        <span class="tag">Web，IT，HTML，CSS</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/">
+                        <span class="tag">个人生活，幸福</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
                     <a class="tags has-addons" href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/">
                         <span class="tag">兴趣，幸福</span>
-                        <span class="tag is-grey">1</span>
+                        <span class="tag is-grey">3</span>
                     </a>
                 </div>
                 
                 <div class="control">
                     <a class="tags has-addons" href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/">
                         <span class="tag">励志、文学</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E5%8F%8B%E6%83%85/">
+                        <span class="tag">友情</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">
+                        <span class="tag">幸福，个人生活</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -817,8 +1124,43 @@
                 </div>
                 
                 <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/">
+                        <span class="tag">摄影，记录，生活</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%B7%B1%E5%9C%B3/">
+                        <span class="tag">深圳</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/">
+                        <span class="tag">爱情，幸福</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E7%94%9F%E6%B4%BB/">
+                        <span class="tag">生活</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
                     <a class="tags has-addons" href="/tags/%E7%94%9F%E6%B4%BB/">
                         <span class="tag">生活#</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/">
+                        <span class="tag">生活、幸福</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>

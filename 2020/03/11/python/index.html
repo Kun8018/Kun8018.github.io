@@ -10,14 +10,16 @@
 <title>Python - kun&#39;s blog</title>
 
 
-    <meta property="og:type" content="article">
+    <meta name="description" content="概述　　python语法简单，应用广泛，好好学习。">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Python">
 <meta property="og:url" content="http://yoursite.com/2020/03/11/python/index.html">
 <meta property="og:site_name" content="kun&#39;s blog">
+<meta property="og:description" content="概述　　python语法简单，应用广泛，好好学习。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://yoursite.com/images/og_image.png">
 <meta property="article:published_time" content="2020-03-11T13:40:33.000Z">
-<meta property="article:modified_time" content="2020-06-21T06:15:15.498Z">
+<meta property="article:modified_time" content="2020-09-05T16:05:16.536Z">
 <meta property="article:author" content="Kun Zhang">
 <meta property="article:tag" content="IT，Web,数据库">
 <meta name="twitter:card" content="summary">
@@ -150,7 +152,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    1 分钟 读完 (大约 205 个字)
+                    9 分钟 读完 (大约 1348 个字)
                 </span>
                 
                 
@@ -168,39 +170,91 @@
             
         </h1>
         <div class="content">
-            <h2 id><a href="#" class="headerlink" title></a></h2><p>　　</p>
+            <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>　　python语法简单，应用广泛，好好学习。</p>
 <a id="more"></a>
 
-<p>python中加语句</p>
+<h2 id="基础函数、标准包"><a href="#基础函数、标准包" class="headerlink" title="基础函数、标准包"></a>基础函数、标准包</h2><p>os:提供与操作系统关联的函数</p>
+<p>sys：通常用于命令行参数</p>
+<p>math：数学运算</p>
+<p>re:正则匹配</p>
+<p>datetime：处理日期时间</p>
+<h2 id="基础语法"><a href="#基础语法" class="headerlink" title="基础语法"></a>基础语法</h2><p>python中加语句</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br></pre></td></tr></table></figure>
 
 <p>表示该语句之后的代码只作为脚本执行，被其他软件引用时不执行此部分代码，称为主程序的入口</p>
+<h2 id="变量类型"><a href="#变量类型" class="headerlink" title="变量类型"></a>变量类型</h2><h3 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h3><p>join方法</p>
+<p>join方法可以将一个字符串列表（一个列表中所有元素均为字符串）连接起来，并用指定的分割符隔开。</p>
+<h3 id="列表（list）"><a href="#列表（list）" class="headerlink" title="列表（list）"></a>列表（list）</h3><p>列表是一种有序的集合，可以存储任意类型，list里面可以是数字、字典、对象、列表等。</p>
+<p>list方法</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">L = range(<span class="number">1</span>,<span class="number">5</span>)<span class="comment">#创建连续list，即[1,2,3,4],间隔默认为1，不包含最后一个元素</span></span><br><span class="line">L = range(<span class="number">1</span>,<span class="number">10</span>,<span class="number">2</span>)<span class="comment">#创建间隔为2的连续list，即[1,3,5,7,9],同样不包含最后一个元素</span></span><br><span class="line">L.append(var) <span class="comment">#追加元素</span></span><br><span class="line">L.insert(index,var)<span class="comment">#在指定位置追加元素</span></span><br><span class="line">L.pop(var) <span class="comment">#返回最后一个元素，并在list中删除</span></span><br><span class="line">L.remove(var) <span class="comment">#删除第一次出现的该元素</span></span><br><span class="line">L.count(var) <span class="comment">#该元素在列表中出现的个数</span></span><br><span class="line">L.remove(var) <span class="comment">#删除第一次出现的该元素</span></span><br><span class="line">L.extend(list) <span class="comment">#追加list，即合并list到L上</span></span><br><span class="line">L.sort() <span class="comment">#排序</span></span><br><span class="line">L.reverse() <span class="comment">#倒序</span></span><br><span class="line">len(L)<span class="comment">#获取列表长度</span></span><br><span class="line"><span class="keyword">del</span> L[<span class="number">1</span>] <span class="comment">#删除指定下标的元素</span></span><br><span class="line"><span class="keyword">del</span> L[<span class="number">1</span>:<span class="number">3</span>] <span class="comment">#删除指定下标范围的元素</span></span><br></pre></td></tr></table></figure>
+
+<p>列表允许使用列表推导式组成新的列表</p>
+<h3 id="元组（tuple）"><a href="#元组（tuple）" class="headerlink" title="元组（tuple）"></a>元组（tuple）</h3><p>元组与列表相似，区别在于元组的元素不能修改</p>
+<p>列表用方括号，元组用小括号，</p>
+<h3 id="数组（array）"><a href="#数组（array）" class="headerlink" title="数组（array）"></a>数组（array）</h3><p>array 是只能够保存一种类型, 初始化的时候就决定了可以保存什么样的类型。</p>
+<p>array 可以紧凑地表示一个基本值的数组：字符，整数，浮点数。</p>
+<p>[1:] :去掉列表中第一个元素（下标为0），去后面的元素进行操作</p>
+<p>[::-1]：python的slice notation的特殊用法。</p>
+<p>b = a[i:j] 表示复制a[i]到a[j-1]，以生成新的list对象</p>
+<p>当i缺省时，默认为0，即 a[:3]相当于 a[0:3]<br>当j缺省时，默认为len(alist), 即a[1:]相当于a[1:10]</p>
+<p>当i,j都缺省时，a[:]就相当于完整复制一份a了</p>
+<p>b = a[i:j:s]的表示：i,j与上面的一样，但s表示步进，缺省为1.<br>所以a[i:j:1]相当于a[i:j]<br>当s&lt;0时：i缺省时，默认为-1； j缺省时，默认为-len(a)-1<br>所以a[::-1]相当于 a[-1:-len(a)-1:-1]，也就是从最后一个元素到第一个元素复制一遍。</p>
+<p>数组与列表可以使用很多方法，如append、insert、pop、extend、index等</p>
+<p>二维数组</p>
+<h3 id="链表"><a href="#链表" class="headerlink" title="链表"></a>链表</h3><h3 id="字典"><a href="#字典" class="headerlink" title="字典"></a>字典</h3><p>字典是一个容器类，用来存储数据。</p>
+<p>字典存储数据结构为key：value键值对类型，</p>
+<p>key 必须是不可变的，一般使用字符串作为字典中的key，也可以使用数字、元组等不可变类型的值</p>
+<p>key是唯一的 如果有多个相同的key的情况，保留key最后一次对应的值</p>
+<p>字典中存储的数据没有顺序</p>
+<p>定义字典</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">dict_1=&#123;</span><br><span class="line">  <span class="string">'name'</span>:<span class="string">'zhangsan'</span>,</span><br><span class="line">  <span class="string">'age'</span>:<span class="number">22</span>,</span><br><span class="line">  <span class="string">'phone'</span>:<span class="number">110</span>,</span><br><span class="line">  <span class="string">'sex'</span>:<span class="string">'男'</span></span><br><span class="line">&#125;</span><br><span class="line">dict2=dict.copy() <span class="comment">#克隆字典，即另一个拷贝。</span></span><br></pre></td></tr></table></figure>
+
+<p>根据key取出字典中的值</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">name=dict_1[<span class="string">'name'</span>]</span><br></pre></td></tr></table></figure>
+
+<p>添加/修改数据</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">//如果key不存在则直接添加数据，如果key存在则修改数据</span><br><span class="line">dict_1[<span class="string">'name'</span>]=<span class="string">'lisi'</span></span><br><span class="line">dict_1[<span class="string">'sss'</span>]=<span class="string">'4s'</span></span><br></pre></td></tr></table></figure>
+
+<p>删除字典元素</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">del</span> dict[<span class="string">'Name'</span>]  <span class="comment"># 删除键是'Name'的条目</span></span><br><span class="line">dict.clear()      <span class="comment"># 清空字典所有条目</span></span><br><span class="line"><span class="keyword">del</span> dict</span><br></pre></td></tr></table></figure>
+
+<p>获取所有key</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">keys=dict_1.keys()</span><br></pre></td></tr></table></figure>
+
+<p>获取所有value</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">values=dict_1.values()</span><br><span class="line"><span class="comment">#for循环 取出所有的value</span></span><br><span class="line"><span class="keyword">for</span> value <span class="keyword">in</span> values:</span><br><span class="line">    print(value)</span><br></pre></td></tr></table></figure>
+
+<p>获取所有键值对</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">items=dict_1.items()</span><br><span class="line"><span class="comment">#for循环遍历items</span></span><br><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> items:</span><br><span class="line">    <span class="comment"># print(item)</span></span><br><span class="line">    <span class="comment">#从元组中 根据索引取出数据</span></span><br><span class="line">    key=item[<span class="number">0</span>]</span><br><span class="line">    value=item[<span class="number">1</span>]</span><br><span class="line">    print(<span class="string">'键：%s值：%s'</span>%(key,value))</span><br></pre></td></tr></table></figure>
+
+<p>判断字典中是否有某个key</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#python2中 有has_key函数，可以直接调用</span></span><br><span class="line">dict_1.has_key(key)</span><br><span class="line"><span class="keyword">if</span> <span class="string">'phone'</span> <span class="keyword">in</span> dict_1.keys():</span><br><span class="line">    print(<span class="string">'有这个key'</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    print(<span class="string">'没有这个key'</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<p>其他方法</p>
+<p>比较两个字典元素：cmp(dict1,dict2)</p>
+<p>计算字典元素个数：len(dict)</p>
+<p>输出字典可打印的字符串表示: str(dict)</p>
+<p>返回输入的变量类型，如果变量是字典就返回字典类型:type(variable)</p>
 <h2 id="self参数"><a href="#self参数" class="headerlink" title="self参数"></a>self参数</h2><p>python规定不管是构造方法还是实例方法最少要包含一个参数，于是约定俗成self，self指向类自身，对象可以通过self调用类里的方法</p>
 <p>函数调用self也表示调用自身</p>
 <h2 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> threading</span><br></pre></td></tr></table></figure>
 
 
 
-<h2 id="笔试编程题"><a href="#笔试编程题" class="headerlink" title="笔试编程题"></a>笔试编程题</h2><p>输入 a b，输出a+b</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a=input().split()</span><br><span class="line"></span><br><span class="line">c = int(a[<span class="number">0</span>])+int(a[<span class="number">1</span>])</span><br><span class="line"><span class="keyword">print</span> (c)</span><br></pre></td></tr></table></figure>
+<h2 id="多继承"><a href="#多继承" class="headerlink" title="多继承"></a>多继承</h2><h2 id="定义链表"><a href="#定义链表" class="headerlink" title="定义链表"></a>定义链表</h2><p><a href="https://blog.csdn.net/Tonywu2018/article/details/88853533">https://blog.csdn.net/Tonywu2018/article/details/88853533</a></p>
+<p>定义单链表类</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Node</span><span class="params">(object)</span></span></span><br><span class="line"><span class="class">        <span class="title">def</span> <span class="title">_init_</span><span class="params">(sef,data,next = None)</span>:</span></span><br><span class="line">               self.data = data</span><br><span class="line">               self.next = next</span><br></pre></td></tr></table></figure>
 
 
 
-
-
-<p>输入字符串，输出无重复的最长子串的长度</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">a = input()</span><br><span class="line"></span><br><span class="line">temp = <span class="string">''</span></span><br><span class="line">length = <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> s:</span><br><span class="line">    <span class="keyword">if</span> i <span class="keyword">not</span> <span class="keyword">in</span> temp:</span><br><span class="line">        temp+=i</span><br><span class="line">        length = max(length,len(temp))</span><br><span class="line">     <span class="keyword">else</span>:</span><br><span class="line">        temp+=i</span><br><span class="line">        temp = temp[temp.index(i)+<span class="number">1</span>:]</span><br><span class="line"><span class="keyword">print</span> (length)</span><br></pre></td></tr></table></figure>
-
+<p>实例化节点对象</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 
 
-
-
-
-
-
-
-
+<h2 id="大数据"><a href="#大数据" class="headerlink" title="大数据"></a>大数据</h2><p><a href="https://blog.csdn.net/wally21st/article/details/77688755?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.channel_param&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.channel_param">https://blog.csdn.net/wally21st/article/details/77688755?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.channel_param&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.channel_param</a></p>
 
         </div>
         
@@ -350,7 +404,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            23
+                            66
                         </p>
                     </a>
                 </div>
@@ -362,7 +416,7 @@
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            3
+                            6
                         </p>
                     </a>
                 </div>
@@ -374,7 +428,7 @@
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            19
+                            39
                         </p>
                     </a>
                 </div>
@@ -436,21 +490,65 @@
                     目录
                 </h3>
                 <ul class="menu-list"><li>
-        <a class="is-flex" href="#">
+        <a class="is-flex" href="#概述">
         <span class="has-mr-6">1</span>
-        <span></span>
+        <span>概述</span>
         </a></li><li>
-        <a class="is-flex" href="#self参数">
+        <a class="is-flex" href="#基础函数、标准包">
         <span class="has-mr-6">2</span>
+        <span>基础函数、标准包</span>
+        </a></li><li>
+        <a class="is-flex" href="#基础语法">
+        <span class="has-mr-6">3</span>
+        <span>基础语法</span>
+        </a></li><li>
+        <a class="is-flex" href="#变量类型">
+        <span class="has-mr-6">4</span>
+        <span>变量类型</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#字符串">
+        <span class="has-mr-6">4.1</span>
+        <span>字符串</span>
+        </a></li><li>
+        <a class="is-flex" href="#列表（list）">
+        <span class="has-mr-6">4.2</span>
+        <span>列表（list）</span>
+        </a></li><li>
+        <a class="is-flex" href="#元组（tuple）">
+        <span class="has-mr-6">4.3</span>
+        <span>元组（tuple）</span>
+        </a></li><li>
+        <a class="is-flex" href="#数组（array）">
+        <span class="has-mr-6">4.4</span>
+        <span>数组（array）</span>
+        </a></li><li>
+        <a class="is-flex" href="#链表">
+        <span class="has-mr-6">4.5</span>
+        <span>链表</span>
+        </a></li><li>
+        <a class="is-flex" href="#字典">
+        <span class="has-mr-6">4.6</span>
+        <span>字典</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#self参数">
+        <span class="has-mr-6">5</span>
         <span>self参数</span>
         </a></li><li>
         <a class="is-flex" href="#线程">
-        <span class="has-mr-6">3</span>
+        <span class="has-mr-6">6</span>
         <span>线程</span>
         </a></li><li>
-        <a class="is-flex" href="#笔试编程题">
-        <span class="has-mr-6">4</span>
-        <span>笔试编程题</span>
+        <a class="is-flex" href="#多继承">
+        <span class="has-mr-6">7</span>
+        <span>多继承</span>
+        </a></li><li>
+        <a class="is-flex" href="#定义链表">
+        <span class="has-mr-6">8</span>
+        <span>定义链表</span>
+        </a></li><li>
+        <a class="is-flex" href="#大数据">
+        <span class="has-mr-6">9</span>
+        <span>大数据</span>
         </a></li></ul>
             </div>
         </div>
@@ -507,7 +605,7 @@
                 <span class="level-item">IT</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">11</span>
+                <span class="level-item tag">21</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">
@@ -515,7 +613,7 @@
                 <span class="level-item">个人生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">4</span>
+                <span class="level-item tag">16</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">
@@ -523,7 +621,31 @@
                 <span class="level-item">技术博客</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">7</span>
+                <span class="level-item tag">20</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%9C%8B%E5%8F%8B/">
+            <span class="level-start">
+                <span class="level-item">朋友</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E7%94%9F%E6%B4%BB/">
+            <span class="level-start">
+                <span class="level-item">生活</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E7%94%9F%E6%B4%BB%E6%84%9F%E6%82%9F/">
+            <span class="level-start">
+                <span class="level-item">生活感悟</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
             </span>
         </a></li>
             </ul>
@@ -536,7 +658,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 20px;">IT,Web</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 10px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 20px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 10px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 10px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 10px;">Web,IT,Go</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 10px;">技术，Robotic，IT</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a>
+        <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 12.5px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 10px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 10px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 12.5px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 12.5px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 10px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 20px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 10px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 12.5px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 17.5px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 10px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 10px;">IT，未来</a> <a href="/tags/Web-IT-Go/" style="font-size: 10px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 10px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 17.5px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 15px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 15px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 10px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 10px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 15px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">生活、幸福</a>
     </div>
 </div>
     
@@ -551,16 +673,73 @@
         
         <article class="media">
             
-            <a href="/2020/04/15/Electron/" class="media-left">
+            <a href="/2020/07/23/flutter2/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s1.ax1x.com/2020/03/27/G9Or1f.png" alt="Electron开发">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="flutter2">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-04-15T13:40:33.000Z">2020-04-15</time></div>
-                    <a href="/2020/04/15/Electron/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Electron开发</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-22T17:46:43.303Z">2020-07-23</time></div>
+                    <a href="/2020/07/23/flutter2/" class="title has-link-black-ter is-size-6 has-text-weight-normal">flutter2</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/23/flutter/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="flutter">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-22T17:46:43.290Z">2020-07-23</time></div>
+                    <a href="/2020/07/23/flutter/" class="title has-link-black-ter is-size-6 has-text-weight-normal">flutter</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/02/%E7%9B%B8%E4%BF%A1%E4%B8%8E%E4%B8%8D%E7%9B%B8%E4%BF%A1/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="《相信与不相信》">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-02T13:40:33.000Z">2020-07-02</time></div>
+                    <a href="/2020/07/02/%E7%9B%B8%E4%BF%A1%E4%B8%8E%E4%B8%8D%E7%9B%B8%E4%BF%A1/" class="title has-link-black-ter is-size-6 has-text-weight-normal">《相信与不相信》</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">个人生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/05/18/Node3/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s1.ax1x.com/2020/03/27/G9OqHJ.th.png" alt="Node开发（三）">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-05-18T13:40:33.000Z">2020-05-18</time></div>
+                    <a href="/2020/05/18/Node3/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Node开发（三）</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/IT/">IT</a>
                     </p>
@@ -570,75 +749,18 @@
         
         <article class="media">
             
-            <a href="/2020/04/15/php%E4%B8%8Elaravel/" class="media-left">
+            <a href="/2020/05/18/%E6%99%AE%E7%BD%97%E6%96%AF%E7%89%B9%E9%97%AE%E5%8D%B7/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s1.ax1x.com/2020/03/27/G9O590.png" alt="PHP与Laravel开发">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的普罗斯特问卷">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-04-15T13:40:33.000Z">2020-04-15</time></div>
-                    <a href="/2020/04/15/php%E4%B8%8Elaravel/" class="title has-link-black-ter is-size-6 has-text-weight-normal">PHP与Laravel开发</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-05-18T13:40:33.000Z">2020-05-18</time></div>
+                    <a href="/2020/05/18/%E6%99%AE%E7%BD%97%E6%96%AF%E7%89%B9%E9%97%AE%E5%8D%B7/" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的普罗斯特问卷</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/IT/">IT</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2020/04/08/flutter/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s1.ax1x.com/2020/04/20/J1IMCD.png" alt="Flutter移动开发">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-04-08T13:40:33.000Z">2020-04-08</time></div>
-                    <a href="/2020/04/08/flutter/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Flutter移动开发</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">技术博客</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2020/04/02/hexo/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s1.ax1x.com/2020/03/27/G9OocT.jpg" alt="Hexo个人博客搭建及配置">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-04-02T13:40:33.000Z">2020-04-02</time></div>
-                    <a href="/2020/04/02/hexo/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Hexo个人博客搭建及配置</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">技术博客</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2020/04/02/reactnative/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s1.ax1x.com/2020/03/27/G9OXNR.png" alt="React Native入门">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-04-02T13:40:33.000Z">2020-04-02</time></div>
-                    <a href="/2020/04/02/reactnative/" class="title has-link-black-ter is-size-6 has-text-weight-normal">React Native入门</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/IT/">IT</a>
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
                     </p>
                 </div>
             </div>
@@ -656,12 +778,34 @@
         <ul class="menu-list">
         
         <li>
+            <a class="level is-marginless" href="/archives/2020/07/">
+                <span class="level-start">
+                    <span class="level-item">七月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">10</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
             <a class="level is-marginless" href="/archives/2020/04/">
                 <span class="level-start">
                     <span class="level-item">四月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">5</span>
+                    <span class="level-item tag">6</span>
                 </span>
             </a>
         </li>
@@ -672,7 +816,7 @@
                     <span class="level-item">三月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">18</span>
+                    <span class="level-item tag">47</span>
                 </span>
             </a>
         </li>
@@ -705,6 +849,69 @@
                 </div>
                 
                 <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web/">
+                        <span class="tag">IT,Web,</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/">
+                        <span class="tag">IT,Web，Android、Java</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8CC/">
+                        <span class="tag">IT,Web，C++</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8CFlutter/">
+                        <span class="tag">IT,Web，Flutter</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8CIOS/">
+                        <span class="tag">IT,Web，IOS</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8CMac/">
+                        <span class="tag">IT,Web，Mac</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/">
+                        <span class="tag">IT,Web，算法</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/">
+                        <span class="tag">IT、友情</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/">
+                        <span class="tag">IT、小程序、H5App</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8C/">
                         <span class="tag">IT，</span>
                         <span class="tag is-grey">1</span>
@@ -714,6 +921,13 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CApp-Node-Electron/">
                         <span class="tag">IT，App,Node,Electron</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CFlutter/">
+                        <span class="tag">IT，Flutter</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -735,7 +949,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Node/">
                         <span class="tag">IT，Web,Node</span>
-                        <span class="tag is-grey">2</span>
+                        <span class="tag is-grey">5</span>
                     </a>
                 </div>
                 
@@ -756,7 +970,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Vue/">
                         <span class="tag">IT，Web,Vue</span>
-                        <span class="tag is-grey">1</span>
+                        <span class="tag is-grey">2</span>
                     </a>
                 </div>
                 
@@ -770,13 +984,20 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/">
                         <span class="tag">IT，Web,数据库</span>
-                        <span class="tag is-grey">2</span>
+                        <span class="tag is-grey">4</span>
                     </a>
                 </div>
                 
                 <div class="control">
-                    <a class="tags has-addons" href="/tags/Web-IT-Flutter/">
-                        <span class="tag">Web,IT,Flutter</span>
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8Cweb/">
+                        <span class="tag">IT，web</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/">
+                        <span class="tag">IT，未来</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -789,15 +1010,43 @@
                 </div>
                 
                 <div class="control">
+                    <a class="tags has-addons" href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/">
+                        <span class="tag">Web，IT，HTML，CSS</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/">
+                        <span class="tag">个人生活，幸福</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
                     <a class="tags has-addons" href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/">
                         <span class="tag">兴趣，幸福</span>
-                        <span class="tag is-grey">1</span>
+                        <span class="tag is-grey">3</span>
                     </a>
                 </div>
                 
                 <div class="control">
                     <a class="tags has-addons" href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/">
                         <span class="tag">励志、文学</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E5%8F%8B%E6%83%85/">
+                        <span class="tag">友情</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">
+                        <span class="tag">幸福，个人生活</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -817,8 +1066,43 @@
                 </div>
                 
                 <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/">
+                        <span class="tag">摄影，记录，生活</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%B7%B1%E5%9C%B3/">
+                        <span class="tag">深圳</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/">
+                        <span class="tag">爱情，幸福</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E7%94%9F%E6%B4%BB/">
+                        <span class="tag">生活</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
                     <a class="tags has-addons" href="/tags/%E7%94%9F%E6%B4%BB/">
                         <span class="tag">生活#</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/">
+                        <span class="tag">生活、幸福</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
