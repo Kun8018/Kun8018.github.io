@@ -13,13 +13,13 @@
     <meta name="description" content="Javascript (二)​     第二篇主要讲原生js语言基本特性、es6和jquery,">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Javascript开发（二）">
-<meta property="og:url" content="http://yoursite.com/2020/07/18/Node2/index.html">
+<meta property="og:url" content="http://kun8018.gitee.io/2020/07/18/Node2/index.html">
 <meta property="og:site_name" content="kun&#39;s blog">
 <meta property="og:description" content="Javascript (二)​     第二篇主要讲原生js语言基本特性、es6和jquery,">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://cdn.kunkunzhang.top/javascript.png">
 <meta property="article:published_time" content="2020-07-18T13:40:33.000Z">
-<meta property="article:modified_time" content="2020-10-04T17:15:09.252Z">
+<meta property="article:modified_time" content="2020-12-23T12:17:33.469Z">
 <meta property="article:author" content="Kun Zhang">
 <meta property="article:tag" content="IT，Web,Node">
 <meta name="twitter:card" content="summary">
@@ -158,7 +158,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    1 小时 读完 (大约 6941 个字)
+                    1 小时 读完 (大约 9206 个字)
                 </span>
                 
                 
@@ -179,7 +179,79 @@
             <h2 id="Javascript-二"><a href="#Javascript-二" class="headerlink" title="Javascript (二)"></a>Javascript (二)</h2><p>​     第二篇主要讲原生js语言基本特性、es6和jquery,</p>
 <a id="more"></a>
 
-<h2 id="js基本语法。"><a href="#js基本语法。" class="headerlink" title="js基本语法。"></a>js基本语法。</h2><h3 id="原型链继承"><a href="#原型链继承" class="headerlink" title="原型链继承"></a>原型链继承</h3><p>A 对象通过继承 B 对象，就能直接拥有 B 对象的所有属性和方法。这对于代码的复用是非常有用的。</p>
+<h2 id="js基本语法。"><a href="#js基本语法。" class="headerlink" title="js基本语法。"></a>js基本语法。</h2><h3 id="数据类型转换"><a href="#数据类型转换" class="headerlink" title="数据类型转换"></a>数据类型转换</h3><p>数据类型转换氛围强制转换和自动转换</p>
+<p>强制类型转换主要用到Number、String、Boolean三个函数。</p>
+<p>Number函数用于强制转换为数值</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//字符串转数字,可以被解析为数值的情况</span></span><br><span class="line"><span class="built_in">Number</span>(<span class="string">'324'</span>) <span class="comment">//324</span></span><br><span class="line"><span class="comment">//字符串转数字,不能解析为数值的情况</span></span><br><span class="line"><span class="built_in">Number</span>(<span class="string">'324abc'</span>) <span class="comment">//NaN，not a number</span></span><br><span class="line"><span class="comment">//特殊字符串，空字符串</span></span><br><span class="line"><span class="built_in">Number</span>(<span class="string">''</span>) <span class="comment">//0</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//布尔值转数字</span></span><br><span class="line"><span class="built_in">Number</span>(<span class="literal">true</span>)<span class="comment">//1</span></span><br><span class="line"><span class="built_in">Number</span>(<span class="literal">false</span>)<span class="comment">//0</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//特殊地</span></span><br><span class="line"><span class="built_in">Number</span>(<span class="literal">null</span>)<span class="comment">//0</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//对象转数字与字符串的情况类似，只有包含单个数值的数组可以转</span></span><br><span class="line"><span class="built_in">Number</span>([<span class="number">5</span>]) <span class="comment">//5</span></span><br><span class="line"><span class="built_in">Number</span>([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]) <span class="comment">// NaN</span></span><br></pre></td></tr></table></figure>
+
+<p>String函数用于强制转换成字符串</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//转换基本类型</span></span><br><span class="line"><span class="built_in">String</span>(<span class="number">123</span>) <span class="comment">//"123"</span></span><br><span class="line"><span class="built_in">String</span>(<span class="string">'abc'</span>) <span class="comment">//"abc"</span></span><br><span class="line"><span class="built_in">String</span>(<span class="literal">true</span>) <span class="comment">//"true"</span></span><br><span class="line"><span class="built_in">String</span>(<span class="literal">undefined</span>) <span class="comment">//"undefined"</span></span><br><span class="line"><span class="built_in">String</span>(<span class="literal">null</span>) <span class="comment">//"null"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//对象或数组</span></span><br><span class="line"><span class="built_in">String</span>(&#123;<span class="attr">a</span>:<span class="number">1</span>&#125;) <span class="comment">//"[Object Object]"</span></span><br><span class="line"><span class="built_in">String</span>([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]) <span class="comment">//"1,2,3"</span></span><br></pre></td></tr></table></figure>
+
+<p>Boolean函数用于强制转换成布尔值。除了特定五个值的转换结果是false，其他全是true</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Boolean</span>(<span class="literal">undefined</span>) <span class="comment">//false</span></span><br><span class="line"><span class="built_in">Boolean</span>(<span class="number">0</span>) <span class="comment">//false</span></span><br><span class="line"><span class="built_in">Boolean</span>(<span class="literal">null</span>) <span class="comment">//false</span></span><br><span class="line"><span class="built_in">Boolean</span>(<span class="literal">NaN</span>) <span class="comment">//false</span></span><br><span class="line"><span class="built_in">Boolean</span>(<span class="string">''</span>) <span class="comment">//false</span></span><br></pre></td></tr></table></figure>
+
+<p>自动转换</p>
+<p>在某些特定的代码语句中会自动调用上述三个函数，起到自动转换的作用。</p>
+<p>自动转换为布尔值</p>
+<p>在条件语句中，用于将表达式转为布尔值</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//写法一</span></span><br><span class="line">expression ？ <span class="literal">true</span>：<span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//写法二</span></span><br><span class="line">!!expression</span><br></pre></td></tr></table></figure>
+
+<p>自动转换为字符串</p>
+<p>在预期为字符串的地方会将非字符串的值转为字符串，有些坑</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'5'</span>+<span class="number">1</span> <span class="comment">//"51"</span></span><br><span class="line"><span class="string">'5'</span>+<span class="literal">true</span>  <span class="comment">//5true</span></span><br><span class="line"><span class="string">'5'</span>+&#123;&#125; <span class="comment">//"5[Object Object]"</span></span><br><span class="line"><span class="string">'5'</span>+<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125; <span class="comment">//"5function ()&#123;&#125;"</span></span><br><span class="line"><span class="string">'5'</span>+<span class="literal">undefined</span> <span class="comment">//"5undefined"</span></span><br><span class="line"><span class="string">'5'</span>+<span class="literal">null</span> <span class="comment">//"5null"</span></span><br></pre></td></tr></table></figure>
+
+<p>自动转换为数值</p>
+<p>在预期为数值的地方会将非字符串的值转为字符串，如运算符，</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'5'</span> - <span class="string">'2'</span> <span class="comment">//3</span></span><br><span class="line"><span class="string">'5'</span> * <span class="string">'2'</span> <span class="comment">//10</span></span><br><span class="line"><span class="literal">true</span> - <span class="number">1</span> <span class="comment">//0</span></span><br><span class="line"><span class="literal">false</span> - <span class="number">1</span> <span class="comment">//-1</span></span><br><span class="line"><span class="string">'1'</span> - <span class="number">1</span> <span class="comment">//0</span></span><br><span class="line"><span class="string">'5'</span> - [] <span class="comment">//0</span></span><br><span class="line"><span class="literal">false</span> / <span class="string">'5'</span> <span class="comment">//0</span></span><br><span class="line"><span class="string">'abc'</span> - <span class="number">1</span> <span class="comment">//NaN</span></span><br><span class="line"><span class="literal">null</span> + <span class="number">1</span> <span class="comment">//1</span></span><br><span class="line"><span class="literal">undefined</span> + <span class="number">1</span> <span class="comment">//NaN</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="函数和闭包"><a href="#函数和闭包" class="headerlink" title="函数和闭包"></a>函数和闭包</h3><p>JavaScript 语言将函数看作一种值，与其它值（数值、字符串、布尔值等等）地位相同。凡是可以使用值的地方，就能使用函数。比如，可以把函数赋值给变量和对象的属性，也可以当作参数传入其他函数，或者作为函数的结果返回。函数只是一个可以执行的值，此外并无特殊之处。</p>
+<p>由于函数与其他数据类型地位平等，所以在 JavaScript 语言中又称函数为第一等公民。</p>
+<p>arguements对象</p>
+<p>由于 JavaScript 允许函数有不定数目的参数，所以需要一种机制，可以在函数体内部读取所有参数。这就是<code>arguments</code>对象的由来。</p>
+<p><code>arguments</code>对象包含了函数运行时的所有参数，<code>arguments[0]</code>就是第一个参数，<code>arguments[1]</code>就是第二个参数，以此类推。这个对象只有在函数体内部，才可以使用。</p>
+<p>虽然<code>arguments</code>很像数组，但它是一个对象。数组专有的方法（比如<code>slice</code>和<code>forEach</code>），不能在<code>arguments</code>对象上直接使用。</p>
+<p>如果要让<code>arguments</code>对象使用数组方法，真正的解决方法是将<code>arguments</code>转为真正的数组。下面是两种常用的转换方法：<code>slice</code>方法和逐一填入新数组。</p>
+<p>闭包</p>
+<p>由于函数作用域的影响，正常情况下，函数外部无法读取函数内部声明的变量，只有函数内部可以读取全局变量和父作用域变量。</p>
+<p>如果出于种种原因，需要得到函数内的局部变量。正常情况下，这是办不到的，只有通过变通方法才能实现。</p>
+<p>在函数内部定义子函数，将子函数作为返回值，就可以在外部读取函数内部的变量，作为返回值的子函数称为闭包</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f1</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> n = <span class="number">999</span>;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">f2</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(n);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> f2;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> result = f1();</span><br><span class="line">result(); <span class="comment">// 999</span></span><br></pre></td></tr></table></figure>
+
+<p>闭包的最大用处有两个，一个是可以读取外层函数内部的变量，另一个就是让这些变量始终保持在内存中，即闭包可以使得它诞生环境一直存在。原因是闭包（上例的<code>inc</code>）用到了外层变量（<code>start</code>），导致外层函数（<code>createIncrementor</code>）不能从内存释放。只要闭包没有被垃圾回收机制清除，外层函数提供的运行环境也不会被清除，它的内部变量就始终保存着当前值，供闭包读取。</p>
+<p>此外，闭包的另一个用处，是封装对象的私有属性和私有方法。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> _age;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">setAge</span>(<span class="params">n</span>) </span>&#123;</span><br><span class="line">    _age = n;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">getAge</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> _age;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    name: name,</span><br><span class="line">    getAge: getAge,</span><br><span class="line">    setAge: setAge</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> p1 = Person(<span class="string">'张三'</span>);</span><br><span class="line">p1.setAge(<span class="number">25</span>);</span><br><span class="line">p1.getAge() <span class="comment">// 25</span></span><br></pre></td></tr></table></figure>
+
+<p>eval命令</p>
+<p><code>eval</code>命令接受一个字符串作为参数，并将这个字符串当作语句执行。</p>
+<h3 id="严格模式"><a href="#严格模式" class="headerlink" title="严格模式"></a>严格模式</h3><p>早期的 JavaScript 语言有很多设计不合理的地方，但是为了兼容以前的代码，又不能改变老的语法，只能不断添加新的语法，引导程序员使用新语法。</p>
+<p>严格模式是从 ES5 进入标准的，主要目的有以下几个。</p>
+<ul>
+<li>明确禁止一些不合理、不严谨的语法，减少 JavaScript 语言的一些怪异行为。</li>
+<li>增加更多报错的场合，消除代码运行的一些不安全之处，保证代码运行的安全。</li>
+<li>提高编译器效率，增加运行速度。</li>
+<li>为未来新版本的 JavaScript 语法做好铺垫。</li>
+</ul>
+<p>严格模式可以用于整个脚本，也可以只用于单个函数。<code>use strict</code>放在脚本文件的第一行，整个脚本都将以严格模式运行。如果这行语句不在第一行就无效，整个脚本会以正常模式运行。<code>use strict</code>放在函数体的第一行，则整个函数以严格模式运行。</p>
+<p>进入严格模式的标志，是一行字符串<code>use strict</code>。老版本的引擎会把它当作一行普通字符串，加以忽略。新版本的引擎就会进入严格模式。</p>
+<p>严格模式不允许的语法：</p>
+<p>严格模式下，设置字符串的<code>length</code>属性，会报错。长度只可读，不可写；</p>
+<p>严格模式下，对一个只有取值器（getter）、没有存值器（setter）的属性赋值，会报错。</p>
+<p>严格模式下，对禁止扩展的对象添加新属性，会报错。</p>
+<p>正常模式下，函数内部的<code>this</code>可能会指向全局对象，严格模式禁止这种用法，避免无意间创造全局变量。</p>
+<p>函数内部不得使用<code>fn.caller</code>、<code>fn.arguments</code>，否则会报错。这意味着不能在函数内部得到调用栈了。</p>
+<p>严格模式下无法删除变量，如果使用<code>delete</code>命令删除一个变量，会报错。只有对象的属性，且属性的描述对象的<code>configurable</code>属性设置为<code>true</code>，才能被<code>delete</code>命令删除。</p>
+<h3 id="this关键字"><a href="#this关键字" class="headerlink" title="this关键字"></a>this关键字</h3><p><code>this</code>指向属性或方法“当前”所在的对象。</p>
+<p><code>this</code>的动态切换，固然为 JavaScript 创造了巨大的灵活性，但也使得编程变得困难和模糊。有时，需要把<code>this</code>固定下来，避免出现意想不到的情况。JavaScript 提供了<code>call</code>、<code>apply</code>、<code>bind</code>这三个方法，来切换/固定<code>this</code>的指向。</p>
+<p><code>call</code>方法的参数是一个对象。如果参数为空、<code>null</code>和<code>undefined</code>，则默认传入全局对象。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> n = <span class="number">123</span>;</span><br><span class="line"><span class="keyword">var</span> obj = &#123; <span class="attr">n</span>: <span class="number">456</span> &#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">a</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>.n);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">a.call() <span class="comment">// 123</span></span><br><span class="line">a.call(<span class="literal">null</span>) <span class="comment">// 123</span></span><br><span class="line">a.call(<span class="literal">undefined</span>) <span class="comment">// 123</span></span><br><span class="line">a.call(<span class="built_in">window</span>) <span class="comment">// 123</span></span><br><span class="line">a.call(obj) <span class="comment">// 456</span></span><br></pre></td></tr></table></figure>
+
+<p><code>apply</code>方法的作用与<code>call</code>方法类似，也是改变<code>this</code>指向，然后再调用该函数。唯一的区别就是，它接收一个数组作为函数执行时的参数</p>
+<p><code>bind()</code>方法用于将函数体内的<code>this</code>绑定到某个对象，然后返回一个新函数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> counter = &#123;</span><br><span class="line">  count: <span class="number">0</span>,</span><br><span class="line">  inc: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.count++;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> func = counter.inc.bind(counter);</span><br><span class="line">func();</span><br><span class="line">counter.count <span class="comment">// 1</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="原型链继承"><a href="#原型链继承" class="headerlink" title="原型链继承"></a>原型链继承</h3><p>A 对象通过继承 B 对象，就能直接拥有 B 对象的所有属性和方法。这对于代码的复用是非常有用的。</p>
 <p>JavaScript 语言的继承不通过 class，而是通过“原型对象”（prototype）实现，JavaScript 通过构造函数生成新对象，因此构造函数可以视为对象的模板。实例对象的属性和方法，可以定义在构造函数内部。</p>
 <p>实例</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Cat</span> (<span class="params">name, color</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.name = name;</span><br><span class="line">  <span class="keyword">this</span>.color = color;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> cat1 = <span class="keyword">new</span> Cat(<span class="string">'大毛'</span>, <span class="string">'白色'</span>);</span><br><span class="line"></span><br><span class="line">cat1.name <span class="comment">// '大毛'</span></span><br><span class="line">cat1.color <span class="comment">// '白色'</span></span><br></pre></td></tr></table></figure>
@@ -249,6 +321,21 @@
 <p>也就是说，构造函数内部，<code>this</code>指的是一个新生成的空对象，所有针对<code>this</code>的操作，都会发生在这个空对象上。构造函数之所以叫“构造函数”，就是说这个函数的目的，就是操作一个空对象（即<code>this</code>对象），将其“构造”为需要的样子。</p>
 <p>如果构造函数内部有<code>return</code>语句，而且<code>return</code>后面跟着一个对象，<code>new</code>命令会返回<code>return</code>语句指定的对象；否则，就会不管<code>return</code>语句，返回<code>this</code>对象。</p>
 <p>对普通函数（内部没有<code>this</code>关键字的函数）使用<code>new</code>命令，则会返回一个空对象。</p>
+<h3 id="异步操作与定时器"><a href="#异步操作与定时器" class="headerlink" title="异步操作与定时器"></a>异步操作与定时器</h3><p>异步操作、队列与事件循环</p>
+<p>JavaScript 运行时，除了一个正在运行的主线程，引擎还提供一个任务队列（task queue），里面是各种需要当前程序处理的异步任务。</p>
+<p>首先，主线程会去执行所有的同步任务。等到同步任务全部执行完，就会去看任务队列里面的异步任务。如果满足条件，那么异步任务就重新进入主线程开始执行，这时它就变成同步任务了。等到执行完，下一个异步任务再进入主线程开始执行。一旦任务队列清空，程序就结束执行。</p>
+<p>JavaScript 引擎怎么知道异步任务有没有结果，能不能进入主线程呢？答案就是引擎在不停地检查，一遍又一遍，只要同步任务执行完了，引擎就会去检查那些挂起来的异步任务，是不是可以进入主线程了。这种循环检查的机制，就叫做事件循环</p>
+<p>异步操作的模式</p>
+<h4 id="定时器"><a href="#定时器" class="headerlink" title="定时器"></a>定时器</h4><p><code>setTimeout</code>函数用来指定某个函数或某段代码，在多少毫秒之后执行。它返回一个整数，表示定时器的编号，以后可以用来取消这个定时器。</p>
+<p><code>setTimeout</code>函数接受两个参数，第一个参数<code>func|code</code>是将要推迟执行的函数名或者一段代码，第二个参数<code>delay</code>是推迟执行的毫秒数。</p>
+<p><code>setTimeout</code>和<code>setInterval</code>函数，都返回一个整数值，表示计数器编号。将该整数传入<code>clearTimeout</code>和<code>clearInterval</code>函数，就可以取消对应的定时器。</p>
+<p><code>setTimeout</code>和<code>setInterval</code>的运行机制，是将指定的代码移出本轮事件循环，等到下一轮事件循环，再检查是否到了指定时间。如果到了，就执行对应的代码；如果不到，就继续等待。</p>
+<p>定时器应用：防抖函数</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">'textarea'</span>).on(<span class="string">'keydown'</span>, debounce(ajaxAction, <span class="number">2500</span>));</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">debounce</span>(<span class="params">fn, delay</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">var</span> timer = <span class="literal">null</span>; <span class="comment">// 声明计时器</span></span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> context = <span class="keyword">this</span>;</span><br><span class="line">    <span class="keyword">var</span> args = <span class="built_in">arguments</span>;</span><br><span class="line">    clearTimeout(timer);</span><br><span class="line">    timer = setTimeout(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">      fn.apply(context, args);</span><br><span class="line">    &#125;, delay);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>特别说明：</p>
+<p><code>setTimeout</code>的作用是将代码推迟到指定时间执行，如果指定时间为<code>0</code>，即<code>setTimeout(f, 0)</code>，不会立刻执行该函数，必须要等到当前脚本的同步任务，全部处理完以后，才会执行<code>setTimeout</code>指定的回调函数<code>f</code>。也就是说，<code>setTimeout(f, 0)</code>会在下一轮事件循环一开始就执行。</p>
+<p><code>setTimeout(f, 0)</code>有几个非常重要的用途。它的一大应用是，可以调整事件的发生顺序。比如，网页开发中，某个事件先发生在子元素，然后冒泡到父元素，即子元素的事件回调函数，会早于父元素的事件回调函数触发。如果，想让父元素的事件回调函数先发生，就要用到<code>setTimeout(f, 0)</code>。</p>
 <h3 id="异步对象promise"><a href="#异步对象promise" class="headerlink" title="异步对象promise"></a>异步对象promise</h3><p>Promise 对象是 JavaScript 的异步操作解决方案，为异步操作提供统一接口。它起到代理作用（proxy），充当异步操作与回调函数之间的中介，使得异步操作具备同步操作的接口。它可以将异步操作以同步的流程表达出来，它比传统的使用回调函数和事件来处理异步问题更加合理，更符合人们线性处理问题的逻辑。Promise 可以让异步操作写起来，就像在写同步操作的流程，而不必一层层地嵌套回调函数。</p>
 <p><code>Prmoise</code>对象中保存了异步操作的最终状态和结果。Promise有三种状态，pending(进行中)、fulfilled(已完成)、rejected(已失败)。promise只会处于三种状态中的一种状态。当异步请求开始并且未结束（没有返回结果）时，处于<code>pending</code>状态。当异步请求返回结果后，可以根据请求返回的结果将<code>Promise</code>的状态修改为<code>fulfilled</code>或者<code>rejected</code>。</p>
 <p>Promise 是一个对象，也是一个构造函数。Promise构造函数内部设置resolve、reject两个参数，可以改变promise的状态。这两个参数是两个函数，<code>resolve()</code>函数可以将<code>Promise</code>的状态由<code>pending</code>改变为<code>fulfilled</code>。<code>reject()</code>函数可以将<code>Promise</code>的状态由<code>pending</code>改变为<code>rejected</code>。异步操作的结果<code>resData</code>传给这两个函数，就是将其保存到了<code>Promise</code>对象中。由 JavaScript 引擎提供，不用自己实现。</p>
@@ -268,6 +355,8 @@
 <p>Promise 的优点在于，让回调函数变成了规范的链式写法，程序流程可以看得很清楚。它有一整套接口，可以实现许多强大的功能，比如同时执行多个异步操作，等到它们的状态都改变以后，再执行一个回调函数；再比如，为多个回调函数中抛出的错误，统一指定处理方法等等。</p>
 <p>而且，Promise 还有一个传统写法没有的好处：它的状态一旦改变，无论何时查询，都能得到这个状态。</p>
 <p>Promise 的缺点是，编写的难度比传统写法高，而且阅读代码也不是一眼可以看懂。你只会看到一堆<code>then</code>，必须自己在<code>then</code>的回调函数里面理清逻辑。</p>
+<p>Promise不是新的语法功能，而是新的写法，为了解决传统回调函数回调地狱的困难。</p>
+<p>Promise最大的问题是代码冗余，原来的任务被promise包装后不管什么操作都是一堆then</p>
 <p><a href="https://caogongzi.gitee.io/2019/03/25/ES6-Promise/">https://caogongzi.gitee.io/2019/03/25/ES6-Promise/</a></p>
 <h3 id="事件"><a href="#事件" class="headerlink" title="事件"></a>事件</h3><p>事件类型</p>
 <p>UI事件，主要包括load,unload,abort,error,select,resize,scroll事件。</p>
@@ -314,97 +403,29 @@
 <p>鼠标事件</p>
 <p>键盘事件</p>
 <p>进度事件</p>
+<p>拖动事件</p>
+<p>拖拉（drag）指的是，用户在某个对象上按下鼠标键不放，拖动它到另一个位置，然后释放鼠标键，将该对象放在那里。</p>
+<p>拖拉的对象有好几种，包括元素节点、图片、链接、选中的文字等等。在网页中，除了元素节点默认不可以拖拉，其他（图片、链接、选中的文字）都可以直接拖拉。为了让元素节点可拖拉，可以将该节点的<code>draggable</code>属性设为<code>true</code>。</p>
+<p><code>draggable</code>属性可用于任何元素节点，但是图片（<code>&lt;img&gt;</code>）和链接（<code>&lt;a&gt;</code>）不加这个属性，就可以拖拉。对于它们，用到这个属性的时候，往往是将其设为<code>false</code>，防止拖拉这两种元素。</p>
+<p>当元素节点或选中的文本被拖拉时，就会持续触发拖拉事件，包括以下一些事件。</p>
+<ul>
+<li><code>drag</code>：拖拉过程中，在被拖拉的节点上持续触发（相隔几百毫秒）。</li>
+<li><code>dragstart</code>：用户开始拖拉时，在被拖拉的节点上触发，该事件的<code>target</code>属性是被拖拉的节点。通常应该在这个事件的监听函数中，指定拖拉的数据。</li>
+<li><code>dragend</code>：拖拉结束时（释放鼠标键或按下 ESC 键）在被拖拉的节点上触发，该事件的<code>target</code>属性是被拖拉的节点。它与<code>dragstart</code>事件，在同一个节点上触发。不管拖拉是否跨窗口，或者中途被取消，<code>dragend</code>事件总是会触发的。</li>
+<li><code>dragenter</code>：拖拉进入当前节点时，在当前节点上触发一次，该事件的<code>target</code>属性是当前节点。通常应该在这个事件的监听函数中，指定是否允许在当前节点放下（drop）拖拉的数据。如果当前节点没有该事件的监听函数，或者监听函数不执行任何操作，就意味着不允许在当前节点放下数据。在视觉上显示拖拉进入当前节点，也是在这个事件的监听函数中设置。</li>
+<li><code>dragover</code>：拖拉到当前节点上方时，在当前节点上持续触发（相隔几百毫秒），该事件的<code>target</code>属性是当前节点。该事件与<code>dragenter</code>事件的区别是，<code>dragenter</code>事件在进入该节点时触发，然后只要没有离开这个节点，<code>dragover</code>事件会持续触发。</li>
+<li><code>dragleave</code>：拖拉操作离开当前节点范围时，在当前节点上触发，该事件的<code>target</code>属性是当前节点。如果要在视觉上显示拖拉离开操作当前节点，就在这个事件的监听函数中设置。</li>
+<li><code>drop</code>：被拖拉的节点或选中的文本，释放到目标节点时，在目标节点上触发。注意，如果当前节点不允许<code>drop</code>，即使在该节点上方松开鼠标键，也不会触发该事件。如果用户按下 ESC 键，取消这个操作，也不会触发该事件。该事件的监听函数负责取出拖拉数据，并进行相关处理。</li>
+</ul>
+<p><code>DataTransfer.setData()</code>方法用来设置拖拉事件所带有的数据。该方法没有返回值。</p>
+<p><code>DataTransfer.getData()</code>方法接受一个字符串（表示数据类型）作为参数，返回事件所带的指定类型的数据（通常是用<code>setData</code>方法添加的数据）。如果指定类型的数据不存在，则返回空字符串。通常只有<code>drop</code>事件触发后，才能取出数据。</p>
+<p><code>DataTransfer.clearData()</code>方法接受一个字符串（表示数据类型）作为参数，删除事件所带的指定类型的数据。如果没有指定类型，则删除所有数据。如果指定类型不存在，则调用该方法不会产生任何效果。</p>
+<p><code>DataTransfer.setDragImage()</code>拖动过程中（<code>dragstart</code>事件触发后），浏览器会显示一张图片跟随鼠标一起移动，表示被拖动的节点。这张图片是自动创造的，通常显示为被拖动节点的外观，不需要自己动手设置。</p>
+<p><code>DataTransfer.setDragImage()</code>方法可以自定义这张图片。它接受三个参数。第一个是<code>&lt;img&gt;</code>节点或者<code>&lt;canvas&gt;</code>节点，如果省略或为<code>null</code>，则使用被拖动的节点的外观；第二个和第三个参数为鼠标相对于该图片左上角的横坐标和纵坐标。</p>
 <h3 id="深拷贝与浅拷贝"><a href="#深拷贝与浅拷贝" class="headerlink" title="深拷贝与浅拷贝"></a>深拷贝与浅拷贝</h3><p>浅拷贝:将内存中的某个对象复制一份,在内存中开辟一块新的空间,如果复制的这个对象的属性为基本数据类型,则拷贝的便为这个值本身,如果为复杂数据类型,则拷贝复制的为地址,因此,修改新对象会对原对象产 生影响</p>
 <p>深拷贝:开辟一块新的空间,完整的复制一份,包括复杂数据类型,拷贝的这个对象和原对象无任何关系,修改什么 的都互不影响</p>
 <p>深拷贝：我们希望在改变新的数组（对象）的时候，不改变原数组（对象）</p>
-<h2 id="Momentjs"><a href="#Momentjs" class="headerlink" title="Momentjs"></a>Momentjs</h2><p>momentjs是js日期处理类库，比原生的时间处理函数更强大。</p>
-<p>安装</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install moment --save</span><br></pre></td></tr></table></figure>
 
-<p>引入</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> moment <span class="keyword">from</span> <span class="string">'moment'</span></span><br></pre></td></tr></table></figure>
-
-<p>日期格式化</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">moment().format(<span class="string">'MMMM Do YYYY, h:mm:ss a'</span>); <span class="comment">// 九月 19日 2020, 2:53:10 下午</span></span><br><span class="line">moment().format(<span class="string">'dddd'</span>);                    <span class="comment">// 星期六</span></span><br><span class="line">moment().format(<span class="string">"MMM Do YY"</span>);               <span class="comment">// 9月 19日 20</span></span><br><span class="line">moment().format(<span class="string">'YYYY [escaped] YYYY'</span>);     <span class="comment">// 2020 escaped 2020</span></span><br><span class="line">moment().format();                          <span class="comment">// 2020-09-19T14:53:10+08:00</span></span><br></pre></td></tr></table></figure>
-
-<p>获取时间</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//获取以秒为单位的时间戳</span></span><br><span class="line">moment().format(<span class="string">'X'</span>)          <span class="comment">// 返回值为字符串类型</span></span><br><span class="line">moment().unix()               <span class="comment">// 返回值为数值型</span></span><br><span class="line"><span class="comment">//获取以毫秒为单位的时间戳</span></span><br><span class="line">moment().format(<span class="string">'x'</span>)          <span class="comment">// 返回值为字符串类型</span></span><br><span class="line">moment().valueOf()            <span class="comment">// 返回值为数值型</span></span><br><span class="line">moment().get(<span class="string">'year'</span>)          <span class="comment">//获取年份</span></span><br><span class="line">moment().get(<span class="string">'11'</span>)            <span class="comment">//获取月份</span></span><br><span class="line">moment().get(<span class="string">'25'</span>)            <span class="comment">//获取某一天</span></span><br><span class="line">moment().day() (<span class="number">0</span>~<span class="number">6</span>, <span class="number">0</span>: 周日, <span class="number">6</span>: 周六)</span><br><span class="line">moment().weekday() (<span class="number">0</span>~<span class="number">6</span>, <span class="number">0</span>: 周日, <span class="number">6</span>: 周六)</span><br><span class="line">moment().isoWeekday() (<span class="number">1</span>~<span class="number">7</span>, <span class="number">1</span>: 周一, <span class="number">7</span>: 周日)</span><br><span class="line">moment().get(<span class="string">'day'</span>)</span><br><span class="line">mment().get(<span class="string">'weekday'</span>)</span><br><span class="line">moment().get(<span class="string">'isoWeekday'</span>)</span><br><span class="line">moment().toArray() <span class="comment">// [years, months, date, hours, minutes, seconds, milliseconds] //获取当前年月日时分秒</span></span><br><span class="line">moment().toObject() <span class="comment">// &#123;years: xxxx, months: x, date: xx ...&#125; //获取当前年月日时分秒</span></span><br><span class="line">moment().seconds()</span><br><span class="line">moment().get(<span class="string">'seconds'</span>)         <span class="comment">//获取秒数</span></span><br><span class="line">moment().minutes()</span><br><span class="line">moment().get(<span class="string">'minutes'</span>)         <span class="comment">//获取分钟</span></span><br><span class="line">moment().hours()</span><br><span class="line">moment().get(<span class="string">'hours'</span>)           <span class="comment">//获取小时</span></span><br></pre></td></tr></table></figure>
-
-<p>获取相对时间</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//2020年9月19号15点为例</span></span><br><span class="line">moment(<span class="string">"20111031"</span>, <span class="string">"YYYYMMDD"</span>).fromNow(); <span class="comment">// 9 年前</span></span><br><span class="line">moment(<span class="string">"20120620"</span>, <span class="string">"YYYYMMDD"</span>).fromNow(); <span class="comment">// 8 年前</span></span><br><span class="line">moment().startOf(<span class="string">'day'</span>).fromNow();        <span class="comment">// 15 小时前</span></span><br><span class="line">moment().startOf(<span class="string">'day'</span>)                   <span class="comment">//获取今天0时0分0秒</span></span><br><span class="line">moment().startOf(<span class="string">'week'</span>)                  <span class="comment">//获取本周第一天（周日）0时0分0秒</span></span><br><span class="line">moment().startOf(<span class="string">'isoWeek'</span>)               <span class="comment">//获取本周周一0时0分0秒</span></span><br><span class="line">moment().startOf(<span class="string">'month'</span>)                 <span class="comment">//获取当前月第一天0时0分0秒</span></span><br><span class="line">moment().endOf(<span class="string">'day'</span>).fromNow();          <span class="comment">// 9 小时内</span></span><br><span class="line">moment().endOf(<span class="string">'day'</span>)                     <span class="comment">//获取今天23小时59分59秒</span></span><br><span class="line">moment().startOf(<span class="string">'hour'</span>).fromNow();</span><br></pre></td></tr></table></figure>
-
-<p>日历时间</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//2020年9月19号15点为例</span></span><br><span class="line">moment().subtract(<span class="number">10</span>, <span class="string">'days'</span>).calendar(); <span class="comment">// 2020/09/09</span></span><br><span class="line">moment().subtract(<span class="number">6</span>, <span class="string">'days'</span>).calendar();  <span class="comment">// 上星期日14:36</span></span><br><span class="line">moment().subtract(<span class="number">3</span>, <span class="string">'days'</span>).calendar();  <span class="comment">// 上星期三14:36</span></span><br><span class="line">moment().subtract(<span class="number">1</span>, <span class="string">'days'</span>).calendar();  <span class="comment">// 昨天14:36</span></span><br><span class="line">moment().calendar();                      <span class="comment">// 今天14:36</span></span><br><span class="line"><span class="comment">//添加时间</span></span><br><span class="line">moment().add(<span class="number">1</span>, <span class="string">'days'</span>).calendar();       <span class="comment">// 明天14:36</span></span><br><span class="line">moment().add(<span class="number">3</span>, <span class="string">'days'</span>).calendar();       <span class="comment">// 下星期二14:36</span></span><br><span class="line">moment().add(<span class="number">10</span>, <span class="string">'days'</span>).calendar();      <span class="comment">// 2020/09/29</span></span><br></pre></td></tr></table></figure>
-
-<p>获取当前月总天数</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">moment().daysInMonth()</span><br></pre></td></tr></table></figure>
-
-<p>比较时间</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> start_date = moment().subtract(<span class="number">1</span>, <span class="string">'weeks'</span>)</span><br><span class="line"><span class="keyword">let</span> end_date = moment()</span><br><span class="line"></span><br><span class="line">end_date.diff(start_date) <span class="comment">// 返回毫秒数</span></span><br><span class="line"></span><br><span class="line">end_date.diff(start_date, <span class="string">'months'</span>) <span class="comment">// 0</span></span><br><span class="line">end_date.diff(start_date, <span class="string">'weeks'</span>) <span class="comment">// 1</span></span><br><span class="line">end_date.diff(start_date, <span class="string">'days'</span>) <span class="comment">// 7</span></span><br><span class="line">start_date.diff(end_date, <span class="string">'days'</span>) <span class="comment">// -7</span></span><br></pre></td></tr></table></figure>
-
-<p>转为js原生时间对象</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> m = moment()</span><br><span class="line"><span class="keyword">let</span> nativeDate1 = m.toDate()</span><br></pre></td></tr></table></figure>
-
-<p>设置时间</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">moment().set(<span class="string">'year'</span>, <span class="number">2019</span>)            <span class="comment">//设置年份</span></span><br><span class="line">moment().set(<span class="string">'month'</span>, <span class="number">11</span>)             <span class="comment">//设置月份</span></span><br><span class="line">moment().set(<span class="string">'date'</span>, <span class="number">15</span>)              <span class="comment">//设置某个月中的某一天</span></span><br><span class="line">moment().set(<span class="string">'weekday'</span>, <span class="number">0</span>)            <span class="comment">//设置日期为本周第一天（周日）</span></span><br><span class="line">moment().set(<span class="string">'isoWeekday'</span>, <span class="number">1</span>)         <span class="comment">// 设置日期为本周周一</span></span><br><span class="line">moment().set(<span class="string">'hours'</span>, <span class="number">12</span>)             <span class="comment">//设置小时</span></span><br><span class="line">moment().set(<span class="string">'minutes'</span>, <span class="number">30</span>)           <span class="comment">//设置分钟</span></span><br><span class="line">moment().set(<span class="string">'seconds'</span>, <span class="number">30</span>)           <span class="comment">//设置秒</span></span><br></pre></td></tr></table></figure>
-
-
-
-<p><a href="https://segmentfault.com/a/1190000015240911">https://segmentfault.com/a/1190000015240911</a></p>
-<h2 id="ES6"><a href="#ES6" class="headerlink" title="ES6"></a>ES6</h2><h3 id="proxy"><a href="#proxy" class="headerlink" title="proxy"></a>proxy</h3><p>Proxy 用于修改某些操作的默认行为，等同于在语言层面做出修改，所以属于一种“元编程”（meta programming），即对编程语言进行编程。</p>
-<p>Proxy 可以理解成，在目标对象之前架设一层“拦截”，外界对该对象的访问，都必须先通过这层拦截，因此提供了一种机制，可以对外界的访问进行过滤和改写。</p>
-<p>方法：</p>
-<p><code>get</code>方法用于拦截某个属性的读取操作，可以接受三个参数，依次为目标对象、属性名和 proxy 实例本身（严格地说，是操作行为所针对的对象），其中最后一个参数可选。</p>
-<p><code>set</code>方法用来拦截某个属性的赋值操作，可以接受四个参数，依次为目标对象、属性名、属性值和 Proxy 实例本身，其中最后一个参数可选。</p>
-<p><code>has</code>方法用来拦截<code>HasProperty</code>操作，即判断对象是否具有某个属性时，这个方法会生效。典型的操作就是<code>in</code>运算符。<code>has</code>方法可以接受两个参数，分别是目标对象、需查询的属性名。</p>
-<p><code>deleteProperty</code>方法用于拦截<code>delete</code>操作，如果这个方法抛出错误或者返回<code>false</code>，当前属性就无法被<code>delete</code>命令删除。</p>
-<p><code>defineProperty()</code>方法拦截了<code>Object.defineProperty()</code>操作。</p>
-<p><code>getOwnPropertyDescriptor()</code>方法拦截<code>Object.getOwnPropertyDescriptor()</code>，返回一个属性描述对象或者<code>undefined</code>。</p>
-<p><code>getPrototypeOf()</code>方法主要用来拦截获取对象原型。具体来说，拦截下面这些操作。</p>
-<ul>
-<li><code>Object.prototype.__proto__</code></li>
-<li><code>Object.prototype.isPrototypeOf()</code></li>
-<li><code>Object.getPrototypeOf()</code></li>
-<li><code>Reflect.getPrototypeOf()</code></li>
-<li><code>instanceof</code></li>
-</ul>
-<p><code>isExtensible()</code>方法拦截<code>Object.isExtensible()</code>操作。</p>
-<p><code>ownKeys()</code>方法用来拦截对象自身属性的读取操作。具体来说，拦截以下操作。</p>
-<ul>
-<li><code>Object.getOwnPropertyNames()</code></li>
-<li><code>Object.getOwnPropertySymbols()</code></li>
-<li><code>Object.keys()</code></li>
-<li><code>for...in</code>循环</li>
-</ul>
-<p><code>preventExtensions()</code>方法拦截<code>Object.preventExtensions()</code>。该方法必须返回一个布尔值，否则会被自动转为布尔值。</p>
-<p><code>setPrototypeOf()</code>方法主要用来拦截<code>Object.setPrototypeOf()</code>方法。</p>
-<p><code>Proxy.revocable()</code>方法返回一个可取消的 Proxy 实例。</p>
-<h3 id="Generator函数"><a href="#Generator函数" class="headerlink" title="Generator函数"></a>Generator函数</h3><p>Generator 函数是 ES6 提供的一种异步编程解决方案，语法行为与传统函数完全不同。</p>
-<p>执行 Generator 函数会返回一个遍历器对象，也就是说，Generator 函数除了状态机，还是一个遍历器对象生成函数。返回的遍历器对象，可以依次遍历 Generator 函数内部的每一个状态。</p>
-<p>Generator 函数是一个普通函数，但是有两个特征。一是，<code>function</code>关键字与函数名之间有一个星号；二是，函数体内部使用<code>yield</code>表达式，定义不同的内部状态（<code>yield</code>在英语里的意思就是“产出”）。</p>
-<h4 id="async"><a href="#async" class="headerlink" title="async"></a>async</h4><h3 id="对象扩展"><a href="#对象扩展" class="headerlink" title="对象扩展"></a>对象扩展</h3><h3 id="展开语法"><a href="#展开语法" class="headerlink" title="展开语法"></a>展开语法</h3><p>可以在函数调用/数组构造时, 将数组表达式或者string在语法层面展开；</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sum</span>(<span class="params">x, y, z</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> x + y + z;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> numbers = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(sum(...numbers));</span><br><span class="line"><span class="comment">//output: 6</span></span><br><span class="line"><span class="built_in">console</span>.log(sum.apply(<span class="literal">null</span>, numbers));</span><br><span class="line"><span class="comment">//output: 6</span></span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<h2 id="浏览器"><a href="#浏览器" class="headerlink" title="浏览器"></a>浏览器</h2><h3 id="chrome浏览器调试"><a href="#chrome浏览器调试" class="headerlink" title="chrome浏览器调试"></a>chrome浏览器调试</h3><p>以chrome为例</p>
-<p>在chrome菜单中选择更多工具-&gt;开发者工具或者右键点击网页元素，选择检查打开调试面板。</p>
-<p>调试面板中有设备模式、元素面板、控制台面板、源代码面板、网络面板、性能面板、内存面板、应用面板、安全面板。</p>
-<p>设备模式面板可以选择web、ios、安卓等设备模式检查响应式布局</p>
-<p>元素面板(element)可以检查页面DOM和CSS，还可以自由操作DOM和CSS更改布局和设计页面。</p>
-<p>点击箭头图标，点击网页的任意位置，就可以出现该位置的元素html代码和css样式</p>
-<p>控制台面板(console)可以在开发期间记录输出信息，或者作为shell与javascript交互</p>
-<p>error和waring就是网页运行中产生的错误和警告，info用作输出的显示</p>
-<p>源代码面板(source)可以设置断点调试JavaScript，或者通过workspace连接本地文件来使用开发者工具的实时编辑器。</p>
-<p>网络面板(network)查看当前网页的请求和下载的资源文件。</p>
-<p>点击network就能看到各个接口请求的先后顺序和耗时。想要查看具体的接口参数，在name中找到具体的接口，header为请求头参数，preview和response为返回值。</p>
-<p>内存面板(memory)可以跟踪内存泄漏等功能</p>
-<p>性能面板(performance)可以记录和查看网站生命周期内发生的各种事件，通过修改对应事件来提高页面的运行性能。</p>
-<p>应用面板(application)中可以检查加载的所有资源，包括indexedDB、WebSQL数据库、本地和会话存储、cookie、应用程序缓存、图像、字体、样式表等。</p>
-<p>安全面板(security)检查证书问题等。</p>
-<h2 id="jquery"><a href="#jquery" class="headerlink" title="jquery"></a>jquery</h2>
         </div>
         
         <div class="level is-size-7 is-uppercase">
@@ -471,8 +492,8 @@
         
         
         <div class="level-end">
-            <a class="level level-item has-link-grey  article-nav-next" href="/2020/07/02/vue/">
-                <span class="level-item">Vue.js前端框架</span>
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/07/18/Node3/">
+                <span class="level-item">Javascript开发（二）</span>
                 <i class="level-item fas fa-chevron-right"></i>
             </a>
         </div>
@@ -553,7 +574,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            67
+                            88
                         </p>
                     </a>
                 </div>
@@ -565,7 +586,7 @@
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            6
+                            7
                         </p>
                     </a>
                 </div>
@@ -577,7 +598,7 @@
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            42
+                            47
                         </p>
                     </a>
                 </div>
@@ -647,74 +668,58 @@
         <span class="has-mr-6">2</span>
         <span>js基本语法。</span>
         </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#原型链继承">
+        <a class="is-flex" href="#数据类型转换">
         <span class="has-mr-6">2.1</span>
+        <span>数据类型转换</span>
+        </a></li><li>
+        <a class="is-flex" href="#函数和闭包">
+        <span class="has-mr-6">2.2</span>
+        <span>函数和闭包</span>
+        </a></li><li>
+        <a class="is-flex" href="#严格模式">
+        <span class="has-mr-6">2.3</span>
+        <span>严格模式</span>
+        </a></li><li>
+        <a class="is-flex" href="#this关键字">
+        <span class="has-mr-6">2.4</span>
+        <span>this关键字</span>
+        </a></li><li>
+        <a class="is-flex" href="#原型链继承">
+        <span class="has-mr-6">2.5</span>
         <span>原型链继承</span>
         </a><ul class="menu-list"><li>
         <a class="is-flex" href="#构造函数与构造函数的继承">
-        <span class="has-mr-6">2.1.1</span>
+        <span class="has-mr-6">2.5.1</span>
         <span>构造函数与构造函数的继承</span>
         </a></li></ul></li><li>
         <a class="is-flex" href="#浏览器缓存storage方法">
-        <span class="has-mr-6">2.2</span>
+        <span class="has-mr-6">2.6</span>
         <span>浏览器缓存storage方法</span>
         </a></li><li>
         <a class="is-flex" href="#实例对象与new">
-        <span class="has-mr-6">2.3</span>
+        <span class="has-mr-6">2.7</span>
         <span>实例对象与new</span>
         </a></li><li>
+        <a class="is-flex" href="#异步操作与定时器">
+        <span class="has-mr-6">2.8</span>
+        <span>异步操作与定时器</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#定时器">
+        <span class="has-mr-6">2.8.1</span>
+        <span>定时器</span>
+        </a></li></ul></li><li>
         <a class="is-flex" href="#异步对象promise">
-        <span class="has-mr-6">2.4</span>
+        <span class="has-mr-6">2.9</span>
         <span>异步对象promise</span>
         </a></li><li>
         <a class="is-flex" href="#事件">
-        <span class="has-mr-6">2.5</span>
+        <span class="has-mr-6">2.10</span>
         <span>事件</span>
         </a></li><li>
         <a class="is-flex" href="#深拷贝与浅拷贝">
-        <span class="has-mr-6">2.6</span>
+        <span class="has-mr-6">2.11</span>
         <span>深拷贝与浅拷贝</span>
-        </a></li></ul></li><li>
-        <a class="is-flex" href="#Momentjs">
-        <span class="has-mr-6">3</span>
-        <span>Momentjs</span>
-        </a></li><li>
-        <a class="is-flex" href="#ES6">
-        <span class="has-mr-6">4</span>
-        <span>ES6</span>
-        </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#proxy">
-        <span class="has-mr-6">4.1</span>
-        <span>proxy</span>
-        </a></li><li>
-        <a class="is-flex" href="#Generator函数">
-        <span class="has-mr-6">4.2</span>
-        <span>Generator函数</span>
-        </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#async">
-        <span class="has-mr-6">4.2.1</span>
-        <span>async</span>
-        </a></li></ul></li><li>
-        <a class="is-flex" href="#对象扩展">
-        <span class="has-mr-6">4.3</span>
-        <span>对象扩展</span>
-        </a></li><li>
-        <a class="is-flex" href="#展开语法">
-        <span class="has-mr-6">4.4</span>
-        <span>展开语法</span>
-        </a></li></ul></li><li>
-        <a class="is-flex" href="#浏览器">
-        <span class="has-mr-6">5</span>
-        <span>浏览器</span>
-        </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#chrome浏览器调试">
-        <span class="has-mr-6">5.1</span>
-        <span>chrome浏览器调试</span>
-        </a></li></ul></li><li>
-        <a class="is-flex" href="#jquery">
-        <span class="has-mr-6">6</span>
-        <span>jquery</span>
-        </a></li></ul>
+        </a></li></ul></li></ul>
             </div>
         </div>
     </div>
@@ -770,7 +775,15 @@
                 <span class="level-item">IT</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">21</span>
+                <span class="level-item tag">28</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E4%B8%AA%E4%BA%BA%E5%B9%B8%E7%A6%8F/">
+            <span class="level-start">
+                <span class="level-item">个人幸福</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">
@@ -778,7 +791,7 @@
                 <span class="level-item">个人生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">16</span>
+                <span class="level-item tag">22</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">
@@ -786,7 +799,7 @@
                 <span class="level-item">技术博客</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">28</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%9C%8B%E5%8F%8B/">
@@ -794,7 +807,7 @@
                 <span class="level-item">朋友</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">4</span>
+                <span class="level-item tag">5</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E7%94%9F%E6%B4%BB/">
@@ -810,7 +823,7 @@
                 <span class="level-item">生活感悟</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">1</span>
+                <span class="level-item tag">2</span>
             </span>
         </a></li>
             </ul>
@@ -823,7 +836,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 13.33px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 10px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 13.33px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 13.33px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 13.33px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 10px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb-Javascript/" style="font-size: 10px;">IT，Web,Javascript</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 20px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 10px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 13.33px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 10px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 10px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 13.33px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 10px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 20px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 16.67px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 16.67px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 10px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 10px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 13.33px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">生活、幸福</a> <a href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">记录，生活</a>
+        <a href="/tags/IT/" style="font-size: 10px;">IT</a> <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 12.5px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 10px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8C/" style="font-size: 12.5px;">IT,Web，</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 12.5px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 12.5px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 12.5px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 10px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb/" style="font-size: 10px;">IT，Web</a> <a href="/tags/IT%EF%BC%8CWeb-Javascript/" style="font-size: 10px;">IT，Web,Javascript</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 17.5px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 10px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 15px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 12.5px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 12.5px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 10px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 10px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 17.5px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 15px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 15px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">幸福</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/" style="font-size: 15px;">技术，IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 10px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 12.5px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 12.5px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 17.5px;">生活、幸福</a> <a href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">记录，生活</a>
     </div>
 </div>
     
@@ -835,6 +848,25 @@
         <h3 class="menu-label">
             最新文章
         </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/10/02/%E6%97%A5%E8%AF%AD%E5%AD%A6%E4%B9%A0%E4%B8%8E%E6%89%98%E7%A6%8F%E5%AD%A6%E4%B9%A0/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="日语学习与托福学习">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-10-02T13:40:33.000Z">2020-10-02</time></div>
+                    <a href="/2020/10/02/%E6%97%A5%E8%AF%AD%E5%AD%A6%E4%B9%A0%E4%B8%8E%E6%89%98%E7%A6%8F%E5%AD%A6%E4%B9%A0/" class="title has-link-black-ter is-size-6 has-text-weight-normal">日语学习与托福学习</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">个人生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -895,37 +927,18 @@
         
         <article class="media">
             
-            <a href="/2020/08/28/flutter3/" class="media-left">
+            <a href="/2020/09/02/H5%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%912/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/flutter.jpeg" alt="flutter移动开发（三）">
+                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/Phaser.jpg" alt="H5游戏开发">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-08-28T13:40:33.000Z">2020-08-28</time></div>
-                    <a href="/2020/08/28/flutter3/" class="title has-link-black-ter is-size-6 has-text-weight-normal">flutter移动开发（三）</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-09-02T13:40:33.000Z">2020-09-02</time></div>
+                    <a href="/2020/09/02/H5%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%912/" class="title has-link-black-ter is-size-6 has-text-weight-normal">H5游戏开发</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">技术博客</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2020/08/28/flutter2/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/flutter2.jpg" alt="flutter移动开发（二）">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-08-28T13:40:33.000Z">2020-08-28</time></div>
-                    <a href="/2020/08/28/flutter2/" class="title has-link-black-ter is-size-6 has-text-weight-normal">flutter移动开发（二）</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">技术博客</a>
+                        <a class="has-link-grey -link" href="/categories/IT/">IT</a>
                     </p>
                 </div>
             </div>
@@ -943,12 +956,23 @@
         <ul class="menu-list">
         
         <li>
+            <a class="level is-marginless" href="/archives/2020/10/">
+                <span class="level-start">
+                    <span class="level-item">十月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
             <a class="level is-marginless" href="/archives/2020/09/">
                 <span class="level-start">
                     <span class="level-item">九月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">3</span>
+                    <span class="level-item tag">4</span>
                 </span>
             </a>
         </li>
@@ -959,7 +983,7 @@
                     <span class="level-item">八月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">5</span>
+                    <span class="level-item tag">7</span>
                 </span>
             </a>
         </li>
@@ -970,7 +994,7 @@
                     <span class="level-item">七月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">4</span>
+                    <span class="level-item tag">5</span>
                 </span>
             </a>
         </li>
@@ -981,7 +1005,7 @@
                     <span class="level-item">六月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">7</span>
+                    <span class="level-item tag">13</span>
                 </span>
             </a>
         </li>
@@ -992,7 +1016,7 @@
                     <span class="level-item">五月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">9</span>
+                    <span class="level-item tag">5</span>
                 </span>
             </a>
         </li>
@@ -1003,7 +1027,7 @@
                     <span class="level-item">四月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">3</span>
+                    <span class="level-item tag">4</span>
                 </span>
             </a>
         </li>
@@ -1014,7 +1038,7 @@
                     <span class="level-item">三月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">35</span>
+                    <span class="level-item tag">48</span>
                 </span>
             </a>
         </li>
@@ -1044,6 +1068,13 @@
             <div class="field is-grouped is-grouped-multiline">
                 
                 <div class="control">
+                    <a class="tags has-addons" href="/tags/IT/">
+                        <span class="tag">IT</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
                     <a class="tags has-addons" href="/tags/IT-Java-Web/">
                         <span class="tag">IT,Java,Web</span>
                         <span class="tag is-grey">1</span>
@@ -1061,6 +1092,13 @@
                     <a class="tags has-addons" href="/tags/IT-Web/">
                         <span class="tag">IT,Web,</span>
                         <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8C/">
+                        <span class="tag">IT,Web，</span>
+                        <span class="tag is-grey">2</span>
                     </a>
                 </div>
                 
@@ -1156,6 +1194,13 @@
                 </div>
                 
                 <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb/">
+                        <span class="tag">IT，Web</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Javascript/">
                         <span class="tag">IT，Web,Javascript</span>
                         <span class="tag is-grey">1</span>
@@ -1165,7 +1210,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Node/">
                         <span class="tag">IT，Web,Node</span>
-                        <span class="tag is-grey">4</span>
+                        <span class="tag is-grey">5</span>
                     </a>
                 </div>
                 
@@ -1186,7 +1231,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Vue/">
                         <span class="tag">IT，Web,Vue</span>
-                        <span class="tag is-grey">2</span>
+                        <span class="tag is-grey">3</span>
                     </a>
                 </div>
                 
@@ -1200,21 +1245,21 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/">
                         <span class="tag">IT，Web,数据库</span>
-                        <span class="tag is-grey">4</span>
+                        <span class="tag is-grey">6</span>
                     </a>
                 </div>
                 
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8Cweb/">
                         <span class="tag">IT，web</span>
-                        <span class="tag is-grey">1</span>
+                        <span class="tag is-grey">2</span>
                     </a>
                 </div>
                 
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/">
                         <span class="tag">IT，未来</span>
-                        <span class="tag is-grey">1</span>
+                        <span class="tag is-grey">2</span>
                     </a>
                 </div>
                 
@@ -1228,7 +1273,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/Web-IT-Go/">
                         <span class="tag">Web,IT,Go</span>
-                        <span class="tag is-grey">2</span>
+                        <span class="tag is-grey">1</span>
                     </a>
                 </div>
                 
@@ -1242,7 +1287,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/">
                         <span class="tag">个人生活，幸福</span>
-                        <span class="tag is-grey">4</span>
+                        <span class="tag is-grey">5</span>
                     </a>
                 </div>
                 
@@ -1268,6 +1313,13 @@
                 </div>
                 
                 <div class="control">
+                    <a class="tags has-addons" href="/tags/%E5%B9%B8%E7%A6%8F/">
+                        <span class="tag">幸福</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
                     <a class="tags has-addons" href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">
                         <span class="tag">幸福，个人生活</span>
                         <span class="tag is-grey">1</span>
@@ -1278,6 +1330,13 @@
                     <a class="tags has-addons" href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/">
                         <span class="tag">技术宅、IT</span>
                         <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/">
+                        <span class="tag">技术，IT</span>
+                        <span class="tag is-grey">3</span>
                     </a>
                 </div>
                 
@@ -1298,7 +1357,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/%E6%B7%B1%E5%9C%B3/">
                         <span class="tag">深圳</span>
-                        <span class="tag is-grey">1</span>
+                        <span class="tag is-grey">2</span>
                     </a>
                 </div>
                 
@@ -1326,7 +1385,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/">
                         <span class="tag">生活、幸福</span>
-                        <span class="tag is-grey">1</span>
+                        <span class="tag is-grey">5</span>
                     </a>
                 </div>
                 
@@ -1445,7 +1504,7 @@
 <script>
 var IcarusThemeSettings = {
     site: {
-        url: 'http://yoursite.com',
+        url: 'http://kun8018.gitee.io',
         external_link: {"enable":true,"exclude":[]}
     },
     article: {

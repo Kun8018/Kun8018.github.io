@@ -10,16 +10,16 @@
 <title>Hexo个人博客搭建及配置 - kun&#39;s blog</title>
 
 
-    <meta name="description" content="Hexo个人博客简介　　Hexo 是一个快速、简洁且高效的博客框架。Hexo是基于Node的框架，使用 Markdown（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页。 ​       Hexo具有以下优点：  使用广泛，主题和插件很多，可扩展性强 支持Markdown语法，编辑简介美观 一键生成，快捷方便  基于以上特点，推荐使用Hexo博客框架。">
+    <meta name="description" content="Hexo个人博客简介　　Hexo 是一个快速、简洁且高效的博客框架。Hexo是基于Node的框架，使用 Markdown（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页。 ​       Hexo具有以下优点：  使用广泛，主题和插件很多，可扩展性强 支持Markdown语法，编辑简介美观 一键生成，快捷方便  基于以上特点，推荐使用Hexo博客框架。 推荐https:&#x2F;&#x2F;ea">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hexo个人博客搭建及配置">
-<meta property="og:url" content="http://yoursite.com/2020/03/18/hexo/index.html">
+<meta property="og:url" content="http://kun8018.gitee.io/2020/03/18/hexo/index.html">
 <meta property="og:site_name" content="kun&#39;s blog">
-<meta property="og:description" content="Hexo个人博客简介　　Hexo 是一个快速、简洁且高效的博客框架。Hexo是基于Node的框架，使用 Markdown（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页。 ​       Hexo具有以下优点：  使用广泛，主题和插件很多，可扩展性强 支持Markdown语法，编辑简介美观 一键生成，快捷方便  基于以上特点，推荐使用Hexo博客框架。">
+<meta property="og:description" content="Hexo个人博客简介　　Hexo 是一个快速、简洁且高效的博客框架。Hexo是基于Node的框架，使用 Markdown（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页。 ​       Hexo具有以下优点：  使用广泛，主题和插件很多，可扩展性强 支持Markdown语法，编辑简介美观 一键生成，快捷方便  基于以上特点，推荐使用Hexo博客框架。 推荐https:&#x2F;&#x2F;ea">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://s1.ax1x.com/2020/03/27/G9OocT.jpg">
 <meta property="article:published_time" content="2020-03-18T13:40:33.000Z">
-<meta property="article:modified_time" content="2020-10-04T18:02:09.802Z">
+<meta property="article:modified_time" content="2020-11-09T03:05:37.159Z">
 <meta property="article:author" content="Kun Zhang">
 <meta property="article:tag" content="兴趣，幸福">
 <meta name="twitter:card" content="summary">
@@ -158,7 +158,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    21 分钟 读完 (大约 3174 个字)
+                    28 分钟 读完 (大约 4251 个字)
                 </span>
                 
                 
@@ -183,7 +183,10 @@
 <li>支持Markdown语法，编辑简介美观</li>
 <li>一键生成，快捷方便</li>
 </ul>
-<p>基于以上特点，推荐使用Hexo博客框架。<a id="more"></a>　</p>
+<p>基于以上特点，推荐使用Hexo博客框架。</p>
+<p>推荐<a href="https://easyhexo.com/，教程很nice">https://easyhexo.com/，教程很nice</a></p>
+<a id="more"></a>　
+
 <h2 id="基本搭建环境"><a href="#基本搭建环境" class="headerlink" title="基本搭建环境"></a>基本搭建环境</h2><p>Node.js</p>
 <p>　　在<a href>Node官网</a>下载对应系统最新版安装即可</p>
 <p>Git</p>
@@ -201,7 +204,7 @@
 
 <p>　　启动成功。</p>
 <p>　　打开浏览器，输入local host：4000（Hexo服务器默认端口为4000），就能看到博客页面，只不过现在的页面是默认的模板，没有任何你自己的东西。</p>
-<h2 id="在Github下访问"><a href="#在Github下访问" class="headerlink" title="在Github下访问"></a>在Github下访问</h2><h3 id="Git-hub配置"><a href="#Git-hub配置" class="headerlink" title="Git hub配置"></a>Git hub配置</h3><p>在Git hub下创建仓库，仓库名字必须为 <code>[用户名].github.io</code>,</p>
+<h2 id="托管到Github服务器"><a href="#托管到Github服务器" class="headerlink" title="托管到Github服务器"></a>托管到Github服务器</h2><h3 id="Git-hub配置"><a href="#Git-hub配置" class="headerlink" title="Git hub配置"></a>Git hub配置</h3><p>在Git hub下创建仓库，仓库名字必须为 <code>[用户名].github.io</code>,</p>
 <p><img src="http://q6mb9zdoi.bkt.clouddn.com/rep.png" alt></p>
 <h3 id="本地文件配置"><a href="#本地文件配置" class="headerlink" title="本地文件配置"></a>本地文件配置</h3><p>在本地<code>Hexo</code>文件夹下打开<code>_config.yml</code>文件，在deploy输入以下代码</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repository:                    https:&#x2F;&#x2F;github.com&#x2F;tengzhangchao&#x2F;tengzhangchao.github.io.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
@@ -337,7 +340,99 @@
 
 <p>Github原文地址：<a href="https://github.com/printempw/hexo-hide-posts">https://github.com/printempw/hexo-hide-posts</a></p>
 <p>获取地址</p>
-<h3 id="在线编辑"><a href="#在线编辑" class="headerlink" title="在线编辑"></a>在线编辑</h3><h3 id="设置相关阅读"><a href="#设置相关阅读" class="headerlink" title="设置相关阅读"></a>设置相关阅读</h3><h3 id="添加背景音乐"><a href="#添加背景音乐" class="headerlink" title="添加背景音乐"></a>添加背景音乐</h3><h3 id="被搜索引擎收录"><a href="#被搜索引擎收录" class="headerlink" title="被搜索引擎收录"></a>被搜索引擎收录</h3><p><a href="https://www.xiemingzhao.com/posts/HexoblogSE.html">https://www.xiemingzhao.com/posts/HexoblogSE.html</a></p>
+<h3 id="在线编辑"><a href="#在线编辑" class="headerlink" title="在线编辑"></a>在线编辑</h3><p>hexo-admin</p>
+<h3 id="设置相关阅读"><a href="#设置相关阅读" class="headerlink" title="设置相关阅读"></a>设置相关阅读</h3><h3 id="添加背景音乐"><a href="#添加背景音乐" class="headerlink" title="添加背景音乐"></a>添加背景音乐</h3><h3 id="被搜索引擎收录"><a href="#被搜索引擎收录" class="headerlink" title="被搜索引擎收录"></a>被搜索引擎收录</h3><p>gitpage托管的网站默认会被google收录，在搜索引擎中输入site: 你的域名 就可以找到，百度不会</p>
+<p><a href="https://www.xiemingzhao.com/posts/HexoblogSE.html">https://www.xiemingzhao.com/posts/HexoblogSE.html</a></p>
+<h2 id="gridea"><a href="#gridea" class="headerlink" title="gridea"></a>gridea</h2><p><a href="https://gridea.dev/">https://gridea.dev/</a></p>
+<p><a href="https://v2ex.com/t/699961#reply4">https://v2ex.com/t/699961#reply4</a></p>
+<h2 id="jekyll"><a href="#jekyll" class="headerlink" title="jekyll"></a>jekyll</h2><h2 id="托管到giteepage服务器"><a href="#托管到giteepage服务器" class="headerlink" title="托管到giteepage服务器"></a>托管到giteepage服务器</h2><p>码云是国内的代码托管网站，也可以托管静态博客，与github托管的功能类似。最重要的是对于国内的用户访问速度会比github快，所以可以尝试一下。</p>
+<p>如果你之前hexo配置好了，你只需要做两件事情</p>
+<h3 id="在gitee新建账号和仓库"><a href="#在gitee新建账号和仓库" class="headerlink" title="在gitee新建账号和仓库"></a>在gitee新建账号和仓库</h3><h3 id="本地关联gitee仓库和发布"><a href="#本地关联gitee仓库和发布" class="headerlink" title="本地关联gitee仓库和发布"></a>本地关联gitee仓库和发布</h3><p>由于gitee也是使用git作为版本管理工具，所以不需要改用其他版本管理工具。</p>
+<p>添加gitee远程仓库关联</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote add github git@gitee.com:yefcion/Poweron.gits</span><br></pre></td></tr></table></figure>
+
+<p>修改站点配置文件 _config.yml,把原来github的repo注释掉，新加gitee的仓库链接</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">git</span></span><br><span class="line">  <span class="comment">#  repo: https://github.com/zhengqingya/zhengqingya.github.io # github仓库</span></span><br><span class="line">  <span class="attr">repo:</span> <span class="string">https://gitee.com/zhengqingya/blog</span> <span class="comment"># 码云仓库</span></span><br><span class="line">  <span class="attr">branch:</span> <span class="string">master</span></span><br><span class="line">  <span class="attr">message:</span></span><br></pre></td></tr></table></figure>
+
+<p>发布到仓库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>在仓库的gitpage服务下面点击更新</p>
+<h2 id="托管到Netify服务器"><a href="#托管到Netify服务器" class="headerlink" title="托管到Netify服务器"></a>托管到Netify服务器</h2><h3 id="NetlifyCMS"><a href="#NetlifyCMS" class="headerlink" title="NetlifyCMS"></a>NetlifyCMS</h3><p>托管到Netlify有一个好处是能够使用NetlifyCMS管理静态博客文件，进而可以远程编辑，Netlify会获取你的Git仓库很多权限。</p>
+<p>在hexo中添加依赖</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-netlify-cms --save</span><br><span class="line"><span class="meta">#</span><span class="bash">或者</span></span><br><span class="line">yarn add hexo-netlify-cms</span><br></pre></td></tr></table></figure>
+
+<p>在config_yml中添加配置</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">netlify_cms:</span></span><br><span class="line">  <span class="attr">backend:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">git-gateway</span></span><br><span class="line">    <span class="attr">branch:</span> <span class="string">master</span></span><br></pre></td></tr></table></figure>
+
+<p>在Netlify中开启netlify git-gateway服务</p>
+<p>添加netlify-identity-widget.js, 代码如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src=<span class="string">"https://identity.netlify.com/v1/netlify-identity-widget.js"</span>&gt;&lt;<span class="regexp">/script&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>现在Netlify CMS已经好了, 你可以访问<code>your-site/admin</code>查看</p>
+<h2 id="开发hexo主题"><a href="#开发hexo主题" class="headerlink" title="开发hexo主题"></a>开发hexo主题</h2><p>开发一款属于你的hexo主题吧～</p>
+<h3 id="EJS语法"><a href="#EJS语法" class="headerlink" title="EJS语法"></a>EJS语法</h3><p>Hexo 使用主流的模板引擎，如： <code>EJS</code> 、 <code>Jade</code> 、 <code>Swing</code> 等，Hexo 的页面都是通过模板引擎渲染出来的页面，它可以实现一些代码的复用。</p>
+<p>“E” 代表什么？可以表示 “可嵌入（Embedded）”，也可以是“高效（Effective）”、“优雅（Elegant）”或者是“简单（Easy）”。EJS 是一套简单的模板语言，帮你利用普通的 JavaScript 代码生成 HTML 页面。EJS 没有如何组织内容的教条；也没有再造一套迭代和控制流语法；有的只是普通的 JavaScript 代码而已。</p>
+<p>标签</p>
+<ul>
+<li><code>&lt;%</code> ‘脚本’ 标签，用于流程控制，无输出。</li>
+<li><code>&lt;%_</code> 删除其前面的空格符</li>
+<li><code>&lt;%=</code> 输出数据到模板（输出是转义 HTML 标签）</li>
+<li><code>&lt;%-</code> 输出非转义的数据到模板</li>
+<li><code>&lt;%#</code> 注释标签，不执行、不输出内容</li>
+<li><code>&lt;%%</code> 输出字符串 ‘&lt;%’</li>
+<li><code>%&gt;</code> 一般结束标签</li>
+<li><code>-%&gt;</code> 删除紧随其后的换行符</li>
+<li><code>_%&gt;</code> 将结束标签后面的空格符删除</li>
+</ul>
+<h3 id="hexo语法"><a href="#hexo语法" class="headerlink" title="hexo语法"></a>hexo语法</h3><p>除了ejs语法，还有hexo特有的一些语法</p>
+<p>辅助函数：</p>
+<p><code>url_for</code>：输出路径</p>
+<p><code>partial</code>：载入其他模版文件</p>
+<p><code>css</code>：载入css文件</p>
+<p><code>js</code>：载入js文件</p>
+<p><code>data_xml</code>：插入 XML 格式的日期</p>
+<p>变量</p>
+<ul>
+<li><p><code>page</code>：针对该页面的内容以及 front-matter 所设定的变量</p>
+</li>
+<li><p><code>config</code>：网站配置（hexo的_config.yml）</p>
+</li>
+<li><p><code>theme</code>：主题配置（theme的_config.yml）</p>
+</li>
+<li><p><code>url</code>：当前页面的完整网址</p>
+</li>
+<li><p><code>path</code>：当前页面的路径（不含根路径）</p>
+</li>
+<li><p><code>post.title</code>：文章的题目</p>
+</li>
+<li><p><code>post.excerpt</code>：文章的摘要，即写文章的时候<code>&lt;!--more--&gt;</code>之上的那段儿，首页显示</p>
+</li>
+<li><p><code>post.comments</code>：评论模块</p>
+</li>
+<li><p><code>post.photots</code>：文章中插入的图片</p>
+</li>
+<li><p><code>post.content</code>：文章内容</p>
+</li>
+<li><p><code>post.date</code>：文章的时间</p>
+</li>
+</ul>
+<h3 id="文件"><a href="#文件" class="headerlink" title="文件"></a>文件</h3><p>主题的文件全部在theme文件夹下，</p>
+<p>layout.ejs</p>
+<p>在layout文件夹下，布局被写在layout.ejs中，由于hexo支持<strong>模块儿化布局</strong>，使用hexo提供的局部函数<code>partial</code>载入其他模版文件，配合ejs的语法，布局文件layout.ejs</p>
+<p>Index.ejs</p>
+<p>首页</p>
+<p>Post.ejs</p>
+<p>文章页</p>
+<p>Archive.ejs</p>
+<p>归档页</p>
+<p>Tag.ejs</p>
+<p>标签页</p>
+<p>Page.ejs</p>
+<p>其他页面</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p>他山之石，可以攻玉。在编写时要参考现有的优秀的博客主题，如Next、icarus</p>
 
         </div>
         
@@ -405,8 +500,8 @@
         
         
         <div class="level-end">
-            <a class="level level-item has-link-grey  article-nav-next" href="/2020/03/15/Extiction/">
-                <span class="level-item">激励计划</span>
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/03/18/%E5%85%B3%E4%BA%8E%E5%B7%A5%E4%BD%9C/">
+                <span class="level-item">关于工作</span>
                 <i class="level-item fas fa-chevron-right"></i>
             </a>
         </div>
@@ -487,7 +582,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            67
+                            88
                         </p>
                     </a>
                 </div>
@@ -499,7 +594,7 @@
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            6
+                            7
                         </p>
                     </a>
                 </div>
@@ -511,7 +606,7 @@
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            42
+                            47
                         </p>
                     </a>
                 </div>
@@ -585,9 +680,9 @@
         <span class="has-mr-6">3</span>
         <span>本地搭建博客</span>
         </a></li><li>
-        <a class="is-flex" href="#在Github下访问">
+        <a class="is-flex" href="#托管到Github服务器">
         <span class="has-mr-6">4</span>
-        <span>在Github下访问</span>
+        <span>托管到Github服务器</span>
         </a><ul class="menu-list"><li>
         <a class="is-flex" href="#Git-hub配置">
         <span class="has-mr-6">4.1</span>
@@ -720,6 +815,54 @@
         <a class="is-flex" href="#被搜索引擎收录">
         <span class="has-mr-6">6.15</span>
         <span>被搜索引擎收录</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#gridea">
+        <span class="has-mr-6">7</span>
+        <span>gridea</span>
+        </a></li><li>
+        <a class="is-flex" href="#jekyll">
+        <span class="has-mr-6">8</span>
+        <span>jekyll</span>
+        </a></li><li>
+        <a class="is-flex" href="#托管到giteepage服务器">
+        <span class="has-mr-6">9</span>
+        <span>托管到giteepage服务器</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#在gitee新建账号和仓库">
+        <span class="has-mr-6">9.1</span>
+        <span>在gitee新建账号和仓库</span>
+        </a></li><li>
+        <a class="is-flex" href="#本地关联gitee仓库和发布">
+        <span class="has-mr-6">9.2</span>
+        <span>本地关联gitee仓库和发布</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#托管到Netify服务器">
+        <span class="has-mr-6">10</span>
+        <span>托管到Netify服务器</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#NetlifyCMS">
+        <span class="has-mr-6">10.1</span>
+        <span>NetlifyCMS</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#开发hexo主题">
+        <span class="has-mr-6">11</span>
+        <span>开发hexo主题</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#EJS语法">
+        <span class="has-mr-6">11.1</span>
+        <span>EJS语法</span>
+        </a></li><li>
+        <a class="is-flex" href="#hexo语法">
+        <span class="has-mr-6">11.2</span>
+        <span>hexo语法</span>
+        </a></li><li>
+        <a class="is-flex" href="#文件">
+        <span class="has-mr-6">11.3</span>
+        <span>文件</span>
+        </a></li><li>
+        <a class="is-flex" href="#参考">
+        <span class="has-mr-6">11.4</span>
+        <span>参考</span>
         </a></li></ul></li></ul>
             </div>
         </div>
@@ -776,7 +919,15 @@
                 <span class="level-item">IT</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">21</span>
+                <span class="level-item tag">28</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E4%B8%AA%E4%BA%BA%E5%B9%B8%E7%A6%8F/">
+            <span class="level-start">
+                <span class="level-item">个人幸福</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">
@@ -784,7 +935,7 @@
                 <span class="level-item">个人生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">16</span>
+                <span class="level-item tag">22</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">
@@ -792,7 +943,7 @@
                 <span class="level-item">技术博客</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">28</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%9C%8B%E5%8F%8B/">
@@ -800,7 +951,7 @@
                 <span class="level-item">朋友</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">4</span>
+                <span class="level-item tag">5</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E7%94%9F%E6%B4%BB/">
@@ -816,7 +967,7 @@
                 <span class="level-item">生活感悟</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">1</span>
+                <span class="level-item tag">2</span>
             </span>
         </a></li>
             </ul>
@@ -829,7 +980,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 13.33px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 10px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 13.33px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 13.33px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 13.33px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 10px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb-Javascript/" style="font-size: 10px;">IT，Web,Javascript</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 20px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 10px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 13.33px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 10px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 10px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 13.33px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 10px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 20px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 16.67px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 16.67px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 10px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 10px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 13.33px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">生活、幸福</a> <a href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">记录，生活</a>
+        <a href="/tags/IT/" style="font-size: 10px;">IT</a> <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 12.5px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 10px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8C/" style="font-size: 12.5px;">IT,Web，</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 12.5px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 12.5px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 12.5px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 10px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb/" style="font-size: 10px;">IT，Web</a> <a href="/tags/IT%EF%BC%8CWeb-Javascript/" style="font-size: 10px;">IT，Web,Javascript</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 17.5px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 10px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 15px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 12.5px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 12.5px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 10px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 10px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 17.5px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 15px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 15px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">幸福</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/" style="font-size: 15px;">技术，IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 10px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 12.5px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 12.5px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 17.5px;">生活、幸福</a> <a href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">记录，生活</a>
     </div>
 </div>
     
@@ -841,6 +992,25 @@
         <h3 class="menu-label">
             最新文章
         </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/10/02/%E6%97%A5%E8%AF%AD%E5%AD%A6%E4%B9%A0%E4%B8%8E%E6%89%98%E7%A6%8F%E5%AD%A6%E4%B9%A0/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="日语学习与托福学习">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-10-02T13:40:33.000Z">2020-10-02</time></div>
+                    <a href="/2020/10/02/%E6%97%A5%E8%AF%AD%E5%AD%A6%E4%B9%A0%E4%B8%8E%E6%89%98%E7%A6%8F%E5%AD%A6%E4%B9%A0/" class="title has-link-black-ter is-size-6 has-text-weight-normal">日语学习与托福学习</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">个人生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -901,37 +1071,18 @@
         
         <article class="media">
             
-            <a href="/2020/08/28/flutter3/" class="media-left">
+            <a href="/2020/09/02/H5%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%912/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/flutter.jpeg" alt="flutter移动开发（三）">
+                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/Phaser.jpg" alt="H5游戏开发">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-08-28T13:40:33.000Z">2020-08-28</time></div>
-                    <a href="/2020/08/28/flutter3/" class="title has-link-black-ter is-size-6 has-text-weight-normal">flutter移动开发（三）</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-09-02T13:40:33.000Z">2020-09-02</time></div>
+                    <a href="/2020/09/02/H5%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%912/" class="title has-link-black-ter is-size-6 has-text-weight-normal">H5游戏开发</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">技术博客</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2020/08/28/flutter2/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/flutter2.jpg" alt="flutter移动开发（二）">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-08-28T13:40:33.000Z">2020-08-28</time></div>
-                    <a href="/2020/08/28/flutter2/" class="title has-link-black-ter is-size-6 has-text-weight-normal">flutter移动开发（二）</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">技术博客</a>
+                        <a class="has-link-grey -link" href="/categories/IT/">IT</a>
                     </p>
                 </div>
             </div>
@@ -949,12 +1100,23 @@
         <ul class="menu-list">
         
         <li>
+            <a class="level is-marginless" href="/archives/2020/10/">
+                <span class="level-start">
+                    <span class="level-item">十月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
             <a class="level is-marginless" href="/archives/2020/09/">
                 <span class="level-start">
                     <span class="level-item">九月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">3</span>
+                    <span class="level-item tag">4</span>
                 </span>
             </a>
         </li>
@@ -965,7 +1127,7 @@
                     <span class="level-item">八月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">5</span>
+                    <span class="level-item tag">7</span>
                 </span>
             </a>
         </li>
@@ -976,7 +1138,7 @@
                     <span class="level-item">七月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">4</span>
+                    <span class="level-item tag">5</span>
                 </span>
             </a>
         </li>
@@ -987,7 +1149,7 @@
                     <span class="level-item">六月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">7</span>
+                    <span class="level-item tag">13</span>
                 </span>
             </a>
         </li>
@@ -998,7 +1160,7 @@
                     <span class="level-item">五月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">9</span>
+                    <span class="level-item tag">5</span>
                 </span>
             </a>
         </li>
@@ -1009,7 +1171,7 @@
                     <span class="level-item">四月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">3</span>
+                    <span class="level-item tag">4</span>
                 </span>
             </a>
         </li>
@@ -1020,7 +1182,7 @@
                     <span class="level-item">三月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">35</span>
+                    <span class="level-item tag">48</span>
                 </span>
             </a>
         </li>
@@ -1050,6 +1212,13 @@
             <div class="field is-grouped is-grouped-multiline">
                 
                 <div class="control">
+                    <a class="tags has-addons" href="/tags/IT/">
+                        <span class="tag">IT</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
                     <a class="tags has-addons" href="/tags/IT-Java-Web/">
                         <span class="tag">IT,Java,Web</span>
                         <span class="tag is-grey">1</span>
@@ -1067,6 +1236,13 @@
                     <a class="tags has-addons" href="/tags/IT-Web/">
                         <span class="tag">IT,Web,</span>
                         <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8C/">
+                        <span class="tag">IT,Web，</span>
+                        <span class="tag is-grey">2</span>
                     </a>
                 </div>
                 
@@ -1162,6 +1338,13 @@
                 </div>
                 
                 <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb/">
+                        <span class="tag">IT，Web</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Javascript/">
                         <span class="tag">IT，Web,Javascript</span>
                         <span class="tag is-grey">1</span>
@@ -1171,7 +1354,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Node/">
                         <span class="tag">IT，Web,Node</span>
-                        <span class="tag is-grey">4</span>
+                        <span class="tag is-grey">5</span>
                     </a>
                 </div>
                 
@@ -1192,7 +1375,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Vue/">
                         <span class="tag">IT，Web,Vue</span>
-                        <span class="tag is-grey">2</span>
+                        <span class="tag is-grey">3</span>
                     </a>
                 </div>
                 
@@ -1206,21 +1389,21 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/">
                         <span class="tag">IT，Web,数据库</span>
-                        <span class="tag is-grey">4</span>
+                        <span class="tag is-grey">6</span>
                     </a>
                 </div>
                 
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8Cweb/">
                         <span class="tag">IT，web</span>
-                        <span class="tag is-grey">1</span>
+                        <span class="tag is-grey">2</span>
                     </a>
                 </div>
                 
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/">
                         <span class="tag">IT，未来</span>
-                        <span class="tag is-grey">1</span>
+                        <span class="tag is-grey">2</span>
                     </a>
                 </div>
                 
@@ -1234,7 +1417,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/Web-IT-Go/">
                         <span class="tag">Web,IT,Go</span>
-                        <span class="tag is-grey">2</span>
+                        <span class="tag is-grey">1</span>
                     </a>
                 </div>
                 
@@ -1248,7 +1431,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/">
                         <span class="tag">个人生活，幸福</span>
-                        <span class="tag is-grey">4</span>
+                        <span class="tag is-grey">5</span>
                     </a>
                 </div>
                 
@@ -1274,6 +1457,13 @@
                 </div>
                 
                 <div class="control">
+                    <a class="tags has-addons" href="/tags/%E5%B9%B8%E7%A6%8F/">
+                        <span class="tag">幸福</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
                     <a class="tags has-addons" href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">
                         <span class="tag">幸福，个人生活</span>
                         <span class="tag is-grey">1</span>
@@ -1284,6 +1474,13 @@
                     <a class="tags has-addons" href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/">
                         <span class="tag">技术宅、IT</span>
                         <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/">
+                        <span class="tag">技术，IT</span>
+                        <span class="tag is-grey">3</span>
                     </a>
                 </div>
                 
@@ -1304,7 +1501,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/%E6%B7%B1%E5%9C%B3/">
                         <span class="tag">深圳</span>
-                        <span class="tag is-grey">1</span>
+                        <span class="tag is-grey">2</span>
                     </a>
                 </div>
                 
@@ -1332,7 +1529,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/">
                         <span class="tag">生活、幸福</span>
-                        <span class="tag is-grey">1</span>
+                        <span class="tag is-grey">5</span>
                     </a>
                 </div>
                 
@@ -1451,7 +1648,7 @@
 <script>
 var IcarusThemeSettings = {
     site: {
-        url: 'http://yoursite.com',
+        url: 'http://kun8018.gitee.io',
         external_link: {"enable":true,"exclude":[]}
     },
     article: {

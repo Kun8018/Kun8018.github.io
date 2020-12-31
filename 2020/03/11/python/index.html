@@ -13,17 +13,17 @@
     <meta name="description" content="概述　　python语法简单，应用广泛，好好学习。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Python">
-<meta property="og:url" content="http://yoursite.com/2020/03/11/python/index.html">
+<meta property="og:url" content="http://kun8018.gitee.io/2020/03/11/python/index.html">
 <meta property="og:site_name" content="kun&#39;s blog">
 <meta property="og:description" content="概述　　python语法简单，应用广泛，好好学习。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://yoursite.com/images/og_image.png">
+<meta property="og:image" content="http://kun8018.gitee.io/images/og_image.png">
 <meta property="article:published_time" content="2020-03-11T13:40:33.000Z">
-<meta property="article:modified_time" content="2020-09-05T16:05:16.536Z">
+<meta property="article:modified_time" content="2020-11-26T03:05:23.906Z">
 <meta property="article:author" content="Kun Zhang">
 <meta property="article:tag" content="IT，Web,数据库">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yoursite.com/images/og_image.png">
+<meta name="twitter:image" content="http://kun8018.gitee.io/images/og_image.png">
 
 
 
@@ -152,7 +152,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    9 分钟 读完 (大约 1348 个字)
+                    33 分钟 读完 (大约 4955 个字)
                 </span>
                 
                 
@@ -173,11 +173,17 @@
             <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>　　python语法简单，应用广泛，好好学习。</p>
 <a id="more"></a>
 
+<p><a href="https://github.com/jackfrued/Python-100-Days">https://github.com/jackfrued/Python-100-Days</a></p>
 <h2 id="基础函数、标准包"><a href="#基础函数、标准包" class="headerlink" title="基础函数、标准包"></a>基础函数、标准包</h2><p>os:提供与操作系统关联的函数</p>
 <p>sys：通常用于命令行参数</p>
 <p>math：数学运算</p>
 <p>re:正则匹配</p>
 <p>datetime：处理日期时间</p>
+<h3 id="内置函数"><a href="#内置函数" class="headerlink" title="内置函数"></a>内置函数</h3><p>divmod(x,y):返回一个包含商和余数的元组</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">divmod(<span class="number">7</span>,<span class="number">2</span>) //(<span class="number">3</span>,<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+
+
+
 <h2 id="基础语法"><a href="#基础语法" class="headerlink" title="基础语法"></a>基础语法</h2><p>python中加语句</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br></pre></td></tr></table></figure>
 
@@ -239,11 +245,29 @@
 <p>返回输入的变量类型，如果变量是字典就返回字典类型:type(variable)</p>
 <h2 id="self参数"><a href="#self参数" class="headerlink" title="self参数"></a>self参数</h2><p>python规定不管是构造方法还是实例方法最少要包含一个参数，于是约定俗成self，self指向类自身，对象可以通过self调用类里的方法</p>
 <p>函数调用self也表示调用自身</p>
-<h2 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> threading</span><br></pre></td></tr></table></figure>
+<h2 id="进程与线程"><a href="#进程与线程" class="headerlink" title="进程与线程"></a>进程与线程</h2><p>Python既支持多进程又支持多线程，因此使用Python实现并发编程主要有3种方式：多进程、多线程、多进程+多线程。</p>
+<p>Unix和Linux操作系统上提供了<code>fork()</code>系统调用来创建进程，调用<code>fork()</code>函数的是父进程，创建出的是子进程，子进程是父进程的一个拷贝，但是子进程拥有自己的PID。<code>fork()</code>函数非常特殊它会返回两次，父进程中可以通过<code>fork()</code>函数的返回值得到子进程的PID，而子进程中的返回值永远都是0。Python的os模块提供了<code>fork()</code>函数。由于Windows系统没有<code>fork()</code>调用，因此要实现跨平台的多进程编程，可以使用multiprocessing模块的<code>Process</code>类来创建子进程，而且该模块还提供了更高级的封装，例如批量启动进程的进程池（<code>Pool</code>）、用于进程间通信的队列（<code>Queue</code>）和管道（<code>Pipe</code>）等。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> threading</span><br></pre></td></tr></table></figure>
 
 
 
-<h2 id="多继承"><a href="#多继承" class="headerlink" title="多继承"></a>多继承</h2><h2 id="定义链表"><a href="#定义链表" class="headerlink" title="定义链表"></a>定义链表</h2><p><a href="https://blog.csdn.net/Tonywu2018/article/details/88853533">https://blog.csdn.net/Tonywu2018/article/details/88853533</a></p>
+<h2 id="多继承"><a href="#多继承" class="headerlink" title="多继承"></a>多继承</h2><h2 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h2><h3 id="request库"><a href="#request库" class="headerlink" title="request库"></a>request库</h3><p>requests是一个基于HTTP协议来使用网络的第三库，其<a href="http://cn.python-requests.org/zh_CN/latest/">官方网站</a>有这样的一句介绍它的话：“Requests是唯一的一个<strong>非转基因</strong>的Python HTTP库，人类可以安全享用。”简单的说，使用requests库可以非常方便的使用HTTP，避免安全缺陷、冗余代码以及“重复发明轮子”（行业黑话，通常用在软件工程领域表示重新创造一个已有的或是早已被优化過的基本方法）。前面的文章中我们已经使用过这个库，下面我们还是通过requests来实现一个访问网络数据接口并从中获取美女图片下载链接然后下载美女图片到本地的例子程序，程序中使用了<a href="https://www.tianapi.com/">天行数据</a>提供的网络API。</p>
+<p>我们可以先通过pip安装requests及其依赖库。</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install requests</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="发送短信与邮件"><a href="#发送短信与邮件" class="headerlink" title="发送短信与邮件"></a>发送短信与邮件</h3><p>在即时通信软件如此发达的今天，电子邮件仍然是互联网上使用最为广泛的应用之一，公司向应聘者发出录用通知、网站向用户发送一个激活账号的链接、银行向客户推广它们的理财产品等几乎都是通过电子邮件来完成的，而这些任务应该都是由程序自动完成的。</p>
+<p>就像我们可以用HTTP（超文本传输协议）来访问一个网站一样，发送邮件要使用SMTP（简单邮件传输协议），SMTP也是一个建立在TCP（传输控制协议）提供的可靠数据传输服务的基础上的应用级协议，它规定了邮件的发送者如何跟发送邮件的服务器进行通信的细节，而Python中的smtplib模块将这些操作简化成了几个简单的函数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> smtplib <span class="keyword">import</span> SMTP</span><br><span class="line"><span class="keyword">from</span> email.header <span class="keyword">import</span> Header</span><br><span class="line"><span class="keyword">from</span> email.mime.text <span class="keyword">import</span> MIMEText</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="comment"># 请自行修改下面的邮件发送者和接收者</span></span><br><span class="line">    sender = <span class="string">'abcdefg@126.com'</span></span><br><span class="line">    receivers = [<span class="string">'uvwxyz@qq.com'</span>, <span class="string">'uvwxyz@126.com'</span>]</span><br><span class="line">    message = MIMEText(<span class="string">'用Python发送邮件的示例代码.'</span>, <span class="string">'plain'</span>, <span class="string">'utf-8'</span>)</span><br><span class="line">    message[<span class="string">'From'</span>] = Header(<span class="string">'王大锤'</span>, <span class="string">'utf-8'</span>)</span><br><span class="line">    message[<span class="string">'To'</span>] = Header(<span class="string">'骆昊'</span>, <span class="string">'utf-8'</span>)</span><br><span class="line">    message[<span class="string">'Subject'</span>] = Header(<span class="string">'示例代码实验邮件'</span>, <span class="string">'utf-8'</span>)</span><br><span class="line">    smtper = SMTP(<span class="string">'smtp.126.com'</span>)</span><br><span class="line">    <span class="comment"># 请自行修改下面的登录口令</span></span><br><span class="line">    smtper.login(sender, <span class="string">'secretpass'</span>)</span><br><span class="line">    smtper.sendmail(sender, receivers, message.as_string())</span><br><span class="line">    print(<span class="string">'邮件发送完成!'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+
+<p>对于有附件的邮件，</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> smtplib <span class="keyword">import</span> SMTP</span><br><span class="line"><span class="keyword">from</span> email.header <span class="keyword">import</span> Header</span><br><span class="line"><span class="keyword">from</span> email.mime.text <span class="keyword">import</span> MIMEText</span><br><span class="line"><span class="keyword">from</span> email.mime.image <span class="keyword">import</span> MIMEImage</span><br><span class="line"><span class="keyword">from</span> email.mime.multipart <span class="keyword">import</span> MIMEMultipart</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> urllib</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="comment"># 创建一个带附件的邮件消息对象</span></span><br><span class="line">    message = MIMEMultipart()</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 创建文本内容</span></span><br><span class="line">    text_content = MIMEText(<span class="string">'附件中有本月数据请查收'</span>, <span class="string">'plain'</span>, <span class="string">'utf-8'</span>)</span><br><span class="line">    message[<span class="string">'Subject'</span>] = Header(<span class="string">'本月数据'</span>, <span class="string">'utf-8'</span>)</span><br><span class="line">    <span class="comment"># 将文本内容添加到邮件消息对象中</span></span><br><span class="line">    message.attach(text_content)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 读取文件并将文件作为附件添加到邮件消息对象中</span></span><br><span class="line">    <span class="keyword">with</span> open(<span class="string">'/Users/Hao/Desktop/hello.txt'</span>, <span class="string">'rb'</span>) <span class="keyword">as</span> f:</span><br><span class="line">        txt = MIMEText(f.read(), <span class="string">'base64'</span>, <span class="string">'utf-8'</span>)</span><br><span class="line">        txt[<span class="string">'Content-Type'</span>] = <span class="string">'text/plain'</span></span><br><span class="line">        txt[<span class="string">'Content-Disposition'</span>] = <span class="string">'attachment; filename=hello.txt'</span></span><br><span class="line">        message.attach(txt)</span><br><span class="line">    <span class="comment"># 读取文件并将文件作为附件添加到邮件消息对象中</span></span><br><span class="line">    <span class="keyword">with</span> open(<span class="string">'/Users/Hao/Desktop/汇总数据.xlsx'</span>, <span class="string">'rb'</span>) <span class="keyword">as</span> f:</span><br><span class="line">        xls = MIMEText(f.read(), <span class="string">'base64'</span>, <span class="string">'utf-8'</span>)</span><br><span class="line">        xls[<span class="string">'Content-Type'</span>] = <span class="string">'application/vnd.ms-excel'</span></span><br><span class="line">        xls[<span class="string">'Content-Disposition'</span>] = <span class="string">'attachment; filename=month-data.xlsx'</span></span><br><span class="line">        message.attach(xls)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 创建SMTP对象</span></span><br><span class="line">    smtper = SMTP(<span class="string">'smtp.126.com'</span>)</span><br><span class="line">    <span class="comment"># 开启安全连接</span></span><br><span class="line">    <span class="comment"># smtper.starttls()</span></span><br><span class="line">    sender = <span class="string">'abcdefg@126.com'</span></span><br><span class="line">    receivers = [<span class="string">'uvwxyz@qq.com'</span>]</span><br><span class="line">    <span class="comment"># 登录到SMTP服务器</span></span><br><span class="line">    <span class="comment"># 请注意此处不是使用密码而是邮件客户端授权码进行登录</span></span><br><span class="line">    <span class="comment"># 对此有疑问的读者可以联系自己使用的邮件服务器客服</span></span><br><span class="line">    smtper.login(sender, <span class="string">'secretpass'</span>)</span><br><span class="line">    <span class="comment"># 发送邮件</span></span><br><span class="line">    smtper.sendmail(sender, receivers, message.as_string())</span><br><span class="line">    <span class="comment"># 与邮件服务器断开连接</span></span><br><span class="line">    smtper.quit()</span><br><span class="line">    print(<span class="string">'发送完成!'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+
+<p>发送短信也是项目中常见的功能，网站的注册码、验证码、营销信息基本上都是通过短信来发送给用户的。在下面的代码中我们使用了<a href="http://www.ihuyi.com/">互亿无线</a>短信平台（该平台为注册用户提供了50条免费短信以及常用开发语言发送短信的demo，可以登录该网站并在用户自服务页面中对短信进行配置）提供的API接口实现了发送短信的服务，当然国内的短信平台很多，读者可以根据自己的需要进行选择（通常会考虑费用预算、短信达到率、使用的难易程度等指标），如果需要在商业项目中使用短信服务建议购买短信平台提供的套餐服务。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib.parse</span><br><span class="line"><span class="keyword">import</span> http.client</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    host  = <span class="string">"106.ihuyi.com"</span></span><br><span class="line">    sms_send_uri = <span class="string">"/webservice/sms.php?method=Submit"</span></span><br><span class="line">    <span class="comment"># 下面的参数需要填入自己注册的账号和对应的密码</span></span><br><span class="line">    params = urllib.parse.urlencode(&#123;<span class="string">'account'</span>: <span class="string">'你自己的账号'</span>, <span class="string">'password'</span> : <span class="string">'你自己的密码'</span>, <span class="string">'content'</span>: <span class="string">'您的验证码是：147258。请不要把验证码泄露给其他人。'</span>, <span class="string">'mobile'</span>: <span class="string">'接收者的手机号'</span>, <span class="string">'format'</span>:<span class="string">'json'</span> &#125;)</span><br><span class="line">    print(params)</span><br><span class="line">    headers = &#123;<span class="string">'Content-type'</span>: <span class="string">'application/x-www-form-urlencoded'</span>, <span class="string">'Accept'</span>: <span class="string">'text/plain'</span>&#125;</span><br><span class="line">    conn = http.client.HTTPConnection(host, port=<span class="number">80</span>, timeout=<span class="number">30</span>)</span><br><span class="line">    conn.request(<span class="string">'POST'</span>, sms_send_uri, params, headers)</span><br><span class="line">    response = conn.getresponse()</span><br><span class="line">    response_str = response.read()</span><br><span class="line">    jsonstr = response_str.decode(<span class="string">'utf-8'</span>)</span><br><span class="line">    print(json.loads(jsonstr))</span><br><span class="line">    conn.close()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+
+<h2 id="读写word和excel"><a href="#读写word和excel" class="headerlink" title="读写word和excel"></a>读写word和excel</h2><h2 id="定义链表"><a href="#定义链表" class="headerlink" title="定义链表"></a>定义链表</h2><p><a href="https://blog.csdn.net/Tonywu2018/article/details/88853533">https://blog.csdn.net/Tonywu2018/article/details/88853533</a></p>
 <p>定义单链表类</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Node</span><span class="params">(object)</span></span></span><br><span class="line"><span class="class">        <span class="title">def</span> <span class="title">_init_</span><span class="params">(sef,data,next = None)</span>:</span></span><br><span class="line">               self.data = data</span><br><span class="line">               self.next = next</span><br></pre></td></tr></table></figure>
 
@@ -254,7 +278,87 @@
 
 
 
+<h2 id="Django入门"><a href="#Django入门" class="headerlink" title="Django入门"></a>Django入门</h2><h3 id="Django版本与python版本对应关系"><a href="#Django版本与python版本对应关系" class="headerlink" title="Django版本与python版本对应关系"></a>Django版本与python版本对应关系</h3><table>
+<thead>
+<tr>
+<th>Django版本</th>
+<th>Python版本</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1.8</td>
+<td>2.7、3.2、3.3、3.4、3.5</td>
+</tr>
+<tr>
+<td>1.9、1.10</td>
+<td>2.7、3.4、3.5</td>
+</tr>
+<tr>
+<td>1.11</td>
+<td>2.7、3.4、3.5、3.6、3.7（Django 1.11.17）</td>
+</tr>
+<tr>
+<td>2.0</td>
+<td>3.4、3.5、3.6、3.7</td>
+</tr>
+<tr>
+<td>2.1</td>
+<td>3.5、3.6、3.7</td>
+</tr>
+<tr>
+<td>2.2</td>
+<td>3.5、3.6、3.7、3.8（Django 2.2.8）</td>
+</tr>
+<tr>
+<td>3.0</td>
+<td>3.6、3.7、3.8</td>
+</tr>
+</tbody></table>
+<h3 id="创建应用"><a href="#创建应用" class="headerlink" title="创建应用"></a>创建应用</h3><p>执行命令</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python manage.py startapp first</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="DRF"><a href="#DRF" class="headerlink" title="DRF"></a>DRF</h3><p>在Django项目中，如果要实现REST架构，即将网站的资源发布成REST风格的API接口，可以使用著名的三方库<code>djangorestframework</code> ，我们通常将其简称为DRF。</p>
+<p>安装DRF</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install djangorestframework</span><br></pre></td></tr></table></figure>
+
+<p>配置DRF</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">INSTALLED_APPS = [</span><br><span class="line">    <span class="string">'rest_framework'</span>,</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 下面的配置根据项目需要进行设置</span></span><br><span class="line">REST_FRAMEWORK = &#123;</span><br><span class="line">    <span class="comment"># 配置默认页面大小</span></span><br><span class="line">    <span class="comment"># 'PAGE_SIZE': 10,</span></span><br><span class="line">    <span class="comment"># 配置默认的分页类</span></span><br><span class="line">    <span class="comment"># 'DEFAULT_PAGINATION_CLASS': '...',</span></span><br><span class="line">    <span class="comment"># 配置异常处理器</span></span><br><span class="line">    <span class="comment"># 'EXCEPTION_HANDLER': '...',</span></span><br><span class="line">    <span class="comment"># 配置默认解析器</span></span><br><span class="line">    <span class="comment"># 'DEFAULT_PARSER_CLASSES': (</span></span><br><span class="line">    <span class="comment">#     'rest_framework.parsers.JSONParser',</span></span><br><span class="line">    <span class="comment">#     'rest_framework.parsers.FormParser',</span></span><br><span class="line">    <span class="comment">#     'rest_framework.parsers.MultiPartParser',</span></span><br><span class="line">    <span class="comment"># ),</span></span><br><span class="line">    <span class="comment"># 配置默认限流类</span></span><br><span class="line">    <span class="comment"># 'DEFAULT_THROTTLE_CLASSES': (</span></span><br><span class="line">    <span class="comment">#     '...'</span></span><br><span class="line">    <span class="comment"># ),</span></span><br><span class="line">    <span class="comment"># 配置默认授权类</span></span><br><span class="line">    <span class="comment"># 'DEFAULT_PERMISSION_CLASSES': (</span></span><br><span class="line">    <span class="comment">#     '...',</span></span><br><span class="line">    <span class="comment"># ),</span></span><br><span class="line">    <span class="comment"># 配置默认认证类</span></span><br><span class="line">    <span class="comment"># 'DEFAULT_AUTHENTICATION_CLASSES': (</span></span><br><span class="line">    <span class="comment">#     '...',</span></span><br><span class="line">    <span class="comment"># ),</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="JWT"><a href="#JWT" class="headerlink" title="JWT"></a>JWT</h3><p>用三方库<code>PyJWT</code>生成和验证JWT，下面是安装<code>PyJWT</code>的命令。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pyjwt</span><br></pre></td></tr></table></figure>
+
+<p>生成令牌</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">payload = &#123;</span><br><span class="line">    'exp': datetime.datetime.utcnow() + datetime.timedelta(days=1),</span><br><span class="line">    'userid': 10001</span><br><span class="line">&#125;</span><br><span class="line">token = jwt.encode(payload, settings.SECRET_KEY).decode()</span><br></pre></td></tr></table></figure>
+
+<p>验证令牌</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    token = <span class="string">'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1OTQ4NzIzOTEsInVzZXJpZCI6MTAwMDF9.FM-bNxemWLqQQBIsRVvc4gq71y42I9m2zt5nlFxNHUo'</span></span><br><span class="line">    payload = jwt.decode(token, settings.SECRET_KEY)</span><br><span class="line"><span class="keyword">except</span> InvalidTokenError:</span><br><span class="line">    <span class="keyword">raise</span> AuthenticationFailed(<span class="string">'无效的令牌或令牌已经过期'</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="中间件"><a href="#中间件" class="headerlink" title="中间件"></a>中间件</h3><h3 id="session与cookie"><a href="#session与cookie" class="headerlink" title="session与cookie"></a>session与cookie</h3><p>在创建Django项目时，默认的配置文件<code>settings.py</code>文件中已经激活了一个名为<code>SessionMiddleware</code>的中间件（关于中间件的知识我们在后面的章节做详细讲解，这里只需要知道它的存在即可），因为这个中间件的存在，我们可以直接通过请求对象的<code>session</code>属性来操作会话对象。前面我们说过，<code>session</code>属性是一个像字典一样可以读写数据的容器对象，因此我们可以使用“键值对”的方式来保留用户数据。与此同时，<code>SessionMiddleware</code>中间件还封装了对cookie的操作，在cookie中保存了sessionid，这一点我们在上面已经提到过了。</p>
+<p>在默认情况下，Django将session的数据序列化后保存在关系型数据库中，在Django 1.6以后的版本中，默认的序列化数据的方式是JSON序列化，而在此之前一直使用Pickle序列化。JSON序列化和Pickle序列化的差别在于前者将对象序列化为字符串（字符形式），而后者将对象序列化为字节串（二进制形式），因为安全方面的原因，JSON序列化成为了目前Django框架默认序列化数据的方式，这就要求在我们保存在session中的数据必须是能够JSON序列化的，否则就会引发异常。还有一点需要说明的是，使用关系型数据库保存session中的数据在大多数时候并不是最好的选择，因为数据库可能会承受巨大的压力而成为系统性能的瓶颈，在后面的章节中我们会告诉大家如何将session保存到缓存服务中以提升系统的性能。</p>
+<h2 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h2><p>通常情况下，Web应用的性能瓶颈都会出现在关系型数据库上，当并发访问量较大时，如果所有的请求都需要通过关系型数据库完成数据持久化操作，那么数据库一定会不堪重负。优化Web应用性能最为重要的一点就是使用缓存，就是把哪些数据体量不大但访问频率非常高的数据提前加载到缓存服务器中，这又是典型的空间换时间的方法。通常缓存服务器都是直接将数据置于内存中而且使用了非常高效的数据存取策略（例如：键值对方式），在读写性能上是远远优于传统的关系型数据库的，因此我们可以让Web应用接入缓存服务器来优化其性能，一个非常好的选择就是使用Redis。</p>
 <h2 id="大数据"><a href="#大数据" class="headerlink" title="大数据"></a>大数据</h2><p><a href="https://blog.csdn.net/wally21st/article/details/77688755?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.channel_param&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.channel_param">https://blog.csdn.net/wally21st/article/details/77688755?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.channel_param&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.channel_param</a></p>
+<h2 id="瘦脸算法"><a href="#瘦脸算法" class="headerlink" title="瘦脸算法"></a>瘦脸算法</h2><p>自动瘦脸与眼睛放大可以算作图像局部扭曲算法的一个应用，</p>
+<p>大概流程如下：</p>
+<p>1.使用dlib检测出人脸关键点</p>
+<p>2.使用Interactive Image Warping 局部平移算法实现瘦脸</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> dlib</span><br><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> math</span><br><span class="line">predictor_path=<span class="string">'shape_predictor_68_face_landmarks.dat'</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">#使用dlib自带的frontal_face_detector作为我们的特征提取器</span></span><br><span class="line">detector = dlib.get_frontal_face_detector()</span><br><span class="line">predictor = dlib.shape_predictor(predictor_path)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">landmark_dec_dlib_fun</span><span class="params">(img_src)</span>:</span></span><br><span class="line">    img_gray = cv2.cvtColor(img_src,cv2.COLOR_BGR2GRAY)</span><br><span class="line"> </span><br><span class="line">    land_marks = []</span><br><span class="line"> </span><br><span class="line">    rects = detector(img_gray,<span class="number">0</span>)</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(rects)):</span><br><span class="line">        land_marks_node = np.matrix([[p.x,p.y] <span class="keyword">for</span> p <span class="keyword">in</span> predictor(img_gray,rects[i]).parts()])</span><br><span class="line">        <span class="comment"># for idx,point in enumerate(land_marks_node):</span></span><br><span class="line">        <span class="comment">#     # 68点坐标</span></span><br><span class="line">        <span class="comment">#     pos = (point[0,0],point[0,1])</span></span><br><span class="line">        <span class="comment">#     print(idx,pos)</span></span><br><span class="line">        <span class="comment">#     # 利用cv2.circle给每个特征点画一个圈，共68个</span></span><br><span class="line">        <span class="comment">#     cv2.circle(img_src, pos, 5, color=(0, 255, 0))</span></span><br><span class="line">        <span class="comment">#     # 利用cv2.putText输出1-68</span></span><br><span class="line">        <span class="comment">#     font = cv2.FONT_HERSHEY_SIMPLEX</span></span><br><span class="line">        <span class="comment">#     cv2.putText(img_src, str(idx + 1), pos, font, 0.8, (0, 0, 255), 1, cv2.LINE_AA)</span></span><br><span class="line">        land_marks.append(land_marks_node)</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">return</span> land_marks</span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">方法： Interactive Image Warping 局部平移算法</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">localTranslationWarp</span><span class="params">(srcImg,startX,startY,endX,endY,radius)</span>:</span></span><br><span class="line"> </span><br><span class="line">    ddradius = float(radius * radius)</span><br><span class="line">    copyImg = np.zeros(srcImg.shape, np.uint8)</span><br><span class="line">    copyImg = srcImg.copy()</span><br><span class="line"> </span><br><span class="line">    <span class="comment"># 计算公式中的|m-c|^2</span></span><br><span class="line">    ddmc = (endX - startX) * (endX - startX) + (endY - startY) * (endY - startY)</span><br><span class="line">    H, W, C = srcImg.shape</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(W):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(H):</span><br><span class="line">            <span class="comment">#计算该点是否在形变圆的范围之内</span></span><br><span class="line">            <span class="comment">#优化，第一步，直接判断是会在（startX,startY)的矩阵框中</span></span><br><span class="line">            <span class="keyword">if</span> math.fabs(i-startX)&gt;radius <span class="keyword">and</span> math.fabs(j-startY)&gt;radius:</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line"> </span><br><span class="line">            distance = ( i - startX ) * ( i - startX) + ( j - startY ) * ( j - startY )</span><br><span class="line"> </span><br><span class="line">            <span class="keyword">if</span>(distance &lt; ddradius):</span><br><span class="line">                <span class="comment">#计算出（i,j）坐标的原坐标</span></span><br><span class="line">                <span class="comment">#计算公式中右边平方号里的部分</span></span><br><span class="line">                ratio=(  ddradius-distance ) / ( ddradius - distance + ddmc)</span><br><span class="line">                ratio = ratio * ratio</span><br><span class="line"> </span><br><span class="line">                <span class="comment">#映射原位置</span></span><br><span class="line">                UX = i - ratio  * ( endX - startX )</span><br><span class="line">                UY = j - ratio  * ( endY - startY )</span><br><span class="line"> </span><br><span class="line">                <span class="comment">#根据双线性插值法得到UX，UY的值</span></span><br><span class="line">                value = BilinearInsert(srcImg,UX,UY)</span><br><span class="line">                <span class="comment">#改变当前 i ，j的值</span></span><br><span class="line">                copyImg[j,i] =value</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">return</span> copyImg</span><br><span class="line"></span><br><span class="line"><span class="comment">#双线性插值法</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">BilinearInsert</span><span class="params">(src,ux,uy)</span>:</span></span><br><span class="line">    w,h,c = src.shape</span><br><span class="line">    <span class="keyword">if</span> c == <span class="number">3</span>:</span><br><span class="line">        x1=int(ux)</span><br><span class="line">        x2=x1+<span class="number">1</span></span><br><span class="line">        y1=int(uy)</span><br><span class="line">        y2=y1+<span class="number">1</span></span><br><span class="line"> </span><br><span class="line">        part1=src[y1,x1].astype(np.float)*(float(x2)-ux)*(float(y2)-uy)</span><br><span class="line">        part2=src[y1,x2].astype(np.float)*(ux-float(x1))*(float(y2)-uy)</span><br><span class="line">        part3=src[y2,x1].astype(np.float) * (float(x2) - ux)*(uy-float(y1))</span><br><span class="line">        part4 = src[y2,x2].astype(np.float) * (ux-float(x1)) * (uy - float(y1))</span><br><span class="line"> </span><br><span class="line">        insertValue=part1+part2+part3+part4</span><br><span class="line">        <span class="keyword">return</span> insertValue.astype(np.int8)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">face_thin_auto</span><span class="params">(src)</span>:</span></span><br><span class="line"> </span><br><span class="line">    landmarks = landmark_dec_dlib_fun(src)</span><br><span class="line"> </span><br><span class="line">    <span class="comment">#如果未检测到人脸关键点，就不进行瘦脸</span></span><br><span class="line">    <span class="keyword">if</span> len(landmarks) == <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line"> </span><br><span class="line">    <span class="keyword">for</span> landmarks_node <span class="keyword">in</span> landmarks:</span><br><span class="line">        left_landmark= landmarks_node[<span class="number">3</span>]</span><br><span class="line">        left_landmark_down=landmarks_node[<span class="number">5</span>]</span><br><span class="line"> </span><br><span class="line">        right_landmark = landmarks_node[<span class="number">13</span>]</span><br><span class="line">        right_landmark_down = landmarks_node[<span class="number">15</span>]</span><br><span class="line"> </span><br><span class="line">        endPt = landmarks_node[<span class="number">30</span>]</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">        <span class="comment">#计算第4个点到第6个点的距离作为瘦脸距离</span></span><br><span class="line">        r_left=math.sqrt((left_landmark[<span class="number">0</span>,<span class="number">0</span>]-left_landmark_down[<span class="number">0</span>,<span class="number">0</span>])*(left_landmark[<span class="number">0</span>,<span class="number">0</span>]-left_landmark_down[<span class="number">0</span>,<span class="number">0</span>])+</span><br><span class="line">                         (left_landmark[<span class="number">0</span>,<span class="number">1</span>] - left_landmark_down[<span class="number">0</span>,<span class="number">1</span>]) * (left_landmark[<span class="number">0</span>,<span class="number">1</span>] - left_landmark_down[<span class="number">0</span>, <span class="number">1</span>]))</span><br><span class="line"> </span><br><span class="line">        <span class="comment"># 计算第14个点到第16个点的距离作为瘦脸距离</span></span><br><span class="line">        r_right=math.sqrt((right_landmark[<span class="number">0</span>,<span class="number">0</span>]-right_landmark_down[<span class="number">0</span>,<span class="number">0</span>])*(right_landmark[<span class="number">0</span>,<span class="number">0</span>]-right_landmark_down[<span class="number">0</span>,<span class="number">0</span>])+</span><br><span class="line">                         (right_landmark[<span class="number">0</span>,<span class="number">1</span>] -right_landmark_down[<span class="number">0</span>,<span class="number">1</span>]) * (right_landmark[<span class="number">0</span>,<span class="number">1</span>] -right_landmark_down[<span class="number">0</span>, <span class="number">1</span>]))</span><br><span class="line"> </span><br><span class="line">        <span class="comment">#瘦左边脸</span></span><br><span class="line">        thin_image = localTranslationWarp(src,left_landmark[<span class="number">0</span>,<span class="number">0</span>],left_landmark[<span class="number">0</span>,<span class="number">1</span>],endPt[<span class="number">0</span>,<span class="number">0</span>],endPt[<span class="number">0</span>,<span class="number">1</span>],r_left)</span><br><span class="line">        <span class="comment">#瘦右边脸</span></span><br><span class="line">        thin_image = localTranslationWarp(thin_image, right_landmark[<span class="number">0</span>,<span class="number">0</span>], right_landmark[<span class="number">0</span>,<span class="number">1</span>], endPt[<span class="number">0</span>,<span class="number">0</span>],endPt[<span class="number">0</span>,<span class="number">1</span>], r_right)</span><br><span class="line"> </span><br><span class="line">    <span class="comment">#显示</span></span><br><span class="line">    cv2.imshow(<span class="string">'thin'</span>,thin_image)</span><br><span class="line">    cv2.imwrite(<span class="string">'thin.jpg'</span>,thin_image)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    src = cv2.imread(<span class="string">'timg4.jpg'</span>)</span><br><span class="line">    cv2.imshow(<span class="string">'src'</span>, src)</span><br><span class="line">    face_thin_auto(src)</span><br><span class="line">    cv2.waitKey(<span class="number">0</span>)</span><br><span class="line"> </span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+
+
+
+<p>人脸老化</p>
+<ul>
+<li>制作皱纹、斑点纹理图,并且手动标定纹理图的关键点</li>
+<li>头发分割，根据年纪改变发色</li>
+<li>检测人脸关键点，通过关键点对纹理图进行形变</li>
+<li>纹理图与原图进行叠加、融合</li>
+</ul>
+<p><a href="https://blog.csdn.net/danffer1985/article/details/54602585?utm_medium=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromMachineLearnPai2-1.channel_param&amp;depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromMachineLearnPai2-1.channel_param">https://blog.csdn.net/danffer1985/article/details/54602585?utm_medium=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromMachineLearnPai2-1.channel_param&amp;depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromMachineLearnPai2-1.channel_param</a></p>
 
         </div>
         
@@ -404,7 +508,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            67
+                            88
                         </p>
                     </a>
                 </div>
@@ -416,7 +520,7 @@
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            6
+                            7
                         </p>
                     </a>
                 </div>
@@ -428,7 +532,7 @@
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            42
+                            47
                         </p>
                     </a>
                 </div>
@@ -497,7 +601,11 @@
         <a class="is-flex" href="#基础函数、标准包">
         <span class="has-mr-6">2</span>
         <span>基础函数、标准包</span>
-        </a></li><li>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#内置函数">
+        <span class="has-mr-6">2.1</span>
+        <span>内置函数</span>
+        </a></li></ul></li><li>
         <a class="is-flex" href="#基础语法">
         <span class="has-mr-6">3</span>
         <span>基础语法</span>
@@ -534,21 +642,73 @@
         <span class="has-mr-6">5</span>
         <span>self参数</span>
         </a></li><li>
-        <a class="is-flex" href="#线程">
+        <a class="is-flex" href="#进程与线程">
         <span class="has-mr-6">6</span>
-        <span>线程</span>
+        <span>进程与线程</span>
         </a></li><li>
         <a class="is-flex" href="#多继承">
         <span class="has-mr-6">7</span>
         <span>多继承</span>
         </a></li><li>
-        <a class="is-flex" href="#定义链表">
+        <a class="is-flex" href="#网络">
         <span class="has-mr-6">8</span>
+        <span>网络</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#request库">
+        <span class="has-mr-6">8.1</span>
+        <span>request库</span>
+        </a></li><li>
+        <a class="is-flex" href="#发送短信与邮件">
+        <span class="has-mr-6">8.2</span>
+        <span>发送短信与邮件</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#读写word和excel">
+        <span class="has-mr-6">9</span>
+        <span>读写word和excel</span>
+        </a></li><li>
+        <a class="is-flex" href="#定义链表">
+        <span class="has-mr-6">10</span>
         <span>定义链表</span>
         </a></li><li>
+        <a class="is-flex" href="#Django入门">
+        <span class="has-mr-6">11</span>
+        <span>Django入门</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#Django版本与python版本对应关系">
+        <span class="has-mr-6">11.1</span>
+        <span>Django版本与python版本对应关系</span>
+        </a></li><li>
+        <a class="is-flex" href="#创建应用">
+        <span class="has-mr-6">11.2</span>
+        <span>创建应用</span>
+        </a></li><li>
+        <a class="is-flex" href="#DRF">
+        <span class="has-mr-6">11.3</span>
+        <span>DRF</span>
+        </a></li><li>
+        <a class="is-flex" href="#JWT">
+        <span class="has-mr-6">11.4</span>
+        <span>JWT</span>
+        </a></li><li>
+        <a class="is-flex" href="#中间件">
+        <span class="has-mr-6">11.5</span>
+        <span>中间件</span>
+        </a></li><li>
+        <a class="is-flex" href="#session与cookie">
+        <span class="has-mr-6">11.6</span>
+        <span>session与cookie</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#Redis">
+        <span class="has-mr-6">12</span>
+        <span>Redis</span>
+        </a></li><li>
         <a class="is-flex" href="#大数据">
-        <span class="has-mr-6">9</span>
+        <span class="has-mr-6">13</span>
         <span>大数据</span>
+        </a></li><li>
+        <a class="is-flex" href="#瘦脸算法">
+        <span class="has-mr-6">14</span>
+        <span>瘦脸算法</span>
         </a></li></ul>
             </div>
         </div>
@@ -605,7 +765,15 @@
                 <span class="level-item">IT</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">21</span>
+                <span class="level-item tag">28</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E4%B8%AA%E4%BA%BA%E5%B9%B8%E7%A6%8F/">
+            <span class="level-start">
+                <span class="level-item">个人幸福</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">
@@ -613,7 +781,7 @@
                 <span class="level-item">个人生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">16</span>
+                <span class="level-item tag">22</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">
@@ -621,7 +789,7 @@
                 <span class="level-item">技术博客</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">28</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%9C%8B%E5%8F%8B/">
@@ -629,7 +797,7 @@
                 <span class="level-item">朋友</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">4</span>
+                <span class="level-item tag">5</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E7%94%9F%E6%B4%BB/">
@@ -645,7 +813,7 @@
                 <span class="level-item">生活感悟</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">1</span>
+                <span class="level-item tag">2</span>
             </span>
         </a></li>
             </ul>
@@ -658,7 +826,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 13.33px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 10px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 13.33px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 13.33px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 13.33px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 10px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb-Javascript/" style="font-size: 10px;">IT，Web,Javascript</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 20px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 10px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 13.33px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 10px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 10px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 13.33px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 10px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 20px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 16.67px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 16.67px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 10px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 10px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 13.33px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">生活、幸福</a> <a href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">记录，生活</a>
+        <a href="/tags/IT/" style="font-size: 10px;">IT</a> <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 12.5px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 10px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8C/" style="font-size: 12.5px;">IT,Web，</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 12.5px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 12.5px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 12.5px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 10px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb/" style="font-size: 10px;">IT，Web</a> <a href="/tags/IT%EF%BC%8CWeb-Javascript/" style="font-size: 10px;">IT，Web,Javascript</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 17.5px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 10px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 15px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 12.5px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 12.5px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 10px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 10px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 17.5px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 15px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 15px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">幸福</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/" style="font-size: 15px;">技术，IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 10px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 12.5px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 12.5px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 17.5px;">生活、幸福</a> <a href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">记录，生活</a>
     </div>
 </div>
     
@@ -670,6 +838,25 @@
         <h3 class="menu-label">
             最新文章
         </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/10/02/%E6%97%A5%E8%AF%AD%E5%AD%A6%E4%B9%A0%E4%B8%8E%E6%89%98%E7%A6%8F%E5%AD%A6%E4%B9%A0/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="日语学习与托福学习">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-10-02T13:40:33.000Z">2020-10-02</time></div>
+                    <a href="/2020/10/02/%E6%97%A5%E8%AF%AD%E5%AD%A6%E4%B9%A0%E4%B8%8E%E6%89%98%E7%A6%8F%E5%AD%A6%E4%B9%A0/" class="title has-link-black-ter is-size-6 has-text-weight-normal">日语学习与托福学习</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">个人生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -730,37 +917,18 @@
         
         <article class="media">
             
-            <a href="/2020/08/28/flutter3/" class="media-left">
+            <a href="/2020/09/02/H5%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%912/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/flutter.jpeg" alt="flutter移动开发（三）">
+                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/Phaser.jpg" alt="H5游戏开发">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-08-28T13:40:33.000Z">2020-08-28</time></div>
-                    <a href="/2020/08/28/flutter3/" class="title has-link-black-ter is-size-6 has-text-weight-normal">flutter移动开发（三）</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-09-02T13:40:33.000Z">2020-09-02</time></div>
+                    <a href="/2020/09/02/H5%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%912/" class="title has-link-black-ter is-size-6 has-text-weight-normal">H5游戏开发</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">技术博客</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2020/08/28/flutter2/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/flutter2.jpg" alt="flutter移动开发（二）">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-08-28T13:40:33.000Z">2020-08-28</time></div>
-                    <a href="/2020/08/28/flutter2/" class="title has-link-black-ter is-size-6 has-text-weight-normal">flutter移动开发（二）</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">技术博客</a>
+                        <a class="has-link-grey -link" href="/categories/IT/">IT</a>
                     </p>
                 </div>
             </div>
@@ -778,12 +946,23 @@
         <ul class="menu-list">
         
         <li>
+            <a class="level is-marginless" href="/archives/2020/10/">
+                <span class="level-start">
+                    <span class="level-item">十月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
             <a class="level is-marginless" href="/archives/2020/09/">
                 <span class="level-start">
                     <span class="level-item">九月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">3</span>
+                    <span class="level-item tag">4</span>
                 </span>
             </a>
         </li>
@@ -794,7 +973,7 @@
                     <span class="level-item">八月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">5</span>
+                    <span class="level-item tag">7</span>
                 </span>
             </a>
         </li>
@@ -805,7 +984,7 @@
                     <span class="level-item">七月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">4</span>
+                    <span class="level-item tag">5</span>
                 </span>
             </a>
         </li>
@@ -816,7 +995,7 @@
                     <span class="level-item">六月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">7</span>
+                    <span class="level-item tag">13</span>
                 </span>
             </a>
         </li>
@@ -827,7 +1006,7 @@
                     <span class="level-item">五月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">9</span>
+                    <span class="level-item tag">5</span>
                 </span>
             </a>
         </li>
@@ -838,7 +1017,7 @@
                     <span class="level-item">四月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">3</span>
+                    <span class="level-item tag">4</span>
                 </span>
             </a>
         </li>
@@ -849,7 +1028,7 @@
                     <span class="level-item">三月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">35</span>
+                    <span class="level-item tag">48</span>
                 </span>
             </a>
         </li>
@@ -879,6 +1058,13 @@
             <div class="field is-grouped is-grouped-multiline">
                 
                 <div class="control">
+                    <a class="tags has-addons" href="/tags/IT/">
+                        <span class="tag">IT</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
                     <a class="tags has-addons" href="/tags/IT-Java-Web/">
                         <span class="tag">IT,Java,Web</span>
                         <span class="tag is-grey">1</span>
@@ -896,6 +1082,13 @@
                     <a class="tags has-addons" href="/tags/IT-Web/">
                         <span class="tag">IT,Web,</span>
                         <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8C/">
+                        <span class="tag">IT,Web，</span>
+                        <span class="tag is-grey">2</span>
                     </a>
                 </div>
                 
@@ -991,6 +1184,13 @@
                 </div>
                 
                 <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb/">
+                        <span class="tag">IT，Web</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Javascript/">
                         <span class="tag">IT，Web,Javascript</span>
                         <span class="tag is-grey">1</span>
@@ -1000,7 +1200,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Node/">
                         <span class="tag">IT，Web,Node</span>
-                        <span class="tag is-grey">4</span>
+                        <span class="tag is-grey">5</span>
                     </a>
                 </div>
                 
@@ -1021,7 +1221,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Vue/">
                         <span class="tag">IT，Web,Vue</span>
-                        <span class="tag is-grey">2</span>
+                        <span class="tag is-grey">3</span>
                     </a>
                 </div>
                 
@@ -1035,21 +1235,21 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/">
                         <span class="tag">IT，Web,数据库</span>
-                        <span class="tag is-grey">4</span>
+                        <span class="tag is-grey">6</span>
                     </a>
                 </div>
                 
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8Cweb/">
                         <span class="tag">IT，web</span>
-                        <span class="tag is-grey">1</span>
+                        <span class="tag is-grey">2</span>
                     </a>
                 </div>
                 
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/">
                         <span class="tag">IT，未来</span>
-                        <span class="tag is-grey">1</span>
+                        <span class="tag is-grey">2</span>
                     </a>
                 </div>
                 
@@ -1063,7 +1263,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/Web-IT-Go/">
                         <span class="tag">Web,IT,Go</span>
-                        <span class="tag is-grey">2</span>
+                        <span class="tag is-grey">1</span>
                     </a>
                 </div>
                 
@@ -1077,7 +1277,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/">
                         <span class="tag">个人生活，幸福</span>
-                        <span class="tag is-grey">4</span>
+                        <span class="tag is-grey">5</span>
                     </a>
                 </div>
                 
@@ -1103,6 +1303,13 @@
                 </div>
                 
                 <div class="control">
+                    <a class="tags has-addons" href="/tags/%E5%B9%B8%E7%A6%8F/">
+                        <span class="tag">幸福</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
                     <a class="tags has-addons" href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">
                         <span class="tag">幸福，个人生活</span>
                         <span class="tag is-grey">1</span>
@@ -1113,6 +1320,13 @@
                     <a class="tags has-addons" href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/">
                         <span class="tag">技术宅、IT</span>
                         <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/">
+                        <span class="tag">技术，IT</span>
+                        <span class="tag is-grey">3</span>
                     </a>
                 </div>
                 
@@ -1133,7 +1347,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/%E6%B7%B1%E5%9C%B3/">
                         <span class="tag">深圳</span>
-                        <span class="tag is-grey">1</span>
+                        <span class="tag is-grey">2</span>
                     </a>
                 </div>
                 
@@ -1161,7 +1375,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/">
                         <span class="tag">生活、幸福</span>
-                        <span class="tag is-grey">1</span>
+                        <span class="tag is-grey">5</span>
                     </a>
                 </div>
                 
@@ -1280,7 +1494,7 @@
 <script>
 var IcarusThemeSettings = {
     site: {
-        url: 'http://yoursite.com',
+        url: 'http://kun8018.gitee.io',
         external_link: {"enable":true,"exclude":[]}
     },
     article: {

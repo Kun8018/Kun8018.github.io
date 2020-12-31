@@ -13,13 +13,13 @@
     <meta name="description" content="Vue（一）​      三大前端框架之一，数据驱动的MVVM单页面应用，第一篇介绍框架的基础内容。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Vue.js前端框架">
-<meta property="og:url" content="http://yoursite.com/2020/07/02/vue/index.html">
+<meta property="og:url" content="http://kun8018.gitee.io/2020/07/02/vue/index.html">
 <meta property="og:site_name" content="kun&#39;s blog">
 <meta property="og:description" content="Vue（一）​      三大前端框架之一，数据驱动的MVVM单页面应用，第一篇介绍框架的基础内容。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://cdn.kunkunzhang.top/vue.jpeg">
 <meta property="article:published_time" content="2020-07-02T13:40:33.000Z">
-<meta property="article:modified_time" content="2020-10-04T17:47:28.165Z">
+<meta property="article:modified_time" content="2020-12-25T03:12:34.859Z">
 <meta property="article:author" content="Kun Zhang">
 <meta property="article:tag" content="IT，Web,Vue">
 <meta name="twitter:card" content="summary">
@@ -158,7 +158,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    32 分钟 读完 (大约 4865 个字)
+                    32 分钟 读完 (大约 4734 个字)
                 </span>
                 
                 
@@ -250,6 +250,8 @@
 <p>在beforecreate函数中修改data中的属性</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;showmodal为data中数据，checkdevice为引入的方法</span><br><span class="line">beforeCreate()&#123;</span><br><span class="line">   this.$nextTick(function()&#123;</span><br><span class="line">      if(checkdevice() &#x3D;&#x3D; &#39;ios&#39;)&#123;</span><br><span class="line">          this.showModal &#x3D; false;</span><br><span class="line">		&#125;</span><br><span class="line">      else if(checkdevice() &#x3D;&#x3D; &#39;anzhuo&#39;)&#123;</span><br><span class="line">          this.showModal &#x3D; true;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;)</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
 
+
+
 <h2 id="组件化"><a href="#组件化" class="headerlink" title="组件化"></a>组件化</h2><p>全局注册</p>
 <p>对于一些比较基础的组件，在各个组件中会比较被频繁地用到，那么在每个组件中都引入就会导致一个包含基础组件的长列表，此时在入口文件中引入这些组件，全局导入基础组件</p>
 <p>局部注册</p>
@@ -263,7 +265,10 @@
 <p>动态加载组件时每次切换都会重新渲染组件，如果需要缓存组件的状态，可以使用keep-alive</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;keep-alive&gt;</span><br><span class="line">  &lt;component v-bind:is&#x3D;&quot;currentTabComponent&quot;&gt;&lt;&#x2F;component&gt;</span><br><span class="line">&lt;&#x2F;keep-alive&gt;</span><br></pre></td></tr></table></figure>
 
-<h3 id="插槽"><a href="#插槽" class="headerlink" title="插槽"></a>插槽</h3><h2 id="组件间通信"><a href="#组件间通信" class="headerlink" title="组件间通信"></a>组件间通信</h2><p>父子组件通信：props/$emit</p>
+
+
+<h3 id="异步组件"><a href="#异步组件" class="headerlink" title="异步组件"></a>异步组件</h3><p>使用factory工厂函数创建异步组件，只有在子组件需要渲染时再加载。</p>
+<h2 id="组件间通信"><a href="#组件间通信" class="headerlink" title="组件间通信"></a>组件间通信</h2><p>父子组件通信：props/$emit</p>
 <p>父组件向子组件传递值：子组件中定义props，父组件调用子组件时通过使用props的值传递到自组件，每当父组件中的值更新时子组件中的props也会自动更新。同时你也可以为props提供一些类型检查、设置默认值等，验证不满足时会发出警告。子组件的非父组件传递数据（自有数据）定义在data中</p>
 <p>子组件向父组件传递值：子组件使用this.$emit(param)调用父组件的方法。在父组件调用中$on 事件进行监听，自组件传回值则调用对应方法。</p>
 <p>实例</p>
@@ -275,24 +280,41 @@
 <p>实例</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//A组件</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//B组件</span></span><br></pre></td></tr></table></figure>
 
-<p>插槽</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">        &lt;!--默认插槽--&gt;</span><br><span class="line">        &lt;slot&gt;&lt;&#x2F;slot&gt;</span><br><span class="line">        &lt;!--另一种默认插槽的写法--&gt;</span><br><span class="line">        &lt;slot name&#x3D;&quot;default&quot;&gt;&lt;&#x2F;slot&gt;</span><br><span class="line">        &lt;!--具名插槽--&gt;</span><br><span class="line">        &lt;slot name&#x3D;&quot;footer&quot;&gt;&lt;&#x2F;slot&gt;</span><br><span class="line">        &lt;!--传参插槽--&gt;</span><br><span class="line">        &lt;slot v-bind:user&#x3D;&quot;user&quot; name&#x3D;&quot;header&quot;&gt;&lt;&#x2F;slot&gt;</span><br><span class="line">    &lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;template&gt;</span><br><span class="line"></span><br><span class="line">&lt;!--使用--&gt;</span><br><span class="line">&lt;children&gt;</span><br><span class="line">    &lt;!--跑到默认插槽中去--&gt;</span><br><span class="line">    &lt;div&gt;123&lt;&#x2F;div&gt;</span><br><span class="line">    &lt;!--另一种默认插槽的写法--&gt;</span><br><span class="line">    &lt;template v-slot:default&gt;&lt;&#x2F;template&gt;</span><br><span class="line">    &lt;!--跑到具名插槽 footer 中去--&gt;</span><br><span class="line">    &lt;template v-slot:footer&gt;&lt;&#x2F;template&gt;</span><br><span class="line">    &lt;!--缩写形式--&gt;</span><br><span class="line">    &lt;template #footer&gt;&lt;&#x2F;template&gt;</span><br><span class="line">    &lt;!--获取子组件的值--&gt;</span><br><span class="line">    &lt;template v-slot:header&#x3D;&quot;slot&quot;&gt;&#123;&#123;slot.user&#125;&#125;&lt;&#x2F;template&gt;</span><br><span class="line">    &lt;!--结构插槽值--&gt;</span><br><span class="line">    &lt;template v-slot:header&#x3D;&quot;&#123;user: person&#125;&quot;&gt;&#123;&#123;person&#125;&#125;&lt;&#x2F;template&gt;</span><br><span class="line">    &lt;!--老式写法，可以写到具体的标签上面--&gt;</span><br><span class="line">    &lt;template slot&#x3D;&quot;footer&quot; slot-scope&#x3D;&quot;scope&quot;&gt;&lt;&#x2F;template&gt;</span><br><span class="line">&lt;&#x2F;children&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="插槽"><a href="#插槽" class="headerlink" title="插槽"></a>插槽</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">        &lt;!--默认插槽--&gt;</span><br><span class="line">        &lt;slot&gt;&lt;&#x2F;slot&gt;</span><br><span class="line">        &lt;!--另一种默认插槽的写法--&gt;</span><br><span class="line">        &lt;slot name&#x3D;&quot;default&quot;&gt;&lt;&#x2F;slot&gt;</span><br><span class="line">        &lt;!--具名插槽--&gt;</span><br><span class="line">        &lt;slot name&#x3D;&quot;footer&quot;&gt;&lt;&#x2F;slot&gt;</span><br><span class="line">        &lt;!--传参插槽--&gt;</span><br><span class="line">        &lt;slot v-bind:user&#x3D;&quot;user&quot; name&#x3D;&quot;header&quot;&gt;&lt;&#x2F;slot&gt;</span><br><span class="line">    &lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;template&gt;</span><br><span class="line"></span><br><span class="line">&lt;!--使用--&gt;</span><br><span class="line">&lt;children&gt;</span><br><span class="line">    &lt;!--跑到默认插槽中去--&gt;</span><br><span class="line">    &lt;div&gt;123&lt;&#x2F;div&gt;</span><br><span class="line">    &lt;!--另一种默认插槽的写法--&gt;</span><br><span class="line">    &lt;template v-slot:default&gt;&lt;&#x2F;template&gt;</span><br><span class="line">    &lt;!--跑到具名插槽 footer 中去--&gt;</span><br><span class="line">    &lt;template v-slot:footer&gt;&lt;&#x2F;template&gt;</span><br><span class="line">    &lt;!--缩写形式--&gt;</span><br><span class="line">    &lt;template #footer&gt;&lt;&#x2F;template&gt;</span><br><span class="line">    &lt;!--获取子组件的值--&gt;</span><br><span class="line">    &lt;template v-slot:header&#x3D;&quot;slot&quot;&gt;&#123;&#123;slot.user&#125;&#125;&lt;&#x2F;template&gt;</span><br><span class="line">    &lt;!--结构插槽值--&gt;</span><br><span class="line">    &lt;template v-slot:header&#x3D;&quot;&#123;user: person&#125;&quot;&gt;&#123;&#123;person&#125;&#125;&lt;&#x2F;template&gt;</span><br><span class="line">    &lt;!--老式写法，可以写到具体的标签上面--&gt;</span><br><span class="line">    &lt;template slot&#x3D;&quot;footer&quot; slot-scope&#x3D;&quot;scope&quot;&gt;&lt;&#x2F;template&gt;</span><br><span class="line">&lt;&#x2F;children&gt;</span><br></pre></td></tr></table></figure>
 
 <p>跨级通信：provide/inject</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--父组件 提供--&gt;</span><br><span class="line">&#123;</span><br><span class="line">    project() &#123;</span><br><span class="line">        return &#123;</span><br><span class="line">            parent: this</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;!--子组件 注入--&gt;</span><br><span class="line">&#123;</span><br><span class="line">    &#x2F;&#x2F; 写法一</span><br><span class="line">    inject: [&#39;parent&#39;]</span><br><span class="line">    &#x2F;&#x2F; 写法二</span><br><span class="line">    inject: &#123; parent: &#39;parent&#39; &#125;</span><br><span class="line">    &#x2F;&#x2F; 写法三</span><br><span class="line">    inject: &#123;</span><br><span class="line">        parent: &#123;</span><br><span class="line">            from: &#39;parent&#39;,</span><br><span class="line">            default: 222</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--父组件 提供--&gt;</span><br><span class="line">&#123;</span><br><span class="line">    provide() &#123;</span><br><span class="line">        return &#123;</span><br><span class="line">            parent: this</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;!--子组件 注入--&gt;</span><br><span class="line">&#123;</span><br><span class="line">    &#x2F;&#x2F; 写法一</span><br><span class="line">    inject: [&#39;parent&#39;]</span><br><span class="line">    &#x2F;&#x2F; 写法二</span><br><span class="line">    inject: &#123; parent: &#39;parent&#39; &#125;</span><br><span class="line">    &#x2F;&#x2F; 写法三</span><br><span class="line">    inject: &#123;</span><br><span class="line">        parent: &#123;</span><br><span class="line">            from: &#39;parent&#39;,</span><br><span class="line">            default: 222</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>复杂系统使用vuex，相当于单独维护的数据</p>
+<h3 id="驼峰命名法"><a href="#驼峰命名法" class="headerlink" title="驼峰命名法"></a>驼峰命名法</h3><p>如果注册组件时使用驼峰命名法，在使用时需要转换成短横线分隔命名。</p>
+<p>父组件向子组件传递数据时使用短横线分隔命名法，则自组件接收时采用驼峰命名法。</p>
+<p>传递方法时双方只能用短横线命名法，都不能使用驼峰命名法</p>
 <h2 id="模板语法"><a href="#模板语法" class="headerlink" title="模板语法"></a>模板语法</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">export default&#123;</span><br><span class="line">    components:&#123; &#125;,</span><br><span class="line">    data()&#123;</span><br><span class="line">        return&#123;</span><br><span class="line">            </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    methods:&#123;</span><br><span class="line">        </span><br><span class="line">    &#125;,</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
 
 <p>data：定义以及初始化数据。一般定义视图上的数据，否则定义在外部或者vm对象内</p>
 <p>props用来接收来自父组件的数据，可以是数组或者使用对象替代</p>
 <p>props是单向数据流，父组件prop的更新会向下流动到子组件中，反之不行</p>
 <p>computed是计算属性,提供相对简单的数据计算，与methods相比缓存输出，只有当依赖的值发生改变时才会重新求值，且不需要绑定方法，只要依赖值有变化就会执行，称作响应式</p>
-<p>场景：如果同一函数被大量重复调用，会消耗大量资源，此时就可以用computed</p>
-<p>每个计算属性都包含get和set属性，默认是get，set不常用，了解即可</p>
+<p>场景：如果同一函数被大量重复调用，会消耗大量资源，此时就可以用computed。</p>
+<p>每个计算属性都包含get和set属性，默认是get，set不常用，了解即可。</p>
 <p>method：提供相对复杂的数据计算，methods是非响应式的，只有在调用时才执行而不会自动执行</p>
-<p>watch：监听属性,与computed都是监听器，都起到监听/依赖数据并进行输出的作用，一般情况下使用computed，只有在数据变化需要执行异步是或者开销比较大时选用watch</p>
+<p>watch：监听属性,与computed都是监听器，都起到监听/依赖数据并进行输出的作用，一般情况下使用computed，只有在数据变化需要执行异步是或者开销比较大时选用watch。</p>
+<h3 id="执行机制"><a href="#执行机制" class="headerlink" title="执行机制"></a>执行机制</h3><p>在new vue时，index.js初始化各项功能：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Vue</span>(<span class="params">options</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(process.env.NODE_ENV !== <span class="string">'production'</span> &amp;&amp; !(<span class="keyword">this</span> <span class="keyword">instanceof</span> Vue))&#123;</span><br><span class="line">     warn (<span class="string">'Vue is  a. constructor and should be called with the new keyword'</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">this</span>._init(options)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>this._init的执行顺序为：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">initInjections(vm)</span><br><span class="line">initState(vm);</span><br><span class="line">initProvide(vm) </span><br><span class="line">callHook(vm,<span class="string">'created'</span>)</span><br></pre></td></tr></table></figure>
+
+<p>在initState中做了这些事情</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(opts.props) initProps(vm,opts.props)<span class="comment">//初始化props</span></span><br><span class="line"><span class="keyword">if</span>(opts.methods) initMethods(vm,opts.methods)<span class="comment">//初始化methods</span></span><br><span class="line"><span class="keyword">if</span>(opts.data) &#123;</span><br><span class="line">  initData(vm)&#125;</span><br><span class="line">  <span class="keyword">else</span>&#123;</span><br><span class="line">   observe(vm._data = &#123;&#125;,<span class="literal">true</span> <span class="comment">/* asRootData */</span>)</span><br><span class="line">  &#125;</span><br><span class="line"><span class="comment">//初始化data</span></span><br><span class="line"><span class="keyword">if</span>(opts.computed) initComputed(vm,opts.computed)<span class="comment">//初始化computed</span></span><br></pre></td></tr></table></figure>
+
+<p>computed、props、data和computed的初始化都是在beforecreated和created之间完成的。</p>
 <p>deep、immediate、handler</p>
+<h3 id="局部样式、多个样式"><a href="#局部样式、多个样式" class="headerlink" title="局部样式、多个样式"></a>局部样式、多个样式</h3><p>当 <code>&lt;style&gt;</code> 标签有 <code>scoped</code> 属性时，它的 CSS 只作用于当前组件中的元素。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;style scoped&gt;</span><br><span class="line">&lt;&#x2F;style&gt;</span><br></pre></td></tr></table></figure>
+
+<p>没有scoped时为全局</p>
+<p>：class</p>
 <h2 id="v-bind、v-on、v-for"><a href="#v-bind、v-on、v-for" class="headerlink" title="v-bind、v-on、v-for"></a>v-bind、v-on、v-for</h2><p>v-bind属性绑定，class、style、href等属性</p>
 <p>实例</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">    &lt;a v-bind:href&#x3D;&quot;link&quot;&gt;link&lt;&#x2F;a&gt;</span><br><span class="line">&lt;&#x2F;template&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default&#123;</span><br><span class="line">    data() &#123;</span><br><span class="line">       return&#123;</span><br><span class="line">           link:&#39;&#39;</span><br><span class="line">       &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
@@ -315,6 +337,11 @@
 
 <p>v-for比v-if 的优先级更高，性能优化将v-for中的一些元素过滤，再进行v-if判断</p>
 <p>v-for中一般带有key，为了高效更新虚拟DOM而不出错，在新旧辨识时辨别组件，如果不使用vue会使用一种最大限度减少动态元素并且尽可能尝试就地修改、复用相同的元素的算法。使用key后就会基于key重新排列元素，排除key不存在的元素</p>
+<p>使用v-for遍历部分数据时，可以使用v-show，不能使用v-if,用v-if会报错</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;tr v-for&#x3D;&quot;(item,index) in showList&quot; v-show&#x3D;&quot;index &lt; 4&quot; :key&#x3D;&quot;index&quot;&gt;</span><br><span class="line">&lt;&#x2F;tr&gt;</span><br></pre></td></tr></table></figure>
+
+
+
 <h2 id="v-if、v-show、v-model"><a href="#v-if、v-show、v-model" class="headerlink" title="v-if、v-show、v-model"></a>v-if、v-show、v-model</h2><p>v-if 用于条件性地渲染内容，可以跟v-else或者v-else-if搭配使用</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;div v-if&#x3D;&quot;type &#x3D;&#x3D;&#x3D; &#39;A&#39;&quot;&gt;</span><br><span class="line">   A</span><br><span class="line">&lt;&#x2F;div&gt;</span><br><span class="line">&lt;div v-else-if&#x3D;&quot;type &#x3D;&#x3D;&#x3D; &#39;B&#39;&quot;&gt;</span><br><span class="line">   B</span><br><span class="line">&lt;&#x2F;div&gt;</span><br><span class="line">&lt;div v-else-if&#x3D;&quot;type &#x3D;&#x3D;&#x3D; &#39;C&#39;&quot;&gt;</span><br><span class="line">   C</span><br><span class="line">&lt;&#x2F;div&gt;</span><br><span class="line">&lt;div v-else&#x3D;&quot;type &#x3D;&#x3D;&#x3D; &#39;D&#39;&quot;&gt;</span><br><span class="line">   D</span><br><span class="line">&lt;&#x2F;div&gt;</span><br></pre></td></tr></table></figure>
 
@@ -323,6 +350,24 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;input v-model&#x3D;&quot;message&quot; placeholder&#x3D;&quot;edit me&quot;&gt;</span><br><span class="line">&lt;p&gt;</span><br><span class="line">  &#123;&#123; message &#125;&#125;</span><br><span class="line">&lt;&#x2F;p&gt;</span><br></pre></td></tr></table></figure>
 
 <p>v-model会直接将vue实例的数据作为数据来源，所以绑定时确保在data选项中声明，绑定时不需要this参数</p>
+<h2 id="过滤器"><a href="#过滤器" class="headerlink" title="过滤器"></a>过滤器</h2><p>在组件的选项中定义本地的过滤器,使用时与computed类似，用于将外部传来的值进行处理，用于一些常见的文本格式化。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;div&gt;</span><br><span class="line">  &lt;!-- 在双花括号中 --&gt;</span><br><span class="line">&#123;&#123; message | capitalize &#125;&#125;</span><br><span class="line">  &lt;!-- 在 &#96;v-bind&#96; 中 --&gt;</span><br><span class="line">&lt;div v-bind:id&#x3D;&quot;rawId | formatId&quot;&gt;&lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">filters:&#123;</span><br><span class="line">  capitalize: function (value) &#123;</span><br><span class="line">    if (!value) return &#39;&#39;</span><br><span class="line">    value &#x3D; value.toString()</span><br><span class="line">    return value.charAt(0).toUpperCase() + value.slice(1)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="ref"><a href="#ref" class="headerlink" title="ref"></a>ref</h2><p>尽管存在 prop 和事件，有的时候你仍可能需要在 JavaScript 里直接访问一个子组件的data或者methods。为了达到这个目的，你可以通过 <code>ref</code> 调用。子组件也可以通过ref调用父组件的方法，也可以调用组件内部的dom。</p>
+<p>实例</p>
+<p>子组件正常写，父组件引用时添加ref属性。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div&gt;</span><br><span class="line">      &#123;&#123; msg &#125;&#125;</span><br><span class="line">  &lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  data() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      msg: &quot;hello world&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    open() &#123;</span><br><span class="line">      console.log(&quot;调用到了&quot;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
+
+<p>父组件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div id&#x3D;&quot;app&quot;&gt;</span><br><span class="line">    &lt;HelloWorld ref&#x3D;&quot;hello&quot;&#x2F;&gt;</span><br><span class="line">    &lt;button @click&#x3D;&quot;getHello&quot;&gt;获取helloworld组件中的值&lt;&#x2F;button&gt;</span><br><span class="line">  &lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">import HelloWorld from &quot;.&#x2F;components&#x2F;HelloWorld.vue&quot;;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  components: &#123;</span><br><span class="line">    HelloWorld</span><br><span class="line">  &#125;,</span><br><span class="line">  data() &#123;</span><br><span class="line">    return &#123;&#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    getHello() &#123;</span><br><span class="line">      console.log(this.$refs.hello.msg);</span><br><span class="line">      this.$refs.hello.open();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
+
+<p>获取本页面dom</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div id&#x3D;&quot;app&quot;&gt;</span><br><span class="line">    &lt;div ref&#x3D;&quot;testDom&quot;&gt;11111&lt;&#x2F;div&gt;</span><br><span class="line">    &lt;button @click&#x3D;&quot;getTest&quot;&gt;获取test节点&lt;&#x2F;button&gt;</span><br><span class="line">  &lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  methods: &#123;</span><br><span class="line">    getTest() &#123;</span><br><span class="line">      console.log(this.$refs.testDom)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
+
+
+
 <h2 id="Vuex状态管理"><a href="#Vuex状态管理" class="headerlink" title="Vuex状态管理"></a>Vuex状态管理</h2><p>对于大型应用，由于状态零散地分布在许多组件中，复杂度会逐渐增长，尤其对于多个视图依赖同一状态，或者来自不同视图需要变更同一状态。vue提供vuex解决状态管理问题。</p>
 <p>安装</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install vuex --save</span><br></pre></td></tr></table></figure>
@@ -349,6 +394,23 @@
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> moduleA =&#123;</span><br><span class="line">  state:<span class="function"><span class="params">()</span>=&gt;</span>(&#123;&#125;),</span><br><span class="line">  mutations:&#123;&#125;,</span><br><span class="line">  actions:&#123;&#125;,</span><br><span class="line">  getter:&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> moduleB=&#123;</span><br><span class="line">  state:<span class="function"><span class="params">()</span>=&gt;</span>(&#123;&#125;),</span><br><span class="line">  mutations:&#123;&#125;,</span><br><span class="line">  actions:&#123;&#125;,</span><br><span class="line">  getter:&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> store = <span class="keyword">new</span> Vuex.Store(&#123;</span><br><span class="line">  modules: &#123;</span><br><span class="line">    a:moduleA,</span><br><span class="line">    b:moduleB</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">store.state.a<span class="comment">//moduleA的状态</span></span><br><span class="line">store.state.b<span class="comment">//moduleB的状态</span></span><br></pre></td></tr></table></figure>
 
 <p>手撸vuex：<a href="https://juejin.im/post/6845166891204345870">https://juejin.im/post/6845166891204345870</a></p>
+<h2 id="自定义指令"><a href="#自定义指令" class="headerlink" title="自定义指令"></a>自定义指令</h2><p>除了核心功能默认内置的指令 (<code>v-model</code> 和 <code>v-show</code>)，Vue 也允许注册自定义指令。然而，有的情况下，你仍然需要对普通 DOM 元素进行底层操作，这时候就会用到自定义指令。</p>
+<p>比如，你需要当页面加载时，某元素将获得焦点 (注意：<code>autofocus</code> 在移动版 Safari 上不工作)。事实上，只要你在打开这个页面后还没点击过任何内容，这个输入框就应当还是处于聚焦状态。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">	&lt;input v-focus&gt;</span><br><span class="line">&lt;&#x2F;template&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">&#x2F;&#x2F; 注册一个全局自定义指令 &#96;v-focus&#96;</span><br><span class="line">Vue.directive(&#39;focus&#39;, &#123;</span><br><span class="line">  &#x2F;&#x2F; 当被绑定的元素插入到 DOM 中时……</span><br><span class="line">  inserted: function (el) &#123;</span><br><span class="line">    &#x2F;&#x2F; 聚焦元素</span><br><span class="line">    el.focus()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line">&#x2F;&#x2F;局部自定义</span><br><span class="line">directives: &#123;</span><br><span class="line">  focus: &#123;</span><br><span class="line">    &#x2F;&#x2F; 指令的定义</span><br><span class="line">    inserted: function (el) &#123;</span><br><span class="line">      el.focus()</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
+
+<p>自定义指令具有几个钩子函数</p>
+<ul>
+<li><p><code>bind</code>：只调用一次，指令第一次绑定到元素时调用。在这里可以进行一次性的初始化设置。</p>
+</li>
+<li><p><code>inserted</code>：被绑定元素插入父节点时调用 (仅保证父节点存在，但不一定已被插入文档中)。</p>
+</li>
+<li><p><code>update</code>：所在组件的 VNode 更新时调用，<strong>但是可能发生在其子 VNode 更新之前</strong>。指令的值可能发生了改变，也可能没有。但是你可以通过比较更新前后的值来忽略不必要的模板更新 (详细的钩子函数参数见下)。</p>
+</li>
+<li><p><code>componentUpdated</code>：指令所在组件的 VNode <strong>及其子 VNode</strong> 全部更新后调用。</p>
+</li>
+<li><p><code>unbind</code>：只调用一次，指令与元素解绑时调用。</p>
+</li>
+</ul>
 <h2 id="vue动画"><a href="#vue动画" class="headerlink" title="vue动画"></a>vue动画</h2><p>Vue 在插入、更新或者移除 DOM 时，提供多种不同方式的应用过渡效果。包括以下工具：</p>
 <ul>
 <li>在 CSS 过渡和动画中自动应用 class</li>
@@ -379,50 +441,13 @@
 <p><a href="https://cn.vuejs.org/v2/cookbook/client-side-storage.html">https://cn.vuejs.org/v2/cookbook/client-side-storage.html</a></p>
 <h2 id="SSR"><a href="#SSR" class="headerlink" title="SSR"></a>SSR</h2><p>服务端渲染</p>
 <p>安装</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install vue vue-server-renderer --save</span><br></pre></td></tr></table></figure>
-
-
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install vue vue-server-renderer --save</span><br></pre></td></tr></table></figure>
 
 <p>Nust</p>
 <p>Nust是基于vue生态的</p>
 <h2 id="vue-config-js"><a href="#vue-config-js" class="headerlink" title="vue.config.js"></a>vue.config.js</h2><p>vue.config.js是一个可选的，用于更改全局vue-cli的配置</p>
 <p><a href="https://cli.vuejs.org/zh/config/">https://cli.vuejs.org/zh/config/</a></p>
-<h2 id="Vue语法总结"><a href="#Vue语法总结" class="headerlink" title="Vue语法总结"></a>Vue语法总结</h2><p>想学习几个模块或者模板的使用并非难事，对于想从事前端开发的人来说，强调更懂vue底层原理。此部分也是vue的面试题</p>
-<h3 id="vue-cli原理"><a href="#vue-cli原理" class="headerlink" title="vue-cli原理"></a>vue-cli原理</h3><p>下载模版、生成模版、</p>
-<p>构建自定义模版</p>
-<h3 id="vue3-0与2-0的区别"><a href="#vue3-0与2-0的区别" class="headerlink" title="vue3.0与2.0的区别"></a>vue3.0与2.0的区别</h3><p>vue3.0有一个基于 Proxy 的观察者，它会提供全语言覆盖的响应式跟踪。相比于 2.x 版本里基于 Object.defineProperty 的观察者，新的实现更加强大:</p>
-<p>​        可以检测属性的新增和删除</p>
-<p>​        可以检测数组索引的变化和 length 的变化</p>
-<p>​        支持 Map、Set、WeakMap 和 WeakSet</p>
-<p>支持typescript</p>
-<p><a href="https://juejin.im/post/6854573210717929480#heading-1">https://juejin.im/post/6854573210717929480#heading-1</a></p>
-<h3 id="vue模版解析原理"><a href="#vue模版解析原理" class="headerlink" title="vue模版解析原理"></a>vue模版解析原理</h3><p>vue解析器将模版解析为AST（抽象语法树）</p>
-<h4 id="html解析器"><a href="#html解析器" class="headerlink" title="html解析器"></a>html解析器</h4><p>实例</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;div&gt;</span><br><span class="line">    &lt;h1&gt;我是Berwin&lt;&#x2F;h1&gt;</span><br><span class="line">    &lt;p&gt;我今年23岁&lt;&#x2F;p&gt;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br></pre></td></tr></table></figure>
 
-<p>上述模版解析过程：</p>
-<p>模板的开始位置是<code>div</code>的开始标签，于是会触发钩子函数<code>start</code>。<code>start</code>触发后，会先构建一个<code>div</code>节点。此时发现栈是空的，这说明<code>div</code>节点是根节点，因为它没有父节点。将<code>div</code>节点推入栈中，并将模板字符串中的<code>div</code>开始标签从模板中截取掉。</p>
-<p>第二行模板的开始位置是一些空格，这些空格会触发文本节点的钩子函数，在钩子函数里会忽略这些空格。同时会在模板中将这些空格截取掉。</p>
-<p>空格去掉之后是<code>h1</code>的开始标签，于是会触发钩子函数<code>start</code>。与前面流程一样，<code>start</code>触发后，会先构建一个<code>h1</code>节点。此时发现栈的最后一个节点是<code>div</code>节点，这说明<code>h1</code>节点的父节点是<code>div</code>，于是将<code>h1</code>添加到<code>div</code>的子节点中，并且将<code>h1</code>节点推入栈中，同时从模板中将<code>h1</code>的开始标签截取掉。</p>
-<p>h1标签之后是一段文本，于是会触发钩子函数<code>chars</code>。<code>chars</code>触发后，会先构建一个文本节点，此时发现栈中的最后一个节点是<code>h1</code>，这说明文本节点的父节点是<code>h1</code>，于是将文本节点添加到<code>h1</code>节点的子节点中。由于文本节点没有子节点，所以文本节点不会被推入栈中。最后，将文本从模板中截取掉。</p>
-<p>文本后是<code>h1</code>结束标签，于是会触发钩子函数<code>end</code>。<code>end</code>触发后，会把栈中最后一个节点弹出来。</p>
-<p>p标签与h1标签的解析过程相同，解析空格、钩子函数start、解析文本、结束钩子函数end</p>
-<p>到了<code>div</code>的结束标签，于是会触发钩子函数<code>end</code>。其逻辑与之前一样，把栈中的最后一个节点弹出来，也就是把<code>div</code>弹了出来，并将<code>div</code>的结束标签从模板中截取掉。</p>
-<p>此时模板已经被截取空了，也就代表着HTML解析器已经运行完毕。这时我们会发现栈已经空了，但是我们得到了一个完整的带层级关系的AST语法树。这个AST中清晰写明了每个节点的父节点、子节点及其节点类型。</p>
-<p>html解析器是一个函数，用伪代码实现的话如下</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">parseHTML(template, &#123;</span><br><span class="line">    start (tag, attrs, unary) &#123;</span><br><span class="line">        <span class="comment">// 每当解析到标签的开始位置时，触发该函数</span></span><br><span class="line">    &#125;,</span><br><span class="line">    end () &#123;</span><br><span class="line">        <span class="comment">// 每当解析到标签的结束位置时，触发该函数</span></span><br><span class="line">    &#125;,</span><br><span class="line">    chars (text) &#123;</span><br><span class="line">        <span class="comment">// 每当解析到文本时，触发该函数</span></span><br><span class="line">    &#125;,</span><br><span class="line">    comment (text) &#123;</span><br><span class="line">        <span class="comment">// 每当解析到注释时，触发该函数</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-
-<h4 id="文本解析器"><a href="#文本解析器" class="headerlink" title="文本解析器"></a>文本解析器</h4><p>vue中允许文本中带有变量，遇到带有变量的文本需要调用文本解析器进行解析</p>
-<h3 id="vue-router的实现原理"><a href="#vue-router的实现原理" class="headerlink" title="vue-router的实现原理"></a>vue-router的实现原理</h3><p>vue属于spa（单一页面应用），当它加载页面时不会加载整个页面的内容，而是更新某个指定容器的内容</p>
-<p>单页面应用的核心之一是</p>
-<p>1.更新视图而不请求页面</p>
-<p>2.vue-router的三种模式</p>
-<p>vue-router提供三种模式：</p>
-<p>hash：使用url hash值来作为路由，为默认模式</p>
-<p>history：依赖HTML5 History API和服务器配置</p>
-<p>abstract：支持所有javascript运行环境</p>
-<p>移动端weex使用abstract模式</p>
-<h3 id="vuex实现原理"><a href="#vuex实现原理" class="headerlink" title="vuex实现原理"></a>vuex实现原理</h3><h3 id="组件keep-alive实现原理"><a href="#组件keep-alive实现原理" class="headerlink" title="组件keep-alive实现原理"></a>组件keep-alive实现原理</h3><h3 id="diff算法实现原理"><a href="#diff算法实现原理" class="headerlink" title="diff算法实现原理"></a>diff算法实现原理</h3>
         </div>
         
         <div class="level is-size-7 is-uppercase">
@@ -481,7 +506,7 @@
     <div class="level post-navigation is-flex-wrap is-mobile">
         
         <div class="level-start">
-            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/07/18/Node2/">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/07/18/Node3/">
                 <i class="level-item fas fa-chevron-left"></i>
                 <span class="level-item">Javascript开发（二）</span>
             </a>
@@ -571,7 +596,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            67
+                            88
                         </p>
                     </a>
                 </div>
@@ -583,7 +608,7 @@
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            6
+                            7
                         </p>
                     </a>
                 </div>
@@ -595,7 +620,7 @@
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            42
+                            47
                         </p>
                     </a>
                 </div>
@@ -701,18 +726,34 @@
         <span class="has-mr-6">5.1</span>
         <span>动态加载组件</span>
         </a></li><li>
-        <a class="is-flex" href="#插槽">
+        <a class="is-flex" href="#异步组件">
         <span class="has-mr-6">5.2</span>
-        <span>插槽</span>
+        <span>异步组件</span>
         </a></li></ul></li><li>
         <a class="is-flex" href="#组件间通信">
         <span class="has-mr-6">6</span>
         <span>组件间通信</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#插槽">
+        <span class="has-mr-6">6.1</span>
+        <span>插槽</span>
         </a></li><li>
+        <a class="is-flex" href="#驼峰命名法">
+        <span class="has-mr-6">6.2</span>
+        <span>驼峰命名法</span>
+        </a></li></ul></li><li>
         <a class="is-flex" href="#模板语法">
         <span class="has-mr-6">7</span>
         <span>模板语法</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#执行机制">
+        <span class="has-mr-6">7.1</span>
+        <span>执行机制</span>
         </a></li><li>
+        <a class="is-flex" href="#局部样式、多个样式">
+        <span class="has-mr-6">7.2</span>
+        <span>局部样式、多个样式</span>
+        </a></li></ul></li><li>
         <a class="is-flex" href="#v-bind、v-on、v-for">
         <span class="has-mr-6">8</span>
         <span>v-bind、v-on、v-for</span>
@@ -721,78 +762,50 @@
         <span class="has-mr-6">9</span>
         <span>v-if、v-show、v-model</span>
         </a></li><li>
-        <a class="is-flex" href="#Vuex状态管理">
+        <a class="is-flex" href="#过滤器">
         <span class="has-mr-6">10</span>
+        <span>过滤器</span>
+        </a></li><li>
+        <a class="is-flex" href="#ref">
+        <span class="has-mr-6">11</span>
+        <span>ref</span>
+        </a></li><li>
+        <a class="is-flex" href="#Vuex状态管理">
+        <span class="has-mr-6">12</span>
         <span>Vuex状态管理</span>
         </a></li><li>
+        <a class="is-flex" href="#自定义指令">
+        <span class="has-mr-6">13</span>
+        <span>自定义指令</span>
+        </a></li><li>
         <a class="is-flex" href="#vue动画">
-        <span class="has-mr-6">11</span>
+        <span class="has-mr-6">14</span>
         <span>vue动画</span>
         </a></li><li>
         <a class="is-flex" href="#axios">
-        <span class="has-mr-6">12</span>
+        <span class="has-mr-6">15</span>
         <span>axios</span>
         </a></li><li>
         <a class="is-flex" href="#客户端存储">
-        <span class="has-mr-6">13</span>
+        <span class="has-mr-6">16</span>
         <span>客户端存储</span>
         </a><ul class="menu-list"><li>
         <a class="is-flex" href="#vue-cookies">
-        <span class="has-mr-6">13.1</span>
+        <span class="has-mr-6">16.1</span>
         <span>vue-cookies</span>
         </a></li><li>
         <a class="is-flex" href="#localstorage">
-        <span class="has-mr-6">13.2</span>
+        <span class="has-mr-6">16.2</span>
         <span>localstorage</span>
         </a></li></ul></li><li>
         <a class="is-flex" href="#SSR">
-        <span class="has-mr-6">14</span>
+        <span class="has-mr-6">17</span>
         <span>SSR</span>
         </a></li><li>
         <a class="is-flex" href="#vue-config-js">
-        <span class="has-mr-6">15</span>
+        <span class="has-mr-6">18</span>
         <span>vue.config.js</span>
-        </a></li><li>
-        <a class="is-flex" href="#Vue语法总结">
-        <span class="has-mr-6">16</span>
-        <span>Vue语法总结</span>
-        </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#vue-cli原理">
-        <span class="has-mr-6">16.1</span>
-        <span>vue-cli原理</span>
-        </a></li><li>
-        <a class="is-flex" href="#vue3-0与2-0的区别">
-        <span class="has-mr-6">16.2</span>
-        <span>vue3.0与2.0的区别</span>
-        </a></li><li>
-        <a class="is-flex" href="#vue模版解析原理">
-        <span class="has-mr-6">16.3</span>
-        <span>vue模版解析原理</span>
-        </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#html解析器">
-        <span class="has-mr-6">16.3.1</span>
-        <span>html解析器</span>
-        </a></li><li>
-        <a class="is-flex" href="#文本解析器">
-        <span class="has-mr-6">16.3.2</span>
-        <span>文本解析器</span>
-        </a></li></ul></li><li>
-        <a class="is-flex" href="#vue-router的实现原理">
-        <span class="has-mr-6">16.4</span>
-        <span>vue-router的实现原理</span>
-        </a></li><li>
-        <a class="is-flex" href="#vuex实现原理">
-        <span class="has-mr-6">16.5</span>
-        <span>vuex实现原理</span>
-        </a></li><li>
-        <a class="is-flex" href="#组件keep-alive实现原理">
-        <span class="has-mr-6">16.6</span>
-        <span>组件keep-alive实现原理</span>
-        </a></li><li>
-        <a class="is-flex" href="#diff算法实现原理">
-        <span class="has-mr-6">16.7</span>
-        <span>diff算法实现原理</span>
-        </a></li></ul></li></ul>
+        </a></li></ul>
             </div>
         </div>
     </div>
@@ -848,7 +861,15 @@
                 <span class="level-item">IT</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">21</span>
+                <span class="level-item tag">28</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E4%B8%AA%E4%BA%BA%E5%B9%B8%E7%A6%8F/">
+            <span class="level-start">
+                <span class="level-item">个人幸福</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">
@@ -856,7 +877,7 @@
                 <span class="level-item">个人生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">16</span>
+                <span class="level-item tag">22</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">
@@ -864,7 +885,7 @@
                 <span class="level-item">技术博客</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">28</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%9C%8B%E5%8F%8B/">
@@ -872,7 +893,7 @@
                 <span class="level-item">朋友</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">4</span>
+                <span class="level-item tag">5</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E7%94%9F%E6%B4%BB/">
@@ -888,7 +909,7 @@
                 <span class="level-item">生活感悟</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">1</span>
+                <span class="level-item tag">2</span>
             </span>
         </a></li>
             </ul>
@@ -901,7 +922,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 13.33px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 10px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 13.33px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 13.33px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 13.33px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 10px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb-Javascript/" style="font-size: 10px;">IT，Web,Javascript</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 20px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 10px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 13.33px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 10px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 10px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 13.33px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 10px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 20px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 16.67px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 16.67px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 10px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 10px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 13.33px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">生活、幸福</a> <a href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">记录，生活</a>
+        <a href="/tags/IT/" style="font-size: 10px;">IT</a> <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 12.5px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 10px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8C/" style="font-size: 12.5px;">IT,Web，</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 12.5px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 12.5px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 12.5px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 10px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb/" style="font-size: 10px;">IT，Web</a> <a href="/tags/IT%EF%BC%8CWeb-Javascript/" style="font-size: 10px;">IT，Web,Javascript</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 17.5px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 10px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 15px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 12.5px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 12.5px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 10px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 10px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 17.5px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 15px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 15px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">幸福</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/" style="font-size: 15px;">技术，IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 10px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 12.5px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 12.5px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 17.5px;">生活、幸福</a> <a href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">记录，生活</a>
     </div>
 </div>
     
@@ -913,6 +934,25 @@
         <h3 class="menu-label">
             最新文章
         </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/10/02/%E6%97%A5%E8%AF%AD%E5%AD%A6%E4%B9%A0%E4%B8%8E%E6%89%98%E7%A6%8F%E5%AD%A6%E4%B9%A0/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="日语学习与托福学习">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-10-02T13:40:33.000Z">2020-10-02</time></div>
+                    <a href="/2020/10/02/%E6%97%A5%E8%AF%AD%E5%AD%A6%E4%B9%A0%E4%B8%8E%E6%89%98%E7%A6%8F%E5%AD%A6%E4%B9%A0/" class="title has-link-black-ter is-size-6 has-text-weight-normal">日语学习与托福学习</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">个人生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -973,37 +1013,18 @@
         
         <article class="media">
             
-            <a href="/2020/08/28/flutter3/" class="media-left">
+            <a href="/2020/09/02/H5%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%912/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/flutter.jpeg" alt="flutter移动开发（三）">
+                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/Phaser.jpg" alt="H5游戏开发">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-08-28T13:40:33.000Z">2020-08-28</time></div>
-                    <a href="/2020/08/28/flutter3/" class="title has-link-black-ter is-size-6 has-text-weight-normal">flutter移动开发（三）</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-09-02T13:40:33.000Z">2020-09-02</time></div>
+                    <a href="/2020/09/02/H5%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%912/" class="title has-link-black-ter is-size-6 has-text-weight-normal">H5游戏开发</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">技术博客</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2020/08/28/flutter2/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/flutter2.jpg" alt="flutter移动开发（二）">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-08-28T13:40:33.000Z">2020-08-28</time></div>
-                    <a href="/2020/08/28/flutter2/" class="title has-link-black-ter is-size-6 has-text-weight-normal">flutter移动开发（二）</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">技术博客</a>
+                        <a class="has-link-grey -link" href="/categories/IT/">IT</a>
                     </p>
                 </div>
             </div>
@@ -1021,12 +1042,23 @@
         <ul class="menu-list">
         
         <li>
+            <a class="level is-marginless" href="/archives/2020/10/">
+                <span class="level-start">
+                    <span class="level-item">十月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
             <a class="level is-marginless" href="/archives/2020/09/">
                 <span class="level-start">
                     <span class="level-item">九月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">3</span>
+                    <span class="level-item tag">4</span>
                 </span>
             </a>
         </li>
@@ -1037,7 +1069,7 @@
                     <span class="level-item">八月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">5</span>
+                    <span class="level-item tag">7</span>
                 </span>
             </a>
         </li>
@@ -1048,7 +1080,7 @@
                     <span class="level-item">七月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">4</span>
+                    <span class="level-item tag">5</span>
                 </span>
             </a>
         </li>
@@ -1059,7 +1091,7 @@
                     <span class="level-item">六月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">7</span>
+                    <span class="level-item tag">13</span>
                 </span>
             </a>
         </li>
@@ -1070,7 +1102,7 @@
                     <span class="level-item">五月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">9</span>
+                    <span class="level-item tag">5</span>
                 </span>
             </a>
         </li>
@@ -1081,7 +1113,7 @@
                     <span class="level-item">四月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">3</span>
+                    <span class="level-item tag">4</span>
                 </span>
             </a>
         </li>
@@ -1092,7 +1124,7 @@
                     <span class="level-item">三月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">35</span>
+                    <span class="level-item tag">48</span>
                 </span>
             </a>
         </li>
@@ -1122,6 +1154,13 @@
             <div class="field is-grouped is-grouped-multiline">
                 
                 <div class="control">
+                    <a class="tags has-addons" href="/tags/IT/">
+                        <span class="tag">IT</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
                     <a class="tags has-addons" href="/tags/IT-Java-Web/">
                         <span class="tag">IT,Java,Web</span>
                         <span class="tag is-grey">1</span>
@@ -1139,6 +1178,13 @@
                     <a class="tags has-addons" href="/tags/IT-Web/">
                         <span class="tag">IT,Web,</span>
                         <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8C/">
+                        <span class="tag">IT,Web，</span>
+                        <span class="tag is-grey">2</span>
                     </a>
                 </div>
                 
@@ -1234,6 +1280,13 @@
                 </div>
                 
                 <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb/">
+                        <span class="tag">IT，Web</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Javascript/">
                         <span class="tag">IT，Web,Javascript</span>
                         <span class="tag is-grey">1</span>
@@ -1243,7 +1296,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Node/">
                         <span class="tag">IT，Web,Node</span>
-                        <span class="tag is-grey">4</span>
+                        <span class="tag is-grey">5</span>
                     </a>
                 </div>
                 
@@ -1264,7 +1317,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Vue/">
                         <span class="tag">IT，Web,Vue</span>
-                        <span class="tag is-grey">2</span>
+                        <span class="tag is-grey">3</span>
                     </a>
                 </div>
                 
@@ -1278,21 +1331,21 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/">
                         <span class="tag">IT，Web,数据库</span>
-                        <span class="tag is-grey">4</span>
+                        <span class="tag is-grey">6</span>
                     </a>
                 </div>
                 
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8Cweb/">
                         <span class="tag">IT，web</span>
-                        <span class="tag is-grey">1</span>
+                        <span class="tag is-grey">2</span>
                     </a>
                 </div>
                 
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/">
                         <span class="tag">IT，未来</span>
-                        <span class="tag is-grey">1</span>
+                        <span class="tag is-grey">2</span>
                     </a>
                 </div>
                 
@@ -1306,7 +1359,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/Web-IT-Go/">
                         <span class="tag">Web,IT,Go</span>
-                        <span class="tag is-grey">2</span>
+                        <span class="tag is-grey">1</span>
                     </a>
                 </div>
                 
@@ -1320,7 +1373,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/">
                         <span class="tag">个人生活，幸福</span>
-                        <span class="tag is-grey">4</span>
+                        <span class="tag is-grey">5</span>
                     </a>
                 </div>
                 
@@ -1346,6 +1399,13 @@
                 </div>
                 
                 <div class="control">
+                    <a class="tags has-addons" href="/tags/%E5%B9%B8%E7%A6%8F/">
+                        <span class="tag">幸福</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
                     <a class="tags has-addons" href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">
                         <span class="tag">幸福，个人生活</span>
                         <span class="tag is-grey">1</span>
@@ -1356,6 +1416,13 @@
                     <a class="tags has-addons" href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/">
                         <span class="tag">技术宅、IT</span>
                         <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/">
+                        <span class="tag">技术，IT</span>
+                        <span class="tag is-grey">3</span>
                     </a>
                 </div>
                 
@@ -1376,7 +1443,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/%E6%B7%B1%E5%9C%B3/">
                         <span class="tag">深圳</span>
-                        <span class="tag is-grey">1</span>
+                        <span class="tag is-grey">2</span>
                     </a>
                 </div>
                 
@@ -1404,7 +1471,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/">
                         <span class="tag">生活、幸福</span>
-                        <span class="tag is-grey">1</span>
+                        <span class="tag is-grey">5</span>
                     </a>
                 </div>
                 
@@ -1523,7 +1590,7 @@
 <script>
 var IcarusThemeSettings = {
     site: {
-        url: 'http://yoursite.com',
+        url: 'http://kun8018.gitee.io',
         external_link: {"enable":true,"exclude":[]}
     },
     article: {

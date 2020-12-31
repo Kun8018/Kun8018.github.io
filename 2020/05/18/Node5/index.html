@@ -1,0 +1,1803 @@
+<!DOCTYPE html>
+<html  lang="zh">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 4.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>NodeJs开发（四） - kun&#39;s blog</title>
+
+
+    <meta name="description" content="第四篇注重常用功能和框架开发，可以看作进阶篇">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NodeJs开发（四）">
+<meta property="og:url" content="http://kun8018.gitee.io/2020/05/18/Node5/index.html">
+<meta property="og:site_name" content="kun&#39;s blog">
+<meta property="og:description" content="第四篇注重常用功能和框架开发，可以看作进阶篇">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://cdn.kunkunzhang.top/nestjs.png">
+<meta property="article:published_time" content="2020-05-18T13:40:33.000Z">
+<meta property="article:modified_time" content="2020-12-23T12:18:19.971Z">
+<meta property="article:author" content="Kun Zhang">
+<meta property="article:tag" content="IT，Web,Node">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://cdn.kunkunzhang.top/nestjs.png">
+
+
+
+
+
+
+
+<link rel="icon" href="https://s1.ax1x.com/2020/03/27/G9OfNn.th.png">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    <script async="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="https://s1.ax1x.com/2020/03/27/G9OfNn.th.png" alt="NodeJs开发（四）" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">首页</a>
+                
+                <a class="navbar-item"
+                href="/archives">最近发布</a>
+                
+                <a class="navbar-item"
+                href="/categories">目录</a>
+                
+                <a class="navbar-item"
+                href="/tags">分类</a>
+                
+                <a class="navbar-item"
+                href="/about">关于我</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    <a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-9-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-image">
+        <span  class="image is-7by1">
+            <img class="thumbnail" src="http://cdn.kunkunzhang.top/nestjs.png" alt="NodeJs开发（四）">
+        </span>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-05-18T13:40:33.000Z">2020-05-18</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/IT/">IT</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    1 小时 读完 (大约 6780 个字)
+                </span>
+                
+                
+                <span class="level-item has-text-grey" id="busuanzi_container_page_pv">
+                    <i class="far fa-eye"></i>
+                    <span id="busuanzi_value_page_pv">0</span>次访问
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                NodeJs开发（四）
+            
+        </h1>
+        <div class="content">
+            <p>第四篇注重常用功能和框架开发，可以看作进阶篇</p>
+<a id="more"></a>
+
+<h2 id="功能模块"><a href="#功能模块" class="headerlink" title="功能模块"></a>功能模块</h2><h3 id="Graphql"><a href="#Graphql" class="headerlink" title="Graphql"></a>Graphql</h3><p>安装依赖</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install apollo-server@<span class="number">2.13</span><span class="number">.1</span> graphql@<span class="number">14.6</span><span class="number">.0</span>  type-graphql@<span class="number">0.17</span><span class="number">.6</span></span><br></pre></td></tr></table></figure>
+
+<p>引入</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">"reflect-metadata"</span></span><br><span class="line"><span class="keyword">import</span> &#123;buildSchema,ObjectType,Field,ID,Resolver,Query&#125; <span class="keyword">from</span> <span class="string">"type-graphql"</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;ApolloServer&#125; <span class="keyword">from</span> <span class="string">"apollo-server"</span>;</span><br></pre></td></tr></table></figure>
+
+<p>后端定义schema和resolver</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">@ObjectType()</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Post</span></span>&#123;</span><br><span class="line">    @Field(<span class="function"><span class="params">type</span> =&gt;</span> ID)</span><br><span class="line">    id: string;</span><br><span class="line"></span><br><span class="line">    @Field()</span><br><span class="line">    created: Data;</span><br><span class="line"></span><br><span class="line">    @Field()</span><br><span class="line">    content: <span class="built_in">String</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@Resolver(Post)</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PostResolver</span> </span>&#123;</span><br><span class="line">    @Query(<span class="function"><span class="params">returns</span> =&gt;</span> [Post])</span><br><span class="line">    <span class="keyword">async</span> posts(): <span class="built_in">Promise</span>&lt;Post[]&gt;&#123;</span><br><span class="line">        <span class="keyword">return</span> [</span><br><span class="line">           &#123;</span><br><span class="line">              id:<span class="string">"0"</span>,</span><br><span class="line">              created: <span class="keyword">new</span> <span class="built_in">Date</span>(),</span><br><span class="line">              content:<span class="string">'aaa'</span></span><br><span class="line">            &#125;,</span><br><span class="line">            &#123;</span><br><span class="line">              id:<span class="string">"1"</span>,</span><br><span class="line">              created: <span class="keyword">new</span> <span class="built_in">Date</span>(),</span><br><span class="line">              content:<span class="string">'bbb'</span></span><br><span class="line">            &#125;,</span><br><span class="line">            &#123;</span><br><span class="line">              id:<span class="string">"2"</span>,</span><br><span class="line">              created: <span class="keyword">new</span> <span class="built_in">Date</span>(),</span><br><span class="line">              content:<span class="string">'ccc'</span></span><br><span class="line">            &#125;,</span><br><span class="line">        ]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行项目，在localhost:4444打开graphql的playground进行测试</p>
+<h3 id="剪贴板的使用"><a href="#剪贴板的使用" class="headerlink" title="剪贴板的使用"></a>剪贴板的使用</h3><p>使用第三方包，安装</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install clipboard-polyfill</span><br></pre></td></tr></table></figure>
+
+<p>引用</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> clipboard <span class="keyword">from</span> <span class="string">"clipboard-polyfill"</span></span><br></pre></td></tr></table></figure>
+
+<p>实例</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">clipboard.writeText(<span class="string">"this"</span>);</span><br><span class="line">clipboard.readText().then(<span class="built_in">console</span>.log,<span class="built_in">console</span>.error);</span><br></pre></td></tr></table></figure>
+
+<h3 id="生成二维码"><a href="#生成二维码" class="headerlink" title="生成二维码"></a>生成二维码</h3><h3 id="判断设备信息"><a href="#判断设备信息" class="headerlink" title="判断设备信息"></a>判断设备信息</h3><p>使用navigator对象</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">checkdevice</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> browser = &#123;</span><br><span class="line">    versions: (<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="keyword">var</span> u = navigator.userAgent,</span><br><span class="line">        app = navigator.appVersion;</span><br><span class="line">      <span class="keyword">return</span> &#123;</span><br><span class="line">        <span class="comment">//移动终端浏览器版本信息</span></span><br><span class="line">        trident: u.indexOf(<span class="string">"Trident"</span>) &gt; <span class="number">-1</span>, <span class="comment">//IE内核</span></span><br><span class="line">        presto: u.indexOf(<span class="string">"Presto"</span>) &gt; <span class="number">-1</span>, <span class="comment">//opera内核</span></span><br><span class="line">        webKit: u.indexOf(<span class="string">"AppleWebKit"</span>) &gt; <span class="number">-1</span>, <span class="comment">//苹果、谷歌内核</span></span><br><span class="line">        gecko: u.indexOf(<span class="string">"Gecko"</span>) &gt; <span class="number">-1</span> &amp;&amp; u.indexOf(<span class="string">"KHTML"</span>) == <span class="number">-1</span>, <span class="comment">//火狐内核</span></span><br><span class="line">        mobile: !!u.match(<span class="regexp">/AppleWebKit.*Mobile.*/</span>), <span class="comment">//是否为移动终端</span></span><br><span class="line">        ios: !!u.match(<span class="regexp">/\(i[^;]+;( U;)? CPU.+Mac OS X/</span>), <span class="comment">//ios终端</span></span><br><span class="line">        android: u.indexOf(<span class="string">"Android"</span>) &gt; <span class="number">-1</span> || u.indexOf(<span class="string">"Linux"</span>) &gt; <span class="number">-1</span>, <span class="comment">//android终端或uc浏览器</span></span><br><span class="line">        iPhone: u.indexOf(<span class="string">"iPhone"</span>) &gt; <span class="number">-1</span>, <span class="comment">//是否为iPhone或者QQHD浏览器</span></span><br><span class="line">        iPad: u.indexOf(<span class="string">"iPad"</span>) &gt; <span class="number">-1</span>, <span class="comment">//是否iPad</span></span><br><span class="line">        webApp: u.indexOf(<span class="string">"Safari"</span>) == <span class="number">-1</span>, <span class="comment">//是否web应该程序，没有头部与底部</span></span><br><span class="line">      &#125;;</span><br><span class="line">    &#125;)(),</span><br><span class="line">    language: (navigator.browserLanguage || navigator.language).toLowerCase(),</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (browser.versions.mobile) &#123;</span><br><span class="line">    <span class="comment">//判断是否是移动设备打开。browser代码在下面</span></span><br><span class="line">    <span class="comment">// 此时为移动端打开.跳转到移动站</span></span><br><span class="line">    <span class="comment">// if(window.location.href.indexOf("ooo0o.com/mobile") != -1)&#123;</span></span><br><span class="line">    <span class="comment">//     return;</span></span><br><span class="line">    <span class="comment">// &#125;else &#123;</span></span><br><span class="line">    <span class="comment">//     window.location.href = "https://www.ooo0o.com/mobile"</span></span><br><span class="line">    <span class="comment">// &#125;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> ua = navigator.userAgent.toLowerCase(); <span class="comment">//获取判断用的对象</span></span><br><span class="line">    <span class="keyword">if</span> (ua.match(<span class="regexp">/MicroMessenger/i</span>) == <span class="string">"micromessenger"</span>) &#123;</span><br><span class="line">      <span class="comment">//在微信中打开</span></span><br><span class="line">      <span class="keyword">if</span> (browser.versions.ios) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"weixinios"</span>;</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"weixin"</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (browser.versions.android) &#123;</span><br><span class="line">      <span class="comment">//是否在安卓浏览器打开</span></span><br><span class="line"></span><br><span class="line">      <span class="comment">// alert('安卓手机中打开的');</span></span><br><span class="line">      <span class="comment">/*window.location.href="https://jushizhibo.com/android/app-release.apk";*/</span></span><br><span class="line">      <span class="comment">// window.open('https://jushizhibo.com/android/app-release.apk','_self')</span></span><br><span class="line">      <span class="keyword">return</span> <span class="string">"anzhuo"</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (browser.versions.ios) &#123;</span><br><span class="line">      <span class="comment">//是否在IOS浏览器打开</span></span><br><span class="line">      <span class="comment">// alert('IOS中打开的');</span></span><br><span class="line">      <span class="comment">/*window.location.href="https://www.baidu.com";*/</span></span><br><span class="line">      <span class="comment">// window.open('transparentfactory://xiangqingye','_self')</span></span><br><span class="line">      <span class="keyword">return</span> <span class="string">"ios"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">//此时是非移动端,则跳转PC站</span></span><br><span class="line">    <span class="comment">// alert('PC中打开的');</span></span><br><span class="line">    <span class="comment">// if(window.location.href.indexOf("ooo0o.com/mobile") != -1)&#123;</span></span><br><span class="line">    <span class="comment">//     window.location.href = "https://www.ooo0o.com"</span></span><br><span class="line">    <span class="comment">// &#125;</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">"pc"</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用时导入</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;checkdevice&#125;  <span class="keyword">from</span> <span class="string">'checkdevice.js'</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="七牛云的使用"><a href="#七牛云的使用" class="headerlink" title="七牛云的使用"></a>七牛云的使用</h3><p>安装七牛包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install qiniu</span><br></pre></td></tr></table></figure>
+
+<p>新建文件，设置七牛云参数</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> bucket=<span class="string">''</span>,</span><br><span class="line"><span class="keyword">var</span> imageUrl=<span class="string">''</span>,</span><br><span class="line"><span class="keyword">var</span> accessKey = <span class="string">''</span>,</span><br><span class="line"><span class="keyword">var</span> secretKey = <span class="string">''</span>,</span><br><span class="line"><span class="keyword">var</span> mac = <span class="keyword">new</span> qiniu.auth.digest.Mac(accessKey,secretKey);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> option=&#123;</span><br><span class="line">    scope:bucket,</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> putPolicy= <span class="keyword">new</span> qiniu.rs.PutPolicy(option)</span><br><span class="line"><span class="keyword">var</span> uploadToken = putPolicy.uploadToken(mac);</span><br></pre></td></tr></table></figure>
+
+<p>上传代码</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> config = <span class="keyword">new</span> qiniu.conf.Config()</span><br><span class="line"></span><br><span class="line">config.zone= qiniu.zone.Zone_z0;<span class="comment">//选择七牛云的机房</span></span><br><span class="line"><span class="comment">//是否使用https、是否使用cdn加速</span></span><br><span class="line">config.usehttpsDomain=<span class="literal">true</span>;</span><br><span class="line">config.useCdnDomain = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> formUploader = <span class="keyword">new</span> qiniu.form_up.FormUploader(config);</span><br><span class="line"><span class="keyword">var</span> putExtra = <span class="keyword">new</span> qiniu.form_up.PutExtra();</span><br><span class="line"><span class="keyword">var</span> key = <span class="string">''</span>;</span><br><span class="line"></span><br><span class="line">formUploader.putFile(uploadToken,key,path.resolve(pathName),putExtra,<span class="function"><span class="keyword">function</span>(<span class="params">respErr,respBody,respInfo</span>)</span>&#123;</span><br><span class="line">       <span class="keyword">if</span>(resqErr)&#123;</span><br><span class="line">         <span class="keyword">throw</span> respErr;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">if</span>(respInfo.statusCode == <span class="number">200</span>)&#123;</span><br><span class="line">       <span class="built_in">console</span>.log(respBody);</span><br><span class="line">       &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">           <span class="built_in">console</span>.log(respInfo.statusCode);</span><br><span class="line">           <span class="built_in">console</span>.log(respBody)</span><br><span class="line">       &#125;                                                   &#125;);</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://segmentfault.com/a/1190000017064729">https://segmentfault.com/a/1190000017064729</a></p>
+<h3 id="发邮件"><a href="#发邮件" class="headerlink" title="发邮件"></a>发邮件</h3><p>导入模块Nodemailer</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install nodemailer</span><br></pre></td></tr></table></figure>
+
+<p>使用方法(包官网<a href="https://nodemailer.com/">https://nodemailer.com/</a>)</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//引入包</span></span><br><span class="line"><span class="keyword">const</span> nodemailer = <span class="built_in">require</span>(<span class="string">"nodemailer"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//创建邮件请求对象（qq邮箱、163邮箱或其他）</span></span><br><span class="line">  <span class="keyword">let</span> transporter = nodemailer.createTransport(&#123;</span><br><span class="line">    host: <span class="string">"smtp.ethereal.email"</span>,<span class="comment">//邮箱服务器</span></span><br><span class="line">    port: <span class="number">587</span>,（端口号）</span><br><span class="line">    secure: <span class="literal">false</span>, <span class="comment">// true for 465, false for other ports</span></span><br><span class="line">    auth: &#123;</span><br><span class="line">      user: testAccount.user, <span class="comment">// 账号</span></span><br><span class="line">      pass: testAccount.pass <span class="comment">// 你的邮箱服务器请求密码</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="comment">//所发送的邮件信息</span></span><br><span class="line">  <span class="keyword">let</span> mailobj=&#123;</span><br><span class="line">    <span class="keyword">from</span>: <span class="string">'"Fred Foo 👻" &lt;foo@example.com&gt;'</span>, <span class="comment">// sender address</span></span><br><span class="line">    to: <span class="string">"bar@example.com, baz@example.com"</span>, <span class="comment">// list of receivers</span></span><br><span class="line">    subject: <span class="string">"Hello ✔"</span>, <span class="comment">// Subject line</span></span><br><span class="line">    text: <span class="string">"Hello world?"</span>, <span class="comment">// plain text body</span></span><br><span class="line">    html: <span class="string">"&lt;b&gt;Hello world?&lt;/b&gt;"</span> <span class="comment">// html body</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//发送邮件</span></span><br><span class="line">  transporter.sendMail(mailobj);</span><br></pre></td></tr></table></figure>
+
+<h3 id="http爬虫"><a href="#http爬虫" class="headerlink" title="http爬虫"></a>http爬虫</h3><h2 id="Node常见问题汇总"><a href="#Node常见问题汇总" class="headerlink" title="Node常见问题汇总"></a>Node常见问题汇总</h2><h3 id="npm-ERR-Maximum-call-stack-size-exceeded"><a href="#npm-ERR-Maximum-call-stack-size-exceeded" class="headerlink" title="npm ERR! Maximum call stack size exceeded"></a>npm ERR! Maximum call stack size exceeded</h3><p>解决方法：全局更新npm</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install npm -g</span><br></pre></td></tr></table></figure>
+
+<h3 id="core-js"><a href="#core-js" class="headerlink" title="core-js"></a>core-js</h3><p>warning react-native &gt; create-react-class &gt; fbjs &gt; <a href="mailto:core-js@1.2.7">core-js@1.2.7</a>: core-js@&lt;2.6.8 is no longer maintained. Please, upgrade to core-js@3 or at least to actual version of core-js@2</p>
+<p>旧包不在维护，安装新包，自动卸载旧版本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save core-js@^3</span><br></pre></td></tr></table></figure>
+
+<p>注意：警告可能是由于你所安装的新包在使用旧版本的依赖所导致的警告，但是如果不是你自己开发的，你不能更改包的源码和依赖项，所以这种情况忽略警告吧</p>
+<h2 id="Typescript"><a href="#Typescript" class="headerlink" title="Typescript"></a>Typescript</h2><p><a href="https://ts.xcatliu.com/basics/type-of-function.html">https://ts.xcatliu.com/basics/type-of-function.html</a></p>
+<p>typescript是JavaScript的超集，主要提供了<strong>类型系统</strong>和<strong>对 ES6 的支持</strong>，它由 Microsoft 开发，代码<a href="https://github.com/Microsoft/TypeScript">开源于 GitHub</a> 上。</p>
+<p>typescript的优势：</p>
+<p>typescript增加了代码的可读性。</p>
+<ul>
+<li>类型系统实际上是最好的文档，大部分的函数看看类型的定义就可以知道如何使用了</li>
+<li>可以在编译阶段就发现大部分错误，这总比在运行时候出错好</li>
+<li>增强了编辑器和 IDE 的功能，包括代码补全、接口提示、跳转到定义、重构等</li>
+</ul>
+<p>typeScript 非常包容</p>
+<ul>
+<li>TypeScript 是 JavaScript 的超集，<code>.js</code> 文件可以直接重命名为 <code>.ts</code> 即可</li>
+<li>即使不显式的定义类型，也能够自动做出<a href="https://ts.xcatliu.com/basics/type-inference.html">类型推论</a></li>
+<li>可以定义从简单到复杂的几乎一切类型</li>
+<li>即使 TypeScript 编译报错，也可以生成 JavaScript 文件</li>
+<li>兼容第三方库，即使第三方库不是用 TypeScript 写的，也可以编写单独的类型文件供 TypeScript 读取</li>
+</ul>
+<p>typescript的劣势：</p>
+<ul>
+<li>有一定的学习成本，需要理解接口（Interfaces）、泛型（Generics）、类（Classes）、枚举类型（Enums）等前端工程师可能不是很熟悉的概念</li>
+<li>短期可能会增加一些开发成本，毕竟要多写一些类型的定义，不过对于一个需要长期维护的项目，TypeScript 能够减少其维护成本</li>
+<li>集成到构建流程需要一些工作量</li>
+<li>可能和一些库结合的不是很完美</li>
+</ul>
+<h3 id="安装和使用"><a href="#安装和使用" class="headerlink" title="安装和使用"></a>安装和使用</h3><p>使用typescript编写的文件以ts为文件后缀，用typescript编写react时以tsx为文件后缀。</p>
+<p>安装typescript的命令行工具</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g typescript</span><br></pre></td></tr></table></figure>
+
+<p>以上命令会在全局环境下安装tsc命令，安装完成后可以在任何地方执行tsc命令</p>
+<p>编译typescript文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tsc hello.ts</span><br></pre></td></tr></table></figure>
+
+<p>如果想要用typescript写node文件，则需要引入第三方声明文件：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install @types/node --save-dev</span><br></pre></td></tr></table></figure>
+
+<p>简单的编译示例：</p>
+<p>hello.ts</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sayHello</span>(<span class="params">person: <span class="built_in">string</span></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">'Hello, '</span> + person;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> user = <span class="string">'Tom'</span>;</span><br><span class="line"><span class="built_in">console</span>.log(sayHello(user));</span><br></pre></td></tr></table></figure>
+
+<p>执行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tsc hello.ts</span><br></pre></td></tr></table></figure>
+
+<p>编译生成的hello.js文件</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sayHello</span>(<span class="params">person</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">'Hello, '</span> + person;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> user = <span class="string">'Tom'</span>;</span><br><span class="line"><span class="built_in">console</span>.log(sayHello(user));</span><br></pre></td></tr></table></figure>
+
+<p>typeScript 中，使用 <code>:</code> 指定变量的类型，<code>:</code> 的前后有没有空格都可以。</p>
+<h3 id="数据类型与对象类型"><a href="#数据类型与对象类型" class="headerlink" title="数据类型与对象类型"></a>数据类型与对象类型</h3><p>typescript包含javascript的五种基本数据类型和ES6中声明的symbol，唯一的区别是在声明变量时需指明变量类型。</p>
+<p>除此之外，typescript有新添加的类型</p>
+<p>字符串字面量类型</p>
+<p>字符串字面量类型用来约束取值只能是某几个字符串中的一个。</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> EventNames = <span class="string">'click'</span> | <span class="string">'scroll'</span> | <span class="string">'mousemove'</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleEvent</span>(<span class="params">ele: Element, event: EventNames</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// do something</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">handleEvent(<span class="built_in">document</span>.getElementById(<span class="string">'hello'</span>), <span class="string">'scroll'</span>);  <span class="comment">// 没问题</span></span><br><span class="line">handleEvent(<span class="built_in">document</span>.getElementById(<span class="string">'world'</span>), <span class="string">'dblclick'</span>); <span class="comment">// 报错，event 不能为 'dblclick'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// index.ts(7,47): error TS2345: Argument of type '"dblclick"' is not assignable to parameter of type 'EventNames'.</span></span><br></pre></td></tr></table></figure>
+
+<p>任意类型</p>
+<p>任意值（Any）用来表示允许赋值为任意类型。如果是 <code>any</code> 类型，则允许被赋值为任意类型。</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> myFavoriteNumber: <span class="built_in">any</span> = <span class="string">'seven'</span>;</span><br><span class="line">myFavoriteNumber = <span class="number">7</span>;</span><br></pre></td></tr></table></figure>
+
+<p>在任意值上访问任何属性都是允许的.如果变量在声明时未指定其类型，则被识别为任意类型。</p>
+<p>联合类型</p>
+<p>联合类型（Union Types）表示取值可以为多种类型中的一种。</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> myFavoriteNumber: <span class="built_in">string</span> | <span class="built_in">number</span>;</span><br><span class="line">myFavoriteNumber = <span class="string">'seven'</span>;</span><br><span class="line">myFavoriteNumber = <span class="number">7</span>;</span><br></pre></td></tr></table></figure>
+
+<p>上面的代码将myFavoriteNumber定义为字符串或者数值型，在不同的语句可以切换不同的类型，但不允许是定义以外的类型。</p>
+<p>联合类型使用 <code>|</code> 分隔每个类型。当 TypeScript 不确定一个联合类型的变量到底是哪个类型的时候，我们只能访问此联合类型的所有类型里共有的属性或方法。</p>
+<p>联合类型的变量在被赋值的时候，会根据类型推论的规则推断出一个类型,并使用该类型</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> myFavoriteNumber: <span class="built_in">string</span> | <span class="built_in">number</span>;</span><br><span class="line">myFavoriteNumber = <span class="string">'seven'</span>;</span><br><span class="line"><span class="built_in">console</span>.log(myFavoriteNumber.length); <span class="comment">// 5</span></span><br><span class="line">myFavoriteNumber = <span class="number">7</span>;</span><br><span class="line"><span class="built_in">console</span>.log(myFavoriteNumber.length); <span class="comment">// 编译时报错</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// index.ts(5,30): error TS2339: Property 'length' does not exist on type 'number'.</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>类型别名</p>
+<p>类型别名用来给一个类型起个新名字，常用于联合类型</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Name = <span class="built_in">string</span>;</span><br><span class="line"><span class="keyword">type</span> NameResolver = <span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">string</span>;</span><br><span class="line"><span class="keyword">type</span> NameOrResolver = Name | NameResolver;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getName</span>(<span class="params">n: NameOrResolver</span>): <span class="title">Name</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> n === <span class="string">'string'</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> n;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> n();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>类型断言</p>
+<p>类型断言可以</p>
+<ul>
+<li>联合类型可以被断言为其中一个类型</li>
+<li>父类可以被断言为子类</li>
+<li>任何类型都可以被断言为 any</li>
+<li>any 可以被断言为任何类型</li>
+</ul>
+<p>要使得 <code>A</code> 能够被断言为 <code>B</code>，只需要 <code>A</code> 兼容 <code>B</code> 或 <code>B</code> 兼容 <code>A</code> 即可</p>
+<p>类型推论</p>
+<p>如果定义的时候有赋值，typescript会自动推测出一个类型；</p>
+<p>如果定义的时候没有赋值，不管之后有没有赋值，都会被推断成 <code>any</code> 类型而完全不被类型检查;</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//定义时有赋值，自动推测出类型，之后赋值为别的类型会报错</span></span><br><span class="line"><span class="keyword">let</span> myFavoriteNumber = <span class="string">'seven'</span>;</span><br><span class="line">myFavoriteNumber = <span class="number">7</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// index.ts(2,1): error TS2322: Type 'number' is not assignable to type 'string'.</span></span><br><span class="line"><span class="comment">//定义时无赋值，类型为any，不会报错</span></span><br><span class="line"><span class="keyword">let</span> myFavoriteNumber;</span><br><span class="line">myFavoriteNumber = <span class="string">'seven'</span>;</span><br><span class="line">myFavoriteNumber = <span class="number">7</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="泛型"><a href="#泛型" class="headerlink" title="泛型"></a>泛型</h3><p>泛型（Generics）是指在定义函数、接口或类的时候，不预先指定具体的类型，而在使用的时候再指定类型的一种特性。</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createArray</span>&lt;<span class="title">T</span>&gt;(<span class="params">length: <span class="built_in">number</span>, value: T</span>): <span class="title">Array</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> result: T[] = [];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; length; i++) &#123;</span><br><span class="line">        result[i] = value;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">createArray&lt;<span class="built_in">string</span>&gt;(<span class="number">3</span>, <span class="string">'x'</span>); <span class="comment">// ['x', 'x', 'x']</span></span><br></pre></td></tr></table></figure>
+
+<p>在函数名后添加 <code>&lt;T&gt;</code>，其中 <code>T</code> 用来指代任意输入的类型，然后在后面的输入 <code>value: T</code> 和输出 <code>Array&lt;T&gt;</code> 中即可使用了。</p>
+<p>接着在调用的时候，可以指定它具体的类型为 <code>string</code>。或者也可以不手动指定，而让类型推论自动推算出来</p>
+<p>也可以指定泛型的默认类型，这样如果调用时没用指定类型，则使用默认类型</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//在function中指定默认类型，在调用时没有指定的话即为默认类型</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createArray</span>&lt;<span class="title">T</span> = <span class="title">string</span>&gt;(<span class="params">length: <span class="built_in">number</span>, value: T</span>): <span class="title">Array</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> result: T[] = [];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; length; i++) &#123;</span><br><span class="line">        result[i] = value;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line">createArray(<span class="number">3</span>, <span class="string">'x'</span>); <span class="comment">// ['x', 'x', 'x']</span></span><br></pre></td></tr></table></figure>
+
+<p>定义泛型时，也可以一次定义多个泛型类型参数，</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">swap</span>&lt;<span class="title">T</span>, <span class="title">U</span>&gt;(<span class="params">tuple: [T, U]</span>): [<span class="title">U</span>, <span class="title">T</span>] </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> [tuple[<span class="number">1</span>], tuple[<span class="number">0</span>]];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">swap([<span class="number">7</span>, <span class="string">'seven'</span>]); <span class="comment">// ['seven', 7]</span></span><br></pre></td></tr></table></figure>
+
+<p>虽然泛型没有指定数据结构，但是可以通过接口规定泛型的属性和方法，传入参数时进行属性校验，在内部操作时也可以直接操作属性而不会出现没有属性或者方法报错的情况。此外参数之间也可以互相继承。</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> Lengthwise &#123;</span><br><span class="line">    length: <span class="built_in">number</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">loggingIdentity</span>&lt;<span class="title">T</span> <span class="title">extends</span> <span class="title">Lengthwise</span>&gt;(<span class="params">arg: T</span>): <span class="title">T</span> </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(arg.length);</span><br><span class="line">    <span class="keyword">return</span> arg;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>泛型接口与泛型类</p>
+<p>泛型还可以用于定义接口和类</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> CreateArrayFunc&lt;T&gt; &#123;</span><br><span class="line">    (length: <span class="built_in">number</span>, value: T): <span class="built_in">Array</span>&lt;T&gt;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> createArray: CreateArrayFunc&lt;<span class="built_in">any</span>&gt;;</span><br><span class="line">createArray = <span class="function"><span class="keyword">function</span>&lt;<span class="title">T</span>&gt;(<span class="params">length: <span class="built_in">number</span>, value: T</span>): <span class="title">Array</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> result: T[] = [];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; length; i++) &#123;</span><br><span class="line">        result[i] = value;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">createArray(<span class="number">3</span>, <span class="string">'x'</span>); <span class="comment">// ['x', 'x', 'x']</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> GenericNumber&lt;T&gt; &#123;</span><br><span class="line">    zeroValue: T;</span><br><span class="line">    add: <span class="function">(<span class="params">x: T, y: T</span>) =&gt;</span> T;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> myGenericNumber = <span class="keyword">new</span> GenericNumber&lt;<span class="built_in">number</span>&gt;();</span><br><span class="line">myGenericNumber.zeroValue = <span class="number">0</span>;</span><br><span class="line">myGenericNumber.add = <span class="function"><span class="keyword">function</span>(<span class="params">x, y</span>) </span>&#123; <span class="keyword">return</span> x + y; &#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="新增基本类型"><a href="#新增基本类型" class="headerlink" title="新增基本类型"></a>新增基本类型</h3><p>元组</p>
+<p>数组合并了相同类型的对象，而元组（Tuple）合并了不同类型的对象。</p>
+<p>枚举</p>
+<p>枚举（Enum）类型用于取值被限定在一定范围内的场景，比如一周只能有七天，颜色限定为红绿蓝等。</p>
+<h3 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h3><p>在面向对象语言中，接口（Interfaces）是一个很重要的概念，它是对行为的抽象，而具体如何行动需要由类（classes）去实现（implement）。</p>
+<p>接口中可以包含确定属性、可选属性、任意属性、只读属性四种属性</p>
+<p>确定属性是指变量由接口生成时，接口中的确定属性不能多，也不能少；</p>
+<p>可选属性在接口中规定后，在变量中可以写可以不写；</p>
+<p>任意属性是指在接口定义时允许变量自定义属性，这时要在接口中定义任意属性；任意属性的类型必须是确定属性和可选属性的母集，且一个接口只能使用一个任意属性，如果接口中有多个类型的属性，则可以在任意属性中使用联合类型：</p>
+<p>只读属性是指对象中的一些字段只能在创建的时候被赋值，那么可以用 <code>readonly</code> 定义只读属性。</p>
+<p>typescript使用接口（Interfaces）来定义对象的类型。接口是对行为的抽象，而具体如何行动需要由类（classes）去实现（implement）。</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> Person &#123;</span><br><span class="line">    name: <span class="built_in">string</span>;</span><br><span class="line">    age: <span class="built_in">number</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> tom: Person = &#123;</span><br><span class="line">    name: <span class="string">'Tom'</span>,</span><br><span class="line">    age: <span class="number">25</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>上面的代码中，我们定义了一个接口 <code>Person</code>，接着定义了一个变量 <code>tom</code>，它的类型是 <code>Person</code>。这样，我们就约束了 <code>tom</code> 的形状必须和接口 <code>Person</code> 一致。</p>
+<p>一般情况下，定义的变量比接口少了一些属性是不允许的，多一些属性也是不允许的，会报错：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> tom: Person = &#123;</span><br><span class="line">    name: <span class="string">'Tom'</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// index.ts(6,5): error TS2322: Type '&#123; name: string; &#125;' is not assignable to type 'Person'.</span></span><br><span class="line"><span class="keyword">let</span> tom: Person = &#123;</span><br><span class="line">    name: <span class="string">'Tom'</span>,</span><br><span class="line">    age: <span class="number">25</span>,</span><br><span class="line">    gender: <span class="string">'male'</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// index.ts(9,5): error TS2322: Type '&#123; name: string; age: number; gender: string; &#125;' is not assignable to type 'Person'.</span></span><br></pre></td></tr></table></figure>
+
+<p>可以设置可选属性、任意属性、只读属性。</p>
+<p>可选属性为接口定义而对象可以不引用，任意属性是接口不指定而对象可以添加，只读属性是接口定义后在对象第一次初始化时添加，其后不能更改。</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> Person &#123;</span><br><span class="line">    readonly id: <span class="built_in">number</span>;</span><br><span class="line">    name: <span class="built_in">string</span>;</span><br><span class="line">    age?: <span class="built_in">number</span>;  <span class="comment">// age为可选属性</span></span><br><span class="line">    [propName: <span class="built_in">string</span>]: <span class="built_in">any</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> tom: Person = &#123;</span><br><span class="line">    id: <span class="number">89757</span>,</span><br><span class="line">    name: <span class="string">'Tom'</span>,</span><br><span class="line">    gender: <span class="string">'male'</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>接口除了定义变量，还可以在类中使用，用来实现类的共性接口</p>
+<p>接口可以继承接口，可以继承父接口的所有方法</p>
+<p>接口还可以继承类，</p>
+<h3 id="类class"><a href="#类class" class="headerlink" title="类class"></a>类class</h3><p>TypeScript 除了实现了所有 ES6 中的类的功能以外，还添加了一些新的用法。</p>
+<p>类的相关概念</p>
+<ul>
+<li>类（Class）：定义了一件事物的抽象特点，包含它的属性和方法</li>
+<li>对象（Object）：类的实例，通过 <code>new</code> 生成</li>
+<li>面向对象（OOP）的三大特性：封装、继承、多态</li>
+<li>封装（Encapsulation）：将对数据的操作细节隐藏起来，只暴露对外的接口。外界调用端不需要（也不可能）知道细节，就能通过对外提供的接口来访问该对象，同时也保证了外界无法任意更改对象内部的数据</li>
+<li>继承（Inheritance）：子类继承父类，子类除了拥有父类的所有特性外，还有一些更具体的特性</li>
+<li>多态（Polymorphism）：由继承而产生了相关的不同的类，对同一个方法可以有不同的响应。比如 <code>Cat</code> 和 <code>Dog</code> 都继承自 <code>Animal</code>，但是分别实现了自己的 <code>eat</code> 方法。此时针对某一个实例，我们无需了解它是 <code>Cat</code> 还是 <code>Dog</code>，就可以直接调用 <code>eat</code> 方法，程序会自动判断出来应该如何执行 <code>eat</code></li>
+<li>存取器（getter &amp; setter）：用以改变属性的读取和赋值行为</li>
+<li>修饰符（Modifiers）：修饰符是一些关键字，用于限定成员或类型的性质。比如 <code>public</code> 表示公有属性或方法</li>
+<li>抽象类（Abstract Class）：抽象类是供其他类继承的基类，抽象类不允许被实例化。抽象类中的抽象方法必须在子类中被实现</li>
+<li>接口（Interfaces）：不同类之间公有的属性或方法，可以抽象成一个接口。接口可以被类实现（implements）。一个类只能继承自另一个类，但是可以实现多个接口</li>
+</ul>
+<p>类的属性和方法</p>
+<p>类的继承</p>
+<p>TypeScript 可以使用三种访问修饰符（Access Modifiers），分别是 <code>public</code>、<code>private</code> 和 <code>protected</code>。</p>
+<ul>
+<li><code>public</code> 修饰的属性或方法是公有的，可以在任何地方被访问到，默认所有的属性和方法都是 <code>public</code> 的</li>
+<li><code>private</code> 修饰的属性或方法是私有的，不能在声明它的类的外部访问，在子类中也是不允许访问的。该类不允许被继承或者实例化：</li>
+<li><code>protected</code> 修饰的属性或方法是受保护的，它和 <code>private</code> 类似，区别是它在子类中也是允许被访问的，且该类只允许被继承，不能被实例化</li>
+</ul>
+<p><code>abstract</code> 用于定义抽象类和其中的抽象方法。抽象类是不允许被实例化的，抽象类中的抽象方法必须被子类实现：</p>
+<h3 id="声明语句与声明文件、声明合并"><a href="#声明语句与声明文件、声明合并" class="headerlink" title="声明语句与声明文件、声明合并"></a>声明语句与声明文件、声明合并</h3><p>假如我们想使用第三方库 jQuery，一种常见的方式是在 html 中通过 <code>&lt;script&gt;</code> 标签引入 jQuery，然后就可以使用全局变量 <code>$</code> 或 <code>jQuery</code> 了。</p>
+<p>但是在 ts 中，编译器并不知道 <code>$</code> 或 <code>jQuery</code> 是什么东西<a href="https://github.com/xcatliu/typescript-tutorial/tree/master/examples/declaration-files/01-jquery">1</a>：</p>
+<p>这时，我们需要使用 <code>declare var</code> 来定义它的类型</p>
+<p>通常我们会把声明语句放到一个单独的文件（<code>jQuery.d.ts</code>）中，这就是声明文件。声明文件必需以 <code>.d.ts</code> 为后缀。一般来说，ts 会解析项目中所有的 <code>*.ts</code> 文件，当然也包含以 <code>.d.ts</code> 结尾的文件。所以当我们将 <code>jQuery.d.ts</code> 放到项目中时，其他所有 <code>*.ts</code> 文件就都可以获得 <code>jQuery</code> 的类型定义了。</p>
+<p>假如仍然无法解析，那么可以检查下 <code>tsconfig.json</code> 中的 <code>files</code>、<code>include</code> 和 <code>exclude</code> 配置，确保其包含了 <code>jQuery.d.ts</code> 文件。</p>
+<p>如果定义了同名的函数、类、接口，typescript会自动合并。接口的属性和方法都支持合并</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> Alarm&#123;</span><br><span class="line">  price: <span class="built_in">number</span>;</span><br><span class="line">  alert(s:<span class="built_in">string</span>):<span class="built_in">string</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">interface</span> Alarm&#123;</span><br><span class="line">  weight: <span class="built_in">number</span>;</span><br><span class="line">  alert(s:<span class="built_in">string</span>,n:<span class="built_in">number</span>):<span class="built_in">string</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//相当于</span></span><br><span class="line"><span class="keyword">interface</span> Alarm&#123;</span><br><span class="line">  price: <span class="built_in">number</span>;</span><br><span class="line">  alert(s:<span class="built_in">string</span>):<span class="built_in">string</span>;</span><br><span class="line">  weight: <span class="built_in">number</span>;</span><br><span class="line">  alert(s:<span class="built_in">string</span>,n:<span class="built_in">number</span>):<span class="built_in">string</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>合并时属性可以重复，但是不能有冲突，否则会报错。</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> Alarm&#123;</span><br><span class="line">  price: <span class="built_in">number</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">interface</span> Alarm&#123;</span><br><span class="line">  price: <span class="built_in">number</span>;<span class="comment">//可以</span></span><br><span class="line">  weight: <span class="built_in">number</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">interface</span> Alarm&#123;</span><br><span class="line">  price: <span class="built_in">string</span>;<span class="comment">//报错</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>类的合并和接口的合并类似</p>
+<h3 id="对Node的支持"><a href="#对Node的支持" class="headerlink" title="对Node的支持"></a>对Node的支持</h3><p>想用typescript写nodejs，需要引入第三方声明文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install @type/node --save</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://ts.xcatliu.com/basics/type-of-function.html">https://ts.xcatliu.com/basics/type-of-function.html</a></p>
+<h2 id="Express框架"><a href="#Express框架" class="headerlink" title="Express框架"></a>Express框架</h2><p>安装Express</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i express@next</span><br></pre></td></tr></table></figure>
+
+<p>运行Express，启动服务器</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> express= <span class="built_in">require</span>(<span class="string">'express'</span>)</span><br><span class="line"><span class="keyword">const</span> app = express()</span><br><span class="line"></span><br><span class="line">app.listen(<span class="number">3000</span>,()=&gt;&#123;</span><br><span class="line">   <span class="built_in">console</span>.log(<span class="string">''</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="路由"><a href="#路由" class="headerlink" title="路由"></a>路由</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>)</span><br><span class="line"><span class="keyword">const</span> router = express.Router()</span><br><span class="line"></span><br><span class="line">router.get(<span class="string">'/add'</span>,(req,res)=&gt;&#123;</span><br><span class="line">res.send(<span class="string">'user add'</span>)</span><br><span class="line">&#125;) </span><br><span class="line"></span><br><span class="line">router.get(<span class="string">'/del'</span>,(req,res)=&gt;&#123;</span><br><span class="line">res.send(<span class="string">'del add'</span>)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = router</span><br></pre></td></tr></table></figure>
+
+<p>写接口</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">app.get</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i cors</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="中间件"><a href="#中间件" class="headerlink" title="中间件"></a>中间件</h3><p>中间件可以终止 HTTP 请求，也可以用 next 将其传递给另一个中间件函数,下一个中间件函数通常由名为 <code>next</code> 的变量来表示。</p>
+<ul>
+<li>路由器级中间件，例如：router.use</li>
+<li>内置中间件，例如：express.static，express.json，express.urlencoded</li>
+<li>错误处理中间件，例如：app.use（err，req，res，next）</li>
+<li>第三方中间件，例如：bodyparser、cookieparser</li>
+</ul>
+<p>如果当前中间件函数没有结束请求/响应循环，那么它必须调用 <code>next()</code>，以将控制权传递给下一个中间件函数。否则，请求将保持挂起状态。</p>
+<h4 id="应用层中间件"><a href="#应用层中间件" class="headerlink" title="应用层中间件"></a>应用层中间件</h4><p>使用 <code>app.use()</code> 和 <code>app.METHOD()</code> 函数将应用层中间件绑定到<a href="https://expressjs.com/zh-cn/4x/api.html#app">应用程序对象</a>的实例， <code>METHOD</code> 是中间件函数处理的请求的小写 HTTP 方法（例如 GET、PUT 或 POST）。</p>
+<p>实例</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> app = express();</span><br><span class="line"></span><br><span class="line">app.use(<span class="function"><span class="keyword">function</span> (<span class="params">req, res, next</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'Time:'</span>, <span class="built_in">Date</span>.now());</span><br><span class="line">  next();</span><br><span class="line">&#125;);</span><br><span class="line">app.get(<span class="string">'/user/:id'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">req, res, next</span>) </span>&#123;</span><br><span class="line">  res.end(req.params.id);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h4 id="路由器中间件"><a href="#路由器中间件" class="headerlink" title="路由器中间件"></a>路由器中间件</h4><p>路由器层中间件的工作方式与应用层中间件基本相同，差异之处在于它绑定到 <code>express.Router()</code> 的实例。</p>
+<p>实例</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//引入router</span></span><br><span class="line"><span class="keyword">var</span> router= express.Router();</span><br><span class="line"><span class="comment">//全局路由中间件</span></span><br><span class="line">router.use(<span class="function"><span class="keyword">function</span> (<span class="params">req, res, next</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'Time:'</span>, <span class="built_in">Date</span>.now());</span><br><span class="line">  next();</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">//具体http方法</span></span><br><span class="line">router.get(<span class="string">'/user/:id'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">req, res, next</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// if the user ID is 0, skip to the next router</span></span><br><span class="line">  <span class="keyword">if</span> (req.params.id == <span class="number">0</span>) next(<span class="string">'route'</span>);</span><br><span class="line">  <span class="comment">// otherwise pass control to the next middleware function in this stack</span></span><br><span class="line">  <span class="keyword">else</span> next(); <span class="comment">//</span></span><br><span class="line">&#125;, <span class="function"><span class="keyword">function</span> (<span class="params">req, res, next</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// render a regular page</span></span><br><span class="line">  res.render(<span class="string">'regular'</span>);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">//加载中间件</span></span><br><span class="line">app.use(<span class="string">'/'</span>, router);</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h4 id="内置中间件"><a href="#内置中间件" class="headerlink" title="内置中间件"></a><strong>内置中间件</strong></h4><p>Express 有以下内置的中间件功能：</p>
+<ul>
+<li><code>express.static</code> 提供静态资源，例如 HTML 文件，图像等。</li>
+<li><code>express.json</code> 负载解析用 JSON 传入的请求。</li>
+<li><code>express.urlencoded</code> 解析传入的用 URL 编码的有效载荷请求。</li>
+</ul>
+<h4 id="错误处理中间件"><a href="#错误处理中间件" class="headerlink" title="错误处理中间件"></a><strong>错误处理中间件</strong></h4><p>错误处理中间件始终采用四个参数<strong>（err，req，res，next）</strong>。</p>
+<p>实例</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">app.use(<span class="function"><span class="keyword">function</span>(<span class="params">err,req,res,next</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(err.stack);</span><br><span class="line">    res.status(<span class="number">500</span>).send(<span class="string">'somethingbroke'</span>);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="第三方中间件"><a href="#第三方中间件" class="headerlink" title="第三方中间件"></a>第三方中间件</h4><p>使用第三方中间件为express应用程序添加功能</p>
+<p>实例：cookie 解析中间件函数 <code>cookie-parser</code>。</p>
+<p>安装包</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install cookie-parser</span><br></pre></td></tr></table></figure>
+
+<p>引用</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>);</span><br><span class="line"><span class="keyword">var</span> app = express();</span><br><span class="line"><span class="keyword">var</span> cookieParser = <span class="built_in">require</span>(<span class="string">'cookie-parser'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//加载中间件</span></span><br><span class="line">app.use(cookieParser)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="第三方登录"><a href="#第三方登录" class="headerlink" title="第三方登录"></a>第三方登录</h3><h3 id="模版引擎"><a href="#模版引擎" class="headerlink" title="模版引擎"></a>模版引擎</h3><p>express可以使用模板引擎，使用前先进行设置</p>
+<p>views：指定模版引擎所在目录</p>
+<p>view engine：指定使用的模版引擎</p>
+<p>首先安装需要使用的模版引擎</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install pug --save</span><br></pre></td></tr></table></figure>
+
+<p>指定模版引擎</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">app.set(<span class="string">'view engine'</span>, <span class="string">'pug'</span>);</span><br></pre></td></tr></table></figure>
+
+<p>在 <code>views</code> 目录中创建名为 <code>index.pug</code> 的 Pug 模板文件，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">html</span><br><span class="line">  head</span><br><span class="line">    title&#x3D; title</span><br><span class="line">  body</span><br><span class="line">    h1&#x3D; message</span><br></pre></td></tr></table></figure>
+
+<p>在node中渲染</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">app.get(<span class="string">'/'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">  res.render(<span class="string">'index'</span>, &#123; <span class="attr">title</span>: <span class="string">'Hey'</span>, <span class="attr">message</span>: <span class="string">'Hello there!'</span>&#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>向主页发出请求时，<code>index.pug</code> 文件将呈现为 HTML。</p>
+<h3 id="Mysql"><a href="#Mysql" class="headerlink" title="Mysql"></a>Mysql</h3><p>安装包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install mysql</span><br></pre></td></tr></table></figure>
+
+<p>建立连接</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var mysql &#x3D; require(&#39;mysql&#39;)</span><br><span class="line">var connection &#x3D; mysql.createConnection(&#123;</span><br><span class="line">  host:&#39;localhost&#39;,</span><br><span class="line">  user:&#39;root&#39;,</span><br><span class="line">  password:&#39;&#39;,</span><br><span class="line">  database:&#39;my_db&#39;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">connection.connect();</span><br></pre></td></tr></table></figure>
+
+<p>增删改查</p>
+<h3 id="与Mongo数据库交互"><a href="#与Mongo数据库交互" class="headerlink" title="与Mongo数据库交互"></a>与Mongo数据库交互</h3><p>MongoDB的安装教程不在赘述，在官网下载即可</p>
+<p>在Mongo的安装目录bin目录下打开CMD窗口，运行</p>
+<p>安装Node的Mongo数据库工具Mongoose</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i mongoose</span><br></pre></td></tr></table></figure>
+
+<p>连接代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">const mongoose &#x3D; require(&#39;mongoose&#39;);</span><br><span class="line">mongoose.connect(&#39;mongodb:&#x2F;&#x2F;localhost:27017&#x2F;test&#39;, &#123;useNewUrlParser: true, useUnifiedTopology: true&#125;);</span><br><span class="line"></span><br><span class="line">var db &#x3D; mongoose.connection;</span><br><span class="line">db.on(&#39;error&#39;, console.error.bind(console, &#39;connection error:&#39;));</span><br><span class="line">db.once(&#39;open&#39;, function() &#123;</span><br><span class="line">  &#x2F;&#x2F; we&#39;re connected!</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>创建Schema对象</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">  &#x2F;&#x2F;将scheme对象实例化并创建</span><br><span class="line">  var user &#x3D; mongoose.Schema;</span><br><span class="line">  &#x2F;&#x2F;创建对象</span><br><span class="line">  var userschema &#x3D; new user(&#123;</span><br><span class="line">  name:</span><br><span class="line">  age:</span><br><span class="line">  length:</span><br><span class="line">&#125;)</span><br><span class="line">转化为数据模型</span><br><span class="line">  var blog &#x3D; mongoose.model(&#39;Blog&#39;, blogSchema);</span><br></pre></td></tr></table></figure>
+
+<p>增删改查,对模型进行操作</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">blog.insertMany()</span><br><span class="line">blog.remove()</span><br><span class="line">blog.update()</span><br><span class="line">blog.find(&#123; name: &#39;john&#39;, age: &#123; $gte: 18 &#125;&#125;);</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h3><p>安装node驱动包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install redis</span><br></pre></td></tr></table></figure>
+
+<p>Redis支持多种数据类型，有键值对、哈希表、链表、集合等</p>
+<p>在node中创建redis客户端，运行redis,</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> redis = <span class="built_in">require</span>(<span class="string">'redis'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> client = redis.createClient(<span class="number">6379</span>,<span class="string">'127.0.0.1'</span>)</span><br><span class="line">client.on(<span class="string">'error'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">err</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'Error'</span>+error)</span><br><span class="line">&#125;)；</span><br></pre></td></tr></table></figure>
+
+<p>创建键值对</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">client.set(<span class="string">'color'</span>,<span class="string">'red'</span>,redis.print)</span><br><span class="line">client.get(<span class="string">'color'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">err,value</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(err)<span class="keyword">throw</span> err;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'Got:'</span>+value)</span><br><span class="line">    client.quit();</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>redis除了键值对，还有散列（哈希）、列表（list）、集合（set)、有序集合（zset）等数据类型，并有对的处理函数</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//对键（key）的操作</span></span><br><span class="line">del(<span class="string">'key'</span>) <span class="comment">//删除key</span></span><br><span class="line">exists(<span class="string">'key'</span>) <span class="comment">//查询key</span></span><br><span class="line">expire/pexpire(<span class="string">'key'</span>,seconds/milliseconds) <span class="comment">//设置key的过期秒数/毫秒数</span></span><br><span class="line">persist(<span class="string">'key'</span>)<span class="comment">//移除key的过期时间</span></span><br><span class="line">flushdb<span class="comment">//清空当前数据库</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//对键值对的操作</span></span><br><span class="line"><span class="keyword">set</span>('key','value')//设置键的值</span><br><span class="line"><span class="keyword">get</span>('key')//获取键对应的值</span><br><span class="line">del('key')//删除键对应的值</span><br><span class="line">增加键对应的值</span><br><span class="line">incrby('key',increment)</span><br><span class="line">减去键对应的值</span><br><span class="line">der('key',increment)</span><br><span class="line"></span><br><span class="line">//对列表（队列）的操作</span><br><span class="line">lrange('key',0,-1)//获取列表内指定范围的值</span><br><span class="line">lindex('key',1)//获取列表在指定位置的值</span><br><span class="line">lpop('key')//在列表左边弹出一个值，并返回</span><br><span class="line">rpop('key')//在列表右边弹出一个值，并返回</span><br><span class="line">rpush('key','value')//在列表右边推入指定值</span><br><span class="line">rtrim('key','start','end')//将列表的内容在指定范围裁剪</span><br><span class="line"></span><br><span class="line">//对有序集合(zset)的操作</span><br><span class="line">zadd('zset-key',score,key)//添加元素到集合</span><br><span class="line">zrange  //获取集合中指定位置的元素</span><br><span class="line">zrangebyscore  //获取集合中指定范围的元素</span><br><span class="line">zcard('key')  //获取一个有序集合中成员数量</span><br><span class="line">zrem //移除有序集合中的成员</span><br><span class="line"></span><br><span class="line">//对集合的操作</span><br><span class="line">smembers('key')//返回集合中包含的所有元素</span><br><span class="line">scad('key')//返回集合中元素的数量</span><br><span class="line">sismenber('key','value')//检查元素是否存在于集合中</span><br><span class="line">smove('source-key','dest-key','item')//一个集合迁移到另一个集合</span><br><span class="line">srem('key','value')//移除集合中指定元素</span><br><span class="line">spop('key')//随机删除集合元素，并返回值</span><br><span class="line">sdiff('key','key2')//返回存在于第一个集合，但不存在于其他集合的元素（差集）</span><br><span class="line">sdiffstore('dest-key','key','key2')//将存在于第一个集合，但不存在于其他集合的元素存储到指定键</span><br><span class="line">sinter('key','key2')//返回不同集合的交集部分</span><br><span class="line">sinterstore('dest-key','key','key2')//将不同集合的交集部分存储到指定键</span><br><span class="line">sunion('key','key2')//返回不同集合的并集</span><br><span class="line">sunionstore('dest-key','key','key2')////将不同集合的并集存储到指定键</span><br><span class="line"></span><br><span class="line">//对哈希散列的操作</span><br></pre></td></tr></table></figure>
+
+<h2 id="koa源码"><a href="#koa源码" class="headerlink" title="koa源码"></a>koa源码</h2><p>koa2有四个核心文件：application.js、context.js、request.js、response.js。</p>
+<p>application.js：application.js是koa的入口文件，它向外导出了创建class实例的构造函数，它继承了events，这样就会赋予框架事件监听和事件触发的能力。application还暴露了一些常用的api，比如toJSON、listen、use等等。</p>
+<p>Context.js：这部分就是koa的应用上下文ctx,其实就一个简单的对象暴露，里面的重点在delegate，这个就是代理，这个就是为了开发者方便而设计的，比如我们要访问ctx.repsponse.status但是我们通过delegate，可以直接访问ctx.status访问到它。</p>
+<p>Request.js、Response.js ： 这两部分就是对原生的res、req的一些操作了，大量使用es6的get和set的一些语法，去取headers或者设置headers、还有设置body等等</p>
+<p>基于此，如果要实现koa框架需要四个模块：</p>
+<ul>
+<li>封装node http server、创建Koa类构造函数</li>
+<li>构造request、response、context对象</li>
+<li>中间件机制和剥洋葱模型的实现</li>
+<li>错误捕获和错误处理</li>
+</ul>
+<p><a href="https://github.com/airuikun/blog/issues/2">https://github.com/airuikun/blog/issues/2</a></p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/IT%EF%BC%8CWeb-Node/" rel="tag">IT，Web,Node</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        <div class="social-share" data-disabled="tencent,linkedin,douban,diandian,google"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css">
+<script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script>
+
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3>
+        <div class="buttons is-centered">
+            
+                
+<a class="button is-info donate">
+    <span class="icon is-small">
+        <i class="fab fa-alipay"></i>
+    </span>
+    <span>支付宝</span>
+    <div class="qrcode"><img src="http://q6mb9zdoi.bkt.clouddn.com/alipay.jpg" alt="支付宝"></div>
+</a>
+
+                
+                
+<a class="button is-success donate">
+    <span class="icon is-small">
+        <i class="fab fa-weixin"></i>
+    </span>
+    <span>微信</span>
+    <div class="qrcode"><img src="http://q6mb9zdoi.bkt.clouddn.com/wechatpay.jpg" alt="微信"></div>
+</a>
+
+                
+        </div>
+    </div>
+</div>
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/05/18/Node4/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">NodeJs开发（三）</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/05/06/macos/">
+                <span class="level-item">Mac OS使用</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">评论</h3>
+        
+<div class="notification is-danger">
+    You forgot to set the <code>app_id</code> or <code>app_key</code> for Valine. Please set it in <code>_config.yml</code>.
+</div>
+
+    </div>
+</div>
+
+
+<div class="level is-size-7 has-text-grey">
+</br>
+    <div class="level-left">
+	
+        <i class="far fa-eye"></i>
+		<span>&nbsp;</span>
+		
+		<h3>本文章阅读量：</h3>
+        <span>&nbsp;</span>
+        <span id="busuanzi_container_page_pv" style="display: inline;">
+            <span id="busuanzi_value_page_pv">0</span>
+        </span>
+    </div>
+</div></div>
+                
+
+
+
+
+
+<div class="column is-4-tablet is-5-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="" src="https://s1.ax1x.com/2020/03/27/G9OfNn.th.png" alt="张坤">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        张坤
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        Undergraduates/Tech Learner
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>山西·太原</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <a href="/archives">
+                        <p class="title has-text-weight-normal">
+                            88
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <a href="/categories">
+                        <p class="title has-text-weight-normal">
+                            7
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <a href="/tags">
+                        <p class="title has-text-weight-normal">
+                            47
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/Kun8018" target="_blank" rel="noopener">
+                关注我</a>
+        </div>
+        
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="微信" href="http://q6mb9zdoi.bkt.clouddn.com/alipay.jpg">
+                
+                <i class="fab fa-weixin"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="QQ" href="https://facebook.com">
+                
+                <i class="fab fa-qq"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="邮箱" href="https://twitter.com">
+                
+                <i class="fa fa-envelope"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="B站" href="https://dribbble.com">
+                
+                <i class="fab fa-dribbble"></i>
+                
+            </a>
+            
+        </div>
+        
+		<hr>
+        <p id="evan">IT学徒、技术民工、斜杠青年</p>
+          <p id="evan">机器人爱好者、摄影爱好者</p>
+          <p id="evan">PS、PR、LR、达芬奇潜在学习者</p>
+		  </div>
+</div>
+    
+        
+
+    <div class="card widget" id="toc">
+        <div class="card-content">
+            <div class="menu">
+                <h3 class="menu-label">
+                    目录
+                </h3>
+                <ul class="menu-list"><li>
+        <a class="is-flex" href="#功能模块">
+        <span class="has-mr-6">1</span>
+        <span>功能模块</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#Graphql">
+        <span class="has-mr-6">1.1</span>
+        <span>Graphql</span>
+        </a></li><li>
+        <a class="is-flex" href="#剪贴板的使用">
+        <span class="has-mr-6">1.2</span>
+        <span>剪贴板的使用</span>
+        </a></li><li>
+        <a class="is-flex" href="#生成二维码">
+        <span class="has-mr-6">1.3</span>
+        <span>生成二维码</span>
+        </a></li><li>
+        <a class="is-flex" href="#判断设备信息">
+        <span class="has-mr-6">1.4</span>
+        <span>判断设备信息</span>
+        </a></li><li>
+        <a class="is-flex" href="#七牛云的使用">
+        <span class="has-mr-6">1.5</span>
+        <span>七牛云的使用</span>
+        </a></li><li>
+        <a class="is-flex" href="#发邮件">
+        <span class="has-mr-6">1.6</span>
+        <span>发邮件</span>
+        </a></li><li>
+        <a class="is-flex" href="#http爬虫">
+        <span class="has-mr-6">1.7</span>
+        <span>http爬虫</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#Node常见问题汇总">
+        <span class="has-mr-6">2</span>
+        <span>Node常见问题汇总</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#npm-ERR-Maximum-call-stack-size-exceeded">
+        <span class="has-mr-6">2.1</span>
+        <span>npm ERR! Maximum call stack size exceeded</span>
+        </a></li><li>
+        <a class="is-flex" href="#core-js">
+        <span class="has-mr-6">2.2</span>
+        <span>core-js</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#Typescript">
+        <span class="has-mr-6">3</span>
+        <span>Typescript</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#安装和使用">
+        <span class="has-mr-6">3.1</span>
+        <span>安装和使用</span>
+        </a></li><li>
+        <a class="is-flex" href="#数据类型与对象类型">
+        <span class="has-mr-6">3.2</span>
+        <span>数据类型与对象类型</span>
+        </a></li><li>
+        <a class="is-flex" href="#泛型">
+        <span class="has-mr-6">3.3</span>
+        <span>泛型</span>
+        </a></li><li>
+        <a class="is-flex" href="#新增基本类型">
+        <span class="has-mr-6">3.4</span>
+        <span>新增基本类型</span>
+        </a></li><li>
+        <a class="is-flex" href="#接口">
+        <span class="has-mr-6">3.5</span>
+        <span>接口</span>
+        </a></li><li>
+        <a class="is-flex" href="#类class">
+        <span class="has-mr-6">3.6</span>
+        <span>类class</span>
+        </a></li><li>
+        <a class="is-flex" href="#声明语句与声明文件、声明合并">
+        <span class="has-mr-6">3.7</span>
+        <span>声明语句与声明文件、声明合并</span>
+        </a></li><li>
+        <a class="is-flex" href="#对Node的支持">
+        <span class="has-mr-6">3.8</span>
+        <span>对Node的支持</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#Express框架">
+        <span class="has-mr-6">4</span>
+        <span>Express框架</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#路由">
+        <span class="has-mr-6">4.1</span>
+        <span>路由</span>
+        </a></li><li>
+        <a class="is-flex" href="#中间件">
+        <span class="has-mr-6">4.2</span>
+        <span>中间件</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#应用层中间件">
+        <span class="has-mr-6">4.2.1</span>
+        <span>应用层中间件</span>
+        </a></li><li>
+        <a class="is-flex" href="#路由器中间件">
+        <span class="has-mr-6">4.2.2</span>
+        <span>路由器中间件</span>
+        </a></li><li>
+        <a class="is-flex" href="#内置中间件">
+        <span class="has-mr-6">4.2.3</span>
+        <span>内置中间件</span>
+        </a></li><li>
+        <a class="is-flex" href="#错误处理中间件">
+        <span class="has-mr-6">4.2.4</span>
+        <span>错误处理中间件</span>
+        </a></li><li>
+        <a class="is-flex" href="#第三方中间件">
+        <span class="has-mr-6">4.2.5</span>
+        <span>第三方中间件</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#第三方登录">
+        <span class="has-mr-6">4.3</span>
+        <span>第三方登录</span>
+        </a></li><li>
+        <a class="is-flex" href="#模版引擎">
+        <span class="has-mr-6">4.4</span>
+        <span>模版引擎</span>
+        </a></li><li>
+        <a class="is-flex" href="#Mysql">
+        <span class="has-mr-6">4.5</span>
+        <span>Mysql</span>
+        </a></li><li>
+        <a class="is-flex" href="#与Mongo数据库交互">
+        <span class="has-mr-6">4.6</span>
+        <span>与Mongo数据库交互</span>
+        </a></li><li>
+        <a class="is-flex" href="#Redis">
+        <span class="has-mr-6">4.7</span>
+        <span>Redis</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#koa源码">
+        <span class="has-mr-6">5</span>
+        <span>koa源码</span>
+        </a></li></ul>
+            </div>
+        </div>
+    </div>
+
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https:www.iros2019.org" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">IEEE-IROS</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.iros2019.org</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https:www.icra2020.org" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">IEEE-ICRA</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.icra2020.org</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/IT/">
+            <span class="level-start">
+                <span class="level-item">IT</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">28</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E4%B8%AA%E4%BA%BA%E5%B9%B8%E7%A6%8F/">
+            <span class="level-start">
+                <span class="level-item">个人幸福</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">
+            <span class="level-start">
+                <span class="level-item">个人生活</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">22</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">
+            <span class="level-start">
+                <span class="level-item">技术博客</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">28</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%9C%8B%E5%8F%8B/">
+            <span class="level-start">
+                <span class="level-item">朋友</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E7%94%9F%E6%B4%BB/">
+            <span class="level-start">
+                <span class="level-item">生活</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E7%94%9F%E6%B4%BB%E6%84%9F%E6%82%9F/">
+            <span class="level-start">
+                <span class="level-item">生活感悟</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            标签云
+        </h3>
+        <a href="/tags/IT/" style="font-size: 10px;">IT</a> <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 12.5px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 10px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8C/" style="font-size: 12.5px;">IT,Web，</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 12.5px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 12.5px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 12.5px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 10px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb/" style="font-size: 10px;">IT，Web</a> <a href="/tags/IT%EF%BC%8CWeb-Javascript/" style="font-size: 10px;">IT，Web,Javascript</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 17.5px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 10px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 15px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 12.5px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 12.5px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 10px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 10px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 17.5px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 15px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 15px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">幸福</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/" style="font-size: 15px;">技术，IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 10px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 12.5px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 12.5px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 17.5px;">生活、幸福</a> <a href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">记录，生活</a>
+    </div>
+</div>
+    
+    
+        <div class="column-right-shadow  ">
+        
+            <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/10/02/%E6%97%A5%E8%AF%AD%E5%AD%A6%E4%B9%A0%E4%B8%8E%E6%89%98%E7%A6%8F%E5%AD%A6%E4%B9%A0/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="日语学习与托福学习">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-10-02T13:40:33.000Z">2020-10-02</time></div>
+                    <a href="/2020/10/02/%E6%97%A5%E8%AF%AD%E5%AD%A6%E4%B9%A0%E4%B8%8E%E6%89%98%E7%A6%8F%E5%AD%A6%E4%B9%A0/" class="title has-link-black-ter is-size-6 has-text-weight-normal">日语学习与托福学习</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">个人生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/09/02/H5%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/Phaser.jpg" alt="H5游戏开发">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-09-02T13:40:33.000Z">2020-09-02</time></div>
+                    <a href="/2020/09/02/H5%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/" class="title has-link-black-ter is-size-6 has-text-weight-normal">H5游戏开发</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/IT/">IT</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/09/02/flutter4/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/dart.jpg" alt="flutter移动开发（四）">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-09-02T13:40:33.000Z">2020-09-02</time></div>
+                    <a href="/2020/09/02/flutter4/" class="title has-link-black-ter is-size-6 has-text-weight-normal">flutter移动开发（四）</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">技术博客</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/09/02/%E4%B8%AA%E4%BA%BA%E7%89%A9%E5%93%81%E6%8E%A8%E8%8D%90/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="个人好物推荐">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-09-02T13:40:33.000Z">2020-09-02</time></div>
+                    <a href="/2020/09/02/%E4%B8%AA%E4%BA%BA%E7%89%A9%E5%93%81%E6%8E%A8%E8%8D%90/" class="title has-link-black-ter is-size-6 has-text-weight-normal">个人好物推荐</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">个人生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/09/02/H5%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%912/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/Phaser.jpg" alt="H5游戏开发">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-09-02T13:40:33.000Z">2020-09-02</time></div>
+                    <a href="/2020/09/02/H5%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%912/" class="title has-link-black-ter is-size-6 has-text-weight-normal">H5游戏开发</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/IT/">IT</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            归档
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/10/">
+                <span class="level-start">
+                    <span class="level-item">十月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/09/">
+                <span class="level-start">
+                    <span class="level-item">九月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/08/">
+                <span class="level-start">
+                    <span class="level-item">八月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">7</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/07/">
+                <span class="level-start">
+                    <span class="level-item">七月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">5</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/06/">
+                <span class="level-start">
+                    <span class="level-item">六月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">13</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">5</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/04/">
+                <span class="level-start">
+                    <span class="level-item">四月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/03/">
+                <span class="level-start">
+                    <span class="level-item">三月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">48</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/02/">
+                <span class="level-start">
+                    <span class="level-item">二月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                标签
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT/">
+                        <span class="tag">IT</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Java-Web/">
+                        <span class="tag">IT,Java,Web</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web/">
+                        <span class="tag">IT,Web</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web/">
+                        <span class="tag">IT,Web,</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8C/">
+                        <span class="tag">IT,Web，</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/">
+                        <span class="tag">IT,Web，Android、Java</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8CC/">
+                        <span class="tag">IT,Web，C++</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8CFlutter/">
+                        <span class="tag">IT,Web，Flutter</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8CIOS/">
+                        <span class="tag">IT,Web，IOS</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8CMac/">
+                        <span class="tag">IT,Web，Mac</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/">
+                        <span class="tag">IT,Web，算法</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/">
+                        <span class="tag">IT、友情</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/">
+                        <span class="tag">IT、小程序、H5App</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8C/">
+                        <span class="tag">IT，</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CApp-Node-Electron/">
+                        <span class="tag">IT，App,Node,Electron</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CFlutter/">
+                        <span class="tag">IT，Flutter</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CGithub/">
+                        <span class="tag">IT，Github</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CRN%EF%BC%8C/">
+                        <span class="tag">IT，RN，</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb/">
+                        <span class="tag">IT，Web</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Javascript/">
+                        <span class="tag">IT，Web,Javascript</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Node/">
+                        <span class="tag">IT，Web,Node</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/">
+                        <span class="tag">IT，Web,Node，React</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-PHP/">
+                        <span class="tag">IT，Web,PHP</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Vue/">
+                        <span class="tag">IT，Web,Vue</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/">
+                        <span class="tag">IT，Web,Vue，Node、React</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/">
+                        <span class="tag">IT，Web,数据库</span>
+                        <span class="tag is-grey">6</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8Cweb/">
+                        <span class="tag">IT，web</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/">
+                        <span class="tag">IT，未来</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Web-IT-Flutter/">
+                        <span class="tag">Web,IT,Flutter</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Web-IT-Go/">
+                        <span class="tag">Web,IT,Go</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/">
+                        <span class="tag">Web，IT，HTML，CSS</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/">
+                        <span class="tag">个人生活，幸福</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/">
+                        <span class="tag">兴趣，幸福</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/">
+                        <span class="tag">励志、文学</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E5%8F%8B%E6%83%85/">
+                        <span class="tag">友情</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E5%B9%B8%E7%A6%8F/">
+                        <span class="tag">幸福</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">
+                        <span class="tag">幸福，个人生活</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/">
+                        <span class="tag">技术宅、IT</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/">
+                        <span class="tag">技术，IT</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/">
+                        <span class="tag">技术，Robotic，IT</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/">
+                        <span class="tag">摄影，记录，生活</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%B7%B1%E5%9C%B3/">
+                        <span class="tag">深圳</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/">
+                        <span class="tag">爱情，幸福</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E7%94%9F%E6%B4%BB/">
+                        <span class="tag">生活</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E7%94%9F%E6%B4%BB/">
+                        <span class="tag">生活#</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/">
+                        <span class="tag">生活、幸福</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/">
+                        <span class="tag">记录，生活</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+				
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="https://s1.ax1x.com/2020/03/27/G9OfNn.th.png" alt="NodeJs开发（四）" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2020 Kun Zhang&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+               <!-- 
+                <br>
+                <span id="busuanzi_container_site_uv">
+                共<span id="busuanzi_value_site_uv">0</span>个访客
+                </span>
+                 -->
+				
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+	
+	   <div style="text-align: center;">
+			<br>
+			<p class="is-size-7">
+				
+				<span id="busuanzi_container_site_uv">
+					<i class="fa fa-user"></i> 本站访客数 <span id="busuanzi_value_site_uv"></span> 人次
+				</span>
+				<span id="busuanzi_container_site_pv">
+					|  <i class="fa fa-eye"></i> 本站总访问量 <span id="busuanzi_value_site_pv"></span> 次
+				</span>
+				
+			</p>
+			<span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+		<script>
+			var now = new Date(); 
+			function createtime() { 
+				var grt= new Date("3/2/2020 08:00:00");// 此处修改你的建站时间或者网站上线时间 
+				now.setTime(now.getTime()+250); 
+				days = (now - grt) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+				hours = (now - grt) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+				if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+				mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+				seconds = (now - grt) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+				snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+				document.getElementById("timeDate").innerHTML = "本站已安全运行"+dnum+"天"; 
+				document.getElementById("times").innerHTML = hnum + "小时" + mnum + "分" + snum + "秒"; 
+			} 
+			setInterval("createtime()",250);
+		</script>
+		</div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'http://kun8018.gitee.io',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'unfolded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

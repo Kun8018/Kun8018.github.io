@@ -13,13 +13,13 @@
     <meta name="description" content="前端：vue写界面、请求数据 数据处理 后端：写Api接口，接收用户数据，处理数据（数据库），返回数据 第一篇和第二篇主要讲原生js语言基本特性、es6和jquery,第三篇讲Node后端开发，第四篇讲框架">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Javascript开发（一）">
-<meta property="og:url" content="http://yoursite.com/2020/07/18/Node/index.html">
+<meta property="og:url" content="http://kun8018.gitee.io/2020/07/18/Node/index.html">
 <meta property="og:site_name" content="kun&#39;s blog">
 <meta property="og:description" content="前端：vue写界面、请求数据 数据处理 后端：写Api接口，接收用户数据，处理数据（数据库），返回数据 第一篇和第二篇主要讲原生js语言基本特性、es6和jquery,第三篇讲Node后端开发，第四篇讲框架">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://cdn.kunkunzhang.top/javascript2.png">
 <meta property="article:published_time" content="2020-07-18T13:40:33.000Z">
-<meta property="article:modified_time" content="2020-10-04T17:57:17.532Z">
+<meta property="article:modified_time" content="2020-12-23T09:45:20.558Z">
 <meta property="article:author" content="Kun Zhang">
 <meta property="article:tag" content="IT，Web,Javascript">
 <meta name="twitter:card" content="summary">
@@ -158,7 +158,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    1 小时 读完 (大约 8052 个字)
+                    1 小时 读完 (大约 10993 个字)
                 </span>
                 
                 
@@ -188,33 +188,6 @@
 <p><code>undefined</code>：表示“未定义”或不存在，即由于目前没有定义，所以此处暂时没有任何值</p>
 <p><code>null</code>：表示空值，即此处的值为空。</p>
 <p>对象object：各种值组成的集合。</p>
-<h3 id="数据类型转换"><a href="#数据类型转换" class="headerlink" title="数据类型转换"></a>数据类型转换</h3><p>数据类型转换氛围强制转换和自动转换</p>
-<p>强制类型转换主要用到Number、String、Boolean三个函数。</p>
-<p>Number函数用于强制转换为数值</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//字符串转数字,可以被解析为数值的情况</span></span><br><span class="line"><span class="built_in">Number</span>(<span class="string">'324'</span>) <span class="comment">//324</span></span><br><span class="line"><span class="comment">//字符串转数字,不能解析为数值的情况</span></span><br><span class="line"><span class="built_in">Number</span>(<span class="string">'324abc'</span>) <span class="comment">//NaN，not a number</span></span><br><span class="line"><span class="comment">//特殊字符串，空字符串</span></span><br><span class="line"><span class="built_in">Number</span>(<span class="string">''</span>) <span class="comment">//0</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//布尔值转数字</span></span><br><span class="line"><span class="built_in">Number</span>(<span class="literal">true</span>)<span class="comment">//1</span></span><br><span class="line"><span class="built_in">Number</span>(<span class="literal">false</span>)<span class="comment">//0</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//特殊地</span></span><br><span class="line"><span class="built_in">Number</span>(<span class="literal">null</span>)<span class="comment">//0</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//对象转数字与字符串的情况类似，只有包含单个数值的数组可以转</span></span><br><span class="line"><span class="built_in">Number</span>([<span class="number">5</span>]) <span class="comment">//5</span></span><br><span class="line"><span class="built_in">Number</span>([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]) <span class="comment">// NaN</span></span><br></pre></td></tr></table></figure>
-
-<p>String函数用于强制转换成字符串</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//转换基本类型</span></span><br><span class="line"><span class="built_in">String</span>(<span class="number">123</span>) <span class="comment">//"123"</span></span><br><span class="line"><span class="built_in">String</span>(<span class="string">'abc'</span>) <span class="comment">//"abc"</span></span><br><span class="line"><span class="built_in">String</span>(<span class="literal">true</span>) <span class="comment">//"true"</span></span><br><span class="line"><span class="built_in">String</span>(<span class="literal">undefined</span>) <span class="comment">//"undefined"</span></span><br><span class="line"><span class="built_in">String</span>(<span class="literal">null</span>) <span class="comment">//"null"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//对象或数组</span></span><br><span class="line"><span class="built_in">String</span>(&#123;<span class="attr">a</span>:<span class="number">1</span>&#125;) <span class="comment">//"[Object Object]"</span></span><br><span class="line"><span class="built_in">String</span>([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]) <span class="comment">//"1,2,3"</span></span><br></pre></td></tr></table></figure>
-
-<p>Boolean函数用于强制转换成布尔值。除了特定五个值的转换结果是false，其他全是true</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Boolean</span>(<span class="literal">undefined</span>) <span class="comment">//false</span></span><br><span class="line"><span class="built_in">Boolean</span>(<span class="number">0</span>) <span class="comment">//false</span></span><br><span class="line"><span class="built_in">Boolean</span>(<span class="literal">null</span>) <span class="comment">//false</span></span><br><span class="line"><span class="built_in">Boolean</span>(<span class="literal">NaN</span>) <span class="comment">//false</span></span><br><span class="line"><span class="built_in">Boolean</span>(<span class="string">''</span>) <span class="comment">//false</span></span><br></pre></td></tr></table></figure>
-
-<p>自动转换</p>
-<p>在某些特定的代码语句中会自动调用上述三个函数，起到自动转换的作用。</p>
-<p>自动转换为布尔值</p>
-<p>在条件语句中，用于将表达式转为布尔值</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//写法一</span></span><br><span class="line">expression ？ <span class="literal">true</span>：<span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//写法二</span></span><br><span class="line">!!expression</span><br></pre></td></tr></table></figure>
-
-<p>自动转换为字符串</p>
-<p>在预期为字符串的地方会将非字符串的值转为字符串，有些坑</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'5'</span>+<span class="number">1</span> <span class="comment">//"51"</span></span><br><span class="line"><span class="string">'5'</span>+<span class="literal">true</span>  <span class="comment">//5true</span></span><br><span class="line"><span class="string">'5'</span>+&#123;&#125; <span class="comment">//"5[Object Object]"</span></span><br><span class="line"><span class="string">'5'</span>+<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125; <span class="comment">//"5function ()&#123;&#125;"</span></span><br><span class="line"><span class="string">'5'</span>+<span class="literal">undefined</span> <span class="comment">//"5undefined"</span></span><br><span class="line"><span class="string">'5'</span>+<span class="literal">null</span> <span class="comment">//"5null"</span></span><br></pre></td></tr></table></figure>
-
-<p>自动转换为数值</p>
-<p>在预期为数值的地方会将非字符串的值转为字符串，如运算符，</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'5'</span> - <span class="string">'2'</span> <span class="comment">//3</span></span><br><span class="line"><span class="string">'5'</span> * <span class="string">'2'</span> <span class="comment">//10</span></span><br><span class="line"><span class="literal">true</span> - <span class="number">1</span> <span class="comment">//0</span></span><br><span class="line"><span class="literal">false</span> - <span class="number">1</span> <span class="comment">//-1</span></span><br><span class="line"><span class="string">'1'</span> - <span class="number">1</span> <span class="comment">//0</span></span><br><span class="line"><span class="string">'5'</span> - [] <span class="comment">//0</span></span><br><span class="line"><span class="literal">false</span> / <span class="string">'5'</span> <span class="comment">//0</span></span><br><span class="line"><span class="string">'abc'</span> - <span class="number">1</span> <span class="comment">//NaN</span></span><br><span class="line"><span class="literal">null</span> + <span class="number">1</span> <span class="comment">//1</span></span><br><span class="line"><span class="literal">undefined</span> + <span class="number">1</span> <span class="comment">//NaN</span></span><br></pre></td></tr></table></figure>
-
-
-
 <h3 id="运算符"><a href="#运算符" class="headerlink" title="运算符"></a>运算符</h3><p>三元运算符</p>
 <p>三元条件运算符由问号（?）和冒号（:）组成，分隔三个表达式。如果问号前的表达式是true则返回第二个表达式的值，问号前的表达式为false时返回第三个表达式的值。</p>
 <p>比较运算符</p>
@@ -300,8 +273,44 @@
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">openFile();</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  writeFile(Data);</span><br><span class="line">&#125; <span class="keyword">catch</span>(e) &#123;</span><br><span class="line">  handleError(e);</span><br><span class="line">&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">  closeFile();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h4 id="宿主对象"><a href="#宿主对象" class="headerlink" title="宿主对象"></a>宿主对象</h4><p>window</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//属性</span></span><br><span class="line"><span class="built_in">window</span>.scrollX<span class="comment">//window属性,返回页面的水平滚动距离，</span></span><br><span class="line"><span class="built_in">window</span>.scrollY<span class="comment">//window属性,返回页面的垂直滚动距离，单位都为像素。这两个属性只读。</span></span><br><span class="line"><span class="comment">//方法</span></span><br><span class="line"><span class="built_in">window</span>.alert(<span class="string">'Hello World'</span>);<span class="comment">//弹出对话框，只有确定按钮，用于提醒用户信息</span></span><br><span class="line"><span class="keyword">var</span> result = confirm(<span class="string">'你最近好吗？'</span>);<span class="comment">//弹出的对话框，除了提示信息之外，只有“确定”和“取消”,返回布尔值</span></span><br><span class="line"><span class="keyword">var</span> result = <span class="built_in">window</span>.prompt()<span class="comment">//也是弹出对话框，但是提示框下面有输入框，并有“确定”和“取消”两个按钮，返回布尔值</span></span><br><span class="line"><span class="built_in">window</span>.open(url, windowName, [windowFeatures])<span class="comment">//新建另一个浏览器窗口，url为地址栏，</span></span><br><span class="line"><span class="built_in">window</span>.close()<span class="comment">//window方法,用于关闭当前窗口，</span></span><br><span class="line"><span class="built_in">window</span>.moveTo(<span class="number">100</span>, <span class="number">200</span>)</span><br><span class="line"><span class="built_in">window</span>.moveBy(<span class="number">25</span>, <span class="number">50</span>)</span><br><span class="line"><span class="built_in">window</span>.focus()<span class="comment">//激活窗口，使其获得焦点，出现在其他窗口的前面。</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//浏览器脚本发生错误时，会触发window对象的error事件。通过window.onerror属性对该事件指定回调函数。</span></span><br><span class="line"><span class="built_in">window</span>.onerror = <span class="function"><span class="keyword">function</span>(<span class="params">message,error</span>)</span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"出错了"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<p>属性</p>
+<p><code>window.name</code>属性是一个字符串，表示当前浏览器窗口的名字。窗口不一定需要名字，这个属性主要配合超链接和表单的<code>target</code>属性使用。</p>
+<p><code>window.closed</code>属性返回一个布尔值，表示窗口是否关闭。</p>
+<p><code>window.opener</code>属性表示打开当前窗口的父窗口。如果当前窗口没有父窗口（即直接在地址栏输入打开），则返回<code>null</code>。</p>
+<p><code>window.frames</code>属性返回一个类似数组的对象，成员为页面内所有框架窗口，包括<code>frame</code>元素和<code>iframe</code>元素。<code>window.frames[0]</code>表示页面中第一个框架窗口。</p>
+<p><code>window.length</code>属性返回当前网页包含的框架总数。如果当前网页不包含<code>frame</code>和<code>iframe</code>元素，那么<code>window.length</code>就返回<code>0</code>。</p>
+<p><code>window.frameElement</code>属性主要用于当前窗口嵌在另一个网页的情况（嵌入<code>&lt;object&gt;</code>、<code>&lt;iframe&gt;</code>或<code>&lt;embed&gt;</code>元素），返回当前窗口所在的那个元素节点。如果当前窗口是顶层窗口，或者所嵌入的那个网页不是同源的，该属性返回<code>null</code>。</p>
+<p><code>window.top</code>属性指向最顶层窗口，主要用于在框架窗口（frame）里面获取顶层窗口。</p>
+<p><code>window.parent</code>属性指向父窗口。如果当前窗口没有父窗口，<code>window.parent</code>指向自身。</p>
+<p><code>window.devicePixelRatio</code>属性返回一个数值，表示一个 CSS 像素的大小与一个物理像素的大小之间的比率。也就是说，它表示一个 CSS 像素由多少个物理像素组成。它可以用于判断用户的显示环境，如果这个比率较大，就表示用户正在使用高清屏幕，因此可以显示较大像素的图片。</p>
+<p><code>window.screenX</code>和<code>window.screenY</code>属性，返回浏览器窗口左上角相对于当前屏幕左上角的水平距离和垂直距离（单位像素）。这两个属性只读。</p>
+<p><code>window.innerHeight</code>和<code>window.innerWidth</code>属性，返回网页在当前窗口中可见部分的高度和宽度，即“视口”（viewport）的大小（单位像素）。这两个属性只读。</p>
+<p>用户放大网页的时候（比如将网页从100%的大小放大为200%），这两个属性会变小。因为这时网页的像素大小不变（比如宽度还是960像素），只是每个像素占据的屏幕空间变大了，因为可见部分（视口）就变小了。</p>
+<p><code>window.outerHeight</code>和<code>window.outerWidth</code>属性返回浏览器窗口的高度和宽度，包括浏览器菜单和边框（单位像素）。这两个属性只读。</p>
+<p><code>window.scrollX</code>属性返回页面的水平滚动距离，<code>window.scrollY</code>属性返回页面的垂直滚动距离，单位都为像素。这两个属性只读。</p>
+<ul>
+<li><code>window.locationbar</code>：地址栏对象</li>
+<li><code>window.menubar</code>：菜单栏对象</li>
+<li><code>window.scrollbars</code>：窗口的滚动条对象</li>
+<li><code>window.toolbar</code>：工具栏对象</li>
+<li><code>window.statusbar</code>：状态栏对象</li>
+<li><code>window.personalbar</code>：用户安装的个人工具栏对象</li>
+</ul>
+<p>方法<br>window.alert(‘Hello World’);//弹出对话框，只有确定按钮，用于提醒用户信息<br>var result = confirm(‘你最近好吗？’);//弹出的对话框，除了提示信息之外，只有“确定”和“取消”,返回布尔值<br>var result = window.prompt()//也是弹出对话框，但是提示框下面有输入框，并有“确定”和“取消”两个按钮，返回布尔值<br>window.open(url, windowName, [windowFeatures])//新建另一个浏览器窗口，url为地址栏，<br>window.close()//window方法,用于关闭当前窗口，</p>
+<p><code>window.stop()</code>方法完全等同于单击浏览器的停止按钮，会停止加载图像、视频等正在或等待加载的对象。</p>
+<p>window.moveTo(100, 200)<br>window.moveBy(25, 50)<br>window.focus()//激活窗口，使其获得焦点，出现在其他窗口的前面。</p>
+<p><code>window.blur()</code>方法将焦点从窗口移除。</p>
+<p><code>window.getSelection</code>方法返回一个<code>Selection</code>对象，表示用户现在选中的文本。</p>
+<p><code>window.resizeTo()</code>方法用于缩放窗口到指定大小。</p>
+<p><code>window.resizeBy()</code>方法用于缩放窗口。它与<code>window.resizeTo()</code>的区别是，它按照相对的量缩放，<code>window.resizeTo()</code>需要给出缩放后的绝对大小。</p>
+<p><code>window.scrollTo</code>方法用于将文档滚动到指定位置。它接受两个参数，表示滚动后位于窗口左上角的页面坐标。</p>
+<p><code>window.scrollBy()</code>方法用于将网页滚动指定距离（单位像素）。它接受两个参数：水平向右滚动的像素，垂直向下滚动的像素。</p>
+<p><code>window.print</code>方法会跳出打印对话框，与用户点击菜单里面的“打印”命令效果相同。</p>
+<p><code>window.getSelection</code>方法返回一个<code>Selection</code>对象，表示用户现在选中的文本。</p>
+<p>事件</p>
+<p><code>load</code>事件发生在文档在浏览器窗口加载完毕时。<code>window.onload</code>属性可以指定这个事件的回调函数。</p>
+<p>//浏览器脚本发生错误时，会触发window对象的error事件。通过window.onerror属性对该事件指定回调函数。</p>
+<p>window.onerror = function(message,error){<br>  console.log(“出错了”)<br>}</p>
 <p>Window对象的事件监听属性</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">window</span>.onafterprint：afterprint事件的监听函数。</span><br><span class="line"><span class="built_in">window</span>.onbeforeprint：beforeprint事件的监听函数。</span><br><span class="line"><span class="built_in">window</span>.onbeforeunload：beforeunload事件的监听函数。</span><br><span class="line"><span class="built_in">window</span>.onhashchange：hashchange事件的监听函数。</span><br><span class="line"><span class="built_in">window</span>.onlanguagechange: languagechange的监听函数。</span><br><span class="line"><span class="built_in">window</span>.onmessage：message事件的监听函数。</span><br><span class="line"><span class="built_in">window</span>.onmessageerror：MessageError事件的监听函数。</span><br><span class="line"><span class="built_in">window</span>.onoffline：offline事件的监听函数。</span><br><span class="line"><span class="built_in">window</span>.ononline：online事件的监听函数。</span><br><span class="line"><span class="built_in">window</span>.onpagehide：pagehide事件的监听函数。</span><br><span class="line"><span class="built_in">window</span>.onpageshow：pageshow事件的监听函数。</span><br><span class="line"><span class="built_in">window</span>.onpopstate：popstate事件的监听函数。</span><br><span class="line"><span class="built_in">window</span>.onstorage：storage事件的监听函数。</span><br><span class="line"><span class="built_in">window</span>.onunhandledrejection：未处理的 <span class="built_in">Promise</span> 对象的reject事件的监听函数。</span><br><span class="line"><span class="built_in">window</span>.onunload：unload事件的监听函数。</span><br></pre></td></tr></table></figure>
 
@@ -375,12 +384,6 @@
 <p><code>Object.getOwnPropertyDescriptor()</code>：获取某个属性的描述对象。</p>
 <p><code>Object.defineProperty()</code>：通过描述对象，定义某个属性。</p>
 <p><code>Object.defineProperties()</code>：通过描述对象，定义多个属性。</p>
-<p><code>Object.preventExtensions()</code>：防止对象扩展。</p>
-<p><code>Object.isExtensible()</code>：判断对象是否可扩展。</p>
-<p><code>Object.seal()</code>：禁止对象配置。</p>
-<p><code>Object.isSealed()</code>：判断一个对象是否可配置。</p>
-<p><code>Object.freeze()</code>：冻结一个对象。</p>
-<p><code>Object.isFrozen()</code>：判断一个对象是否被冻结。</p>
 <p><code>Object.create()</code>：该方法可以指定原型对象和属性，返回一个新的对象。</p>
 <p><code>Object.getPrototypeOf()</code>：获取对象的<code>Prototype</code>对象。</p>
 <p>Object的实例对象方法</p>
@@ -403,6 +406,26 @@
 <li>确保拷贝后的对象，与原对象具有同样的原型。</li>
 <li>确保拷贝后的对象，与原对象具有同样的实例属性。</li>
 </ul>
+<h4 id="属性描述对象"><a href="#属性描述对象" class="headerlink" title="属性描述对象"></a>属性描述对象</h4><p>JavaScript 提供了一个内部数据结构，用来描述对象的属性，控制它的行为，比如该属性是否可写、可遍历等等。这个内部数据结构称为“属性描述对象”（attributes object）。每个属性都有自己对应的属性描述对象，保存该属性的一些元信息。</p>
+<p>属性描述对象提供6个元属性。</p>
+<p>value：<code>value</code>是该属性的属性值，默认为<code>undefined</code>。</p>
+<p>writable：<code>writable</code>是一个布尔值，表示属性值（value）是否可改变（即是否可写），默认为<code>true</code>。</p>
+<p>enumerable：<code>enumerable</code>是一个布尔值，表示该属性是否可遍历，默认为<code>true</code>。</p>
+<p>configurable: <code>configurable</code>是一个布尔值，表示可配置性，默认为<code>true</code></p>
+<p>get: <code>get</code>是一个函数，表示该属性的取值函数（getter）</p>
+<p>Set: <code>set</code>是一个函数，表示该属性的存值函数（setter）</p>
+<p>get和set属于目标函数的存取器，一旦对目标属性定义了存取器，那么存取的时候，都将执行对应的函数。利用这个功能，可以实现许多高级特性，比如定制属性的读取和赋值行为。</p>
+<p>取值函数<code>get</code>不能接受参数，存值函数<code>set</code>只能接受一个参数（即属性的值）。</p>
+<p>存取器往往用于，属性的值依赖对象内部数据的场合。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj =&#123;</span><br><span class="line">  $n : <span class="number">5</span>,</span><br><span class="line">  <span class="keyword">get</span> next() &#123; <span class="keyword">return</span> <span class="keyword">this</span>.$n++ &#125;,</span><br><span class="line">  <span class="keyword">set</span> next(n) &#123;</span><br><span class="line">    <span class="keyword">if</span> (n &gt;= <span class="keyword">this</span>.$n) <span class="keyword">this</span>.$n = n;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'新的值必须大于当前值'</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">obj.next <span class="comment">// 5</span></span><br><span class="line"></span><br><span class="line">obj.next = <span class="number">10</span>;</span><br><span class="line">obj.next <span class="comment">// 10</span></span><br><span class="line"></span><br><span class="line">obj.next = <span class="number">5</span>;</span><br><span class="line"><span class="comment">// Uncaught Error: 新的值必须大于当前值</span></span><br></pre></td></tr></table></figure>
+
+<p>基于属性描述对象的方法控制对象的属性</p>
+<p><code>Object.preventExtensions()</code>：防止对象扩展。</p>
+<p><code>Object.isExtensible()</code>：判断对象是否可扩展。</p>
+<p><code>Object.seal()</code>：禁止对象配置。</p>
+<p><code>Object.isSealed()</code>：判断一个对象是否可配置。</p>
+<p><code>Object.freeze()</code>：冻结一个对象。</p>
+<p><code>Object.isFrozen()</code>：判断一个对象是否被冻结。</p>
 <h4 id="包装对象"><a href="#包装对象" class="headerlink" title="包装对象"></a>包装对象</h4><p>三种原始类型的值——数值、字符串、布尔值——在一定条件下，也会自动转为对象，也就是原始类型的“包装对象”。</p>
 <p>即，包装对象是指的是与数值、字符串、布尔值分别相对应的<code>Number</code>、<code>String</code>、<code>Boolean</code>三个原生对象。这三个原生对象可以把原始类型的值变成（包装成）对象。</p>
 <p>String对象</p>
@@ -434,7 +457,9 @@
 <p>使用双重的否运算符（<code>!</code>）也可以将任意值转为对应的布尔值。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">!!<span class="literal">undefined</span> <span class="comment">// false</span></span><br><span class="line">!!<span class="literal">null</span> <span class="comment">// false</span></span><br><span class="line">!!<span class="number">0</span> <span class="comment">// false</span></span><br><span class="line">!!<span class="string">''</span> <span class="comment">// false</span></span><br><span class="line">!!<span class="literal">NaN</span> <span class="comment">// false</span></span><br><span class="line"></span><br><span class="line">!!<span class="number">1</span> <span class="comment">// true</span></span><br><span class="line">!!<span class="string">'false'</span> <span class="comment">// true</span></span><br><span class="line">!![] <span class="comment">// true</span></span><br><span class="line">!!&#123;&#125; <span class="comment">// true</span></span><br><span class="line">!!<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125; <span class="comment">// true</span></span><br><span class="line">!!<span class="regexp">/foo/</span> <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
 
-<h4 id="RegExp正则表达式对象"><a href="#RegExp正则表达式对象" class="headerlink" title="RegExp正则表达式对象"></a>RegExp正则表达式对象</h4><p>正则表达式（regular expression）是一种表达文本模式（即字符串结构）的方法，有点像字符串的模板，常常用来按照“给定模式”匹配文本。比如，正则表达式给出一个 Email 地址的模式，然后用它来确定一个字符串是否为 Email 地址。</p>
+<h4 id="RegExp正则表达式对象"><a href="#RegExp正则表达式对象" class="headerlink" title="RegExp正则表达式对象"></a>RegExp正则表达式对象</h4><p><a href="https://juejin.im/post/6844904021325512717">https://juejin.im/post/6844904021325512717</a></p>
+<p><a href="https://juejin.im/post/6844904182835757064#heading-6">https://juejin.im/post/6844904182835757064#heading-6</a></p>
+<p>正则表达式（regular expression）是一种表达文本模式（即字符串结构）的方法，有点像字符串的模板，常常用来按照“给定模式”匹配文本。比如，正则表达式给出一个 Email 地址的模式，然后用它来确定一个字符串是否为 Email 地址。</p>
 <p>新建正则表达式对象</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> regex = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">'xyz'</span>, <span class="string">'i'</span>);</span><br><span class="line"><span class="comment">// 等价于</span></span><br><span class="line"><span class="keyword">var</span> regex = <span class="regexp">/xyz/i</span>;</span><br></pre></td></tr></table></figure>
 
@@ -460,6 +485,17 @@
 <p><code>x(?=y)</code>称为先行断言（Positive look-ahead），<code>x</code>只有在<code>y</code>前面才匹配，<code>y</code>不会被计入返回结果。比如，要匹配后面跟着百分号的数字，可以写成<code>/\d+(?=%)/</code>。</p>
 <p>先行否定断言</p>
 <p><code>x(?!y)</code>称为先行否定断言（Negative look-ahead），<code>x</code>只有不在<code>y</code>前面才匹配，<code>y</code>不会被计入返回结果。比如，要匹配后面跟的不是百分号的数字，就要写成<code>/\d+(?!%)/</code>。</p>
+<p>常用的 JS正则表达式整理</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"> <span class="number">1</span> 数字：^[<span class="number">0</span><span class="number">-9</span>]*$</span><br><span class="line"> <span class="number">2</span> n位的数字：^\d&#123;n&#125;$</span><br><span class="line"> <span class="number">3</span> 至少n位的数字：^\d&#123;n,&#125;$</span><br><span class="line"> <span class="number">4</span> m-n位的数字：^\d&#123;m,n&#125;$</span><br><span class="line"> <span class="number">5</span> 零和非零开头的数字：^(<span class="number">0</span>|[<span class="number">1</span><span class="number">-9</span>][<span class="number">0</span><span class="number">-9</span>]*)$</span><br><span class="line"> <span class="number">6</span> 非零开头的最多带两位小数的数字：^([<span class="number">1</span><span class="number">-9</span>][<span class="number">0</span><span class="number">-9</span>]*)+(.[<span class="number">0</span><span class="number">-9</span>]&#123;<span class="number">1</span>,<span class="number">2</span>&#125;)?$</span><br><span class="line"> <span class="number">7</span> 带<span class="number">1</span><span class="number">-2</span>位小数的正数或负数：^(\-)?\d+(\.\d&#123;<span class="number">1</span>,<span class="number">2</span>&#125;)?$</span><br><span class="line"> <span class="number">8</span> 正数、负数、和小数：^(\-|\+)?\d+(\.\d+)?$</span><br><span class="line"> <span class="number">9</span> 有两位小数的正实数：^[<span class="number">0</span><span class="number">-9</span>]+(.[<span class="number">0</span><span class="number">-9</span>]&#123;<span class="number">2</span>&#125;)?$</span><br><span class="line"><span class="number">10</span> 有<span class="number">1</span>~<span class="number">3</span>位小数的正实数：^[<span class="number">0</span><span class="number">-9</span>]+(.[<span class="number">0</span><span class="number">-9</span>]&#123;<span class="number">1</span>,<span class="number">3</span>&#125;)?$</span><br><span class="line"><span class="number">11</span> 非零的正整数：^[<span class="number">1</span><span class="number">-9</span>]\d*$ 或 ^([<span class="number">1</span><span class="number">-9</span>][<span class="number">0</span><span class="number">-9</span>]*)&#123;<span class="number">1</span>,<span class="number">3</span>&#125;$ 或 ^\+?[<span class="number">1</span><span class="number">-9</span>][<span class="number">0</span><span class="number">-9</span>]*$</span><br><span class="line"><span class="number">12</span> 非零的负整数：^\-[<span class="number">1</span><span class="number">-9</span>][]<span class="number">0</span><span class="number">-9</span><span class="string">"*$ 或 ^-[1-9]\d*$</span></span><br><span class="line"><span class="string">13 非负整数：^\d+$ 或 ^[1-9]\d*|0$</span></span><br><span class="line"><span class="string">14 非正整数：^-[1-9]\d*|0$ 或 ^((-\d+)|(0+))$</span></span><br><span class="line"><span class="string">15 非负浮点数：^\d+(\.\d+)?$ 或 ^[1-9]\d*\.\d*|0\.\d*[1-9]\d*|0?\.0+|0$</span></span><br><span class="line"><span class="string">16 非正浮点数：^((-\d+(\.\d+)?)|(0+(\.0+)?))$ 或^(-([1-9]\d*\.\d*|0\.\d*[1-9]\d*))|0?\.0+|0$</span></span><br><span class="line"><span class="string">17 正浮点数：^[1-9]\d*\.\d*|0\.\d*[1-9]\d*$ 或^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))$</span></span><br><span class="line"><span class="string">18 负浮点数：^-([1-9]\d*\.\d*|0\.\d*[1-9]\d*)$ 或^(-(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)))$</span></span><br><span class="line"><span class="string">19 浮点数：^(-?\d+)(\.\d+)?$ 或 ^-?([1-9]\d*\.\d*|0\.\d*[1-9]\d*|0?\.0+|0)$</span></span><br></pre></td></tr></table></figure>
+
+<p>校验字符的表达式</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span> 汉字：^[\u4e00-\u9fa5]&#123;<span class="number">0</span>,&#125;$</span><br><span class="line"> <span class="number">2</span> 英文和数字：^[A-Za-z0<span class="number">-9</span>]+$ 或 ^[A-Za-z0<span class="number">-9</span>]&#123;<span class="number">4</span>,<span class="number">40</span>&#125;$</span><br><span class="line"> <span class="number">3</span> 长度为<span class="number">3</span><span class="number">-20</span>的所有字符：^.&#123;<span class="number">3</span>,<span class="number">20</span>&#125;$</span><br><span class="line"> <span class="number">4</span> 由<span class="number">26</span>个英文字母组成的字符串：^[A-Za-z]+$</span><br><span class="line"> <span class="number">5</span> 由<span class="number">26</span>个大写英文字母组成的字符串：^[A-Z]+$</span><br><span class="line"> <span class="number">6</span> 由<span class="number">26</span>个小写英文字母组成的字符串：^[a-z]+$</span><br><span class="line"> <span class="number">7</span> 由数字和<span class="number">26</span>个英文字母组成的字符串：^[A-Za-z0<span class="number">-9</span>]+$</span><br><span class="line"> <span class="number">8</span> 由数字、<span class="number">26</span>个英文字母或者下划线组成的字符串：^\w+$ 或 ^\w&#123;<span class="number">3</span>,<span class="number">20</span>&#125;$</span><br><span class="line"> <span class="number">9</span> 中文、英文、数字包括下划线：^[\u4E00-\u9FA5A-Za-z0<span class="number">-9</span>_]+$</span><br><span class="line"><span class="number">10</span> 中文、英文、数字但不包括下划线等符号：^[\u4E00-\u9FA5A-Za-z0<span class="number">-9</span>]+$ 或^[\u4E00-\u9FA5A-Za-z0<span class="number">-9</span>]&#123;<span class="number">2</span>,<span class="number">20</span>&#125;$</span><br><span class="line"><span class="number">11</span> 可以输入含有^%&amp;<span class="string">',;=?$\"等字符：[^%&amp;'</span>,;=?$\x22]+</span><br><span class="line"><span class="number">12</span> 禁止输入含有~的字符：[^~\x22]+</span><br></pre></td></tr></table></figure>
+
+<p>其他常用正则表达式</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span> 火车车次：/^[GCDZTSPKXLY1<span class="number">-9</span>]\d&#123;<span class="number">1</span>,<span class="number">4</span>&#125;$/   </span><br><span class="line"><span class="number">2.</span> 手机机身码：/^\d&#123;<span class="number">15</span>,<span class="number">17</span>&#125;$/</span><br><span class="line"><span class="number">3.</span> 必须带端口号的网址或者ip：/^((ht|f)tps?:\/\/)?[\w-]+(\.[\w-]+)+:\d&#123;<span class="number">1</span>,<span class="number">5</span>&#125;\/?$/</span><br><span class="line"><span class="number">4.</span>网址(url,支持端口和<span class="string">"?+参数"</span>和<span class="string">"#+参数)：/^(((ht|f)tps?):\/\/)?[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:/~+#-]*[\w@?^=%&amp;/~+#-])?$/</span></span><br><span class="line"><span class="string">5.统一社会信用代码: /^[0-9A-HJ-NPQRTUWXY]&#123;2&#125;\d&#123;6&#125;[0-9A-HJ-NPQRTUWXY]&#123;10&#125;$/</span></span><br><span class="line"><span class="string">6.迅雷链接：/^thunderx?:\/\/[a-zA-Z\d]+=$/</span></span><br><span class="line"><span class="string">7.ed2k链接(宽松匹配):/^ed2k:\/\/\|file\|.+\|\/$/</span></span><br><span class="line"><span class="string">8.磁力链接(宽松匹配)：/^magnet:\?xt=urn:btih:[0-9a-fA-F]&#123;40,&#125;.*$/</span></span><br><span class="line"><span class="string">9.子网掩码：/^(?:\d&#123;1,2&#125;|1\d\d|2[0-4]\d|25[0-5])(?:\.(?:\d&#123;1,2&#125;|1\d\d|2[0-4]\d|25[0-5]))&#123;3&#125;$/</span></span><br><span class="line"><span class="string">10.linux"</span>隐藏文件<span class="string">"路径：/^\/(?:[^/]+\/)*\.[^/]*/</span></span><br><span class="line"><span class="string">11.linux文件夹路径：/^\/(?:[^/]+\/)*$/</span></span><br><span class="line"><span class="string">12.linux文件路径：/^\/(?:[^/]+\/)*[^/]+$/</span></span><br><span class="line"><span class="string">13.windows文件夹路径：/^[a-zA-Z]:\\(?:\w+\\?)*$/</span></span><br><span class="line"><span class="string">14.windows文件路径：/^[a-zA-Z]:\\(?:\w+\\)*\w+\.\w+$/</span></span><br><span class="line"><span class="string">15.股票代码：/^(s[hz]|S[HZ])(000[\d]&#123;3&#125;|002[\d]&#123;3&#125;|300[\d]&#123;3&#125;|600[\d]&#123;3&#125;|60[\d]&#123;4&#125;)$/</span></span><br><span class="line"><span class="string">16.大于0，小于150，且小数点后允许出现5，用于考试判卷分数显示：/^150$|^(?:\d|[1-9]\d|1[0-4]\d)(?:.5)?$/</span></span><br><span class="line"><span class="string">17.html注释：/^&lt;!--[\s\S]*?--&gt;$/</span></span><br><span class="line"><span class="string">18.Md5格式32位：/^([a-f\d]&#123;32&#125;|[A-F\d]&#123;32&#125;)$/</span></span><br><span class="line"><span class="string">19.版本号格式X.Y.Z：/^\d+(?:\.\d+)&#123;2&#125;$/</span></span><br><span class="line"><span class="string">20.视频(video)链接地址（视频格式可按需增删）：/^https?:\/\/(.+\/)+.+(\.(swf|avi|flv|mpg|rm|mov|wav|asf|3gp|mkv|rmvb|mp4))$/i</span></span><br><span class="line"><span class="string">21.图片(image)链接地址（图片格式可按需增删）：/^https?:\/\/(.+\/)+.+(\.(gif|png|jpg|jpeg|webp|svg|psd|bmp|tif))$/i</span></span><br><span class="line"><span class="string">22.24小时制时间（HH:mm:ss）：/^(?:[01]\d|2[0-3]):[0-5]\d:[0-5]\d$/</span></span><br><span class="line"><span class="string">23.12小时制时间（hh:mm:ss）：/^(?:1[0-2]|0?[1-9]):[0-5]\d:[0-5]\d$/</span></span><br><span class="line"><span class="string">24.base64格式：/^\s*data:(?:[a-z]+\/[a-z0-9-+.]+(?:;[a-z-]+=[a-z0-9-]+)?)?(?:;base64)?,([a-z0-9!$&amp;',()*+;=\-._~:@/?%\s]*?)\s*$/i</span></span><br><span class="line"><span class="string">25.数字/货币金额（支持负数、千分位分隔符）：/^-?\d+(,\d&#123;3&#125;)*(\.\d&#123;1,2&#125;)?$/</span></span><br><span class="line"><span class="string">26.数字/货币金额 (只支持正数、不支持校验千分位分隔符)：/(?:^[1-9]([0-9]+)?(?:\.[0-9]&#123;1,2&#125;)?$)|(?:^(?:0)&#123;1&#125;$)|(?:^[0-9]\.[0-9](?:[0-9])?$)/</span></span><br><span class="line"><span class="string">27.银行卡号（10到30位, 覆盖对公/私账户, 参考微信支付）：/^[1-9]\d&#123;9,29&#125;$/</span></span><br><span class="line"><span class="string">28.中文姓名：/^(?:[\u4e00-\u9fa5·]&#123;2,16&#125;)$/</span></span><br><span class="line"><span class="string">29.英文姓名：/(^[a-zA-Z]&#123;1&#125;[a-zA-Z\s]&#123;0,20&#125;[a-zA-Z]&#123;1&#125;$)/</span></span><br><span class="line"><span class="string">30.车牌号（新能源）：/[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领 A-Z]&#123;1&#125;[A-HJ-NP-Z]&#123;1&#125;(([0-9]&#123;5&#125;[DF])|([DF][A-HJ-NP-Z0-9][0-9]&#123;4&#125;))$/</span></span><br><span class="line"><span class="string">31.车牌号（非新能源）:/^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领 A-Z]&#123;1&#125;[A-HJ-NP-Z]&#123;1&#125;[A-Z0-9]&#123;4&#125;[A-Z0-9挂学警港澳]&#123;1&#125;$/</span></span><br><span class="line"><span class="string">32.车牌号（新能源+非新能源）:/^(?:[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领 A-Z]&#123;1&#125;[A-HJ-NP-Z]&#123;1&#125;(?:(?:[0-9]&#123;5&#125;[DF])|(?:[DF](?:[A-HJ-NP-Z0-9])[0-9]&#123;4&#125;)))|(?:[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领 A-Z]&#123;1&#125;[A-Z]&#123;1&#125;[A-HJ-NP-Z0-9]&#123;4&#125;[A-HJ-NP-Z0-9 挂学警港澳]&#123;1&#125;)$/</span></span><br><span class="line"><span class="string">33.手机号(mobile phone)中国(严谨), 根据工信部2019年最新公布的手机号段:/^(?:(?:\+|00)86)?1(?:(?:3[\d])|(?:4[5-7|9])|(?:5[0-3|5-9])|(?:6[5-7])|(?:7[0-8])|(?:8[\d])|(?:9[1|8|9]))\d&#123;8&#125;$/</span></span><br><span class="line"><span class="string">34.手机号(mobile phone)中国(宽松), 只要是13,14,15,16,17,18,19开头即可:/^(?:(?:\+|00)86)?1[3-9]\d&#123;9&#125;$/</span></span><br><span class="line"><span class="string">35.手机号(mobile phone)中国(最宽松), 只要是1开头即可, 如果你的手机号是用来接收短信, 优先建议选择这一条:/^(?:(?:\+|00)86)?1\d&#123;10&#125;$/</span></span><br><span class="line"><span class="string">36.date(日期):/^\d&#123;4&#125;(-)(1[0-2]|0?\d)\1([0-2]\d|\d|30|31)$/</span></span><br><span class="line"><span class="string">37.email(邮箱):/^(([^&lt;&gt;()\[\]\\.,;:\s@"</span>]+(\.[^<span class="xml"><span class="tag">&lt;&gt;</span>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]&#123;1,3&#125;\.[0-9]&#123;1,3&#125;\.[0-9]&#123;1,3&#125;\.[0-9]&#123;1,3&#125;\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]&#123;2,&#125;))$/</span></span><br><span class="line"><span class="xml">38.座机(tel phone)电话(国内),如: 0341-86091234:/^\d&#123;3&#125;-\d&#123;8&#125;$|^\d&#123;4&#125;-\d&#123;7,8&#125;$/</span></span><br><span class="line"><span class="xml">39.身份证号(1代,15位数字):/^[1-9]\d&#123;7&#125;(?:0\d|10|11|12)(?:0[1-9]|[1-2][\d]|30|31)\d&#123;3&#125;$/</span></span><br><span class="line"><span class="xml">40.身份证号(2代,18位数字),最后一位是校验位,可能为数字或字符X:/^[1-9]\d&#123;5&#125;(?:18|19|20)\d&#123;2&#125;(?:0[1-9]|10|11|12)(?:0[1-9]|[1-2]\d|30|31)\d&#123;3&#125;[\dXx]$/</span></span><br><span class="line"><span class="xml">41.身份证号, 支持1/2代(15位/18位数字):/(^\d&#123;8&#125;(0\d|10|11|12)([0-2]\d|30|31)\d&#123;3&#125;$)|(^\d&#123;6&#125;(18|19|20)\d&#123;2&#125;(0[1-9]|10|11|12)([0-2]\d|30|31)\d&#123;3&#125;(\d|X|x)$)/</span></span><br><span class="line"><span class="xml">42.护照（包含香港、澳门）:/(^[EeKkGgDdSsPpHh]\d&#123;8&#125;$)|(^(([Ee][a-fA-F])|([DdSsPp][Ee])|([Kk][Jj])|([Mm][Aa])|(1[45]))\d&#123;7&#125;$)/</span></span><br><span class="line"><span class="xml">43.帐号是否合法(字母开头，允许5-16字节，允许字母数字下划线组合:/^[a-zA-Z]\w&#123;4,15&#125;$/</span></span><br><span class="line"><span class="xml">44.中文/汉字:/^(?:[\u3400-\u4DB5\u4E00-\u9FEA\uFA0E\uFA0F\uFA11\uFA13\uFA14\uFA1F\uFA21\uFA23\uFA24\uFA27-\uFA29]|[\uD840-\uD868\uD86A-\uD86C\uD86F-\uD872\uD874-\uD879][\uDC00-\uDFFF]|\uD869[\uDC00-\uDED6\uDF00-\uDFFF]|\uD86D[\uDC00-\uDF34\uDF40-\uDFFF]|\uD86E[\uDC00-\uDC1D\uDC20-\uDFFF]|\uD873[\uDC00-\uDEA1\uDEB0-\uDFFF]|\uD87A[\uDC00-\uDFE0])+$/</span></span><br><span class="line"><span class="xml">45.小数:/^\d+\.\d+$/</span></span><br><span class="line"><span class="xml">46.数字:/^\d&#123;1,&#125;$/</span></span><br><span class="line"><span class="xml">47.html标签(宽松匹配):/<span class="tag">&lt;<span class="name">(\w+)[^</span>&gt;</span>]*&gt;(.*?<span class="tag">&lt;<span class="name">\</span>/\<span class="attr">1</span>&gt;</span>)?/</span></span><br><span class="line"><span class="xml">48.qq号格式正确:/^[1-9][0-9]&#123;4,10&#125;$/</span></span><br><span class="line"><span class="xml">49.数字和字母组成:/^[A-Za-z0-9]+$/</span></span><br><span class="line"><span class="xml">50.英文字母:/^[a-zA-Z]+$/</span></span><br><span class="line"><span class="xml">51.小写英文字母组成:/^[a-z]+$/</span></span><br><span class="line"><span class="xml">52.大写英文字母:/^[A-Z]+$/</span></span><br><span class="line"><span class="xml">53.密码强度校验，最少6位，包括至少1个大写字母，1个小写字母，1个数字，1个特殊字符:/^\S*(?=\S&#123;6,&#125;)(?=\S*\d)(?=\S*[A-Z])(?=\S*[a-z])(?=\S*[!@#$%^&amp;*? ])\S*$/</span></span><br><span class="line"><span class="xml">54.用户名校验，4到16位（字母，数字，下划线，减号）:/^[a-zA-Z0-9_-]&#123;4,16&#125;$/</span></span><br><span class="line"><span class="xml">55.ip-v4:/^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.)&#123;3&#125;(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/</span></span><br><span class="line"><span class="xml">56.ip-v6:/^((([0-9A-Fa-f]&#123;1,4&#125;:)&#123;7&#125;[0-9A-Fa-f]&#123;1,4&#125;)|(([0-9A-Fa-f]&#123;1,4&#125;:)&#123;6&#125;:[0-9A-Fa-f]&#123;1,4&#125;)|(([0-9A-Fa-f]&#123;1,4&#125;:)&#123;5&#125;:([0-9A-Fa-f]&#123;1,4&#125;:)?[0-9A-Fa-f]&#123;1,4&#125;)|(([0-9A-Fa-f]&#123;1,4&#125;:)&#123;4&#125;:([0-9A-Fa-f]&#123;1,4&#125;:)&#123;0,2&#125;[0-9A-Fa-f]&#123;1,4&#125;)|(([0-9A-Fa-f]&#123;1,4&#125;:)&#123;3&#125;:([0-9A-Fa-f]&#123;1,4&#125;:)&#123;0,3&#125;[0-9A-Fa-f]&#123;1,4&#125;)|(([0-9A-Fa-f]&#123;1,4&#125;:)&#123;2&#125;:([0-9A-Fa-f]&#123;1,4&#125;:)&#123;0,4&#125;[0-9A-Fa-f]&#123;1,4&#125;)|(([0-9A-Fa-f]&#123;1,4&#125;:)&#123;6&#125;((\b((25[0-5])|(1\d&#123;2&#125;)|(2[0-4]\d)|(\d&#123;1,2&#125;))\b)\.)&#123;3&#125;(\b((25[0-5])|(1\d&#123;2&#125;)|(2[0-4]\d)|(\d&#123;1,2&#125;))\b))|(([0-9A-Fa-f]&#123;1,4&#125;:)&#123;0,5&#125;:((\b((25[0-5])|(1\d&#123;2&#125;)|(2[0-4]\d)|(\d&#123;1,2&#125;))\b)\.)&#123;3&#125;(\b((25[0-5])|(1\d&#123;2&#125;)|(2[0-4]\d)|(\d&#123;1,2&#125;))\b))|(::([0-9A-Fa-f]&#123;1,4&#125;:)&#123;0,5&#125;((\b((25[0-5])|(1\d&#123;2&#125;)|(2[0-4]\d)|(\d&#123;1,2&#125;))\b)\.)&#123;3&#125;(\b((25[0-5])|(1\d&#123;2&#125;)|(2[0-4]\d)|(\d&#123;1,2&#125;))\b))|([0-9A-Fa-f]&#123;1,4&#125;::([0-9A-Fa-f]&#123;1,4&#125;:)&#123;0,5&#125;[0-9A-Fa-f]&#123;1,4&#125;)|(::([0-9A-Fa-f]&#123;1,4&#125;:)&#123;0,6&#125;[0-9A-Fa-f]&#123;1,4&#125;)|(([0-9A-Fa-f]&#123;1,4&#125;:)&#123;1,7&#125;:))$/i</span></span><br><span class="line"><span class="xml">57.16进制颜色:/^#?([a-fA-F0-9]&#123;6&#125;|[a-fA-F0-9]&#123;3&#125;)$/</span></span><br><span class="line"><span class="xml">58.微信号(wx)，6至20位，以字母开头，字母，数字，减号，下划线:/^[a-zA-Z][-_a-zA-Z0-9]&#123;5,19&#125;$/</span></span><br><span class="line"><span class="xml">59.邮政编码(中国):/^(0[1-7]|1[0-356]|2[0-7]|3[0-6]|4[0-7]|5[1-7]|6[1-7]|7[0-5]|8[013-6])\d&#123;4&#125;$/</span></span><br><span class="line"><span class="xml">60.中文和数字:/^((?:[\u3400-\u4DB5\u4E00-\u9FEA\uFA0E\uFA0F\uFA11\uFA13\uFA14\uFA1F\uFA21\uFA23\uFA24\uFA27-\uFA29]|[\uD840-\uD868\uD86A-\uD86C\uD86F-\uD872\uD874-\uD879][\uDC00-\uDFFF]|\uD869[\uDC00-\uDED6\uDF00-\uDFFF]|\uD86D[\uDC00-\uDF34\uDF40-\uDFFF]|\uD86E[\uDC00-\uDC1D\uDC20-\uDFFF]|\uD873[\uDC00-\uDEA1\uDEB0-\uDFFF]|\uD87A[\uDC00-\uDFE0])|(\d))+$/</span></span><br><span class="line"><span class="xml">61.不能包含字母:/^[^A-Za-z]*$/</span></span><br><span class="line"><span class="xml">62.java包名:/^([a-zA-Z_][a-zA-Z0-9_]*)+([.][a-zA-Z_][a-zA-Z0-9_]*)+$/</span></span><br><span class="line"><span class="xml">63.mac地址:/^((([a-f0-9]&#123;2&#125;:)&#123;5&#125;)|(([a-f0-9]&#123;2&#125;-)&#123;5&#125;))[a-f0-9]&#123;2&#125;$/i</span></span><br><span class="line"><span class="xml">64.匹配连续重复的字符:/(.)\1+/</span></span><br></pre></td></tr></table></figure>
+
+
+
 <h4 id="Json对象"><a href="#Json对象" class="headerlink" title="Json对象"></a>Json对象</h4><p>JSON 格式（JavaScript Object Notation 的缩写）是一种用于数据交换的文本格式，2001年由 Douglas Crockford 提出，目的是取代繁琐笨重的 XML 格式。</p>
 <p>相比 XML 格式，JSON 格式有两个显著的优点：</p>
 <p>​       书写简单，一目了然；</p>
@@ -472,7 +508,7 @@
 <p>Json对象的方法</p>
 <p><code>JSON.stringify</code>方法用于将一个值转为 JSON 字符串。该字符串符合 JSON 格式，并且可以被<code>JSON.parse</code>方法还原。</p>
 <p><code>JSON.parse</code>方法用于将 JSON 字符串转换成对应的值。</p>
-<h3 id="this关键字"><a href="#this关键字" class="headerlink" title="this关键字"></a>this关键字</h3>
+
         </div>
         
         <div class="level is-size-7 is-uppercase">
@@ -531,9 +567,9 @@
     <div class="level post-navigation is-flex-wrap is-mobile">
         
         <div class="level-start">
-            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/08/02/gatsbyjs/">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/08/02/vue3/">
                 <i class="level-item fas fa-chevron-left"></i>
-                <span class="level-item">Gatsbyjs</span>
+                <span class="level-item">Vue.js前端框架</span>
             </a>
         </div>
         
@@ -621,7 +657,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            67
+                            88
                         </p>
                     </a>
                 </div>
@@ -633,7 +669,7 @@
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            6
+                            7
                         </p>
                     </a>
                 </div>
@@ -645,7 +681,7 @@
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            42
+                            47
                         </p>
                     </a>
                 </div>
@@ -715,54 +751,50 @@
         <span class="has-mr-6">1.1</span>
         <span>基本变量类型</span>
         </a></li><li>
-        <a class="is-flex" href="#数据类型转换">
-        <span class="has-mr-6">1.2</span>
-        <span>数据类型转换</span>
-        </a></li><li>
         <a class="is-flex" href="#运算符">
-        <span class="has-mr-6">1.3</span>
+        <span class="has-mr-6">1.2</span>
         <span>运算符</span>
         </a></li><li>
         <a class="is-flex" href="#字典">
-        <span class="has-mr-6">1.4</span>
+        <span class="has-mr-6">1.3</span>
         <span>字典</span>
         </a></li><li>
         <a class="is-flex" href="#对象">
-        <span class="has-mr-6">1.5</span>
+        <span class="has-mr-6">1.4</span>
         <span>对象</span>
         </a><ul class="menu-list"><li>
         <a class="is-flex" href="#内置对象">
-        <span class="has-mr-6">1.5.1</span>
+        <span class="has-mr-6">1.4.1</span>
         <span>内置对象</span>
         </a></li><li>
         <a class="is-flex" href="#错误对象及处理机制">
-        <span class="has-mr-6">1.5.2</span>
+        <span class="has-mr-6">1.4.2</span>
         <span>错误对象及处理机制</span>
         </a></li><li>
         <a class="is-flex" href="#宿主对象">
-        <span class="has-mr-6">1.5.3</span>
+        <span class="has-mr-6">1.4.3</span>
         <span>宿主对象</span>
         </a></li><li>
         <a class="is-flex" href="#Object对象">
-        <span class="has-mr-6">1.5.4</span>
+        <span class="has-mr-6">1.4.4</span>
         <span>Object对象</span>
         </a></li><li>
+        <a class="is-flex" href="#属性描述对象">
+        <span class="has-mr-6">1.4.5</span>
+        <span>属性描述对象</span>
+        </a></li><li>
         <a class="is-flex" href="#包装对象">
-        <span class="has-mr-6">1.5.5</span>
+        <span class="has-mr-6">1.4.6</span>
         <span>包装对象</span>
         </a></li><li>
         <a class="is-flex" href="#RegExp正则表达式对象">
-        <span class="has-mr-6">1.5.6</span>
+        <span class="has-mr-6">1.4.7</span>
         <span>RegExp正则表达式对象</span>
         </a></li><li>
         <a class="is-flex" href="#Json对象">
-        <span class="has-mr-6">1.5.7</span>
+        <span class="has-mr-6">1.4.8</span>
         <span>Json对象</span>
-        </a></li></ul></li><li>
-        <a class="is-flex" href="#this关键字">
-        <span class="has-mr-6">1.6</span>
-        <span>this关键字</span>
-        </a></li></ul></li></ul>
+        </a></li></ul></li></ul></li></ul>
             </div>
         </div>
     </div>
@@ -818,7 +850,15 @@
                 <span class="level-item">IT</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">21</span>
+                <span class="level-item tag">28</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E4%B8%AA%E4%BA%BA%E5%B9%B8%E7%A6%8F/">
+            <span class="level-start">
+                <span class="level-item">个人幸福</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">
@@ -826,7 +866,7 @@
                 <span class="level-item">个人生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">16</span>
+                <span class="level-item tag">22</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">
@@ -834,7 +874,7 @@
                 <span class="level-item">技术博客</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">28</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%9C%8B%E5%8F%8B/">
@@ -842,7 +882,7 @@
                 <span class="level-item">朋友</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">4</span>
+                <span class="level-item tag">5</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E7%94%9F%E6%B4%BB/">
@@ -858,7 +898,7 @@
                 <span class="level-item">生活感悟</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">1</span>
+                <span class="level-item tag">2</span>
             </span>
         </a></li>
             </ul>
@@ -871,7 +911,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 13.33px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 10px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 13.33px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 13.33px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 13.33px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 10px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb-Javascript/" style="font-size: 10px;">IT，Web,Javascript</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 20px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 10px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 13.33px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 10px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 10px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 13.33px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 10px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 20px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 16.67px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 16.67px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 10px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 10px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 13.33px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">生活、幸福</a> <a href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">记录，生活</a>
+        <a href="/tags/IT/" style="font-size: 10px;">IT</a> <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 12.5px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 10px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8C/" style="font-size: 12.5px;">IT,Web，</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 12.5px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 12.5px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 12.5px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 10px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb/" style="font-size: 10px;">IT，Web</a> <a href="/tags/IT%EF%BC%8CWeb-Javascript/" style="font-size: 10px;">IT，Web,Javascript</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 17.5px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 10px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 15px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 12.5px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 12.5px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 10px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 10px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 17.5px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 15px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 15px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">幸福</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/" style="font-size: 15px;">技术，IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 10px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 12.5px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 12.5px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 17.5px;">生活、幸福</a> <a href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">记录，生活</a>
     </div>
 </div>
     
@@ -883,6 +923,25 @@
         <h3 class="menu-label">
             最新文章
         </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/10/02/%E6%97%A5%E8%AF%AD%E5%AD%A6%E4%B9%A0%E4%B8%8E%E6%89%98%E7%A6%8F%E5%AD%A6%E4%B9%A0/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="日语学习与托福学习">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-10-02T13:40:33.000Z">2020-10-02</time></div>
+                    <a href="/2020/10/02/%E6%97%A5%E8%AF%AD%E5%AD%A6%E4%B9%A0%E4%B8%8E%E6%89%98%E7%A6%8F%E5%AD%A6%E4%B9%A0/" class="title has-link-black-ter is-size-6 has-text-weight-normal">日语学习与托福学习</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">个人生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -943,37 +1002,18 @@
         
         <article class="media">
             
-            <a href="/2020/08/28/flutter3/" class="media-left">
+            <a href="/2020/09/02/H5%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%912/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/flutter.jpeg" alt="flutter移动开发（三）">
+                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/Phaser.jpg" alt="H5游戏开发">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-08-28T13:40:33.000Z">2020-08-28</time></div>
-                    <a href="/2020/08/28/flutter3/" class="title has-link-black-ter is-size-6 has-text-weight-normal">flutter移动开发（三）</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-09-02T13:40:33.000Z">2020-09-02</time></div>
+                    <a href="/2020/09/02/H5%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%912/" class="title has-link-black-ter is-size-6 has-text-weight-normal">H5游戏开发</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">技术博客</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2020/08/28/flutter2/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/flutter2.jpg" alt="flutter移动开发（二）">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-08-28T13:40:33.000Z">2020-08-28</time></div>
-                    <a href="/2020/08/28/flutter2/" class="title has-link-black-ter is-size-6 has-text-weight-normal">flutter移动开发（二）</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">技术博客</a>
+                        <a class="has-link-grey -link" href="/categories/IT/">IT</a>
                     </p>
                 </div>
             </div>
@@ -991,12 +1031,23 @@
         <ul class="menu-list">
         
         <li>
+            <a class="level is-marginless" href="/archives/2020/10/">
+                <span class="level-start">
+                    <span class="level-item">十月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
             <a class="level is-marginless" href="/archives/2020/09/">
                 <span class="level-start">
                     <span class="level-item">九月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">3</span>
+                    <span class="level-item tag">4</span>
                 </span>
             </a>
         </li>
@@ -1007,7 +1058,7 @@
                     <span class="level-item">八月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">5</span>
+                    <span class="level-item tag">7</span>
                 </span>
             </a>
         </li>
@@ -1018,7 +1069,7 @@
                     <span class="level-item">七月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">4</span>
+                    <span class="level-item tag">5</span>
                 </span>
             </a>
         </li>
@@ -1029,7 +1080,7 @@
                     <span class="level-item">六月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">7</span>
+                    <span class="level-item tag">13</span>
                 </span>
             </a>
         </li>
@@ -1040,7 +1091,7 @@
                     <span class="level-item">五月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">9</span>
+                    <span class="level-item tag">5</span>
                 </span>
             </a>
         </li>
@@ -1051,7 +1102,7 @@
                     <span class="level-item">四月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">3</span>
+                    <span class="level-item tag">4</span>
                 </span>
             </a>
         </li>
@@ -1062,7 +1113,7 @@
                     <span class="level-item">三月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">35</span>
+                    <span class="level-item tag">48</span>
                 </span>
             </a>
         </li>
@@ -1092,6 +1143,13 @@
             <div class="field is-grouped is-grouped-multiline">
                 
                 <div class="control">
+                    <a class="tags has-addons" href="/tags/IT/">
+                        <span class="tag">IT</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
                     <a class="tags has-addons" href="/tags/IT-Java-Web/">
                         <span class="tag">IT,Java,Web</span>
                         <span class="tag is-grey">1</span>
@@ -1109,6 +1167,13 @@
                     <a class="tags has-addons" href="/tags/IT-Web/">
                         <span class="tag">IT,Web,</span>
                         <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8C/">
+                        <span class="tag">IT,Web，</span>
+                        <span class="tag is-grey">2</span>
                     </a>
                 </div>
                 
@@ -1204,6 +1269,13 @@
                 </div>
                 
                 <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb/">
+                        <span class="tag">IT，Web</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Javascript/">
                         <span class="tag">IT，Web,Javascript</span>
                         <span class="tag is-grey">1</span>
@@ -1213,7 +1285,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Node/">
                         <span class="tag">IT，Web,Node</span>
-                        <span class="tag is-grey">4</span>
+                        <span class="tag is-grey">5</span>
                     </a>
                 </div>
                 
@@ -1234,7 +1306,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Vue/">
                         <span class="tag">IT，Web,Vue</span>
-                        <span class="tag is-grey">2</span>
+                        <span class="tag is-grey">3</span>
                     </a>
                 </div>
                 
@@ -1248,21 +1320,21 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/">
                         <span class="tag">IT，Web,数据库</span>
-                        <span class="tag is-grey">4</span>
+                        <span class="tag is-grey">6</span>
                     </a>
                 </div>
                 
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8Cweb/">
                         <span class="tag">IT，web</span>
-                        <span class="tag is-grey">1</span>
+                        <span class="tag is-grey">2</span>
                     </a>
                 </div>
                 
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/">
                         <span class="tag">IT，未来</span>
-                        <span class="tag is-grey">1</span>
+                        <span class="tag is-grey">2</span>
                     </a>
                 </div>
                 
@@ -1276,7 +1348,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/Web-IT-Go/">
                         <span class="tag">Web,IT,Go</span>
-                        <span class="tag is-grey">2</span>
+                        <span class="tag is-grey">1</span>
                     </a>
                 </div>
                 
@@ -1290,7 +1362,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/">
                         <span class="tag">个人生活，幸福</span>
-                        <span class="tag is-grey">4</span>
+                        <span class="tag is-grey">5</span>
                     </a>
                 </div>
                 
@@ -1316,6 +1388,13 @@
                 </div>
                 
                 <div class="control">
+                    <a class="tags has-addons" href="/tags/%E5%B9%B8%E7%A6%8F/">
+                        <span class="tag">幸福</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
                     <a class="tags has-addons" href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">
                         <span class="tag">幸福，个人生活</span>
                         <span class="tag is-grey">1</span>
@@ -1326,6 +1405,13 @@
                     <a class="tags has-addons" href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/">
                         <span class="tag">技术宅、IT</span>
                         <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/">
+                        <span class="tag">技术，IT</span>
+                        <span class="tag is-grey">3</span>
                     </a>
                 </div>
                 
@@ -1346,7 +1432,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/%E6%B7%B1%E5%9C%B3/">
                         <span class="tag">深圳</span>
-                        <span class="tag is-grey">1</span>
+                        <span class="tag is-grey">2</span>
                     </a>
                 </div>
                 
@@ -1374,7 +1460,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/">
                         <span class="tag">生活、幸福</span>
-                        <span class="tag is-grey">1</span>
+                        <span class="tag is-grey">5</span>
                     </a>
                 </div>
                 
@@ -1493,7 +1579,7 @@
 <script>
 var IcarusThemeSettings = {
     site: {
-        url: 'http://yoursite.com',
+        url: 'http://kun8018.gitee.io',
         external_link: {"enable":true,"exclude":[]}
     },
     article: {

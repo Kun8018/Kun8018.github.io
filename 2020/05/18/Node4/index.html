@@ -7,23 +7,23 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<title>NodeJs开发（四） - kun&#39;s blog</title>
+<title>NodeJs开发（三） - kun&#39;s blog</title>
 
 
-    <meta name="description" content="第四篇注重常用功能和框架开发，可以看作进阶篇">
+    <meta name="description" content="第三篇注重NodeJs后端开发。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="NodeJs开发（四）">
-<meta property="og:url" content="http://yoursite.com/2020/05/18/Node4/index.html">
+<meta property="og:title" content="NodeJs开发（三）">
+<meta property="og:url" content="http://kun8018.gitee.io/2020/05/18/Node4/index.html">
 <meta property="og:site_name" content="kun&#39;s blog">
-<meta property="og:description" content="第四篇注重常用功能和框架开发，可以看作进阶篇">
+<meta property="og:description" content="第三篇注重NodeJs后端开发。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://cdn.kunkunzhang.top/nestjs.png">
+<meta property="og:image" content="http://cdn.kunkunzhang.top/typescript.jpg">
 <meta property="article:published_time" content="2020-05-18T13:40:33.000Z">
-<meta property="article:modified_time" content="2020-10-04T17:54:04.158Z">
+<meta property="article:modified_time" content="2020-12-07T05:39:25.489Z">
 <meta property="article:author" content="Kun Zhang">
 <meta property="article:tag" content="IT，Web,Node">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://cdn.kunkunzhang.top/nestjs.png">
+<meta name="twitter:image" content="http://cdn.kunkunzhang.top/typescript.jpg">
 
 
 
@@ -82,7 +82,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="https://s1.ax1x.com/2020/03/27/G9OfNn.th.png" alt="NodeJs开发（四）" height="28">
+                <img src="https://s1.ax1x.com/2020/03/27/G9OfNn.th.png" alt="NodeJs开发（三）" height="28">
             
             </a>
         </div>
@@ -140,7 +140,7 @@
     
     <div class="card-image">
         <span  class="image is-7by1">
-            <img class="thumbnail" src="http://cdn.kunkunzhang.top/nestjs.png" alt="NodeJs开发（四）">
+            <img class="thumbnail" src="http://cdn.kunkunzhang.top/typescript.jpg" alt="NodeJs开发（三）">
         </span>
     </div>
     
@@ -158,7 +158,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    34 分钟 读完 (大约 5161 个字)
+                    1 小时 读完 (大约 7155 个字)
                 </span>
                 
                 
@@ -172,323 +172,255 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                NodeJs开发（四）
+                NodeJs开发（三）
             
         </h1>
         <div class="content">
-            <p>第四篇注重常用功能和框架开发，可以看作进阶篇</p>
+            <p>第三篇注重NodeJs后端开发。</p>
 <a id="more"></a>
 
-<h2 id="功能模块"><a href="#功能模块" class="headerlink" title="功能模块"></a>功能模块</h2><h3 id="Graphql"><a href="#Graphql" class="headerlink" title="Graphql"></a>Graphql</h3><p>安装依赖</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install apollo-server@<span class="number">2.13</span><span class="number">.1</span> graphql@<span class="number">14.6</span><span class="number">.0</span>  type-graphql@<span class="number">0.17</span><span class="number">.6</span></span><br></pre></td></tr></table></figure>
+<h2 id="初始化文件夹"><a href="#初始化文件夹" class="headerlink" title="初始化文件夹"></a>初始化文件夹</h2><p>初始化文件夹</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm init -y</span><br></pre></td></tr></table></figure>
+
+<p>初始化文件夹后生成pacakge.json文件</p>
+<p><em>nodemon</em>用来监视node.js应用程序中的任何更改并自动重启服务,非常适合用在开发环境中。</p>
+<p>安装nodemon</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm i -g nodemon</span><br><span class="line">npm run serve  &#x2F;&#x2F;运行服务器</span><br></pre></td></tr></table></figure>
+
+
+
+<p>package.json中dependency是全局使用的依赖</p>
+<p> dev_dependy只在开发时用的依赖，打包后不会上传，使用npm install -D 安装</p>
+<h2 id="读取文件夹、文件"><a href="#读取文件夹、文件" class="headerlink" title="读取文件夹、文件"></a>读取文件夹、文件</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>)</span><br><span class="line"><span class="comment">//读、写文件</span></span><br><span class="line"><span class="keyword">var</span> readme = fs.readFileSync(<span class="string">"readme.txt"</span>,<span class="string">"utf8"</span>);<span class="comment">//同步读文件</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> readme = fs.readFile(<span class="string">"readme.txt"</span>,<span class="string">"utf8"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">err,data</span>)</span>&#123;</span><br><span class="line">    </span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">fs.writeFileSync(<span class="string">"writeme.txt"</span>,readme)</span><br><span class="line">fs.writeFile(<span class="string">'writeme.txt'</span>,data,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">//创建、读取、移除目录</span></span><br><span class="line">fs.mkdir(<span class="string">''</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;)</span><br><span class="line">fs.readdir(<span class="string">''</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;)</span><br><span class="line">fs.rmdir(<span class="string">''</span>)</span><br><span class="line"><span class="comment">//识别文件、目录类型</span></span><br><span class="line">fs.stat(<span class="string">''</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">stats.isFile()</span><br><span class="line">stats.isDirectory()</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">//删除文件</span></span><br><span class="line">fs.unlink(<span class="string">'input.txt'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">err</span>) </span>&#123;</span><br><span class="line">   <span class="keyword">if</span> (err) &#123;</span><br><span class="line">       <span class="keyword">return</span> <span class="built_in">console</span>.error(err);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="Stream"><a href="#Stream" class="headerlink" title="Stream"></a>Stream</h3><p>stream（流）是一种抽象的数据结构。流可以把文件资源拆分成小块，一块一块的运输，资源就像水流一样进行传输，减轻服务器压力。</p>
+<p>stream可以分为四类：</p>
+<p>可读 Readable，有两个状态：paused、flowing。</p>
+<p>可写 Writable，两个重要事件：drain、finish。</p>
+<p>可读可写（双向）Duplex</p>
+<p>可读可写（变化）Transform</p>
+<p>可读流有两个状态 paused 和 flowing。</p>
+<p>可读流默认处于 paused 态，一旦添加 data 事件监听，它就变为 flowing 态。删掉 data 事件监听，paused 态。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 默认处于 paused 态</span></span><br><span class="line"><span class="keyword">const</span> stream = fs.createReadStream(<span class="string">'./big_file.txt'</span>)</span><br><span class="line">stream.pipe(response)</span><br><span class="line">stream.pause(); <span class="comment">// 暂停</span></span><br><span class="line">setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// 恢复</span></span><br><span class="line">  stream.resume()</span><br><span class="line">&#125;, <span class="number">3000</span>)</span><br></pre></td></tr></table></figure>
+
+<p>用管道pipe连接两个不同的流，管道可以分为两个事件，监听data，stream1一有数据就传给stream2，监听 end 事件，当 stream1 停了，就停掉 stream2</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">stream1.on(<span class="string">'data'</span>, (chunk) =&gt; &#123;</span><br><span class="line">	stream2.write(chunk)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">stream1.on(<span class="string">'end'</span>, () =&gt; &#123;</span><br><span class="line">	stream2.end()</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://juejin.im/post/5f1c508ff265da22ff546dca#heading-25">https://juejin.im/post/5f1c508ff265da22ff546dca#heading-25</a></p>
+<h3 id="Buffer"><a href="#Buffer" class="headerlink" title="Buffer"></a>Buffer</h3><p><a href="https://juejin.im/post/6845166891401478158">https://juejin.im/post/6845166891401478158</a></p>
+<h2 id="OS操作"><a href="#OS操作" class="headerlink" title="OS操作"></a>OS操作</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">os.tmpdir()<span class="comment">//返回操作系统的默认临时文件夹</span></span><br><span class="line">os.hostname()<span class="comment">//返回操作系统的主机名</span></span><br><span class="line">os.release()<span class="comment">//返回操作系统的发行版本</span></span><br><span class="line">os.type()<span class="comment">//返回操作系统名</span></span><br><span class="line">os.uptime()<span class="comment">//返回操作系统的运行时间，单位为秒</span></span><br><span class="line">os.totalmem()<span class="comment">//返回系统总内存量，单位字节</span></span><br><span class="line">os.freemem()<span class="comment">//返回系统空闲内存量，单位字节</span></span><br><span class="line">os.arch()<span class="comment">//返回操作系统的CPU架构</span></span><br><span class="line">os.cpus()<span class="comment">//返回数组对象，包含每个CPU的信息</span></span><br><span class="line">os.networkInterfaces()<span class="comment">//返回网络接口列表</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="路径操作"><a href="#路径操作" class="headerlink" title="路径操作"></a>路径操作</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> path = <span class="built_in">require</span>(<span class="string">"path"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//获取文件夹路径</span></span><br><span class="line">path.dirname(p)</span><br><span class="line"><span class="comment">//获取文件名</span></span><br><span class="line">path.basename(p[, ext])</span><br><span class="line"><span class="comment">//获取文件后缀名</span></span><br><span class="line">path.extname(p)</span><br><span class="line"><span class="comment">//将路径转化为数组</span></span><br><span class="line">path.parse(filepath)</span><br><span class="line"><span class="comment">//绝对路径相对路径转化</span></span><br><span class="line">path.resolve([<span class="keyword">from</span> ...], to)<span class="comment">//转化为绝对路径</span></span><br><span class="line">path.relative(<span class="keyword">from</span>, to)<span class="comment">//转化为相对路径</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Node模块化加载方法"><a href="#Node模块化加载方法" class="headerlink" title="Node模块化加载方法"></a>Node模块化加载方法</h2><p>JavaScript 现在有两种模块。一种是 ES6 模块，简称 ESM；另一种是 CommonJS 模块，简称 CJS。</p>
+<p>CommonJS 模块是 Node.js 专用的，与 ES6 模块不兼容。它们采用不同的加载方案。从 Node.js v13.2 版本开始，Node.js 已经默认打开了 ES6 模块支持。</p>
+<p>Node.js 要求 ES6 模块采用<code>.mjs</code>后缀文件名。也就是说，只要脚本文件里面使用<code>import</code>或者<code>export</code>命令，那么就必须采用<code>.mjs</code>后缀名。Node.js 遇到<code>.mjs</code>文件，就认为它是 ES6 模块，默认启用严格模式，不必在每个模块文件顶部指定<code>&quot;use strict&quot;</code>。</p>
+<p>如果不希望将后缀名改成<code>.mjs</code>，可以在项目的<code>package.json</code>文件中，指定<code>type</code>字段为<code>module</code>。</p>
+<p>ES6 模块与 CommonJS 模块尽量不要混用。<code>require</code>命令不能加载<code>.mjs</code>文件，会报错，只有<code>import</code>命令才可以加载<code>.mjs</code>文件。反过来，<code>.mjs</code>文件里面也不能使用<code>require</code>命令，必须使用<code>import</code>。</p>
+<p><code>package.json</code>文件有两个字段可以指定模块的入口文件：<code>main</code>和<code>exports</code>。比较简单的模块，可以只使用<code>main</code>字段，指定模块加载的入口文件。</p>
+<h2 id="Node全局变量"><a href="#Node全局变量" class="headerlink" title="Node全局变量"></a>Node全局变量</h2><p>node程序内部自带一些变量和函数，可以在node程序全局使用</p>
+<h3 id="当前目录与当前文件"><a href="#当前目录与当前文件" class="headerlink" title="当前目录与当前文件"></a>当前目录与当前文件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">_filename&#x2F;&#x2F;输出当前脚本文件的绝对路径</span><br><span class="line">_dirname&#x2F;&#x2F;输出当前脚本文件的目录</span><br></pre></td></tr></table></figure>
+
+<h3 id="定时器函数"><a href="#定时器函数" class="headerlink" title="定时器函数"></a>定时器函数</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var t&#x3D; setTimeout(cb, ms);&#x2F;&#x2F;设定ms后执行函数cb</span><br><span class="line">clearTimeout(t)</span><br><span class="line">setInterval(cb, ms)&#x2F;&#x2F;每个ms后执行函数cb</span><br><span class="line">clearTimeout(t)&#x2F;&#x2F;停止一个之前创建的定时器</span><br></pre></td></tr></table></figure>
+
+<h3 id="控制台输出函数"><a href="#控制台输出函数" class="headerlink" title="控制台输出函数"></a>控制台输出函数</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log</span><br></pre></td></tr></table></figure>
+
+<h3 id="Process"><a href="#Process" class="headerlink" title="Process"></a>Process</h3><p>process是node对进程的表示，提供了操作进程的接口，用process控制进程有关信息，控制进程</p>
+<p>接口：</p>
+<p>描述进程的状态：exit、beforeExit、Signal</p>
+<p>进程退出返回的状态码：Signal Exit、Unused等</p>
+<p>进程的相关信息：stdout、stderr、config、stdin、exitCode、pid（进程编号）等</p>
+<p>操作进程的方法：abort、chdir、kill（发送信号给进程）、exit、nextTick、getgid、setgid、uptime等</p>
+<p>process.stdin:用于读入标准数据流的对象</p>
+<p>process.stdout：用于写入标准输出流的对象</p>
+<p>process.stderr：用于写入标准错误输出流的对象</p>
+<p>process.exit</p>
+<p>process.close close事件要求子进程的所有标准输入输出都终止，exit只需要子进程退出就能触发 </p>
+<h2 id="多进程"><a href="#多进程" class="headerlink" title="多进程"></a>多进程</h2><p>child_process:child_process模块开启多个子进程来执行node文件，执行开启的进程是主进程，被开启的进程是子进程</p>
+<p>node有三种创建子进程的接口</p>
+<p>exec/execFile: 适用于输出轻量数据，执行的结果会存储在Buffer中，不同的是前者创建shell进行来执行命令，后者直接创建进程执行可执行文件，</p>
+<p>spawn:适用于进程输入、输出数据量比较大的情况，支持stream的形式输入输出，可以用于任何命令，可以创建常驻后台进程。</p>
+<p>fork: fork是spawn的特例，fork会在父子进程之间创建IPC通道，通过监听message事件和调用send方法，就可以在父子进程间通信了。</p>
+<p>Node中提供了cluster模块，cluster实现了对child_process的封装，通过fork方法创建子进程的方式实现多进程模型。通过该模块简化多进程服务器程序的开发，统一通过主进程监听接口和分发请求。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cluster.isMaster<span class="comment">//判断是否是主进程</span></span><br><span class="line">cluster.fork<span class="comment">//创建工作进程</span></span><br><span class="line"><span class="keyword">const</span> cluster = <span class="built_in">require</span>(<span class="string">'cluster'</span>)</span><br></pre></td></tr></table></figure>
+
+<p>cluster代表整个集群，也就是工作进程和主进程，随着当前执行进程的变化，cluster的属性也在变化。在cluster上绑定的事件对每个进程都起作用，cluster的某些api只对主进程起作用，如fork、cluster.workers，有一些只对工作进程有用，如cluter.worker</p>
+<h2 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h2><p>通常node的单线程是由于JavaScript的执行默认是单线程的，但是JavaScript的宿主环境，无论是node还是浏览器都是多线程的</p>
+<p>node的单线程带来了一些问题，比如对cpu 的利用不足，某个未捕获的异常可能会导致整个程序的退出等。node的事件驱动和无阻塞特性使得在I/O密集型的业务场景（如限时抢购）等体现出巨大的优势。但是遇到加密、解密等CPU密集型复杂运算。当一个CPU占用率高的任务执行迟迟未完成时，后续队列中的延时、监听回调、nextTick等函数都会因被阻塞而无法执行，造成严重的延迟。更严重的情况。如果某个请求抛出错误，将有可能导致整个服务瘫痪。</p>
+<p>nodejs中有三种线程</p>
+<p>event loop的主线程</p>
+<p>libuv的异步I/O线程池</p>
+<p>Node10.5之后，Node提供了worker_threads给node提供了真正的多线程</p>
+<p>worker_thread模块中有四个对象两个类</p>
+<p>isMainThread:是否是主线程</p>
+<p>MessagePort:用于线程间的通信，继承自EventEmitter</p>
+<p>MessageChannel:用于创建异步、双向通信的通道实例</p>
+<p>threadId:线程ID</p>
+<p>Worker：用于在主线程中创建子线程，第一个参数为filename，表示子线程的执行入口</p>
+<p>parentPort:在worker线程中表示父进程的MessagePort类型的对象，在主线程中为null</p>
+<p>workData:用于在主进程中向子进程传递数据</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123;</span><br><span class="line">    Worker,</span><br><span class="line">    MessageChannel,</span><br><span class="line">    MessagePort,</span><br><span class="line">    isMainThread,</span><br><span class="line">    parentPort</span><br><span class="line">&#125; = <span class="built_in">require</span>(<span class="string">'worker_threads'</span>);</span><br><span class="line"><span class="keyword">if</span>(isMainThread) &#123;</span><br><span class="line">    <span class="keyword">const</span> worker = <span class="keyword">new</span> Workd(_filename);</span><br><span class="line">    <span class="keyword">const</span> subChannel = <span class="keyword">new</span> MessageChannel();</span><br><span class="line">    worker.postMessage(&#123;<span class="attr">hereIsYourPort</span>:subChannel.port1&#125;,[subChannel.port1]);</span><br><span class="line">    subChannel.port2.on(<span class="string">'message'</span>,(value)=&gt;&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'received:'</span>,value)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    subChannel.once(<span class="string">'message'</span>,(value)=&gt;&#123;</span><br><span class="line">        assert(value.hereIsYourPort <span class="keyword">instanceof</span> MessagePort);</span><br><span class="line">        value.hereIsYourPort.postMessage(<span class="string">'the worker is sending this'</span>);</span><br><span class="line">        value.hereIsYourPort.close();</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="线程间通信"><a href="#线程间通信" class="headerlink" title="线程间通信"></a>线程间通信</h3><p>worker_thread线程之间可以共享内存。使用ArrayBuffer或SharedArrayBuffer</p>
+<p><strong>parentPort</strong></p>
+<p>主要用于主子线程通信，通过经典的 on(‘message’), postMessage形式</p>
+<p><strong>MessageChannel</strong></p>
+<p>可以通过线程间的消息传递来实现双向通信。 在内部，一个 Worker 具有一对内置的 MessagePort，在创建该 Worker 时它们已经相互关联。 虽然父端的 MessagePort 对象没有直接公开，但其功能是通过父线程的 Worker 对象上的 worker.postMessage() 和 worker.on(‘message’) 事件公开的。<br>要创建自定义的消息传递通道（建议使用默认的全局通道，因为这样可以促进关联点的分离），用户可以在任一线程上创建一个 MessageChannel 对象，并将该 MessageChannel 上的 MessagePort 中的一个通过预先存在的通道传给另一个线程，</p>
+<p><a href="https://www.cnblogs.com/mengff/p/12815198.html">https://www.cnblogs.com/mengff/p/12815198.html</a></p>
+<h2 id="Node运行原理"><a href="#Node运行原理" class="headerlink" title="Node运行原理"></a>Node运行原理</h2><h3 id="运行原理"><a href="#运行原理" class="headerlink" title="运行原理"></a>运行原理</h3><p>Node.js 被分为了四层，分别是 <code>应用层</code>、<code>V8引擎层</code>、<code>Node API层</code> 和 <code>LIBUV层</code>。</p>
+<p>应用层： 即 JavaScript 交互层，常见的就是 Node.js 的模块，比如 http，fs</p>
+<p>V8引擎层： 即利用 V8 引擎来解析JavaScript 语法，进而和下层 API 交互</p>
+<p>NodeAPI层： 为上层模块提供系统调用，一般是由 C 语言来实现，和操作系统进行交互 。</p>
+<p>LIBUV层： 是跨平台的底层封装，实现了 事件循环、文件操作等，是 Node.js 实现异步的核心</p>
+<h3 id="事件循环"><a href="#事件循环" class="headerlink" title="事件循环"></a>事件循环</h3><p>node事件循环与浏览器循环是不同的</p>
+<p>当Node.js启动时会初始化<code>event loop</code>, 每一个<code>event loop</code>都会包含按如下顺序六个循环阶段：</p>
+<p>1.<strong><code>timers</code> 阶段</strong>: 这个阶段执行 <code>setTimeout(callback)</code> 和 <code>setInterval(callback)</code> 预定的 callback, timer指定一个下限时间而不是准确时间，在达到这个下限时间后执行回调。在指定时间过后，timers会尽可能早地执行回调，但系统调度或者其它回调的执行可能会延迟它们。</p>
+<p>2.<strong><code>I/O callbacks</code> 阶段</strong>: 此阶段执行某些系统操作的回调，例如TCP错误的类型。 例如，如果TCP套接字在尝试连接时收到 ECONNREFUSED，则某些* nix系统希望等待报告错误。 这将操作将等待在==I/O回调阶段==执行;</p>
+<p>3.<strong><code>idle, prepare</code> 阶段</strong>: 仅node内部使用;</p>
+<p>4.<strong><code>poll</code> 阶段</strong>: 获取新的I/O事件, 例如操作读取文件等等，适当的条件下node将阻塞在这里;如果 poll 队列不空，event loop会遍历队列并同步执行回调，直到队列清空或执行的回调数到达系统上限；如果 poll 队列为空，则发生以下两件事之一：如果代码已经被setImmediate()设定了回调, event loop将结束 poll 阶段进入 check 阶段来执行 check 队列（里面的回调 callback）。如果代码没有被setImmediate()设定回调，event loop将阻塞在该阶段等待回调被加入 poll 队列，并立即执行。setImmediate() 实际上是一个特殊的timer，跑在event loop中一个独立的阶段。它使用<code>libuv</code>的API 来设定在 poll 阶段结束后立即执行回调。</p>
+<p>5.<strong><code>check</code> 阶段</strong>: 执行 <code>setImmediate()</code> 设定的callbacks;</p>
+<p>6.<strong><code>close callbacks</code> 阶段</strong>: 比如 <code>socket.on(‘close’, callback)</code> 的callback会在这个阶段执行;如果一个 socket 或 handle 被突然关掉，close事件将在这个阶段被触发，否则将通过process.nextTick()触发</p>
+<h2 id="chromev8引擎内存管理"><a href="#chromev8引擎内存管理" class="headerlink" title="chromev8引擎内存管理"></a>chromev8引擎内存管理</h2><p>nodejs内存管理问题：</p>
+<p>在浏览器中，Chrome V8引擎实例的生命周期不会很长（谁没事一个页面开着几天几个月不关），而且运行在用户的机器上。如果不幸发生内存泄露等问题，仅仅会 影响到一个终端用户。且无论这个V8实例占用了多少内存，最终在关闭页面时内存都会被释放，几乎没有太多管理的必要（当然并不代表一些大型Web应用不需 要管理内存）。但如果使用Node作为服务器，就需要关注内存问题了，一旦内存发生泄漏，久而久之整个服务将会瘫痪（服务器不会频繁的重启）。</p>
+<p>chromev8垃圾回收机制：</p>
+<p>JavaScript使用垃圾回收机制来自动管理内存。垃圾回收是一把双刃剑，其好处是可以大幅简化程序的内存管理代码，降低程序员的负担，减少因 长时间运转而带来的内存泄露问题。</p>
+<p>但使用了垃圾回收即意味着程序员将无法掌控内存。ECMAScript没有暴露任何垃圾回收器的接口。我们无法强迫其进 行垃圾回收，更无法干预内存管理</p>
+<p>chromev8内存限制：</p>
+<p>Chrome限制了所能使用的<strong>内存极限</strong>（64位为1.4GB，32位为1.0GB），这也就意味着将无法直接操作一些大内存对象。</p>
+<p>Chrome之所以限制了内存的大小，表面上的原因是V8最初是作为浏览器的JavaScript引擎而设计，不太可能遇到大量内存的场景，而深层次的原因 则是由于V8的垃圾回收机制的限制。由于V8需要保证JavaScript应用逻辑与垃圾回收器所看到的不一样，V8在执行垃圾回收时会阻塞 JavaScript应用逻辑，直到垃圾回收结束再重新执行JavaScript应用逻辑，这种行为被称为“全停顿”（stop-the-world）。 若V8的堆内存为1.5GB，V8做一次小的垃圾回收需要50ms以上，做一次非增量式的垃圾回收甚至要1秒以上。这样浏览器将在1s内失去对用户的响 应，造成假死现象。如果有动画效果的话，动画的展现也将显著受到影响</p>
+<p>chromev8的堆构成</p>
+<p>V8的堆其实并不只是由老生代和新生代两部分构成，可以将堆分为几个不同的区域：</p>
+<p>1、新生代内存区：大多数的对象被分配在这里，这个区域很小但是垃圾回特别频繁；</p>
+<p>2、老生代指针区：属于老生代，这里包含了大多数可能存在指向其他对象的指针的对象，大多数从新生代晋升的对象会被移动到这里；</p>
+<p>3、老生代数据区：属于老生代，这里只保存原始数据对象，这些对象没有指向其他对象的指针；</p>
+<p>4、大对象区：这里存放体积超越其他区大小的对象，每个对象有自己的内存，垃圾回收其不会移动大对象；</p>
+<p>5、代码区：代码对象，也就是包含JIT之后指令的对象，会被分配在这里。唯一拥有执行权限的内存区；</p>
+<p>6、Cell区、属性Cell区、Map区：存放Cell、属性Cell和Map，每个区域都是存放相同大小的元素，结构简单。</p>
+<p>每个区域都是由一组内存页构成，内存页是V8申请内存的最小单位，除了大对象区的内存页较大以外，其他区的内存页都是1MB大小，而且按照1MB对 齐。内存页除了存储的对象，还有一个包含元数据和标识信息的页头，以及一个用于标记哪些对象是活跃对象的位图区。另外每个内存页还有一个单独分配在另外内 存区的槽缓冲区，里面放着一组对象，这些对象可能指向其他存储在该页的对象。<strong>垃圾回收器只会针对新生代内存区、老生代指针区以及老生代数据区进行垃圾回收。</strong></p>
+<p>内存泄漏</p>
+<p> 内存泄露是指程序中<strong>已分配的堆内存</strong>由于某种原因<strong>未释放或者无法释放</strong>，造成系统内存的浪费，导致程序运行速度减慢甚至系统奔溃等后果。</p>
+<p>常见的内存泄漏场景</p>
+<p>1.缓存：开发时候喜欢用<strong>对象的键值来缓存函数的计算结果</strong>，但是缓存中存储的键越多，长期存活的对象就越多，导致垃圾回收在进行扫描和整理时，对这些对象做了很多无用功。</p>
+<p>2.作用域未释放(闭包)</p>
+<p>3.没有必要的全局变量：声明过多的全局变量，会导致变量常驻内存，要直到进程结束才能够释放内存。</p>
+<p>4.无效的DOM引用。</p>
+<p>5.定时器未清除：vue 或 react 的页面生命周期初始化时，定义了定时器，但是在离开页面后，未清除定时器，就会导致内存泄漏。</p>
+<p>6.事件监听为空白：在页面生命周期初始化时，绑定了事件监听器，但在离开页面后，未清除事件监听器，同样也会导致内存泄漏。</p>
+<p>内存优化做法：</p>
+<p>1.解除引用。确保占用最少的内存可以让页面获得更好的性能。而优化内存占用的最佳方式，就是为执行中的代码只保存必要的数据。一旦数据不再有用，最好通过将其值设置为 null 来释放其引用——这个做法叫做解除引用</p>
+<p>2.避免过多使用闭包。</p>
+<p>3.注意清除定时器和事件监听器。</p>
+<p>4提供手动清除变量的功能</p>
+<p>5.使用redis等外部工具来缓存数据。</p>
+<p>6.nodejs中使用stream或buffer来操作大文件，不会受nodejs内存限制。</p>
+<p>垃圾回收机制：</p>
+<p>新生代算法：</p>
+<p>新生代的对象为存活时间较短的对象，老生代中的对象为存活时间较长或常驻内存的对象。分别对新生代和老生代使用 不同的垃圾回收算法来提升垃圾回收的效率。对象起初都会被分配到新生代，当新生代中的对象满足某些条件时，会被移动到老生代（晋升）。</p>
+<p>新生代中的对象一般存活时间较短，使用 Scavenge GC 算法。在Scavenge的具体实现中，主要是采用一种复制的方式的方法–cheney算法。</p>
+<p>在新生代空间中，内存空间分为两部分，分别为 From 空间和 To 空间。在这两个空间中，必定有一个空间是使用的，另一个空间是空闲的。新分配的对象会被放入 From 空间中，当 From 空间被占满时，新生代 GC 就会启动了。算法会检查 From 空间中存活的对象并复制到 To 空间中，如果有失活的对象就会销毁。当复制完成后将 From 空间和 To 空间互换，这样 GC 就结束了。</p>
+<p>老生代算法：</p>
+<p>老生代中的对象一般存活时间较长且数量也多，使用了两个算法，分别是<strong>标记清除算法</strong>和<strong>标记压缩算法</strong>。</p>
+<p>在讲算法前，先来说下什么情况下对象会出现在老生代空间中：</p>
+<p>1、新生代中的对象是否已经经历过一次 Scavenge 算法，如果经历过的话，会将对象从新生代空间移到老生代空间中。</p>
+<p>2、To 空间的对象占比大小超过 25 %。在这种情况下，为了不影响到内存分配，会将对象从新生代空间移到老生代空间中。</p>
+<p>在老生代中，以下情况会先启动标记清除算法：</p>
+<p>1、某一个空间没有分块的时候</p>
+<p>2、空间中被对象超过一定限制</p>
+<p>3、空间不能保证新生代中的对象移动到老生代中</p>
+<p>Mark Sweep 是将需要被回收的对象进行标记，在垃圾回收运行时直接释放相应的地址空间，如下图所示(红色的内存区域表示需要被回收的区域)：</p>
+<p>Mark Compact 的思想有点像新生代垃圾回收时采取的 Cheney 算法：将存活的对象移动到一边，将需要被回收的对象移动到另一边，然后对需要被回收的对象区域进行整体的垃圾回收。</p>
+<p>在这个阶段中，会遍历堆中所有的对象，然后标记活的对象，在标记完成后，销毁所有没有被标记的对象。在标记大型对内存时，可能需要几百毫秒才能完成一次标记。这就会导致一些性能上的问题。为了解决这个问题，2011 年，V8 从 stop-the-world 标记切换到增量标志。在增量标记期间，GC 将标记工作分解为更小的模块，可以让 JS 应用逻辑在模块间隙执行一会，从而不至于让应用出现停顿情况。但在 2018 年，GC 技术又有了一个重大突破，这项技术名为并发标记。该技术可以让 GC 扫描和标记对象时，同时允许 JS 运行。</p>
+<p>清除对象后会造成堆内存出现碎片的情况，当碎片超过一定限制后会启动压缩算法。在压缩过程中，将活的对象像一端移动，直到所有对象都移动完成然后清理掉不需要的内存。</p>
+<h2 id="js-导出读取xlsx包"><a href="#js-导出读取xlsx包" class="headerlink" title="js-导出读取xlsx包"></a>js-导出读取xlsx包</h2><p>sheetjs</p>
+<p><a href="https://github.com/SheetJS/sheetjs">https://github.com/SheetJS/sheetjs</a></p>
+<p>安装</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install xlsx</span><br></pre></td></tr></table></figure>
+
+<p>读取本地文件</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 读取本地excel文件</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">readWorkbookFromLocalFile</span>(<span class="params">file, callback</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">var</span> reader = <span class="keyword">new</span> FileReader();</span><br><span class="line">	reader.onload = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">		<span class="keyword">var</span> data = e.target.result;</span><br><span class="line">		<span class="keyword">var</span> workbook = XLSX.read(data, &#123;<span class="attr">type</span>: <span class="string">'binary'</span>&#125;);</span><br><span class="line">		<span class="keyword">if</span>(callback) callback(workbook);</span><br><span class="line">	&#125;;</span><br><span class="line">	reader.readAsBinaryString(file);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>读取网络文件</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 从网络上读取某个excel文件，url必须同域，否则报错</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">readWorkbookFromRemoteFile</span>(<span class="params">url, callback</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHttpRequest();</span><br><span class="line">	xhr.open(<span class="string">'get'</span>, url, <span class="literal">true</span>);</span><br><span class="line">	xhr.responseType = <span class="string">'arraybuffer'</span>;</span><br><span class="line">	xhr.onload = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">		<span class="keyword">if</span>(xhr.status == <span class="number">200</span>) &#123;</span><br><span class="line">			<span class="keyword">var</span> data = <span class="keyword">new</span> <span class="built_in">Uint8Array</span>(xhr.response)</span><br><span class="line">			<span class="keyword">var</span> workbook = XLSX.read(data, &#123;<span class="attr">type</span>: <span class="string">'array'</span>&#125;);</span><br><span class="line">			<span class="keyword">if</span>(callback) callback(workbook);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;;</span><br><span class="line">	xhr.send();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过上述代码获取到workbook对象</p>
+<p>workbook对象中的<code>SheetNames</code>里面保存了所有的sheet名字，然后<code>Sheets</code>则保存了每个sheet的具体内容（我们称之为<code>Sheet Object</code>）。每一个<code>sheet</code>是通过类似<code>A1</code>这样的键值保存每个单元格的内容，我们称之为单元格对象（<code>Cell Object</code>）</p>
+<p><code>Sheet Object</code>表示一张表格，只要不是<code>!</code>开头的都表示普通<code>cell</code>，否则，表示一些特殊含义，具体如下：</p>
+<p> !ref：表示此sheet所有单元格的范围，如A1到F8</p>
+<p><code>[!merges]</code>：存放一些单元格合并信息，是一个数组，每个数组由包含<code>s</code>和<code>e</code>构成的对象组成，<code>s</code>表示开始，<code>e</code>表示结束，<code>r</code>表示行，<code>c</code>表示列；</p>
+<p>每一个单元格是一个对象（<code>Cell Object</code>），主要有<code>t</code>、<code>v</code>、<code>r</code>、<code>h</code>、<code>w</code>等字段</p>
+<ul>
+<li>t：表示内容类型，<code>s</code>表示string类型，<code>n</code>表示number类型，<code>b</code>表示boolean类型，<code>d</code>表示date类型，等等</li>
+<li>v：表示原始值；</li>
+<li>f：表示公式，如<code>B2+B3</code>；</li>
+<li>h：HTML内容</li>
+<li>w：格式化后的内容</li>
+<li>r：富文本内容<code>rich text</code></li>
+</ul>
+<p>读取workbook对象</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 读取 excel文件</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">outputWorkbook</span>(<span class="params">workbook</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">var</span> sheetNames = workbook.SheetNames; <span class="comment">// 工作表名称集合</span></span><br><span class="line">	sheetNames.forEach(<span class="function"><span class="params">name</span> =&gt;</span> &#123;</span><br><span class="line">		<span class="keyword">var</span> worksheet = workbook.Sheets[name]; <span class="comment">// 只能通过工作表名称来获取指定工作表</span></span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">var</span> key <span class="keyword">in</span> worksheet) &#123;</span><br><span class="line">			<span class="comment">// v是读取单元格的原始值</span></span><br><span class="line">			<span class="built_in">console</span>.log(key, key[<span class="number">0</span>] === <span class="string">'!'</span> ? worksheet[key] : worksheet[key].v);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>XLSX.utils.sheet_to_csv</code>：生成CSV格式</li>
+<li><code>XLSX.utils.sheet_to_txt</code>：生成纯文本格式</li>
+<li><code>XLSX.utils.sheet_to_html</code>：生成HTML格式</li>
+<li><code>XLSX.utils.sheet_to_json</code>：输出JSON格式</li>
+</ul>
+<p>导出xlsx文件</p>
+<p>使用插件官方提供的工具类</p>
+<ul>
+<li><code>aoa_to_sheet</code>: 这个工具类最强大也最实用了，将一个二维数组转成sheet，会自动处理number、string、boolean、date等类型数据；</li>
+<li><code>table_to_sheet</code>: 将一个<code>table dom</code>直接转成sheet，会自动识别<code>colspan</code>和<code>rowspan</code>并将其转成对应的单元格合并；</li>
+<li><code>json_to_sheet</code>: 将一个由对象组成的数组转成sheet；</li>
+</ul>
+<p>处理单元格合并</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> aoa = [</span><br><span class="line">	[<span class="string">'主要信息'</span>, <span class="literal">null</span>, <span class="literal">null</span>, <span class="string">'其它信息'</span>], <span class="comment">// 特别注意合并的地方后面预留2个null</span></span><br><span class="line">	[<span class="string">'姓名'</span>, <span class="string">'性别'</span>, <span class="string">'年龄'</span>, <span class="string">'注册时间'</span>],</span><br><span class="line">	[<span class="string">'张三'</span>, <span class="string">'男'</span>, <span class="number">18</span>, <span class="keyword">new</span> <span class="built_in">Date</span>()],</span><br><span class="line">	[<span class="string">'李四'</span>, <span class="string">'女'</span>, <span class="number">22</span>, <span class="keyword">new</span> <span class="built_in">Date</span>()]</span><br><span class="line">];</span><br><span class="line"><span class="keyword">var</span> sheet = XLSX.utils.aoa_to_sheet(aoa);</span><br><span class="line">sheet[<span class="string">'!merges'</span>] = [</span><br><span class="line">	<span class="comment">// 设置A1-C1的单元格合并</span></span><br><span class="line">	&#123;<span class="attr">s</span>: &#123;<span class="attr">r</span>: <span class="number">0</span>, <span class="attr">c</span>: <span class="number">0</span>&#125;, <span class="attr">e</span>: &#123;<span class="attr">r</span>: <span class="number">0</span>, <span class="attr">c</span>: <span class="number">2</span>&#125;&#125;</span><br><span class="line">];</span><br><span class="line">openDownloadDialog(sheet2blob(sheet), <span class="string">'单元格合并示例.xlsx'</span>);</span><br></pre></td></tr></table></figure>
+
+<p><a href="http://blog.haoji.me/js-excel.html#dao-chu-excel">http://blog.haoji.me/js-excel.html#dao-chu-excel</a></p>
+<h2 id="转码包"><a href="#转码包" class="headerlink" title="转码包"></a>转码包</h2><p>node默认支持utf8、base64、binary，如果要请求或处理GBK或者Gb2312页面或文件就需要转码</p>
+<p>安装iconv-lite</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install iconv-lite --save</span><br></pre></td></tr></table></figure>
 
 <p>引入</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">"reflect-metadata"</span></span><br><span class="line"><span class="keyword">import</span> &#123;buildSchema,ObjectType,Field,ID,Resolver,Query&#125; <span class="keyword">from</span> <span class="string">"type-graphql"</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;ApolloServer&#125; <span class="keyword">from</span> <span class="string">"apollo-server"</span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> iconv = <span class="built_in">require</span>(<span class="string">'iconv-lite'</span>)</span><br></pre></td></tr></table></figure>
 
-<p>后端定义schema和resolver</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">@ObjectType()</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Post</span></span>&#123;</span><br><span class="line">    @Field(<span class="function"><span class="params">type</span> =&gt;</span> ID)</span><br><span class="line">    id: string;</span><br><span class="line"></span><br><span class="line">    @Field()</span><br><span class="line">    created: Data;</span><br><span class="line"></span><br><span class="line">    @Field()</span><br><span class="line">    content: <span class="built_in">String</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@Resolver(Post)</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PostResolver</span> </span>&#123;</span><br><span class="line">    @Query(<span class="function"><span class="params">returns</span> =&gt;</span> [Post])</span><br><span class="line">    <span class="keyword">async</span> posts(): <span class="built_in">Promise</span>&lt;Post[]&gt;&#123;</span><br><span class="line">        <span class="keyword">return</span> [</span><br><span class="line">           &#123;</span><br><span class="line">              id:<span class="string">"0"</span>,</span><br><span class="line">              created: <span class="keyword">new</span> <span class="built_in">Date</span>(),</span><br><span class="line">              content:<span class="string">'aaa'</span></span><br><span class="line">            &#125;,</span><br><span class="line">            &#123;</span><br><span class="line">              id:<span class="string">"1"</span>,</span><br><span class="line">              created: <span class="keyword">new</span> <span class="built_in">Date</span>(),</span><br><span class="line">              content:<span class="string">'bbb'</span></span><br><span class="line">            &#125;,</span><br><span class="line">            &#123;</span><br><span class="line">              id:<span class="string">"2"</span>,</span><br><span class="line">              created: <span class="keyword">new</span> <span class="built_in">Date</span>(),</span><br><span class="line">              content:<span class="string">'ccc'</span></span><br><span class="line">            &#125;,</span><br><span class="line">        ]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在原来的输出语句中加入解码函数就可以</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="string">'stdout'</span>+iconv.decode(data,<span class="string">'GBK'</span>))</span><br></pre></td></tr></table></figure>
 
-<p>运行项目，在localhost:4444打开graphql的playground进行测试</p>
-<h3 id="剪贴板的使用"><a href="#剪贴板的使用" class="headerlink" title="剪贴板的使用"></a>剪贴板的使用</h3><p>使用第三方包，安装</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install clipboard-polyfill</span><br></pre></td></tr></table></figure>
 
-<p>引用</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> clipboard <span class="keyword">from</span> <span class="string">"clipboard-polyfill"</span></span><br></pre></td></tr></table></figure>
 
-<p>实例</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">clipboard.writeText(<span class="string">"this"</span>);</span><br><span class="line">clipboard.readText().then(<span class="built_in">console</span>.log,<span class="built_in">console</span>.error);</span><br></pre></td></tr></table></figure>
+<h2 id="文件包"><a href="#文件包" class="headerlink" title="文件包"></a>文件包</h2><p>安装</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install fs-extra</span><br></pre></td></tr></table></figure>
 
-<h3 id="生成二维码"><a href="#生成二维码" class="headerlink" title="生成二维码"></a>生成二维码</h3><h3 id="判断设备信息"><a href="#判断设备信息" class="headerlink" title="判断设备信息"></a>判断设备信息</h3><p>使用navigator对象</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">checkdevice</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> browser = &#123;</span><br><span class="line">    versions: (<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="keyword">var</span> u = navigator.userAgent,</span><br><span class="line">        app = navigator.appVersion;</span><br><span class="line">      <span class="keyword">return</span> &#123;</span><br><span class="line">        <span class="comment">//移动终端浏览器版本信息</span></span><br><span class="line">        trident: u.indexOf(<span class="string">"Trident"</span>) &gt; <span class="number">-1</span>, <span class="comment">//IE内核</span></span><br><span class="line">        presto: u.indexOf(<span class="string">"Presto"</span>) &gt; <span class="number">-1</span>, <span class="comment">//opera内核</span></span><br><span class="line">        webKit: u.indexOf(<span class="string">"AppleWebKit"</span>) &gt; <span class="number">-1</span>, <span class="comment">//苹果、谷歌内核</span></span><br><span class="line">        gecko: u.indexOf(<span class="string">"Gecko"</span>) &gt; <span class="number">-1</span> &amp;&amp; u.indexOf(<span class="string">"KHTML"</span>) == <span class="number">-1</span>, <span class="comment">//火狐内核</span></span><br><span class="line">        mobile: !!u.match(<span class="regexp">/AppleWebKit.*Mobile.*/</span>), <span class="comment">//是否为移动终端</span></span><br><span class="line">        ios: !!u.match(<span class="regexp">/\(i[^;]+;( U;)? CPU.+Mac OS X/</span>), <span class="comment">//ios终端</span></span><br><span class="line">        android: u.indexOf(<span class="string">"Android"</span>) &gt; <span class="number">-1</span> || u.indexOf(<span class="string">"Linux"</span>) &gt; <span class="number">-1</span>, <span class="comment">//android终端或uc浏览器</span></span><br><span class="line">        iPhone: u.indexOf(<span class="string">"iPhone"</span>) &gt; <span class="number">-1</span>, <span class="comment">//是否为iPhone或者QQHD浏览器</span></span><br><span class="line">        iPad: u.indexOf(<span class="string">"iPad"</span>) &gt; <span class="number">-1</span>, <span class="comment">//是否iPad</span></span><br><span class="line">        webApp: u.indexOf(<span class="string">"Safari"</span>) == <span class="number">-1</span>, <span class="comment">//是否web应该程序，没有头部与底部</span></span><br><span class="line">      &#125;;</span><br><span class="line">    &#125;)(),</span><br><span class="line">    language: (navigator.browserLanguage || navigator.language).toLowerCase(),</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (browser.versions.mobile) &#123;</span><br><span class="line">    <span class="comment">//判断是否是移动设备打开。browser代码在下面</span></span><br><span class="line">    <span class="comment">// 此时为移动端打开.跳转到移动站</span></span><br><span class="line">    <span class="comment">// if(window.location.href.indexOf("ooo0o.com/mobile") != -1)&#123;</span></span><br><span class="line">    <span class="comment">//     return;</span></span><br><span class="line">    <span class="comment">// &#125;else &#123;</span></span><br><span class="line">    <span class="comment">//     window.location.href = "https://www.ooo0o.com/mobile"</span></span><br><span class="line">    <span class="comment">// &#125;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> ua = navigator.userAgent.toLowerCase(); <span class="comment">//获取判断用的对象</span></span><br><span class="line">    <span class="keyword">if</span> (ua.match(<span class="regexp">/MicroMessenger/i</span>) == <span class="string">"micromessenger"</span>) &#123;</span><br><span class="line">      <span class="comment">//在微信中打开</span></span><br><span class="line">      <span class="keyword">if</span> (browser.versions.ios) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"weixinios"</span>;</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"weixin"</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (browser.versions.android) &#123;</span><br><span class="line">      <span class="comment">//是否在安卓浏览器打开</span></span><br><span class="line"></span><br><span class="line">      <span class="comment">// alert('安卓手机中打开的');</span></span><br><span class="line">      <span class="comment">/*window.location.href="https://jushizhibo.com/android/app-release.apk";*/</span></span><br><span class="line">      <span class="comment">// window.open('https://jushizhibo.com/android/app-release.apk','_self')</span></span><br><span class="line">      <span class="keyword">return</span> <span class="string">"anzhuo"</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (browser.versions.ios) &#123;</span><br><span class="line">      <span class="comment">//是否在IOS浏览器打开</span></span><br><span class="line">      <span class="comment">// alert('IOS中打开的');</span></span><br><span class="line">      <span class="comment">/*window.location.href="https://www.baidu.com";*/</span></span><br><span class="line">      <span class="comment">// window.open('transparentfactory://xiangqingye','_self')</span></span><br><span class="line">      <span class="keyword">return</span> <span class="string">"ios"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">//此时是非移动端,则跳转PC站</span></span><br><span class="line">    <span class="comment">// alert('PC中打开的');</span></span><br><span class="line">    <span class="comment">// if(window.location.href.indexOf("ooo0o.com/mobile") != -1)&#123;</span></span><br><span class="line">    <span class="comment">//     window.location.href = "https://www.ooo0o.com"</span></span><br><span class="line">    <span class="comment">// &#125;</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">"pc"</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>文件包可以替代原生的node fs模块，实现更强大的文件处理功能。</p>
+<p>导入</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">'fs-extra'</span>)</span><br></pre></td></tr></table></figure>
 
-<p>使用时导入</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;checkdevice&#125;  <span class="keyword">from</span> <span class="string">'checkdevice.js'</span></span><br></pre></td></tr></table></figure>
+<p>异步拷贝文件</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Async with promises:</span></span><br><span class="line">fs.copy(<span class="string">'/tmp/myfile'</span>, <span class="string">'/tmp/mynewfile'</span>)</span><br><span class="line">  .then(<span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="string">'success!'</span>))</span><br><span class="line">  .catch(<span class="function"><span class="params">err</span> =&gt;</span> <span class="built_in">console</span>.error(err))</span><br><span class="line"></span><br><span class="line"><span class="comment">// Sync:</span></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  fs.copySync(<span class="string">'/tmp/myfile'</span>, <span class="string">'/tmp/mynewfile'</span>)</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'success!'</span>)</span><br><span class="line">&#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">  <span class="built_in">console</span>.error(err)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="七牛云的使用"><a href="#七牛云的使用" class="headerlink" title="七牛云的使用"></a>七牛云的使用</h3><p>安装七牛包</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install qiniu</span><br></pre></td></tr></table></figure>
 
-<p>新建文件，设置七牛云参数</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> bucket=<span class="string">''</span>,</span><br><span class="line"><span class="keyword">var</span> imageUrl=<span class="string">''</span>,</span><br><span class="line"><span class="keyword">var</span> accessKey = <span class="string">''</span>,</span><br><span class="line"><span class="keyword">var</span> secretKey = <span class="string">''</span>,</span><br><span class="line"><span class="keyword">var</span> mac = <span class="keyword">new</span> qiniu.auth.digest.Mac(accessKey,secretKey);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> option=&#123;</span><br><span class="line">    scope:bucket,</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> putPolicy= <span class="keyword">new</span> qiniu.rs.PutPolicy(option)</span><br><span class="line"><span class="keyword">var</span> uploadToken = putPolicy.uploadToken(mac);</span><br></pre></td></tr></table></figure>
 
-<p>上传代码</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> config = <span class="keyword">new</span> qiniu.conf.Config()</span><br><span class="line"></span><br><span class="line">config.zone= qiniu.zone.Zone_z0;<span class="comment">//选择七牛云的机房</span></span><br><span class="line"><span class="comment">//是否使用https、是否使用cdn加速</span></span><br><span class="line">config.usehttpsDomain=<span class="literal">true</span>;</span><br><span class="line">config.useCdnDomain = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> formUploader = <span class="keyword">new</span> qiniu.form_up.FormUploader(config);</span><br><span class="line"><span class="keyword">var</span> putExtra = <span class="keyword">new</span> qiniu.form_up.PutExtra();</span><br><span class="line"><span class="keyword">var</span> key = <span class="string">''</span>;</span><br><span class="line"></span><br><span class="line">formUploader.putFile(uploadToken,key,path.resolve(pathName),putExtra,<span class="function"><span class="keyword">function</span>(<span class="params">respErr,respBody,respInfo</span>)</span>&#123;</span><br><span class="line">       <span class="keyword">if</span>(resqErr)&#123;</span><br><span class="line">         <span class="keyword">throw</span> respErr;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">if</span>(respInfo.statusCode == <span class="number">200</span>)&#123;</span><br><span class="line">       <span class="built_in">console</span>.log(respBody);</span><br><span class="line">       &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">           <span class="built_in">console</span>.log(respInfo.statusCode);</span><br><span class="line">           <span class="built_in">console</span>.log(respBody)</span><br><span class="line">       &#125;                                                   &#125;);</span><br></pre></td></tr></table></figure>
-
-<p><a href="https://segmentfault.com/a/1190000017064729">https://segmentfault.com/a/1190000017064729</a></p>
-<h3 id="发邮件"><a href="#发邮件" class="headerlink" title="发邮件"></a>发邮件</h3><p>导入模块Nodemailer</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install nodemailer</span><br></pre></td></tr></table></figure>
-
-<p>使用方法(包官网<a href="https://nodemailer.com/">https://nodemailer.com/</a>)</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//引入包</span></span><br><span class="line"><span class="keyword">const</span> nodemailer = <span class="built_in">require</span>(<span class="string">"nodemailer"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//创建邮件请求对象（qq邮箱、163邮箱或其他）</span></span><br><span class="line">  <span class="keyword">let</span> transporter = nodemailer.createTransport(&#123;</span><br><span class="line">    host: <span class="string">"smtp.ethereal.email"</span>,<span class="comment">//邮箱服务器</span></span><br><span class="line">    port: <span class="number">587</span>,（端口号）</span><br><span class="line">    secure: <span class="literal">false</span>, <span class="comment">// true for 465, false for other ports</span></span><br><span class="line">    auth: &#123;</span><br><span class="line">      user: testAccount.user, <span class="comment">// 账号</span></span><br><span class="line">      pass: testAccount.pass <span class="comment">// 你的邮箱服务器请求密码</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="comment">//所发送的邮件信息</span></span><br><span class="line">  <span class="keyword">let</span> mailobj=&#123;</span><br><span class="line">    <span class="keyword">from</span>: <span class="string">'"Fred Foo 👻" &lt;foo@example.com&gt;'</span>, <span class="comment">// sender address</span></span><br><span class="line">    to: <span class="string">"bar@example.com, baz@example.com"</span>, <span class="comment">// list of receivers</span></span><br><span class="line">    subject: <span class="string">"Hello ✔"</span>, <span class="comment">// Subject line</span></span><br><span class="line">    text: <span class="string">"Hello world?"</span>, <span class="comment">// plain text body</span></span><br><span class="line">    html: <span class="string">"&lt;b&gt;Hello world?&lt;/b&gt;"</span> <span class="comment">// html body</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//发送邮件</span></span><br><span class="line">  transporter.sendMail(mailobj);</span><br></pre></td></tr></table></figure>
-
-<h3 id="http爬虫"><a href="#http爬虫" class="headerlink" title="http爬虫"></a>http爬虫</h3><h2 id="Express框架"><a href="#Express框架" class="headerlink" title="Express框架"></a>Express框架</h2><p>安装Express</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i express@next</span><br></pre></td></tr></table></figure>
-
-<p>运行Express，启动服务器</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> express= <span class="built_in">require</span>(<span class="string">'express'</span>)</span><br><span class="line"><span class="keyword">const</span> app = express()</span><br><span class="line"></span><br><span class="line">app.listen(<span class="number">3000</span>,()=&gt;&#123;</span><br><span class="line">   <span class="built_in">console</span>.log(<span class="string">''</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-
-<h3 id="路由"><a href="#路由" class="headerlink" title="路由"></a>路由</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>)</span><br><span class="line"><span class="keyword">const</span> router = express.Router()</span><br><span class="line"></span><br><span class="line">router.get(<span class="string">'/add'</span>,(req,res)=&gt;&#123;</span><br><span class="line">res.send(<span class="string">'user add'</span>)</span><br><span class="line">&#125;) </span><br><span class="line"></span><br><span class="line">router.get(<span class="string">'/del'</span>,(req,res)=&gt;&#123;</span><br><span class="line">res.send(<span class="string">'del add'</span>)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = router</span><br></pre></td></tr></table></figure>
-
-<p>写接口</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">app.get</span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i cors</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="中间件"><a href="#中间件" class="headerlink" title="中间件"></a>中间件</h3><p>中间件可以终止 HTTP 请求，也可以用 next 将其传递给另一个中间件函数,下一个中间件函数通常由名为 <code>next</code> 的变量来表示。</p>
-<ul>
-<li>路由器级中间件，例如：router.use</li>
-<li>内置中间件，例如：express.static，express.json，express.urlencoded</li>
-<li>错误处理中间件，例如：app.use（err，req，res，next）</li>
-<li>第三方中间件，例如：bodyparser、cookieparser</li>
-</ul>
-<p>如果当前中间件函数没有结束请求/响应循环，那么它必须调用 <code>next()</code>，以将控制权传递给下一个中间件函数。否则，请求将保持挂起状态。</p>
-<h4 id="应用层中间件"><a href="#应用层中间件" class="headerlink" title="应用层中间件"></a>应用层中间件</h4><p>使用 <code>app.use()</code> 和 <code>app.METHOD()</code> 函数将应用层中间件绑定到<a href="https://expressjs.com/zh-cn/4x/api.html#app">应用程序对象</a>的实例， <code>METHOD</code> 是中间件函数处理的请求的小写 HTTP 方法（例如 GET、PUT 或 POST）。</p>
-<p>实例</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> app = express();</span><br><span class="line"></span><br><span class="line">app.use(<span class="function"><span class="keyword">function</span> (<span class="params">req, res, next</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'Time:'</span>, <span class="built_in">Date</span>.now());</span><br><span class="line">  next();</span><br><span class="line">&#125;);</span><br><span class="line">app.get(<span class="string">'/user/:id'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">req, res, next</span>) </span>&#123;</span><br><span class="line">  res.end(req.params.id);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<h4 id="路由器中间件"><a href="#路由器中间件" class="headerlink" title="路由器中间件"></a>路由器中间件</h4><p>路由器层中间件的工作方式与应用层中间件基本相同，差异之处在于它绑定到 <code>express.Router()</code> 的实例。</p>
-<p>实例</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//引入router</span></span><br><span class="line"><span class="keyword">var</span> router= express.Router();</span><br><span class="line"><span class="comment">//全局路由中间件</span></span><br><span class="line">router.use(<span class="function"><span class="keyword">function</span> (<span class="params">req, res, next</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'Time:'</span>, <span class="built_in">Date</span>.now());</span><br><span class="line">  next();</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">//具体http方法</span></span><br><span class="line">router.get(<span class="string">'/user/:id'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">req, res, next</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// if the user ID is 0, skip to the next router</span></span><br><span class="line">  <span class="keyword">if</span> (req.params.id == <span class="number">0</span>) next(<span class="string">'route'</span>);</span><br><span class="line">  <span class="comment">// otherwise pass control to the next middleware function in this stack</span></span><br><span class="line">  <span class="keyword">else</span> next(); <span class="comment">//</span></span><br><span class="line">&#125;, <span class="function"><span class="keyword">function</span> (<span class="params">req, res, next</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// render a regular page</span></span><br><span class="line">  res.render(<span class="string">'regular'</span>);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">//加载中间件</span></span><br><span class="line">app.use(<span class="string">'/'</span>, router);</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<h4 id="内置中间件"><a href="#内置中间件" class="headerlink" title="内置中间件"></a><strong>内置中间件</strong></h4><p>Express 有以下内置的中间件功能：</p>
-<ul>
-<li><code>express.static</code> 提供静态资源，例如 HTML 文件，图像等。</li>
-<li><code>express.json</code> 负载解析用 JSON 传入的请求。</li>
-<li><code>express.urlencoded</code> 解析传入的用 URL 编码的有效载荷请求。</li>
-</ul>
-<h4 id="错误处理中间件"><a href="#错误处理中间件" class="headerlink" title="错误处理中间件"></a><strong>错误处理中间件</strong></h4><p>错误处理中间件始终采用四个参数<strong>（err，req，res，next）</strong>。</p>
-<p>实例</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">app.use(<span class="function"><span class="keyword">function</span>(<span class="params">err,req,res,next</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(err.stack);</span><br><span class="line">    res.status(<span class="number">500</span>).send(<span class="string">'somethingbroke'</span>);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="第三方中间件"><a href="#第三方中间件" class="headerlink" title="第三方中间件"></a>第三方中间件</h4><p>使用第三方中间件为express应用程序添加功能</p>
-<p>实例：cookie 解析中间件函数 <code>cookie-parser</code>。</p>
-<p>安装包</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install cookie-parser</span><br></pre></td></tr></table></figure>
-
-<p>引用</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>);</span><br><span class="line"><span class="keyword">var</span> app = express();</span><br><span class="line"><span class="keyword">var</span> cookieParser = <span class="built_in">require</span>(<span class="string">'cookie-parser'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//加载中间件</span></span><br><span class="line">app.use(cookieParser)</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="第三方登录"><a href="#第三方登录" class="headerlink" title="第三方登录"></a>第三方登录</h3><h3 id="模版引擎"><a href="#模版引擎" class="headerlink" title="模版引擎"></a>模版引擎</h3><p>express可以使用模板引擎，使用前先进行设置</p>
-<p>views：指定模版引擎所在目录</p>
-<p>view engine：指定使用的模版引擎</p>
-<p>首先安装需要使用的模版引擎</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install pug --save</span><br></pre></td></tr></table></figure>
-
-<p>指定模版引擎</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">app.set(<span class="string">'view engine'</span>, <span class="string">'pug'</span>);</span><br></pre></td></tr></table></figure>
-
-<p>在 <code>views</code> 目录中创建名为 <code>index.pug</code> 的 Pug 模板文件，</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">html</span><br><span class="line">  head</span><br><span class="line">    title&#x3D; title</span><br><span class="line">  body</span><br><span class="line">    h1&#x3D; message</span><br></pre></td></tr></table></figure>
-
-<p>在node中渲染</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">app.get(<span class="string">'/'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">  res.render(<span class="string">'index'</span>, &#123; <span class="attr">title</span>: <span class="string">'Hey'</span>, <span class="attr">message</span>: <span class="string">'Hello there!'</span>&#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<p>向主页发出请求时，<code>index.pug</code> 文件将呈现为 HTML。</p>
-<h3 id="Mysql"><a href="#Mysql" class="headerlink" title="Mysql"></a>Mysql</h3><p>安装包</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install mysql</span><br></pre></td></tr></table></figure>
-
-<p>建立连接</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var mysql &#x3D; require(&#39;mysql&#39;)</span><br><span class="line">var connection &#x3D; mysql.createConnection(&#123;</span><br><span class="line">  host:&#39;localhost&#39;,</span><br><span class="line">  user:&#39;root&#39;,</span><br><span class="line">  password:&#39;&#39;,</span><br><span class="line">  database:&#39;my_db&#39;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">connection.connect();</span><br></pre></td></tr></table></figure>
-
-<p>增删改查</p>
-<h3 id="与Mongo数据库交互"><a href="#与Mongo数据库交互" class="headerlink" title="与Mongo数据库交互"></a>与Mongo数据库交互</h3><p>MongoDB的安装教程不在赘述，在官网下载即可</p>
-<p>在Mongo的安装目录bin目录下打开CMD窗口，运行</p>
-<p>安装Node的Mongo数据库工具Mongoose</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i mongoose</span><br></pre></td></tr></table></figure>
-
-<p>连接代码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">const mongoose &#x3D; require(&#39;mongoose&#39;);</span><br><span class="line">mongoose.connect(&#39;mongodb:&#x2F;&#x2F;localhost:27017&#x2F;test&#39;, &#123;useNewUrlParser: true, useUnifiedTopology: true&#125;);</span><br><span class="line"></span><br><span class="line">var db &#x3D; mongoose.connection;</span><br><span class="line">db.on(&#39;error&#39;, console.error.bind(console, &#39;connection error:&#39;));</span><br><span class="line">db.once(&#39;open&#39;, function() &#123;</span><br><span class="line">  &#x2F;&#x2F; we&#39;re connected!</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<p>创建Schema对象</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">  &#x2F;&#x2F;将scheme对象实例化并创建</span><br><span class="line">  var user &#x3D; mongoose.Schema;</span><br><span class="line">  &#x2F;&#x2F;创建对象</span><br><span class="line">  var userschema &#x3D; new user(&#123;</span><br><span class="line">  name:</span><br><span class="line">  age:</span><br><span class="line">  length:</span><br><span class="line">&#125;)</span><br><span class="line">转化为数据模型</span><br><span class="line">  var blog &#x3D; mongoose.model(&#39;Blog&#39;, blogSchema);</span><br></pre></td></tr></table></figure>
-
-<p>增删改查,对模型进行操作</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">blog.insertMany()</span><br><span class="line">blog.remove()</span><br><span class="line">blog.update()</span><br><span class="line">blog.find(&#123; name: &#39;john&#39;, age: &#123; $gte: 18 &#125;&#125;);</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h3><p>安装node驱动包</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install redis</span><br></pre></td></tr></table></figure>
-
-<p>Redis支持多种数据类型，有键值对、哈希表、链表、集合等</p>
-<p>在node中创建redis客户端，运行redis,</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> redis = <span class="built_in">require</span>(<span class="string">'redis'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> client = redis.createClient(<span class="number">6379</span>,<span class="string">'127.0.0.1'</span>)</span><br><span class="line">client.on(<span class="string">'error'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">err</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'Error'</span>+error)</span><br><span class="line">&#125;)；</span><br></pre></td></tr></table></figure>
-
-<p>创建键值对</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">client.set(<span class="string">'color'</span>,<span class="string">'red'</span>,redis.print)</span><br><span class="line">client.get(<span class="string">'color'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">err,value</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(err)<span class="keyword">throw</span> err;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'Got:'</span>+value)</span><br><span class="line">    client.quit();</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-
-<p>redis除了键值对，还有散列（哈希）、列表（list）、集合（set)、有序集合（zset）等数据类型，并有对的处理函数</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//对键（key）的操作</span></span><br><span class="line">del(<span class="string">'key'</span>) <span class="comment">//删除key</span></span><br><span class="line">exists(<span class="string">'key'</span>) <span class="comment">//查询key</span></span><br><span class="line">expire/pexpire(<span class="string">'key'</span>,seconds/milliseconds) <span class="comment">//设置key的过期秒数/毫秒数</span></span><br><span class="line">persist(<span class="string">'key'</span>)<span class="comment">//移除key的过期时间</span></span><br><span class="line">flushdb<span class="comment">//清空当前数据库</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//对键值对的操作</span></span><br><span class="line"><span class="keyword">set</span>('key','value')//设置键的值</span><br><span class="line"><span class="keyword">get</span>('key')//获取键对应的值</span><br><span class="line">del('key')//删除键对应的值</span><br><span class="line">增加键对应的值</span><br><span class="line">incrby('key',increment)</span><br><span class="line">减去键对应的值</span><br><span class="line">der('key',increment)</span><br><span class="line"></span><br><span class="line">//对列表（队列）的操作</span><br><span class="line">lrange('key',0,-1)//获取列表内指定范围的值</span><br><span class="line">lindex('key',1)//获取列表在指定位置的值</span><br><span class="line">lpop('key')//在列表左边弹出一个值，并返回</span><br><span class="line">rpop('key')//在列表右边弹出一个值，并返回</span><br><span class="line">rpush('key','value')//在列表右边推入指定值</span><br><span class="line">rtrim('key','start','end')//将列表的内容在指定范围裁剪</span><br><span class="line"></span><br><span class="line">//对有序集合(zset)的操作</span><br><span class="line">zadd('zset-key',score,key)//添加元素到集合</span><br><span class="line">zrange  //获取集合中指定位置的元素</span><br><span class="line">zrangebyscore  //获取集合中指定范围的元素</span><br><span class="line">zcard('key')  //获取一个有序集合中成员数量</span><br><span class="line">zrem //移除有序集合中的成员</span><br><span class="line"></span><br><span class="line">//对集合的操作</span><br><span class="line">smembers('key')//返回集合中包含的所有元素</span><br><span class="line">scad('key')//返回集合中元素的数量</span><br><span class="line">sismenber('key','value')//检查元素是否存在于集合中</span><br><span class="line">smove('source-key','dest-key','item')//一个集合迁移到另一个集合</span><br><span class="line">srem('key','value')//移除集合中指定元素</span><br><span class="line">spop('key')//随机删除集合元素，并返回值</span><br><span class="line">sdiff('key','key2')//返回存在于第一个集合，但不存在于其他集合的元素（差集）</span><br><span class="line">sdiffstore('dest-key','key','key2')//将存在于第一个集合，但不存在于其他集合的元素存储到指定键</span><br><span class="line">sinter('key','key2')//返回不同集合的交集部分</span><br><span class="line">sinterstore('dest-key','key','key2')//将不同集合的交集部分存储到指定键</span><br><span class="line">sunion('key','key2')//返回不同集合的并集</span><br><span class="line">sunionstore('dest-key','key','key2')////将不同集合的并集存储到指定键</span><br><span class="line"></span><br><span class="line">//对哈希散列的操作</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="Nestjs"><a href="#Nestjs" class="headerlink" title="Nestjs"></a>Nestjs</h2><p><a href="https://segmentfault.com/a/1190000018153359">https://segmentfault.com/a/1190000018153359</a></p>
-<p>nest之于javascript就像spring boot之于java，nest可以使用typescrip或者JavaScript开发，默认使用express作为底层服务框架</p>
-<p>nest基于typescript编写并且结合了OOP(面向对象编程)、FP(函数式编程)、FRP(函数式响应编程)</p>
-<p>熟悉spring或者angular的同学可以快速上手Nestjs，因为它大量借鉴了Spring和Angular中的思想和概念。nest 的核心思想是提供一个层与层之间直接耦合度极小、抽象化较高的架构体系。</p>
-<p>安装nest</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i -g @nestjs/cli</span><br></pre></td></tr></table></figure>
-
-<p>检查安装是否成功</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nest -h</span><br></pre></td></tr></table></figure>
-
-<p>创建nest项目</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nest  <span class="keyword">new</span> nest-demo</span><br></pre></td></tr></table></figure>
-
-<p>进入项目，npm run start</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//nest常用指令</span></span><br><span class="line">nest <span class="keyword">new</span> []<span class="comment">//创建项目</span></span><br><span class="line">nest -h<span class="comment">//帮助</span></span><br><span class="line">nest g co [名称]<span class="comment">//创建控制器</span></span><br><span class="line">nest g s [名称]<span class="comment">//创建服务</span></span><br><span class="line">nest g mi [名称]<span class="comment">//创建中间件</span></span><br><span class="line">nest g pi [名称]<span class="comment">//创建管道</span></span><br><span class="line">nest g mo [名称]<span class="comment">//创建模块</span></span><br><span class="line">nest g gu [名称]<span class="comment">//创建守卫</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="依赖注入"><a href="#依赖注入" class="headerlink" title="依赖注入"></a>依赖注入</h3><p>依赖注入是面向对象中控制反转最常见的实现方式，主要降低代码的耦合度，</p>
-<p>实例</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; Engine &#125; <span class="keyword">from</span> <span class="string">'./engine'</span></span><br><span class="line"><span class="keyword">import</span> &#123; Tire &#125; <span class="keyword">from</span> <span class="string">'./tire'</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Container</span> </span>&#123;</span><br><span class="line">    private constructorPool;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">constructor</span>() &#123;</span><br><span class="line">        <span class="keyword">this</span>.constructorPool = <span class="keyword">new</span> <span class="built_in">Map</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    register(name,<span class="keyword">constructor</span>) &#123;</span><br><span class="line">        <span class="keyword">this</span>.constructorPool.set(name,<span class="keyword">constructor</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">get</span>(name)&#123;</span><br><span class="line">       <span class="keyword">const</span> target = <span class="keyword">this</span>.constructorPool.get(name);</span><br><span class="line">       <span class="keyword">return</span> <span class="keyword">new</span> target();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> container = <span class="keyword">new</span> Container();</span><br><span class="line">container.bind(<span class="string">'engine'</span>,Engine);</span><br><span class="line">container.bind(<span class="string">'tire'</span>,Tire);</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Car</span> </span>&#123;</span><br><span class="line">    private engine;</span><br><span class="line">    private tire;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">constructor</span>() &#123;</span><br><span class="line">        <span class="keyword">this</span>.engine = container.get(<span class="string">'engine'</span>);</span><br><span class="line">        <span class="keyword">this</span>.tire = container.get(<span class="string">'tire'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在nestjs中，通过@injectable装饰器向IoC容器注册</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; Injectable &#125; <span class="keyword">from</span> <span class="string">'@nestjs/common'</span>;</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="控制器"><a href="#控制器" class="headerlink" title="控制器"></a>控制器</h3><p>控制器负责处理传入的请求和向客户端返回响应</p>
-<p>每个控制器有多个路由，每个路由能执行不同的操作</p>
-<p>实例</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; Controller ,Get，Post&#125; <span class="keyword">from</span> <span class="string">'@nestjs/common'</span></span><br><span class="line"></span><br><span class="line">@Controller(<span class="string">'cats'</span>)</span><br><span class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">CatsController</span> </span>&#123;</span><br><span class="line">    @Post</span><br><span class="line">    create(): string &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">'this is a cat'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    @Get</span><br><span class="line">    findAll(): string &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">'this return all cats'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>Nest还提供其他端点装饰器@Put()、@Delete()、@Patch()、</p>
-<h4 id="状态码"><a href="#状态码" class="headerlink" title="状态码"></a>状态码</h4><h4 id="自定义响应头"><a href="#自定义响应头" class="headerlink" title="自定义响应头"></a>自定义响应头</h4><p>可以使用 <code>@header()</code> 修饰器或类库特有的响应对象,</p>
-<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Post</span>()</span><br><span class="line"><span class="meta">@Header</span>(<span class="string">'Cache-Control'</span>, <span class="string">'none'</span>)</span><br><span class="line">create() &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">'This action adds a new cat'</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="重定向"><a href="#重定向" class="headerlink" title="重定向"></a>重定向</h4><p>可以使用 <code>@Redirect()</code>装饰器或特定于库的响应对象(并直接调用 <code>res.redirect()</code>)。</p>
-<p><code>@Redirect()</code> 带有必需的 <code>url</code>参数和可选的 <code>statusCode</code>参数。 如果省略，则 <code>statusCode</code> 默认为 <code>302</code>。</p>
-<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Redirect</span>(<span class="string">'https://nestjs.com'</span>, <span class="number">301</span>)</span><br></pre></td></tr></table></figure>
-
-<h4 id="动态路由"><a href="#动态路由" class="headerlink" title="动态路由"></a>动态路由</h4><p>当您需要接受<strong>动态数据</strong>作为请求的一部分时，</p>
-<h3 id="模块化"><a href="#模块化" class="headerlink" title="模块化"></a>模块化</h3><p>nest把controller、service、pipe等打包成内部的功能块，每个模块聚焦一个特性区域、业务领域、工作流等。</p>
-<p>在nest中通过@Module装饰器声明一个模块，每个nest程序至少有一个模块，即根模块，根模块是Nest开始安排应用程序树的地方</p>
-<p>@module()装饰器接受哦一个描述模块属性的对象</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">provider </span><br><span class="line">controller</span><br><span class="line">imports </span><br><span class="line">exports</span><br></pre></td></tr></table></figure>
-
-<p>把模块到处就能在其他任意模块中重复使用，模块导出时可以导出他们的内部提供者，也可以再导出自己导入的模块</p>
-<h4 id="全局模块"><a href="#全局模块" class="headerlink" title="全局模块"></a>全局模块</h4><p>当你在很多地方需要导入同一模块时，可以将模块定义为全局模块。一旦定义，他们到处可用。</p>
-<p>@Global装饰器使模块注册为全局模块。全局模块只注册一次，最好在根模块或者核心模块注册</p>
-<p>实例</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; Module,Global &#125; <span class="keyword">from</span> <span class="string">'@nestjs/common'</span></span><br><span class="line"><span class="keyword">import</span> &#123; CatsController &#125; <span class="keyword">from</span> <span class="string">'./cats.controller'</span></span><br><span class="line"><span class="keyword">import</span> &#123; CatsService &#125; <span class="keyword">from</span> <span class="string">'./cats.service'</span></span><br><span class="line"></span><br><span class="line">@Global()</span><br><span class="line">@Module(&#123;</span><br><span class="line">   controllers: [CatsController],</span><br><span class="line">   provider: [CatsService],</span><br><span class="line">   exports: [CatsService],</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">CatModule</span> </span>&#123;&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="提供者"><a href="#提供者" class="headerlink" title="提供者"></a>提供者</h3><p>Providers 是 <code>Nest</code> 的一个基本概念。许多基本的 <code>Nest</code> 类可能被视为 provider - <code>service</code>,<code>repository</code>, <code>factory</code>, <code>helper</code> 等等。</p>
-<h3 id="装饰器和注解"><a href="#装饰器和注解" class="headerlink" title="装饰器和注解"></a>装饰器和注解</h3><p>@</p>
-<h4 id="自定义装饰器"><a href="#自定义装饰器" class="headerlink" title="自定义装饰器"></a>自定义装饰器</h4><h3 id="面向切面编程"><a href="#面向切面编程" class="headerlink" title="面向切面编程"></a>面向切面编程</h3><p>面向切面编程是针对业务处理过程中的切面进行提取，在某个步骤和阶段进行一些操作。面向切面编程是对面向对象编程的一种补充。</p>
-<p>在nest中，面向切面编程主要分为下面几个部分：中间件、守卫、拦截器、管道、过滤器</p>
-<p>洋葱模型</p>
-<h4 id="中间件-1"><a href="#中间件-1" class="headerlink" title="中间件"></a>中间件</h4><p>nest的中间件和express的语言，可以直接使用express的中间件</p>
-<h4 id="管道"><a href="#管道" class="headerlink" title="管道"></a>管道</h4><p>管道有两种类型：</p>
-<p>将输入数据转化为所需的数据输出，或者对输入数据进行验证，验证成功则继续传递，否则抛出异常。即转换管道和验证管道。管道也是具有@Injecttable装饰器的类</p>
-<p>nest自带5个开箱即用的管道，从@nestjs/common包中导出，ValidationPipe、ParseIntPipe、ParseBoolPipe、ParseArrayPipe、ParseUUIDPipe。</p>
-<p>Pipe 是具有 <code>@Injectable()</code> 装饰器的类，并实现了 <code>PipeTransform</code> 接口。</p>
-<p>实例</p>
-<p>验证管道</p>
-<p>Nest 与 <a href="https://github.com/pleerock/class-validator">class-validator</a> 配合得很好。class-validator库允许您使用基于装饰器的验证。装饰器的功能非常强大，尤其是与 Nest 的 Pipe 功能相结合使用时，因为我们可以通过访问 <code>metatype</code> 信息做很多事情，</p>
-<p>转换管道</p>
-<h4 id="守卫"><a href="#守卫" class="headerlink" title="守卫"></a>守卫</h4><p>守卫与前端(vue)中的路由守卫一样，主要确定请求是否由该路由程序处理，通过守卫可以知道上下文的信息，所以与中间件相比，守卫可以确切知道在next之后要执行什么</p>
-<p>守卫在中间件之后执行，在拦截器和管道之前</p>
-<p>在控制器中绑定守卫</p>
-<p>守卫可以是全局范围或者控制范围内的，使用@UserGuards()装饰器设置一个控制范围的守卫，这个装饰器可以传递单个或多个守卫，用逗号隔开</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; UseGuards &#125; <span class="keyword">from</span> <span class="string">'@nestjs/common'</span></span><br><span class="line">@Controller(<span class="string">'cats'</span>)</span><br><span class="line">@UseGuards(RolesGuard)</span><br><span class="line"><span class="keyword">export</span>  <span class="keyword">default</span> CatsControllers &#123;&#125;</span><br></pre></td></tr></table></figure>
-
-<p>全局守卫用于整个应用程序, 每个控制器和每个路由处理程序。全局守卫</p>
-<p>为了设置一个全局守卫，使用Nest应用程序实例的 <code>useGlobalGuards()</code> 方法：</p>
-<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> app = <span class="keyword">await</span> NestFactory.create(AppModule);</span><br><span class="line">app.useGlobalGuards(<span class="keyword">new</span> RolesGuard());</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<h4 id="拦截器"><a href="#拦截器" class="headerlink" title="拦截器"></a>拦截器</h4><p>拦截器可以：</p>
-<p>在函数执行之前/之后绑定额外的逻辑</p>
-<p>转换从函数返回的结果 </p>
-<p>转换从函数抛出的异常</p>
-<p>扩展基本函数行为</p>
-<p>根据所选条件完全重写函数</p>
-<p>实例</p>
-<h4 id="异常处理-过滤器"><a href="#异常处理-过滤器" class="headerlink" title="异常处理/过滤器"></a>异常处理/过滤器</h4><p>内置的 Exception filters 负责处理整个应用程序中的所有抛出的异常，也是 Nestjs 中在 response 前，最后能捕获异常的机会。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; ExceptionFilter, Catch, ArgumentsHost &#125; <span class="keyword">from</span> <span class="string">'@nestjs/common'</span>;</span><br><span class="line"></span><br><span class="line">@Catch()</span><br><span class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">AnyExceptionFilter</span> <span class="title">implements</span> <span class="title">ExceptionFilter</span> </span>&#123;</span><br><span class="line">  <span class="keyword">catch</span>(exception: any, <span class="attr">host</span>: ArgumentsHost) &#123;</span><br><span class="line">    <span class="keyword">const</span> ctx = host.switchToHttp();</span><br><span class="line">    <span class="keyword">const</span> response = ctx.getResponse();</span><br><span class="line">    <span class="keyword">const</span> request = ctx.getRequest();</span><br><span class="line"></span><br><span class="line">    response</span><br><span class="line">      .status(status)</span><br><span class="line">      .json(&#123;</span><br><span class="line">        statusCode: exception.getStatus(),</span><br><span class="line">        timestamp: <span class="keyword">new</span> <span class="built_in">Date</span>().toISOString(),</span><br><span class="line">        path: request.url,</span><br><span class="line">      &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="微服务"><a href="#微服务" class="headerlink" title="微服务"></a>微服务</h3><p>安装包</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i --save @nestjs/microservices</span><br></pre></td></tr></table></figure>
-
-<p>创建微服务</p>
+<h2 id="Node调用C-包"><a href="#Node调用C-包" class="headerlink" title="Node调用C++包"></a>Node调用C++包</h2><p><code>node-ffi</code>提供了一组强大的工具，用于在<code>Node.js</code>环境中使用纯<code>JavaScript</code>调用动态链接库接口。它可以用来为库构建接口绑定，而不需要使用任何<code>C++</code>代码。</p>
+<p><code>node-ffi</code>并不能直接调用<code>C++</code>代码，你需要将<code>C++</code>代码编译为动态链接库：在 <code>Windows</code>下是 <code>Dll</code> ，在 <code>Mac OS</code>下是 <code>dylib</code> <code>，Linux</code> 是 <code>so</code> 。</p>
+<p><code>node-ffi</code> 加载 <code>Library</code>是有限制的，只能处理 <code>C</code>风格的 <code>Library</code>。</p>
+<p>编辑tsconfig.json</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 
 
-<h4 id="Redis-1"><a href="#Redis-1" class="headerlink" title="Redis"></a>Redis</h4><h3 id="GraphQL"><a href="#GraphQL" class="headerlink" title="GraphQL"></a>GraphQL</h3><p>在nest中开发GraphQL有两种方式，一种是代码先行，一种是架构先行</p>
-<p>安装包</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i @nestjs/graphql graphql-tools graphql apollo-server-express</span><br></pre></td></tr></table></figure>
-
-<p>@nestjs/graphql是对apollo server的封装</p>
-<p>数据量较少时可以将schema和resolver写在一个文件内，数据量较多时最好写在不同的js/ts文件中</p>
-<p>定义模型schema</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;Field,Int,ObjectType&#125; <span class="keyword">from</span> <span class="string">'@nestjs/graphql'</span>;</span><br><span class="line"><span class="comment">//也可以从其他模型文件中引入schema</span></span><br><span class="line"><span class="keyword">import</span> &#123; Post &#125; <span class="keyword">from</span> <span class="string">'./post.graphql'</span></span><br><span class="line"></span><br><span class="line">@ObjectType()</span><br><span class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">Author</span> </span>&#123;</span><br><span class="line">  @Field(<span class="function"><span class="params">type</span> =&gt;</span>Int)</span><br><span class="line">  id: number;</span><br><span class="line"></span><br><span class="line">  @Field(&#123; <span class="attr">nullable</span>: <span class="literal">true</span>&#125;)</span><br><span class="line">  firstName?: <span class="built_in">String</span>;</span><br><span class="line">  </span><br><span class="line">  @Field(&#123; <span class="attr">nullable</span>: <span class="literal">true</span>&#125;)</span><br><span class="line">  lastName?: <span class="built_in">String</span>;</span><br><span class="line">  </span><br><span class="line">  @Field(<span class="function"><span class="params">type</span> =&gt;</span> [Post])</span><br><span class="line">  posts: Post[];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//post.graphql.ts</span></span><br><span class="line"><span class="keyword">import</span> &#123;Field,Int,ObjectType&#125; <span class="keyword">from</span> <span class="string">'@nestjs/graphql'</span>;</span><br><span class="line"></span><br><span class="line">@ObjectType()</span><br><span class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">Post</span> </span>&#123;</span><br><span class="line">    @Field(<span class="function"><span class="params">type</span> =&gt;</span> Int)</span><br><span class="line">    id: number;</span><br><span class="line"></span><br><span class="line">    @Field()</span><br><span class="line">    title: string;</span><br><span class="line"></span><br><span class="line">    @Field(<span class="function"><span class="params">type</span> =&gt;</span>Int,&#123;<span class="attr">nullable</span>:<span class="literal">true</span>&#125;)</span><br><span class="line">    votes?: number;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>定义resolver</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;</span><br><span class="line">  Resolver,</span><br><span class="line">  Query,</span><br><span class="line">  Parent,</span><br><span class="line">  ResolveField,</span><br><span class="line">  Args,</span><br><span class="line">  Int,</span><br><span class="line">&#125; <span class="keyword">from</span> <span class="string">'@nestjs/graphql'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; Author &#125; <span class="keyword">from</span> <span class="string">'./graphql/author.graphql'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; Post &#125; <span class="keyword">from</span> <span class="string">'./graphql/post.graphql'</span>;</span><br><span class="line"></span><br><span class="line">@Resolver(<span class="function"><span class="params">()</span> =&gt;</span> Author)</span><br><span class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">AuthorsResolver</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(</span><br><span class="line">  private authorsService: AuthorsService,</span><br><span class="line">  private postsService: PostsService) &#123;&#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// @Query 表示创建Query 操作类型</span></span><br><span class="line">  <span class="comment">// @Args 表示传入的参数</span></span><br><span class="line">  @Query(<span class="function"><span class="params">()</span> =&gt;</span> Author)</span><br><span class="line">  <span class="keyword">async</span> author(@Args(<span class="string">'id'</span>, &#123; <span class="attr">type</span>: <span class="function"><span class="params">()</span> =&gt;</span> Int &#125;) id: number): <span class="built_in">Promise</span>&lt;any&gt; &#123;</span><br><span class="line">    <span class="comment">// 这里注释掉的是启用 `service` 对数据库进行访问</span></span><br><span class="line">    <span class="comment">// return this.authorsService.findOneById(id);</span></span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      id,</span><br><span class="line">      firstName: <span class="string">'name'</span>,</span><br><span class="line">      lastName: <span class="string">'mase'</span>,</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// @ResolveField 表示下面装饰的方法与父类型（在当前示例中为Author类型）相关联</span></span><br><span class="line">  @ResolveField()</span><br><span class="line">  <span class="keyword">async</span> posts(@Parent() author: Author): <span class="built_in">Promise</span>&lt;any&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; id &#125; = author;</span><br><span class="line">    <span class="keyword">return</span> [</span><br><span class="line">      &#123;</span><br><span class="line">        id: <span class="number">4</span>,</span><br><span class="line">        title: <span class="string">'hello'</span>,</span><br><span class="line">        votes: <span class="number">2412</span>,</span><br><span class="line">      &#125;,</span><br><span class="line">    ];</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在module文件中引入</p>
-<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; Module &#125; <span class="keyword">from</span> <span class="string">'@nestjs/common'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; AuthorsResolver &#125; <span class="keyword">from</span> <span class="string">'./authors.resolver'</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@Module</span>(&#123;</span><br><span class="line">  providers: [AuthorsResolver],</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> AuthorModule &#123;&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在主文件中引入module</p>
-<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; Module &#125; <span class="keyword">from</span> <span class="string">'@nestjs/common'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; GraphQLModule &#125; <span class="keyword">from</span> <span class="string">'@nestjs/graphql'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; AuthorModule &#125; <span class="keyword">from</span> <span class="string">'./author/author.module'</span></span><br><span class="line"><span class="keyword">import</span> &#123; join &#125; <span class="keyword">from</span> <span class="string">'path'</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Module</span>(&#123;</span><br><span class="line">  imports: [</span><br><span class="line">    ...</span><br><span class="line">    GraphQLModule.forRoot(&#123;</span><br><span class="line">      autoSchemaFile: join(process.cwd(), <span class="string">'src/schema.gql'</span>), <span class="comment">// 最后生成的`Schema 文件，不可修改`</span></span><br><span class="line">    &#125;),</span><br><span class="line">    ConfigModule.forRoot(&#123;</span><br><span class="line">      load: [configuration],</span><br><span class="line">    &#125;),</span><br><span class="line">    AuthorModule</span><br><span class="line">  ],</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="Websocket"><a href="#Websocket" class="headerlink" title="Websocket"></a>Websocket</h3><p>安装包</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm i --save @nestjs/websockets @nestjs/platform-socket.io</span><br><span class="line">npm i --save-dev @types/socket.io</span><br></pre></td></tr></table></figure>
+<p>ts由于有较严的格式规范，往往会报一些不必要的格式警告，干扰编译</p>
+<p>解决方法：</p>
+<p>在vscode中下载插件prettier，然后在代码中全选，右键菜单选择格式化文档即可</p>
+<h2 id="MD5加密包"><a href="#MD5加密包" class="headerlink" title="MD5加密包"></a>MD5加密包</h2><p>Js-md5</p>
+<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><p>　设置镜像源</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">npm config get registry  &#x2F;&#x2F; 查看npm当前镜像源</span><br><span class="line"></span><br><span class="line">https:&#x2F;&#x2F;registry.npm.taobao.org&#x2F;  &#x2F;&#x2F; 设置npm镜像源为淘宝镜像</span><br><span class="line"></span><br><span class="line">yarn config get registry  &#x2F;&#x2F; 查看yarn当前镜像源</span><br><span class="line"></span><br><span class="line">https:&#x2F;&#x2F;registry.npm.taobao.org&#x2F;  &#x2F;&#x2F; 设置yarn镜像源为淘宝镜像</span><br></pre></td></tr></table></figure>
 
 
 
 
 
-<h3 id="ORM"><a href="#ORM" class="headerlink" title="ORM"></a>ORM</h3><p>通过ORM可以使用面向对象编程的方式操作关系型数据库。Java中通常会有DAO(data access object，数据访问对象)层，DAO包含了各种数据库的操作方法，通过DAO对数据进行相关的操作。DAO的主要作用是分离数据层与业务层，避免业务层与数据层耦合。</p>
-<p>在nestjs中，使用typeORM作为DAO层，支持MySQL、MariaDB、MongoDB、NoSQL、SQLite、Postgres、CockroachDB、Oracle。</p>
-<p>在typeORM中数据库的表对应的就是一个类，通过一个类创建实体，实体是一个映射到数据库表的类，通过@Entity来标记</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;Entity,PrimaryGeneratedColumn,Column&#125; <span class="keyword">from</span> <span class="string">"typeorm"</span>;</span><br><span class="line"></span><br><span class="line">@Entity()</span><br><span class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span></span>&#123;</span><br><span class="line">    @PrimaryGeneratedColumn()</span><br><span class="line">    id: number;</span><br><span class="line">    </span><br><span class="line">    @Column()</span><br><span class="line">    firstName: <span class="built_in">String</span>;</span><br><span class="line"></span><br><span class="line">    @Column()</span><br><span class="line">    lastName: <span class="built_in">String</span>;</span><br><span class="line"></span><br><span class="line">    @Column()</span><br><span class="line">    age: number;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>通过@InjectRepository()修饰器注入对应的Repository，就可以在Repository对象上</p>
-<p>进行数据库的操作。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;Injectable&#125; <span class="keyword">from</span> <span class="string">'@nestjs/common'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;InjectRepository &#125; <span class="keyword">from</span> <span class="string">'@nestjs/typeorm'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;Rspository &#125; <span class="keyword">from</span> <span class="string">'@nestjs/typeorm'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;User&#125; <span class="keyword">from</span> <span class="string">'./user.entity'</span></span><br><span class="line"></span><br><span class="line">@Injectable()</span><br><span class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">UserService</span></span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(</span><br><span class="line">     @InjectRepository(User)</span><br><span class="line">     private readonly userRepository: Repository&lt;User&gt;,</span><br><span class="line">     )&#123;&#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">async</span> findAll() <span class="built_in">Promise</span>&lt;User[]&gt;&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">await</span> <span class="keyword">this</span>.userRepository.find();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="Mongo"><a href="#Mongo" class="headerlink" title="Mongo"></a>Mongo</h4><p>安装包</p>
-<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn add <span class="meta">@nestjs</span>/typeorm typeorm mongodb</span><br></pre></td></tr></table></figure>
-
-<p>在app.module.ts中配置数据库连接</p>
-<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Module</span>(&#123;</span><br><span class="line">      imports: [</span><br><span class="line">        TypeOrmModule.forRoot(&#123;</span><br><span class="line">          <span class="keyword">type</span>: <span class="string">'mongodb'</span>,</span><br><span class="line">          host: <span class="string">'localhost'</span>,</span><br><span class="line">          port: <span class="number">27017</span>,</span><br><span class="line">          database: <span class="string">'typeorm'</span>, <span class="comment">// 数据库名</span></span><br><span class="line">          entities: [join(__dirname, <span class="string">'**/entity/*.&#123;ts,js&#125;'</span>)], <span class="comment">// 需要自动实体映射的文件路径匹配</span></span><br><span class="line">          useNewUrlParser: <span class="literal">true</span>, <span class="comment">// 使用新版mongo连接Url解析格式</span></span><br><span class="line">          synchronize: <span class="literal">true</span>, <span class="comment">// 自动同步数据库生成entity</span></span><br><span class="line">        &#125;)</span><br><span class="line">      ],</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="Mysql-1"><a href="#Mysql-1" class="headerlink" title="Mysql"></a>Mysql</h4><p>安装包</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save typeorm mysql</span><br></pre></td></tr></table></figure>
-
-<p>配置数据库连接</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; createConnection &#125; <span class="keyword">from</span> <span class="string">'typeorm'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> databaseProviders = [</span><br><span class="line">  &#123;</span><br><span class="line">    provide: <span class="string">'DATABASE_CONNECTION'</span>,</span><br><span class="line">    useFactory: <span class="keyword">async</span> () =&gt; <span class="keyword">await</span> createConnection(&#123;</span><br><span class="line">      type: <span class="string">'mysql'</span>,</span><br><span class="line">      host: <span class="string">'localhost'</span>,</span><br><span class="line">      port: <span class="number">3306</span>,</span><br><span class="line">      username: <span class="string">'root'</span>,</span><br><span class="line">      password: <span class="string">'root'</span>,</span><br><span class="line">      database: <span class="string">'test'</span>,</span><br><span class="line">      entities: [</span><br><span class="line">          __dirname + <span class="string">'/../**/*.entity&#123;.ts,.js&#125;'</span>,</span><br><span class="line">      ],</span><br><span class="line">      synchronize: <span class="literal">true</span>,</span><br><span class="line">    &#125;),</span><br><span class="line">  &#125;,</span><br><span class="line">];</span><br></pre></td></tr></table></figure>
-
-<h3 id="安全防范"><a href="#安全防范" class="headerlink" title="安全防范"></a>安全防范</h3><h3 id="Swagger"><a href="#Swagger" class="headerlink" title="Swagger"></a>Swagger</h3><p>Nest提供对Swagger的支持，方便追踪和测试api。</p>
-<p>安装npm包</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> npm install --save @nestjs/swagger swagger-ui-express</span></span><br></pre></td></tr></table></figure>
-
-<p>在<code>main.ts</code>中构建文档：</p>
-<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> options = <span class="keyword">new</span> DocumentBuilder()</span><br><span class="line">    .setTitle(<span class="string">'Awesome-nest'</span>)</span><br><span class="line">    .setDescription(<span class="string">'The Awesome-nest API Documents'</span>)</span><br><span class="line">    .setBasePath(<span class="string">'api/v1'</span>)</span><br><span class="line">    .addBearerAuth()</span><br><span class="line">    .setVersion(<span class="string">'0.0.1'</span>)</span><br><span class="line">    .build()</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="built_in">document</span> = SwaggerModule.createDocument(app, options)</span><br><span class="line">SwaggerModule.setup(<span class="string">'docs'</span>, app, <span class="built_in">document</span>)</span><br></pre></td></tr></table></figure>
-
-<p>访问<code>http://localhost:3300/docs</code>就可以看到 swagger 文档的页面。</p>
 
         </div>
         
@@ -548,16 +480,16 @@
     <div class="level post-navigation is-flex-wrap is-mobile">
         
         <div class="level-start">
-            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/06/02/HTML:CSS/">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/06/02/%E9%9D%A2%E8%AF%95%E9%A2%98%E5%9B%9B/">
                 <i class="level-item fas fa-chevron-left"></i>
-                <span class="level-item">HTML/CSS</span>
+                <span class="level-item">面试题（三）</span>
             </a>
         </div>
         
         
         <div class="level-end">
-            <a class="level level-item has-link-grey  article-nav-next" href="/2020/05/18/Node3/">
-                <span class="level-item">NodeJs开发（三）</span>
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/05/18/Node5/">
+                <span class="level-item">NodeJs开发（四）</span>
                 <i class="level-item fas fa-chevron-right"></i>
             </a>
         </div>
@@ -638,7 +570,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            67
+                            88
                         </p>
                     </a>
                 </div>
@@ -650,7 +582,7 @@
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            6
+                            7
                         </p>
                     </a>
                 </div>
@@ -662,7 +594,7 @@
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            42
+                            47
                         </p>
                     </a>
                 </div>
@@ -724,198 +656,106 @@
                     目录
                 </h3>
                 <ul class="menu-list"><li>
-        <a class="is-flex" href="#功能模块">
+        <a class="is-flex" href="#初始化文件夹">
         <span class="has-mr-6">1</span>
-        <span>功能模块</span>
-        </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#Graphql">
-        <span class="has-mr-6">1.1</span>
-        <span>Graphql</span>
+        <span>初始化文件夹</span>
         </a></li><li>
-        <a class="is-flex" href="#剪贴板的使用">
-        <span class="has-mr-6">1.2</span>
-        <span>剪贴板的使用</span>
-        </a></li><li>
-        <a class="is-flex" href="#生成二维码">
-        <span class="has-mr-6">1.3</span>
-        <span>生成二维码</span>
-        </a></li><li>
-        <a class="is-flex" href="#判断设备信息">
-        <span class="has-mr-6">1.4</span>
-        <span>判断设备信息</span>
-        </a></li><li>
-        <a class="is-flex" href="#七牛云的使用">
-        <span class="has-mr-6">1.5</span>
-        <span>七牛云的使用</span>
-        </a></li><li>
-        <a class="is-flex" href="#发邮件">
-        <span class="has-mr-6">1.6</span>
-        <span>发邮件</span>
-        </a></li><li>
-        <a class="is-flex" href="#http爬虫">
-        <span class="has-mr-6">1.7</span>
-        <span>http爬虫</span>
-        </a></li></ul></li><li>
-        <a class="is-flex" href="#Express框架">
+        <a class="is-flex" href="#读取文件夹、文件">
         <span class="has-mr-6">2</span>
-        <span>Express框架</span>
+        <span>读取文件夹、文件</span>
         </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#路由">
+        <a class="is-flex" href="#Stream">
         <span class="has-mr-6">2.1</span>
-        <span>路由</span>
+        <span>Stream</span>
         </a></li><li>
-        <a class="is-flex" href="#中间件">
+        <a class="is-flex" href="#Buffer">
         <span class="has-mr-6">2.2</span>
-        <span>中间件</span>
-        </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#应用层中间件">
-        <span class="has-mr-6">2.2.1</span>
-        <span>应用层中间件</span>
-        </a></li><li>
-        <a class="is-flex" href="#路由器中间件">
-        <span class="has-mr-6">2.2.2</span>
-        <span>路由器中间件</span>
-        </a></li><li>
-        <a class="is-flex" href="#内置中间件">
-        <span class="has-mr-6">2.2.3</span>
-        <span>内置中间件</span>
-        </a></li><li>
-        <a class="is-flex" href="#错误处理中间件">
-        <span class="has-mr-6">2.2.4</span>
-        <span>错误处理中间件</span>
-        </a></li><li>
-        <a class="is-flex" href="#第三方中间件">
-        <span class="has-mr-6">2.2.5</span>
-        <span>第三方中间件</span>
+        <span>Buffer</span>
         </a></li></ul></li><li>
-        <a class="is-flex" href="#第三方登录">
-        <span class="has-mr-6">2.3</span>
-        <span>第三方登录</span>
-        </a></li><li>
-        <a class="is-flex" href="#模版引擎">
-        <span class="has-mr-6">2.4</span>
-        <span>模版引擎</span>
-        </a></li><li>
-        <a class="is-flex" href="#Mysql">
-        <span class="has-mr-6">2.5</span>
-        <span>Mysql</span>
-        </a></li><li>
-        <a class="is-flex" href="#与Mongo数据库交互">
-        <span class="has-mr-6">2.6</span>
-        <span>与Mongo数据库交互</span>
-        </a></li><li>
-        <a class="is-flex" href="#Redis">
-        <span class="has-mr-6">2.7</span>
-        <span>Redis</span>
-        </a></li></ul></li><li>
-        <a class="is-flex" href="#Nestjs">
+        <a class="is-flex" href="#OS操作">
         <span class="has-mr-6">3</span>
-        <span>Nestjs</span>
+        <span>OS操作</span>
+        </a></li><li>
+        <a class="is-flex" href="#路径操作">
+        <span class="has-mr-6">4</span>
+        <span>路径操作</span>
+        </a></li><li>
+        <a class="is-flex" href="#Node模块化加载方法">
+        <span class="has-mr-6">5</span>
+        <span>Node模块化加载方法</span>
+        </a></li><li>
+        <a class="is-flex" href="#Node全局变量">
+        <span class="has-mr-6">6</span>
+        <span>Node全局变量</span>
         </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#依赖注入">
-        <span class="has-mr-6">3.1</span>
-        <span>依赖注入</span>
+        <a class="is-flex" href="#当前目录与当前文件">
+        <span class="has-mr-6">6.1</span>
+        <span>当前目录与当前文件</span>
         </a></li><li>
-        <a class="is-flex" href="#控制器">
-        <span class="has-mr-6">3.2</span>
-        <span>控制器</span>
-        </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#状态码">
-        <span class="has-mr-6">3.2.1</span>
-        <span>状态码</span>
+        <a class="is-flex" href="#定时器函数">
+        <span class="has-mr-6">6.2</span>
+        <span>定时器函数</span>
         </a></li><li>
-        <a class="is-flex" href="#自定义响应头">
-        <span class="has-mr-6">3.2.2</span>
-        <span>自定义响应头</span>
+        <a class="is-flex" href="#控制台输出函数">
+        <span class="has-mr-6">6.3</span>
+        <span>控制台输出函数</span>
         </a></li><li>
-        <a class="is-flex" href="#重定向">
-        <span class="has-mr-6">3.2.3</span>
-        <span>重定向</span>
-        </a></li><li>
-        <a class="is-flex" href="#动态路由">
-        <span class="has-mr-6">3.2.4</span>
-        <span>动态路由</span>
+        <a class="is-flex" href="#Process">
+        <span class="has-mr-6">6.4</span>
+        <span>Process</span>
         </a></li></ul></li><li>
-        <a class="is-flex" href="#模块化">
-        <span class="has-mr-6">3.3</span>
-        <span>模块化</span>
+        <a class="is-flex" href="#多进程">
+        <span class="has-mr-6">7</span>
+        <span>多进程</span>
+        </a></li><li>
+        <a class="is-flex" href="#多线程">
+        <span class="has-mr-6">8</span>
+        <span>多线程</span>
         </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#全局模块">
-        <span class="has-mr-6">3.3.1</span>
-        <span>全局模块</span>
+        <a class="is-flex" href="#线程间通信">
+        <span class="has-mr-6">8.1</span>
+        <span>线程间通信</span>
         </a></li></ul></li><li>
-        <a class="is-flex" href="#提供者">
-        <span class="has-mr-6">3.4</span>
-        <span>提供者</span>
-        </a></li><li>
-        <a class="is-flex" href="#装饰器和注解">
-        <span class="has-mr-6">3.5</span>
-        <span>装饰器和注解</span>
+        <a class="is-flex" href="#Node运行原理">
+        <span class="has-mr-6">9</span>
+        <span>Node运行原理</span>
         </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#自定义装饰器">
-        <span class="has-mr-6">3.5.1</span>
-        <span>自定义装饰器</span>
+        <a class="is-flex" href="#运行原理">
+        <span class="has-mr-6">9.1</span>
+        <span>运行原理</span>
+        </a></li><li>
+        <a class="is-flex" href="#事件循环">
+        <span class="has-mr-6">9.2</span>
+        <span>事件循环</span>
         </a></li></ul></li><li>
-        <a class="is-flex" href="#面向切面编程">
-        <span class="has-mr-6">3.6</span>
-        <span>面向切面编程</span>
-        </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#中间件-1">
-        <span class="has-mr-6">3.6.1</span>
-        <span>中间件</span>
+        <a class="is-flex" href="#chromev8引擎内存管理">
+        <span class="has-mr-6">10</span>
+        <span>chromev8引擎内存管理</span>
         </a></li><li>
-        <a class="is-flex" href="#管道">
-        <span class="has-mr-6">3.6.2</span>
-        <span>管道</span>
+        <a class="is-flex" href="#js-导出读取xlsx包">
+        <span class="has-mr-6">11</span>
+        <span>js-导出读取xlsx包</span>
         </a></li><li>
-        <a class="is-flex" href="#守卫">
-        <span class="has-mr-6">3.6.3</span>
-        <span>守卫</span>
+        <a class="is-flex" href="#转码包">
+        <span class="has-mr-6">12</span>
+        <span>转码包</span>
         </a></li><li>
-        <a class="is-flex" href="#拦截器">
-        <span class="has-mr-6">3.6.4</span>
-        <span>拦截器</span>
+        <a class="is-flex" href="#文件包">
+        <span class="has-mr-6">13</span>
+        <span>文件包</span>
         </a></li><li>
-        <a class="is-flex" href="#异常处理-过滤器">
-        <span class="has-mr-6">3.6.5</span>
-        <span>异常处理/过滤器</span>
-        </a></li></ul></li><li>
-        <a class="is-flex" href="#微服务">
-        <span class="has-mr-6">3.7</span>
-        <span>微服务</span>
-        </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#Redis-1">
-        <span class="has-mr-6">3.7.1</span>
-        <span>Redis</span>
-        </a></li></ul></li><li>
-        <a class="is-flex" href="#GraphQL">
-        <span class="has-mr-6">3.8</span>
-        <span>GraphQL</span>
+        <a class="is-flex" href="#Node调用C-包">
+        <span class="has-mr-6">14</span>
+        <span>Node调用C++包</span>
         </a></li><li>
-        <a class="is-flex" href="#Websocket">
-        <span class="has-mr-6">3.9</span>
-        <span>Websocket</span>
+        <a class="is-flex" href="#MD5加密包">
+        <span class="has-mr-6">15</span>
+        <span>MD5加密包</span>
         </a></li><li>
-        <a class="is-flex" href="#ORM">
-        <span class="has-mr-6">3.10</span>
-        <span>ORM</span>
-        </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#Mongo">
-        <span class="has-mr-6">3.10.1</span>
-        <span>Mongo</span>
-        </a></li><li>
-        <a class="is-flex" href="#Mysql-1">
-        <span class="has-mr-6">3.10.2</span>
-        <span>Mysql</span>
-        </a></li></ul></li><li>
-        <a class="is-flex" href="#安全防范">
-        <span class="has-mr-6">3.11</span>
-        <span>安全防范</span>
-        </a></li><li>
-        <a class="is-flex" href="#Swagger">
-        <span class="has-mr-6">3.12</span>
-        <span>Swagger</span>
-        </a></li></ul></li></ul>
+        <a class="is-flex" href="#常用命令">
+        <span class="has-mr-6">16</span>
+        <span>常用命令</span>
+        </a></li></ul>
             </div>
         </div>
     </div>
@@ -971,7 +811,15 @@
                 <span class="level-item">IT</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">21</span>
+                <span class="level-item tag">28</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E4%B8%AA%E4%BA%BA%E5%B9%B8%E7%A6%8F/">
+            <span class="level-start">
+                <span class="level-item">个人幸福</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">
@@ -979,7 +827,7 @@
                 <span class="level-item">个人生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">16</span>
+                <span class="level-item tag">22</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">
@@ -987,7 +835,7 @@
                 <span class="level-item">技术博客</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">28</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%9C%8B%E5%8F%8B/">
@@ -995,7 +843,7 @@
                 <span class="level-item">朋友</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">4</span>
+                <span class="level-item tag">5</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E7%94%9F%E6%B4%BB/">
@@ -1011,7 +859,7 @@
                 <span class="level-item">生活感悟</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">1</span>
+                <span class="level-item tag">2</span>
             </span>
         </a></li>
             </ul>
@@ -1024,7 +872,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 13.33px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 10px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 13.33px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 13.33px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 13.33px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 10px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb-Javascript/" style="font-size: 10px;">IT，Web,Javascript</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 20px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 10px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 13.33px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 10px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 10px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 13.33px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 10px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 20px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 16.67px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 16.67px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 10px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 10px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 13.33px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">生活、幸福</a> <a href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">记录，生活</a>
+        <a href="/tags/IT/" style="font-size: 10px;">IT</a> <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 12.5px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 10px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8C/" style="font-size: 12.5px;">IT,Web，</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 12.5px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 12.5px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 12.5px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 10px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb/" style="font-size: 10px;">IT，Web</a> <a href="/tags/IT%EF%BC%8CWeb-Javascript/" style="font-size: 10px;">IT，Web,Javascript</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 17.5px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 10px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 15px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 12.5px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 12.5px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 10px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 10px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 17.5px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 15px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 15px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">幸福</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/" style="font-size: 15px;">技术，IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 10px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 12.5px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 12.5px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 17.5px;">生活、幸福</a> <a href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">记录，生活</a>
     </div>
 </div>
     
@@ -1036,6 +884,25 @@
         <h3 class="menu-label">
             最新文章
         </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/10/02/%E6%97%A5%E8%AF%AD%E5%AD%A6%E4%B9%A0%E4%B8%8E%E6%89%98%E7%A6%8F%E5%AD%A6%E4%B9%A0/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="日语学习与托福学习">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-10-02T13:40:33.000Z">2020-10-02</time></div>
+                    <a href="/2020/10/02/%E6%97%A5%E8%AF%AD%E5%AD%A6%E4%B9%A0%E4%B8%8E%E6%89%98%E7%A6%8F%E5%AD%A6%E4%B9%A0/" class="title has-link-black-ter is-size-6 has-text-weight-normal">日语学习与托福学习</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">个人生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -1096,37 +963,18 @@
         
         <article class="media">
             
-            <a href="/2020/08/28/flutter3/" class="media-left">
+            <a href="/2020/09/02/H5%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%912/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/flutter.jpeg" alt="flutter移动开发（三）">
+                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/Phaser.jpg" alt="H5游戏开发">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-08-28T13:40:33.000Z">2020-08-28</time></div>
-                    <a href="/2020/08/28/flutter3/" class="title has-link-black-ter is-size-6 has-text-weight-normal">flutter移动开发（三）</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-09-02T13:40:33.000Z">2020-09-02</time></div>
+                    <a href="/2020/09/02/H5%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%912/" class="title has-link-black-ter is-size-6 has-text-weight-normal">H5游戏开发</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">技术博客</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2020/08/28/flutter2/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/flutter2.jpg" alt="flutter移动开发（二）">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-08-28T13:40:33.000Z">2020-08-28</time></div>
-                    <a href="/2020/08/28/flutter2/" class="title has-link-black-ter is-size-6 has-text-weight-normal">flutter移动开发（二）</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">技术博客</a>
+                        <a class="has-link-grey -link" href="/categories/IT/">IT</a>
                     </p>
                 </div>
             </div>
@@ -1144,12 +992,23 @@
         <ul class="menu-list">
         
         <li>
+            <a class="level is-marginless" href="/archives/2020/10/">
+                <span class="level-start">
+                    <span class="level-item">十月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
             <a class="level is-marginless" href="/archives/2020/09/">
                 <span class="level-start">
                     <span class="level-item">九月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">3</span>
+                    <span class="level-item tag">4</span>
                 </span>
             </a>
         </li>
@@ -1160,7 +1019,7 @@
                     <span class="level-item">八月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">5</span>
+                    <span class="level-item tag">7</span>
                 </span>
             </a>
         </li>
@@ -1171,7 +1030,7 @@
                     <span class="level-item">七月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">4</span>
+                    <span class="level-item tag">5</span>
                 </span>
             </a>
         </li>
@@ -1182,7 +1041,7 @@
                     <span class="level-item">六月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">7</span>
+                    <span class="level-item tag">13</span>
                 </span>
             </a>
         </li>
@@ -1193,7 +1052,7 @@
                     <span class="level-item">五月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">9</span>
+                    <span class="level-item tag">5</span>
                 </span>
             </a>
         </li>
@@ -1204,7 +1063,7 @@
                     <span class="level-item">四月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">3</span>
+                    <span class="level-item tag">4</span>
                 </span>
             </a>
         </li>
@@ -1215,7 +1074,7 @@
                     <span class="level-item">三月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">35</span>
+                    <span class="level-item tag">48</span>
                 </span>
             </a>
         </li>
@@ -1245,6 +1104,13 @@
             <div class="field is-grouped is-grouped-multiline">
                 
                 <div class="control">
+                    <a class="tags has-addons" href="/tags/IT/">
+                        <span class="tag">IT</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
                     <a class="tags has-addons" href="/tags/IT-Java-Web/">
                         <span class="tag">IT,Java,Web</span>
                         <span class="tag is-grey">1</span>
@@ -1262,6 +1128,13 @@
                     <a class="tags has-addons" href="/tags/IT-Web/">
                         <span class="tag">IT,Web,</span>
                         <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8C/">
+                        <span class="tag">IT,Web，</span>
+                        <span class="tag is-grey">2</span>
                     </a>
                 </div>
                 
@@ -1357,6 +1230,13 @@
                 </div>
                 
                 <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb/">
+                        <span class="tag">IT，Web</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Javascript/">
                         <span class="tag">IT，Web,Javascript</span>
                         <span class="tag is-grey">1</span>
@@ -1366,7 +1246,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Node/">
                         <span class="tag">IT，Web,Node</span>
-                        <span class="tag is-grey">4</span>
+                        <span class="tag is-grey">5</span>
                     </a>
                 </div>
                 
@@ -1387,7 +1267,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Vue/">
                         <span class="tag">IT，Web,Vue</span>
-                        <span class="tag is-grey">2</span>
+                        <span class="tag is-grey">3</span>
                     </a>
                 </div>
                 
@@ -1401,21 +1281,21 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/">
                         <span class="tag">IT，Web,数据库</span>
-                        <span class="tag is-grey">4</span>
+                        <span class="tag is-grey">6</span>
                     </a>
                 </div>
                 
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8Cweb/">
                         <span class="tag">IT，web</span>
-                        <span class="tag is-grey">1</span>
+                        <span class="tag is-grey">2</span>
                     </a>
                 </div>
                 
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/">
                         <span class="tag">IT，未来</span>
-                        <span class="tag is-grey">1</span>
+                        <span class="tag is-grey">2</span>
                     </a>
                 </div>
                 
@@ -1429,7 +1309,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/Web-IT-Go/">
                         <span class="tag">Web,IT,Go</span>
-                        <span class="tag is-grey">2</span>
+                        <span class="tag is-grey">1</span>
                     </a>
                 </div>
                 
@@ -1443,7 +1323,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/">
                         <span class="tag">个人生活，幸福</span>
-                        <span class="tag is-grey">4</span>
+                        <span class="tag is-grey">5</span>
                     </a>
                 </div>
                 
@@ -1469,6 +1349,13 @@
                 </div>
                 
                 <div class="control">
+                    <a class="tags has-addons" href="/tags/%E5%B9%B8%E7%A6%8F/">
+                        <span class="tag">幸福</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
                     <a class="tags has-addons" href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">
                         <span class="tag">幸福，个人生活</span>
                         <span class="tag is-grey">1</span>
@@ -1479,6 +1366,13 @@
                     <a class="tags has-addons" href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/">
                         <span class="tag">技术宅、IT</span>
                         <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/">
+                        <span class="tag">技术，IT</span>
+                        <span class="tag is-grey">3</span>
                     </a>
                 </div>
                 
@@ -1499,7 +1393,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/%E6%B7%B1%E5%9C%B3/">
                         <span class="tag">深圳</span>
-                        <span class="tag is-grey">1</span>
+                        <span class="tag is-grey">2</span>
                     </a>
                 </div>
                 
@@ -1527,7 +1421,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/">
                         <span class="tag">生活、幸福</span>
-                        <span class="tag is-grey">1</span>
+                        <span class="tag is-grey">5</span>
                     </a>
                 </div>
                 
@@ -1557,7 +1451,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="https://s1.ax1x.com/2020/03/27/G9OfNn.th.png" alt="NodeJs开发（四）" height="28">
+                    <img src="https://s1.ax1x.com/2020/03/27/G9OfNn.th.png" alt="NodeJs开发（三）" height="28">
                 
                 </a>
                 <p class="is-size-7">
@@ -1646,7 +1540,7 @@
 <script>
 var IcarusThemeSettings = {
     site: {
-        url: 'http://yoursite.com',
+        url: 'http://kun8018.gitee.io',
         external_link: {"enable":true,"exclude":[]}
     },
     article: {
