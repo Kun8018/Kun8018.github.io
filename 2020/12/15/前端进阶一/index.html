@@ -1,0 +1,1772 @@
+<!DOCTYPE html>
+<html  lang="zh">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 4.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>前端进阶（一） - kun&#39;s blog</title>
+
+
+    <meta name="description" content="前端的基础是html、css和JavaScript，掌握这些能够实现基本的功能和整齐的样式。掌握vue或者react框架能够快速实现spa应用。 ​       对于进阶，掌握基本原理和一些动画方面的库能够更美观的进行展现，实现更炫酷的动画效果。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前端进阶（一）">
+<meta property="og:url" content="http://kun8018.gitee.io/2020/12/15/%E5%89%8D%E7%AB%AF%E8%BF%9B%E9%98%B6%E4%B8%80/index.html">
+<meta property="og:site_name" content="kun&#39;s blog">
+<meta property="og:description" content="前端的基础是html、css和JavaScript，掌握这些能够实现基本的功能和整齐的样式。掌握vue或者react框架能够快速实现spa应用。 ​       对于进阶，掌握基本原理和一些动画方面的库能够更美观的进行展现，实现更炫酷的动画效果。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://cdn.kunkunzhang.top/webpack.png">
+<meta property="article:published_time" content="2020-12-15T13:40:33.000Z">
+<meta property="article:modified_time" content="2021-02-07T08:50:40.025Z">
+<meta property="article:author" content="Kun Zhang">
+<meta property="article:tag" content="IT，Web,数据库">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://cdn.kunkunzhang.top/webpack.png">
+
+
+
+
+
+
+
+<link rel="icon" href="https://s1.ax1x.com/2020/03/27/G9OfNn.th.png">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    <script async="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="https://s1.ax1x.com/2020/03/27/G9OfNn.th.png" alt="前端进阶（一）" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">首页</a>
+                
+                <a class="navbar-item"
+                href="/archives">最近发布</a>
+                
+                <a class="navbar-item"
+                href="/categories">目录</a>
+                
+                <a class="navbar-item"
+                href="/tags">分类</a>
+                
+                <a class="navbar-item"
+                href="/about">关于我</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    <a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-9-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-image">
+        <span  class="image is-7by1">
+            <img class="thumbnail" src="http://cdn.kunkunzhang.top/webpack.png" alt="前端进阶（一）">
+        </span>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-12-15T13:40:33.000Z">2020-12-15</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/IT/">IT</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    42 分钟 读完 (大约 6365 个字)
+                </span>
+                
+                
+                <span class="level-item has-text-grey" id="busuanzi_container_page_pv">
+                    <i class="far fa-eye"></i>
+                    <span id="busuanzi_value_page_pv">0</span>次访问
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                前端进阶（一）
+            
+        </h1>
+        <div class="content">
+            <p>　　前端的基础是html、css和JavaScript，掌握这些能够实现基本的功能和整齐的样式。掌握vue或者react框架能够快速实现spa应用。</p>
+<p>​       对于进阶，掌握基本原理和一些动画方面的库能够更美观的进行展现，实现更炫酷的动画效果。</p>
+<a id="more"></a>
+
+<h2 id="js底层原理"><a href="#js底层原理" class="headerlink" title="js底层原理"></a>js底层原理</h2><h3 id="js执行过程"><a href="#js执行过程" class="headerlink" title="js执行过程"></a>js执行过程</h3><p>JavaScript是一种解释型语言，执行时按照解释器-编译器-执行的顺序进行。</p>
+<p>解释器：</p>
+<p>JavaScript的解释器包含在即时编译器(JIT，just in time)中，在一句一句编译源代码的同时又会将编译后的一些代码保存下来。</p>
+<p>即时编译器中首先有监视器监控着代码的运行状况。如果一段代码运行了几次，那么这段代码就会被标记为warm代码，标记为warm的代码会被编译器送到基线编译器编译，同时把结果缓存起来，如果一个函数被基线编译器编译，那么函数的每一行都会被编译成一个表，这个表的索引是行号和变量类型，如果监视器发现有代码使用相同的变量类型命中这段代码时，JIT会直接提取这段代码编译后的内容。</p>
+<p>如果标记为warm的代码还在不断被调用，那么它会被标记为hot，标记为hot的代码，</p>
+<p>编译：</p>
+<p>parse阶段-</p>
+<p>词法分析和语法分析：词法分析是把需要执行的代码字符串分割出来，生成一系列token，便于做语法分析</p>
+<p>语法分析分析上述输出，输出AST抽象语法树，如果分析发现异常则抛出错误。</p>
+<p>Ignition：Ignition是v8的解释器，它会根据抽象语法树生成对应的字节码并执行。</p>
+<p>所谓字节码，就是机器码的抽象，机器码虽然运行效率最高，但是占用空间较大，导致十分占内存，所以以时间换空间，引入字节码</p>
+<p>Turbofan：Turbofan能够把字节码翻译成机器码，当发现hot代码时，turbofan会把字节码翻译成机器码，然后调用生成的机器码。如果发现假设失效，则退回字节码</p>
+<p>Orinoco：Orinoco是v8的垃圾回收模块</p>
+<p>执行：</p>
+<p>执行阶段有执行上下文和执行栈两个概念</p>
+<p>执行上下文就是JavaScript的运行环境，通常有</p>
+<p>全局执行上下文，即window对象</p>
+<p>函数执行上下文，即函数执行的时候被创建，每次调用函数就会创建一个新的执行上下文</p>
+<p>eval执行上下文</p>
+<p>对于每个执行上下文创建时，都有三个比较重要的属性：</p>
+<p>变量对象：表示执行上下文的数据作用域，</p>
+<p>作用域链</p>
+<p>确定this指向：</p>
+<p>执行栈：</p>
+<p>js通过执行栈管理多个执行上下文，执行栈最底端是全局上下文，全局上下文中执行函数的时候，相应上下文会入栈，其中不断调用函数，不同的函数不断创建不同的执行上下文，直到函数执行完毕，上下文出栈，即后进先出</p>
+<p>如果有异步函数，在执行栈的空的时候查看任务队列，微任务优先入栈。</p>
+<h3 id="AST的应用"><a href="#AST的应用" class="headerlink" title="AST的应用"></a>AST的应用</h3><p>Es-lint就是使用ast查询器查询AST，AST选择器类似CSS选择器，每个ESlint规则都是通过选择器操作的</p>
+<p>Babel:Babel对于一段代码的工作流程是：</p>
+<p>1.输入代码 2.词法分析，将代码分成token 3.语法分析：把token转换成AST</p>
+<p>4.遍历AST 5.改变AST，增删改查。 6.AST转换为源代码</p>
+<p>webpack：webpack主要通过遍历AST分析出模块的依赖、消除无用代码等</p>
+<h2 id="Webpack"><a href="#Webpack" class="headerlink" title="Webpack"></a>Webpack</h2><p><strong>webpack</strong> 是一个用于现代 JavaScript 应用程序的_静态模块打包工具_。当 webpack 处理应用程序时，它会在内部构建一个 <a href="https://webpack.docschina.org/concepts/dependency-graph/">依赖图(dependency graph)</a>，此依赖图对应映射到项目所需的每个模块，并生成一个或多个 <em>bundle</em>。</p>
+<h3 id="webpack中的基本概念"><a href="#webpack中的基本概念" class="headerlink" title="webpack中的基本概念"></a>webpack中的基本概念</h3><p>1.入口：</p>
+<p><strong>入口起点(entry point)</strong>指示 webpack 应该使用哪个模块，来作为构建其内部 <a href="https://webpack.docschina.org/concepts/dependency-graph/">依赖图(dependency graph)</a> 的开始。进入入口起点后，webpack 会找出有哪些模块和库是入口起点（直接和间接）依赖的。</p>
+<p>默认值是 <code>./src/index.js</code>，但你可以通过在 <a href="https://webpack.docschina.org/configuration">webpack configuration</a> 中配置 <code>entry</code> 属性，来指定一个（或多个）不同的入口起点。</p>
+<p>2.输出：</p>
+<p>可以通过配置 <code>output</code> 选项，告知 webpack 如何向硬盘写入编译文件。注意，即使可以存在多个 <code>entry</code> 起点，但只能指定一个 <code>output</code> 配置。</p>
+<p>3.loader：</p>
+<p>webpack 只能理解 JavaScript 和 JSON 文件，这是 webpack 开箱可用的自带能力。<strong>loader</strong> 让 webpack 能够去处理其他类型的文件，并将它们转换为有效 <a href="https://webpack.docschina.org/concepts/modules">模块</a>，以供应用程序使用，以及被添加到依赖图中。</p>
+<p>在 webpack 的配置中，<strong>loader</strong> 有两个属性：</p>
+<p>（1）<code>test</code> 属性，识别出哪些文件会被转换。</p>
+<p>（2）<code>use</code> 属性，定义出在进行转换时，应该使用哪个 loader。</p>
+<p>4.插件。</p>
+<p>loader 用于转换某些类型的模块，而插件则可以用于执行范围更广的任务。包括：打包优化，资源管理，注入环境变量。</p>
+<p>5.模式</p>
+<h3 id="配置的相关概念"><a href="#配置的相关概念" class="headerlink" title="配置的相关概念"></a>配置的相关概念</h3><p>1.解析(resolve)：能设置模块如何被解析。webpack 提供合理的默认值，但是还是可能会修改一些解析的细节。</p>
+<p>2.优化(Optimization)</p>
+<p>3.开发服务器(devServer)</p>
+<p>4.devtools：</p>
+<p>此选项控制是否生成，以及如何生成 source map。</p>
+<p>使用 <a href="https://webpack.docschina.org/plugins/source-map-dev-tool-plugin"><code>SourceMapDevToolPlugin</code></a> 进行更细粒度的配置。查看 <a href="https://webpack.docschina.org/loaders/source-map-loader"><code>source-map-loader</code></a> 来处理已有的 source map。</p>
+<p>source map 是有用的调试工具，可以在报错时直接查看压缩代码对应的原始代码文件。</p>
+<p>常用配置</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//webpack.config.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  devServer:&#123;</span><br><span class="line">     hot:<span class="literal">true</span> <span class="comment">//热更新</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="代码分离"><a href="#代码分离" class="headerlink" title="代码分离"></a>代码分离</h3><p>代码分离是 webpack 中最引人注目的特性之一。此特性能够把代码分离到不同的 bundle 中，然后可以按需加载或并行加载这些文件。代码分离可以用于获取更小的 bundle，以及控制资源加载优先级，如果使用合理，会极大影响加载时间。</p>
+<p>去掉重复</p>
+<p>动态加载模块</p>
+<h3 id="tree-shaking"><a href="#tree-shaking" class="headerlink" title="tree shaking"></a>tree shaking</h3><p><em>tree shaking</em> 是一个术语，通常用于描述移除 JavaScript 上下文中的未引用代码(dead-code)。</p>
+<h3 id="支持typescript"><a href="#支持typescript" class="headerlink" title="支持typescript"></a>支持typescript</h3><p>首先，执行以下命令安装 TypeScript compiler 和 loader：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev typescript ts-loader</span><br></pre></td></tr></table></figure>
+
+<p>在webpack.config.js中配置</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  entry: <span class="string">'./src/index.ts'</span>,</span><br><span class="line">  <span class="built_in">module</span>: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="regexp">/\.tsx?$/</span>,</span><br><span class="line">        use: <span class="string">'ts-loader'</span>,</span><br><span class="line">        exclude: <span class="regexp">/node_modules/</span>,</span><br><span class="line">      &#125;,</span><br><span class="line">    ],</span><br><span class="line">  &#125;,</span><br><span class="line">  resolve: &#123;</span><br><span class="line">    extensions: [ <span class="string">'.tsx'</span>, <span class="string">'.ts'</span>, <span class="string">'.js'</span> ],</span><br><span class="line">  &#125;,</span><br><span class="line">  output: &#123;</span><br><span class="line">    filename: <span class="string">'bundle.js'</span>,</span><br><span class="line">    path: path.resolve(__dirname, <span class="string">'dist'</span>),</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="创建插件和loader"><a href="#创建插件和loader" class="headerlink" title="创建插件和loader"></a>创建插件和loader</h3><p>一个webpack的插件有五部分构成：</p>
+<p>1.一个JavaScript的命名函数；</p>
+<p>2.在该函数上定义apply方法；</p>
+<p>3.指定一个绑定到 webpack 自身的事件钩子。</p>
+<p>4.处理 webpack 内部实例的特定数据。</p>
+<p>5.功能完成后调用 webpack 提供的回调。</p>
+<p>因此，一个最简单的插件可以写为</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 一个 JavaScript 命名函数。</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">MyExampleWebpackPlugin</span>(<span class="params">options</span>) </span>&#123;</span><br><span class="line">		<span class="comment">// 使用 options 设置插件实例……</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在插件函数的 prototype 上定义一个 `apply` 方法。</span></span><br><span class="line">MyExampleWebpackPlugin.prototype.apply = <span class="function"><span class="keyword">function</span>(<span class="params">compiler</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 指定一个挂载到 webpack 自身的事件钩子。</span></span><br><span class="line">  compiler.plugin(<span class="string">'webpacksEventHook'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">compilation <span class="regexp">/* 处理 webpack 内部实例的特定数据。*/</span>, callback</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"This is an example plugin!!!"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 功能完成后调用 webpack 提供的回调。</span></span><br><span class="line">    callback();</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>具体解释如下：</p>
+<p><code>compiler</code> 对象代表了完整的 webpack 环境配置，负责文件的监听和启动编译，全局只有一个compiler对象。这个对象在启动 webpack 时被一次性建立，并配置好所有可操作的设置，包括 options，loader 和 plugin。当在 webpack 环境中应用一个插件时，插件将收到此 compiler 对象的引用。可以使用它来访问 webpack 的主环境。</p>
+<p><code>compilation</code> 对象代表了一次资源版本构建。当运行 webpack 开发环境中间件时，每当检测到一个文件变化，就会创建一个新的 compilation，从而生成一组新的编译资源。一个 compilation 对象表现了当前的模块资源、编译生成资源、变化的文件、以及被跟踪依赖的状态信息。compilation 对象也提供了很多关键时机的回调，以供插件做自定义处理时选择使用。</p>
+<p>插件是由「具有 <code>apply</code> 方法的 prototype 对象」所实例化出来的。这个 <code>apply</code> 方法在安装插件时，会被 webpack compiler 调用一次。<code>apply</code> 方法可以接收一个 webpack compiler 对象的引用，从而可以在回调函数中访问到 compiler 对象。</p>
+<p>使用 compiler 对象时，你可以绑定提供了编译 compilation 引用的回调函数，然后拿到每次新的 compilation 对象。这些 compilation 对象提供了一些钩子函数，来钩入到构建流程的很多步骤中。</p>
+<p>有一些编译插件中的步骤是异步的，这样就需要额外传入一个 callback 回调函数，并且在插件运行结束时，_必须_调用这个回调函数。</p>
+<p>loader</p>
+<h3 id="创建脚手架"><a href="#创建脚手架" class="headerlink" title="创建脚手架"></a>创建脚手架</h3><h3 id="webpack-的缺点"><a href="#webpack-的缺点" class="headerlink" title="webpack 的缺点"></a>webpack 的缺点</h3><h2 id="Webpack插件汇总"><a href="#Webpack插件汇总" class="headerlink" title="Webpack插件汇总"></a>Webpack插件汇总</h2><h3 id="功能类"><a href="#功能类" class="headerlink" title="功能类"></a>功能类</h3><p>html-webpack-plugin</p>
+<p>自动生成html，基本用法：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> HtmlWebpackPlugin(&#123;</span><br><span class="line">  filename: <span class="string">'index.html'</span>, <span class="comment">// 生成文件名</span></span><br><span class="line">  template: path.join(process.cwd(), <span class="string">'./index.html'</span>) <span class="comment">// 模班文件</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>copy-webpack-plugin</p>
+<p>拷贝资源插件,基本用法</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> CopyWebpackPlugin([</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">from</span>: path.join(process.cwd(), <span class="string">'./vendor/'</span>),</span><br><span class="line">    to: path.join(process.cwd(), <span class="string">'./dist/'</span>),</span><br><span class="line">    ignore: [<span class="string">'*.json'</span>]</span><br><span class="line">  &#125;</span><br><span class="line">])</span><br></pre></td></tr></table></figure>
+
+<p>webpack-manifest-plugin &amp;&amp; assets-webpack-plugin</p>
+<p>俩个插件效果一致，都是生成编译结果的资源单，只是资源单的数据结构不一致而已。</p>
+<p>webpack-manifest-plugin 基本用法：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  plugins: [</span><br><span class="line">    <span class="keyword">new</span> ManifestPlugin()</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>assets-webpack-plugin 基本用法：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  plugins: [</span><br><span class="line">    <span class="keyword">new</span> AssetsPlugin()</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>clean-webpack-plugin</p>
+<p>在编译之前清理指定目录指定内容,基本用法</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 清理目录</span></span><br><span class="line"><span class="keyword">const</span> pathsToClean = [</span><br><span class="line">  <span class="string">'dist'</span>,</span><br><span class="line">  <span class="string">'build'</span></span><br><span class="line">]</span><br><span class="line"> </span><br><span class="line"><span class="comment">// 清理参数</span></span><br><span class="line"><span class="keyword">const</span> cleanOptions = &#123;</span><br><span class="line">  exclude:  [<span class="string">'shared.js'</span>], <span class="comment">// 跳过文件</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">  plugins: [</span><br><span class="line">    <span class="keyword">new</span> CleanWebpackPlugin(pathsToClean, cleanOptions)</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>compression-webpack-plugin</p>
+<p>提供带 Content-Encoding 编码的压缩版的资源,基本用法</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  plugins: [</span><br><span class="line">    <span class="keyword">new</span> CompressionPlugin()</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>progress-bar-webpack-plugin</p>
+<p>编译进度条插件,基本用法</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">  plugins: [</span><br><span class="line">    <span class="keyword">new</span> ProgressBarPlugin()</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="代码相关类"><a href="#代码相关类" class="headerlink" title="代码相关类"></a>代码相关类</h3><p>webpack.ProvidePlugin</p>
+<p>自动加载模块，如 出现，就会自动加载模块；出现，就会自动加载模块； 默认为’jquery’的exports，用法：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> webpack.ProvidePlugin(&#123;</span><br><span class="line">  $: <span class="string">'jquery'</span>,</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>webpack.DefinePlugin</p>
+<p>定义全局常量，用法：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> webpack.DefinePlugin(&#123;</span><br><span class="line">  <span class="string">'process.env'</span>: &#123;</span><br><span class="line">    NODE_ENV: <span class="built_in">JSON</span>.stringify(process.env.NODE_ENV)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>mini-css-extract-plugin &amp;&amp; extract-text-webpack-plugin</p>
+<p>提取css样式，对比：</p>
+<ul>
+<li>mini-css-extract-plugin 为webpack4及以上提供的plugin，支持css chunk</li>
+<li>extract-text-webpack-plugin 只能在webpack3 及一下的版本使用，不支持css chunk</li>
+</ul>
+<p>extract-text-webpack-plugin基本用法 ：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> ExtractTextPlugin = <span class="built_in">require</span>(<span class="string">"extract-text-webpack-plugin"</span>);</span><br><span class="line"> </span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="built_in">module</span>: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="regexp">/\.css$/</span>,</span><br><span class="line">        use: ExtractTextPlugin.extract(&#123;</span><br><span class="line">          fallback: <span class="string">"style-loader"</span>,</span><br><span class="line">          use: <span class="string">"css-loader"</span></span><br><span class="line">        &#125;)</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line">  plugins: [</span><br><span class="line">    <span class="keyword">new</span> ExtractTextPlugin(<span class="string">"styles.css"</span>),</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>mini-css-extract-plugin 基本用法:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> MiniCssExtractPlugin = <span class="built_in">require</span>(<span class="string">"mini-css-extract-plugin"</span>);</span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    <span class="built_in">module</span>: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="regexp">/\.css$/</span>,</span><br><span class="line">        use: [</span><br><span class="line">          &#123;</span><br><span class="line">            loader: MiniCssExtractPlugin.loader,</span><br><span class="line">            options: &#123;</span><br><span class="line">              publicPath: <span class="string">'/'</span>  <span class="comment">// chunk publicPath</span></span><br><span class="line">            &#125;</span><br><span class="line">          &#125;,</span><br><span class="line">          <span class="string">"css-loader"</span></span><br><span class="line">        ]</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line">  plugins: [</span><br><span class="line">    <span class="keyword">new</span> MiniCssExtractPlugin(&#123;</span><br><span class="line">      filename: <span class="string">"[name].css"</span>, <span class="comment">// 主文件名</span></span><br><span class="line">      chunkFilename: <span class="string">"[id].css"</span>  <span class="comment">// chunk文件名</span></span><br><span class="line">    &#125;)</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="编译结果优化类"><a href="#编译结果优化类" class="headerlink" title="编译结果优化类"></a>编译结果优化类</h3><p>wbepack.IgnorePlugin</p>
+<p>忽略regExp匹配的模块，用法</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> webpack.IgnorePlugin(<span class="regexp">/^\.\/locale$/</span>, /moment$/)</span><br></pre></td></tr></table></figure>
+
+<p>uglifyjs-webpack-plugin</p>
+<p>代码丑化，用于js压缩,</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">  optimization: &#123;</span><br><span class="line">    minimizer: [<span class="keyword">new</span> UglifyJsPlugin(&#123;</span><br><span class="line">      cache: <span class="literal">true</span>,   <span class="comment">// 开启缓存</span></span><br><span class="line">      parallel: <span class="literal">true</span>, <span class="comment">// 开启多线程编译</span></span><br><span class="line">      sourceMap: <span class="literal">true</span>,  <span class="comment">// 是否sourceMap</span></span><br><span class="line">      uglifyOptions: &#123;  <span class="comment">// 丑化参数</span></span><br><span class="line">        comments: <span class="literal">false</span>,</span><br><span class="line">        warnings: <span class="literal">false</span>,</span><br><span class="line">        compress: &#123;</span><br><span class="line">          unused: <span class="literal">true</span>,</span><br><span class="line">          dead_code: <span class="literal">true</span>,</span><br><span class="line">          collapse_vars: <span class="literal">true</span>,</span><br><span class="line">          reduce_vars: <span class="literal">true</span></span><br><span class="line">        &#125;,</span><br><span class="line">        output: &#123;</span><br><span class="line">          comments: <span class="literal">false</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>optimize-css-assets-webpack-plugin</p>
+<p>css压缩，主要使用 <a href="https://github.com/cssnano/cssnano">cssnano</a> 压缩器,用法</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">  optimization: &#123;</span><br><span class="line">    minimizer: [<span class="keyword">new</span> OptimizeCssAssetsPlugin(&#123;</span><br><span class="line">      cssProcessor: <span class="built_in">require</span>(<span class="string">'cssnano'</span>),   <span class="comment">// css 压缩优化器</span></span><br><span class="line">      cssProcessorOptions: &#123; <span class="attr">discardComments</span>: &#123; <span class="attr">removeAll</span>: <span class="literal">true</span> &#125; &#125; <span class="comment">// 去除所有注释</span></span><br><span class="line">    &#125;)]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>webpack-md5-hash</p>
+<p>使你的chunk根据内容生成md5，用这个md5取代 webpack chunkhash,基本用法</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> WebpackMd5Hash = <span class="built_in">require</span>(<span class="string">'webpack-md5-hash'</span>);</span><br><span class="line"> </span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">  output: &#123;</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">    chunkFilename: <span class="string">"[chunkhash].[id].chunk.js"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  plugins: [</span><br><span class="line">    <span class="keyword">new</span> WebpackMd5Hash()</span><br><span class="line">  ]</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>SplitChunksPlugin</p>
+<p>CommonChunkPlugin 的后世，用于chunk切割。</p>
+<p>webpack 把 chunk 分为两种类型，一种是初始加载initial chunk，另外一种是异步加载 async chunk，如果不配置SplitChunksPlugin，webpack会在production的模式下自动开启，默认情况下，webpack会将 node_modules 下的所有模块定义为异步加载模块，并分析你的 entry、动态加载（import()、require.ensure）模块，找出这些模块之间共用的node_modules下的模块，并将这些模块提取到单独的chunk中，在需要的时候异步加载到页面当中，其中默认配置如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">  optimization: &#123;</span><br><span class="line">    splitChunks: &#123;</span><br><span class="line">      chunks: <span class="string">'async'</span>, <span class="comment">// 异步加载chunk</span></span><br><span class="line">      minSize: <span class="number">30000</span>,</span><br><span class="line">      maxSize: <span class="number">0</span>,</span><br><span class="line">      minChunks: <span class="number">1</span>,</span><br><span class="line">      maxAsyncRequests: <span class="number">5</span>,</span><br><span class="line">      maxInitialRequests: <span class="number">3</span>,</span><br><span class="line">      automaticNameDelimiter: <span class="string">'~'</span>, <span class="comment">// 文件名中chunk分隔符</span></span><br><span class="line">      name: <span class="literal">true</span>,</span><br><span class="line">      cacheGroups: &#123;</span><br><span class="line">        vendors: &#123;</span><br><span class="line">          test: <span class="regexp">/[\\/]node_modules[\\/]/</span>,  <span class="comment">// </span></span><br><span class="line">          priority: <span class="number">-10</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="keyword">default</span>: &#123;</span><br><span class="line">          minChunks: <span class="number">2</span>,  <span class="comment">// 最小的共享chunk数</span></span><br><span class="line">          priority: <span class="number">-20</span>,</span><br><span class="line">          reuseExistingChunk: <span class="literal">true</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="编译优化类"><a href="#编译优化类" class="headerlink" title="编译优化类"></a>编译优化类</h3><p>DllPlugin &amp;&amp; DllReferencePlugin &amp;&amp; autodll-webpack-plugin</p>
+<p>dllPlugin 将模块预先编译，DllReferencePlugin 将预先编译好的模块关联到当前编译中，当 webpack 解析到这些模块时，会直接使用预先编译好的模块。</p>
+<p>autodll-webpack-plugin 相当于 dllPlugin 和 DllReferencePlugin 的简化版，其实本质也是使用 dllPlugin &amp;&amp; DllReferencePlugin，它会在第一次编译的时候将配置好的需要预先编译的模块编译在缓存中，第二次编译的时候，解析到这些模块就直接使用缓存，而不是去编译这些模块。</p>
+<p>dllPlugin 基本用法：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> output = &#123;</span><br><span class="line">  filename: <span class="string">'[name].js'</span>,</span><br><span class="line">  library: <span class="string">'[name]_library'</span>,</span><br><span class="line">  path: <span class="string">'./vendor/'</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  entry: &#123;</span><br><span class="line">    vendor: [<span class="string">'react'</span>, <span class="string">'react-dom'</span>]  <span class="comment">// 我们需要事先编译的模块，用entry表示</span></span><br><span class="line">  &#125;,</span><br><span class="line">  output: output,</span><br><span class="line">  plugins: [</span><br><span class="line">    <span class="keyword">new</span> webpack.DllPlugin(&#123;  <span class="comment">// 使用dllPlugin</span></span><br><span class="line">      path: path.join(output.path, <span class="string">`<span class="subst">$&#123;output.filename&#125;</span>.json`</span>),</span><br><span class="line">      name: output.library <span class="comment">// 全局变量名， 也就是 window 下 的 [output.library]</span></span><br><span class="line">    &#125;)</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>DllReferencePlugin 基本用法：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> manifest = path.resolve(process.cwd(), <span class="string">'vendor'</span>, <span class="string">'vendor.js.json'</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  plugins: [</span><br><span class="line">    <span class="keyword">new</span> webpack.DllReferencePlugin(&#123;</span><br><span class="line">      manifest: <span class="built_in">require</span>(manifest), <span class="comment">// 引进dllPlugin编译的json文件</span></span><br><span class="line">      name: <span class="string">'vendor_library'</span> <span class="comment">// 全局变量名，与dllPlugin声明的一致</span></span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>autodll-webpack-plugin 基本用法：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  plugins: [</span><br><span class="line">    <span class="keyword">new</span> AutoDllPlugin(&#123;</span><br><span class="line">      inject: <span class="literal">true</span>, <span class="comment">// 与 html-webpack-plugin 结合使用，注入html中</span></span><br><span class="line">      filename: <span class="string">'[name].js'</span>,</span><br><span class="line">      entry: &#123;</span><br><span class="line">        vendor: [</span><br><span class="line">          <span class="string">'react'</span>,</span><br><span class="line">          <span class="string">'react-dom'</span></span><br><span class="line">        ]</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>happypack &amp;&amp; thread-loader</p>
+<p>多线程编译，加快编译速度，thread-loader不可以和 mini-css-extract-plugin 结合使用。</p>
+<p>happypack 基本用法：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> HappyPack = <span class="built_in">require</span>(<span class="string">'happypack'</span>);</span><br><span class="line"><span class="keyword">const</span> os = <span class="built_in">require</span>(<span class="string">'os'</span>);</span><br><span class="line"><span class="keyword">const</span> happyThreadPool = HappyPack.ThreadPool(&#123; <span class="attr">size</span>: os.cpus().length &#125;);</span><br><span class="line"><span class="keyword">const</span> happyLoaderId = <span class="string">'happypack-for-react-babel-loader'</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="built_in">module</span>: &#123;</span><br><span class="line">    rules: [&#123;</span><br><span class="line">      test: <span class="regexp">/\.jsx?$/</span>,</span><br><span class="line">      loader: <span class="string">'happypack/loader'</span>,</span><br><span class="line">      query: &#123;</span><br><span class="line">        id: happyLoaderId</span><br><span class="line">      &#125;,</span><br><span class="line">      include: [path.resolve(process.cwd(), <span class="string">'src'</span>)]</span><br><span class="line">    &#125;]</span><br><span class="line">  &#125;,</span><br><span class="line">  plugins: [<span class="keyword">new</span> HappyPack(&#123;</span><br><span class="line">    id: happyLoaderId,</span><br><span class="line">    threadPool: happyThreadPool,</span><br><span class="line">    loaders: [<span class="string">'babel-loader'</span>]</span><br><span class="line">  &#125;)]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>thread-loader 基本用法:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="built_in">module</span>: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="regexp">/\.js$/</span>,</span><br><span class="line">        include: path.resolve(<span class="string">"src"</span>),</span><br><span class="line">        use: [</span><br><span class="line">          <span class="string">"thread-loader"</span>,</span><br><span class="line">          <span class="comment">// your expensive loader (e.g babel-loader)</span></span><br><span class="line">          <span class="string">"babel-loader"</span></span><br><span class="line">        ]</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>hard-source-webpack-plugin &amp;&amp; cache-loader</p>
+<p>使用模块编译缓存，加快编译速度。</p>
+<p>hard-source-webpack-plugin ,基本用法:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  plugins: [</span><br><span class="line">    <span class="keyword">new</span> HardSourceWebpackPlugin()</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>cache-loader 基本用法：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="built_in">module</span>: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="regexp">/\.ext$/</span>,</span><br><span class="line">        use: [</span><br><span class="line">          <span class="string">'cache-loader'</span>,</span><br><span class="line">          ...loaders</span><br><span class="line">        ],</span><br><span class="line">        include: path.resolve(<span class="string">'src'</span>)</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="编译分析类"><a href="#编译分析类" class="headerlink" title="编译分析类"></a>编译分析类</h3><p>webpack-bundle-analyzer</p>
+<p>编译模块分析插件，基本用法</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> BundleAnalyzerPlugin(&#123;</span><br><span class="line">  analyzerMode: <span class="string">'server'</span>,</span><br><span class="line">  analyzerHost: <span class="string">'127.0.0.1'</span>,</span><br><span class="line">  analyzerPort: <span class="number">8889</span>,</span><br><span class="line">  reportFilename: <span class="string">'report.html'</span>,</span><br><span class="line">  defaultSizes: <span class="string">'parsed'</span>,</span><br><span class="line">  generateStatsFile: <span class="literal">false</span>,</span><br><span class="line">  statsFilename: <span class="string">'stats.json'</span>,</span><br><span class="line">  statsOptions: <span class="literal">null</span>,</span><br><span class="line">  logLevel: <span class="string">'info'</span></span><br><span class="line">&#125;),</span><br></pre></td></tr></table></figure>
+
+<p>stats-webpack-plugin &amp;&amp; PrefetchPlugin</p>
+<p>stats-webpack-plugin 将构建的统计信息写入文件，该文件可在 <a href="http://webpack.github.io/analyse中上传进行编译分析，并根据分析结果，可使用">http://webpack.github.io/analyse中上传进行编译分析，并根据分析结果，可使用</a> PrefetchPlugin 对部分模块进行预解析编译</p>
+<p>stats-webpack-plugin 基本用法：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  plugins: [</span><br><span class="line">    <span class="keyword">new</span> StatsPlugin(<span class="string">'stats.json'</span>, &#123;</span><br><span class="line">      chunkModules: <span class="literal">true</span>,</span><br><span class="line">      exclude: [<span class="regexp">/node_modules[\\\/]react/</span>]</span><br><span class="line">    &#125;)</span><br><span class="line">  ]</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>PrefetchPlugin 基本用法：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  plugins: [</span><br><span class="line">    <span class="keyword">new</span> webpack.PrefetchPlugin(<span class="string">'/web/'</span>, <span class="string">'app/modules/HeaderNav.jsx'</span>),</span><br><span class="line">    <span class="keyword">new</span> webpack.PrefetchPlugin(<span class="string">'/web/'</span>, <span class="string">'app/pages/FrontPage.jsx'</span>)</span><br><span class="line">];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>speed-measure-webpack-plugin</p>
+<p>统计编译过程中，各loader和plugin使用的时间,基本用法</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> SpeedMeasurePlugin = <span class="built_in">require</span>(<span class="string">"speed-measure-webpack-plugin"</span>);</span><br><span class="line"> </span><br><span class="line"><span class="keyword">const</span> smp = <span class="keyword">new</span> SpeedMeasurePlugin();</span><br><span class="line"> </span><br><span class="line"><span class="keyword">const</span> webpackConfig = &#123;</span><br><span class="line">  plugins: [</span><br><span class="line">    <span class="keyword">new</span> MyPlugin(),</span><br><span class="line">    <span class="keyword">new</span> MyOtherPlugin()</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">module</span>.exports = smp.wrap(webpackConfig);</span><br></pre></td></tr></table></figure>
+
+<h2 id="Gulp"><a href="#Gulp" class="headerlink" title="Gulp"></a>Gulp</h2><p>Gulp基于Node.js的前端构建工具，通过Gulp的插件可以实现前端代码的编译（sass、less）、压缩、测试；图片的压缩；浏览器自动刷新，还有许多强大的插件可以在<a href="https://gulpjs.com/plugins/">这里</a>查找。</p>
+<p>安装</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install gulp -g</span><br></pre></td></tr></table></figure>
+
+<h3 id="Gulp-Api"><a href="#Gulp-Api" class="headerlink" title="Gulp Api"></a>Gulp Api</h3><p>使用gulp，仅需知道4个API即可：<code>gulp.task()</code>,<code>gulp.src()</code>,<code>gulp.dest()</code>,<code>gulp.watch()</code></p>
+<p><code>gulp.src()</code>方法正是用来获取流的，但要注意这个流里的内容不是原始的文件流，而是一个虚拟文件对象流(<a href="https://github.com/wearefractal/vinyl-fs">Vinyl files</a>)，这个虚拟文件对象中存储着原始文件的路径、文件名、内容等信息</p>
+<p><code>gulp.dest()</code>方法是用来写文件的，其语法为：</p>
+<p>gulp的使用流程一般是这样子的：首先通过<code>gulp.src()</code>方法获取到我们想要处理的文件流，然后把文件流通过pipe方法导入到gulp的插件中，最后把经过插件处理后的流再通过pipe方法导入到<code>gulp.dest()</code>中，<code>gulp.dest()</code>方法则把流中的内容写入到文件中，</p>
+<p><code>gulp.task</code>方法用来定义任务，内部使用的是<a href="https://github.com/robrich/orchestrator">Orchestrator</a>，其语法为：</p>
+<p><code>gulp.watch()</code>用来监视文件的变化，当文件发生变化后，我们可以利用它来执行相应的任务，例如文件压缩等。其语法为</p>
+<h3 id="常用插件"><a href="#常用插件" class="headerlink" title="常用插件"></a>常用插件</h3><p>安装gulp插件</p>
+<p>CSS</p>
+<ul>
+<li>sass的编译（<a href="https://github.com/sindresorhus/gulp-ruby-sass">gulp-ruby-sass</a>）</li>
+<li>less的编译（<a href="https://www.npmjs.com/packages/gulp-less">gulp-less</a>）</li>
+<li>自动添加css前缀（<a href="https://github.com/Metrime/gulp-autoprefixer">gulp-autoprefixer</a>）</li>
+<li>压缩css（<a href="https://github.com/jonathanepollack/gulp-minify-css">gulp-minify-css</a>）</li>
+</ul>
+<p>js</p>
+<ul>
+<li>js代码校验（<a href="https://github.com/spenceralger/gulp-jshint">gulp-jshint</a>）</li>
+<li>合并js文件（<a href="https://github.com/wearefractal/gulp-concat">gulp-concat</a>）</li>
+<li>压缩js代码（<a href="https://github.com/terinjokes/gulp-uglify">gulp-uglify</a>）</li>
+</ul>
+<p>html</p>
+<ul>
+<li>压缩html(<a href="https://www.npmjs.com/packages/gulp-minify-html">gulp-minify-html</a>)</li>
+</ul>
+<p>图片、资源</p>
+<ul>
+<li>压缩图片（<a href="https://github.com/sindresorhus/gulp-imagemin">gulp-imagemin</a>）</li>
+<li>图片缓存，只有图片替换了才压缩（<a href="https://github.com/jgable/gulp-cache">gulp-cache</a>）</li>
+</ul>
+<p>其他</p>
+<ul>
+<li>自动加载插件(<a href="https://www.npmjs.com/package/gulp-load-plugins">gulp-load-plugins</a>)</li>
+<li>自动刷新页面（<a href="https://github.com/vohof/gulp-livereload">gulp-livereload</a>）</li>
+<li>更改提醒（<a href="https://github.com/mikaelbr/gulp-notify">gulp-notify</a>）</li>
+<li>重命名（<a href="https://www.npmjs.com/packages/gulp-rename">gulp-rename</a>）</li>
+<li>清除文件（<a href="https://www.npmjs.org/package/del">del</a>）</li>
+</ul>
+<p>安装这些插件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install gulp-ruby-sass gulp-autoprefixer gulp-minify-css gulp-jshint gulp-concat gulp-uglify gulp-imagemin gulp-notify gulp-rename gulp-livereload gulp-cache del --save-dev</span><br></pre></td></tr></table></figure>
+
+<p>创建一个gulpfile.js在根目录下，然后在里面加载插件：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> gulp = <span class="built_in">require</span>(<span class="string">'gulp'</span>),</span><br><span class="line">    sass = <span class="built_in">require</span>(<span class="string">'gulp-ruby-sass'</span>),</span><br><span class="line">    autoprefixer = <span class="built_in">require</span>(<span class="string">'gulp-autoprefixer'</span>),</span><br><span class="line">    minifycss = <span class="built_in">require</span>(<span class="string">'gulp-minify-css'</span>),</span><br><span class="line">    jshint = <span class="built_in">require</span>(<span class="string">'gulp-jshint'</span>),</span><br><span class="line">    uglify = <span class="built_in">require</span>(<span class="string">'gulp-uglify'</span>),</span><br><span class="line">    imagemin = <span class="built_in">require</span>(<span class="string">'gulp-imagemin'</span>),</span><br><span class="line">    rename = <span class="built_in">require</span>(<span class="string">'gulp-rename'</span>),</span><br><span class="line">    concat = <span class="built_in">require</span>(<span class="string">'gulp-concat'</span>),</span><br><span class="line">    notify = <span class="built_in">require</span>(<span class="string">'gulp-notify'</span>),</span><br><span class="line">    cache = <span class="built_in">require</span>(<span class="string">'gulp-cache'</span>),</span><br><span class="line">    livereload = <span class="built_in">require</span>(<span class="string">'gulp-livereload'</span>),</span><br><span class="line">    del = <span class="built_in">require</span>(<span class="string">'del'</span>);</span><br></pre></td></tr></table></figure>
+
+<p>创建任务</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Load plugins</span></span><br><span class="line"><span class="keyword">var</span> gulp = <span class="built_in">require</span>(<span class="string">'gulp'</span>),</span><br><span class="line">    sass = <span class="built_in">require</span>(<span class="string">'gulp-ruby-sass'</span>),</span><br><span class="line">    autoprefixer = <span class="built_in">require</span>(<span class="string">'gulp-autoprefixer'</span>),</span><br><span class="line">    minifycss = <span class="built_in">require</span>(<span class="string">'gulp-minify-css'</span>),</span><br><span class="line">    jshint = <span class="built_in">require</span>(<span class="string">'gulp-jshint'</span>),</span><br><span class="line">    uglify = <span class="built_in">require</span>(<span class="string">'gulp-uglify'</span>),</span><br><span class="line">    imagemin = <span class="built_in">require</span>(<span class="string">'gulp-imagemin'</span>),</span><br><span class="line">    rename = <span class="built_in">require</span>(<span class="string">'gulp-rename'</span>),</span><br><span class="line">    concat = <span class="built_in">require</span>(<span class="string">'gulp-concat'</span>),</span><br><span class="line">    notify = <span class="built_in">require</span>(<span class="string">'gulp-notify'</span>),</span><br><span class="line">    cache = <span class="built_in">require</span>(<span class="string">'gulp-cache'</span>),</span><br><span class="line">    livereload = <span class="built_in">require</span>(<span class="string">'gulp-livereload'</span>),</span><br><span class="line">    del = <span class="built_in">require</span>(<span class="string">'del'</span>);</span><br><span class="line"><span class="comment">// Styles，编译sass，添加前缀，保存到我们指定的目录下面，还没结束，我们还要压缩，给文件添加.min后缀再输出压缩文件到指定目录，最后提醒任务完成了</span></span><br><span class="line">gulp.task(<span class="string">'styles'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> gulp.src(<span class="string">'src/styles/main.scss'</span>)</span><br><span class="line">    .pipe(sass(&#123; <span class="attr">style</span>: <span class="string">'expanded'</span>, &#125;))</span><br><span class="line">    .pipe(autoprefixer(<span class="string">'last 2 version'</span>, <span class="string">'safari 5'</span>, <span class="string">'ie 8'</span>, <span class="string">'ie 9'</span>, <span class="string">'opera 12.1'</span>, <span class="string">'ios 6'</span>, <span class="string">'android 4'</span>))</span><br><span class="line">    .pipe(gulp.dest(<span class="string">'dist/styles'</span>))</span><br><span class="line">    .pipe(rename(&#123; <span class="attr">suffix</span>: <span class="string">'.min'</span> &#125;))</span><br><span class="line">    .pipe(minifycss())</span><br><span class="line">    .pipe(gulp.dest(<span class="string">'dist/styles'</span>))</span><br><span class="line">    .pipe(notify(&#123; <span class="attr">message</span>: <span class="string">'Styles task complete'</span> &#125;));</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// Scripts，js代码校验、合并和压缩</span></span><br><span class="line">gulp.task(<span class="string">'scripts'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> gulp.src(<span class="string">'src/scripts/**/*.js'</span>)</span><br><span class="line">    .pipe(jshint(<span class="string">'.jshintrc'</span>))</span><br><span class="line">    .pipe(jshint.reporter(<span class="string">'default'</span>))</span><br><span class="line">    .pipe(concat(<span class="string">'main.js'</span>))</span><br><span class="line">    .pipe(gulp.dest(<span class="string">'dist/scripts'</span>))</span><br><span class="line">    .pipe(rename(&#123; <span class="attr">suffix</span>: <span class="string">'.min'</span> &#125;))</span><br><span class="line">    .pipe(uglify())</span><br><span class="line">    .pipe(gulp.dest(<span class="string">'dist/scripts'</span>))</span><br><span class="line">    .pipe(notify(&#123; <span class="attr">message</span>: <span class="string">'Scripts task complete'</span> &#125;));</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// Images，使用imagemin插件把所有在src/images/目录以及其子目录下的所有图片（文件）进行压缩，我们可以进一步优化，利用缓存保存已经压缩过的图片</span></span><br><span class="line">gulp.task(<span class="string">'images'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> gulp.src(<span class="string">'src/images/**/*'</span>)</span><br><span class="line">    .pipe(cache(imagemin(&#123; <span class="attr">optimizationLevel</span>: <span class="number">3</span>, <span class="attr">progressive</span>: <span class="literal">true</span>, <span class="attr">interlaced</span>: <span class="literal">true</span> &#125;)))</span><br><span class="line">    .pipe(gulp.dest(<span class="string">'dist/images'</span>))</span><br><span class="line">    .pipe(notify(&#123; <span class="attr">message</span>: <span class="string">'Images task complete'</span> &#125;));</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// Clean，在任务执行前，最好先清除之前生成的文件</span></span><br><span class="line">gulp.task(<span class="string">'clean'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">cb</span>) </span>&#123;</span><br><span class="line">    del([<span class="string">'dist/assets/css'</span>, <span class="string">'dist/assets/js'</span>, <span class="string">'dist/assets/img'</span>], cb)</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// Default task设置默认任务，在命令行下输入$ gulp执行的就是默认任务，现在我们为默认任务指定执行上面写好的三个任务：</span></span><br><span class="line">gulp.task(<span class="string">'default'</span>, [<span class="string">'clean'</span>], <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    gulp.start(<span class="string">'styles'</span>, <span class="string">'scripts'</span>, <span class="string">'images'</span>);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// Watch，实现当文件修改时自动刷新页面，我们要修改watch任务，配置LiveReload：</span></span><br><span class="line">gulp.task(<span class="string">'watch'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// Watch .scss files</span></span><br><span class="line">  gulp.watch(<span class="string">'src/styles/**/*.scss'</span>, [<span class="string">'styles'</span>]);</span><br><span class="line">  <span class="comment">// Watch .js files</span></span><br><span class="line">  gulp.watch(<span class="string">'src/scripts/**/*.js'</span>, [<span class="string">'scripts'</span>]);</span><br><span class="line">  <span class="comment">// Watch image files</span></span><br><span class="line">  gulp.watch(<span class="string">'src/images/**/*'</span>, [<span class="string">'images'</span>]);</span><br><span class="line">  <span class="comment">// Create LiveReload server</span></span><br><span class="line">  livereload.listen();</span><br><span class="line">  <span class="comment">// Watch any files in dist/, reload on change</span></span><br><span class="line">  gulp.watch([<span class="string">'dist/**'</span>]).on(<span class="string">'change'</span>, livereload.changed);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="gulp与webpack、grant的区别"><a href="#gulp与webpack、grant的区别" class="headerlink" title="gulp与webpack、grant的区别"></a>gulp与webpack、grant的区别</h3><p>与webpack</p>
+<p>gulp严格上讲，模块化不是他强调的东西，他旨在规范前端开发流程。</p>
+<p>webpack更是明显强调模块化开发，而那些文件压缩合并、预处理等功能，不过是他附带的功能。</p>
+<p>gulp应该与grunt比较，而webpack应该与browserify</p>
+<p>gulp与webpack上是互补的，还是可替换的，取决于你项目的需求。如果只是个vue或react的单页应用，webpack也就够用；如果webpack某些功能使用起来麻烦甚至没有（雪碧图就没有），那就可以结合gulp一起用。</p>
+<p>与grunt</p>
+<p>Grunt主要是以文件为媒介来运行它的工作流的，比如在Grunt中执行完一项任务后，会把结果写入到一个临时文件中，然后可以在这个临时文件内容的基础上执行其它任务，执行完成后又把结果写入到临时文件中，然后又以这个为基础继续执行其它任务…就这样反复下去。而在Gulp中，使用的是Nodejs中的<a href="http://nodejs.org/api/stream.html">stream</a>(流)，首先获取到需要的stream，然后可以通过stream的<code>pipe()</code>方法把流导入到你想要的地方，比如Gulp的插件中，经过插件处理后的流又可以继续导入到其他插件中，当然也可以把流写入到文件中。所以Gulp是以stream为媒介的，它不需要频繁的生成临时文件，这也是Gulp的速度比Grunt快的一个原因。</p>
+<p><a href="https://markpop.github.io/2014/09/17/Gulp%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/">https://markpop.github.io/2014/09/17/Gulp%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/</a></p>
+<p><a href="https://www.cnblogs.com/2050/p/4198792.html">https://www.cnblogs.com/2050/p/4198792.html</a></p>
+<h2 id="G6"><a href="#G6" class="headerlink" title="G6"></a>G6</h2><p><a href="https://github.com/antvis/g6">G6</a> 是一个图可视化引擎。它提供了图的绘制、布局、分析、交互、动画等图可视化的基础能力。旨在让关系变得透明，简单。让用户获得关系数据的 Insight。</p>
+<p>安装</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install @antv/g6</span><br></pre></td></tr></table></figure>
+
+<p>导入</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> G6 <span class="keyword">from</span> <span class="string">'@antv/g6'</span></span><br></pre></td></tr></table></figure>
+
+<p>创建步骤：1.在html中创建容器</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=<span class="string">"mountNode"</span>&gt;&lt;<span class="regexp">/div&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>2.引入 G6 的数据源为 JSON 格式的对象。该对象中需要有节点（<code>nodes</code>）和边（<code>edges</code>）字段，分别用数组表示：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> data = &#123;</span><br><span class="line">  <span class="comment">// 点集</span></span><br><span class="line">  nodes: [</span><br><span class="line">    &#123;</span><br><span class="line">      id: <span class="string">'node1'</span>, <span class="comment">// String，该节点存在则必须，节点的唯一标识</span></span><br><span class="line">      x: <span class="number">100</span>, <span class="comment">// Number，可选，节点位置的 x 值</span></span><br><span class="line">      y: <span class="number">200</span>, <span class="comment">// Number，可选，节点位置的 y 值</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      id: <span class="string">'node2'</span>, <span class="comment">// String，该节点存在则必须，节点的唯一标识</span></span><br><span class="line">      x: <span class="number">300</span>, <span class="comment">// Number，可选，节点位置的 x 值</span></span><br><span class="line">      y: <span class="number">200</span>, <span class="comment">// Number，可选，节点位置的 y 值</span></span><br><span class="line">    &#125;,</span><br><span class="line">  ],</span><br><span class="line">  <span class="comment">// 边集</span></span><br><span class="line">  edges: [</span><br><span class="line">    &#123;</span><br><span class="line">      source: <span class="string">'node1'</span>, <span class="comment">// String，必须，起始点 id</span></span><br><span class="line">      target: <span class="string">'node2'</span>, <span class="comment">// String，必须，目标点 id</span></span><br><span class="line">    &#125;,</span><br><span class="line">  ],</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>3.创建关系图（实例化）时，至少需要为图设置容器、宽和高。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> graph = <span class="keyword">new</span> G6.Graph(&#123;</span><br><span class="line">  container: <span class="string">'mountNode'</span>, <span class="comment">// String | HTMLElement，必须，在 Step 1 中创建的容器 id 或容器本身</span></span><br><span class="line">  width: <span class="number">800</span>, <span class="comment">// Number，必须，图的宽度</span></span><br><span class="line">  height: <span class="number">500</span>, <span class="comment">// Number，必须，图的高度</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>4.配置数据源，渲染</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">graph.data(data); <span class="comment">// 读取 Step 2 中的数据源到图上</span></span><br><span class="line">graph.render(); <span class="comment">// 渲染图</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="WebRTC"><a href="#WebRTC" class="headerlink" title="WebRTC"></a>WebRTC</h2><h2 id="mockjs"><a href="#mockjs" class="headerlink" title="mockjs"></a>mockjs</h2><h2 id="jsPlumb"><a href="#jsPlumb" class="headerlink" title="jsPlumb"></a>jsPlumb</h2><p>jsPlumb适用于必须绘制图表的Web应用程序.例如类似于Visio的应用程序或工作流程设计器等。由于图表项目和连接的所有参数都是非常精细可控的，因此您可以绘制您可以想到的任何类型的图表的！</p>
+<p>基本概念</p>
+<p>Souce 源节点、Target 目标节点、Anchor 锚点、Endpoint 端点、Connector 连接</p>
+<h2 id="D3js"><a href="#D3js" class="headerlink" title="D3js"></a>D3js</h2><p>安装</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install d3</span><br></pre></td></tr></table></figure>
+
+<p>全局导入或者部分导入</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//全局导入</span></span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> d3 <span class="keyword">from</span> <span class="string">"d3"</span>;</span><br><span class="line"><span class="comment">//部分导入</span></span><br><span class="line"><span class="keyword">import</span> &#123;scaleLinear&#125; <span class="keyword">from</span> <span class="string">"d3-scale"</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+<p>​                   </p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">IT，Web,数据库</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        <div class="social-share" data-disabled="tencent,linkedin,douban,diandian,google"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css">
+<script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script>
+
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3>
+        <div class="buttons is-centered">
+            
+                
+<a class="button is-info donate">
+    <span class="icon is-small">
+        <i class="fab fa-alipay"></i>
+    </span>
+    <span>支付宝</span>
+    <div class="qrcode"><img src="http://q6mb9zdoi.bkt.clouddn.com/alipay.jpg" alt="支付宝"></div>
+</a>
+
+                
+                
+<a class="button is-success donate">
+    <span class="icon is-small">
+        <i class="fab fa-weixin"></i>
+    </span>
+    <span>微信</span>
+    <div class="qrcode"><img src="http://q6mb9zdoi.bkt.clouddn.com/wechatpay.jpg" alt="微信"></div>
+</a>
+
+                
+        </div>
+    </div>
+</div>
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2021/01/14/Node/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">Javascript开发（一）</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/12/14/%E5%89%8D%E7%AB%AF%E8%BF%9B%E9%98%B6%E4%BA%8C/">
+                <span class="level-item">前端进阶（二）</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">评论</h3>
+        
+<div class="notification is-danger">
+    You forgot to set the <code>app_id</code> or <code>app_key</code> for Valine. Please set it in <code>_config.yml</code>.
+</div>
+
+    </div>
+</div>
+
+
+<div class="level is-size-7 has-text-grey">
+</br>
+    <div class="level-left">
+	
+        <i class="far fa-eye"></i>
+		<span>&nbsp;</span>
+		
+		<h3>本文章阅读量：</h3>
+        <span>&nbsp;</span>
+        <span id="busuanzi_container_page_pv" style="display: inline;">
+            <span id="busuanzi_value_page_pv">0</span>
+        </span>
+    </div>
+</div></div>
+                
+
+
+
+
+
+<div class="column is-4-tablet is-5-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="" src="https://s1.ax1x.com/2020/03/27/G9OfNn.th.png" alt="张坤">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        张坤
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        Undergraduates/Tech Learner
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>山西·太原</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <a href="/archives">
+                        <p class="title has-text-weight-normal">
+                            94
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <a href="/categories">
+                        <p class="title has-text-weight-normal">
+                            7
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <a href="/tags">
+                        <p class="title has-text-weight-normal">
+                            47
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/Kun8018" target="_blank" rel="noopener">
+                关注我</a>
+        </div>
+        
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="微信" href="http://q6mb9zdoi.bkt.clouddn.com/alipay.jpg">
+                
+                <i class="fab fa-weixin"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="QQ" href="https://facebook.com">
+                
+                <i class="fab fa-qq"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="邮箱" href="https://twitter.com">
+                
+                <i class="fa fa-envelope"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="B站" href="https://dribbble.com">
+                
+                <i class="fab fa-dribbble"></i>
+                
+            </a>
+            
+        </div>
+        
+		<hr>
+        <p id="evan">IT学徒、技术民工、斜杠青年</p>
+          <p id="evan">机器人爱好者、摄影爱好者</p>
+          <p id="evan">PS、PR、LR、达芬奇潜在学习者</p>
+		  </div>
+</div>
+    
+        
+
+    <div class="card widget" id="toc">
+        <div class="card-content">
+            <div class="menu">
+                <h3 class="menu-label">
+                    目录
+                </h3>
+                <ul class="menu-list"><li>
+        <a class="is-flex" href="#js底层原理">
+        <span class="has-mr-6">1</span>
+        <span>js底层原理</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#js执行过程">
+        <span class="has-mr-6">1.1</span>
+        <span>js执行过程</span>
+        </a></li><li>
+        <a class="is-flex" href="#AST的应用">
+        <span class="has-mr-6">1.2</span>
+        <span>AST的应用</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#Webpack">
+        <span class="has-mr-6">2</span>
+        <span>Webpack</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#webpack中的基本概念">
+        <span class="has-mr-6">2.1</span>
+        <span>webpack中的基本概念</span>
+        </a></li><li>
+        <a class="is-flex" href="#配置的相关概念">
+        <span class="has-mr-6">2.2</span>
+        <span>配置的相关概念</span>
+        </a></li><li>
+        <a class="is-flex" href="#代码分离">
+        <span class="has-mr-6">2.3</span>
+        <span>代码分离</span>
+        </a></li><li>
+        <a class="is-flex" href="#tree-shaking">
+        <span class="has-mr-6">2.4</span>
+        <span>tree shaking</span>
+        </a></li><li>
+        <a class="is-flex" href="#支持typescript">
+        <span class="has-mr-6">2.5</span>
+        <span>支持typescript</span>
+        </a></li><li>
+        <a class="is-flex" href="#创建插件和loader">
+        <span class="has-mr-6">2.6</span>
+        <span>创建插件和loader</span>
+        </a></li><li>
+        <a class="is-flex" href="#创建脚手架">
+        <span class="has-mr-6">2.7</span>
+        <span>创建脚手架</span>
+        </a></li><li>
+        <a class="is-flex" href="#webpack-的缺点">
+        <span class="has-mr-6">2.8</span>
+        <span>webpack 的缺点</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#Webpack插件汇总">
+        <span class="has-mr-6">3</span>
+        <span>Webpack插件汇总</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#功能类">
+        <span class="has-mr-6">3.1</span>
+        <span>功能类</span>
+        </a></li><li>
+        <a class="is-flex" href="#代码相关类">
+        <span class="has-mr-6">3.2</span>
+        <span>代码相关类</span>
+        </a></li><li>
+        <a class="is-flex" href="#编译结果优化类">
+        <span class="has-mr-6">3.3</span>
+        <span>编译结果优化类</span>
+        </a></li><li>
+        <a class="is-flex" href="#编译优化类">
+        <span class="has-mr-6">3.4</span>
+        <span>编译优化类</span>
+        </a></li><li>
+        <a class="is-flex" href="#编译分析类">
+        <span class="has-mr-6">3.5</span>
+        <span>编译分析类</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#Gulp">
+        <span class="has-mr-6">4</span>
+        <span>Gulp</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#Gulp-Api">
+        <span class="has-mr-6">4.1</span>
+        <span>Gulp Api</span>
+        </a></li><li>
+        <a class="is-flex" href="#常用插件">
+        <span class="has-mr-6">4.2</span>
+        <span>常用插件</span>
+        </a></li><li>
+        <a class="is-flex" href="#gulp与webpack、grant的区别">
+        <span class="has-mr-6">4.3</span>
+        <span>gulp与webpack、grant的区别</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#G6">
+        <span class="has-mr-6">5</span>
+        <span>G6</span>
+        </a></li><li>
+        <a class="is-flex" href="#WebRTC">
+        <span class="has-mr-6">6</span>
+        <span>WebRTC</span>
+        </a></li><li>
+        <a class="is-flex" href="#mockjs">
+        <span class="has-mr-6">7</span>
+        <span>mockjs</span>
+        </a></li><li>
+        <a class="is-flex" href="#jsPlumb">
+        <span class="has-mr-6">8</span>
+        <span>jsPlumb</span>
+        </a></li><li>
+        <a class="is-flex" href="#D3js">
+        <span class="has-mr-6">9</span>
+        <span>D3js</span>
+        </a></li></ul>
+            </div>
+        </div>
+    </div>
+
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https:www.iros2019.org" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">IEEE-IROS</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.iros2019.org</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https:www.icra2020.org" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">IEEE-ICRA</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.icra2020.org</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/IT/">
+            <span class="level-start">
+                <span class="level-item">IT</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">30</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E4%B8%AA%E4%BA%BA%E5%B9%B8%E7%A6%8F/">
+            <span class="level-start">
+                <span class="level-item">个人幸福</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">
+            <span class="level-start">
+                <span class="level-item">个人生活</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">23</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">
+            <span class="level-start">
+                <span class="level-item">技术博客</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">31</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%9C%8B%E5%8F%8B/">
+            <span class="level-start">
+                <span class="level-item">朋友</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E7%94%9F%E6%B4%BB/">
+            <span class="level-start">
+                <span class="level-item">生活</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E7%94%9F%E6%B4%BB%E6%84%9F%E6%82%9F/">
+            <span class="level-start">
+                <span class="level-item">生活感悟</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            标签云
+        </h3>
+        <a href="/tags/IT/" style="font-size: 10px;">IT</a> <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 12.5px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 10px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8C/" style="font-size: 12.5px;">IT,Web，</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 12.5px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 12.5px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 12.5px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 10px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb/" style="font-size: 15px;">IT，Web</a> <a href="/tags/IT%EF%BC%8CWeb-Javascript/" style="font-size: 10px;">IT，Web,Javascript</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 17.5px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 10px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 15px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 15px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 12.5px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 10px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 12.5px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 17.5px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 15px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 15px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">幸福</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 12.5px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/" style="font-size: 15px;">技术，IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 12.5px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 12.5px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 12.5px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 17.5px;">生活、幸福</a> <a href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">记录，生活</a>
+    </div>
+</div>
+    
+    
+        <div class="column-right-shadow  ">
+        
+            <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2021/02/02/2020%E6%96%B0%E5%B9%B4%E6%80%BB%E7%BB%93/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/happy-new-year-fireworks.jpg" alt="2020小结">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-02-02T13:40:33.000Z">2021-02-02</time></div>
+                    <a href="/2021/02/02/2020%E6%96%B0%E5%B9%B4%E6%80%BB%E7%BB%93/" class="title has-link-black-ter is-size-6 has-text-weight-normal">2020小结</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">个人生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2021/01/23/Node8/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/nestjs.png" alt="NodeJs开发（八）">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-23T13:40:33.000Z">2021-01-23</time></div>
+                    <a href="/2021/01/23/Node8/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（八）</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/IT/">IT</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2021/01/22/Node7/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/koajs.jpeg" alt="NodeJs开发（七）">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-22T14:40:33.000Z">2021-01-22</time></div>
+                    <a href="/2021/01/22/Node7/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（七）</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/IT/">IT</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2021/01/21/Node6/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/typescript.jpg" alt="NodeJs开发（六）">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-21T13:40:33.000Z">2021-01-21</time></div>
+                    <a href="/2021/01/21/Node6/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（六）</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/IT/">IT</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2021/01/20/Node5/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/nodejs.png" alt="NodeJs开发（五）">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-20T13:40:33.000Z">2021-01-20</time></div>
+                    <a href="/2021/01/20/Node5/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（五）</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/IT/">IT</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            归档
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2021/02/">
+                <span class="level-start">
+                    <span class="level-item">二月 2021</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2021/01/">
+                <span class="level-start">
+                    <span class="level-item">一月 2021</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">8</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/12/">
+                <span class="level-start">
+                    <span class="level-item">十二月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/10/">
+                <span class="level-start">
+                    <span class="level-item">十月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/09/">
+                <span class="level-start">
+                    <span class="level-item">九月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/08/">
+                <span class="level-start">
+                    <span class="level-item">八月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">9</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/07/">
+                <span class="level-start">
+                    <span class="level-item">七月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/06/">
+                <span class="level-start">
+                    <span class="level-item">六月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">12</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/04/">
+                <span class="level-start">
+                    <span class="level-item">四月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/03/">
+                <span class="level-start">
+                    <span class="level-item">三月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">46</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/02/">
+                <span class="level-start">
+                    <span class="level-item">二月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                标签
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT/">
+                        <span class="tag">IT</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Java-Web/">
+                        <span class="tag">IT,Java,Web</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web/">
+                        <span class="tag">IT,Web</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web/">
+                        <span class="tag">IT,Web,</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8C/">
+                        <span class="tag">IT,Web，</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/">
+                        <span class="tag">IT,Web，Android、Java</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8CC/">
+                        <span class="tag">IT,Web，C++</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8CFlutter/">
+                        <span class="tag">IT,Web，Flutter</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8CIOS/">
+                        <span class="tag">IT,Web，IOS</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8CMac/">
+                        <span class="tag">IT,Web，Mac</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/">
+                        <span class="tag">IT,Web，算法</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/">
+                        <span class="tag">IT、友情</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/">
+                        <span class="tag">IT、小程序、H5App</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8C/">
+                        <span class="tag">IT，</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CApp-Node-Electron/">
+                        <span class="tag">IT，App,Node,Electron</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CFlutter/">
+                        <span class="tag">IT，Flutter</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CGithub/">
+                        <span class="tag">IT，Github</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CRN%EF%BC%8C/">
+                        <span class="tag">IT，RN，</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb/">
+                        <span class="tag">IT，Web</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Javascript/">
+                        <span class="tag">IT，Web,Javascript</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Node/">
+                        <span class="tag">IT，Web,Node</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/">
+                        <span class="tag">IT，Web,Node，React</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-PHP/">
+                        <span class="tag">IT，Web,PHP</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Vue/">
+                        <span class="tag">IT，Web,Vue</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/">
+                        <span class="tag">IT，Web,Vue，Node、React</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/">
+                        <span class="tag">IT，Web,数据库</span>
+                        <span class="tag is-grey">6</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8Cweb/">
+                        <span class="tag">IT，web</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/">
+                        <span class="tag">IT，未来</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Web-IT-Flutter/">
+                        <span class="tag">Web,IT,Flutter</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Web-IT-Go/">
+                        <span class="tag">Web,IT,Go</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/">
+                        <span class="tag">Web，IT，HTML，CSS</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/">
+                        <span class="tag">个人生活，幸福</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/">
+                        <span class="tag">兴趣，幸福</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/">
+                        <span class="tag">励志、文学</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E5%8F%8B%E6%83%85/">
+                        <span class="tag">友情</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E5%B9%B8%E7%A6%8F/">
+                        <span class="tag">幸福</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">
+                        <span class="tag">幸福，个人生活</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/">
+                        <span class="tag">技术宅、IT</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/">
+                        <span class="tag">技术，IT</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/">
+                        <span class="tag">技术，Robotic，IT</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/">
+                        <span class="tag">摄影，记录，生活</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%B7%B1%E5%9C%B3/">
+                        <span class="tag">深圳</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/">
+                        <span class="tag">爱情，幸福</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E7%94%9F%E6%B4%BB/">
+                        <span class="tag">生活</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E7%94%9F%E6%B4%BB/">
+                        <span class="tag">生活#</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/">
+                        <span class="tag">生活、幸福</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/">
+                        <span class="tag">记录，生活</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+				
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="https://s1.ax1x.com/2020/03/27/G9OfNn.th.png" alt="前端进阶（一）" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2021 Kun Zhang&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+               <!-- 
+                <br>
+                <span id="busuanzi_container_site_uv">
+                共<span id="busuanzi_value_site_uv">0</span>个访客
+                </span>
+                 -->
+				
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+	
+	   <div style="text-align: center;">
+			<br>
+			<p class="is-size-7">
+				
+				<span id="busuanzi_container_site_uv">
+					<i class="fa fa-user"></i> 本站访客数 <span id="busuanzi_value_site_uv"></span> 人次
+				</span>
+				<span id="busuanzi_container_site_pv">
+					|  <i class="fa fa-eye"></i> 本站总访问量 <span id="busuanzi_value_site_pv"></span> 次
+				</span>
+				
+			</p>
+			<span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+		<script>
+			var now = new Date(); 
+			function createtime() { 
+				var grt= new Date("3/2/2020 08:00:00");// 此处修改你的建站时间或者网站上线时间 
+				now.setTime(now.getTime()+250); 
+				days = (now - grt) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+				hours = (now - grt) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+				if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+				mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+				seconds = (now - grt) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+				snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+				document.getElementById("timeDate").innerHTML = "本站已安全运行"+dnum+"天"; 
+				document.getElementById("times").innerHTML = hnum + "小时" + mnum + "分" + snum + "秒"; 
+			} 
+			setInterval("createtime()",250);
+		</script>
+		</div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'http://kun8018.gitee.io',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'unfolded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

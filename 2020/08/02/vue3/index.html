@@ -19,7 +19,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://s1.ax1x.com/2020/03/27/G9XCuD.th.jpg">
 <meta property="article:published_time" content="2020-08-02T13:40:33.000Z">
-<meta property="article:modified_time" content="2020-12-29T11:33:03.182Z">
+<meta property="article:modified_time" content="2021-02-02T02:07:16.769Z">
 <meta property="article:author" content="Kun Zhang">
 <meta property="article:tag" content="IT，Web,Vue">
 <meta name="twitter:card" content="summary">
@@ -158,7 +158,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    6 分钟 读完 (大约 874 个字)
+                    13 分钟 读完 (大约 1919 个字)
                 </span>
                 
                 
@@ -178,6 +178,106 @@
         <div class="content">
             <h2 id="Vue（三）"><a href="#Vue（三）" class="headerlink" title="Vue（三）"></a>Vue（三）</h2><p>　　vue新版本解析，代号”one-piece“</p>
 <a id="more"></a>
+
+<h2 id="其他组件"><a href="#其他组件" class="headerlink" title="其他组件"></a>其他组件</h2><p>clipboard-polyfill xgplayer qrcode</p>
+<h3 id="轮播图"><a href="#轮播图" class="headerlink" title="轮播图"></a>轮播图</h3><p>安装包</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install vue-awesome-swiper --save</span><br></pre></td></tr></table></figure>
+
+<p>引入</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//全局引入</span></span><br><span class="line"><span class="keyword">import</span> VueAwesomeSwiper <span class="keyword">from</span> <span class="string">'vue-awesome-swiper'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">'swiper/dist/css/swiper.css'</span></span><br><span class="line">Vue.use(VueAwesomeSwiper)</span><br><span class="line"><span class="comment">//组件引入</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">'swiper/dist/css/swiper.css'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> &#123;Swiper,swiperSlide&#125; <span class="keyword">from</span> <span class="string">'vue-awesome-swiper'</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>修改swiper属性，自动播放与延时</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="验证码"><a href="#验证码" class="headerlink" title="验证码"></a>验证码</h3><p><a href="https://www.npmjs.com/package/vue2-verify">https://www.npmjs.com/package/vue2-verify</a></p>
+<h3 id="markdown编辑器"><a href="#markdown编辑器" class="headerlink" title="markdown编辑器"></a>markdown编辑器</h3><p>mavon-editor</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install mavon-editor --save</span><br></pre></td></tr></table></figure>
+
+<p>在app.js引入</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> mavonEditor <span class="keyword">from</span> <span class="string">'mavon-editor'</span></span><br><span class="line">Vue.use(mavonEditor)</span><br></pre></td></tr></table></figure>
+
+<p>在页面引入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">&lt;div&gt;</span><br><span class="line">    &lt;mavon-editor v-model&#x3D;&#39;content&#39;&#x2F;&gt;</span><br><span class="line">    &lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;template&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default&#123;</span><br><span class="line">    data()&#123;</span><br><span class="line">        return&#123;</span><br><span class="line">            content:&#39;&#39;,</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="直播"><a href="#直播" class="headerlink" title="直播"></a>直播</h3><p>播放器使用的是 <a href="https://github.com/surmon-china/vue-video-player">vue-video-player</a>，其实就是 <a href="https://github.com/videojs/video.js">video.js</a> 集成到 vue 中，后台主要输出 RTMP 和 HLS 的直播流</p>
+<ol>
+<li>如果需要播放 HLS 流，需要安装 <a href="https://github.com/videojs/videojs-contrib-hls">videojs-contrib-hls</a> 插件，非原生支持的浏览器，直播服务端需要开启 CORS（后面会讲到）</li>
+<li>如果需要播放 RTMP 流，需要安装 <a href="https://github.com/videojs/videojs-flash">videojs-flash</a> 插件</li>
+<li>如果两个流都需要播放，flash 插件需要安装到 hls 插件之前</li>
+</ol>
+<p>兼容性：</p>
+<ol>
+<li>RTMP: 上面说了 RTMP 是 Adobe 公司研发的协议，目前主要的直播服务都主推 RTMP 流，它延时小，但是需要 flash 插件的支持，也需要的上面提到的安装 <code>videojs-flash</code> 的插件。但是在 MAC 下对 flash 插件支持不友好，而且 MAC 下的 flash 插件 firefox 浏览器和 chrome 还是两个插件。。这就很尴尬。</li>
+<li>HLS: 这个协议兼容性较好，但是最大的缺点是延迟较高，大概 20s 左右，所以只能当做备选方案。</li>
+</ol>
+<p>说 HLS 兼容性较好，主要是指可以通过 JS 让用户免配置（不必安装flash），可以在 caniuse 看下 HLS 的支持程度</p>
+<p>最后我们使用的方案是。优先使用 RTMP 流，如果不支持，就切换到 HLS 流。好在这个切换过程 video.js 会自动替我们做。下面贴一下相关配置代码。</p>
+<p><a href="https://segmentfault.com/a/1190000011346597">https://segmentfault.com/a/1190000011346597</a></p>
+<h3 id="循环播放插件"><a href="#循环播放插件" class="headerlink" title="循环播放插件"></a>循环播放插件</h3><p>Vue-seamless-scroll</p>
+<p>安装</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install vue-seamless-scroll --save</span><br></pre></td></tr></table></figure>
+
+<p>在文件中引入</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> vueSeamlessScroll <span class="keyword">from</span> <span class="string">'vue-seamless-scroll'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  data()&#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">     components:&#123;</span><br><span class="line">       vueSeamlessScroll</span><br><span class="line">     &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在页面中使用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;vue-seamless-scroll :data&#x3D;&quot;Array&quot; :class-option&#x3D;&quot;classOption&quot;&gt;</span><br><span class="line">     	&lt;ul&gt;</span><br><span class="line">      	&lt;li&gt;</span><br><span class="line">          </span><br><span class="line">				&lt;&#x2F;li&gt;</span><br><span class="line">  		&lt;&#x2F;ul&gt;</span><br><span class="line">  &lt;&#x2F;vue-seamless-scroll&gt;</span><br><span class="line">&lt;&#x2F;template&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  computed:&#123;</span><br><span class="line">    classOption () &#123;</span><br><span class="line">      return &#123;</span><br><span class="line">        &#x2F;&#x2F;上下滚动时父容器指定height和overflow：hidden，左右滚动时指定width</span><br><span class="line">        step:0.2 &#x2F;&#x2F;数值越大，滚动速度越快</span><br><span class="line">        limitMoveNum: 2 &#x2F;&#x2F;开始无缝滚动的数据量</span><br><span class="line">        hoverStop: true &#x2F;&#x2F;是否开启鼠标悬停stop</span><br><span class="line">        direction: 0 &#x2F;&#x2F;0向下，1向上，2向左，3向右</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<h3 id="vue-auth"><a href="#vue-auth" class="headerlink" title="vue-auth"></a>vue-auth</h3><p>安装包</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install @websnaova/vue-auth</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="vue-pdf"><a href="#vue-pdf" class="headerlink" title="vue-pdf"></a>vue-pdf</h3><h3 id="输出导入excel文件"><a href="#输出导入excel文件" class="headerlink" title="输出导入excel文件"></a>输出导入excel文件</h3><p>使用sheetjs库</p>
+<p>安装</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install xlsx</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="输出打印"><a href="#输出打印" class="headerlink" title="输出打印"></a>输出打印</h3><p>vue-print-nb</p>
+<p>安装</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save vue-print-nb</span><br></pre></td></tr></table></figure>
+
+<p>在main.js中全局引入</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Print <span class="keyword">from</span> <span class="string">'vue-print-nb'</span></span><br><span class="line"></span><br><span class="line">Vue.use(Print)</span><br></pre></td></tr></table></figure>
+
+<p>通过id打印</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;tr id&#x3D;&quot;printInfo&quot;&gt;</span><br><span class="line">  </span><br><span class="line">&lt;&#x2F;tr&gt;</span><br><span class="line">&lt;el-button </span><br><span class="line">   type &#x3D; &quot;primary&quot;</span><br><span class="line">   key &#x3D; &quot;printInfo&quot;</span><br><span class="line">   v-print &#x3D; &quot;&#39;#printInfo&#39;&quot;&gt;</span><br><span class="line">&lt;&#x2F;el-button&gt;</span><br></pre></td></tr></table></figure>
+
+<p>要打印的组件必须渲染出来，否则会报错。</p>
+<h3 id="地图"><a href="#地图" class="headerlink" title="地图"></a>地图</h3><p>leafletjs</p>
+<p>leaflet是一个对移动端优化的交互地图并且开源的JavaScript库，是一个十分轻量级的WebGIS库。</p>
+<p>安装</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install leaflet --save</span><br></pre></td></tr></table></figure>
+
+<p>引入 </p>
+<p>vue-amap</p>
+<p>安装包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -S vue-amap &#x2F;&#x2F; 可在package.json查看是否安装</span><br></pre></td></tr></table></figure>
+
+<p>在入口文件main.js引入</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 引入高德地图</span></span><br><span class="line"><span class="comment">// 高德地图组件使用</span></span><br><span class="line"><span class="keyword">import</span> VueAMap <span class="keyword">from</span> <span class="string">'vue-amap'</span></span><br><span class="line"></span><br><span class="line">Vue.config.productionTip = <span class="literal">false</span></span><br><span class="line">Vue.use(VueAMap);</span><br><span class="line">VueAMap.initAMapApiLoader(&#123;</span><br><span class="line">  key: <span class="string">'your amap key'</span>, </span><br><span class="line">  plugin: [</span><br><span class="line">  <span class="string">'AMap.Autocomplete'</span>, </span><br><span class="line">  <span class="string">'AMap.PlaceSearch'</span>, <span class="comment">// POI搜索插件</span></span><br><span class="line">  <span class="string">'AMap.Scale'</span>, <span class="comment">// 右下角缩略图插件 比例尺</span></span><br><span class="line">  <span class="string">'AMap.OverView'</span>, </span><br><span class="line">  <span class="string">'AMap.ToolBar'</span>, <span class="comment">// 地图工具条</span></span><br><span class="line">  <span class="string">'AMap.MapType'</span>, </span><br><span class="line">  <span class="string">'AMap.PolyEditor'</span>, </span><br><span class="line">  <span class="string">'AMap.CircleEditor'</span>,<span class="comment">// 圆形编辑器插件</span></span><br><span class="line">  <span class="string">'AMap.Geolocation'</span><span class="comment">// 定位控件，用来获取和展示用户主机所在的经纬度位置</span></span><br><span class="line">  ],</span><br><span class="line">  <span class="comment">// 默认高德 sdk 版本为 1.4.4</span></span><br><span class="line">  v: <span class="string">'1.4.4'</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>实例</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class&#x3D;&quot;getlocation&quot;&gt;</span><br><span class="line">  定位</span><br><span class="line">&lt;&#x2F;div&gt;</span><br><span class="line">&lt;el-amap vid&#x3D;&quot;amap&quot; :plugin&#x3D;&quot;plugin&quot; class&#x3D;&quot;amap-demo&quot; :center&#x3D;&quot;center&quot;&gt;		&lt;&#x2F;el-amap&gt;</span><br><span class="line">&lt;div class&#x3D;&quot;toolbar&quot;&gt;</span><br><span class="line">  &lt;span v-if&#x3D;&quot;loaded&quot;&gt;location: lng &#x3D; &#123;&#123; lng &#125;&#125; lat &#x3D; &#123;&#123; lat &#125;&#125;&lt;&#x2F;span&gt;</span><br><span class="line">	&lt;span v-else&gt;正在定位&lt;&#x2F;span&gt;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">  export default &#123;</span><br><span class="line">    data() &#123;</span><br><span class="line">      let self &#x3D; this;</span><br><span class="line">      return &#123;</span><br><span class="line">        center: [121.59996, 31.197646],</span><br><span class="line">        lng: 0, </span><br><span class="line">        lat: 0,</span><br><span class="line">        loaded: false,</span><br><span class="line">        plugin: [</span><br><span class="line">          &#123;</span><br><span class="line">            pName: &quot;Geolocation&quot;, &#x2F;&#x2F;定位</span><br><span class="line">            events: &#123;</span><br><span class="line">              init(o) &#123;</span><br><span class="line">                &#x2F;&#x2F; o 是高德地图定位插件实例</span><br><span class="line">                o.getCurrentPosition((status, result) &#x3D;&gt; &#123;</span><br><span class="line">                  if (result &amp;&amp; result.position) &#123;</span><br><span class="line">                    console.log(status, result);</span><br><span class="line">                    self.lng &#x3D; result.position.lng; &#x2F;&#x2F;设置经度</span><br><span class="line">                    self.lat &#x3D; result.position.lat; &#x2F;&#x2F;设置维度</span><br><span class="line">                    self.center &#x3D; [self.lng, self.lat]; &#x2F;&#x2F;设置中心坐标</span><br><span class="line">                    self.loaded &#x3D; true;</span><br><span class="line">                    self.$nextTick();</span><br><span class="line">                  &#125;</span><br><span class="line">                &#125;);</span><br><span class="line">              &#125;</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        ]</span><br><span class="line">      &#125;;</span><br><span class="line">    &#125;,</span><br><span class="line">&lt;&#x2F;script&gt;    </span><br><span class="line">&lt;style&gt;</span><br><span class="line">  .getlocation&#123;</span><br><span class="line">    margin-left:4rem;</span><br><span class="line">    font-size:15px;</span><br><span class="line">    font-weight: 500;</span><br><span class="line">    margin-top:0.3rem;</span><br><span class="line">  &#125;</span><br><span class="line">  .amap-demo &#123;</span><br><span class="line">    height: 15rem;</span><br><span class="line">    margin-top: 0.3rem;</span><br><span class="line">  &#125;</span><br><span class="line">&lt;&#x2F;style&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
 
 <h2 id="与vue2相比重大变化"><a href="#与vue2相比重大变化" class="headerlink" title="与vue2相比重大变化"></a>与vue2相比重大变化</h2><h3 id="全局变量"><a href="#全局变量" class="headerlink" title="全局变量"></a>全局变量</h3><p>Vue 2.x 有许多全局 API 和配置，这些 API 和配置可以全局改变 Vue 的行为，比如说创建全局组件、声明全局指令。</p>
 <p>虽然这种声明方式很方便，但它也会导致一些问题。从技术上讲，Vue 2 没有“app”的概念，我们定义的应用只是通过 <code>new Vue()</code> 创建的根 Vue 实例。从同一个 Vue 构造函数<strong>创建的每个根实例共享相同的全局配置</strong>，</p>
@@ -247,7 +347,7 @@
 
 
 
-<h2 id="Element-plus"><a href="#Element-plus" class="headerlink" title="Element-plus"></a>Element-plus</h2>
+<h3 id="Reactive-API"><a href="#Reactive-API" class="headerlink" title="Reactive API"></a>Reactive API</h3><h2 id="Element-plus"><a href="#Element-plus" class="headerlink" title="Element-plus"></a>Element-plus</h2>
         </div>
         
         <div class="level is-size-7 is-uppercase">
@@ -314,8 +414,8 @@
         
         
         <div class="level-end">
-            <a class="level level-item has-link-grey  article-nav-next" href="/2020/07/18/Node/">
-                <span class="level-item">Javascript开发（一）</span>
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/08/02/HTML:CSS2/">
+                <span class="level-item">HTML/CSS</span>
                 <i class="level-item fas fa-chevron-right"></i>
             </a>
         </div>
@@ -396,7 +496,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            88
+                            94
                         </p>
                     </a>
                 </div>
@@ -486,28 +586,76 @@
         <span class="has-mr-6">1</span>
         <span>Vue（三）</span>
         </a></li><li>
-        <a class="is-flex" href="#与vue2相比重大变化">
+        <a class="is-flex" href="#其他组件">
         <span class="has-mr-6">2</span>
+        <span>其他组件</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#轮播图">
+        <span class="has-mr-6">2.1</span>
+        <span>轮播图</span>
+        </a></li><li>
+        <a class="is-flex" href="#验证码">
+        <span class="has-mr-6">2.2</span>
+        <span>验证码</span>
+        </a></li><li>
+        <a class="is-flex" href="#markdown编辑器">
+        <span class="has-mr-6">2.3</span>
+        <span>markdown编辑器</span>
+        </a></li><li>
+        <a class="is-flex" href="#直播">
+        <span class="has-mr-6">2.4</span>
+        <span>直播</span>
+        </a></li><li>
+        <a class="is-flex" href="#循环播放插件">
+        <span class="has-mr-6">2.5</span>
+        <span>循环播放插件</span>
+        </a></li><li>
+        <a class="is-flex" href="#vue-auth">
+        <span class="has-mr-6">2.6</span>
+        <span>vue-auth</span>
+        </a></li><li>
+        <a class="is-flex" href="#vue-pdf">
+        <span class="has-mr-6">2.7</span>
+        <span>vue-pdf</span>
+        </a></li><li>
+        <a class="is-flex" href="#输出导入excel文件">
+        <span class="has-mr-6">2.8</span>
+        <span>输出导入excel文件</span>
+        </a></li><li>
+        <a class="is-flex" href="#输出打印">
+        <span class="has-mr-6">2.9</span>
+        <span>输出打印</span>
+        </a></li><li>
+        <a class="is-flex" href="#地图">
+        <span class="has-mr-6">2.10</span>
+        <span>地图</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#与vue2相比重大变化">
+        <span class="has-mr-6">3</span>
         <span>与vue2相比重大变化</span>
         </a><ul class="menu-list"><li>
         <a class="is-flex" href="#全局变量">
-        <span class="has-mr-6">2.1</span>
+        <span class="has-mr-6">3.1</span>
         <span>全局变量</span>
         </a></li><li>
         <a class="is-flex" href="#模版语法变化">
-        <span class="has-mr-6">2.2</span>
+        <span class="has-mr-6">3.2</span>
         <span>模版语法变化</span>
         </a></li><li>
         <a class="is-flex" href="#生命周期函数变化">
-        <span class="has-mr-6">2.3</span>
+        <span class="has-mr-6">3.3</span>
         <span>生命周期函数变化</span>
         </a></li><li>
         <a class="is-flex" href="#组合式API">
-        <span class="has-mr-6">2.4</span>
+        <span class="has-mr-6">3.4</span>
         <span>组合式API</span>
+        </a></li><li>
+        <a class="is-flex" href="#Reactive-API">
+        <span class="has-mr-6">3.5</span>
+        <span>Reactive API</span>
         </a></li></ul></li><li>
         <a class="is-flex" href="#Element-plus">
-        <span class="has-mr-6">3</span>
+        <span class="has-mr-6">4</span>
         <span>Element-plus</span>
         </a></li></ul>
             </div>
@@ -565,7 +713,7 @@
                 <span class="level-item">IT</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">28</span>
+                <span class="level-item tag">30</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E4%B8%AA%E4%BA%BA%E5%B9%B8%E7%A6%8F/">
@@ -581,7 +729,7 @@
                 <span class="level-item">个人生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">22</span>
+                <span class="level-item tag">23</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">
@@ -589,7 +737,7 @@
                 <span class="level-item">技术博客</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">28</span>
+                <span class="level-item tag">31</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%9C%8B%E5%8F%8B/">
@@ -626,7 +774,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/IT/" style="font-size: 10px;">IT</a> <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 12.5px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 10px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8C/" style="font-size: 12.5px;">IT,Web，</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 12.5px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 12.5px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 12.5px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 10px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb/" style="font-size: 10px;">IT，Web</a> <a href="/tags/IT%EF%BC%8CWeb-Javascript/" style="font-size: 10px;">IT，Web,Javascript</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 17.5px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 10px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 15px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 12.5px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 12.5px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 10px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 10px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 17.5px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 15px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 15px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">幸福</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/" style="font-size: 15px;">技术，IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 10px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 12.5px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 12.5px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 17.5px;">生活、幸福</a> <a href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">记录，生活</a>
+        <a href="/tags/IT/" style="font-size: 10px;">IT</a> <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 12.5px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 10px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8C/" style="font-size: 12.5px;">IT,Web，</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 12.5px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 12.5px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 12.5px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 10px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb/" style="font-size: 15px;">IT，Web</a> <a href="/tags/IT%EF%BC%8CWeb-Javascript/" style="font-size: 10px;">IT，Web,Javascript</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 17.5px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 10px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 15px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 15px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 12.5px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 10px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 12.5px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 17.5px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 15px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 15px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">幸福</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 12.5px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/" style="font-size: 15px;">技术，IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 12.5px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 12.5px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 12.5px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 17.5px;">生活、幸福</a> <a href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">记录，生活</a>
     </div>
 </div>
     
@@ -641,7 +789,7 @@
         
         <article class="media">
             
-            <a href="/2020/12/02/2020%E6%96%B0%E5%B9%B4%E6%80%BB%E7%BB%93/" class="media-left">
+            <a href="/2021/02/02/2020%E6%96%B0%E5%B9%B4%E6%80%BB%E7%BB%93/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="http://cdn.kunkunzhang.top/happy-new-year-fireworks.jpg" alt="2020小结">
                 </p>
@@ -649,8 +797,8 @@
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-12-02T13:40:33.000Z">2020-12-02</time></div>
-                    <a href="/2020/12/02/2020%E6%96%B0%E5%B9%B4%E6%80%BB%E7%BB%93/" class="title has-link-black-ter is-size-6 has-text-weight-normal">2020小结</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-02-02T13:40:33.000Z">2021-02-02</time></div>
+                    <a href="/2021/02/02/2020%E6%96%B0%E5%B9%B4%E6%80%BB%E7%BB%93/" class="title has-link-black-ter is-size-6 has-text-weight-normal">2020小结</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">个人生活</a>
                     </p>
@@ -660,35 +808,16 @@
         
         <article class="media">
             
-            <a href="/2020/10/02/%E6%97%A5%E8%AF%AD%E5%AD%A6%E4%B9%A0%E4%B8%8E%E6%89%98%E7%A6%8F%E5%AD%A6%E4%B9%A0/" class="media-left">
+            <a href="/2021/01/23/Node8/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/ielts.jpeg" alt="日语学习与托福学习">
+                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/nestjs.png" alt="NodeJs开发（八）">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-10-02T13:40:33.000Z">2020-10-02</time></div>
-                    <a href="/2020/10/02/%E6%97%A5%E8%AF%AD%E5%AD%A6%E4%B9%A0%E4%B8%8E%E6%89%98%E7%A6%8F%E5%AD%A6%E4%B9%A0/" class="title has-link-black-ter is-size-6 has-text-weight-normal">日语学习与托福学习</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">个人生活</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2020/09/02/H5%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/Phaser.jpg" alt="H5游戏开发">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-09-02T13:40:33.000Z">2020-09-02</time></div>
-                    <a href="/2020/09/02/H5%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/" class="title has-link-black-ter is-size-6 has-text-weight-normal">H5游戏开发</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-23T13:40:33.000Z">2021-01-23</time></div>
+                    <a href="/2021/01/23/Node8/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（八）</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/IT/">IT</a>
                     </p>
@@ -698,18 +827,18 @@
         
         <article class="media">
             
-            <a href="/2020/09/02/flutter4/" class="media-left">
+            <a href="/2021/01/22/Node7/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/dart.jpg" alt="flutter移动开发（四）">
+                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/koajs.jpeg" alt="NodeJs开发（七）">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-09-02T13:40:33.000Z">2020-09-02</time></div>
-                    <a href="/2020/09/02/flutter4/" class="title has-link-black-ter is-size-6 has-text-weight-normal">flutter移动开发（四）</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-22T14:40:33.000Z">2021-01-22</time></div>
+                    <a href="/2021/01/22/Node7/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（七）</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">技术博客</a>
+                        <a class="has-link-grey -link" href="/categories/IT/">IT</a>
                     </p>
                 </div>
             </div>
@@ -717,18 +846,37 @@
         
         <article class="media">
             
-            <a href="/2020/09/02/%E4%B8%AA%E4%BA%BA%E7%89%A9%E5%93%81%E6%8E%A8%E8%8D%90/" class="media-left">
+            <a href="/2021/01/21/Node6/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="个人好物推荐">
+                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/typescript.jpg" alt="NodeJs开发（六）">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-09-02T13:40:33.000Z">2020-09-02</time></div>
-                    <a href="/2020/09/02/%E4%B8%AA%E4%BA%BA%E7%89%A9%E5%93%81%E6%8E%A8%E8%8D%90/" class="title has-link-black-ter is-size-6 has-text-weight-normal">个人好物推荐</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-21T13:40:33.000Z">2021-01-21</time></div>
+                    <a href="/2021/01/21/Node6/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（六）</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">个人生活</a>
+                        <a class="has-link-grey -link" href="/categories/IT/">IT</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2021/01/20/Node5/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/nodejs.png" alt="NodeJs开发（五）">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-20T13:40:33.000Z">2021-01-20</time></div>
+                    <a href="/2021/01/20/Node5/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（五）</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/IT/">IT</a>
                     </p>
                 </div>
             </div>
@@ -746,12 +894,34 @@
         <ul class="menu-list">
         
         <li>
+            <a class="level is-marginless" href="/archives/2021/02/">
+                <span class="level-start">
+                    <span class="level-item">二月 2021</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2021/01/">
+                <span class="level-start">
+                    <span class="level-item">一月 2021</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">8</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
             <a class="level is-marginless" href="/archives/2020/12/">
                 <span class="level-start">
                     <span class="level-item">十二月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">1</span>
+                    <span class="level-item tag">4</span>
                 </span>
             </a>
         </li>
@@ -773,7 +943,7 @@
                     <span class="level-item">九月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">4</span>
+                    <span class="level-item tag">3</span>
                 </span>
             </a>
         </li>
@@ -784,7 +954,7 @@
                     <span class="level-item">八月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">7</span>
+                    <span class="level-item tag">9</span>
                 </span>
             </a>
         </li>
@@ -795,7 +965,7 @@
                     <span class="level-item">七月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">5</span>
+                    <span class="level-item tag">2</span>
                 </span>
             </a>
         </li>
@@ -817,7 +987,7 @@
                     <span class="level-item">五月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">5</span>
+                    <span class="level-item tag">3</span>
                 </span>
             </a>
         </li>
@@ -839,7 +1009,7 @@
                     <span class="level-item">三月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">48</span>
+                    <span class="level-item tag">46</span>
                 </span>
             </a>
         </li>
@@ -997,7 +1167,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb/">
                         <span class="tag">IT，Web</span>
-                        <span class="tag is-grey">1</span>
+                        <span class="tag is-grey">3</span>
                     </a>
                 </div>
                 
@@ -1053,7 +1223,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8Cweb/">
                         <span class="tag">IT，web</span>
-                        <span class="tag is-grey">2</span>
+                        <span class="tag is-grey">3</span>
                     </a>
                 </div>
                 
@@ -1081,7 +1251,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/">
                         <span class="tag">Web，IT，HTML，CSS</span>
-                        <span class="tag is-grey">1</span>
+                        <span class="tag is-grey">2</span>
                     </a>
                 </div>
                 
@@ -1123,7 +1293,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">
                         <span class="tag">幸福，个人生活</span>
-                        <span class="tag is-grey">1</span>
+                        <span class="tag is-grey">2</span>
                     </a>
                 </div>
                 
@@ -1144,7 +1314,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/">
                         <span class="tag">技术，Robotic，IT</span>
-                        <span class="tag is-grey">1</span>
+                        <span class="tag is-grey">2</span>
                     </a>
                 </div>
                 
@@ -1220,7 +1390,7 @@
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2020 Kun Zhang&nbsp;
+                &copy; 2021 Kun Zhang&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                <!-- 

@@ -1,0 +1,1607 @@
+<!DOCTYPE html>
+<html  lang="zh">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 4.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>Javascript开发（二） - kun&#39;s blog</title>
+
+
+    <meta name="description" content="Javascript (二)​     第二篇主要讲原生js语言的原生方法，如继承、闭包和原型链等">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Javascript开发（二）">
+<meta property="og:url" content="http://kun8018.gitee.io/2021/01/15/Node2/index.html">
+<meta property="og:site_name" content="kun&#39;s blog">
+<meta property="og:description" content="Javascript (二)​     第二篇主要讲原生js语言的原生方法，如继承、闭包和原型链等">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://cdn.kunkunzhang.top/jsEvent.jpg">
+<meta property="article:published_time" content="2021-01-15T13:40:33.000Z">
+<meta property="article:modified_time" content="2021-02-07T02:13:07.482Z">
+<meta property="article:author" content="Kun Zhang">
+<meta property="article:tag" content="IT，Web,Node">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://cdn.kunkunzhang.top/jsEvent.jpg">
+
+
+
+
+
+
+
+<link rel="icon" href="https://s1.ax1x.com/2020/03/27/G9OfNn.th.png">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    <script async="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="https://s1.ax1x.com/2020/03/27/G9OfNn.th.png" alt="Javascript开发（二）" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">首页</a>
+                
+                <a class="navbar-item"
+                href="/archives">最近发布</a>
+                
+                <a class="navbar-item"
+                href="/categories">目录</a>
+                
+                <a class="navbar-item"
+                href="/tags">分类</a>
+                
+                <a class="navbar-item"
+                href="/about">关于我</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    <a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-9-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-image">
+        <span  class="image is-7by1">
+            <img class="thumbnail" src="http://cdn.kunkunzhang.top/jsEvent.jpg" alt="Javascript开发（二）">
+        </span>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2021-01-15T13:40:33.000Z">2021-01-15</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/IT/">IT</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    1 小时 读完 (大约 8109 个字)
+                </span>
+                
+                
+                <span class="level-item has-text-grey" id="busuanzi_container_page_pv">
+                    <i class="far fa-eye"></i>
+                    <span id="busuanzi_value_page_pv">0</span>次访问
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Javascript开发（二）
+            
+        </h1>
+        <div class="content">
+            <h2 id="Javascript-二"><a href="#Javascript-二" class="headerlink" title="Javascript (二)"></a>Javascript (二)</h2><p>​     第二篇主要讲原生js语言的原生方法，如继承、闭包和原型链等</p>
+<a id="more"></a>
+
+<h2 id="js基本语法"><a href="#js基本语法" class="headerlink" title="js基本语法"></a>js基本语法</h2><h3 id="宿主对象"><a href="#宿主对象" class="headerlink" title="宿主对象"></a>宿主对象</h3><h4 id="Window"><a href="#Window" class="headerlink" title="Window"></a>Window</h4><p>属性</p>
+<p><code>window.name</code>属性是一个字符串，表示当前浏览器窗口的名字。窗口不一定需要名字，这个属性主要配合超链接和表单的<code>target</code>属性使用。</p>
+<p><code>window.closed</code>属性返回一个布尔值，表示窗口是否关闭。</p>
+<p><code>window.opener</code>属性表示打开当前窗口的父窗口。如果当前窗口没有父窗口（即直接在地址栏输入打开），则返回<code>null</code>。</p>
+<p><code>window.frames</code>属性返回一个类似数组的对象，成员为页面内所有框架窗口，包括<code>frame</code>元素和<code>iframe</code>元素。<code>window.frames[0]</code>表示页面中第一个框架窗口。</p>
+<p><code>window.length</code>属性返回当前网页包含的框架总数。如果当前网页不包含<code>frame</code>和<code>iframe</code>元素，那么<code>window.length</code>就返回<code>0</code>。</p>
+<p><code>window.frameElement</code>属性主要用于当前窗口嵌在另一个网页的情况（嵌入<code>&lt;object&gt;</code>、<code>&lt;iframe&gt;</code>或<code>&lt;embed&gt;</code>元素），返回当前窗口所在的那个元素节点。如果当前窗口是顶层窗口，或者所嵌入的那个网页不是同源的，该属性返回<code>null</code>。</p>
+<p><code>window.top</code>属性指向最顶层窗口，主要用于在框架窗口（frame）里面获取顶层窗口。</p>
+<p><code>window.parent</code>属性指向父窗口。如果当前窗口没有父窗口，<code>window.parent</code>指向自身。</p>
+<p><code>window.devicePixelRatio</code>属性返回一个数值，表示一个 CSS 像素的大小与一个物理像素的大小之间的比率。也就是说，它表示一个 CSS 像素由多少个物理像素组成。它可以用于判断用户的显示环境，如果这个比率较大，就表示用户正在使用高清屏幕，因此可以显示较大像素的图片。</p>
+<p><code>window.screenX</code>和<code>window.screenY</code>属性，返回浏览器窗口左上角相对于当前屏幕左上角的水平距离和垂直距离（单位像素）。这两个属性只读。</p>
+<p><code>window.innerHeight</code>和<code>window.innerWidth</code>属性，返回网页在当前窗口中可见部分的高度和宽度，即“视口”（viewport）的大小（单位像素）。这两个属性只读。</p>
+<p>用户放大网页的时候（比如将网页从100%的大小放大为200%），这两个属性会变小。因为这时网页的像素大小不变（比如宽度还是960像素），只是每个像素占据的屏幕空间变大了，因为可见部分（视口）就变小了。</p>
+<p><code>window.outerHeight</code>和<code>window.outerWidth</code>属性返回浏览器窗口的高度和宽度，包括浏览器菜单和边框（单位像素）。这两个属性只读。</p>
+<p><code>window.scrollX</code>属性返回页面的水平滚动距离，<code>window.scrollY</code>属性返回页面的垂直滚动距离，单位都为像素。这两个属性只读。</p>
+<ul>
+<li><code>window.locationbar</code>：地址栏对象</li>
+<li><code>window.menubar</code>：菜单栏对象</li>
+<li><code>window.scrollbars</code>：窗口的滚动条对象</li>
+<li><code>window.toolbar</code>：工具栏对象</li>
+<li><code>window.statusbar</code>：状态栏对象</li>
+<li><code>window.personalbar</code>：用户安装的个人工具栏对象</li>
+</ul>
+<p>window实例方法<br><code>window.alert(&#39;Hello World&#39;)</code>;//弹出对话框，只有确定按钮，用于提醒用户信息<br><code>var result = confirm(&#39;你最近好吗？&#39;);</code>//弹出的对话框，除了提示信息之外，只有“确定”和“取消”,返回布尔值<br><code>var result = window.prompt()//</code>也是弹出对话框，但是提示框下面有输入框，并有“确定”和“取消”两个按钮，返回布尔值<br><code>window.open(url, windowName, [windowFeatures])</code>新建另一个浏览器窗口，url为地址栏，<br><code>window.close()</code>window方法,用于关闭当前窗口，</p>
+<p><code>window.stop()</code>方法完全等同于单击浏览器的停止按钮，会停止加载图像、视频等正在或等待加载的对象。</p>
+<p><code>window.moveTo(100, 200)</code></p>
+<p><code>window.moveBy(25, 50)</code></p>
+<p><code>window.focus()</code>激活窗口，使其获得焦点，出现在其他窗口的前面。</p>
+<p><code>window.blur()</code>方法将焦点从窗口移除。</p>
+<p><code>window.getSelection</code>方法返回一个<code>Selection</code>对象，表示用户现在选中的文本。</p>
+<p><code>window.resizeTo()</code>方法用于缩放窗口到指定大小。</p>
+<p><code>window.resizeBy()</code>方法用于缩放窗口。它与<code>window.resizeTo()</code>的区别是，它按照相对的量缩放，<code>window.resizeTo()</code>需要给出缩放后的绝对大小。</p>
+<p><code>window.scrollTo</code>方法用于将文档滚动到指定位置。它接受两个参数，表示滚动后位于窗口左上角的页面坐标。</p>
+<p><code>window.scrollBy()</code>方法用于将网页滚动指定距离（单位像素）。它接受两个参数：水平向右滚动的像素，垂直向下滚动的像素。</p>
+<p><code>window.print</code>方法会跳出打印对话框，与用户点击菜单里面的“打印”命令效果相同。</p>
+<p><code>window.getSelection</code>方法返回一个<code>Selection</code>对象，表示用户现在选中的文本。</p>
+<p><code>window.getComputedStyle()</code>方法接受一个元素节点作为参数，返回一个包含该元素的最终样式信息的对象</p>
+<p><code>window.matchMedia()</code>方法用来检查 CSS 的<code>mediaQuery</code>语句</p>
+<p><code>window.requestAnimationFrame()</code>方法跟<code>setTimeout</code>类似，都是推迟某个函数的执行。不同之处在于，<code>setTimeout</code>必须指定推迟的时间，<code>window.requestAnimationFrame()</code>则是推迟到浏览器下一次重流时执行，执行完才会进行下一次重绘。重绘通常是 16ms 执行一次，不过浏览器会自动调节这个速率，比如网页切换到后台 Tab 页时，<code>requestAnimationFrame()</code>会暂停执行。</p>
+<p>如果某个函数会改变网页的布局，一般就放在<code>window.requestAnimationFrame()</code>里面执行，这样可以节省系统资源，使得网页效果更加平滑。因为慢速设备会用较慢的速率重流和重绘，而速度更快的设备会有更快的速率。</p>
+<p><code>window.requestIdleCallback()</code>跟<code>setTimeout</code>类似，也是将某个函数推迟执行，但是它保证将回调函数推迟到系统资源空闲时执行。也就是说，如果某个任务不是很关键，就可以使用<code>window.requestIdleCallback()</code>将其推迟执行，以保证网页性能。</p>
+<p>它跟<code>window.requestAnimationFrame()</code>的区别在于，后者指定回调函数在下一次浏览器重排时执行，问题在于下一次重排时，系统资源未必空闲，不一定能保证在16毫秒之内完成；<code>window.requestIdleCallback()</code>可以保证回调函数在系统资源空闲时执行。</p>
+<p>事件</p>
+<p><code>load</code>事件发生在文档在浏览器窗口加载完毕时。<code>window.onload</code>属性可以指定这个事件的回调函数。</p>
+<p>//浏览器脚本发生错误时，会触发window对象的error事件。通过window.onerror属性对该事件指定回调函数。</p>
+<p>window.onerror = function(message,error){<br>  console.log(“出错了”)<br>}</p>
+<p>Window对象的事件监听属性</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">window</span>.onafterprint：afterprint事件的监听函数。</span><br><span class="line"><span class="built_in">window</span>.onbeforeprint：beforeprint事件的监听函数。</span><br><span class="line"><span class="built_in">window</span>.onbeforeunload：beforeunload事件的监听函数。</span><br><span class="line"><span class="built_in">window</span>.onhashchange：hashchange事件的监听函数。</span><br><span class="line"><span class="built_in">window</span>.onlanguagechange: languagechange的监听函数。</span><br><span class="line"><span class="built_in">window</span>.onmessage：message事件的监听函数。</span><br><span class="line"><span class="built_in">window</span>.onmessageerror：MessageError事件的监听函数。</span><br><span class="line"><span class="built_in">window</span>.onoffline：offline事件的监听函数。</span><br><span class="line"><span class="built_in">window</span>.ononline：online事件的监听函数。</span><br><span class="line"><span class="built_in">window</span>.onpagehide：pagehide事件的监听函数。</span><br><span class="line"><span class="built_in">window</span>.onpageshow：pageshow事件的监听函数。</span><br><span class="line"><span class="built_in">window</span>.onpopstate：popstate事件的监听函数。</span><br><span class="line"><span class="built_in">window</span>.onstorage：storage事件的监听函数。</span><br><span class="line"><span class="built_in">window</span>.onunhandledrejection：未处理的 <span class="built_in">Promise</span> 对象的reject事件的监听函数。</span><br><span class="line"><span class="built_in">window</span>.onunload：unload事件的监听函数。</span><br></pre></td></tr></table></figure>
+
+<p>Location是浏览器提供的原生对象，提供URL相关的信息和操作方法。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">document</span>.location.href<span class="comment">// http://user:passwd@www.example.com:4097/path/a.html?x=111#part1</span></span><br><span class="line"><span class="built_in">document</span>.location.protocol<span class="comment">//当前 URL 的协议，包括冒号（:），"http:"</span></span><br><span class="line"><span class="built_in">document</span>.location.host<span class="comment">//主机。如果端口不是协议默认的80和433，则还会包括冒号（:）和端口。"www.example.com:4097"</span></span><br><span class="line"><span class="built_in">document</span>.location.hostname<span class="comment">//主机名，不包括端口，"www.example.com"</span></span><br><span class="line"><span class="built_in">document</span>.location.port<span class="comment">//端口号，"4097"</span></span><br><span class="line"><span class="built_in">document</span>.location.pathname<span class="comment">// URL 的路径部分，从根路径/开始。"/path/a.html"</span></span><br><span class="line"><span class="built_in">document</span>.location.search<span class="comment">// "?x=111"</span></span><br><span class="line"><span class="built_in">document</span>.location.hash<span class="comment">// "#part1"</span></span><br><span class="line"><span class="built_in">document</span>.location.username<span class="comment">//域名前面的用户名，"user"</span></span><br><span class="line"><span class="built_in">document</span>.location.password<span class="comment">//域名前面的密码，"passwd"</span></span><br><span class="line"><span class="built_in">document</span>.location.origin<span class="comment">//URL 的协议、主机名和端口，"http://user:passwd@www.example.com:4097"</span></span><br></pre></td></tr></table></figure>
+
+<p>方法</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">document</span>.location.assign(<span class="string">'http://www.example.com'</span>)<span class="comment">//跳转到新的网址，可回退</span></span><br><span class="line"><span class="built_in">document</span>.location.replace(<span class="string">'http://www.example.com'</span>)<span class="comment">//跳转到新网址，不可回退</span></span><br><span class="line"><span class="built_in">window</span>.location.reload(<span class="literal">true</span>);<span class="comment">// 向服务器重新请求当前网址</span></span><br><span class="line">location.toString()<span class="comment">//返回整个 URL 字符串，相当于读取Location.href属性。</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="History"><a href="#History" class="headerlink" title="History"></a>History</h4><p><code>window.history</code>属性指向 History 对象，它表示当前窗口的浏览历史。</p>
+<p>属性</p>
+<p><code>History.length</code>：当前窗口访问过的网址数量（包括当前网页）</p>
+<p><code>History.state</code>：History 堆栈最上层的状态值（详见下文）</p>
+<p>方法</p>
+<p><code>History.back()</code>：移动到上一个网址，等同于点击浏览器的后退键。对于第一个访问的网址，该方法无效果。</p>
+<p><code>History.forward()</code>：移动到下一个网址，等同于点击浏览器的前进键。对于最后一个访问的网址，该方法无效果。</p>
+<p><code>History.go()</code>：接受一个整数作为参数，以当前网址为基准，移动到参数指定的网址，比如<code>go(1)</code>相当于<code>forward()</code>，<code>go(-1)</code>相当于<code>back()</code>。</p>
+<p><code>History.pushState(state, title, url)</code>方法用于在历史中添加一条记录。</p>
+<p><code>History.replaceState()</code>方法用来修改 History 对象的当前记录</p>
+<h4 id="Navigator"><a href="#Navigator" class="headerlink" title="Navigator"></a>Navigator</h4><p>指向浏览器和系统信息</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//属性</span></span><br><span class="line">navigator.userAgent();<span class="comment">//返回浏览器的useragent字符串，表示浏览器的厂商和版本信息</span></span><br><span class="line">Navigator.platform<span class="comment">//属性,返回用户的操作系统信息，比如MacIntel、Win32、Linux x86_64等。</span></span><br><span class="line">navigator.cookieEnabled<span class="comment">//返回一个布尔值，表示浏览器的 Cookie 功能是否打开。</span></span><br><span class="line"><span class="comment">//方法</span></span><br><span class="line">navigator.javaEnabled()<span class="comment">//方法，返回一个布尔值，表示浏览器是否能运行 Java Applet 小程序。</span></span><br><span class="line">navigator.language<span class="comment">//属性，返回一个字符串，表示浏览器的首选语言</span></span><br><span class="line">Navigator.languages<span class="comment">//属性，返回一个数组，表示用户可以接受的语言。</span></span><br><span class="line"></span><br><span class="line">Navigator.geolocation<span class="comment">//属性，返回一个 Geolocation 对象，包含用户地理位置的信息。该 API 只有在 HTTPS 协议下可用，</span></span><br><span class="line">Geolocation.getCurrentPosition()<span class="comment">//得到用户的当前位置</span></span><br><span class="line">Geolocation.watchPosition()<span class="comment">//监听用户位置变化</span></span><br><span class="line">Geolocation.clearWatch()<span class="comment">//取消watchPosition()方法指定的监听函数</span></span><br></pre></td></tr></table></figure>
+
+<p>window.screen表示当前显示的窗口，返回设备的显示信息</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Screen.height：浏览器窗口所在的屏幕的高度（单位像素）。</span><br><span class="line">Screen.width：浏览器窗口所在的屏幕的宽度（单位像素）</span><br><span class="line">Screen.availHeight：浏览器窗口可用的屏幕高度（单位像素）</span><br><span class="line">Screen.availWidth：浏览器窗口可用的屏幕宽度（单位像素）</span><br><span class="line">Screen.pixelDepth：整数，表示屏幕的色彩位数，比如<span class="number">24</span>表示屏幕提供<span class="number">24</span>位色彩。</span><br><span class="line">Screen.colorDepth：Screen.pixelDepth的别名。严格地说，colorDepth 表示应用程序的颜色深度，pixelDepth 表示屏幕的颜色深度，绝大多数情况下，它们都是同一件事。</span><br><span class="line">Screen.orientation：返回一个对象，表示屏幕的方向。该对象的type属性是一个字符串，表示屏幕的具体方向，landscape-primary表示横放，landscape-secondary表示颠倒的横放，portrait-primary表示竖放，portrait-secondary</span><br></pre></td></tr></table></figure>
+
+<h4 id="XMLHttpRequest-对象"><a href="#XMLHttpRequest-对象" class="headerlink" title="XMLHttpRequest 对象"></a>XMLHttpRequest 对象</h4><p>1999年，微软公司发布 IE 浏览器5.0版，第一次引入新功能：允许 JavaScript 脚本向服务器发起 HTTP 请求。2005年2月，AJAX 这个词第一次正式提出，它是Asynchronous JavaScript and XML 的缩写，指的是通过 JavaScript 的异步通信，从服务器获取 XML 文档从中提取数据，再更新当前网页的对应部分，而不用刷新整个网页。</p>
+<p>后来，AJAX 这个词就成为 JavaScript 脚本发起 HTTP 通信的代名词，也就是说，只要用脚本发起通信，就可以叫做 AJAX 通信。</p>
+<p>AJAX 通过原生的<code>XMLHttpRequest</code>对象发出 HTTP 请求，得到服务器返回的数据后，再进行处理。现在，服务器返回的都是 JSON 格式的数据，XML 格式已经过时了，但是 AJAX 这个名字已经成了一个通用名词，字面含义已经消失了。</p>
+<p>ajax请求的步骤</p>
+<ol>
+<li>创建 XMLHttpRequest 实例</li>
+<li>发出 HTTP 请求</li>
+<li>接收服务器传回的数据</li>
+<li>更新网页数据</li>
+</ol>
+<p>ajax支持多种协议（ftp、file等），可以发送任何格式的数据。</p>
+<p>XMLHttpRequest对象的属性</p>
+<p><code>XMLHttpRequest.responseText</code>属性返回从服务器接收到的字符串，该属性为只读。只有 HTTP 请求完成接收以后，该属性才会包含完整的数据。</p>
+<p><code>XMLHttpRequest.responseURL</code>属性是字符串，表示发送数据的服务器的网址。</p>
+<p><code>XMLHttpRequest.status</code>属性返回一个整数，表示服务器回应的 HTTP 状态码。</p>
+<p>XMLHttpRequest对象的方法</p>
+<p><code>XMLHttpRequest.open()</code>方法用于指定 HTTP 请求的参数，或者说初始化 XMLHttpRequest 实例对象。它一共可以接受五个参数。method：表示 HTTP 动词方法，比如GET、POST、PUT、DELETE、HEAD等。<br>url: 表示请求发送目标 URL。<br>async: 布尔值，表示请求是否为异步，默认为true。如果设为false，则send()方法只有等到收到服务器返回了结果，才会进行下一步操作。该参数可选。由于同步 AJAX 请求会造成浏览器失去响应，许多浏览器已经禁止在主线程使用，只允许 Worker 里面使用。所以，这个参数轻易不应该设为false。<br>user：表示用于认证的用户名，默认为空字符串。该参数可选。<br>password：表示用于认证的密码，默认为空字符串。该参数可选。</p>
+<p><code>XMLHttpRequest.send()</code>方法用于实际发出 HTTP 请求。它的参数是可选的，如果不带参数，就表示 HTTP 请求只有一个 URL，没有数据体，典型例子就是 GET 请求；如果带有参数，就表示除了头信息，还带有包含具体数据的信息体，典型例子就是 POST 请求。</p>
+<p><code>XMLHttpRequest.setRequestHeader()</code>方法用于设置浏览器发送的 HTTP 请求的头信息。该方法接受两个参数。第一个参数是字符串，表示头信息的字段名，第二个参数是字段值。</p>
+<p><code>XMLHttpRequest.getResponseHeader()</code>方法返回 HTTP 头信息指定字段的值，如果还没有收到服务器回应或者指定字段不存在，返回null</p>
+<p><code>XMLHttpRequest.getAllResponseHeaders()</code>方法返回一个字符串，表示服务器发来的所有 HTTP 头信息。格式为字符串，每个头信息之间使用<code>CRLF</code>分隔（回车+换行），如果没有收到服务器回应，该属性为<code>null</code>。如果发生网络错误，该属性为空字符串。</p>
+<p><code>XMLHttpRequest.abort()</code>方法用来终止已经发出的 HTTP 请求。调用这个方法以后，<code>readyState</code>属性变为<code>4</code>，<code>status</code>属性变为<code>0</code>。</p>
+<p>XMLHttpRequest 对象的事件</p>
+<p>XMLHttpRequest 实例对象本身和实例的<code>upload</code>属性，都有一个<code>progress</code>事件，会不断返回上传的进度。</p>
+<p>load 事件表示服务器传来的数据接收完毕，error 事件表示请求出错，abort 事件表示请求被中断（比如用户取消请求）。</p>
+<h4 id="File"><a href="#File" class="headerlink" title="File"></a>File</h4><p>File 对象代表一个文件，用来读写文件信息。</p>
+<p>File的属性：</p>
+<ul>
+<li>File.lastModified：最后修改时间</li>
+<li>File.name：文件名或文件路径</li>
+<li>File.size：文件大小（单位字节）</li>
+<li>File.type：文件的 MIME 类型</li>
+</ul>
+<h3 id="事件"><a href="#事件" class="headerlink" title="事件"></a>事件</h3><p>事件类型</p>
+<p>UI事件，主要包括load,unload,abort,error,select,resize,scroll事件。</p>
+<p>焦点事件，鼠标事件，键盘事件、html5事件、设备事件</p>
+<p>事件模型是指分为三个阶段：</p>
+<ul>
+<li>捕获阶段：在事件冒泡的模型中，捕获阶段不会响应任何事件；</li>
+<li>目标阶段：目标阶段就是指事件响应到触发事件的最底层元素上；</li>
+<li>冒泡阶段：冒泡阶段就是事件的触发响应会从最底层目标一层层地向外到最外层（根节点），事件代理即是利用事件冒泡的机制把里层所需要响应的事件绑定到外层；### 事件</li>
+</ul>
+<h4 id="EventTarget对象"><a href="#EventTarget对象" class="headerlink" title="EventTarget对象"></a>EventTarget对象</h4><p>DOM 的事件操作（监听和触发），都定义在<code>EventTarget</code>接口。所有节点对象都部署了这个接口，其他一些需要事件通信的浏览器内置对象（比如，<code>XMLHttpRequest</code>、<code>AudioNode</code>、<code>AudioContext</code>）也部署了这个接口。</p>
+<p><code>EventTarget.addEventListener()</code>用于在当前节点或对象上，定义一个特定事件的监听函数。一旦这个事件发生，就会执行监听函数。该方法没有返回值。</p>
+<p><code>EventTarget.removeEventListener</code>方法用来移除<code>addEventListener</code>方法添加的事件监听函数。</p>
+<p><code>EventTarget.dispatchEvent</code>方法在当前节点上触发指定事件，从而触发监听函数的执行。该方法返回一个布尔值，只要有一个监听函数调用了<code>Event.preventDefault()</code>，则返回值为<code>false</code>，否则为<code>true</code>。</p>
+<h4 id="Event对象"><a href="#Event对象" class="headerlink" title="Event对象"></a>Event对象</h4><p>事件发生以后，会产生一个事件对象，作为参数传给监听函数。浏览器原生提供一个<code>Event</code>对象，所有的事件都是这个对象的实例，或者说继承了<code>Event.prototype</code>对象。</p>
+<p>实例属性</p>
+<p><code>Event.bubbles</code>属性返回一个布尔值，表示当前事件是否会冒泡。该属性为只读属性，一般用来了解 Event 实例是否可以冒泡。前面说过，除非显式声明，<code>Event</code>构造函数生成的事件，默认是不冒泡的。</p>
+<p><code>Event.eventPhase</code>属性返回一个整数常量，表示事件目前所处的阶段。该属性只读。</p>
+<ul>
+<li>0，事件目前没有发生。</li>
+<li>1，事件目前处于捕获阶段，即处于从祖先节点向目标节点的传播过程中。</li>
+<li>2，事件到达目标节点，即<code>Event.target</code>属性指向的那个节点。</li>
+<li>3，事件处于冒泡阶段，即处于从目标节点向祖先节点的反向传播过程中。</li>
+</ul>
+<p><code>Event.cancelable</code>属性返回一个布尔值，表示事件是否可以取消。该属性为只读属性，一般用来了解 Event 实例的特性。</p>
+<p>事件发生以后，会经过捕获和冒泡两个阶段，依次通过多个 DOM 节点。因此，任意事件都有两个与事件相关的节点，一个是事件的原始触发节点（<code>Event.target</code>），另一个是事件当前正在通过的节点（<code>Event.currentTarget</code>）。前者通常是后者的后代节点。</p>
+<p><code>Event.currentTarget</code>属性返回事件当前所在的节点，即事件当前正在通过的节点，也就是当前正在执行的监听函数所在的那个节点。随着事件的传播，这个属性的值会变。</p>
+<p><code>Event.target</code>属性返回原始触发事件的那个节点，即事件最初发生的节点。这个属性不会随着事件的传播而改变。</p>
+<p><code>Event.type</code>属性返回一个字符串，表示事件类型。事件的类型是在生成事件的时候指定的。该属性只读。</p>
+<p><code>Event.timeStamp</code>属性返回一个毫秒时间戳，表示事件发生的时间。它是相对于网页加载成功开始计算的。</p>
+<p><code>Event.isTrusted</code>属性返回一个布尔值，表示该事件是否由真实的用户行为产生。比如，用户点击链接会产生一个<code>click</code>事件，该事件是用户产生的；<code>Event</code>构造函数生成的事件，则是脚本产生的。</p>
+<p><code>Event.detail</code>属性只有浏览器的 UI （用户界面）事件才具有。该属性返回一个数值，表示事件的某种信息。具体含义与事件类型相关。比如，对于<code>click</code>和<code>dblclick</code>事件，<code>Event.detail</code>是鼠标按下的次数（<code>1</code>表示单击，<code>2</code>表示双击，<code>3</code>表示三击）；对于鼠标滚轮事件，<code>Event.detail</code>是滚轮正向滚动的距离，负值就是负向滚动的距离，返回值总是3的倍数。</p>
+<p>实例方法</p>
+<p><code>Event.preventDefault</code>方法取消浏览器对当前事件的默认行为。比如点击链接后，浏览器默认会跳转到另一个页面，使用这个方法以后，就不会跳转了；再比如，按一下空格键，页面向下滚动一段距离，使用这个方法以后也不会滚动了。该方法生效的前提是，事件对象的<code>cancelable</code>属性为<code>true</code>，如果为<code>false</code>，调用该方法没有任何效果。</p>
+<p><code>Event.stopPropagation</code>方法阻止事件在 DOM 中继续传播，防止再触发定义在别的节点上的监听函数，但是不包括在当前节点上其他的事件监听函数。</p>
+<p><code>Event.stopImmediatePropagation</code>方法阻止同一个事件的其他监听函数被调用，不管监听函数定义在当前节点还是其他节点。也就是说，该方法阻止事件的传播，比<code>Event.stopPropagation()</code>更彻底。</p>
+<p><code>Event.composedPath()</code>返回一个数组，成员是事件的最底层节点和依次冒泡经过的所有上层节点。</p>
+<h4 id="事件模型"><a href="#事件模型" class="headerlink" title="事件模型"></a>事件模型</h4><h5 id="事件传播（事件冒泡与事件捕获）"><a href="#事件传播（事件冒泡与事件捕获）" class="headerlink" title="事件传播（事件冒泡与事件捕获）"></a>事件传播（事件冒泡与事件捕获）</h5><p>一个事件发生后，会在子元素和父元素之间传播，这个传播分为3个阶段：</p>
+<ul>
+<li><strong>第一阶段</strong>：从<code>window</code>对象传导到目标节点（上层传到底层），称为“捕获阶段”（capture phase）。</li>
+<li><strong>第二阶段</strong>：在目标节点上触发，称为“目标阶段”（target phase）。</li>
+<li><strong>第三阶段</strong>：从目标节点传导回<code>window</code>对象（从底层传回上层），称为“冒泡阶段”（bubbling phase）。</li>
+</ul>
+<p>事件冒泡可以形象地比喻为把一颗石头投入水中，泡泡会一直从水底冒出水面。也就是说，事件会从最内层的元素开始发生，一直向上传播，直到document对象。</p>
+<p>网景提出另一种事件流名为<strong>事件捕获</strong>(event capturing)。与事件冒泡相反，事件会从最外层开始发生，直到最具体的元素。</p>
+<p>最后采用w3c的折中方案：先捕获后冒泡，形成了事件传播的3个阶段</p>
+<p>简单来说，如果父dom和子dom都定义了相同的事件（如点击事件），那么触发子dom的事件时会同时触发父dom上的事件</p>
+<p>举例</p>
+<p>阻止事件冒泡</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">"#div1"</span>).mousedown(<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> e=event||<span class="built_in">window</span>.event;</span><br><span class="line">    event.stopPropagation();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="事件委托-事件代理"><a href="#事件委托-事件代理" class="headerlink" title="事件委托/事件代理"></a>事件委托/事件代理</h5><p>由于事件传播的存在，事件会在冒泡阶段向上传播到父节点。因此可以把</p>
+<p>事件委托，通俗地来讲，就是把一个元素响应事件（click、keydown……）的函数委托到另一个元素；</p>
+<p>事件委托会把一个或者一组元素的事件委托到它的父层或者更外层元素上，真正绑定事件的是外层元素，当事件响应到需要绑定的元素上时，会通过事件冒泡机制从而触发它的外层元素的绑定事件上，然后在外层元素上去执行函数。</p>
+<p>实例</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ul</span> <span class="attr">id</span>=<span class="string">"list"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>item 1<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>item 2<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>item 3<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  ......</span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>item n<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="actionscript"><span class="comment">// 给父层元素绑定事件</span></span></span><br><span class="line"><span class="javascript"><span class="built_in">document</span>.getElementById(<span class="string">'list'</span>).addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</span></span><br><span class="line"><span class="actionscript">  <span class="comment">// 兼容性处理</span></span></span><br><span class="line"><span class="javascript">  <span class="keyword">var</span> event = e || <span class="built_in">window</span>.event;</span></span><br><span class="line"><span class="actionscript">  <span class="keyword">var</span> target = event.target || event.srcElement;</span></span><br><span class="line"><span class="actionscript">  <span class="comment">// 判断是否匹配目标元素</span></span></span><br><span class="line"><span class="actionscript">  <span class="keyword">if</span> (target.nodeName.toLocaleLowerCase === <span class="string">'li'</span>) &#123;</span></span><br><span class="line"><span class="javascript">    <span class="built_in">console</span>.log(<span class="string">'the content is: '</span>, target.innerHTML);</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>事件委托的优点：</p>
+<p>1.减少内存消耗</p>
+<p>正常来说，如果我们有一个列表，列表之中有大量的列表项，我们需要在点击列表项的时候响应一个事件；</p>
+<p>比较好的方法就是把这个点击事件绑定到他的父层，也就是 <code>ul</code> 上，然后在执行事件的时候再去匹配判断目标元素；</p>
+<p>所以事件委托可以减少大量的内存消耗，节约效率。</p>
+<p>2.可以动态绑定事件</p>
+<p>例子中列表项就几个，我们给每个列表项都绑定了事件；</p>
+<p>在很多时候，我们需要通过 AJAX 或者用户操作动态的增加或者去除列表项元素，那么在每一次改变的时候都需要重新给新增的元素绑定事件，给即将删去的元素解绑事件；</p>
+<p>如果用了事件委托就没有这种麻烦了，因为事件是绑定在父层的，和目标元素的增减是没有关系的，执行到目标元素是在真正响应执行事件函数的过程中去匹配的；</p>
+<p>事件委托也是有一定局限性的；</p>
+<p>比如 focus、blur 之类的事件本身没有事件冒泡机制，所以无法委托；</p>
+<p>mousemove、mouseout 这样的事件，虽然有事件冒泡，但是只能不断通过位置去计算定位，对性能消耗高，因此也是不适合于事件委托的；</p>
+<p>对于事件代理(事件委托）来说，在事件捕获或者事件冒泡阶段处理并没有明显的优劣之分，但是由于事件冒泡的事件流模型被所有主流的浏览器兼容，从兼容性角度来说还是建议大家使用事件冒泡模型。</p>
+<h4 id="鼠标事件"><a href="#鼠标事件" class="headerlink" title="鼠标事件"></a>鼠标事件</h4><p>键盘事件</p>
+<p>进度事件</p>
+<p>拖动事件</p>
+<p>拖拉（drag）指的是，用户在某个对象上按下鼠标键不放，拖动它到另一个位置，然后释放鼠标键，将该对象放在那里。</p>
+<p>拖拉的对象有好几种，包括元素节点、图片、链接、选中的文字等等。在网页中，除了元素节点默认不可以拖拉，其他（图片、链接、选中的文字）都可以直接拖拉。为了让元素节点可拖拉，可以将该节点的<code>draggable</code>属性设为<code>true</code>。</p>
+<p><code>draggable</code>属性可用于任何元素节点，但是图片（<code>&lt;img&gt;</code>）和链接（<code>&lt;a&gt;</code>）不加这个属性，就可以拖拉。对于它们，用到这个属性的时候，往往是将其设为<code>false</code>，防止拖拉这两种元素。</p>
+<p>当元素节点或选中的文本被拖拉时，就会持续触发拖拉事件，包括以下一些事件。</p>
+<ul>
+<li><code>drag</code>：拖拉过程中，在被拖拉的节点上持续触发（相隔几百毫秒）。</li>
+<li><code>dragstart</code>：用户开始拖拉时，在被拖拉的节点上触发，该事件的<code>target</code>属性是被拖拉的节点。通常应该在这个事件的监听函数中，指定拖拉的数据。</li>
+<li><code>dragend</code>：拖拉结束时（释放鼠标键或按下 ESC 键）在被拖拉的节点上触发，该事件的<code>target</code>属性是被拖拉的节点。它与<code>dragstart</code>事件，在同一个节点上触发。不管拖拉是否跨窗口，或者中途被取消，<code>dragend</code>事件总是会触发的。</li>
+<li><code>dragenter</code>：拖拉进入当前节点时，在当前节点上触发一次，该事件的<code>target</code>属性是当前节点。通常应该在这个事件的监听函数中，指定是否允许在当前节点放下（drop）拖拉的数据。如果当前节点没有该事件的监听函数，或者监听函数不执行任何操作，就意味着不允许在当前节点放下数据。在视觉上显示拖拉进入当前节点，也是在这个事件的监听函数中设置。</li>
+<li><code>dragover</code>：拖拉到当前节点上方时，在当前节点上持续触发（相隔几百毫秒），该事件的<code>target</code>属性是当前节点。该事件与<code>dragenter</code>事件的区别是，<code>dragenter</code>事件在进入该节点时触发，然后只要没有离开这个节点，<code>dragover</code>事件会持续触发。</li>
+<li><code>dragleave</code>：拖拉操作离开当前节点范围时，在当前节点上触发，该事件的<code>target</code>属性是当前节点。如果要在视觉上显示拖拉离开操作当前节点，就在这个事件的监听函数中设置。</li>
+<li><code>drop</code>：被拖拉的节点或选中的文本，释放到目标节点时，在目标节点上触发。注意，如果当前节点不允许<code>drop</code>，即使在该节点上方松开鼠标键，也不会触发该事件。如果用户按下 ESC 键，取消这个操作，也不会触发该事件。该事件的监听函数负责取出拖拉数据，并进行相关处理。</li>
+</ul>
+<p><code>DataTransfer.setData()</code>方法用来设置拖拉事件所带有的数据。该方法没有返回值。</p>
+<p><code>DataTransfer.getData()</code>方法接受一个字符串（表示数据类型）作为参数，返回事件所带的指定类型的数据（通常是用<code>setData</code>方法添加的数据）。如果指定类型的数据不存在，则返回空字符串。通常只有<code>drop</code>事件触发后，才能取出数据。</p>
+<p><code>DataTransfer.clearData()</code>方法接受一个字符串（表示数据类型）作为参数，删除事件所带的指定类型的数据。如果没有指定类型，则删除所有数据。如果指定类型不存在，则调用该方法不会产生任何效果。</p>
+<p><code>DataTransfer.setDragImage()</code>拖动过程中（<code>dragstart</code>事件触发后），浏览器会显示一张图片跟随鼠标一起移动，表示被拖动的节点。这张图片是自动创造的，通常显示为被拖动节点的外观，不需要自己动手设置。</p>
+<p><code>DataTransfer.setDragImage()</code>方法可以自定义这张图片。它接受三个参数。第一个是<code>&lt;img&gt;</code>节点或者<code>&lt;canvas&gt;</code>节点，如果省略或为<code>null</code>，则使用被拖动的节点的外观；第二个和第三个参数为鼠标相对于该图片左上角的横坐标和纵坐标。</p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/IT%EF%BC%8CWeb-Node/" rel="tag">IT，Web,Node</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        <div class="social-share" data-disabled="tencent,linkedin,douban,diandian,google"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css">
+<script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script>
+
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3>
+        <div class="buttons is-centered">
+            
+                
+<a class="button is-info donate">
+    <span class="icon is-small">
+        <i class="fab fa-alipay"></i>
+    </span>
+    <span>支付宝</span>
+    <div class="qrcode"><img src="http://q6mb9zdoi.bkt.clouddn.com/alipay.jpg" alt="支付宝"></div>
+</a>
+
+                
+                
+<a class="button is-success donate">
+    <span class="icon is-small">
+        <i class="fab fa-weixin"></i>
+    </span>
+    <span>微信</span>
+    <div class="qrcode"><img src="http://q6mb9zdoi.bkt.clouddn.com/wechatpay.jpg" alt="微信"></div>
+</a>
+
+                
+        </div>
+    </div>
+</div>
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2021/01/18/Node3/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">Javascript开发（三）</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2021/01/14/Node/">
+                <span class="level-item">Javascript开发（一）</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">评论</h3>
+        
+<div class="notification is-danger">
+    You forgot to set the <code>app_id</code> or <code>app_key</code> for Valine. Please set it in <code>_config.yml</code>.
+</div>
+
+    </div>
+</div>
+
+
+<div class="level is-size-7 has-text-grey">
+</br>
+    <div class="level-left">
+	
+        <i class="far fa-eye"></i>
+		<span>&nbsp;</span>
+		
+		<h3>本文章阅读量：</h3>
+        <span>&nbsp;</span>
+        <span id="busuanzi_container_page_pv" style="display: inline;">
+            <span id="busuanzi_value_page_pv">0</span>
+        </span>
+    </div>
+</div></div>
+                
+
+
+
+
+
+<div class="column is-4-tablet is-5-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="" src="https://s1.ax1x.com/2020/03/27/G9OfNn.th.png" alt="张坤">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        张坤
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        Undergraduates/Tech Learner
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>山西·太原</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <a href="/archives">
+                        <p class="title has-text-weight-normal">
+                            94
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <a href="/categories">
+                        <p class="title has-text-weight-normal">
+                            7
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <a href="/tags">
+                        <p class="title has-text-weight-normal">
+                            47
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/Kun8018" target="_blank" rel="noopener">
+                关注我</a>
+        </div>
+        
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="微信" href="http://q6mb9zdoi.bkt.clouddn.com/alipay.jpg">
+                
+                <i class="fab fa-weixin"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="QQ" href="https://facebook.com">
+                
+                <i class="fab fa-qq"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="邮箱" href="https://twitter.com">
+                
+                <i class="fa fa-envelope"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="B站" href="https://dribbble.com">
+                
+                <i class="fab fa-dribbble"></i>
+                
+            </a>
+            
+        </div>
+        
+		<hr>
+        <p id="evan">IT学徒、技术民工、斜杠青年</p>
+          <p id="evan">机器人爱好者、摄影爱好者</p>
+          <p id="evan">PS、PR、LR、达芬奇潜在学习者</p>
+		  </div>
+</div>
+    
+        
+
+    <div class="card widget" id="toc">
+        <div class="card-content">
+            <div class="menu">
+                <h3 class="menu-label">
+                    目录
+                </h3>
+                <ul class="menu-list"><li>
+        <a class="is-flex" href="#Javascript-二">
+        <span class="has-mr-6">1</span>
+        <span>Javascript (二)</span>
+        </a></li><li>
+        <a class="is-flex" href="#js基本语法">
+        <span class="has-mr-6">2</span>
+        <span>js基本语法</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#宿主对象">
+        <span class="has-mr-6">2.1</span>
+        <span>宿主对象</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#Window">
+        <span class="has-mr-6">2.1.1</span>
+        <span>Window</span>
+        </a></li><li>
+        <a class="is-flex" href="#History">
+        <span class="has-mr-6">2.1.2</span>
+        <span>History</span>
+        </a></li><li>
+        <a class="is-flex" href="#Navigator">
+        <span class="has-mr-6">2.1.3</span>
+        <span>Navigator</span>
+        </a></li><li>
+        <a class="is-flex" href="#XMLHttpRequest-对象">
+        <span class="has-mr-6">2.1.4</span>
+        <span>XMLHttpRequest 对象</span>
+        </a></li><li>
+        <a class="is-flex" href="#File">
+        <span class="has-mr-6">2.1.5</span>
+        <span>File</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#事件">
+        <span class="has-mr-6">2.2</span>
+        <span>事件</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#EventTarget对象">
+        <span class="has-mr-6">2.2.1</span>
+        <span>EventTarget对象</span>
+        </a></li><li>
+        <a class="is-flex" href="#Event对象">
+        <span class="has-mr-6">2.2.2</span>
+        <span>Event对象</span>
+        </a></li><li>
+        <a class="is-flex" href="#事件模型">
+        <span class="has-mr-6">2.2.3</span>
+        <span>事件模型</span>
+        </a></li><li>
+        <a class="is-flex" href="#鼠标事件">
+        <span class="has-mr-6">2.2.4</span>
+        <span>鼠标事件</span>
+        </a></li></ul></li></ul></li></ul>
+            </div>
+        </div>
+    </div>
+
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https:www.iros2019.org" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">IEEE-IROS</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.iros2019.org</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https:www.icra2020.org" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">IEEE-ICRA</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.icra2020.org</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/IT/">
+            <span class="level-start">
+                <span class="level-item">IT</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">30</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E4%B8%AA%E4%BA%BA%E5%B9%B8%E7%A6%8F/">
+            <span class="level-start">
+                <span class="level-item">个人幸福</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">
+            <span class="level-start">
+                <span class="level-item">个人生活</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">23</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">
+            <span class="level-start">
+                <span class="level-item">技术博客</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">31</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%9C%8B%E5%8F%8B/">
+            <span class="level-start">
+                <span class="level-item">朋友</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E7%94%9F%E6%B4%BB/">
+            <span class="level-start">
+                <span class="level-item">生活</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E7%94%9F%E6%B4%BB%E6%84%9F%E6%82%9F/">
+            <span class="level-start">
+                <span class="level-item">生活感悟</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            标签云
+        </h3>
+        <a href="/tags/IT/" style="font-size: 10px;">IT</a> <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 12.5px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 10px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8C/" style="font-size: 12.5px;">IT,Web，</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 12.5px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 12.5px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 12.5px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 10px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb/" style="font-size: 15px;">IT，Web</a> <a href="/tags/IT%EF%BC%8CWeb-Javascript/" style="font-size: 10px;">IT，Web,Javascript</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 17.5px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 10px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 15px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 15px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 12.5px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 10px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 12.5px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 17.5px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 15px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 15px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">幸福</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 12.5px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/" style="font-size: 15px;">技术，IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 12.5px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 12.5px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 12.5px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 17.5px;">生活、幸福</a> <a href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">记录，生活</a>
+    </div>
+</div>
+    
+    
+        <div class="column-right-shadow  ">
+        
+            <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2021/02/02/2020%E6%96%B0%E5%B9%B4%E6%80%BB%E7%BB%93/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/happy-new-year-fireworks.jpg" alt="2020小结">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-02-02T13:40:33.000Z">2021-02-02</time></div>
+                    <a href="/2021/02/02/2020%E6%96%B0%E5%B9%B4%E6%80%BB%E7%BB%93/" class="title has-link-black-ter is-size-6 has-text-weight-normal">2020小结</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">个人生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2021/01/23/Node8/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/nestjs.png" alt="NodeJs开发（八）">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-23T13:40:33.000Z">2021-01-23</time></div>
+                    <a href="/2021/01/23/Node8/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（八）</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/IT/">IT</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2021/01/22/Node7/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/koajs.jpeg" alt="NodeJs开发（七）">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-22T14:40:33.000Z">2021-01-22</time></div>
+                    <a href="/2021/01/22/Node7/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（七）</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/IT/">IT</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2021/01/21/Node6/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/typescript.jpg" alt="NodeJs开发（六）">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-21T13:40:33.000Z">2021-01-21</time></div>
+                    <a href="/2021/01/21/Node6/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（六）</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/IT/">IT</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2021/01/20/Node5/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/nodejs.png" alt="NodeJs开发（五）">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-20T13:40:33.000Z">2021-01-20</time></div>
+                    <a href="/2021/01/20/Node5/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（五）</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/IT/">IT</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            归档
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2021/02/">
+                <span class="level-start">
+                    <span class="level-item">二月 2021</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2021/01/">
+                <span class="level-start">
+                    <span class="level-item">一月 2021</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">8</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/12/">
+                <span class="level-start">
+                    <span class="level-item">十二月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/10/">
+                <span class="level-start">
+                    <span class="level-item">十月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/09/">
+                <span class="level-start">
+                    <span class="level-item">九月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/08/">
+                <span class="level-start">
+                    <span class="level-item">八月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">9</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/07/">
+                <span class="level-start">
+                    <span class="level-item">七月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/06/">
+                <span class="level-start">
+                    <span class="level-item">六月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">12</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/04/">
+                <span class="level-start">
+                    <span class="level-item">四月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/03/">
+                <span class="level-start">
+                    <span class="level-item">三月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">46</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/02/">
+                <span class="level-start">
+                    <span class="level-item">二月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                标签
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT/">
+                        <span class="tag">IT</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Java-Web/">
+                        <span class="tag">IT,Java,Web</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web/">
+                        <span class="tag">IT,Web</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web/">
+                        <span class="tag">IT,Web,</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8C/">
+                        <span class="tag">IT,Web，</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/">
+                        <span class="tag">IT,Web，Android、Java</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8CC/">
+                        <span class="tag">IT,Web，C++</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8CFlutter/">
+                        <span class="tag">IT,Web，Flutter</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8CIOS/">
+                        <span class="tag">IT,Web，IOS</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8CMac/">
+                        <span class="tag">IT,Web，Mac</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/">
+                        <span class="tag">IT,Web，算法</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/">
+                        <span class="tag">IT、友情</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/">
+                        <span class="tag">IT、小程序、H5App</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8C/">
+                        <span class="tag">IT，</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CApp-Node-Electron/">
+                        <span class="tag">IT，App,Node,Electron</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CFlutter/">
+                        <span class="tag">IT，Flutter</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CGithub/">
+                        <span class="tag">IT，Github</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CRN%EF%BC%8C/">
+                        <span class="tag">IT，RN，</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb/">
+                        <span class="tag">IT，Web</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Javascript/">
+                        <span class="tag">IT，Web,Javascript</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Node/">
+                        <span class="tag">IT，Web,Node</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/">
+                        <span class="tag">IT，Web,Node，React</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-PHP/">
+                        <span class="tag">IT，Web,PHP</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Vue/">
+                        <span class="tag">IT，Web,Vue</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/">
+                        <span class="tag">IT，Web,Vue，Node、React</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/">
+                        <span class="tag">IT，Web,数据库</span>
+                        <span class="tag is-grey">6</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8Cweb/">
+                        <span class="tag">IT，web</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/">
+                        <span class="tag">IT，未来</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Web-IT-Flutter/">
+                        <span class="tag">Web,IT,Flutter</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Web-IT-Go/">
+                        <span class="tag">Web,IT,Go</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/">
+                        <span class="tag">Web，IT，HTML，CSS</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/">
+                        <span class="tag">个人生活，幸福</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/">
+                        <span class="tag">兴趣，幸福</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/">
+                        <span class="tag">励志、文学</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E5%8F%8B%E6%83%85/">
+                        <span class="tag">友情</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E5%B9%B8%E7%A6%8F/">
+                        <span class="tag">幸福</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">
+                        <span class="tag">幸福，个人生活</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/">
+                        <span class="tag">技术宅、IT</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/">
+                        <span class="tag">技术，IT</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/">
+                        <span class="tag">技术，Robotic，IT</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/">
+                        <span class="tag">摄影，记录，生活</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%B7%B1%E5%9C%B3/">
+                        <span class="tag">深圳</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/">
+                        <span class="tag">爱情，幸福</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E7%94%9F%E6%B4%BB/">
+                        <span class="tag">生活</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E7%94%9F%E6%B4%BB/">
+                        <span class="tag">生活#</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/">
+                        <span class="tag">生活、幸福</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/">
+                        <span class="tag">记录，生活</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+				
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="https://s1.ax1x.com/2020/03/27/G9OfNn.th.png" alt="Javascript开发（二）" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2021 Kun Zhang&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+               <!-- 
+                <br>
+                <span id="busuanzi_container_site_uv">
+                共<span id="busuanzi_value_site_uv">0</span>个访客
+                </span>
+                 -->
+				
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+	
+	   <div style="text-align: center;">
+			<br>
+			<p class="is-size-7">
+				
+				<span id="busuanzi_container_site_uv">
+					<i class="fa fa-user"></i> 本站访客数 <span id="busuanzi_value_site_uv"></span> 人次
+				</span>
+				<span id="busuanzi_container_site_pv">
+					|  <i class="fa fa-eye"></i> 本站总访问量 <span id="busuanzi_value_site_pv"></span> 次
+				</span>
+				
+			</p>
+			<span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+		<script>
+			var now = new Date(); 
+			function createtime() { 
+				var grt= new Date("3/2/2020 08:00:00");// 此处修改你的建站时间或者网站上线时间 
+				now.setTime(now.getTime()+250); 
+				days = (now - grt) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+				hours = (now - grt) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+				if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+				mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+				seconds = (now - grt) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+				snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+				document.getElementById("timeDate").innerHTML = "本站已安全运行"+dnum+"天"; 
+				document.getElementById("times").innerHTML = hnum + "小时" + mnum + "分" + snum + "秒"; 
+			} 
+			setInterval("createtime()",250);
+		</script>
+		</div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'http://kun8018.gitee.io',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'unfolded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>
