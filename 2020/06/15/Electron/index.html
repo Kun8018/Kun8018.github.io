@@ -10,16 +10,16 @@
 <title>Electron开发 - kun&#39;s blog</title>
 
 
-    <meta name="description" content="Electron开发　　目前看来Electron 的开发并没有想像的那么简单，简单尝试一下之后目前先搁置了，等有空再来。">
+    <meta name="description" content="目前看来Electron 的开发并没有想像的那么简单，简单尝试一下之后目前先搁置了，等有空再来。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Electron开发">
 <meta property="og:url" content="http://kun8018.gitee.io/2020/06/15/Electron/index.html">
 <meta property="og:site_name" content="kun&#39;s blog">
-<meta property="og:description" content="Electron开发　　目前看来Electron 的开发并没有想像的那么简单，简单尝试一下之后目前先搁置了，等有空再来。">
+<meta property="og:description" content="目前看来Electron 的开发并没有想像的那么简单，简单尝试一下之后目前先搁置了，等有空再来。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://cdn.kunkunzhang.top/electron.png">
 <meta property="article:published_time" content="2020-06-15T13:40:33.000Z">
-<meta property="article:modified_time" content="2020-11-16T09:15:02.027Z">
+<meta property="article:modified_time" content="2021-03-05T01:59:02.448Z">
 <meta property="article:author" content="Kun Zhang">
 <meta property="article:tag" content="IT，App,Node,Electron">
 <meta name="twitter:card" content="summary">
@@ -158,7 +158,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    35 分钟 读完 (大约 5272 个字)
+                    42 分钟 读完 (大约 6303 个字)
                 </span>
                 
                 
@@ -176,7 +176,7 @@
             
         </h1>
         <div class="content">
-            <h2 id="Electron开发"><a href="#Electron开发" class="headerlink" title="Electron开发"></a>Electron开发</h2><p>　　目前看来Electron 的开发并没有想像的那么简单，简单尝试一下之后目前先搁置了，等有空再来。</p>
+            <p>　　目前看来Electron 的开发并没有想像的那么简单，简单尝试一下之后目前先搁置了，等有空再来。</p>
 <a id="more"></a>
 
 <h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
@@ -349,6 +349,13 @@
 
 
 
+<p>nedb使用</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; 新建db.js</span><br><span class="line"><span class="keyword">import</span> Datastore <span class="keyword">from</span> <span class="string">'nedb'</span></span><br><span class="line"><span class="keyword">import</span> path <span class="keyword">from</span> <span class="string">'path'</span></span><br><span class="line"><span class="keyword">import</span> &#123; remote &#125; <span class="keyword">from</span> <span class="string">'electron'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> db = &#123;</span><br><span class="line">    tableData: <span class="keyword">new</span> Datastore(&#123;<span class="attr">filename</span>: path.join(remote.app.getPath(<span class="string">'userData'</span>), <span class="string">'/tableData.db'</span>)&#125;),</span><br><span class="line">    chartData: <span class="keyword">new</span> Datastore(&#123;<span class="attr">filename</span>: path.join(remote.app.getPath(<span class="string">'userData'</span>), <span class="string">'/chartData.db'</span>)&#125;),</span><br><span class="line">    cfgData: <span class="keyword">new</span> Datastore(&#123;<span class="attr">filename</span>: path.join(remote.app.getPath(<span class="string">'userData'</span>), <span class="string">'/cfgData.db'</span>)&#125;),</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">    db</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt;&gt;  引入数据库</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> *  本地数据库导入</span></span><br><span class="line"><span class="comment"> *  web模式注释该代码</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">import</span> db <span class="keyword">from</span> <span class="string">'../db'</span></span><br><span class="line">Vue.prototype.$db = db.db</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt;&gt; 任意页面调用数据库</span><br><span class="line">  <span class="keyword">this</span>.$db.chartData.loadDatabase();</span><br><span class="line">  <span class="keyword">this</span>.$db.chartData.find(&#123;&#125;,  (err, docs)=&gt; &#123;</span><br><span class="line"><span class="comment">//                            console.log(docs);</span></span><br><span class="line">                            <span class="keyword">if</span>(docs &amp;&amp; docs.length &gt; <span class="number">0</span>)&#123;</span><br><span class="line">                                <span class="keyword">this</span>.totalOptionList = docs;</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;);</span><br></pre></td></tr></table></figure>
+
+
+
+
+
 <h2 id="拖拽播放"><a href="#拖拽播放" class="headerlink" title="拖拽播放"></a>拖拽播放</h2><h2 id="结合React"><a href="#结合React" class="headerlink" title="结合React"></a>结合React</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --global create-react-app</span><br></pre></td></tr></table></figure>
 
 
@@ -426,7 +433,10 @@
 <p>字面意思就是<strong>预期缩进2个空格，但找到1个Tab</strong>。说实话，我一开始找了半天，没发现原因，后来想到可能是eslint不认可<strong>tab</strong>开头，因此我找到了我使用的编辑器VSCord的设置，添加了相应的文字：</p>
 <p><strong>Unexpected trailing comma. (comma-dangle)’</strong></p>
 <p>字面意思是<strong>尾随了一个多余的逗号</strong>，有时候明明在最后一个属性之后都没有了，却多余地添加了一个逗号，毕竟eslint是一个强迫症患者，解决思路超简单，删掉即可。</p>
-<h2 id="应用打包"><a href="#应用打包" class="headerlink" title="应用打包"></a>应用打包</h2><p>安装打包工具</p>
+<h2 id="应用打包"><a href="#应用打包" class="headerlink" title="应用打包"></a>应用打包</h2><h3 id="主进程打包"><a href="#主进程打包" class="headerlink" title="主进程打包"></a>主进程打包</h3><p>主进程，即将整个程序打包成可运行的客户端程序，常用的打包方案一般有两种，<code>electron-packager</code>和<code>electron-builder</code>。</p>
+<p><code>electron-packager</code>在打包配置上我觉得有些繁琐，而且它只能将应用直接打包为可执行程序。</p>
+<p><code>electron-builder</code>它不仅拥有方便的配置 <code>protocol</code> 的功能、内置的 <code>Auto Update</code>、简单的配置 <code>package.json</code> 便能完成整个打包工作，用户体验非常不错。而且<code>electron-builder</code>不仅能直接将应用打包成<code>exe app</code>等可执行程序，还能打包成<code>msi dmg</code>等安装包格式。</p>
+<p>安装打包工具</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install electron-packager -g</span><br></pre></td></tr></table></figure>
 
 <p>配置打包命令</p>
@@ -435,13 +445,18 @@
 <p>命令结构如下（根据实际情况修改）：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">“.”：需要打包的应用目录（即当前目录），</span><br><span class="line">“myClient”：应用名称，</span><br><span class="line">“--win”：打包平台（以Windows为例），</span><br><span class="line">“--out ..&#x2F;myClient”：输出目录，</span><br><span class="line">“--arch&#x3D;64”：64位，</span><br><span class="line">“--app-version&#x3D;0.0.1”：应用版本，</span><br><span class="line">“--electron-version&#x3D;2.0.0”：electron版本</span><br></pre></td></tr></table></figure>
 
-
-
 <p>执行打包命令</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run pack</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">electron-builder</span><br></pre></td></tr></table></figure>
 
-
-
+<h3 id="渲染进程打包"><a href="#渲染进程打包" class="headerlink" title="渲染进程打包"></a>渲染进程打包</h3><p>一般情况下，我们的大部分业务逻辑代码是在渲染进程完成的，在大部分情况下我们仅仅需要对渲染进程进行更新和升级而不需要改动主进程代码，我们渲染进程的打包实际上和一般的<code>web</code>项目打包没有太大差别，使用<code>webpack</code>打包即可。</p>
+<p>打包完成的<code>html</code>和<code>js</code>文件，我们一般要上传到我们的前端静态资源服务器下，然后告知服务端我们的渲染进程有代码更新，这里可以说成渲染进程单独的升级。</p>
+<p>需要注意的是，和壳的升级不同，渲染进程的升级仅仅是静态资源服务器上<code>html</code>和<code>js</code>文件的更新，而不需要重新下载更新客户端，这样我们每次启动程序的时候检测到离线包有更新，即可直接刷新读取最新版本的静态资源文件，即使在程序运行过程中要强制更新，我们的程序只需要强制刷新页面读取最新的静态资源即可，这样的升级对用户是非常友好的。</p>
+<p>一旦我们这样配置，就意味着渲染进程和主进程打包升级的完全分离，我们在启动主窗口时读取的文件就不应该再是本地文件，而是打包完成后放在静态资源服务器的文件。</p>
+<h3 id="打包优化"><a href="#打包优化" class="headerlink" title="打包优化"></a>打包优化</h3><p><code>electron-builder</code>打包出来的<code>App</code>要比相同功能的原生客户端应用体积大很多，即使是空的应用，体积也要在<code>100mb</code>以上。原因有很多：</p>
+<p>第一点；为了达到跨平台的效果，每个<code>Electron</code>应用都包含了整个<code>V8</code>引擎和<code>Chromium</code>内核。</p>
+<p>第二点：打包时会将整个<code>node_modules</code>打包进去，大家都知道一个应用的<code>node_module</code>体积是非常庞大的，这也是使得<code>Electron</code>应用打包后的体积较大的原因。</p>
+<p>第一点我们无法改变，我们可以从第二点对应用体积进行优化：<code>Electron</code>在打包时只会将<code>denpendencies</code>的依赖打包进去，而不会将 <code>devDependencies</code> 中的依赖进行打包。所以我们应尽可能的减少<code>denpendencies</code>中的依赖。在上面的进程中，我们使用<code>webpack</code>对渲染进程进行打包，所以渲染进程的依赖全部都可以移入<code>devDependencies</code>。</p>
+<p>另外，我们还可以使用双<code>packajson.json</code>的方式来进行优化，把只在开发环境中使用到的依赖放在整个项目的根目录的<code>package.json</code>下，将与平台相关的或者运行时需要的依赖装在<code>app</code>目录下。</p>
 <h2 id="自定义安装UI和路径"><a href="#自定义安装UI和路径" class="headerlink" title="自定义安装UI和路径"></a>自定义安装UI和路径</h2><h2 id="Github发布与更新功能"><a href="#Github发布与更新功能" class="headerlink" title="Github发布与更新功能"></a>Github发布与更新功能</h2><p>electron提供electron-updater插件</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install electron-updater --save-dev</span><br></pre></td></tr></table></figure>
 
@@ -550,8 +565,8 @@
         
         
         <div class="level-end">
-            <a class="level level-item has-link-grey  article-nav-next" href="/2020/06/11/%E9%9D%A2%E8%AF%95%E9%A2%98/">
-                <span class="level-item">面试汇总（一）</span>
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/06/15/Electron2/">
+                <span class="level-item">Electron开发</span>
                 <i class="level-item fas fa-chevron-right"></i>
             </a>
         </div>
@@ -632,7 +647,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            94
+                            103
                         </p>
                     </a>
                 </div>
@@ -656,7 +671,7 @@
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            47
+                            48
                         </p>
                     </a>
                 </div>
@@ -718,144 +733,152 @@
                     目录
                 </h3>
                 <ul class="menu-list"><li>
-        <a class="is-flex" href="#Electron开发">
-        <span class="has-mr-6">1</span>
-        <span>Electron开发</span>
-        </a></li><li>
         <a class="is-flex" href="#启动">
-        <span class="has-mr-6">2</span>
+        <span class="has-mr-6">1</span>
         <span>启动</span>
         </a><ul class="menu-list"><li>
         <a class="is-flex" href="#安装electron">
-        <span class="has-mr-6">2.1</span>
+        <span class="has-mr-6">1.1</span>
         <span>安装electron</span>
         </a></li></ul></li><li>
         <a class="is-flex" href="#项目文件">
-        <span class="has-mr-6">3</span>
+        <span class="has-mr-6">2</span>
         <span>项目文件</span>
         </a></li><li>
         <a class="is-flex" href="#创建应用工具栏">
-        <span class="has-mr-6">4</span>
+        <span class="has-mr-6">3</span>
         <span>创建应用工具栏</span>
         </a></li><li>
         <a class="is-flex" href="#设置鼠标右键菜单">
-        <span class="has-mr-6">5</span>
+        <span class="has-mr-6">4</span>
         <span>设置鼠标右键菜单</span>
         </a></li><li>
         <a class="is-flex" href="#创建新窗口">
-        <span class="has-mr-6">6</span>
+        <span class="has-mr-6">5</span>
         <span>创建新窗口</span>
         </a></li><li>
         <a class="is-flex" href="#设置自定义标题栏">
-        <span class="has-mr-6">7</span>
+        <span class="has-mr-6">6</span>
         <span>设置自定义标题栏</span>
         </a></li><li>
         <a class="is-flex" href="#选择、保存文件对话框–dialog模块">
-        <span class="has-mr-6">8</span>
+        <span class="has-mr-6">7</span>
         <span>选择、保存文件对话框–dialog模块</span>
         </a></li><li>
         <a class="is-flex" href="#弹出对话框">
-        <span class="has-mr-6">9</span>
+        <span class="has-mr-6">8</span>
         <span>弹出对话框</span>
         </a></li><li>
         <a class="is-flex" href="#注册快捷键功能、剪切板功能">
-        <span class="has-mr-6">10</span>
+        <span class="has-mr-6">9</span>
         <span>注册快捷键功能、剪切板功能</span>
         </a></li><li>
         <a class="is-flex" href="#Shell-管理文件与URL">
-        <span class="has-mr-6">11</span>
+        <span class="has-mr-6">10</span>
         <span>Shell-管理文件与URL</span>
         </a></li><li>
         <a class="is-flex" href="#设置右下角图标tray">
-        <span class="has-mr-6">12</span>
+        <span class="has-mr-6">11</span>
         <span>设置右下角图标tray</span>
         </a></li><li>
         <a class="is-flex" href="#主进程与渲染进程通信">
-        <span class="has-mr-6">13</span>
+        <span class="has-mr-6">12</span>
         <span>主进程与渲染进程通信</span>
         </a></li><li>
         <a class="is-flex" href="#引入终端">
-        <span class="has-mr-6">14</span>
+        <span class="has-mr-6">13</span>
         <span>引入终端</span>
         </a></li><li>
         <a class="is-flex" href="#windows-任务栏">
-        <span class="has-mr-6">15</span>
+        <span class="has-mr-6">14</span>
         <span>windows 任务栏</span>
         </a></li><li>
         <a class="is-flex" href="#截图功能">
-        <span class="has-mr-6">16</span>
+        <span class="has-mr-6">15</span>
         <span>截图功能</span>
         </a></li><li>
         <a class="is-flex" href="#下载管理">
-        <span class="has-mr-6">17</span>
+        <span class="has-mr-6">16</span>
         <span>下载管理</span>
         </a></li><li>
         <a class="is-flex" href="#从浏览器启动pc端">
-        <span class="has-mr-6">18</span>
+        <span class="has-mr-6">17</span>
         <span>从浏览器启动pc端</span>
         </a></li><li>
         <a class="is-flex" href="#Robotjs自动化库">
-        <span class="has-mr-6">19</span>
+        <span class="has-mr-6">18</span>
         <span>Robotjs自动化库</span>
         </a></li><li>
         <a class="is-flex" href="#打印功能">
-        <span class="has-mr-6">20</span>
+        <span class="has-mr-6">19</span>
         <span>打印功能</span>
         </a></li><li>
         <a class="is-flex" href="#js数据库lowdb和nedb">
-        <span class="has-mr-6">21</span>
+        <span class="has-mr-6">20</span>
         <span>js数据库lowdb和nedb</span>
         </a></li><li>
         <a class="is-flex" href="#拖拽播放">
-        <span class="has-mr-6">22</span>
+        <span class="has-mr-6">21</span>
         <span>拖拽播放</span>
         </a></li><li>
         <a class="is-flex" href="#结合React">
-        <span class="has-mr-6">23</span>
+        <span class="has-mr-6">22</span>
         <span>结合React</span>
         </a><ul class="menu-list"><li>
         <a class="is-flex" href="#在React中使用Electron">
-        <span class="has-mr-6">23.1</span>
+        <span class="has-mr-6">22.1</span>
         <span>在React中使用Electron</span>
         </a></li></ul></li><li>
         <a class="is-flex" href="#结合Vue">
-        <span class="has-mr-6">24</span>
+        <span class="has-mr-6">23</span>
         <span>结合Vue</span>
         </a><ul class="menu-list"><li>
         <a class="is-flex" href="#错误信息">
-        <span class="has-mr-6">24.1</span>
+        <span class="has-mr-6">23.1</span>
         <span>错误信息</span>
         </a><ul class="menu-list"><li>
         <a class="is-flex" href="#eslint的错误">
-        <span class="has-mr-6">24.1.1</span>
+        <span class="has-mr-6">23.1.1</span>
         <span>eslint的错误</span>
         </a></li></ul></li></ul></li><li>
         <a class="is-flex" href="#应用打包">
-        <span class="has-mr-6">25</span>
+        <span class="has-mr-6">24</span>
         <span>应用打包</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#主进程打包">
+        <span class="has-mr-6">24.1</span>
+        <span>主进程打包</span>
         </a></li><li>
+        <a class="is-flex" href="#渲染进程打包">
+        <span class="has-mr-6">24.2</span>
+        <span>渲染进程打包</span>
+        </a></li><li>
+        <a class="is-flex" href="#打包优化">
+        <span class="has-mr-6">24.3</span>
+        <span>打包优化</span>
+        </a></li></ul></li><li>
         <a class="is-flex" href="#自定义安装UI和路径">
-        <span class="has-mr-6">26</span>
+        <span class="has-mr-6">25</span>
         <span>自定义安装UI和路径</span>
         </a></li><li>
         <a class="is-flex" href="#Github发布与更新功能">
-        <span class="has-mr-6">27</span>
+        <span class="has-mr-6">26</span>
         <span>Github发布与更新功能</span>
         </a></li><li>
         <a class="is-flex" href="#进阶-实现系统级别的右键菜单">
-        <span class="has-mr-6">28</span>
+        <span class="has-mr-6">27</span>
         <span>[进阶]实现系统级别的右键菜单</span>
         </a></li><li>
         <a class="is-flex" href="#进阶-实现命令行命令-内部执行命令行命令">
-        <span class="has-mr-6">29</span>
+        <span class="has-mr-6">28</span>
         <span>[进阶] 实现命令行命令/内部执行命令行命令</span>
         </a></li><li>
         <a class="is-flex" href="#监控崩溃">
-        <span class="has-mr-6">30</span>
+        <span class="has-mr-6">29</span>
         <span>监控崩溃</span>
         </a></li><li>
         <a class="is-flex" href="#Electron运行原理">
-        <span class="has-mr-6">31</span>
+        <span class="has-mr-6">30</span>
         <span>Electron运行原理</span>
         </a></li></ul>
             </div>
@@ -913,7 +936,7 @@
                 <span class="level-item">IT</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">30</span>
+                <span class="level-item tag">36</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E4%B8%AA%E4%BA%BA%E5%B9%B8%E7%A6%8F/">
@@ -929,7 +952,7 @@
                 <span class="level-item">个人生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">
@@ -937,7 +960,7 @@
                 <span class="level-item">技术博客</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">31</span>
+                <span class="level-item tag">33</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%9C%8B%E5%8F%8B/">
@@ -974,7 +997,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/IT/" style="font-size: 10px;">IT</a> <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 12.5px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 10px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8C/" style="font-size: 12.5px;">IT,Web，</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 12.5px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 12.5px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 12.5px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 10px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb/" style="font-size: 15px;">IT，Web</a> <a href="/tags/IT%EF%BC%8CWeb-Javascript/" style="font-size: 10px;">IT，Web,Javascript</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 17.5px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 10px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 15px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 15px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 12.5px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 10px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 12.5px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 17.5px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 15px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 15px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">幸福</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 12.5px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/" style="font-size: 15px;">技术，IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 12.5px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 12.5px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 12.5px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 17.5px;">生活、幸福</a> <a href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">记录，生活</a>
+        <a href="/tags/IT/" style="font-size: 10px;">IT</a> <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 12px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 10px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8C/" style="font-size: 12px;">IT,Web，</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 12px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 14px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 12px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 12px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb/" style="font-size: 16px;">IT，Web</a> <a href="/tags/IT%EF%BC%8CWeb-Javascript/" style="font-size: 10px;">IT，Web,Javascript</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 18px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 14px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Rust/" style="font-size: 10px;">IT，Web,Rust</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 14px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 16px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 12px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 10px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 12px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 18px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 14px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 14px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">幸福</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 14px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/" style="font-size: 14px;">技术，IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 12px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 12px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 12px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 18px;">生活、幸福</a> <a href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">记录，生活</a>
     </div>
 </div>
     
@@ -1008,16 +1031,16 @@
         
         <article class="media">
             
-            <a href="/2021/01/23/Node8/" class="media-left">
+            <a href="/2021/01/23/Node9/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/nestjs.png" alt="NodeJs开发（八）">
+                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/nestjs.png" alt="NodeJs开发（四）">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-23T13:40:33.000Z">2021-01-23</time></div>
-                    <a href="/2021/01/23/Node8/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（八）</a>
+                    <a href="/2021/01/23/Node9/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（四）</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/IT/">IT</a>
                     </p>
@@ -1029,14 +1052,33 @@
             
             <a href="/2021/01/22/Node7/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/koajs.jpeg" alt="NodeJs开发（七）">
+                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/koajs.jpeg" alt="NodeJs开发（三）">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-22T14:40:33.000Z">2021-01-22</time></div>
-                    <a href="/2021/01/22/Node7/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（七）</a>
+                    <a href="/2021/01/22/Node7/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（三）</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/IT/">IT</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2021/01/22/Node8/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/koajs.jpeg" alt="NodeJs开发（三）">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-22T14:40:33.000Z">2021-01-22</time></div>
+                    <a href="/2021/01/22/Node8/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（三）</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/IT/">IT</a>
                     </p>
@@ -1048,33 +1090,14 @@
             
             <a href="/2021/01/21/Node6/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/typescript.jpg" alt="NodeJs开发（六）">
+                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/typescript.jpg" alt="NodeJs开发（二）">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-21T13:40:33.000Z">2021-01-21</time></div>
-                    <a href="/2021/01/21/Node6/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（六）</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/IT/">IT</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2021/01/20/Node5/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/nodejs.png" alt="NodeJs开发（五）">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-20T13:40:33.000Z">2021-01-20</time></div>
-                    <a href="/2021/01/20/Node5/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（五）</a>
+                    <a href="/2021/01/21/Node6/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（二）</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/IT/">IT</a>
                     </p>
@@ -1110,7 +1133,7 @@
                     <span class="level-item">一月 2021</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">8</span>
+                    <span class="level-item tag">9</span>
                 </span>
             </a>
         </li>
@@ -1121,7 +1144,7 @@
                     <span class="level-item">十二月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">4</span>
+                    <span class="level-item tag">5</span>
                 </span>
             </a>
         </li>
@@ -1176,7 +1199,7 @@
                     <span class="level-item">六月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">12</span>
+                    <span class="level-item tag">18</span>
                 </span>
             </a>
         </li>
@@ -1209,7 +1232,7 @@
                     <span class="level-item">三月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">46</span>
+                    <span class="level-item tag">47</span>
                 </span>
             </a>
         </li>
@@ -1311,7 +1334,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/">
                         <span class="tag">IT,Web，算法</span>
-                        <span class="tag is-grey">2</span>
+                        <span class="tag is-grey">3</span>
                     </a>
                 </div>
                 
@@ -1339,7 +1362,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CApp-Node-Electron/">
                         <span class="tag">IT，App,Node,Electron</span>
-                        <span class="tag is-grey">1</span>
+                        <span class="tag is-grey">2</span>
                     </a>
                 </div>
                 
@@ -1367,7 +1390,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb/">
                         <span class="tag">IT，Web</span>
-                        <span class="tag is-grey">3</span>
+                        <span class="tag is-grey">4</span>
                     </a>
                 </div>
                 
@@ -1388,13 +1411,20 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/">
                         <span class="tag">IT，Web,Node，React</span>
-                        <span class="tag is-grey">1</span>
+                        <span class="tag is-grey">3</span>
                     </a>
                 </div>
                 
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-PHP/">
                         <span class="tag">IT，Web,PHP</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Rust/">
+                        <span class="tag">IT，Web,Rust</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -1416,14 +1446,14 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/">
                         <span class="tag">IT，Web,数据库</span>
-                        <span class="tag is-grey">6</span>
+                        <span class="tag is-grey">7</span>
                     </a>
                 </div>
                 
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8Cweb/">
                         <span class="tag">IT，web</span>
-                        <span class="tag is-grey">3</span>
+                        <span class="tag is-grey">4</span>
                     </a>
                 </div>
                 
@@ -1493,7 +1523,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">
                         <span class="tag">幸福，个人生活</span>
-                        <span class="tag is-grey">2</span>
+                        <span class="tag is-grey">3</span>
                     </a>
                 </div>
                 

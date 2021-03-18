@@ -10,16 +10,16 @@
 <title>HTML/CSS - kun&#39;s blog</title>
 
 
-    <meta name="description" content="HTML&#x2F;CSS​      html和css是做网页和前端的基础，也是基本构成 ​      从开始学习前端之后，其实一直没有特别地学习过html和css。最开始写过一周之后，因为想要搭建好看的样式，开始使用bootstrap，再后来学习spa应用，react和vue，使用框架和库能快速地搭建想要的界面。 ​      直到后面找前端工作参加面试的时候和参加工作之后开始写，才发现html和css">
+    <meta name="description" content="​      html和css是做网页和前端的基础，也是基本构成 ​      从开始学习前端之后，其实一直没有特别地学习过html和css。最开始写过一周之后，因为想要搭建好看的样式，开始使用bootstrap，再后来学习spa应用，react和vue，使用框架和库能快速地搭建想要的界面。 ​      直到后面找前端工作参加面试的时候和参加工作之后开始写，才发现html和css还是前端基本功，">
 <meta property="og:type" content="article">
 <meta property="og:title" content="HTML&#x2F;CSS">
 <meta property="og:url" content="http://kun8018.gitee.io/2020/08/03/HTML:CSS/index.html">
 <meta property="og:site_name" content="kun&#39;s blog">
-<meta property="og:description" content="HTML&#x2F;CSS​      html和css是做网页和前端的基础，也是基本构成 ​      从开始学习前端之后，其实一直没有特别地学习过html和css。最开始写过一周之后，因为想要搭建好看的样式，开始使用bootstrap，再后来学习spa应用，react和vue，使用框架和库能快速地搭建想要的界面。 ​      直到后面找前端工作参加面试的时候和参加工作之后开始写，才发现html和css">
+<meta property="og:description" content="​      html和css是做网页和前端的基础，也是基本构成 ​      从开始学习前端之后，其实一直没有特别地学习过html和css。最开始写过一周之后，因为想要搭建好看的样式，开始使用bootstrap，再后来学习spa应用，react和vue，使用框架和库能快速地搭建想要的界面。 ​      直到后面找前端工作参加面试的时候和参加工作之后开始写，才发现html和css还是前端基本功，">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://cdn.kunkunzhang.top/html.jpeg">
 <meta property="article:published_time" content="2020-08-03T13:40:33.000Z">
-<meta property="article:modified_time" content="2021-02-07T02:15:03.737Z">
+<meta property="article:modified_time" content="2021-03-13T05:25:25.792Z">
 <meta property="article:author" content="Kun Zhang">
 <meta property="article:tag" content="Web，IT，HTML，CSS">
 <meta name="twitter:card" content="summary">
@@ -158,7 +158,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    36 分钟 读完 (大约 5463 个字)
+                    1 小时 读完 (大约 7379 个字)
                 </span>
                 
                 
@@ -176,7 +176,7 @@
             
         </h1>
         <div class="content">
-            <h2 id="HTML-CSS"><a href="#HTML-CSS" class="headerlink" title="HTML/CSS"></a>HTML/CSS</h2><p>​      html和css是做网页和前端的基础，也是基本构成</p>
+            <p>​      html和css是做网页和前端的基础，也是基本构成</p>
 <p>​      从开始学习前端之后，其实一直没有特别地学习过html和css。最开始写过一周之后，因为想要搭建好看的样式，开始使用bootstrap，再后来学习spa应用，react和vue，使用框架和库能快速地搭建想要的界面。</p>
 <p>​      直到后面找前端工作参加面试的时候和参加工作之后开始写，才发现html和css还是前端基本功，包括vue和react其实也只是封装了很多东西，一定要了解基础原理和改进方法才能用好。</p>
 <p>​     所以继续开始记录。</p>
@@ -188,6 +188,13 @@
 <p>混杂模式又称怪异模式或兼容模式，是指浏览器用自己的方式解析代码，即使用一种比较宽松的向后兼容的方式来显示页面</p>
 <p>HTML5 没有 DTD ，因此也就没有严格模式与混杂模式的区别，HTML5 有相对宽松的语法，实现时，已经尽可能大的实现了向后兼容。（ HTML5 没有严格和混杂之分）</p>
 <p>DOCTYPE不存在或格式不正确会让文档以混杂模式呈现</p>
+<h3 id="meta标签"><a href="#meta标签" class="headerlink" title="meta标签"></a>meta标签</h3><p><strong>HTML <code>&lt;meta&gt;</code> 元素</strong>表示那些不能由其它 HTML 元相关（meta-related）元素之一表示的任何<a href="https://developer.mozilla.org/zh-CN/docs/Glossary/Metadata">元数据</a>信息。</p>
+<p>属性</p>
+<p>charset：声明文档的字符编码。其值必须是与ASCII大小写无关的”<code>utf-8</code>“。</p>
+<p>name和content：<code>name</code> 和 <code>content</code> 属性可以一起使用，以名-值对的方式给文档提供元数据，其中 name 作为元数据的名称，content 作为元数据的值。</p>
+<p><strong><code>http-equiv</code></strong></p>
+<p>属性定义了一个编译指示指令。这个属性叫做 <code>**http-equiv**(alent)</code> 是因为所有允许的值都是特定HTTP头部的名称<code>content-type</code><br>如果使用这个属性，其值必须是”<code>text/html; charset=utf-8</code>“。注意：该属性只能用于 <a href="https://wiki.developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types">MIME type</a> 为 <code>text/html</code> 的文档，不能用于MIME类型为XML的文档。</p>
+<p><code>itemprop</code> 属性，<code>meta</code> 元素提供用户定义的元数据。</p>
 <h3 id="常见HTML标签属性"><a href="#常见HTML标签属性" class="headerlink" title="常见HTML标签属性"></a>常见HTML标签属性</h3><p>html连接：<a>标签：target属性规定在何处打开链接文档。浏览器会根据target的属性值去打开与其命名或名称相符的 框架<frame>或者窗口.</a></p>
 <p>​             _blank:在新窗口中打开被链接文档。</p>
 <p>​             _self:在相同的框架中打开被链接文档。</p>
@@ -257,7 +264,24 @@
 <p>html<command> 标签可以定义命令按钮，比如单选按钮、复选框或按钮。只有当 command 元素位于 menu 元素内时，该元素才是可见的。否则不会显示这个元素，但是可以用它规定键盘快捷键。</p>
 <p>html<section>定义文档中的节，比如章节、页脚等</p>
 <p>html<aside>定义页面的侧边栏内容</p>
-<h3 id="HTML5新特性"><a href="#HTML5新特性" class="headerlink" title="HTML5新特性"></a>HTML5新特性</h3><h3 id="canvas绘图"><a href="#canvas绘图" class="headerlink" title="canvas绘图"></a>canvas绘图</h3><p>canvas本身没有绘图能力，是图形的容器，必须使用脚本来完成实际的绘图任务。</p>
+<h3 id="HTML5新特性"><a href="#HTML5新特性" class="headerlink" title="HTML5新特性"></a>HTML5新特性</h3><h3 id="html语义化标签"><a href="#html语义化标签" class="headerlink" title="html语义化标签"></a>html语义化标签</h3><p>语义化的标签 是指让标签拥有自己的含义</p>
+<p>以代码为例</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>一行文字<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">span</span>&gt;</span>一行文字<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>p</code> 标签与 <code>span</code> 标签都区别之一就是，<code>p</code> 标签的含义是：段落。而 <code>span</code> 标签责没有独特的含义。</p>
+<p>语义化标签的优势</p>
+<ol>
+<li>代码结构清晰，方便阅读，有利于团队合作开发。</li>
+<li>方便其他设备解析（如屏幕阅读器、盲人阅读器、移动设备）以语义的方式来渲染网页。</li>
+<li>有利于搜索引擎优化（SEO）。</li>
+</ol>
+<p>因此我们在写页面结构时，应尽量使用有 语义的HTML 标签。语义化的标签有：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">title</span>&gt;</span>：页面主体内容。</span><br><span class="line"><span class="tag">&lt;<span class="name">hn</span>&gt;</span>：h1~h6，分级标题，<span class="tag">&lt;<span class="name">h1</span>&gt;</span> 与 <span class="tag">&lt;<span class="name">title</span>&gt;</span> 协调有利于搜索引擎优化。</span><br><span class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span>：无序列表。</span><br><span class="line"><span class="tag">&lt;<span class="name">li</span>&gt;</span>：有序列表。</span><br><span class="line"><span class="tag">&lt;<span class="name">header</span>&gt;</span>：页眉通常包括网站标志、主导航、全站链接以及搜索框。</span><br><span class="line"><span class="tag">&lt;<span class="name">nav</span>&gt;</span>：标记导航，仅对文档中重要的链接群使用。</span><br><span class="line"><span class="tag">&lt;<span class="name">main</span>&gt;</span>：页面主要内容，一个页面只能使用一次。如果是web应用，则包围其主要功能。</span><br><span class="line"><span class="tag">&lt;<span class="name">article</span>&gt;</span>：定义外部的内容，其中的内容独立于文档的其余部分。</span><br><span class="line"><span class="tag">&lt;<span class="name">section</span>&gt;</span>：定义文档中的节（section、区段）。比如章节、页眉、页脚或文档中的其他部分。</span><br><span class="line"><span class="tag">&lt;<span class="name">aside</span>&gt;</span>：定义其所处内容之外的内容。如侧栏、文章的一组链接、广告、友情链接、相关产品列表等。</span><br><span class="line"><span class="tag">&lt;<span class="name">footer</span>&gt;</span>：页脚，只有当父级是body时，才是整个页面的页脚。</span><br><span class="line"><span class="tag">&lt;<span class="name">small</span>&gt;</span>：呈现小号字体效果，指定细则，输入免责声明、注解、署名、版权。</span><br><span class="line"><span class="tag">&lt;<span class="name">strong</span>&gt;</span>：和 em 标签一样，用于强调文本，但它强调的程度更强一些。</span><br><span class="line"><span class="tag">&lt;<span class="name">em</span>&gt;</span>：将其中的文本表示为强调的内容，表现为斜体。</span><br><span class="line"><span class="tag">&lt;<span class="name">mark</span>&gt;</span>：使用黄色突出显示部分文本。</span><br><span class="line"><span class="tag">&lt;<span class="name">figure</span>&gt;</span>：规定独立的流内容（图像、图表、照片、代码等等）（默认有40px左右margin）。</span><br><span class="line"><span class="tag">&lt;<span class="name">figcaption</span>&gt;</span>：定义 figure 元素的标题，应该被置于 figure 元素的第一个或最后一个子元素的位置。</span><br><span class="line"><span class="tag">&lt;<span class="name">cite</span>&gt;</span>：表示所包含的文本对某个参考文献的引用，比如书籍或者杂志的标题。</span><br><span class="line"><span class="tag">&lt;<span class="name">blockquoto</span>&gt;</span>：定义块引用，块引用拥有它们自己的空间。</span><br><span class="line"><span class="tag">&lt;<span class="name">q</span>&gt;</span>：短的引述（跨浏览器问题，尽量避免使用）。</span><br><span class="line"><span class="tag">&lt;<span class="name">time</span>&gt;</span>：datetime属性遵循特定格式，如果忽略此属性，文本内容必须是合法的日期或者时间格式。</span><br><span class="line"><span class="tag">&lt;<span class="name">abbr</span>&gt;</span>：简称或缩写。</span><br><span class="line"><span class="tag">&lt;<span class="name">dfn</span>&gt;</span>：定义术语元素，与定义必须紧挨着，可以在描述列表dl元素中使用。</span><br><span class="line"><span class="tag">&lt;<span class="name">address</span>&gt;</span>：作者、相关人士或组织的联系信息（电子邮件地址、指向联系信息页的链接）。</span><br><span class="line"><span class="tag">&lt;<span class="name">del</span>&gt;</span>：移除的内容。</span><br><span class="line"><span class="tag">&lt;<span class="name">ins</span>&gt;</span>：添加的内容。</span><br><span class="line"><span class="tag">&lt;<span class="name">code</span>&gt;</span>：标记代码。</span><br><span class="line"><span class="tag">&lt;<span class="name">meter</span>&gt;</span>：定义已知范围或分数值内的标量测量。（Internet Explorer 不支持 meter 标签）</span><br><span class="line"><span class="tag">&lt;<span class="name">progress</span>&gt;</span>：定义运行中的进度（进程）。</span><br></pre></td></tr></table></figure>
+
+<h3 id="html文档流-文本流"><a href="#html文档流-文本流" class="headerlink" title="html文档流/文本流"></a>html文档流/文本流</h3><p>文档流是指“Normal flow”，文本流是指“Text flow”。</p>
+<p>具体来说“Normal flow”是css中定位的一种默认情况，平时我们所说的BFC、IFC等都是“Normal flow”的情况下的规则。</p>
+<p>只要不是float和绝对定位方式布局的，都在普通流里面。</p>
+<h3 id="canvas绘图"><a href="#canvas绘图" class="headerlink" title="canvas绘图"></a>canvas绘图</h3><p>canvas本身没有绘图能力，是图形的容器，必须使用脚本来完成实际的绘图任务。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> c=<span class="built_in">document</span>.getElementById(<span class="string">"myCanvas"</span>);</span><br><span class="line"><span class="keyword">var</span> ctx=c.getContext(<span class="string">"2d"</span>);</span><br><span class="line">ctx.rect(<span class="number">20</span>,<span class="number">20</span>,<span class="number">150</span>,<span class="number">100</span>);</span><br><span class="line">ctx.stroke();</span><br></pre></td></tr></table></figure>
 
 <p>其他方法</p>
@@ -266,7 +290,24 @@
 <h3 id="html-unicode图标"><a href="#html-unicode图标" class="headerlink" title="html unicode图标"></a>html unicode图标</h3><p>在浏览器中已经有庞大的图标和符号库-unicode，可以在html或者css文件中直接使用，在php或者js等文件中可以像使用字符串一样使用。需要注意的是，html或者css必须是utf-8，否则可能会出现乱码。也可以使用转义字符。</p>
 <p>字符串网站<a href="http://www.keyin.cn/font">http://www.keyin.cn/font</a></p>
 <p>字符串网站：<a href="https://blog.csdn.net/lhjuejiang/article/details/79818358">https://blog.csdn.net/lhjuejiang/article/details/79818358</a></p>
-<h2 id="CSS"><a href="#CSS" class="headerlink" title="CSS"></a>CSS</h2><h3 id="盒模型"><a href="#盒模型" class="headerlink" title="盒模型"></a>盒模型</h3><p>当对一个文档进行布局（lay out）的时候，浏览器的渲染引擎会根据标准之一的 <strong>CSS 基础框盒模型</strong>（<strong>CSS basic box model</strong>），将所有元素表示为一个个矩形的盒子（box）。CSS 决定这些盒子的大小、位置以及属性（例如颜色、背景、边框尺寸…）</p>
+<h2 id="CSS"><a href="#CSS" class="headerlink" title="CSS"></a>CSS</h2><h3 id="写法分类"><a href="#写法分类" class="headerlink" title="写法分类"></a>写法分类</h3><p>原生css有四种：</p>
+<p>行内样式:直接在html中的style属性编写css代码</p>
+<p>内嵌样式:编写class，在html中style标签中引入class</p>
+<p>导入样式:在内联样式中通过@import方法导入其他样式，供当前页面使用</p>
+<p>外部样式：在html中通过link标签加载样式，提供给当前页面使用</p>
+<p>推荐使用内嵌样式和外部样式</p>
+<p>行内样式的缺点：</p>
+<p>1.样式不能复用</p>
+<p>2.样式的权重太高，样式不好覆盖</p>
+<p>3.表现层与结构层没有分离</p>
+<p>4.不能进行缓存，影响加载效率</p>
+<p>导入样式的缺点：</p>
+<p>1.导入样式只能放到第一行，放在其他行会无效</p>
+<p>2.@import声明的样式表不能充分利用浏览器并发请求资源的行为，其加载行为往往会延后触发或被其他资源挂起</p>
+<p>3.由于@import样式表的延后加载，可能导致页面样式闪烁</p>
+<h3 id="模块化"><a href="#模块化" class="headerlink" title="模块化"></a>模块化</h3><p>使用css-loader，设置options.module为true</p>
+<p>构建时根据文件到位置、内容生成一个全局唯一的base64字符串，替换原来的名称以解决全局命名冲突的问题，这样就达到了模块化的目的</p>
+<h3 id="盒模型"><a href="#盒模型" class="headerlink" title="盒模型"></a>盒模型</h3><p>当对一个文档进行布局（lay out）的时候，浏览器的渲染引擎会根据标准之一的 <strong>CSS 基础框盒模型</strong>（<strong>CSS basic box model</strong>），将所有元素表示为一个个矩形的盒子（box）。CSS 决定这些盒子的大小、位置以及属性（例如颜色、背景、边框尺寸…）</p>
 <p>每个盒子有四个边界，由外到内分别是：<em>外边框边界</em> <em>Margin Edge<em>、</em>边框边界</em> <em>Border Edge<em>、</em>内边距边界</em> <em>Padding Edge<em>、</em>内容边界</em> <em>Content edge</em>、、、。</p>
 <p>Margin：元素边界外的距离</p>
 <p>Border：</p>
@@ -307,16 +348,43 @@
 <p>5.行内盒。内联流，非定位子元素 display: inline; position: static</p>
 <p>6.堆叠顺序为0的子元素 z-index: auto (or 0); position: position: relative(or absolute or fixed)</p>
 <p>7.堆叠顺序为正的子元素 z-index: <positive integer>; position: relative(or absolute or fixed)</p>
-<h3 id="CSS属性"><a href="#CSS属性" class="headerlink" title="CSS属性"></a>CSS属性</h3><p>position：fixed：相对于视口（viewport，浏览器窗口）进行偏移，即定位基点是浏览器窗口。这会导致元素的位置不随页面滚动而变化，好像固定在网页上一样。</p>
+<h3 id="响应式布局CSS"><a href="#响应式布局CSS" class="headerlink" title="响应式布局CSS"></a>响应式布局CSS</h3><p>1.在网页头部加上viewport元标签</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>2.不使用绝对宽度</p>
+<p>3.流式布局</p>
+<p><a href="http://designshack.net/articles/css/everything-you-never-knew-about-css-floats/">float</a>的好处是，如果宽度太小，放不下两个元素，后面的元素会自动滚动到前面元素的下方，不会在水平方向overflow（溢出），避免了水平滚动条的出现。</p>
+<p>绝对定位（<code>position: absolute</code>）的使用，也要非常小心。</p>
+<p>4.选择加载CSS</p>
+<p>自适应网页的核心就是CSS引入的Media Query模块</p>
+<p>自动检测屏幕宽度，然后加载相应的CSS文件</p>
+<p>实例</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">type</span>=<span class="string">"text/css"</span> <span class="attr">media</span>=<span class="string">"screen and (max-device-width: 400px)"</span> <span class="attr">href</span>=<span class="string">"tinyScreen.css"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">type</span>=<span class="string">"text/css"</span> <span class="attr">media</span>=<span class="string">"screen and (min-width: 400px) and (max-device-width: 600px)"</span> <span class="attr">href</span>=<span class="string">"smallScreen.css"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>上面的代码意思是，如果屏幕宽度小于400像素（max-device-width: 400px），就加载tinyScreen.css文件。</p>
+<p>如果屏幕宽度在400像素到600像素之间，则加载smallScreen.css文件。</p>
+<p>或者，在同一个CSS文件中利用@media的属性也能选择性加载样式</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@media</span> </span><br><span class="line">screen <span class="keyword">and</span> (<span class="attribute">max-device-width:</span> <span class="number">400px</span>) </span><br><span class="line">&#123; <span class="selector-class">.column</span> </span><br><span class="line">  &#123;<span class="attribute">float</span>: none;<span class="attribute">width</span>: auto;&#125; </span><br><span class="line">  <span class="selector-id">#sidebar</span> &#123; </span><br><span class="line">    <span class="attribute">display</span>: none<span class="string">'</span></span><br><span class="line"><span class="string">  &#125;</span></span><br><span class="line"><span class="string">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>5.图片的自适应</p>
+<p>添加属性</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">img</span> &#123; <span class="attribute">max-width</span>: <span class="number">100%</span>;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这行代码对于大多数嵌入网页的视频也有效，所以可以写成：<code>img, object { max-width: 100%;}</code></p>
+<p>也可以根据</p>
+<h3 id="常见CSS属性"><a href="#常见CSS属性" class="headerlink" title="常见CSS属性"></a>常见CSS属性</h3><p>position：fixed：相对于视口（viewport，浏览器窗口）进行偏移，即定位基点是浏览器窗口。这会导致元素的位置不随页面滚动而变化，好像固定在网页上一样。</p>
 <p>​                  absolute：相对于上级元素（一般是父元素）进行偏移，即定位基点是父元素。</p>
 <p>​                   relative：相对于默认位置（即<code>static</code>时的位置）进行偏移，即定位基点是元素的默认位置。</p>
 <p>​                   static：position的默认值，浏览器会按照源码的顺序，决定每个元素的位置，这称为"正常的页面流"（normal flow）。每个块级元素占据自己的区块（block），元素与元素之间不产生重叠，</p>
+<p>指定为absolute时，必须有left、right、top等元素才能生效。</p>
 <p>overflow：定义溢出元素内容区的内容会如何处理。如果值为 scroll，不论是否需要，用户代理都会提供一种滚动机制。</p>
 <p>​                   visiable:默认值，元素不会被折叠，呈现在元素框之外</p>
 <p>​                  hidden：内容超出会被修剪，超出内容不可见</p>
 <p>​                  scroll：内容超出会被修剪，但是浏览器会显示滚动条以便查看其余的内容。</p>
 <p>​                  auto：内容超出会被修剪，但是浏览器会显示滚动条以便查看其余的内容。</p>
 <p>​                  inherit：从父元素继承 overflow 属性的值。</p>
+<p>overflow要指定dom的宽度width:200px，配合text-overflow使用<br>Text-overflow:ellipsis 省略号</p>
+<p>​                          clip：</p>
 <p>横向滚动</p>
 <p>white-space: nowrap;//不分行</p>
 <p>Overflow-x: scroll//开启横向滚动</p>
@@ -346,6 +414,7 @@
 <p>​              ne-resize:右上箭头  nw-resize:左上箭头 se-resize:右下箭头 sw-resize:左下箭头</p>
 <p>​              ew-resize:左右双向箭头 ns-resize：上下双向箭头 nesw-resize：右上左下双箭头</p>
 <p>​              zoom-in：放大显示      zoom-out：缩小显示</p>
+<p>opacity：不透明度</p>
 </script></p>
         </div>
         
@@ -495,7 +564,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            94
+                            103
                         </p>
                     </a>
                 </div>
@@ -519,7 +588,7 @@
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            47
+                            48
                         </p>
                     </a>
                 </div>
@@ -581,20 +650,20 @@
                     目录
                 </h3>
                 <ul class="menu-list"><li>
-        <a class="is-flex" href="#HTML-CSS">
-        <span class="has-mr-6">1</span>
-        <span>HTML/CSS</span>
-        </a></li><li>
         <a class="is-flex" href="#HTML">
-        <span class="has-mr-6">2</span>
+        <span class="has-mr-6">1</span>
         <span>HTML</span>
         </a><ul class="menu-list"><li>
         <a class="is-flex" href="#Doctype">
-        <span class="has-mr-6">2.1</span>
+        <span class="has-mr-6">1.1</span>
         <span>Doctype</span>
         </a></li><li>
+        <a class="is-flex" href="#meta标签">
+        <span class="has-mr-6">1.2</span>
+        <span>meta标签</span>
+        </a></li><li>
         <a class="is-flex" href="#常见HTML标签属性">
-        <span class="has-mr-6">2.2</span>
+        <span class="has-mr-6">1.3</span>
         <span>常见HTML标签属性</span>
         </a></li></ul></li></ul>
             </div>
@@ -652,7 +721,7 @@
                 <span class="level-item">IT</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">30</span>
+                <span class="level-item tag">36</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E4%B8%AA%E4%BA%BA%E5%B9%B8%E7%A6%8F/">
@@ -668,7 +737,7 @@
                 <span class="level-item">个人生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">
@@ -676,7 +745,7 @@
                 <span class="level-item">技术博客</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">31</span>
+                <span class="level-item tag">33</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%9C%8B%E5%8F%8B/">
@@ -713,7 +782,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/IT/" style="font-size: 10px;">IT</a> <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 12.5px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 10px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8C/" style="font-size: 12.5px;">IT,Web，</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 12.5px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 12.5px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 12.5px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 10px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb/" style="font-size: 15px;">IT，Web</a> <a href="/tags/IT%EF%BC%8CWeb-Javascript/" style="font-size: 10px;">IT，Web,Javascript</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 17.5px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 10px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 15px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 15px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 12.5px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 10px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 12.5px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 17.5px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 15px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 15px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">幸福</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 12.5px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/" style="font-size: 15px;">技术，IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 12.5px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 12.5px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 12.5px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 17.5px;">生活、幸福</a> <a href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">记录，生活</a>
+        <a href="/tags/IT/" style="font-size: 10px;">IT</a> <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 12px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 10px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8C/" style="font-size: 12px;">IT,Web，</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 12px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 14px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 12px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 12px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb/" style="font-size: 16px;">IT，Web</a> <a href="/tags/IT%EF%BC%8CWeb-Javascript/" style="font-size: 10px;">IT，Web,Javascript</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 18px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 14px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Rust/" style="font-size: 10px;">IT，Web,Rust</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 14px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 16px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 12px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 10px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 12px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 18px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 14px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 14px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">幸福</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 14px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/" style="font-size: 14px;">技术，IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 12px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 12px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 12px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 18px;">生活、幸福</a> <a href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">记录，生活</a>
     </div>
 </div>
     
@@ -747,16 +816,16 @@
         
         <article class="media">
             
-            <a href="/2021/01/23/Node8/" class="media-left">
+            <a href="/2021/01/23/Node9/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/nestjs.png" alt="NodeJs开发（八）">
+                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/nestjs.png" alt="NodeJs开发（四）">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-23T13:40:33.000Z">2021-01-23</time></div>
-                    <a href="/2021/01/23/Node8/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（八）</a>
+                    <a href="/2021/01/23/Node9/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（四）</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/IT/">IT</a>
                     </p>
@@ -768,14 +837,33 @@
             
             <a href="/2021/01/22/Node7/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/koajs.jpeg" alt="NodeJs开发（七）">
+                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/koajs.jpeg" alt="NodeJs开发（三）">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-22T14:40:33.000Z">2021-01-22</time></div>
-                    <a href="/2021/01/22/Node7/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（七）</a>
+                    <a href="/2021/01/22/Node7/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（三）</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/IT/">IT</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2021/01/22/Node8/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/koajs.jpeg" alt="NodeJs开发（三）">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-22T14:40:33.000Z">2021-01-22</time></div>
+                    <a href="/2021/01/22/Node8/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（三）</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/IT/">IT</a>
                     </p>
@@ -787,33 +875,14 @@
             
             <a href="/2021/01/21/Node6/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/typescript.jpg" alt="NodeJs开发（六）">
+                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/typescript.jpg" alt="NodeJs开发（二）">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-21T13:40:33.000Z">2021-01-21</time></div>
-                    <a href="/2021/01/21/Node6/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（六）</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/IT/">IT</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2021/01/20/Node5/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/nodejs.png" alt="NodeJs开发（五）">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-20T13:40:33.000Z">2021-01-20</time></div>
-                    <a href="/2021/01/20/Node5/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（五）</a>
+                    <a href="/2021/01/21/Node6/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（二）</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/IT/">IT</a>
                     </p>
@@ -849,7 +918,7 @@
                     <span class="level-item">一月 2021</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">8</span>
+                    <span class="level-item tag">9</span>
                 </span>
             </a>
         </li>
@@ -860,7 +929,7 @@
                     <span class="level-item">十二月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">4</span>
+                    <span class="level-item tag">5</span>
                 </span>
             </a>
         </li>
@@ -915,7 +984,7 @@
                     <span class="level-item">六月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">12</span>
+                    <span class="level-item tag">18</span>
                 </span>
             </a>
         </li>
@@ -948,7 +1017,7 @@
                     <span class="level-item">三月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">46</span>
+                    <span class="level-item tag">47</span>
                 </span>
             </a>
         </li>
@@ -1050,7 +1119,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/">
                         <span class="tag">IT,Web，算法</span>
-                        <span class="tag is-grey">2</span>
+                        <span class="tag is-grey">3</span>
                     </a>
                 </div>
                 
@@ -1078,7 +1147,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CApp-Node-Electron/">
                         <span class="tag">IT，App,Node,Electron</span>
-                        <span class="tag is-grey">1</span>
+                        <span class="tag is-grey">2</span>
                     </a>
                 </div>
                 
@@ -1106,7 +1175,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb/">
                         <span class="tag">IT，Web</span>
-                        <span class="tag is-grey">3</span>
+                        <span class="tag is-grey">4</span>
                     </a>
                 </div>
                 
@@ -1127,13 +1196,20 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/">
                         <span class="tag">IT，Web,Node，React</span>
-                        <span class="tag is-grey">1</span>
+                        <span class="tag is-grey">3</span>
                     </a>
                 </div>
                 
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-PHP/">
                         <span class="tag">IT，Web,PHP</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Rust/">
+                        <span class="tag">IT，Web,Rust</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -1155,14 +1231,14 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/">
                         <span class="tag">IT，Web,数据库</span>
-                        <span class="tag is-grey">6</span>
+                        <span class="tag is-grey">7</span>
                     </a>
                 </div>
                 
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8Cweb/">
                         <span class="tag">IT，web</span>
-                        <span class="tag is-grey">3</span>
+                        <span class="tag is-grey">4</span>
                     </a>
                 </div>
                 
@@ -1232,7 +1308,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">
                         <span class="tag">幸福，个人生活</span>
-                        <span class="tag is-grey">2</span>
+                        <span class="tag is-grey">3</span>
                     </a>
                 </div>
                 

@@ -10,16 +10,16 @@
 <title>算法题（二） - kun&#39;s blog</title>
 
 
-    <meta name="description" content="算法题（二）​     第二篇偏向于进阶算法，">
+    <meta name="description" content="​     非科班出身，在校时没写过算法题，因此特做专题收录。 ​      算法题我会偏向于python和go，说不定也会用java和js写一些，暂时不想用c++，也不会用php（只用它写web）">
 <meta property="og:type" content="article">
 <meta property="og:title" content="算法题（二）">
 <meta property="og:url" content="http://kun8018.gitee.io/2020/06/06/%E7%AE%97%E6%B3%95%E9%A2%98%E4%BA%8C/index.html">
 <meta property="og:site_name" content="kun&#39;s blog">
-<meta property="og:description" content="算法题（二）​     第二篇偏向于进阶算法，">
+<meta property="og:description" content="​     非科班出身，在校时没写过算法题，因此特做专题收录。 ​      算法题我会偏向于python和go，说不定也会用java和js写一些，暂时不想用c++，也不会用php（只用它写web）">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://kun8018.gitee.io/images/og_image.png">
 <meta property="article:published_time" content="2020-06-06T13:40:33.000Z">
-<meta property="article:modified_time" content="2021-01-06T11:33:14.889Z">
+<meta property="article:modified_time" content="2021-03-17T05:37:44.216Z">
 <meta property="article:author" content="Kun Zhang">
 <meta property="article:tag" content="IT,Web，算法">
 <meta name="twitter:card" content="summary">
@@ -152,7 +152,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    30 分钟 读完 (大约 4454 个字)
+                    27 分钟 读完 (大约 4066 个字)
                 </span>
                 
                 
@@ -170,95 +170,159 @@
             
         </h1>
         <div class="content">
-            <h2 id="算法题（二）"><a href="#算法题（二）" class="headerlink" title="算法题（二）"></a>算法题（二）</h2><p>​     第二篇偏向于进阶算法，</p>
+            <p>​     非科班出身，在校时没写过算法题，因此特做专题收录。</p>
+<p>​      算法题我会偏向于python和go，说不定也会用java和js写一些，暂时不想用c++，也不会用php（只用它写web）</p>
 <a id="more"></a>
 
-<h2 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h2><h3 id="算法的时间复杂度"><a href="#算法的时间复杂度" class="headerlink" title="算法的时间复杂度"></a>算法的时间复杂度</h3><p><strong>时间频度</strong> 一个算法执行所耗费的时间，从理论上是不能算出来的，必须上机运行测试才能知道。但我们不可能也没有必要对每个算法都上机测试，只需知道哪个算法花费的时间多，哪个算法花费的时间少就可以了。并且一个算法花费的时间与算法中语句的执行次数成正比例，哪个算法中语句执行次数多，它花费时间就多。一个算法中的语句执行次数称为语句频度或时间频度。记为T(n)。</p>
-<p><strong>时间复杂度</strong> 在刚才提到的时间频度中，n称为问题的规模，当n不断变化时，时间频度T(n)也会不断变化。但有时我们想知道它变化时呈现什么规律。为此，我们引入时间复杂度概念。 一般情况下，算法中基本操作重复执行的次数是问题规模n的某个函数，用T(n)表示，若有某个辅助函数f(n),使得当n趋近于无穷大时，<strong>T(n)/f(n)</strong>的极限值为不等于零的常数，则称f(n)是T(n)的同数量级函数。记作<strong>T(n)=Ｏ(f(n)),</strong>称<strong>Ｏ(f(n))</strong> 为算法的渐进时间复杂度，简称时间复杂度。</p>
-<p>求解算法时间复杂度的方法</p>
-<p>1.找到算法中执行次数最多的语句</p>
-<p>​        算法中执行次数最多的那条语句就是基本语句，通常是最内层循环的循环体。</p>
-<p>2.计算基本语句的执行次数的数量级；</p>
-<p>​        只需计算基本语句执行次数的数量级，这就意味着只要保证基本语句执行次数的函数中的最高次幂正确即可，可以忽略所有低次幂和最高次幂的系数。这样能够简化算法分析，并且使注意力集中在最重要的一点上：增长率。</p>
-<p>3.用大Ο记号表示算法的时间性能。</p>
-<p>​         将基本语句执行次数的数量级放入大Ο记号中。</p>
-<p>常见算法时间复杂度的大小：<strong><em>\Ο(1)＜Ο(log*2n\</em>)＜Ο(n)＜Ο(nlog\2n)＜Ο(*n*2)＜Ο(\n\3)＜…＜Ο(\2\n)＜Ο(n!)**</strong></p>
-<h3 id="算法的空间复杂度"><a href="#算法的空间复杂度" class="headerlink" title="算法的空间复杂度"></a>算法的空间复杂度</h3><p>​        类似于时间复杂度的讨论，一个算法的空间复杂度(Space Complexity)S(n)定义为该算法所耗费的存储空间，它也是问题规模n的函数。渐近空间复杂度也常常简称为空间复杂度。</p>
-<p>​        空间复杂度(Space Complexity)是对一个算法在运行过程中临时占用存储空间大小的量度。一个算法在计算机存储器上所占用的存储空间，包括存储算法本身所占用的存储空间，算法的输入输出数据所占用的存储空间和算法在运行过程中临时占用的存储空间这三个方面。算法的输入输出数据所占用的存储空间是由要解决的问题决定的，是通过参数表由调用函数传递而来的，它不随本算法的不同而改变。存储算法本身所占用的存储空间与算法书写的长短成正比，要压缩这方面的存储空间，就必须编写出较短的算法。算法在运行过程中临时占用的存储空间随算法的不同而异，有的算法只需要占用少量的临时工作单元，而且不随问题规模的大小而改变，我们称这种算法是“就地&quot;进行的，是节省存储的算法，如这一节介绍过的几个算法都是如此；有的算法需要占用的临时工作单元数与解决问题的规模n有关，它随着n的增大而增大，当n较大时，将占用较多的存储单元，例如将在第九章介绍的快速排序和归并排序算法就属于这种情况。</p>
-<p>​          当一个算法的空间复杂度为一个常量，即不随被处理数据量n的大小而改变时，可表示为O(1)；当一个算法的空间复杂度与以2为底的n的对数成正比时，可表示为0(10g2n)；当一个算法的空I司复杂度与n成线性比例关系时，可表示为0(n).若形参为数组，则只需要为它分配一个存储由实参传送来的一个地址指针的空间，即一个机器字长空间；若形参为引用方式，则也只需要为其分配存储一个地址的空间，用它来存储对应实参变量的地址，以便由系统自动引用实参变量</p>
-<h3 id="空间换时间-时间换空间"><a href="#空间换时间-时间换空间" class="headerlink" title="空间换时间 时间换空间"></a>空间换时间 时间换空间</h3><h2 id="动态规划"><a href="#动态规划" class="headerlink" title="动态规划"></a>动态规划</h2><h3 id="动态规划经典问题：0-1背包问题"><a href="#动态规划经典问题：0-1背包问题" class="headerlink" title="动态规划经典问题：0-1背包问题"></a>动态规划经典问题：0-1背包问题</h3><p>问题描述：</p>
-<p>给你一个可装载重量为W的背包和N个物品，每个物品都有重量和价值两个属性，其中第i个物品的重量为wt(i),价值为val(i),现在用背包装物品，最多能装的价值是多少</p>
-<p>举例：可装载重量为4，有3个物品，重量分别为2，1，3，价值分别为4，2，3，则可获得最大价值为6</p>
-<h3 id="动态规划经典问题：子集背包问题"><a href="#动态规划经典问题：子集背包问题" class="headerlink" title="动态规划经典问题：子集背包问题"></a>动态规划经典问题：子集背包问题</h3><h3 id="动态规划经典问题：完全背包问题"><a href="#动态规划经典问题：完全背包问题" class="headerlink" title="动态规划经典问题：完全背包问题"></a>动态规划经典问题：完全背包问题</h3><h3 id="动态规划经典问题：高楼扔鸡蛋问题"><a href="#动态规划经典问题：高楼扔鸡蛋问题" class="headerlink" title="动态规划经典问题：高楼扔鸡蛋问题"></a>动态规划经典问题：高楼扔鸡蛋问题</h3><h3 id="练习：凑硬币问题"><a href="#练习：凑硬币问题" class="headerlink" title="练习：凑硬币问题"></a>练习：凑硬币问题</h3><h2 id="贪心算法"><a href="#贪心算法" class="headerlink" title="贪心算法"></a>贪心算法</h2><p>贪心算法是只</p>
-<h3 id="经典问题：盛水最多的容器"><a href="#经典问题：盛水最多的容器" class="headerlink" title="经典问题：盛水最多的容器"></a>经典问题：盛水最多的容器</h3><p>给你 n 个非负整数 a1，a2，…，an，每个数代表坐标中的一个点 (i, ai) 。在坐标内画 n 条垂直线，垂直线 i 的两个端点分别为 (i, ai) 和 (i, 0) 。找出其中的两条线，使得它们与 x 轴共同构成的容器可以容纳最多的水。</p>
-<p>说明：你不能倾斜容器。</p>
-<p>输入：[1,8,6,2,5,4,8,3,7]<br>输出：49<br>解释：图中垂直线代表输入数组 [1,8,6,2,5,4,8,3,7]。在此情况下，容器能够容纳水（表示为蓝色部分）的最大值为 49。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">maxArea</span><span class="params">(self, height: List[int])</span> -&gt; int:</span></span><br><span class="line">      <span class="string">"""</span></span><br><span class="line"><span class="string">        :type height: List[int]</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        left = <span class="number">0</span></span><br><span class="line">        right = len(height) - <span class="number">1</span></span><br><span class="line">        maxArea = <span class="number">0</span></span><br><span class="line">        <span class="keyword">while</span> left &lt; right:</span><br><span class="line">            b = right - left</span><br><span class="line">            <span class="keyword">if</span> height[left] &lt; height[right]:</span><br><span class="line">                h = height[left]</span><br><span class="line">                left += <span class="number">1</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                h = height[right]</span><br><span class="line">                right -= <span class="number">1</span></span><br><span class="line">            area = b*h</span><br><span class="line">            <span class="keyword">if</span> maxArea &lt; area:</span><br><span class="line">                maxArea = area</span><br><span class="line">        <span class="keyword">return</span> maxArea</span><br></pre></td></tr></table></figure>
+<h3 id="链表"><a href="#链表" class="headerlink" title="链表"></a>链表</h3><p>Python实现链表的常用形式是ListNode类。</p>
+<h4 id="从头到尾打印链表"><a href="#从头到尾打印链表" class="headerlink" title="从头到尾打印链表"></a>从头到尾打印链表</h4><p>获得一个链表的起始结点，即相当于获得了整个链表的所有结点的所有值。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_linked_list</span><span class="params">(head)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    打印链表</span></span><br><span class="line"><span class="string">    :param head: 要打印的链表的头结点</span></span><br><span class="line"><span class="string">    :return: 结点值列表</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    tmp = head              <span class="comment"># 临时变量</span></span><br><span class="line">    nums = []</span><br><span class="line">    <span class="keyword">while</span> tmp:</span><br><span class="line">        nums.append(tmp.val)</span><br><span class="line">        tmp = tmp.next</span><br><span class="line">    print(nums)</span><br><span class="line">    <span class="keyword">return</span> nums</span><br></pre></td></tr></table></figure>
 
-<h2 id="递归与回溯"><a href="#递归与回溯" class="headerlink" title="递归与回溯"></a>递归与回溯</h2><p>如果在函数中存在着调用函数本身的情况，这种现象就叫递归。</p>
-<p>通常来说，为了描述问题的某一状态，必须用到该状态的上一个状态；而如果要描述上一个状态，又必须用到上一个状态的上一个状态…… 这样用<strong>自己来定义自己的方法</strong>就是递归。</p>
-<p>回溯法是一种选优搜索法，按选优条件向前搜索，以达到目标。但当探索到某一步时，<strong>发现原先选择并不优或达不到目标，就退回一步重新选择</strong>，这种走不通就退回再走的技术为回溯法。</p>
-<p>形象化递归算法</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">f(<span class="number">6</span>)</span><br><span class="line"><span class="comment">//递</span></span><br><span class="line">=&gt;<span class="number">6</span>*f(<span class="number">5</span>)</span><br><span class="line">=&gt;<span class="number">6</span>*(<span class="number">5</span>*f(<span class="number">4</span>))</span><br><span class="line">=&gt;<span class="number">6</span>*(<span class="number">5</span>*(<span class="number">4</span>*f(<span class="number">3</span>)))</span><br><span class="line">=&gt;<span class="number">6</span>*(<span class="number">5</span>*(<span class="number">4</span>*(<span class="number">3</span>*f(<span class="number">2</span>))))</span><br><span class="line">=&gt;<span class="number">6</span>*(<span class="number">5</span>*(<span class="number">4</span>*(<span class="number">3</span>*(<span class="number">2</span>*f(<span class="number">1</span>)))))</span><br><span class="line"><span class="comment">//归</span></span><br><span class="line">=&gt;<span class="number">6</span>*(<span class="number">5</span>*(<span class="number">4</span>*(<span class="number">3</span>*(<span class="number">2</span>*<span class="number">1</span>))))</span><br><span class="line">=&gt;<span class="number">6</span>*(<span class="number">5</span>*(<span class="number">4</span>*(<span class="number">3</span>*<span class="number">2</span>)))</span><br><span class="line">=&gt;<span class="number">6</span>*(<span class="number">5</span>*(<span class="number">4</span>*<span class="number">6</span>))</span><br><span class="line">=&gt;<span class="number">6</span>*(<span class="number">5</span>*<span class="number">24</span>)</span><br><span class="line">=&gt;<span class="number">6</span>*<span class="number">120</span></span><br><span class="line">=&gt;<span class="number">720</span></span><br></pre></td></tr></table></figure>
+<p>上述情况适用于非环形链表的情况</p>
+<h4 id="链表复制"><a href="#链表复制" class="headerlink" title="链表复制"></a>链表复制</h4><p>链表复制相当于链表的浅拷贝，在链表题目中可以避免链表进入函数后被修改等情况。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">copy_linked_list</span><span class="params">(head)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    把链表复制一份，且不改变原链表结构</span></span><br><span class="line"><span class="string">    :param head:</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    new_head, cur = ListNode(<span class="number">0</span>), head       <span class="comment"># 新链表的准头结点，原来链表的当前结点</span></span><br><span class="line">    tmp = new_head                          <span class="comment"># 临时结点</span></span><br><span class="line">    <span class="keyword">while</span> cur:                              <span class="comment"># 当前结点不为空</span></span><br><span class="line">        new_cur = ListNode(cur.val)         <span class="comment"># 根据原链表当前结点构造新的当前结点</span></span><br><span class="line">        tmp.next = new_cur                  <span class="comment"># 新结点连接到已完成的部分末尾</span></span><br><span class="line">        cur = cur.next                      <span class="comment"># 当前结点后移</span></span><br><span class="line">        tmp = tmp.next                      <span class="comment"># 新链表末尾后移</span></span><br><span class="line">    <span class="keyword">return</span> new_head.next                    <span class="comment"># 返回新链表</span></span><br></pre></td></tr></table></figure>
 
-<p>上面将f(6)逐渐分解到f(1)的过程称为递，求解出f(1)后在在求解出f(6)的过程称为归。</p>
-<p>所以递归的本质是能把问题拆分成具有<strong>相同解决思路</strong>的子问题，。。。直到最后被拆解的子问题再也不能拆分，解决了最小粒度可求解的子问题后，在「归」的过程中自然顺其自然地解决了最开始的问题。</p>
-<p>递归与回溯的区别</p>
-<p><strong>递归是一种算法结构</strong>。递归会出现在子程序中，形式上表现为直接或间接的自己调用自己。</p>
-<p><strong>回溯是一种算法思想</strong>，它是用递归实现的。回溯的过程类似于穷举法，但回溯有“剪枝”功能，即自我判断过程。</p>
-<p>比较通俗的说法来解释递归和回溯：<br>我们在路上走着，前面是一个多岔路口，因为我们并不知道应该走哪条路，所以我们需要尝试。<strong>尝试的过程就是一个函数。</strong><br>我们选择了一个方向，后来发现又有一个多岔路口，这时候又需要进行一次选择。所以<strong>我们需要在上一次尝试结果的基础上，再做一次尝试</strong>，即<strong>在函数内部再调用一次函数</strong>，这就是<strong>递归</strong>的过程。<br>这样重复了若干次之后，发现<strong>这次选择的这条路走不通，这时候我们知道我们上一个路口选错了，所以我们要回到上一个路口重新选择其他路</strong>，这就是<strong>回溯</strong>的思想。</p>
-<p>leetcode例题：<a href="https://leetcode-cn.com/problems/letter-combinations-of-a-phone-number/">电话号码的字母组合</a></p>
-<p>给定一个仅包含数字 <code>2-9</code> 的字符串，返回所有它能表示的字母组合。</p>
-<p>比如</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：&quot;23&quot;</span><br><span class="line">输出：[&quot;ad&quot;, &quot;ae&quot;, &quot;af&quot;, &quot;bd&quot;, &quot;be&quot;, &quot;bf&quot;, &quot;cd&quot;, &quot;ce&quot;, &quot;cf&quot;].</span><br></pre></td></tr></table></figure>
+<p>两个链表 求交点</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">p1 = headA</span><br><span class="line">p2 = headB</span><br><span class="line"><span class="keyword">while</span> (p1 != p2)</span><br><span class="line">     p1 = headB <span class="keyword">if</span> p1 == <span class="literal">None</span> <span class="keyword">else</span> p1.next</span><br><span class="line">     p2 = headA <span class="keyword">if</span> p2 == <span class="literal">None</span> <span class="keyword">else</span> p2.next</span><br><span class="line"><span class="keyword">return</span> p1</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">letterCombinations</span><span class="params">(self, digits: str)</span> -&gt; list:</span></span><br><span class="line">        KEY = &#123;<span class="string">'2'</span>: [<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>],</span><br><span class="line">               <span class="string">'3'</span>: [<span class="string">'d'</span>, <span class="string">'e'</span>, <span class="string">'f'</span>],</span><br><span class="line">               <span class="string">'4'</span>: [<span class="string">'g'</span>, <span class="string">'h'</span>, <span class="string">'i'</span>],</span><br><span class="line">               <span class="string">'5'</span>: [<span class="string">'j'</span>, <span class="string">'k'</span>, <span class="string">'l'</span>],</span><br><span class="line">               <span class="string">'6'</span>: [<span class="string">'m'</span>, <span class="string">'n'</span>, <span class="string">'o'</span>],</span><br><span class="line">               <span class="string">'7'</span>: [<span class="string">'p'</span>, <span class="string">'q'</span>, <span class="string">'r'</span>, <span class="string">'s'</span>],</span><br><span class="line">               <span class="string">'8'</span>: [<span class="string">'t'</span>, <span class="string">'u'</span>, <span class="string">'v'</span>],</span><br><span class="line">               <span class="string">'9'</span>: [<span class="string">'w'</span>, <span class="string">'x'</span>, <span class="string">'y'</span>, <span class="string">'z'</span>]&#125;</span><br><span class="line">        <span class="keyword">if</span> digits == <span class="string">''</span>:</span><br><span class="line">            <span class="keyword">return</span> []</span><br><span class="line">        ans = [<span class="string">''</span>]</span><br><span class="line">        <span class="keyword">for</span> num <span class="keyword">in</span> digits:</span><br><span class="line">            ans = [pre+suf <span class="keyword">for</span> pre <span class="keyword">in</span> ans <span class="keyword">for</span> suf <span class="keyword">in</span> KEY[num]]</span><br><span class="line">        <span class="keyword">return</span> ans</span><br></pre></td></tr></table></figure>
+<h4 id="删除单链表中倒数第K个节点"><a href="#删除单链表中倒数第K个节点" class="headerlink" title="删除单链表中倒数第K个节点"></a>删除单链表中倒数第K个节点</h4><p>设置两个指针，快指针比慢指针提前k个单元，当快指针到达单链表尾部时，慢指针指向待删除节点的前节点。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">delete_n</span><span class="params">(linkList, n)</span>:</span></span><br><span class="line">    p = linkList.head</span><br><span class="line">    q = linkList.head</span><br><span class="line">    <span class="keyword">while</span> n:</span><br><span class="line">        q = q.next</span><br><span class="line">        n -= <span class="number">1</span></span><br><span class="line">    <span class="comment"># 删除第一个元素</span></span><br><span class="line">    <span class="keyword">if</span> q == <span class="number">0</span>:</span><br><span class="line">        linkList.head = linkList.head.next</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">while</span> q.next != <span class="number">0</span>:</span><br><span class="line">            p = p.next</span><br><span class="line">            q = q.next</span><br><span class="line">        <span class="keyword">if</span> q.next == <span class="number">0</span>:</span><br><span class="line">            p.next = p.next.next</span><br></pre></td></tr></table></figure>
 
-<h3 id="经典问题：八皇后问题"><a href="#经典问题：八皇后问题" class="headerlink" title="经典问题：八皇后问题"></a>经典问题：八皇后问题</h3><p>国际象棋里皇后可以在横、竖、斜线上不限步数吃掉棋子。如何将8个皇后放在8*8的国际象棋棋盘上，使谁也不能被吃掉，也就是8个皇后中任意两个不能在同一直线、斜线或者横线上，共有多少种摆放方法（92）。</p>
-<p>相同类型：数组全排列、字符串全排列</p>
-<p>有数组[1,2,3,4],实现算法得到这个数组的全排列数组，[2,1,3,4],[1,3,2,4]等等</p>
-<p>方法：迭代、递归</p>
-<h2 id="迭代算法"><a href="#迭代算法" class="headerlink" title="迭代算法"></a>迭代算法</h2><p>迭代算法是用计算机处理问题的一种基本方法。它利用计算机运算速度快、适合做重复性操做的特点，让计算机对一组指令(或一定步骤)进行重复执行，在每次执行这组指令(或这些步骤)时，都从变量的原值推出它的一个新值。</p>
-<p>使用迭代算法的步骤</p>
-<p>（1）确定迭代变量<br>在可以使用迭代算法解决的问题中，至少存在一个迭代变量，即直接或间接地不断由旧值递推出新值的变量。</p>
-<p>（2）建立迭代关系式<br>迭代关系式是指如何从变量的前一个值推出其下一个值的公式或关系。通常可以使用递推或倒推的方法来建立迭代关系式，迭代关系式的建立是解决迭代问题的关键。</p>
-<p>（3）对迭代过程进行控制<br>在编写迭代程序时，必须确定在什么时候结束迭代过程，不能让迭代过程无休止地重复执行下去。通常可分为如下两种情况来控制迭代过程：</p>
-<p>​    ① 所需的迭代次数是个确定的值，可以计算出来，可以构建一个固定次数的循环来实现对迭代过程的控制；</p>
-<p>​    ② 所需的迭代次数无法确定，需要进一步分析出用来结束迭代过程的条件。</p>
-<p>凡是迭代即可递归</p>
-<h2 id="二分查找"><a href="#二分查找" class="headerlink" title="二分查找"></a>二分查找</h2><p>二分查找的基本思想是将n个元素分成大致相等的两部分，取a[n/2]与x做比较，如果x=a[n/2],则找到x,算法中止；如果x&lt;a[n/2],则只要在数组a的左半部分继续搜索x,如果x&gt;a[n/2],则只要在数组a的右半部搜索x.</p>
-<p>时间复杂度即是while循环的次数。</p>
-<p>折半查找法也称为二分查找法，它充分利用了元素间的次序关系，采用分治策略，可在最坏的情况下用O(log n)完成搜索任务。它的基本思想是：（这里假设数组元素呈升序排列）将n个元素分成个数大致相同的两半，取a[n/2]与欲查找的x作比较，如果x=a[n/2]则找到x，算法终止；如 果x&lt;a[n/2]，则我们只要在<a href="https://baike.baidu.com/item/数组">数组</a>a的左半部继续搜索x；如果x&gt;a[n/2]，则我们只要在数组a的右 半部继续搜索x</p>
-<p>实例：二维矩阵查找问题</p>
-<p>编写一个高效的算法来判断 m x n 矩阵中，是否存在一个目标值。该矩阵具有如下特性：</p>
-<p>每行中的整数从左到右按升序排列。<br>每行的第一个整数大于前一行的最后一个整数。</p>
-<p>输入：matrix = [<br>[1, 3, 5, 7],<br>[10, 11, 16, 20],<br>[23, 30, 34, 50]<br>]，搜索目标：3；</p>
-<p>输出：true(laeetcode74题，中等)</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">searchMatrix</span><span class="params">(self, matrix: List[List[int]], target: int)</span> -&gt; bool:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> matrix:</span><br><span class="line">              <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">          r, c = len(matrix), len(matrix[<span class="number">0</span>])</span><br><span class="line">          get_value = <span class="keyword">lambda</span> i: matrix[i // c][i % c]</span><br><span class="line"></span><br><span class="line">          left, right = <span class="number">0</span>, r * c - <span class="number">1</span></span><br><span class="line">          <span class="keyword">while</span> left &lt;= right:</span><br><span class="line">              middle = left + (right - left) // <span class="number">2</span></span><br><span class="line">              <span class="keyword">if</span> get_value(middle) == target:</span><br><span class="line">                  <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">              <span class="keyword">elif</span> get_value(middle) &lt; target:</span><br><span class="line">                  left = middle + <span class="number">1</span></span><br><span class="line">              <span class="keyword">else</span>:</span><br><span class="line">                  right = middle - <span class="number">1</span></span><br><span class="line">          <span class="keyword">return</span> <span class="literal">False</span></span><br></pre></td></tr></table></figure>
+<h4 id="两个有序链表合并成一个有序链表"><a href="#两个有序链表合并成一个有序链表" class="headerlink" title="两个有序链表合并成一个有序链表"></a>两个有序链表合并成一个有序链表</h4><p>递归</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">Merge</span><span class="params">(self,pHead1,pHead2)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> pHead1:</span><br><span class="line">        <span class="keyword">return</span> pHead2</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> pHead2:</span><br><span class="line">        <span class="keyword">return</span> pHead1</span><br><span class="line">    <span class="keyword">if</span> pHead1.val &lt;= pHead2.val:</span><br><span class="line">        pHead1.next = self.Merge(pHead1.next,pHead2)</span><br><span class="line">        <span class="keyword">return</span> pHead1</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        pHead2.next = self.Merge(pHead1,pHead2.next)</span><br><span class="line">        <span class="keyword">return</span> pHead2</span><br></pre></td></tr></table></figure>
+
+<p>环形链表</p>
+<p>给定链表，判断链表入环的节点</p>
+<p>判断是否是环形链表</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">is_circle</span><span class="params">(head)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    判断链表是否是环形链表</span></span><br><span class="line"><span class="string">    :param head: 要判断的链表的头结点</span></span><br><span class="line"><span class="string">    :return: 布尔量，判断结果</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> head:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">    tmp = head</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> head:</span><br><span class="line">        head = head.next</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> head:        <span class="comment"># 遍历到了链表末尾</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span>    <span class="comment"># 链表不是环形结点</span></span><br><span class="line">        <span class="keyword">if</span> head == tmp:     <span class="comment"># 遍历到了之前遍历过的结点</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">True</span>     <span class="comment"># 链表是环形结点</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="反转链表"><a href="#反转链表" class="headerlink" title="反转链表"></a>反转链表</h4><p>输入：1-&gt;2-&gt;3-&gt;4-&gt;5-&gt;NULL</p>
+<p>输出：5-&gt;4-&gt;3-&gt;2-&gt;1-&gt;NULL</p>
+<p>不改变链表的值，改变链表指针的指向来满足题目要求</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">reverseList</span><span class="params">(self, head: ListNode)</span> -&gt; ListNode:</span></span><br><span class="line">        //判断当前节点和下一节点是否为空节点，不为空进入递归</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> head:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> head.next:</span><br><span class="line">            <span class="keyword">return</span> head</span><br><span class="line">        headNode = self.reverseList(head.next)</span><br><span class="line">        head.next.next = head</span><br><span class="line">        head.next = <span class="literal">None</span></span><br><span class="line">        <span class="keyword">return</span> headNode</span><br></pre></td></tr></table></figure>
+
+<p>通过self.reverseList(head.next)语句进入递归，链表的会一直往后传递，直到找到最后一个节点，此时5节点的next节点为null，返回head，则5节点为头部。</p>
+<p>进入上一层递归之后，head节点为4，指向还没改变之前节点4的head.next.next指向null，head.next指向5节点，head.next.next = head语句将原来指向None的节点5，改为指向节点4，完成5-&gt;4,head.next = None 语句完成4-&gt;none,也就完成了5-4-none</p>
+<p>其他依次类推，直到反转所有节点。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">reverseList</span><span class="params">(self, head: ListNode)</span> -&gt; ListNode:</span></span><br><span class="line">        //判断当前节点和下一节点是否为空节点，不为空进入递归</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> head:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> head.next:</span><br><span class="line">            <span class="keyword">return</span> head</span><br><span class="line">        headNode = reverseList(head.next)</span><br><span class="line">              <span class="function"><span class="keyword">def</span> <span class="title">reverseList</span><span class="params">(self, head: ListNode)</span> -&gt; ListNode:</span></span><br><span class="line">                  //判断当前节点和下一节点是否为空节点，不为空进入递归</span><br><span class="line">                  <span class="keyword">if</span> <span class="keyword">not</span> head:</span><br><span class="line">                      <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line">                  <span class="keyword">if</span> <span class="keyword">not</span> head.next:</span><br><span class="line">                      <span class="keyword">return</span> head</span><br><span class="line">                  headNode = self.reverseList(head.next)</span><br><span class="line">                          <span class="function"><span class="keyword">def</span> <span class="title">reverseList</span><span class="params">(self, head: ListNode)</span> -&gt; ListNode:</span></span><br><span class="line">                          //判断当前节点和下一节点是否为空节点，不为空进入递归</span><br><span class="line">                          <span class="keyword">if</span> <span class="keyword">not</span> head:</span><br><span class="line">                              <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line">                          <span class="keyword">if</span> <span class="keyword">not</span> head.next:</span><br><span class="line">                              <span class="keyword">return</span> head</span><br><span class="line">                          headNode = self.reverseList(head.next)</span><br><span class="line">                              <span class="function"><span class="keyword">def</span> <span class="title">reverseList</span><span class="params">(self, head: ListNode)</span> -&gt; ListNode:</span></span><br><span class="line">                                //判断当前节点和下一节点是否为空节点，不为空进入递归</span><br><span class="line">                                <span class="keyword">if</span> <span class="keyword">not</span> head:</span><br><span class="line">                                    <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line">                                <span class="keyword">if</span> <span class="keyword">not</span> head.next:</span><br><span class="line">                                    <span class="keyword">return</span> head</span><br><span class="line">                                headNode = self.reverseList(head.next)</span><br><span class="line">                                        <span class="function"><span class="keyword">def</span> <span class="title">reverseList</span><span class="params">(self, head: ListNode)</span> -&gt; ListNode:</span></span><br><span class="line">                                        //判断当前节点和下一节点是否为空节点，不为空进入递归</span><br><span class="line">                                        <span class="keyword">if</span> <span class="keyword">not</span> head:</span><br><span class="line">                                            <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line">                                        <span class="keyword">if</span> <span class="keyword">not</span> head.next:</span><br><span class="line">                                            <span class="keyword">return</span> head</span><br><span class="line">                                head.next.next = head</span><br><span class="line">                                head.next = <span class="literal">None</span></span><br><span class="line">                                <span class="keyword">return</span> headNode</span><br><span class="line">                          head.next.next = head</span><br><span class="line">                          head.next = <span class="literal">None</span></span><br><span class="line">                          <span class="keyword">return</span> headNode</span><br><span class="line">                  head.next.next = head</span><br><span class="line">                  head.next = <span class="literal">None</span></span><br><span class="line">                  <span class="keyword">return</span> headNode</span><br><span class="line">        head.next.next = head</span><br><span class="line">        head.next = <span class="literal">None</span></span><br><span class="line">        <span class="keyword">return</span> headNode</span><br></pre></td></tr></table></figure>
+
+<h4 id="两两交换链表节点"><a href="#两两交换链表节点" class="headerlink" title="两两交换链表节点"></a>两两交换链表节点</h4><p>改变节点指向或者改变两个节点的值，如果不给定常数的额外空间则修改指向</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span>  </span><br><span class="line">  //修改值</span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">swapPairs</span><span class="params">(self, head)</span>:</span></span><br><span class="line">        p = head</span><br><span class="line">        <span class="keyword">while</span> p <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span> <span class="keyword">and</span> p.next <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            tmp = p.val</span><br><span class="line">            p.val = p.next.val</span><br><span class="line">            p.next.val = tmp</span><br><span class="line">            p = p.next.next</span><br><span class="line">        <span class="keyword">return</span> head</span><br><span class="line">    //修改指向</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">swapPairs</span><span class="params">(self, head)</span>:</span>  </span><br><span class="line">        <span class="string">""" </span></span><br><span class="line"><span class="string">        :type head: ListNode </span></span><br><span class="line"><span class="string">        :rtype: ListNode </span></span><br><span class="line"><span class="string">        """</span>  </span><br><span class="line">        <span class="keyword">if</span> head == <span class="literal">None</span>:</span><br><span class="line">            <span class="keyword">return</span> head</span><br><span class="line">        cur = ListNode(<span class="number">0</span>)</span><br><span class="line">        cur.next = head</span><br><span class="line">        first =cur</span><br><span class="line">        <span class="keyword">while</span> cur.next <span class="keyword">and</span> cur.next.next:</span><br><span class="line">            n1 = cur.next</span><br><span class="line">            n2 = n1.next</span><br><span class="line">            nxt = n2.next</span><br><span class="line">            n1.next = nxt</span><br><span class="line">            n2.next = n1</span><br><span class="line">            cur.next = n2</span><br><span class="line">            </span><br><span class="line">            cur = n1</span><br><span class="line">        <span class="keyword">return</span> first.next</span><br></pre></td></tr></table></figure>
+
+<h4 id="移除链表指定元素"><a href="#移除链表指定元素" class="headerlink" title="移除链表指定元素"></a>移除链表指定元素</h4><p>移除链表中的指定元素</p>
+<p>例：链表1-&gt;2-&gt;6-&gt;3-&gt;4-&gt;5-&gt;6 指定删除元素 val=6</p>
+<p>输出结果 1-&gt;2-&gt;3-&gt;4-&gt;5</p>
+<p>定义两个临时变量：</p>
+<p>伪头节点pre_head：用于处理头结点即为要删去的情况；将输入的头结点挂在该结点上，作为整个链表的前序结点，</p>
+<p>当前节点cur：用于迭代遍历和删除结点元素。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">removeElements</span><span class="params">(self, head, val)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type head: ListNode</span></span><br><span class="line"><span class="string">        :type val: int</span></span><br><span class="line"><span class="string">        :rtype: ListNode</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        cur = pre_head = ListNode(<span class="number">0</span>)            <span class="comment"># 定义一个辅助结点</span></span><br><span class="line">        pre_head.next = head                    <span class="comment"># 把输入链表挂在该结点上</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> cur.next:                         <span class="comment"># 当前结点不是最后一个结点时</span></span><br><span class="line">            <span class="keyword">if</span> cur.next.val == val:             <span class="comment"># 如果下一个结点的值是要删除的</span></span><br><span class="line">                cur.next = cur.next.next        <span class="comment"># 删除下一个结点</span></span><br><span class="line">            <span class="keyword">else</span>:                               <span class="comment"># 否则</span></span><br><span class="line">                cur = cur.next                  <span class="comment"># 当前结点后移</span></span><br><span class="line">        <span class="keyword">return</span> pre_head.next                    <span class="comment"># 返回处理后的链表</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="删除排序链表中的重复元素"><a href="#删除排序链表中的重复元素" class="headerlink" title="删除排序链表中的重复元素"></a>删除排序链表中的重复元素</h4><p>如果排序链表中所有重复出现次数的元素，删除重复元素到没有重复，只保留一个元素，不指定值，</p>
+<p>例：</p>
+<p>链表1-&gt;2-&gt;3-&gt;3-&gt;4-&gt;5-&gt;6     输出结果 1-&gt;2-&gt;3-&gt;4-&gt;5-&gt;6</p>
+<p>链表1-&gt;1-&gt;1-&gt;4-&gt;5-&gt;6     输出结果 1-&gt;4-&gt;5-&gt;6</p>
+<p>设置一个替代指针，同替代进行修改操作。对于每个cur，将其与其后继的节点值比较，如果相同，说明这个后继需要删除，对链表而言，操作则相当简单，直接将cur的后继改为当前后继的后继即可。如果不同，说明没有与当前节点值重复的了，直接将当前节点后移即可，</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">deleteDuplicates</span><span class="params">(self, head: ListNode)</span> -&gt; ListNode:</span></span><br><span class="line">      <span class="comment"># 判断链表是否为空</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> head:</span><br><span class="line">            <span class="keyword">return</span> head</span><br><span class="line">          <span class="comment"># 当前节点初始化为表头</span></span><br><span class="line">        cur = head</span><br><span class="line">        <span class="keyword">while</span> cur <span class="keyword">and</span> cur.next:<span class="comment"># 遍历，循环条件为当前节点和当前节点的后继不为空</span></span><br><span class="line">            <span class="keyword">if</span> cur.val == cur.next.val:<span class="comment"># 如果当前节点值和其后继值相等，则将其后继改为后继的后继</span></span><br><span class="line">                cur.next = cur.next.next<span class="comment"># 如果不相等，则将当前节点更新</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                cur = cur.next</span><br><span class="line">        <span class="keyword">return</span> head</span><br></pre></td></tr></table></figure>
+
+<p>如果排序链表中所有重复出现次数的元素，删除全部重复元素，不指定值，</p>
+<p>例：输入: 1-&gt;2-&gt;3-&gt;3-&gt;4-&gt;4-&gt;5<br>        输出: 1-&gt;2-&gt;5</p>
+<p>比上一版难度加在：头部可能会被删除；如果出现重复元素全部删除，可能断链</p>
+<p>思路：设置两个指针，一个保存表头，一个替代进行遍历。遍历的思路：如果发现重复元素，不能直接替换，需要向后移动，直到找到不重复元素，将其替换</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">deleteDuplicates</span><span class="params">(self, head: ListNode)</span> -&gt; ListNode:</span></span><br><span class="line">        <span class="comment">#判断链表是否为空</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> head:</span><br><span class="line">            <span class="keyword">return</span> head</span><br><span class="line">        pre = <span class="literal">None</span><span class="comment"># 设置两个指针：pre和cur</span></span><br><span class="line">        cur = head</span><br><span class="line">        <span class="comment"># 遍历所有节点</span></span><br><span class="line">        <span class="keyword">while</span> cur:</span><br><span class="line">            <span class="comment"># 一个临时指针指向cur的后继</span></span><br><span class="line">            _next = cur.next</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> _next:</span><br><span class="line">                <span class="keyword">return</span> head</span><br><span class="line">            <span class="comment"># 如果两个值不相等，则将pre和cur都往后移</span></span><br><span class="line">            <span class="keyword">elif</span> cur.val != _next.val:</span><br><span class="line">                pre = cur</span><br><span class="line">                cur = _next</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">            <span class="comment"># 如果相等，则将_next一直捋到不重复为止</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">while</span> _next <span class="keyword">and</span> _next.val == cur.val:</span><br><span class="line">                    _next = _next.next</span><br><span class="line">                <span class="keyword">if</span> cur == head:<span class="comment"># 如果重复段在表头，则需要更新表头信息</span></span><br><span class="line">                    head = _next</span><br><span class="line">                <span class="keyword">else</span>:<span class="comment"># 如果重复段在中间，则需要将pre的后继更新为_next</span></span><br><span class="line">                    pre.next = _next</span><br><span class="line">                <span class="comment"># 继续遍历</span></span><br><span class="line">                cur = _next</span><br><span class="line">        <span class="keyword">return</span> head</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://zhuanlan.zhihu.com/p/33638917">https://zhuanlan.zhihu.com/p/33638917</a></p>
+<h3 id="二叉树"><a href="#二叉树" class="headerlink" title="二叉树"></a>二叉树</h3><p><a href="https://zhuanlan.zhihu.com/p/29800274">https://zhuanlan.zhihu.com/p/29800274</a></p>
+<h4 id="判断是否为对称二叉树-1829"><a href="#判断是否为对称二叉树-1829" class="headerlink" title="判断是否为对称二叉树 1829"></a>判断是否为对称二叉树 1829</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">solution</span> </span></span><br><span class="line"><span class="class">    <span class="title">def</span> <span class="title">isSymmetric</span><span class="params">(self,root)</span></span></span><br><span class="line"><span class="class">        <span class="title">if</span> <span class="title">not</span> <span class="title">root</span>:</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">sub</span><span class="params">(left,right)</span>:</span></span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> left <span class="keyword">and</span> <span class="keyword">not</span> right:</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">True</span> </span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> left <span class="keyword">or</span> <span class="keyword">not</span> right: </span><br><span class="line">                <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">            <span class="keyword">return</span> left.val == right.val <span class="keyword">and</span> sub(left.left,right.right) <span class="keyword">and</span> sub(left.right,right.left)</span><br><span class="line">        <span class="keyword">return</span> sub(root.left,root.right)</span><br></pre></td></tr></table></figure>
+
+<h4 id="二叉树的镜像1828"><a href="#二叉树的镜像1828" class="headerlink" title="二叉树的镜像1828"></a>二叉树的镜像1828</h4><p>输入一个二叉树，该函数输出它的镜像。</p>
+<p>例：输入root = [4,2,7,1,3,6,9]</p>
+<p>输出[4,7,2,9,6,3,1]</p>
+<p>使用递归实现</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">mirrorTree</span><span class="params">(self, root: TreeNode)</span> -&gt; TreeNode:</span></span><br><span class="line">        <span class="comment"># 用递归可以实现</span></span><br><span class="line">        <span class="keyword">if</span> root == <span class="literal">None</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line">        </span><br><span class="line">        root.left,root.right = root.right,root.left</span><br><span class="line">        self.mirrorTree(root.left)</span><br><span class="line">        self.mirrorTree(root.right)</span><br><span class="line">        <span class="keyword">return</span> root</span><br></pre></td></tr></table></figure>
+
+<h4 id="判断是否是子树"><a href="#判断是否是子树" class="headerlink" title="判断是否是子树"></a>判断是否是子树</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">isSubStructure</span><span class="params">(self, A: TreeNode, B: TreeNode)</span> -&gt; bool:</span></span><br><span class="line">        <span class="keyword">if</span> A==<span class="literal">None</span> <span class="keyword">or</span> B==<span class="literal">None</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">check</span><span class="params">(A:TreeNode,B:TreeNode)</span>-&gt;bool:</span></span><br><span class="line">            <span class="keyword">return</span> A!=<span class="literal">None</span> <span class="keyword">and</span> A.val==B.val <span class="keyword">and</span> (<span class="literal">True</span> <span class="keyword">if</span> B.left==<span class="literal">None</span> <span class="keyword">else</span> check(A.left,B.left)) <span class="keyword">and</span> (<span class="literal">True</span> <span class="keyword">if</span> B.right==<span class="literal">None</span> </span><br><span class="line">                                                                                                      </span><br><span class="line">            <span class="keyword">else</span> check(A.right,B.right))</span><br><span class="line">        <span class="keyword">return</span> check(A,B) <span class="keyword">or</span> self.isSubStructure(A.left,B) <span class="keyword">or</span> self.isSubStructure(A.right,B)</span><br></pre></td></tr></table></figure>
+
+<h4 id="二叉树的最近公共祖先"><a href="#二叉树的最近公共祖先" class="headerlink" title="二叉树的最近公共祖先"></a>二叉树的最近公共祖先</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">   <span class="function"><span class="keyword">def</span> <span class="title">lowestCommonAncestor</span><span class="params">(self,root:<span class="string">'TreeNode'</span>,p:<span class="string">'TreeNode'</span>,q:<span class="string">'TreeNode'</span>)</span>-&gt;'TreeNode':</span></span><br><span class="line">       <span class="keyword">if</span>(root == <span class="literal">None</span>):</span><br><span class="line">          <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line">       <span class="keyword">if</span> root == p <span class="keyword">or</span> root == q:</span><br><span class="line">          <span class="keyword">return</span> root</span><br><span class="line">       m = self.lowestCommonAncestor(root.left,p,q)</span><br><span class="line">       n = self.lowestCommonAncestor(root.right,p,q)</span><br><span class="line">       <span class="keyword">if</span>(m <span class="keyword">and</span> n):</span><br><span class="line">           <span class="keyword">return</span> root</span><br><span class="line">       <span class="keyword">elif</span> m:</span><br><span class="line">           <span class="keyword">return</span> m</span><br><span class="line">       <span class="keyword">else</span></span><br><span class="line">           <span class="keyword">return</span> n</span><br></pre></td></tr></table></figure>
+
+<h4 id="二叉树的最大路径和-124"><a href="#二叉树的最大路径和-124" class="headerlink" title="二叉树的最大路径和(124)"></a>二叉树的最大路径和(124)</h4><p>路径和为路径中各节点值的总和。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">maxPathSum</span><span class="params">(self,root:TreeNode)</span>-&gt;int:</span></span><br><span class="line">        self.res = float(<span class="string">'inf'</span>)</span><br><span class="line">        </span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">dfs</span><span class="params">(root)</span>:</span></span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> root:</span><br><span class="line">               <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">            left = max(<span class="number">0</span>,dfs(root.left))</span><br><span class="line">            right = max(<span class="number">0</span>,dfs(root.right))</span><br><span class="line">            </span><br><span class="line">            val = root.val + left + right</span><br><span class="line">            self.res = max(self.res,val)</span><br><span class="line">            <span class="keyword">return</span> root.val+max(left,right)</span><br><span class="line">        </span><br><span class="line">        dfs(root)</span><br><span class="line">        <span class="keyword">return</span> self.res</span><br></pre></td></tr></table></figure>
+
+<h4 id="二叉树的最大深度-104"><a href="#二叉树的最大深度-104" class="headerlink" title="二叉树的最大深度(104)"></a>二叉树的最大深度(104)</h4><p>给定一个二叉树，找出其最大深度</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">   <span class="function"><span class="keyword">def</span> <span class="title">TreeDepth</span><span class="params">(self,pRoot)</span>:</span></span><br><span class="line">       <span class="keyword">if</span> <span class="keyword">not</span> pRoot:</span><br><span class="line">           <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">       depthleft = self.TreeDepth(pRoot.left)</span><br><span class="line">       depthright = self.TreeDepth(pRoot.right)</span><br><span class="line">       <span class="keyword">return</span> max(depthleft,depthright) +<span class="number">1</span></span><br></pre></td></tr></table></figure>
 
 
 
-<h2 id="老鼠毒药问题"><a href="#老鼠毒药问题" class="headerlink" title="老鼠毒药问题"></a>老鼠毒药问题</h2><p>问题：有8 个一模一样的瓶子，其中有 7 瓶是普通的水，有一瓶是毒药。老鼠喝下毒药都会在一星期之后死亡。给定一周时间，至少需要几只老鼠才能检验出哪个瓶子里有毒药？</p>
-<p>拓展问题：有1000 个一模一样的瓶子，其中有 999瓶是普通的水，有一瓶是毒药。老鼠喝下毒药都会在一星期之后死亡。给定一周时间，至少需要几只老鼠才能检验出哪个瓶子里有毒药？</p>
-<p>问题1:3只老鼠</p>
-<p>用二进制0和1表示老鼠没喝毒药和喝毒药两种状态。有000=0，001=1，010=2，011=3，100=4，101=5，110=6，111=7表示8个瓶子，也就是给1号老鼠喝1，3，5，7号瓶子的水，2号老鼠喝2，3，6，7瓶子的水，3号老鼠喝4，5，6，7瓶的水，每只老鼠有死不死两种状态，3只老鼠可以出现2^3&gt;=8,所以可以表示7个瓶子一瓶毒药的八种状态。</p>
-<p>问题2:10只老鼠。2的10次方为1024，大于1000，所以可以表示所有各种瓶子可能的状态，十只就够。</p>
-<h2 id="滑动窗口算法"><a href="#滑动窗口算法" class="headerlink" title="滑动窗口算法"></a>滑动窗口算法</h2><p>滑动窗口算法是一种重要的思想，用于解决数组、字符串的子元素问题，可以将嵌套循环的问题转换为单层循环，降低事件复杂度，提高效率。</p>
-<p>基本思想：将子字符串理解为一个滑动窗口，将这个窗口在数组上滑动，在窗口滑动的过程中左边出一个元素，右边进一个元素，然后对窗口内的元素进行计算。</p>
-<p>思路：</p>
-<p>1.使用双指针的左右指针技巧，初始化left=right=0，把索引区间[left,right]称为一个窗口。</p>
-<p>2.先不断增加right扩大窗口，直到窗口符合要求</p>
-<p>3.停止增加right，转而不断增加left缩小窗口，直到窗口的字符串不再符合要求，同时每增加一次left就更新一次结果</p>
-<p>4.重复第二步和第三步，直到right到底。</p>
-<p>第二步相当于找一个可行解，第三步在优化这个可行解，最终找到最优解。左右指针轮流前进，窗口大小增增减减，同时不断向右滑动。</p>
-<h2 id="LRU缓存淘汰机制"><a href="#LRU缓存淘汰机制" class="headerlink" title="LRU缓存淘汰机制"></a>LRU缓存淘汰机制</h2><p>LRU，LRU = Least Recently Used 最近最少使用原则，</p>
-<p>当 Cache 储存满了的时候，使用 LRU 算法把旧数据清理出去，添加新数据。</p>
-<h2 id="DFS与BFS"><a href="#DFS与BFS" class="headerlink" title="DFS与BFS"></a>DFS与BFS</h2><p>深度优先搜索算法（英語：Depth-First-Search，DFS）是一种用于遍历或搜索树或图的算法。 这个算法会尽可能深的搜索树的分支。 当节点v的所在边都己被探寻过，搜索将回溯到发现节点v的那条边的起始节点。</p>
-<p>广度优先算法（Breadth-First-Search），简称BFS，是一种图形搜索演算法。 简单的说，BFS是从根节点开始，沿着树的宽度遍历树的节点，如果发现目标，则演算终止。</p>
-<h2 id="新规则"><a href="#新规则" class="headerlink" title="新规则"></a>新规则</h2><h2 id="智力题"><a href="#智力题" class="headerlink" title="智力题"></a>智力题</h2><p>不求答出，随手记录，自求多福</p>
-<h3 id="两根香烧完一个小时，计算15分钟"><a href="#两根香烧完一个小时，计算15分钟" class="headerlink" title="两根香烧完一个小时，计算15分钟"></a>两根香烧完一个小时，计算15分钟</h3><p>把其中一根两头都点上，另一根点单头，半小时双头的烧完后，再把单头的另一端点着，即为分钟</p>
-<h2 id="老师分饼干"><a href="#老师分饼干" class="headerlink" title="老师分饼干"></a>老师分饼干</h2><p> <a href="https://www.jianshu.com/p/23adccda99f0">https://www.jianshu.com/p/23adccda99f0</a></p>
+<h4 id="填充每一个节点的下一个右侧指针-116、117"><a href="#填充每一个节点的下一个右侧指针-116、117" class="headerlink" title="填充每一个节点的下一个右侧指针(116、117)"></a>填充每一个节点的下一个右侧指针(116、117)</h4><p>给定一个 <strong>完美二叉树</strong> ，其所有叶子节点都在同一层，每个父节点都有两个子节点。</p>
+<p>填充它的每个 next 指针，让这个指针指向其下一个右侧节点。如果找不到下一个右侧节点，则将 next 指针设置为 NULL。</p>
+<p>初始状态下，所有 next 指针都被设置为 NULL。</p>
+<p>例如：输入：root  = [1,2,3,4,5,6,7]</p>
+<p>输出：root=[1,#,2,3,#,4,5,6,7,#]</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">connect</span><span class="params">(self, root: <span class="string">'Node'</span>)</span> -&gt; 'Node':</span></span><br></pre></td></tr></table></figure>
 
+
+
+<h4 id="二叉树的前序144、中序94、后序遍历145"><a href="#二叉树的前序144、中序94、后序遍历145" class="headerlink" title="二叉树的前序144、中序94、后序遍历145"></a>二叉树的前序144、中序94、后序遍历145</h4><p>前序遍历</p>
+<p>给你二叉树的根节点，返回它节点的前序遍历</p>
+<p>例：输入：root = [1,null,2,3]</p>
+<p>输出：[1,2,3]</p>
+<p>前序遍历的“前”指的是先访问根结点，然后依次访问它的左孩子和右孩子，最终遍历整一颗树。 </p>
+<p>递归</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">preorderTraversal</span><span class="params">(self, root: TreeNode)</span> -&gt; List[int]:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> root: </span><br><span class="line">           <span class="keyword">return</span> root </span><br><span class="line"></span><br><span class="line">        buff, ret = [root], []</span><br><span class="line">        <span class="keyword">while</span> buff:</span><br><span class="line">            f = buff.pop()</span><br><span class="line">            <span class="keyword">if</span> f.right: buff.append(f.right)</span><br><span class="line">            <span class="keyword">if</span> f.left:  buff.append(f.left) </span><br><span class="line">            ret.append(f.val)</span><br><span class="line">        <span class="keyword">return</span> ret</span><br></pre></td></tr></table></figure>
+
+<p>中序遍历</p>
+<p>给定一个二叉树的根节点 <code>root</code> ，返回它的 <strong>中序</strong> 遍历。</p>
+<p>例：输入：[1,null,2,3]</p>
+<p>输出：[1,3,2]</p>
+<p>中序遍历 先遍历左子树-&gt;根节点-&gt;右子树,</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">inorderTraversal</span><span class="params">(self, root: TreeNode)</span> -&gt; List[int]:</span></span><br><span class="line">        ans = []</span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">inorder</span><span class="params">(root)</span>:</span></span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> root:</span><br><span class="line">                <span class="keyword">return</span></span><br><span class="line">            inorder(root.left)</span><br><span class="line">            ans.append(root.val)</span><br><span class="line">            inorder(root.right)</span><br><span class="line">        inorder(root)</span><br><span class="line">        <span class="keyword">return</span> ans</span><br></pre></td></tr></table></figure>
+
+<p>后序遍历</p>
+<p>给定一个二叉树，返回它的 <em>后序</em> 遍历。</p>
+<p>例：输入:[1,null,2,3]</p>
+<p>输出：[3,2,1]</p>
+<p>后序遍历的顺序是每次遍历左孩子，再遍历右孩子，最后遍历根节点。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">postorderTraversal</span><span class="params">(self, root: TreeNode)</span> -&gt; List[int]:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> root:</span><br><span class="line">            <span class="keyword">return</span> </span><br><span class="line">        ans = []</span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">inorder</span><span class="params">(root)</span>:</span></span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> root:</span><br><span class="line">                <span class="keyword">return</span></span><br><span class="line">            inorder(root.left)</span><br><span class="line">            inorder(root.right)</span><br><span class="line">            ans.append(root.val)</span><br><span class="line">        inorder(root)</span><br><span class="line">        <span class="keyword">return</span> ans</span><br></pre></td></tr></table></figure>
+
+<h4 id="层序遍历-102、107"><a href="#层序遍历-102、107" class="headerlink" title="层序遍历(102、107)"></a>层序遍历(102、107)</h4><p>给你一个二叉树，请你返回其按 <strong>层序遍历</strong> 得到的节点值。 （即逐层地，从左到右访问所有节点）</p>
+<p>例：输入：[3,9,20,null,null,15,7]</p>
+<p>输出：[[3],[9,20],[15,7]]</p>
+<h4 id="从最下层输出到根节点"><a href="#从最下层输出到根节点" class="headerlink" title="从最下层输出到根节点"></a>从最下层输出到根节点</h4><h4 id="之字形打印二叉树-103"><a href="#之字形打印二叉树-103" class="headerlink" title="之字形打印二叉树(103)"></a>之字形打印二叉树(103)</h4><p>给定一个二叉树，返回其节点值的锯齿形层序遍历。（即先从左往右，再从右往左进行下一层遍历，以此类推，层与层之间交替进行）。</p>
+<p>例：输入给定二叉树：[3,9,20,null,null,15,7]</p>
+<p>输出：[[3],[20,9],[15,7]]</p>
+<p>先层序遍历，再中间翻转</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">zigzagLevelOrder</span><span class="params">(self, root: TreeNode)</span> -&gt; List[List[int]]:</span></span><br><span class="line">        stack = []</span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">levelOrder</span><span class="params">(root, depth, stack)</span>:</span></span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> root:</span><br><span class="line">                <span class="keyword">return</span></span><br><span class="line">            <span class="keyword">if</span> depth &gt;= len(stack):</span><br><span class="line">                stack.append([])</span><br><span class="line">            stack[depth].append(root.val)</span><br><span class="line">            levelOrder(root.left, depth + <span class="number">1</span>, stack)</span><br><span class="line">            levelOrder(root.right, depth + <span class="number">1</span>, stack)</span><br><span class="line"></span><br><span class="line">        levelOrder(root, <span class="number">0</span>, stack)</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, len(stack), <span class="number">2</span>):</span><br><span class="line">            stack[i] = stack[i][::<span class="number">-1</span>]</span><br><span class="line">        <span class="keyword">return</span> stack</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="根据数组生成二叉树"><a href="#根据数组生成二叉树" class="headerlink" title="根据数组生成二叉树"></a>根据数组生成二叉树</h4><h4 id="根据链表生成二叉树"><a href="#根据链表生成二叉树" class="headerlink" title="根据链表生成二叉树"></a>根据链表生成二叉树</h4><p>树的遍历</p>
+<p>树的遍历有两个基本方法：深度优先遍历和广度优先遍历</p>
+<p>深度优先遍历分为中序遍历、前序遍历和后序遍历</p>
+<p>​        前序遍历从根节点开始，先左子树，后右子树,中序遍历先左子树，然后根节点，再右子树,后序遍历先左子树，后右子树，再根节点,每个子树内部遍历顺序也相同</p>
+<p>广度优先算法(BFS,Breadth First Search)遍历在于层次遍历，分为自上而下和自下而上</p>
+<p>从上到下打印二叉树</p>
+<p>二叉树的每层最大元素</p>
+<p>实现平衡二叉树</p>
+<p>平衡二叉树：空树或者任何一个结点的左子树与右子树都是平衡二叉树，并且高度之差的绝对值不超过 1。</p>
+<p>平衡因子：某节点的左子树与右子树的高度(深度)差即为该节点的平衡因子。平衡二叉树中不存在平衡因子大于 1 的节点。在一棵平衡二叉树中，节点的平衡因子只能取 0 、1 或者 -1 ，分别对应着左右子树等高，左子树比较高，右子树比较高。</p>
+<p><strong>平衡二叉树的失衡调整主要是通过旋转最小失衡子树来实现的</strong>。根据旋转的方向有两种处理方式，<strong>左旋</strong> 与 <strong>右旋</strong> 。</p>
+<p>左旋/右旋</p>
+<p>（1）节点的右/左孩子代表此节点 （2）节点的右/左孩子的左/右子树变为节点的右/左子树 （3）将此节点作为右/左孩子节点的左/右子树。</p>
+<p>二叉搜索树（BST，binary search tree）</p>
+<p>二叉搜索树又称二叉查找树，是一种特殊的二叉树，用于改善二叉树查找的效率。</p>
+<p>二叉查找树的性质：</p>
+<p>其左子树下每个后代节点的值都小于节点n的值</p>
+<p>其右子树下每个后代节点的值都大于节点n的值</p>
+<p>只要某一个节点不符合二叉搜索树的性质，则该二叉树不属于二叉查找树</p>
+<p>根据二叉查找树的性质，给定任意两个节点就能够判断大小</p>
+<p>红黑树</p>
+<p>红黑树在二叉查找树的基础上增加了着色和相关的性质使得红黑树相对平衡，从而保证了红黑树的查找、插入、删除的时间复杂度最坏为logn</p>
+<p>红黑树的5个性质：</p>
+<p>1.每个节点要么是红的，要么是黑的</p>
+<p>2.根结点是黑的</p>
+<p>3.每个叶节点都是黑的</p>
+<p>4.如果一个节点是红节点，那么他的两个儿子都是黑节点</p>
+<p>3.对于任意节点而言，其到叶节点尾端的每条路径都包含相同数目的黑节点。</p>
+<h4 id="树的旋转"><a href="#树的旋转" class="headerlink" title="树的旋转"></a>树的旋转</h4>
         </div>
         
         <div class="level is-size-7 is-uppercase">
@@ -317,16 +381,16 @@
     <div class="level post-navigation is-flex-wrap is-mobile">
         
         <div class="level-start">
-            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/06/06/%E5%89%8D%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91%E6%A6%82%E8%BF%B0/">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/06/06/%E7%AE%97%E6%B3%95%E9%A2%98%E4%B8%89/">
                 <i class="level-item fas fa-chevron-left"></i>
-                <span class="level-item">前后端开发概述</span>
+                <span class="level-item">算法题（三）</span>
             </a>
         </div>
         
         
         <div class="level-end">
-            <a class="level level-item has-link-grey  article-nav-next" href="/2020/06/06/%E7%AE%97%E6%B3%95%E9%A2%98%E4%B8%80/">
-                <span class="level-item">算法题（一）</span>
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/06/02/react/">
+                <span class="level-item">React</span>
                 <i class="level-item fas fa-chevron-right"></i>
             </a>
         </div>
@@ -407,7 +471,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            94
+                            103
                         </p>
                     </a>
                 </div>
@@ -431,7 +495,7 @@
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            47
+                            48
                         </p>
                     </a>
                 </div>
@@ -493,106 +557,102 @@
                     目录
                 </h3>
                 <ul class="menu-list"><li>
-        <a class="is-flex" href="#算法题（二）">
+        <a class="is-flex" href="#链表">
         <span class="has-mr-6">1</span>
-        <span>算法题（二）</span>
+        <span>链表</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#从头到尾打印链表">
+        <span class="has-mr-6">1.1</span>
+        <span>从头到尾打印链表</span>
         </a></li><li>
-        <a class="is-flex" href="#基础">
+        <a class="is-flex" href="#链表复制">
+        <span class="has-mr-6">1.2</span>
+        <span>链表复制</span>
+        </a></li><li>
+        <a class="is-flex" href="#删除单链表中倒数第K个节点">
+        <span class="has-mr-6">1.3</span>
+        <span>删除单链表中倒数第K个节点</span>
+        </a></li><li>
+        <a class="is-flex" href="#两个有序链表合并成一个有序链表">
+        <span class="has-mr-6">1.4</span>
+        <span>两个有序链表合并成一个有序链表</span>
+        </a></li><li>
+        <a class="is-flex" href="#反转链表">
+        <span class="has-mr-6">1.5</span>
+        <span>反转链表</span>
+        </a></li><li>
+        <a class="is-flex" href="#两两交换链表节点">
+        <span class="has-mr-6">1.6</span>
+        <span>两两交换链表节点</span>
+        </a></li><li>
+        <a class="is-flex" href="#移除链表指定元素">
+        <span class="has-mr-6">1.7</span>
+        <span>移除链表指定元素</span>
+        </a></li><li>
+        <a class="is-flex" href="#删除排序链表中的重复元素">
+        <span class="has-mr-6">1.8</span>
+        <span>删除排序链表中的重复元素</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#二叉树">
         <span class="has-mr-6">2</span>
-        <span>基础</span>
+        <span>二叉树</span>
         </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#算法的时间复杂度">
+        <a class="is-flex" href="#判断是否为对称二叉树-1829">
         <span class="has-mr-6">2.1</span>
-        <span>算法的时间复杂度</span>
+        <span>判断是否为对称二叉树 1829</span>
         </a></li><li>
-        <a class="is-flex" href="#算法的空间复杂度">
+        <a class="is-flex" href="#二叉树的镜像1828">
         <span class="has-mr-6">2.2</span>
-        <span>算法的空间复杂度</span>
+        <span>二叉树的镜像1828</span>
         </a></li><li>
-        <a class="is-flex" href="#空间换时间-时间换空间">
+        <a class="is-flex" href="#判断是否是子树">
         <span class="has-mr-6">2.3</span>
-        <span>空间换时间 时间换空间</span>
-        </a></li></ul></li><li>
-        <a class="is-flex" href="#动态规划">
-        <span class="has-mr-6">3</span>
-        <span>动态规划</span>
-        </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#动态规划经典问题：0-1背包问题">
-        <span class="has-mr-6">3.1</span>
-        <span>动态规划经典问题：0-1背包问题</span>
+        <span>判断是否是子树</span>
         </a></li><li>
-        <a class="is-flex" href="#动态规划经典问题：子集背包问题">
-        <span class="has-mr-6">3.2</span>
-        <span>动态规划经典问题：子集背包问题</span>
+        <a class="is-flex" href="#二叉树的最近公共祖先">
+        <span class="has-mr-6">2.4</span>
+        <span>二叉树的最近公共祖先</span>
         </a></li><li>
-        <a class="is-flex" href="#动态规划经典问题：完全背包问题">
-        <span class="has-mr-6">3.3</span>
-        <span>动态规划经典问题：完全背包问题</span>
+        <a class="is-flex" href="#二叉树的最大路径和-124">
+        <span class="has-mr-6">2.5</span>
+        <span>二叉树的最大路径和(124)</span>
         </a></li><li>
-        <a class="is-flex" href="#动态规划经典问题：高楼扔鸡蛋问题">
-        <span class="has-mr-6">3.4</span>
-        <span>动态规划经典问题：高楼扔鸡蛋问题</span>
+        <a class="is-flex" href="#二叉树的最大深度-104">
+        <span class="has-mr-6">2.6</span>
+        <span>二叉树的最大深度(104)</span>
         </a></li><li>
-        <a class="is-flex" href="#练习：凑硬币问题">
-        <span class="has-mr-6">3.5</span>
-        <span>练习：凑硬币问题</span>
-        </a></li></ul></li><li>
-        <a class="is-flex" href="#贪心算法">
-        <span class="has-mr-6">4</span>
-        <span>贪心算法</span>
-        </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#经典问题：盛水最多的容器">
-        <span class="has-mr-6">4.1</span>
-        <span>经典问题：盛水最多的容器</span>
-        </a></li></ul></li><li>
-        <a class="is-flex" href="#递归与回溯">
-        <span class="has-mr-6">5</span>
-        <span>递归与回溯</span>
-        </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#经典问题：八皇后问题">
-        <span class="has-mr-6">5.1</span>
-        <span>经典问题：八皇后问题</span>
-        </a></li></ul></li><li>
-        <a class="is-flex" href="#迭代算法">
-        <span class="has-mr-6">6</span>
-        <span>迭代算法</span>
+        <a class="is-flex" href="#填充每一个节点的下一个右侧指针-116、117">
+        <span class="has-mr-6">2.7</span>
+        <span>填充每一个节点的下一个右侧指针(116、117)</span>
         </a></li><li>
-        <a class="is-flex" href="#二分查找">
-        <span class="has-mr-6">7</span>
-        <span>二分查找</span>
+        <a class="is-flex" href="#二叉树的前序144、中序94、后序遍历145">
+        <span class="has-mr-6">2.8</span>
+        <span>二叉树的前序144、中序94、后序遍历145</span>
         </a></li><li>
-        <a class="is-flex" href="#老鼠毒药问题">
-        <span class="has-mr-6">8</span>
-        <span>老鼠毒药问题</span>
+        <a class="is-flex" href="#层序遍历-102、107">
+        <span class="has-mr-6">2.9</span>
+        <span>层序遍历(102、107)</span>
         </a></li><li>
-        <a class="is-flex" href="#滑动窗口算法">
-        <span class="has-mr-6">9</span>
-        <span>滑动窗口算法</span>
+        <a class="is-flex" href="#从最下层输出到根节点">
+        <span class="has-mr-6">2.10</span>
+        <span>从最下层输出到根节点</span>
         </a></li><li>
-        <a class="is-flex" href="#LRU缓存淘汰机制">
-        <span class="has-mr-6">10</span>
-        <span>LRU缓存淘汰机制</span>
+        <a class="is-flex" href="#之字形打印二叉树-103">
+        <span class="has-mr-6">2.11</span>
+        <span>之字形打印二叉树(103)</span>
         </a></li><li>
-        <a class="is-flex" href="#DFS与BFS">
-        <span class="has-mr-6">11</span>
-        <span>DFS与BFS</span>
+        <a class="is-flex" href="#根据数组生成二叉树">
+        <span class="has-mr-6">2.12</span>
+        <span>根据数组生成二叉树</span>
         </a></li><li>
-        <a class="is-flex" href="#新规则">
-        <span class="has-mr-6">12</span>
-        <span>新规则</span>
+        <a class="is-flex" href="#根据链表生成二叉树">
+        <span class="has-mr-6">2.13</span>
+        <span>根据链表生成二叉树</span>
         </a></li><li>
-        <a class="is-flex" href="#智力题">
-        <span class="has-mr-6">13</span>
-        <span>智力题</span>
-        </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#两根香烧完一个小时，计算15分钟">
-        <span class="has-mr-6">13.1</span>
-        <span>两根香烧完一个小时，计算15分钟</span>
-        </a></li></ul></li><li>
-        <a class="is-flex" href="#老师分饼干">
-        <span class="has-mr-6">14</span>
-        <span>老师分饼干</span>
-        </a></li></ul>
+        <a class="is-flex" href="#树的旋转">
+        <span class="has-mr-6">2.14</span>
+        <span>树的旋转</span>
+        </a></li></ul></li></ul>
             </div>
         </div>
     </div>
@@ -648,7 +708,7 @@
                 <span class="level-item">IT</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">30</span>
+                <span class="level-item tag">36</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E4%B8%AA%E4%BA%BA%E5%B9%B8%E7%A6%8F/">
@@ -664,7 +724,7 @@
                 <span class="level-item">个人生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">
@@ -672,7 +732,7 @@
                 <span class="level-item">技术博客</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">31</span>
+                <span class="level-item tag">33</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%9C%8B%E5%8F%8B/">
@@ -709,7 +769,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/IT/" style="font-size: 10px;">IT</a> <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 12.5px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 10px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8C/" style="font-size: 12.5px;">IT,Web，</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 12.5px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 12.5px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 12.5px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 10px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb/" style="font-size: 15px;">IT，Web</a> <a href="/tags/IT%EF%BC%8CWeb-Javascript/" style="font-size: 10px;">IT，Web,Javascript</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 17.5px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 10px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 15px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 15px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 12.5px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 10px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 12.5px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 17.5px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 15px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 15px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">幸福</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 12.5px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/" style="font-size: 15px;">技术，IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 12.5px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 12.5px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 12.5px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 17.5px;">生活、幸福</a> <a href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">记录，生活</a>
+        <a href="/tags/IT/" style="font-size: 10px;">IT</a> <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 12px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 10px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8C/" style="font-size: 12px;">IT,Web，</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 12px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 14px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 12px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 12px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb/" style="font-size: 16px;">IT，Web</a> <a href="/tags/IT%EF%BC%8CWeb-Javascript/" style="font-size: 10px;">IT，Web,Javascript</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 18px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 14px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Rust/" style="font-size: 10px;">IT，Web,Rust</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 14px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 16px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 12px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 10px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 12px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 18px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 14px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 14px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">幸福</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 14px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/" style="font-size: 14px;">技术，IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 12px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 12px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 12px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 18px;">生活、幸福</a> <a href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">记录，生活</a>
     </div>
 </div>
     
@@ -743,16 +803,16 @@
         
         <article class="media">
             
-            <a href="/2021/01/23/Node8/" class="media-left">
+            <a href="/2021/01/23/Node9/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/nestjs.png" alt="NodeJs开发（八）">
+                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/nestjs.png" alt="NodeJs开发（四）">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-23T13:40:33.000Z">2021-01-23</time></div>
-                    <a href="/2021/01/23/Node8/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（八）</a>
+                    <a href="/2021/01/23/Node9/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（四）</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/IT/">IT</a>
                     </p>
@@ -764,14 +824,33 @@
             
             <a href="/2021/01/22/Node7/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/koajs.jpeg" alt="NodeJs开发（七）">
+                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/koajs.jpeg" alt="NodeJs开发（三）">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-22T14:40:33.000Z">2021-01-22</time></div>
-                    <a href="/2021/01/22/Node7/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（七）</a>
+                    <a href="/2021/01/22/Node7/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（三）</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/IT/">IT</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2021/01/22/Node8/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/koajs.jpeg" alt="NodeJs开发（三）">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-22T14:40:33.000Z">2021-01-22</time></div>
+                    <a href="/2021/01/22/Node8/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（三）</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/IT/">IT</a>
                     </p>
@@ -783,33 +862,14 @@
             
             <a href="/2021/01/21/Node6/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/typescript.jpg" alt="NodeJs开发（六）">
+                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/typescript.jpg" alt="NodeJs开发（二）">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-21T13:40:33.000Z">2021-01-21</time></div>
-                    <a href="/2021/01/21/Node6/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（六）</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/IT/">IT</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2021/01/20/Node5/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/nodejs.png" alt="NodeJs开发（五）">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-20T13:40:33.000Z">2021-01-20</time></div>
-                    <a href="/2021/01/20/Node5/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（五）</a>
+                    <a href="/2021/01/21/Node6/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（二）</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/IT/">IT</a>
                     </p>
@@ -845,7 +905,7 @@
                     <span class="level-item">一月 2021</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">8</span>
+                    <span class="level-item tag">9</span>
                 </span>
             </a>
         </li>
@@ -856,7 +916,7 @@
                     <span class="level-item">十二月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">4</span>
+                    <span class="level-item tag">5</span>
                 </span>
             </a>
         </li>
@@ -911,7 +971,7 @@
                     <span class="level-item">六月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">12</span>
+                    <span class="level-item tag">18</span>
                 </span>
             </a>
         </li>
@@ -944,7 +1004,7 @@
                     <span class="level-item">三月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">46</span>
+                    <span class="level-item tag">47</span>
                 </span>
             </a>
         </li>
@@ -1046,7 +1106,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/">
                         <span class="tag">IT,Web，算法</span>
-                        <span class="tag is-grey">2</span>
+                        <span class="tag is-grey">3</span>
                     </a>
                 </div>
                 
@@ -1074,7 +1134,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CApp-Node-Electron/">
                         <span class="tag">IT，App,Node,Electron</span>
-                        <span class="tag is-grey">1</span>
+                        <span class="tag is-grey">2</span>
                     </a>
                 </div>
                 
@@ -1102,7 +1162,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb/">
                         <span class="tag">IT，Web</span>
-                        <span class="tag is-grey">3</span>
+                        <span class="tag is-grey">4</span>
                     </a>
                 </div>
                 
@@ -1123,13 +1183,20 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/">
                         <span class="tag">IT，Web,Node，React</span>
-                        <span class="tag is-grey">1</span>
+                        <span class="tag is-grey">3</span>
                     </a>
                 </div>
                 
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-PHP/">
                         <span class="tag">IT，Web,PHP</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Rust/">
+                        <span class="tag">IT，Web,Rust</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -1151,14 +1218,14 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/">
                         <span class="tag">IT，Web,数据库</span>
-                        <span class="tag is-grey">6</span>
+                        <span class="tag is-grey">7</span>
                     </a>
                 </div>
                 
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8Cweb/">
                         <span class="tag">IT，web</span>
-                        <span class="tag is-grey">3</span>
+                        <span class="tag is-grey">4</span>
                     </a>
                 </div>
                 
@@ -1228,7 +1295,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">
                         <span class="tag">幸福，个人生活</span>
-                        <span class="tag is-grey">2</span>
+                        <span class="tag is-grey">3</span>
                     </a>
                 </div>
                 

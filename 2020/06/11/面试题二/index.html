@@ -19,7 +19,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://kun8018.gitee.io/images/og_image.png">
 <meta property="article:published_time" content="2020-06-11T13:40:33.000Z">
-<meta property="article:modified_time" content="2021-01-10T06:13:24.558Z">
+<meta property="article:modified_time" content="2021-03-18T00:54:13.140Z">
 <meta property="article:author" content="Kun Zhang">
 <meta property="article:tag" content="IT,Web">
 <meta name="twitter:card" content="summary">
@@ -152,7 +152,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    1 小时 读完 (大约 9415 个字)
+                    1 小时 读完 (大约 9570 个字)
                 </span>
                 
                 
@@ -243,6 +243,12 @@
 <p>500服务端代码错误</p>
 <p>502（错误网关） 服务器作为网关或代理，从上游服务器收到无效响应。 </p>
 <p>503代理错误</p>
+<p>304与缓存策略</p>
+<p>1.浏览器请求某资源，通过header判断是否强缓存，若是强缓存，则从本地直接获取缓存文件，不发请求到浏览器<br>2.若不是强缓存，发送请求到服务器，服务器通过一些request header确定是否是协商缓存，如果是，服务器将请求返回，但不返回资源，而是让客户端从本地缓存获取资源<br>3.强缓存和协商缓存，资源都是本地，只是强缓存不会发送请求到服务器，协商缓存会发送请求到服务器。<br>4.不是协商缓存，则浏览器将资源发送客户端。<br>强缓存：服务端第一次响应请求时，告知浏览器还存在本地，设定时间，时间之内还获取该资源就从本地获取。<br>Expires Cache-Control两个响应首部字段告知过期时间和最大生命周期。再次请求从缓存中找资源，若请求时间比Expires设定时间早则可用本地资源。<br>http1.1 Cache-Control缓存资源最大生命周期，秒为单位。一起使用以Cache-Control为主。<br>协商缓存：文件最后修改时间，服务器判断资源是否更新，未更新返回304表示not modified，浏览器从缓存加载。<br>LastModified：资源最后更新时间，随服务器返回。if-modified-Since请求首部字段，通过比较两个时间判断资源是否修改。没有修改则协商缓存。<br>1.浏览器第一次请求资源，服务器响应，返回资源，响应头加Last-Modified。<br>2.浏览器再次请求资源，在请求头加上if modified since，该值为上次Last-Modified的值<br>3.服务器接受请求，将ifmodifiedsince值和资源最后修改值做对比，若一致则返回304，协商缓存。<br>Etag周期性重写资源，但资源没变化，加注释等无关紧要信息。用Etag区分两个资源是否一致，随response返回和请求头的if-none-match相比较，判断资源在两次请求中是否修改，未修改则协商缓存。</p>
+<p>301 302和307的区别</p>
+<p>301:永久重定向</p>
+<p>302:临时重定向</p>
+<p>307:也是临时重定向，只是不允许将原本post的请求重定向到get请求上</p>
 <h3 id="浏览器网址请求八个步骤"><a href="#浏览器网址请求八个步骤" class="headerlink" title="浏览器网址请求八个步骤"></a>浏览器网址请求八个步骤</h3><p>1.域名解析</p>
 <p>2.TCP三次握手</p>
 <p>3.发起http请求</p>
@@ -250,15 +256,52 @@
 <p>5.浏览器解析html，请求图片、样式等资源</p>
 <p>6.断开http连接</p>
 <p>7.浏览器渲染页面</p>
-<h3 id="session与cookies、localstorage、sessionstorage、token"><a href="#session与cookies、localstorage、sessionstorage、token" class="headerlink" title="session与cookies、localstorage、sessionstorage、token"></a>session与cookies、localstorage、sessionstorage、token</h3><p>由于 HTTP 协议本身是无状态的，上一个请求与下一个请求无任何关联，为此我们引入 Session 来存储用户请求信息以解决特定场景下无状态导致的问题（比如登录、购物）。</p>
+<p>其中第五部渲染的流程为</p>
+<p>1.HTML 被 HTML 解析器解析成 DOM 树；</p>
+<p>2.CSS  被 CSS 解析器解析成 CSSOM 树；</p>
+<p>3.结合 DOM 树和 CSSOM 树，生成一棵渲染树(Render Tree)，这一过程称为 Attachment；</p>
+<p>4.生成布局(flow)，浏览器在屏幕上“画”出渲染树中的所有节点；</p>
+<p>5.将布局绘制(paint)在屏幕上，显示出整个页面。</p>
+<h4 id="js请求的阶段"><a href="#js请求的阶段" class="headerlink" title="js请求的阶段"></a>js请求的阶段</h4><h3 id="session与cookies、localstorage、sessionstorage、token"><a href="#session与cookies、localstorage、sessionstorage、token" class="headerlink" title="session与cookies、localstorage、sessionstorage、token"></a>session与cookies、localstorage、sessionstorage、token</h3><p>由于 HTTP 协议本身是无状态的，上一个请求与下一个请求无任何关联，为此我们引入 Session 来存储用户请求信息以解决特定场景下无状态导致的问题（比如登录、购物）。</p>
 <p>Session是存储在服务器端的，而Cookie是服务器发送到客户端浏览器的数据，它会在浏览器下一次访问同一服务器时会发送到服务器上，告知服务器两次请求是否来源于同一服务器，进而保持用户登录状态 等等。现在基本上都是通过cookie存储简历客户端和服务端的关联，一次建立客户端与服务端的关联和用户认证状态的维护。Cookie和Session通过一个sessionId建立起浏览器和服务器之间的连接。</p>
 <p>cookie不是很安全，别人可以分析本地的cookie进行cookie欺骗</p>
 <p>session保存的是对象，cookie保存的是字符串</p>
 <p>session会在一定时间内保存在服务器，当访问增多时会占用服务器性能</p>
 <p>单个cookie在客户端的限制是4k，一个站点的cookie浏览器允许保存20个，cookie只在设置的cookie过期之前有效，即使窗口关闭或者浏览器关闭。</p>
 <p>session需要借助cookie才能工作，如果用户禁用cookie，session也将失效。</p>
-<p>cookie的完整工作流程：</p>
+<p><strong>cookie的完整工作流程：</strong></p>
 <p>用户在页面输入用户名和密码并传递给后端，后端接收到后验证通过，创建session，session可以把用户名、权限、首选项设置等信息存起来（这就是所谓的状态，内存里在会话期间维持一堆信息），同时通过设置Cookie返回sessionId给浏览器端，浏览器拿到Cookie，至此登录完成，浏览器之后的请求都自动带着Cookie（内含sessionId），服务器会根据sessionId拿到session的信息，验明正身，区分下VIP什么的。</p>
+<p><strong>cookie的位置</strong></p>
+<p>在浏览器的开发者工具中–Application-cookies查看当前页面的cookie</p>
+<p>尽管我们在浏览器中查看cookie但是并不意味着cookie只存在于浏览器中，实际上，cookie的相关内容还可以存放在本地文件中，比如mac下的chrome，存放目录在～/Library/Application Support/Google/Chrome/Default，里面会有一个名为cookies的数据库文件，可以使用sqlite打开</p>
+<p><strong>cookie的设置方法</strong></p>
+<p>简单来说分为4步：</p>
+<p>1.客户端发送http请求到服务器</p>
+<p>2.服务器收到http请求，在响应头里加一个set-cookie字段</p>
+<p>3.浏览器收到响应后保存下cookie</p>
+<p>4.之后对该服务器的每一次请求中都通过cookie字段将cookie信息发给服务器</p>
+<p><strong>cookie的属性</strong></p>
+<p>Name/Value：用JavaScript操作cookie时要对Value进行编码处理</p>
+<p>Expires/Max-Age：都是设置cookie的过期时间，expires是设置具体的某一个日期，Max—Age是设置cookie失效前经过的秒数。</p>
+<p>当Expires属性缺省时，表示是会话性cookie。当为会话性cookie时，值保存在客户端内存中，并在用户关闭浏览器时失效。有些浏览器会提供会话恢复功能，即使关掉浏览器再打开也有保存</p>
+<p>与会话性cookie对应的是永久性cookie，在到达过期时间后自动消失或被主动清除。Expires设定的日期只与客户端有关，与服务端无关</p>
+<p>Max-Age可以是正数、负数、0。为正数时为持久性cookie，到达过期时间后消失。为负数时表示会话性cookie，为0时立即删除cookie</p>
+<p>如果Max-Age和Expires同时存在，Max-Age的优先级更高。</p>
+<p>HTTPonly</p>
+<p>设置Httponly可以防止客户端脚本通过document.cookie等形式访问，有助于避免XSS攻击。</p>
+<p>Domain</p>
+<p>Domain指定了可以送达的主机名，如果没有指定，默认为当前文档中的主机不问</p>
+<p>Path</p>
+<p>Path指定了一个URL路径，这个路径必须出现在要请求的资源的路径中才可以发送cookie首部。</p>
+<p>比如设置 Path=/docs，/docs/web会带cookie首部，而/test则不会</p>
+<p>Secure属性</p>
+<p>标记为Secure的cookie只应通过被https协议加密过的请求发送给服务端，使用https协议能够保护cookie在浏览器和web服务器间的查孙处</p>
+<p>SameSite</p>
+<p>SameSite可以让cookie在跨站请求时不会被发送，从而可以阻止跨站请求伪造攻击（CSRF）</p>
+<p>属性：</p>
+<p>Strict仅允许一方请求携带cookie，即当前网页URL与请求目标URL完全一致。</p>
+<p>Lax允许部分第三方请求携带cookie，</p>
+<p>None无论是否跨站都会发送cookie，</p>
 <p>html5中新加入localstorage特性，解决cookie存储空间不足的问题，webstorage是本地存储，存储在客户端，包括localstorage和sessionstorage</p>
 <p>localstorage的生命周期是永久，存放数据大小为5M，可以在所有同源窗口中共享。只要在相同的协议、相同的主机名、相同的端口下，就能读取/修改到同一份localStorage数据。</p>
 <p>sessionstorage仅在当前对话下有效，关闭页面或者浏览器后被清除，不可以在不同浏览器窗口中共享。由于<code>sessionStorage</code>的生存期太短，因此应用场景很有限，但从另一方面来看，不容易出现异常情况，比较可靠。</p>
@@ -285,6 +328,20 @@
 <p>get提交的数据会在地址栏中显示，post提交的数据在http包中，因此post更安全，同时GET请求的长度受限于浏览器或服务器对URL长度的限制，允许发送的数据量比较小，</p>
 <p>Get是通过URL请求，一次发送接收，同时由于URL是地址栏，因此服务器对Get请求字节（长度）</p>
 <p>Post是先请求，服务器响应请求后再进行请求和接收，对请求大小不做限制</p>
+<h4 id="get可以有请求体吗"><a href="#get可以有请求体吗" class="headerlink" title="get可以有请求体吗"></a>get可以有请求体吗</h4><p>可以的，</p>
+<p>但是往GET里加body会导致缓存机制失效。“GET 被设计来用 URI 来识别资源，如果让它的请求体中携带数据，那么通常的缓存服务便失效了，URI 不能作为缓存的 Key。</p>
+<p>缓存，大概是指那种预加载和后存储，会涉及到一个网络请求的“安全性”。如果不安全，显然是不能缓存的。</p>
+<h4 id="Url携带参数的缺点"><a href="#Url携带参数的缺点" class="headerlink" title="Url携带参数的缺点"></a>Url携带参数的缺点</h4><p>通常可以用url中是否包含？ = &amp; php asp等字符来区分url，换句话说，没有任何参数的URL就是静态url</p>
+<p>静态URL的特点：</p>
+<p>1.与动态URL相比，静态URL更有利于搜索引擎的收集和用户体验的改善，静态URL更短，URL显示模式可以定制</p>
+<p>2.当用户加载静态页的时候不操作数据库，而是直接提取文件</p>
+<p>3.把动态URL转换为静态URL的过程称为URL重写，也称为URL重定向，我们看到的URL并不是真正静态的，而是伪静态的，即动态URL通过技术手段显示为静态URL</p>
+<p>4.静态页面都是独立存在于服务器的文件</p>
+<p>优点：</p>
+<p>加载速度快，减小服务器压力，</p>
+<p>动态url的优点：</p>
+<p>只改变参数使得页面的管理更加容易，</p>
+<p>动态url的缺点：</p>
 <h2 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h2><h3 id="进程与线程的区别"><a href="#进程与线程的区别" class="headerlink" title="进程与线程的区别"></a>进程与线程的区别</h3><p>一个程序至少有一个进程，一个进程至少有一个线程</p>
 <p>一个进程可以包含多个线程，进程的内存空间是共享的，每个进程可以共享内存，但是有的共享内存每次只能给一个线程使用，使用完才能给下一个线程使用。为了防止多个线程同时读写同一块内存，可以对这种内存采用互斥锁</p>
 <p>有的内存可以同时供给固定数目的线程使用，同时为了防止过多线程同时读写，使用信号量保证线程数</p>
@@ -360,66 +417,6 @@
 <li>CPU 访问硬盘数据的过程比较复杂，它会先通过 I/O 操作将磁盘中的数据读入内存，再访问内存的数据；</li>
 <li>机械硬盘在访问磁盘中的数据依赖的是机械结构，需要移动磁盘中的机械臂；</li>
 </ul>
-<h2 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h2><h3 id="常见数据结构"><a href="#常见数据结构" class="headerlink" title="常见数据结构"></a>常见数据结构</h3><p>八种常见数据结构：数组、栈、队列、链表、图、树、前缀树、哈希表</p>
-<p>数组与链表</p>
-<p><strong>数组(Array)</strong>是最简单，也是最常用的数据结构。栈和队列都是由数组衍生出来的。</p>
-<p>数组根据维度区分分为一维数组和多维数组</p>
-<p><strong>链表(Linked List)</strong>也是线性结构，它与数组看起来非常像，但是它们的内存分配方式、内部结构和插入删除操作方式都不一样。</p>
-<p>链表是一系列节点组成的链，每一个节点保存了数据以及指向下一个节点的指针。链表头指针指向第一个节点，如果链表为空，则头指针为空或者为null。</p>
-<p>链表可以用来实现文件系统、哈希表和邻接表。</p>
-<p>链表分为单向链表和双向链表。双链表每个节点除了保存数据及指向下一个节点的指针，还保存了前一个节点的指针。</p>
-<p>还有一类链表是环形链表，链表的尾部节点指向链表中某个节点</p>
-<p>栈与队列</p>
-<p>栈中的元素采用LIFO (Last In First Out)，即<strong>后进先出</strong>。</p>
-<p><strong>队列(Queue)</strong>与栈类似，都是采用线性结构存储数据。它们的区别在于，栈采用LIFO方式，而队列采用先进先出，即<strong>FIFO(First in First Out)</strong>。</p>
-<p>图</p>
-<p><strong>图(graph)</strong>由多个<strong>节点(vertex)</strong>构成，节点之间可以互相连接组成一个网络。(x, y)表示一条<strong>边(edge)</strong>，它表示节点x与y相连。边可能会有<strong>权值(weight/cost)</strong>。</p>
-<p>树</p>
-<p><strong>树(Tree)</strong>是一个分层的数据结构，由节点和连接节点的边组成。树是一种特殊的图，它与图最大的区别是没有循环。</p>
-<p>树被广泛应用在人工智能和一些复杂算法中，用来提供高效的存储结构。</p>
-<p>树的分类</p>
-<p>N叉树、平衡树、二叉树、二叉查找树、平衡二叉树、红黑树、2-3树</p>
-<p>二叉树又分为满二叉树、完全二叉树、平衡二叉树</p>
-<p>二叉树和二叉查找树是最常用的树。</p>
-<p>霍夫曼树、B树、B+树、B*树</p>
-<p>B树</p>
-<p>B+树</p>
-<p>特点：</p>
-<ol>
-<li>关键字数和子树相同。在 B+ 树中，节点的关键字代表子树的最大值，因此关键字数等于子树数。</li>
-<li>非叶子节点仅用作索引，它的关键字和子节点有重复元素。除叶子节点外的所有节点的关键字，都在它的下一级子树中同样存在，最后所有数据都存储在叶子节点中。</li>
-<li>叶子节点用指针连在一起。叶子节点包含了全部的数据，并且按顺序排列，B+ 树使用一个链表将它们排列起来，这样在查询时效率更快。</li>
-</ol>
-<p>遍历方法</p>
-<p>前缀树</p>
-<p><strong>前缀树(Prefix Trees或者Trie)</strong>与树类似，用于处理字符串相关的问题时非常高效。它可以实现快速检索，常用于字典中的单词查询，搜索引擎的自动补全甚至IP路由。</p>
-<p><strong>哈希(Hash)</strong>将某个对象变换为唯一标识符，该标识符通常用一个短的随机字母和数字组成的字符串来代表。哈希可以用来实现各种数据结构，其中最常用的就是<strong>哈希表(hash table)</strong>与hashmap。</p>
-<p>哈希表通常由数组实现，哈希表的性能取决于三个指标：</p>
-<p>哈希函数、哈希表的大小、哈希冲突处理方式</p>
-<h3 id="数组和链表的区别"><a href="#数组和链表的区别" class="headerlink" title="数组和链表的区别"></a>数组和链表的区别</h3><p>线性表包含顺序线性表和链表。顺序表是用数组实现的，链表是用指针实现的，在内存中不连续。</p>
-<p>数组是顺序存储结构，数组的内存要求连续的区域，因此要求连续的内存空间，查找速度快，可以随机访问和修改，插入删除效率低，，大小固定，不能动态扩展</p>
-<p>链表是链式存储结构，链表的内存可以存在任何地方，不要求连续，插入删除速度快，不能随机查找，必须从第一个开始遍历，效率低，且不允许随意存取，大小没有固定，扩展灵活</p>
-<h3 id="堆和栈（数据结构与内存）"><a href="#堆和栈（数据结构与内存）" class="headerlink" title="堆和栈（数据结构与内存）"></a>堆和栈（数据结构与内存）</h3><p>数据结构中的堆和栈</p>
-<p>堆是常用的树形结构，是一种特殊的完全二叉树。只有所有节点的值总是不大于或者不小于其父节点的值的完全二叉树被称为堆。根节点最大的称为大顶堆，根节点最小的称为小顶堆，</p>
-<p>堆用数组存储，</p>
-<p>内存中的堆和栈</p>
-<p>一个c++程序内存分配</p>
-<p>全局区(static)：存放全局变量和静态变量。初始化的在一块，未初始化的在一块</p>
-<p>栈区(stack)：存放局部变量、函数参数值等，由编译器自动分配释放，操作方式类似于数据结构中的栈</p>
-<p>堆区(heap)：由程序员分配释放，若程序员不释放程序结束时由系统回收。分配方式类似于数据结构中的链表，与栈不同</p>
-<p>文字常量区：常量和字符串放在这里，程序结束后由系统释放。</p>
-<p>程序代码区：存放函数体，为二进制代码</p>
-<p>栈由系统分配释放，速度快，空间小，windows下不超过2m，堆由程序员自己生成，速度慢，空间大且灵活，</p>
-<h3 id="0-1-0-2-0-3"><a href="#0-1-0-2-0-3" class="headerlink" title="0.1+0.2 != 0.3"></a>0.1+0.2 != 0.3</h3><h3 id="排序算法"><a href="#排序算法" class="headerlink" title="排序算法"></a>排序算法</h3><p>冒泡排序、快速排序、选择排序、插入排序、堆排序</p>
-<p>冒泡排序： 最小的元素会慢慢浮到队列的顶端</p>
-<p>从左到右逐一比较相邻的元素，如果不符合顺序交换位置，逐渐把大的放在最后，小的放在前面</p>
-<p>选择排序</p>
-<p>遍历，每次找到最小的放在最前面，依次</p>
-<p>插入排序：</p>
-<p>从第一个依次每次向后取一个，逐个检查插入准确位置</p>
-<p>快速排序：</p>
-<p>以左边第一个为基准，将大于的放在右边，小于的放在左边，依次排列</p>
-<p><a href="https://blog.csdn.net/java_green_hand0909/article/details/84970372">https://blog.csdn.net/java_green_hand0909/article/details/84970372</a></p>
 
         </div>
         
@@ -569,7 +566,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            94
+                            103
                         </p>
                     </a>
                 </div>
@@ -593,7 +590,7 @@
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            47
+                            48
                         </p>
                     </a>
                 </div>
@@ -670,7 +667,11 @@
         <a class="is-flex" href="#浏览器网址请求八个步骤">
         <span class="has-mr-6">1.3</span>
         <span>浏览器网址请求八个步骤</span>
-        </a></li><li>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#js请求的阶段">
+        <span class="has-mr-6">1.3.1</span>
+        <span>js请求的阶段</span>
+        </a></li></ul></li><li>
         <a class="is-flex" href="#session与cookies、localstorage、sessionstorage、token">
         <span class="has-mr-6">1.4</span>
         <span>session与cookies、localstorage、sessionstorage、token</span>
@@ -686,7 +687,15 @@
         <a class="is-flex" href="#Get与Post区别">
         <span class="has-mr-6">1.7</span>
         <span>Get与Post区别</span>
-        </a></li></ul></li><li>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#get可以有请求体吗">
+        <span class="has-mr-6">1.7.1</span>
+        <span>get可以有请求体吗</span>
+        </a></li><li>
+        <a class="is-flex" href="#Url携带参数的缺点">
+        <span class="has-mr-6">1.7.2</span>
+        <span>Url携带参数的缺点</span>
+        </a></li></ul></li></ul></li><li>
         <a class="is-flex" href="#操作系统">
         <span class="has-mr-6">2</span>
         <span>操作系统</span>
@@ -742,30 +751,6 @@
         <a class="is-flex" href="#为什么CPU访问硬盘很慢">
         <span class="has-mr-6">2.13</span>
         <span>为什么CPU访问硬盘很慢</span>
-        </a></li></ul></li><li>
-        <a class="is-flex" href="#数据结构">
-        <span class="has-mr-6">3</span>
-        <span>数据结构</span>
-        </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#常见数据结构">
-        <span class="has-mr-6">3.1</span>
-        <span>常见数据结构</span>
-        </a></li><li>
-        <a class="is-flex" href="#数组和链表的区别">
-        <span class="has-mr-6">3.2</span>
-        <span>数组和链表的区别</span>
-        </a></li><li>
-        <a class="is-flex" href="#堆和栈（数据结构与内存）">
-        <span class="has-mr-6">3.3</span>
-        <span>堆和栈（数据结构与内存）</span>
-        </a></li><li>
-        <a class="is-flex" href="#0-1-0-2-0-3">
-        <span class="has-mr-6">3.4</span>
-        <span>0.1+0.2 != 0.3</span>
-        </a></li><li>
-        <a class="is-flex" href="#排序算法">
-        <span class="has-mr-6">3.5</span>
-        <span>排序算法</span>
         </a></li></ul></li></ul>
             </div>
         </div>
@@ -822,7 +807,7 @@
                 <span class="level-item">IT</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">30</span>
+                <span class="level-item tag">36</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E4%B8%AA%E4%BA%BA%E5%B9%B8%E7%A6%8F/">
@@ -838,7 +823,7 @@
                 <span class="level-item">个人生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">
@@ -846,7 +831,7 @@
                 <span class="level-item">技术博客</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">31</span>
+                <span class="level-item tag">33</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%9C%8B%E5%8F%8B/">
@@ -883,7 +868,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/IT/" style="font-size: 10px;">IT</a> <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 12.5px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 10px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8C/" style="font-size: 12.5px;">IT,Web，</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 12.5px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 12.5px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 12.5px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 10px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb/" style="font-size: 15px;">IT，Web</a> <a href="/tags/IT%EF%BC%8CWeb-Javascript/" style="font-size: 10px;">IT，Web,Javascript</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 17.5px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 10px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 15px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 15px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 12.5px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 10px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 12.5px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 17.5px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 15px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 15px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">幸福</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 12.5px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/" style="font-size: 15px;">技术，IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 12.5px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 12.5px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 12.5px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 17.5px;">生活、幸福</a> <a href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">记录，生活</a>
+        <a href="/tags/IT/" style="font-size: 10px;">IT</a> <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 12px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 10px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8C/" style="font-size: 12px;">IT,Web，</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 12px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 14px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 12px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 12px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb/" style="font-size: 16px;">IT，Web</a> <a href="/tags/IT%EF%BC%8CWeb-Javascript/" style="font-size: 10px;">IT，Web,Javascript</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 18px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 14px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Rust/" style="font-size: 10px;">IT，Web,Rust</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 14px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 16px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 12px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 10px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 12px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 18px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 14px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 14px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">幸福</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 14px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/" style="font-size: 14px;">技术，IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 12px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 12px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 12px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 18px;">生活、幸福</a> <a href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">记录，生活</a>
     </div>
 </div>
     
@@ -917,16 +902,16 @@
         
         <article class="media">
             
-            <a href="/2021/01/23/Node8/" class="media-left">
+            <a href="/2021/01/23/Node9/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/nestjs.png" alt="NodeJs开发（八）">
+                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/nestjs.png" alt="NodeJs开发（四）">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-23T13:40:33.000Z">2021-01-23</time></div>
-                    <a href="/2021/01/23/Node8/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（八）</a>
+                    <a href="/2021/01/23/Node9/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（四）</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/IT/">IT</a>
                     </p>
@@ -938,14 +923,33 @@
             
             <a href="/2021/01/22/Node7/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/koajs.jpeg" alt="NodeJs开发（七）">
+                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/koajs.jpeg" alt="NodeJs开发（三）">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-22T14:40:33.000Z">2021-01-22</time></div>
-                    <a href="/2021/01/22/Node7/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（七）</a>
+                    <a href="/2021/01/22/Node7/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（三）</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/IT/">IT</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2021/01/22/Node8/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/koajs.jpeg" alt="NodeJs开发（三）">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-22T14:40:33.000Z">2021-01-22</time></div>
+                    <a href="/2021/01/22/Node8/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（三）</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/IT/">IT</a>
                     </p>
@@ -957,33 +961,14 @@
             
             <a href="/2021/01/21/Node6/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/typescript.jpg" alt="NodeJs开发（六）">
+                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/typescript.jpg" alt="NodeJs开发（二）">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-21T13:40:33.000Z">2021-01-21</time></div>
-                    <a href="/2021/01/21/Node6/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（六）</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/IT/">IT</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2021/01/20/Node5/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/nodejs.png" alt="NodeJs开发（五）">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-20T13:40:33.000Z">2021-01-20</time></div>
-                    <a href="/2021/01/20/Node5/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（五）</a>
+                    <a href="/2021/01/21/Node6/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（二）</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/IT/">IT</a>
                     </p>
@@ -1019,7 +1004,7 @@
                     <span class="level-item">一月 2021</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">8</span>
+                    <span class="level-item tag">9</span>
                 </span>
             </a>
         </li>
@@ -1030,7 +1015,7 @@
                     <span class="level-item">十二月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">4</span>
+                    <span class="level-item tag">5</span>
                 </span>
             </a>
         </li>
@@ -1085,7 +1070,7 @@
                     <span class="level-item">六月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">12</span>
+                    <span class="level-item tag">18</span>
                 </span>
             </a>
         </li>
@@ -1118,7 +1103,7 @@
                     <span class="level-item">三月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">46</span>
+                    <span class="level-item tag">47</span>
                 </span>
             </a>
         </li>
@@ -1220,7 +1205,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/">
                         <span class="tag">IT,Web，算法</span>
-                        <span class="tag is-grey">2</span>
+                        <span class="tag is-grey">3</span>
                     </a>
                 </div>
                 
@@ -1248,7 +1233,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CApp-Node-Electron/">
                         <span class="tag">IT，App,Node,Electron</span>
-                        <span class="tag is-grey">1</span>
+                        <span class="tag is-grey">2</span>
                     </a>
                 </div>
                 
@@ -1276,7 +1261,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb/">
                         <span class="tag">IT，Web</span>
-                        <span class="tag is-grey">3</span>
+                        <span class="tag is-grey">4</span>
                     </a>
                 </div>
                 
@@ -1297,13 +1282,20 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/">
                         <span class="tag">IT，Web,Node，React</span>
-                        <span class="tag is-grey">1</span>
+                        <span class="tag is-grey">3</span>
                     </a>
                 </div>
                 
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-PHP/">
                         <span class="tag">IT，Web,PHP</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Rust/">
+                        <span class="tag">IT，Web,Rust</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -1325,14 +1317,14 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/">
                         <span class="tag">IT，Web,数据库</span>
-                        <span class="tag is-grey">6</span>
+                        <span class="tag is-grey">7</span>
                     </a>
                 </div>
                 
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8Cweb/">
                         <span class="tag">IT，web</span>
-                        <span class="tag is-grey">3</span>
+                        <span class="tag is-grey">4</span>
                     </a>
                 </div>
                 
@@ -1402,7 +1394,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">
                         <span class="tag">幸福，个人生活</span>
-                        <span class="tag is-grey">2</span>
+                        <span class="tag is-grey">3</span>
                     </a>
                 </div>
                 

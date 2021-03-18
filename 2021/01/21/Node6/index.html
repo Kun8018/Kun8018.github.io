@@ -7,19 +7,19 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<title>NodeJs开发（六） - kun&#39;s blog</title>
+<title>NodeJs开发（二） - kun&#39;s blog</title>
 
 
     <meta name="description" content="万万没想到会来到第六篇，第六篇写TypeScript，算是加成。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="NodeJs开发（六）">
+<meta property="og:title" content="NodeJs开发（二）">
 <meta property="og:url" content="http://kun8018.gitee.io/2021/01/21/Node6/index.html">
 <meta property="og:site_name" content="kun&#39;s blog">
 <meta property="og:description" content="万万没想到会来到第六篇，第六篇写TypeScript，算是加成。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://cdn.kunkunzhang.top/typescript.jpg">
 <meta property="article:published_time" content="2021-01-21T13:40:33.000Z">
-<meta property="article:modified_time" content="2021-02-07T02:12:02.516Z">
+<meta property="article:modified_time" content="2021-03-15T16:53:47.610Z">
 <meta property="article:author" content="Kun Zhang">
 <meta property="article:tag" content="IT，Web">
 <meta name="twitter:card" content="summary">
@@ -82,7 +82,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="https://s1.ax1x.com/2020/03/27/G9OfNn.th.png" alt="NodeJs开发（六）" height="28">
+                <img src="https://s1.ax1x.com/2020/03/27/G9OfNn.th.png" alt="NodeJs开发（二）" height="28">
             
             </a>
         </div>
@@ -140,7 +140,7 @@
     
     <div class="card-image">
         <span  class="image is-7by1">
-            <img class="thumbnail" src="http://cdn.kunkunzhang.top/typescript.jpg" alt="NodeJs开发（六）">
+            <img class="thumbnail" src="http://cdn.kunkunzhang.top/typescript.jpg" alt="NodeJs开发（二）">
         </span>
     </div>
     
@@ -158,7 +158,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    40 分钟 读完 (大约 5925 个字)
+                    1 小时 读完 (大约 6911 个字)
                 </span>
                 
                 
@@ -172,7 +172,7 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                NodeJs开发（六）
+                NodeJs开发（二）
             
         </h1>
         <div class="content">
@@ -238,17 +238,14 @@
 
 <h3 id="数据类型与对象类型"><a href="#数据类型与对象类型" class="headerlink" title="数据类型与对象类型"></a>数据类型与对象类型</h3><p>typescript包含javascript的五种基本数据类型和ES6中声明的symbol，唯一的区别是在声明变量时需指明变量类型。</p>
 <p>除此之外，typescript有新添加的类型</p>
-<p>字符串字面量类型</p>
-<p>字符串字面量类型用来约束取值只能是某几个字符串中的一个。</p>
+<h4 id="字符串字面量类型"><a href="#字符串字面量类型" class="headerlink" title="字符串字面量类型"></a>字符串字面量类型</h4><p>字符串字面量类型用来约束取值只能是某几个字符串中的一个。</p>
 <figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> EventNames = <span class="string">'click'</span> | <span class="string">'scroll'</span> | <span class="string">'mousemove'</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleEvent</span>(<span class="params">ele: Element, event: EventNames</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// do something</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">handleEvent(<span class="built_in">document</span>.getElementById(<span class="string">'hello'</span>), <span class="string">'scroll'</span>);  <span class="comment">// 没问题</span></span><br><span class="line">handleEvent(<span class="built_in">document</span>.getElementById(<span class="string">'world'</span>), <span class="string">'dblclick'</span>); <span class="comment">// 报错，event 不能为 'dblclick'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// index.ts(7,47): error TS2345: Argument of type '"dblclick"' is not assignable to parameter of type 'EventNames'.</span></span><br></pre></td></tr></table></figure>
 
-<p>任意类型</p>
-<p>任意值（Any）用来表示允许赋值为任意类型。如果是 <code>any</code> 类型，则允许被赋值为任意类型。</p>
+<h4 id="任意类型"><a href="#任意类型" class="headerlink" title="任意类型"></a>任意类型</h4><p>任意值（Any）用来表示允许赋值为任意类型。如果是 <code>any</code> 类型，则允许被赋值为任意类型。</p>
 <figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> myFavoriteNumber: <span class="built_in">any</span> = <span class="string">'seven'</span>;</span><br><span class="line">myFavoriteNumber = <span class="number">7</span>;</span><br></pre></td></tr></table></figure>
 
 <p>在任意值上访问任何属性都是允许的.如果变量在声明时未指定其类型，则被识别为任意类型。</p>
-<p>联合类型</p>
-<p>联合类型（Union Types）表示取值可以为多种类型中的一种。</p>
+<h4 id="联合类型"><a href="#联合类型" class="headerlink" title="联合类型"></a>联合类型</h4><p>联合类型（Union Types）表示取值可以为多种类型中的一种。</p>
 <figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> myFavoriteNumber: <span class="built_in">string</span> | <span class="built_in">number</span>;</span><br><span class="line">myFavoriteNumber = <span class="string">'seven'</span>;</span><br><span class="line">myFavoriteNumber = <span class="number">7</span>;</span><br></pre></td></tr></table></figure>
 
 <p>上面的代码将myFavoriteNumber定义为字符串或者数值型，在不同的语句可以切换不同的类型，但不允许是定义以外的类型。</p>
@@ -256,8 +253,12 @@
 <p>联合类型的变量在被赋值的时候，会根据类型推论的规则推断出一个类型,并使用该类型</p>
 <figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> myFavoriteNumber: <span class="built_in">string</span> | <span class="built_in">number</span>;</span><br><span class="line">myFavoriteNumber = <span class="string">'seven'</span>;</span><br><span class="line"><span class="built_in">console</span>.log(myFavoriteNumber.length); <span class="comment">// 5</span></span><br><span class="line">myFavoriteNumber = <span class="number">7</span>;</span><br><span class="line"><span class="built_in">console</span>.log(myFavoriteNumber.length); <span class="comment">// 编译时报错</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// index.ts(5,30): error TS2339: Property 'length' does not exist on type 'number'.</span></span><br></pre></td></tr></table></figure>
 
+<h4 id="交叉类型"><a href="#交叉类型" class="headerlink" title="交叉类型"></a>交叉类型</h4><p>交叉类型可以把现有的类型组合起来得到新的类型，从而拥有全部的属性，表示为A &amp; B</p>
+<p>实例</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> IPerson &#123;</span><br><span class="line">  name: <span class="built_in">string</span>;</span><br><span class="line">  age:<span class="built_in">number</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> IStudent &#123;</span><br><span class="line">  grade:<span class="built_in">number</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> getBio = <span class="function">(<span class="params">user:IPerson &amp; IStudent</span>) =&gt;</span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">`His name is <span class="subst">$&#123;user.name&#125;</span>,i am <span class="subst">$&#123;user.age&#125;</span> and Grade <span class="subst">$&#123;user.grade&#125;</span>`</span> </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">getBio(&#123;name:<span class="string">'joi'</span>,age:<span class="number">12</span>,grade:<span class="number">6</span>&#125;)</span><br></pre></td></tr></table></figure>
 
-
+<p>交叉类型是两个类型的并集</p>
+<h4 id="条件类型"><a href="#条件类型" class="headerlink" title="条件类型"></a>条件类型</h4><p>条件类型指的是</p>
 <p>类型别名</p>
 <p>类型别名用来给一个类型起个新名字，常用于联合类型</p>
 <figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Name = <span class="built_in">string</span>;</span><br><span class="line"><span class="keyword">type</span> NameResolver = <span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">string</span>;</span><br><span class="line"><span class="keyword">type</span> NameOrResolver = Name | NameResolver;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getName</span>(<span class="params">n: NameOrResolver</span>): <span class="title">Name</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> n === <span class="string">'string'</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> n;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> n();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -302,6 +303,36 @@
 <p>数组合并了相同类型的对象，而元组（Tuple）合并了不同类型的对象。</p>
 <p>枚举</p>
 <p>枚举（Enum）类型用于取值被限定在一定范围内的场景，比如一周只能有七天，颜色限定为红绿蓝等。</p>
+<p>never</p>
+<p>never是typescript的底层类型，他常用于</p>
+<p>1.不会有返回值的函数</p>
+<p>2.总是抛出错误的函数</p>
+<h4 id="never与void、any、unknown的区别："><a href="#never与void、any、unknown的区别：" class="headerlink" title="never与void、any、unknown的区别："></a>never与void、any、unknown的区别：</h4><p>任意未明确声明类型并切无法推导出类型的值都默认为any类型，any是检测弱，兼容性问题解决方案。</p>
+<p>当一个函数返回空值时，它的返回值为 void 类型，但是，当一个函数永不返回时（或者总是抛出错误），它的返回值为 never 类型。</p>
+<p>void 类型可以被赋值（在 strictNullChecking 为 false 时），但是除了 never 本身以外，其他任何类型不能赋值给 never。</p>
+<p>unknown相对于any，任意类型都可以赋值给unknow，但是不可对其进行任何访问操作（仅仅为类型安全，any操作访问也安全）</p>
+<h3 id="infer关键字与Returntype"><a href="#infer关键字与Returntype" class="headerlink" title="infer关键字与Returntype"></a>infer关键字与Returntype</h3><p>官方类型库中提供了ReturnType可以获取方法的返回类型，实例</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> stringPromiseReturnType = ReturnType&lt;<span class="keyword">typeof</span> stringPromise&gt;;</span><br></pre></td></tr></table></figure>
+
+<p>Returntype的定义如下</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> ReturnType&lt;T <span class="keyword">extends</span> (...args:<span class="built_in">any</span>) =&gt; <span class="built_in">any</span> &gt;= T <span class="keyword">extends</span>(...args:<span class="built_in">any</span>)=&gt; infer R?R:<span class="built_in">any</span>;</span><br></pre></td></tr></table></figure>
+
+<p>利用infer反解promise中的泛型</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> PromiseType&lt;T&gt; = <span class="function">(<span class="params">args:<span class="built_in">any</span>[]</span>) =&gt;</span> <span class="built_in">Promise</span>&lt;T&gt;;</span><br><span class="line"><span class="keyword">type</span> UnPromisify&lt;T&gt; = T <span class="keyword">extends</span> PromiseType&lt;infer U&gt;? U:never</span><br></pre></td></tr></table></figure>
+
+<p>也可以解析函数入参的类型</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> VariadicFn&lt;A <span class="keyword">extends</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> FunctionReturnType&lt;T&gt; = T <span class="keyword">extends</span> (...args: <span class="built_in">any</span>[]) =&gt; infer R ? R : T;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Foo = FunctionReturnType&lt;<span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">void</span>&gt;;  <span class="comment">// void</span></span><br><span class="line"><span class="keyword">type</span> Bar = FunctionReturnType&lt;<span class="function">(<span class="params">name: <span class="built_in">string</span></span>) =&gt;</span> <span class="built_in">string</span>&gt;; <span class="comment">// string</span></span><br><span class="line"><span class="keyword">type</span> Buz = FunctionReturnType&lt;<span class="function">(<span class="params">name: <span class="built_in">string</span>, other: <span class="built_in">string</span></span>) =&gt;</span> <span class="built_in">boolean</span>&gt;; <span class="comment">// boolean</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
 <h3 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h3><p>在面向对象语言中，接口（Interfaces）是一个很重要的概念，它是对行为的抽象，而具体如何行动需要由类（classes）去实现（implement）。</p>
 <p>接口中可以包含确定属性、可选属性、任意属性、只读属性四种属性</p>
 <p>确定属性是指变量由接口生成时，接口中的确定属性不能多，也不能少；</p>
@@ -316,12 +347,19 @@
 <figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> tom: Person = &#123;</span><br><span class="line">    name: <span class="string">'Tom'</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// index.ts(6,5): error TS2322: Type '&#123; name: string; &#125;' is not assignable to type 'Person'.</span></span><br><span class="line"><span class="keyword">let</span> tom: Person = &#123;</span><br><span class="line">    name: <span class="string">'Tom'</span>,</span><br><span class="line">    age: <span class="number">25</span>,</span><br><span class="line">    gender: <span class="string">'male'</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// index.ts(9,5): error TS2322: Type '&#123; name: string; age: number; gender: string; &#125;' is not assignable to type 'Person'.</span></span><br></pre></td></tr></table></figure>
 
 <p>可以设置可选属性、任意属性、只读属性。</p>
-<p>可选属性为接口定义而对象可以不引用，任意属性是接口不指定而对象可以添加，只读属性是接口定义后在对象第一次初始化时添加，其后不能更改。</p>
+<p>可选属性为接口定义而对象可以不引用，</p>
+<p>任意属性是接口不指定而对象可以添加，</p>
+<p>只读属性是接口定义后在对象第一次初始化时添加，其后不能更改。</p>
+<p>利用可选属性可以进行部分继承</p>
 <figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> Person &#123;</span><br><span class="line">    readonly id: <span class="built_in">number</span>;</span><br><span class="line">    name: <span class="built_in">string</span>;</span><br><span class="line">    age?: <span class="built_in">number</span>;  <span class="comment">// age为可选属性</span></span><br><span class="line">    [propName: <span class="built_in">string</span>]: <span class="built_in">any</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> tom: Person = &#123;</span><br><span class="line">    id: <span class="number">89757</span>,</span><br><span class="line">    name: <span class="string">'Tom'</span>,</span><br><span class="line">    gender: <span class="string">'male'</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
 <p>接口除了定义变量，还可以在类中使用，用来实现类的共性接口</p>
 <p>接口可以继承接口，可以继承父接口的所有方法</p>
 <p>接口还可以继承类，</p>
+<h4 id="接口和类的区别"><a href="#接口和类的区别" class="headerlink" title="接口和类的区别"></a>接口和类的区别</h4><p>接口只规定类的形状，也就是类具有哪些属性和方法，不具体实现这些属性和方法</p>
+<p>实例</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> ContentInterface&#123;</span><br><span class="line">  <span class="comment">//定义方法名称和返回类型</span></span><br><span class="line">  getContent():<span class="built_in">String</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//可以使用不同的方式实现</span></span><br><span class="line"><span class="keyword">class</span> Article <span class="keyword">implements</span> ContentInterface&#123;</span><br><span class="line">   <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getContent</span>(<span class="params"></span>):<span class="title">String</span></span>&#123;</span><br><span class="line">     <span class="keyword">return</span> <span class="string">'i am a article'</span></span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> Passage <span class="keyword">implements</span> ContentInterface&#123;</span><br><span class="line">   <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getContent</span>(<span class="params"></span>):<span class="title">String</span></span>&#123;</span><br><span class="line">     <span class="keyword">return</span> <span class="string">'i am a passage'</span></span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> News <span class="keyword">implements</span> ContentInterface&#123;</span><br><span class="line">  <span class="comment">//没有实现getContent方法会报错</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> a = <span class="keyword">new</span> Article();</span><br><span class="line"><span class="keyword">let</span> p = <span class="keyword">new</span> Passage();</span><br><span class="line"></span><br><span class="line">print(a)</span><br><span class="line">print(p)</span><br></pre></td></tr></table></figure>
+
 <h3 id="类class"><a href="#类class" class="headerlink" title="类class"></a>类class</h3><p>TypeScript 除了实现了所有 ES6 中的类的功能以外，还添加了一些新的用法。</p>
 <p>类的相关概念</p>
 <ul>
@@ -357,7 +395,9 @@
 <figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> Alarm&#123;</span><br><span class="line">  price: <span class="built_in">number</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">interface</span> Alarm&#123;</span><br><span class="line">  price: <span class="built_in">number</span>;<span class="comment">//可以</span></span><br><span class="line">  weight: <span class="built_in">number</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">interface</span> Alarm&#123;</span><br><span class="line">  price: <span class="built_in">string</span>;<span class="comment">//报错</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>类的合并和接口的合并类似</p>
-<h3 id="代码检查"><a href="#代码检查" class="headerlink" title="代码检查/"></a>代码检查/</h3><h4 id="Es-lint"><a href="#Es-lint" class="headerlink" title="Es-lint"></a>Es-lint</h4><p>安装es-lint</p>
+<h3 id="readonly-只读"><a href="#readonly-只读" class="headerlink" title="readonly(只读)"></a>readonly(只读)</h3><p>typescript类型系统允许在一个接口中使用readonly来标记属性，也就是只读的方式，不可预期的改变是很糟糕的。</p>
+<p>可以在接口、类</p>
+<h3 id="代码检查"><a href="#代码检查" class="headerlink" title="代码检查"></a>代码检查</h3><h4 id="Es-lint"><a href="#Es-lint" class="headerlink" title="Es-lint"></a>Es-lint</h4><p>安装es-lint</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev eslint</span><br></pre></td></tr></table></figure>
 
 <p>由于 ESLint 默认使用 <a href="https://github.com/eslint/espree">Espree</a> 进行语法解析，无法识别 TypeScript 的一些语法，故我们需要安装 <a href="https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/parser"><code>@typescript-eslint/parser</code></a>，替代掉默认的解析器，别忘了同时安装 <code>typescript</code>：</p>
@@ -404,7 +444,22 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install @type/node --save</span><br></pre></td></tr></table></figure>
 
 <p><a href="https://ts.xcatliu.com/basics/type-of-function.html">https://ts.xcatliu.com/basics/type-of-function.html</a></p>
-<p>##</p>
+<h3 id="ts简单辨析"><a href="#ts简单辨析" class="headerlink" title="ts简单辨析"></a>ts简单辨析</h3><h4 id="type与interface的区别"><a href="#type与interface的区别" class="headerlink" title="type与interface的区别"></a>type与interface的区别</h4><p>type与interface都用于描述一个对象或函数</p>
+<p>一般来说，如果不清楚什么时候用interface/type，能用 interface 实现，就用 interface , 如果不能就用 type 。</p>
+<p>相同点：</p>
+<p>拓展与交叉</p>
+<p>interface 可以 extends， 但 type 是不允许 extends 和 implement 的，但是 type 可以通过交叉类型 实现 interface 的 extend 行为，并且两者并不是相互独立的，也就是说 interface 可以 extends type, type 也可以 与 interface 类型交叉 。</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//interface使用extends继承，type可以通过交叉类型继承</span></span><br><span class="line"><span class="keyword">interface</span> Name &#123; </span><br><span class="line">  name: <span class="built_in">string</span>; </span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">interface</span> User <span class="keyword">extends</span> Name &#123; </span><br><span class="line">  age: <span class="built_in">number</span>; </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Name = &#123; </span><br><span class="line">  name: <span class="built_in">string</span>; </span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">type</span> User = Name &amp; &#123; age: <span class="built_in">number</span>  &#125;;</span><br><span class="line"><span class="comment">//interface与type混合extends与交叉</span></span><br><span class="line"><span class="keyword">type</span> Name = &#123; </span><br><span class="line">  name: <span class="built_in">string</span>; </span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">interface</span> User <span class="keyword">extends</span> Name &#123; </span><br><span class="line">  age: <span class="built_in">number</span>; </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> Name &#123; </span><br><span class="line">  name: <span class="built_in">string</span>; </span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">type</span> User = Name &amp; &#123; </span><br><span class="line">  age: <span class="built_in">number</span>; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>不同点：</p>
+<p>interface可以声明合并，type不行</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> User &#123;</span><br><span class="line">  name: <span class="built_in">string</span></span><br><span class="line">  age: <span class="built_in">number</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> User &#123;</span><br><span class="line">  sex: <span class="built_in">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">User 接口为 &#123;</span></span><br><span class="line"><span class="comment">  name: string</span></span><br><span class="line"><span class="comment">  age: number</span></span><br><span class="line"><span class="comment">  sex: string </span></span><br><span class="line"><span class="comment">&#125;</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<p>type可以声明基本类型别名，联合类型，元组等类型，还可以使用 typeof 获取实例的类型进行赋值，interface不行</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 基本类型别名</span></span><br><span class="line"><span class="keyword">type</span> Name = <span class="built_in">string</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 联合类型</span></span><br><span class="line"><span class="keyword">interface</span> Dog &#123;</span><br><span class="line">    wong();</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">interface</span> Cat &#123;</span><br><span class="line">    miao();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Pet = Dog | Cat</span><br><span class="line"></span><br><span class="line"><span class="comment">// 具体定义数组每个位置的类型</span></span><br><span class="line"><span class="keyword">type</span> PetList = [Dog, Pet]</span><br><span class="line"></span><br><span class="line"><span class="comment">// 获取类型进行赋值</span></span><br><span class="line"><span class="keyword">let</span> div = <span class="built_in">document</span>.createElement(<span class="string">'div'</span>);</span><br><span class="line"><span class="keyword">type</span> B = <span class="keyword">typeof</span> div</span><br></pre></td></tr></table></figure>
+
+
+
 <h3 id="学习资源"><a href="#学习资源" class="headerlink" title="学习资源"></a>学习资源</h3><p>深入理解typescript：<a href="https://jkchao.github.io/typescript-book-chinese/">https://jkchao.github.io/typescript-book-chinese/</a></p>
 <p>typescript入门教程：<a href="https://ts.xcatliu.com/basics/type-of-function.html">https://ts.xcatliu.com/basics/type-of-function.html</a></p>
 
@@ -466,16 +521,16 @@
     <div class="level post-navigation is-flex-wrap is-mobile">
         
         <div class="level-start">
-            <a class="level level-item has-link-grey  article-nav-prev" href="/2021/01/22/Node7/">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2021/01/22/Node8/">
                 <i class="level-item fas fa-chevron-left"></i>
-                <span class="level-item">NodeJs开发（七）</span>
+                <span class="level-item">NodeJs开发（三）</span>
             </a>
         </div>
         
         
         <div class="level-end">
             <a class="level level-item has-link-grey  article-nav-next" href="/2021/01/20/Node5/">
-                <span class="level-item">NodeJs开发（五）</span>
+                <span class="level-item">NodeJs开发（一）</span>
                 <i class="level-item fas fa-chevron-right"></i>
             </a>
         </div>
@@ -556,7 +611,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            94
+                            103
                         </p>
                     </a>
                 </div>
@@ -580,7 +635,7 @@
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            47
+                            48
                         </p>
                     </a>
                 </div>
@@ -665,7 +720,27 @@
         <a class="is-flex" href="#数据类型与对象类型">
         <span class="has-mr-6">1.5</span>
         <span>数据类型与对象类型</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#字符串字面量类型">
+        <span class="has-mr-6">1.5.1</span>
+        <span>字符串字面量类型</span>
         </a></li><li>
+        <a class="is-flex" href="#任意类型">
+        <span class="has-mr-6">1.5.2</span>
+        <span>任意类型</span>
+        </a></li><li>
+        <a class="is-flex" href="#联合类型">
+        <span class="has-mr-6">1.5.3</span>
+        <span>联合类型</span>
+        </a></li><li>
+        <a class="is-flex" href="#交叉类型">
+        <span class="has-mr-6">1.5.4</span>
+        <span>交叉类型</span>
+        </a></li><li>
+        <a class="is-flex" href="#条件类型">
+        <span class="has-mr-6">1.5.5</span>
+        <span>条件类型</span>
+        </a></li></ul></li><li>
         <a class="is-flex" href="#泛型">
         <span class="has-mr-6">1.6</span>
         <span>泛型</span>
@@ -673,41 +748,65 @@
         <a class="is-flex" href="#新增基本类型">
         <span class="has-mr-6">1.7</span>
         <span>新增基本类型</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#never与void、any、unknown的区别：">
+        <span class="has-mr-6">1.7.1</span>
+        <span>never与void、any、unknown的区别：</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#infer关键字与Returntype">
+        <span class="has-mr-6">1.8</span>
+        <span>infer关键字与Returntype</span>
         </a></li><li>
         <a class="is-flex" href="#接口">
-        <span class="has-mr-6">1.8</span>
-        <span>接口</span>
-        </a></li><li>
-        <a class="is-flex" href="#类class">
         <span class="has-mr-6">1.9</span>
+        <span>接口</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#接口和类的区别">
+        <span class="has-mr-6">1.9.1</span>
+        <span>接口和类的区别</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#类class">
+        <span class="has-mr-6">1.10</span>
         <span>类class</span>
         </a></li><li>
         <a class="is-flex" href="#声明语句与声明文件、声明合并">
-        <span class="has-mr-6">1.10</span>
+        <span class="has-mr-6">1.11</span>
         <span>声明语句与声明文件、声明合并</span>
         </a></li><li>
+        <a class="is-flex" href="#readonly-只读">
+        <span class="has-mr-6">1.12</span>
+        <span>readonly(只读)</span>
+        </a></li><li>
         <a class="is-flex" href="#代码检查">
-        <span class="has-mr-6">1.11</span>
-        <span>代码检查/</span>
+        <span class="has-mr-6">1.13</span>
+        <span>代码检查</span>
         </a><ul class="menu-list"><li>
         <a class="is-flex" href="#Es-lint">
-        <span class="has-mr-6">1.11.1</span>
+        <span class="has-mr-6">1.13.1</span>
         <span>Es-lint</span>
         </a></li><li>
         <a class="is-flex" href="#Prettier">
-        <span class="has-mr-6">1.11.2</span>
+        <span class="has-mr-6">1.13.2</span>
         <span>Prettier</span>
         </a></li><li>
         <a class="is-flex" href="#Es-lint支持tsx">
-        <span class="has-mr-6">1.11.3</span>
+        <span class="has-mr-6">1.13.3</span>
         <span>Es-lint支持tsx</span>
         </a></li></ul></li><li>
         <a class="is-flex" href="#对Node的支持">
-        <span class="has-mr-6">1.12</span>
+        <span class="has-mr-6">1.14</span>
         <span>对Node的支持</span>
         </a></li><li>
+        <a class="is-flex" href="#ts简单辨析">
+        <span class="has-mr-6">1.15</span>
+        <span>ts简单辨析</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#type与interface的区别">
+        <span class="has-mr-6">1.15.1</span>
+        <span>type与interface的区别</span>
+        </a></li></ul></li><li>
         <a class="is-flex" href="#学习资源">
-        <span class="has-mr-6">1.13</span>
+        <span class="has-mr-6">1.16</span>
         <span>学习资源</span>
         </a></li></ul></li></ul>
             </div>
@@ -765,7 +864,7 @@
                 <span class="level-item">IT</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">30</span>
+                <span class="level-item tag">36</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E4%B8%AA%E4%BA%BA%E5%B9%B8%E7%A6%8F/">
@@ -781,7 +880,7 @@
                 <span class="level-item">个人生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">
@@ -789,7 +888,7 @@
                 <span class="level-item">技术博客</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">31</span>
+                <span class="level-item tag">33</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%9C%8B%E5%8F%8B/">
@@ -826,7 +925,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/IT/" style="font-size: 10px;">IT</a> <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 12.5px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 10px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8C/" style="font-size: 12.5px;">IT,Web，</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 12.5px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 12.5px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 12.5px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 10px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb/" style="font-size: 15px;">IT，Web</a> <a href="/tags/IT%EF%BC%8CWeb-Javascript/" style="font-size: 10px;">IT，Web,Javascript</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 17.5px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 10px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 15px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 15px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 12.5px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 10px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 12.5px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 17.5px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 15px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 15px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">幸福</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 12.5px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/" style="font-size: 15px;">技术，IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 12.5px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 12.5px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 12.5px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 17.5px;">生活、幸福</a> <a href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">记录，生活</a>
+        <a href="/tags/IT/" style="font-size: 10px;">IT</a> <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 12px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 10px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8C/" style="font-size: 12px;">IT,Web，</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 12px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 14px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 12px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 12px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb/" style="font-size: 16px;">IT，Web</a> <a href="/tags/IT%EF%BC%8CWeb-Javascript/" style="font-size: 10px;">IT，Web,Javascript</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 18px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 14px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Rust/" style="font-size: 10px;">IT，Web,Rust</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 14px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 16px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 12px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 10px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 12px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 18px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 14px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 14px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">幸福</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 14px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/" style="font-size: 14px;">技术，IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 12px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 12px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 12px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 18px;">生活、幸福</a> <a href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">记录，生活</a>
     </div>
 </div>
     
@@ -860,16 +959,16 @@
         
         <article class="media">
             
-            <a href="/2021/01/23/Node8/" class="media-left">
+            <a href="/2021/01/23/Node9/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/nestjs.png" alt="NodeJs开发（八）">
+                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/nestjs.png" alt="NodeJs开发（四）">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-23T13:40:33.000Z">2021-01-23</time></div>
-                    <a href="/2021/01/23/Node8/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（八）</a>
+                    <a href="/2021/01/23/Node9/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（四）</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/IT/">IT</a>
                     </p>
@@ -881,14 +980,33 @@
             
             <a href="/2021/01/22/Node7/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/koajs.jpeg" alt="NodeJs开发（七）">
+                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/koajs.jpeg" alt="NodeJs开发（三）">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-22T14:40:33.000Z">2021-01-22</time></div>
-                    <a href="/2021/01/22/Node7/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（七）</a>
+                    <a href="/2021/01/22/Node7/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（三）</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/IT/">IT</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2021/01/22/Node8/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/koajs.jpeg" alt="NodeJs开发（三）">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-22T14:40:33.000Z">2021-01-22</time></div>
+                    <a href="/2021/01/22/Node8/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（三）</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/IT/">IT</a>
                     </p>
@@ -900,33 +1018,14 @@
             
             <a href="/2021/01/21/Node6/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/typescript.jpg" alt="NodeJs开发（六）">
+                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/typescript.jpg" alt="NodeJs开发（二）">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-21T13:40:33.000Z">2021-01-21</time></div>
-                    <a href="/2021/01/21/Node6/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（六）</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/IT/">IT</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2021/01/20/Node5/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/nodejs.png" alt="NodeJs开发（五）">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-20T13:40:33.000Z">2021-01-20</time></div>
-                    <a href="/2021/01/20/Node5/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（五）</a>
+                    <a href="/2021/01/21/Node6/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（二）</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/IT/">IT</a>
                     </p>
@@ -962,7 +1061,7 @@
                     <span class="level-item">一月 2021</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">8</span>
+                    <span class="level-item tag">9</span>
                 </span>
             </a>
         </li>
@@ -973,7 +1072,7 @@
                     <span class="level-item">十二月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">4</span>
+                    <span class="level-item tag">5</span>
                 </span>
             </a>
         </li>
@@ -1028,7 +1127,7 @@
                     <span class="level-item">六月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">12</span>
+                    <span class="level-item tag">18</span>
                 </span>
             </a>
         </li>
@@ -1061,7 +1160,7 @@
                     <span class="level-item">三月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">46</span>
+                    <span class="level-item tag">47</span>
                 </span>
             </a>
         </li>
@@ -1163,7 +1262,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/">
                         <span class="tag">IT,Web，算法</span>
-                        <span class="tag is-grey">2</span>
+                        <span class="tag is-grey">3</span>
                     </a>
                 </div>
                 
@@ -1191,7 +1290,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CApp-Node-Electron/">
                         <span class="tag">IT，App,Node,Electron</span>
-                        <span class="tag is-grey">1</span>
+                        <span class="tag is-grey">2</span>
                     </a>
                 </div>
                 
@@ -1219,7 +1318,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb/">
                         <span class="tag">IT，Web</span>
-                        <span class="tag is-grey">3</span>
+                        <span class="tag is-grey">4</span>
                     </a>
                 </div>
                 
@@ -1240,13 +1339,20 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/">
                         <span class="tag">IT，Web,Node，React</span>
-                        <span class="tag is-grey">1</span>
+                        <span class="tag is-grey">3</span>
                     </a>
                 </div>
                 
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-PHP/">
                         <span class="tag">IT，Web,PHP</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Rust/">
+                        <span class="tag">IT，Web,Rust</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -1268,14 +1374,14 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/">
                         <span class="tag">IT，Web,数据库</span>
-                        <span class="tag is-grey">6</span>
+                        <span class="tag is-grey">7</span>
                     </a>
                 </div>
                 
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8Cweb/">
                         <span class="tag">IT，web</span>
-                        <span class="tag is-grey">3</span>
+                        <span class="tag is-grey">4</span>
                     </a>
                 </div>
                 
@@ -1345,7 +1451,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">
                         <span class="tag">幸福，个人生活</span>
-                        <span class="tag is-grey">2</span>
+                        <span class="tag is-grey">3</span>
                     </a>
                 </div>
                 
@@ -1438,7 +1544,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="https://s1.ax1x.com/2020/03/27/G9OfNn.th.png" alt="NodeJs开发（六）" height="28">
+                    <img src="https://s1.ax1x.com/2020/03/27/G9OfNn.th.png" alt="NodeJs开发（二）" height="28">
                 
                 </a>
                 <p class="is-size-7">

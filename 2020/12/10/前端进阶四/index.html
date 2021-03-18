@@ -19,7 +19,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://cdn.kunkunzhang.top/echart2.jpg">
 <meta property="article:published_time" content="2020-12-10T13:40:33.000Z">
-<meta property="article:modified_time" content="2021-02-07T06:10:10.203Z">
+<meta property="article:modified_time" content="2021-03-07T09:59:32.241Z">
 <meta property="article:author" content="Kun Zhang">
 <meta property="article:tag" content="IT，Web,数据库">
 <meta name="twitter:card" content="summary">
@@ -158,7 +158,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    33 分钟 读完 (大约 4942 个字)
+                    1 小时 读完 (大约 8016 个字)
                 </span>
                 
                 
@@ -180,6 +180,65 @@
 <a id="more"></a>
 
 <h2 id="数据可视化库概述"><a href="#数据可视化库概述" class="headerlink" title="数据可视化库概述"></a>数据可视化库概述</h2><p><a href="https://zhuanlan.zhihu.com/p/149398216">https://zhuanlan.zhihu.com/p/149398216</a></p>
+<h3 id="D3–可视化库的jquery"><a href="#D3–可视化库的jquery" class="headerlink" title="D3–可视化库的jquery"></a>D3–可视化库的jquery</h3><p>安装</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install d3</span><br></pre></td></tr></table></figure>
+
+<p>全局导入或者部分导入</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//全局导入</span></span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> d3 <span class="keyword">from</span> <span class="string">"d3"</span>;</span><br><span class="line"><span class="comment">//部分导入</span></span><br><span class="line"><span class="keyword">import</span> &#123;scaleLinear&#125; <span class="keyword">from</span> <span class="string">"d3-scale"</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="Vega-图表库也能低代码"><a href="#Vega-图表库也能低代码" class="headerlink" title="Vega - 图表库也能低代码"></a>Vega - 图表库也能低代码</h3><h3 id="G2"><a href="#G2" class="headerlink" title="G2"></a>G2</h3><p>G2 是支付宝前端团队开发的，虽然当时 Echarts 已经很成熟了，但支付宝还是选择了自己做了一个，也就是 G2 的前身 <a href="https://link.zhihu.com/?target=https%3A//github.com/acharts/acharts">acharts</a>，它的 API 和 Echarts 基本类似，后来作者看了《The Grammar Of Graphics》那本书，就调整了方向，开始基于这本书的思路开发 G2，这个 G2 的命名就是这本书名里的两个 G。</p>
+<p>受这本书影响的可视化库有很多，前面说的 Vega-Lite 在作者的论文里就<a href="https://link.zhihu.com/?target=http%3A//idl.cs.washington.edu/papers/vega-lite/">提到过借鉴了不少</a>了，和 G2 一样参考那本书的还有 <a href="https://link.zhihu.com/?target=https%3A//github.com/microsoft/chart-parts">chart-parts</a>，不过别看它是微软的项目，其实也只有一个人在开发，提交次数非常不稳定，作者同时还在忙另一个更知名的项目 react-dnd，所以大概率以后会弃坑。</p>
+<p>《The Grammar Of Graphics》里作者主要是借鉴了面向对象的思想，将图表拆分成了很多组成部分，比如数据源、数据转换、坐标系、图形等，通过将它们组装起来实现各种展现效果，从技术角度倒是不新奇，但这本书通过数学的方式来进行组合和分析，看起来非常高级。</p>
+<h3 id="chart-js"><a href="#chart-js" class="headerlink" title="chart.js"></a>chart.js</h3><p>我之前对 Chart.js 这个库了解比较少，几年前第一次发现的时候它的 Star 数就很高了，它现在的 Star 数量高达 49.3k，在 npm 上的周下载量达到百万，和 D3 是一个量级的，恐怕是最火的前端图表库了。</p>
+<p>既然怎么火，它在技术上情况怎样呢？这个项目的最早提交时间是 2013 年，7 年来提交没怎么中断，然而整个项目代码量只有 1w 多行，它的图表种类少，可配置项也不多，整体来说比 Echarts/Highcharts 都差很远，看了半天实在没搞懂为什么那么火，或许反应出大部分人对图表要求不高，能显示几种场景图表，有点交互和动画就够了。</p>
+<h3 id="Highcharts"><a href="#Highcharts" class="headerlink" title="Highcharts"></a>Highcharts</h3><p>创始在 2006 的时候只想给自己的主页加个图表，当时虽然有 FusionCharts/AnyChart 这些 Flash 的商业方案，但他用不惯就开始自己基于 SVG/VML 开发，可能他是最早这么做，极有可能是 Highcharts 后来居上的原因，使用 SVG/VML 最大的好处是方便前端使用，而之前基于 Flash 的方案和 JavaScript 通信麻烦，往往导致整个页面都得用 Flash 开发，成本比较高，所以后来 FusionCharts/AnyChart 也都转向了 SVG/VML 方案。</p>
+<p>十四年过去了，它的创始人至今还几乎<a href="https://link.zhihu.com/?target=https%3A//github.com/TorsteinHonsi">天天提交代码</a>，这个项目的贡献者中不少是同一个小镇的，多半是他手把手培养起来的乡亲。。。</p>
+<p>Highcharts 虽然开源，但商用是需要收费的，很多人看到要花钱就不往下看了，但其实专门做这块的商业公司往往更有优势，前面介绍 D3 的时候提到过，在所有基于 D3 开源的图表库中做得最好的是一个商业公司的产品。</p>
+<h3 id="AnyChart"><a href="#AnyChart" class="headerlink" title="AnyChart"></a>AnyChart</h3><p>如果你想用商业软件又觉得 Highcharts 太丑，AnyChart 就是个不错的候选，和 Highcharts 类似，AnyChart 也是开源但商用必须收费，它的整体设计比 Highcharts 要漂亮，但影响力远比不上 Highcharts，甚至在 GitHub 上的 Star 只有 <a href="https://link.zhihu.com/?target=https%3A//github.com/AnyChart/AnyChart">248</a>，还不如许多个人发布的玩具项目。</p>
+<p>然而在国内某卖控件的网站上，AnyChart 的下载量很靠前，远高于 Highcharts，它们之间的差距甚至达到百倍，所以 AnyChart 可能更好卖，其中颜值可能是主要原因。</p>
+<h3 id="FusionCharts"><a href="#FusionCharts" class="headerlink" title="FusionCharts"></a>FusionCharts</h3><p>FusionCharts 来自印度，它的创始人 Pallav Nadhani 的父亲是做 Web 设计的，所以他很早就接触网络，在 16 岁的时候就会用 Excel 来做高中作业，他用的过程中觉得 Excel 里的图表不好用，于是给 <a href="https://link.zhihu.com/?target=http%3A//ASPToday.com">http://ASPToday.com</a> 投稿了一篇文章，提出了 Flash 不仅能用来做小广告，还可以实现交互式图表的想法，这篇文章给他带来了 <code>1500$</code> 的零花钱，普通高中生拿到零花钱多半会很快就和小伙伴们一起挥霍掉，而 Nadhani 拿着这笔钱在 17 岁（2002 年）时候成立了公司，开始开发基于 Flash 的图表库，然而高中辍学创业并不容易，没有投资人会相信一个还没成年的小孩，Nadhani 独自在家开发了三年后才招到第一个人，早期只在网上卖，因为网上不容易发现你是个小孩，发现了肯定不敢买，好在图表方面的需求很旺盛，所以公司不断做大，图表库不仅卖给了很多公司，还卖给了美国联邦政府，连美国总统<a href="https://link.zhihu.com/?target=https%3A//en.wikipedia.org/wiki/File%3AObama_testing_the_Federal_Government_IT_Dashboard.jpg">都在用</a>。</p>
+<h3 id="amCharts"><a href="#amCharts" class="headerlink" title="amCharts"></a>amCharts</h3><p>amCharts 也来自小国家，它的总部在立陶宛，最开始是只做地图类的图表，后来才有的饼图折线图，它应该是这里面最小的商业公司，整个团队只有 7 个人，其中参与开发的大概 4-5 个，因为人少，所以它的功能相对其它几个商业库要少点，比如不支持 vml（不过现在没人用 IE8 了），可能正是因为觉得做不过，所以它采用了不同的商业策略，是唯一可以免费商用，只有去 logo 才需要付费，这个策略看起来效果不错，它的搜索量是这几个商业库中排名第二的，使用的网站数仅次于 Highcharts。</p>
+<h3 id="Google-chart"><a href="#Google-chart" class="headerlink" title="Google chart"></a>Google chart</h3><p>Google Charts 在 2008 年就推出了，做得非常早，虽然国内现在没人用，但国外用得很多，有个数据分析说它是最流行的图表库，在网站中的使用量 Highcharts 的<a href="https://link.zhihu.com/?target=https%3A//www.similartech.com/categories/charting">两倍</a>。</p>
+<p>Google Charts 有两个版本，一个是通过链接来生成图表图片，另一个是外链的 JavaScript 图表库。</p>
+<p>通过链接生成图表图片的做法在十几年前非常常见，比如性能监控领域用了好多年的 <a href="https://link.zhihu.com/?target=https%3A//oss.oetiker.ch/rrdtool/">RRDtool</a>，即便现在你都能在一些股票网站的 k 线图里看到这种做法，使用它的主要原因是当时的前端技术不成熟，浏览器兼容性差，使用这种方式可以轻松在所有浏览器里得到一致的显示效果，下面是一个例子：</p>
+<h3 id="G6"><a href="#G6" class="headerlink" title="G6"></a>G6</h3><p><a href="https://github.com/antvis/g6">G6</a> 是一个图可视化引擎。它提供了图的绘制、布局、分析、交互、动画等图可视化的基础能力。旨在让关系变得透明，简单。让用户获得关系数据的 Insight。</p>
+<p>安装</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install @antv/g6</span><br></pre></td></tr></table></figure>
+
+<p>导入</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> G6 <span class="keyword">from</span> <span class="string">'@antv/g6'</span></span><br></pre></td></tr></table></figure>
+
+<p>创建步骤：1.在html中创建容器</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=<span class="string">"mountNode"</span>&gt;&lt;<span class="regexp">/div&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>2.引入 G6 的数据源为 JSON 格式的对象。该对象中需要有节点（<code>nodes</code>）和边（<code>edges</code>）字段，分别用数组表示：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> data = &#123;</span><br><span class="line">  <span class="comment">// 点集</span></span><br><span class="line">  nodes: [</span><br><span class="line">    &#123;</span><br><span class="line">      id: <span class="string">'node1'</span>, <span class="comment">// String，该节点存在则必须，节点的唯一标识</span></span><br><span class="line">      x: <span class="number">100</span>, <span class="comment">// Number，可选，节点位置的 x 值</span></span><br><span class="line">      y: <span class="number">200</span>, <span class="comment">// Number，可选，节点位置的 y 值</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      id: <span class="string">'node2'</span>, <span class="comment">// String，该节点存在则必须，节点的唯一标识</span></span><br><span class="line">      x: <span class="number">300</span>, <span class="comment">// Number，可选，节点位置的 x 值</span></span><br><span class="line">      y: <span class="number">200</span>, <span class="comment">// Number，可选，节点位置的 y 值</span></span><br><span class="line">    &#125;,</span><br><span class="line">  ],</span><br><span class="line">  <span class="comment">// 边集</span></span><br><span class="line">  edges: [</span><br><span class="line">    &#123;</span><br><span class="line">      source: <span class="string">'node1'</span>, <span class="comment">// String，必须，起始点 id</span></span><br><span class="line">      target: <span class="string">'node2'</span>, <span class="comment">// String，必须，目标点 id</span></span><br><span class="line">    &#125;,</span><br><span class="line">  ],</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>3.创建关系图（实例化）时，至少需要为图设置容器、宽和高。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> graph = <span class="keyword">new</span> G6.Graph(&#123;</span><br><span class="line">  container: <span class="string">'mountNode'</span>, <span class="comment">// String | HTMLElement，必须，在 Step 1 中创建的容器 id 或容器本身</span></span><br><span class="line">  width: <span class="number">800</span>, <span class="comment">// Number，必须，图的宽度</span></span><br><span class="line">  height: <span class="number">500</span>, <span class="comment">// Number，必须，图的高度</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>4.配置数据源，渲染</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">graph.data(data); <span class="comment">// 读取 Step 2 中的数据源到图上</span></span><br><span class="line">graph.render(); <span class="comment">// 渲染图</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="jsPlumb"><a href="#jsPlumb" class="headerlink" title="jsPlumb"></a>jsPlumb</h3><p>jsPlumb适用于必须绘制图表的Web应用程序.例如类似于Visio的应用程序或工作流程设计器等。由于图表项目和连接的所有参数都是非常精细可控的，因此您可以绘制您可以想到的任何类型的图表的！</p>
+<p>基本概念</p>
+<p>Souce 源节点、Target 目标节点、Anchor 锚点、Endpoint 端点、Connector 连接</p>
+<h3 id="其他开源图表库"><a href="#其他开源图表库" class="headerlink" title="其他开源图表库"></a>其他开源图表库</h3><p>开源图表库还有很多 Star 数量比较高的，这里简单汇总一下：</p>
+<ul>
+<li><a href="https://link.zhihu.com/?target=https%3A//github.com/nhn/tui.chart">TOAST UI Chart</a> 是韩国 NHN 公司搞的，贡献者比较少，感觉快要弃坑了，大公司里的非主业项目经常这样，表示理解。</li>
+<li><a href="https://link.zhihu.com/?target=https%3A//github.com/gionkunz/chartist-js">Chartist.js</a> 别看它有 12.2k 的 Star，看提交历史肯定弃坑了，3 年只提交了 20 次。</li>
+<li><a href="https://link.zhihu.com/?target=https%3A//github.com/frappe/charts">Frappe Charts</a> 代码只有 3.5k 行，最近提交很少且文档很简陋，13.4k Star 说明他们的推广策略很厉害，也是个值得学的案例。</li>
+<li><a href="https://link.zhihu.com/?target=https%3A//github.com/DmitryBaranovskiy/raphael">Raphael</a> 特别古老的前端图形库，2008 年就有了，不少图表库的底层基于它，它自己也有个 <a href="https://link.zhihu.com/?target=https%3A//github.com/DmitryBaranovskiy/g.raphael">g.Raphaël</a> 图表库，不过只开发了两年就停了，可能是作者在 Adobe 忙别的事情去了，比如折腾过 <a href="https://link.zhihu.com/?target=https%3A//github.com/adobe-webplatform/Snap.svg">Snap.svg</a>，但也弃坑了。</li>
+<li><a href="https://link.zhihu.com/?target=https%3A//github.com/visjs">vis.js</a> 主要是绘制关系图的，曾经有段时间弃坑过，不过最近还有少量更新，类似的还有 <a href="https://link.zhihu.com/?target=https%3A//github.com/dagrejs/dagre">dagre</a>、<a href="https://link.zhihu.com/?target=https%3A//gojs.net/latest/index.html">GoJS</a>和 <a href="https://link.zhihu.com/?target=http%3A//www.draw2d.org/">Draw2D</a>。</li>
+<li><a href="https://link.zhihu.com/?target=https%3A//github.com/tradingview/lightweight-charts">TradingView</a> 专注做股票类的，似乎很专业，有不少分析 k 线的小工具。</li>
+<li><a href="https://link.zhihu.com/?target=https%3A//github.com/leeoniya/uPlot">uPlot</a> 以体积小巧作为主要优点，然而体积小只是因为功能少，2k 多行代码做不了啥，所以它的配置项和交互都很少。</li>
+<li><a href="https://link.zhihu.com/?target=https%3A//github.com/ankane/chartkick.js">Chartkick.js</a> 将 Chart.js、Google Charts 和 Highcharts 的接口封装起来，提供一套更简单的 API，一方面是更简单，另一方面是万一其中某个挂掉了可以直接换别的，然而这也意味着它的功能非常有限，毕竟是取交集。</li>
+<li>另外还有些 gis 领域的专用可视化库，比如 <a href="https://link.zhihu.com/?target=https%3A//cesium.com/cesiumjs/">cesium</a>、<a href="https://link.zhihu.com/?target=https%3A//deck.gl/">deck.gl</a>，但国内对测绘是有规定的，最好直接用百度、高德。</li>
+</ul>
 <h2 id="echart"><a href="#echart" class="headerlink" title="echart"></a>echart</h2><p>高效率绘制各种美观图表</p>
 <p>安装echart</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install echarts --save</span><br></pre></td></tr></table></figure>
@@ -464,9 +523,9 @@
     <div class="level post-navigation is-flex-wrap is-mobile">
         
         <div class="level-start">
-            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/12/13/%E5%89%8D%E7%AB%AF%E8%BF%9B%E9%98%B6%E4%B8%89/">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/12/13/%E5%89%8D%E7%AB%AF%E8%BF%9B%E9%98%B6%E4%BA%94/">
                 <i class="level-item fas fa-chevron-left"></i>
-                <span class="level-item">前端进阶三</span>
+                <span class="level-item">前端进阶五</span>
             </a>
         </div>
         
@@ -554,7 +613,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            94
+                            103
                         </p>
                     </a>
                 </div>
@@ -578,7 +637,7 @@
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            47
+                            48
                         </p>
                     </a>
                 </div>
@@ -643,7 +702,55 @@
         <a class="is-flex" href="#数据可视化库概述">
         <span class="has-mr-6">1</span>
         <span>数据可视化库概述</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#D3–可视化库的jquery">
+        <span class="has-mr-6">1.1</span>
+        <span>D3–可视化库的jquery</span>
         </a></li><li>
+        <a class="is-flex" href="#Vega-图表库也能低代码">
+        <span class="has-mr-6">1.2</span>
+        <span>Vega - 图表库也能低代码</span>
+        </a></li><li>
+        <a class="is-flex" href="#G2">
+        <span class="has-mr-6">1.3</span>
+        <span>G2</span>
+        </a></li><li>
+        <a class="is-flex" href="#chart-js">
+        <span class="has-mr-6">1.4</span>
+        <span>chart.js</span>
+        </a></li><li>
+        <a class="is-flex" href="#Highcharts">
+        <span class="has-mr-6">1.5</span>
+        <span>Highcharts</span>
+        </a></li><li>
+        <a class="is-flex" href="#AnyChart">
+        <span class="has-mr-6">1.6</span>
+        <span>AnyChart</span>
+        </a></li><li>
+        <a class="is-flex" href="#FusionCharts">
+        <span class="has-mr-6">1.7</span>
+        <span>FusionCharts</span>
+        </a></li><li>
+        <a class="is-flex" href="#amCharts">
+        <span class="has-mr-6">1.8</span>
+        <span>amCharts</span>
+        </a></li><li>
+        <a class="is-flex" href="#Google-chart">
+        <span class="has-mr-6">1.9</span>
+        <span>Google chart</span>
+        </a></li><li>
+        <a class="is-flex" href="#G6">
+        <span class="has-mr-6">1.10</span>
+        <span>G6</span>
+        </a></li><li>
+        <a class="is-flex" href="#jsPlumb">
+        <span class="has-mr-6">1.11</span>
+        <span>jsPlumb</span>
+        </a></li><li>
+        <a class="is-flex" href="#其他开源图表库">
+        <span class="has-mr-6">1.12</span>
+        <span>其他开源图表库</span>
+        </a></li></ul></li><li>
         <a class="is-flex" href="#echart">
         <span class="has-mr-6">2</span>
         <span>echart</span>
@@ -731,7 +838,7 @@
                 <span class="level-item">IT</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">30</span>
+                <span class="level-item tag">36</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E4%B8%AA%E4%BA%BA%E5%B9%B8%E7%A6%8F/">
@@ -747,7 +854,7 @@
                 <span class="level-item">个人生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">
@@ -755,7 +862,7 @@
                 <span class="level-item">技术博客</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">31</span>
+                <span class="level-item tag">33</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%9C%8B%E5%8F%8B/">
@@ -792,7 +899,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/IT/" style="font-size: 10px;">IT</a> <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 12.5px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 10px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8C/" style="font-size: 12.5px;">IT,Web，</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 12.5px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 12.5px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 12.5px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 10px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb/" style="font-size: 15px;">IT，Web</a> <a href="/tags/IT%EF%BC%8CWeb-Javascript/" style="font-size: 10px;">IT，Web,Javascript</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 17.5px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 10px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 15px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 15px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 12.5px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 10px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 12.5px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 17.5px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 15px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 15px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">幸福</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 12.5px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/" style="font-size: 15px;">技术，IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 12.5px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 12.5px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 12.5px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 17.5px;">生活、幸福</a> <a href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">记录，生活</a>
+        <a href="/tags/IT/" style="font-size: 10px;">IT</a> <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 12px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 10px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8C/" style="font-size: 12px;">IT,Web，</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 12px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 14px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 12px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 12px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb/" style="font-size: 16px;">IT，Web</a> <a href="/tags/IT%EF%BC%8CWeb-Javascript/" style="font-size: 10px;">IT，Web,Javascript</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 18px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 14px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Rust/" style="font-size: 10px;">IT，Web,Rust</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 14px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 16px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 12px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 10px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 12px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 18px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 14px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 14px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">幸福</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 14px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/" style="font-size: 14px;">技术，IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 12px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 12px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 12px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 18px;">生活、幸福</a> <a href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">记录，生活</a>
     </div>
 </div>
     
@@ -826,16 +933,16 @@
         
         <article class="media">
             
-            <a href="/2021/01/23/Node8/" class="media-left">
+            <a href="/2021/01/23/Node9/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/nestjs.png" alt="NodeJs开发（八）">
+                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/nestjs.png" alt="NodeJs开发（四）">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-23T13:40:33.000Z">2021-01-23</time></div>
-                    <a href="/2021/01/23/Node8/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（八）</a>
+                    <a href="/2021/01/23/Node9/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（四）</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/IT/">IT</a>
                     </p>
@@ -847,14 +954,33 @@
             
             <a href="/2021/01/22/Node7/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/koajs.jpeg" alt="NodeJs开发（七）">
+                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/koajs.jpeg" alt="NodeJs开发（三）">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-22T14:40:33.000Z">2021-01-22</time></div>
-                    <a href="/2021/01/22/Node7/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（七）</a>
+                    <a href="/2021/01/22/Node7/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（三）</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/IT/">IT</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2021/01/22/Node8/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/koajs.jpeg" alt="NodeJs开发（三）">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-22T14:40:33.000Z">2021-01-22</time></div>
+                    <a href="/2021/01/22/Node8/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（三）</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/IT/">IT</a>
                     </p>
@@ -866,33 +992,14 @@
             
             <a href="/2021/01/21/Node6/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/typescript.jpg" alt="NodeJs开发（六）">
+                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/typescript.jpg" alt="NodeJs开发（二）">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-21T13:40:33.000Z">2021-01-21</time></div>
-                    <a href="/2021/01/21/Node6/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（六）</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/IT/">IT</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2021/01/20/Node5/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/nodejs.png" alt="NodeJs开发（五）">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-20T13:40:33.000Z">2021-01-20</time></div>
-                    <a href="/2021/01/20/Node5/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（五）</a>
+                    <a href="/2021/01/21/Node6/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（二）</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/IT/">IT</a>
                     </p>
@@ -928,7 +1035,7 @@
                     <span class="level-item">一月 2021</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">8</span>
+                    <span class="level-item tag">9</span>
                 </span>
             </a>
         </li>
@@ -939,7 +1046,7 @@
                     <span class="level-item">十二月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">4</span>
+                    <span class="level-item tag">5</span>
                 </span>
             </a>
         </li>
@@ -994,7 +1101,7 @@
                     <span class="level-item">六月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">12</span>
+                    <span class="level-item tag">18</span>
                 </span>
             </a>
         </li>
@@ -1027,7 +1134,7 @@
                     <span class="level-item">三月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">46</span>
+                    <span class="level-item tag">47</span>
                 </span>
             </a>
         </li>
@@ -1129,7 +1236,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/">
                         <span class="tag">IT,Web，算法</span>
-                        <span class="tag is-grey">2</span>
+                        <span class="tag is-grey">3</span>
                     </a>
                 </div>
                 
@@ -1157,7 +1264,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CApp-Node-Electron/">
                         <span class="tag">IT，App,Node,Electron</span>
-                        <span class="tag is-grey">1</span>
+                        <span class="tag is-grey">2</span>
                     </a>
                 </div>
                 
@@ -1185,7 +1292,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb/">
                         <span class="tag">IT，Web</span>
-                        <span class="tag is-grey">3</span>
+                        <span class="tag is-grey">4</span>
                     </a>
                 </div>
                 
@@ -1206,13 +1313,20 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/">
                         <span class="tag">IT，Web,Node，React</span>
-                        <span class="tag is-grey">1</span>
+                        <span class="tag is-grey">3</span>
                     </a>
                 </div>
                 
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-PHP/">
                         <span class="tag">IT，Web,PHP</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Rust/">
+                        <span class="tag">IT，Web,Rust</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -1234,14 +1348,14 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/">
                         <span class="tag">IT，Web,数据库</span>
-                        <span class="tag is-grey">6</span>
+                        <span class="tag is-grey">7</span>
                     </a>
                 </div>
                 
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8Cweb/">
                         <span class="tag">IT，web</span>
-                        <span class="tag is-grey">3</span>
+                        <span class="tag is-grey">4</span>
                     </a>
                 </div>
                 
@@ -1311,7 +1425,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">
                         <span class="tag">幸福，个人生活</span>
-                        <span class="tag is-grey">2</span>
+                        <span class="tag is-grey">3</span>
                     </a>
                 </div>
                 
