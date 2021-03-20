@@ -19,7 +19,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://kun8018.gitee.io/images/og_image.png">
 <meta property="article:published_time" content="2020-06-06T13:40:33.000Z">
-<meta property="article:modified_time" content="2021-03-17T05:37:44.216Z">
+<meta property="article:modified_time" content="2021-03-19T16:15:57.649Z">
 <meta property="article:author" content="Kun Zhang">
 <meta property="article:tag" content="IT,Web，算法">
 <meta name="twitter:card" content="summary">
@@ -152,7 +152,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    27 分钟 读完 (大约 4066 个字)
+                    29 分钟 读完 (大约 4300 个字)
                 </span>
                 
                 
@@ -196,7 +196,7 @@
 <p>判断是否是环形链表</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">is_circle</span><span class="params">(head)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    判断链表是否是环形链表</span></span><br><span class="line"><span class="string">    :param head: 要判断的链表的头结点</span></span><br><span class="line"><span class="string">    :return: 布尔量，判断结果</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> head:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">    tmp = head</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> head:</span><br><span class="line">        head = head.next</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> head:        <span class="comment"># 遍历到了链表末尾</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span>    <span class="comment"># 链表不是环形结点</span></span><br><span class="line">        <span class="keyword">if</span> head == tmp:     <span class="comment"># 遍历到了之前遍历过的结点</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">True</span>     <span class="comment"># 链表是环形结点</span></span><br></pre></td></tr></table></figure>
 
-<h4 id="反转链表"><a href="#反转链表" class="headerlink" title="反转链表"></a>反转链表</h4><p>输入：1-&gt;2-&gt;3-&gt;4-&gt;5-&gt;NULL</p>
+<h4 id="反转链表92"><a href="#反转链表92" class="headerlink" title="反转链表92"></a>反转链表92</h4><p>输入：1-&gt;2-&gt;3-&gt;4-&gt;5-&gt;NULL</p>
 <p>输出：5-&gt;4-&gt;3-&gt;2-&gt;1-&gt;NULL</p>
 <p>不改变链表的值，改变链表指针的指向来满足题目要求</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">reverseList</span><span class="params">(self, head: ListNode)</span> -&gt; ListNode:</span></span><br><span class="line">        //判断当前节点和下一节点是否为空节点，不为空进入递归</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> head:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> head.next:</span><br><span class="line">            <span class="keyword">return</span> head</span><br><span class="line">        headNode = self.reverseList(head.next)</span><br><span class="line">        head.next.next = head</span><br><span class="line">        head.next = <span class="literal">None</span></span><br><span class="line">        <span class="keyword">return</span> headNode</span><br></pre></td></tr></table></figure>
@@ -216,6 +216,15 @@
 <p>伪头节点pre_head：用于处理头结点即为要删去的情况；将输入的头结点挂在该结点上，作为整个链表的前序结点，</p>
 <p>当前节点cur：用于迭代遍历和删除结点元素。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">removeElements</span><span class="params">(self, head, val)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type head: ListNode</span></span><br><span class="line"><span class="string">        :type val: int</span></span><br><span class="line"><span class="string">        :rtype: ListNode</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        cur = pre_head = ListNode(<span class="number">0</span>)            <span class="comment"># 定义一个辅助结点</span></span><br><span class="line">        pre_head.next = head                    <span class="comment"># 把输入链表挂在该结点上</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> cur.next:                         <span class="comment"># 当前结点不是最后一个结点时</span></span><br><span class="line">            <span class="keyword">if</span> cur.next.val == val:             <span class="comment"># 如果下一个结点的值是要删除的</span></span><br><span class="line">                cur.next = cur.next.next        <span class="comment"># 删除下一个结点</span></span><br><span class="line">            <span class="keyword">else</span>:                               <span class="comment"># 否则</span></span><br><span class="line">                cur = cur.next                  <span class="comment"># 当前结点后移</span></span><br><span class="line">        <span class="keyword">return</span> pre_head.next                    <span class="comment"># 返回处理后的链表</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="旋转链表61"><a href="#旋转链表61" class="headerlink" title="旋转链表61"></a>旋转链表61</h4><p>给定一个链表，旋转链表，将链表每个节点向右移动k个位置，其中k是非负数</p>
+<p>例：输入：1-&gt;2-&gt;3-&gt;4-&gt;5-&gt;Null,K=2</p>
+<p>输出：4-&gt;5-&gt;1-&gt;2-&gt;3-&gt;Null,</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span> </span><br><span class="line">   <span class="function"><span class="keyword">def</span> <span class="title">rotateRight</span><span class="params">(self,head:ListNode,k:int)</span>-&gt;ListNode:</span></span><br></pre></td></tr></table></figure>
+
+
+
+
 
 <h4 id="删除排序链表中的重复元素"><a href="#删除排序链表中的重复元素" class="headerlink" title="删除排序链表中的重复元素"></a>删除排序链表中的重复元素</h4><p>如果排序链表中所有重复出现次数的元素，删除重复元素到没有重复，只保留一个元素，不指定值，</p>
 <p>例：</p>
@@ -250,9 +259,7 @@
 <h4 id="二叉树的最大深度-104"><a href="#二叉树的最大深度-104" class="headerlink" title="二叉树的最大深度(104)"></a>二叉树的最大深度(104)</h4><p>给定一个二叉树，找出其最大深度</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">   <span class="function"><span class="keyword">def</span> <span class="title">TreeDepth</span><span class="params">(self,pRoot)</span>:</span></span><br><span class="line">       <span class="keyword">if</span> <span class="keyword">not</span> pRoot:</span><br><span class="line">           <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">       depthleft = self.TreeDepth(pRoot.left)</span><br><span class="line">       depthright = self.TreeDepth(pRoot.right)</span><br><span class="line">       <span class="keyword">return</span> max(depthleft,depthright) +<span class="number">1</span></span><br></pre></td></tr></table></figure>
 
-
-
-<h4 id="填充每一个节点的下一个右侧指针-116、117"><a href="#填充每一个节点的下一个右侧指针-116、117" class="headerlink" title="填充每一个节点的下一个右侧指针(116、117)"></a>填充每一个节点的下一个右侧指针(116、117)</h4><p>给定一个 <strong>完美二叉树</strong> ，其所有叶子节点都在同一层，每个父节点都有两个子节点。</p>
+<h4 id="二叉树的最小深度"><a href="#二叉树的最小深度" class="headerlink" title="二叉树的最小深度"></a>二叉树的最小深度</h4><h4 id="填充每一个节点的下一个右侧指针-116、117"><a href="#填充每一个节点的下一个右侧指针-116、117" class="headerlink" title="填充每一个节点的下一个右侧指针(116、117)"></a>填充每一个节点的下一个右侧指针(116、117)</h4><p>给定一个 <strong>完美二叉树</strong> ，其所有叶子节点都在同一层，每个父节点都有两个子节点。</p>
 <p>填充它的每个 next 指针，让这个指针指向其下一个右侧节点。如果找不到下一个右侧节点，则将 next 指针设置为 NULL。</p>
 <p>初始状态下，所有 next 指针都被设置为 NULL。</p>
 <p>例如：输入：root  = [1,2,3,4,5,6,7]</p>
@@ -292,8 +299,14 @@
 <p>先层序遍历，再中间翻转</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">zigzagLevelOrder</span><span class="params">(self, root: TreeNode)</span> -&gt; List[List[int]]:</span></span><br><span class="line">        stack = []</span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">levelOrder</span><span class="params">(root, depth, stack)</span>:</span></span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> root:</span><br><span class="line">                <span class="keyword">return</span></span><br><span class="line">            <span class="keyword">if</span> depth &gt;= len(stack):</span><br><span class="line">                stack.append([])</span><br><span class="line">            stack[depth].append(root.val)</span><br><span class="line">            levelOrder(root.left, depth + <span class="number">1</span>, stack)</span><br><span class="line">            levelOrder(root.right, depth + <span class="number">1</span>, stack)</span><br><span class="line"></span><br><span class="line">        levelOrder(root, <span class="number">0</span>, stack)</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, len(stack), <span class="number">2</span>):</span><br><span class="line">            stack[i] = stack[i][::<span class="number">-1</span>]</span><br><span class="line">        <span class="keyword">return</span> stack</span><br></pre></td></tr></table></figure>
 
-
-
+<h4 id="二叉树展开生成链表114"><a href="#二叉树展开生成链表114" class="headerlink" title="二叉树展开生成链表114"></a>二叉树展开生成链表114</h4><p>给你二叉树的节点root，将它展开为一个单链表</p>
+<p>1.展开后的单链表同样适用treenode，其中right子指针指向链表的下一节点，而左指针始终为null</p>
+<p>2.展开后的单链表应该与二叉树先序遍历顺序相同</p>
+<p>输入：root  = [1,2,5,3,4,null,6]</p>
+<p>输出：[1,null,2,null,3,null,4,null,5,null,6]</p>
+<h4 id="二叉树的坡度563"><a href="#二叉树的坡度563" class="headerlink" title="二叉树的坡度563"></a>二叉树的坡度563</h4><h4 id="二叉树的右视图199"><a href="#二叉树的右视图199" class="headerlink" title="二叉树的右视图199"></a>二叉树的右视图199</h4><p>给定一棵二叉树，想象自己站在它的右侧，按照从顶部到底部的顺序，返回从右侧所能看到的节点值</p>
+<p>输入：[1,2,3,null,5,null,4]</p>
+<p>输出：[1,3,4]</p>
 <h4 id="根据数组生成二叉树"><a href="#根据数组生成二叉树" class="headerlink" title="根据数组生成二叉树"></a>根据数组生成二叉树</h4><h4 id="根据链表生成二叉树"><a href="#根据链表生成二叉树" class="headerlink" title="根据链表生成二叉树"></a>根据链表生成二叉树</h4><p>树的遍历</p>
 <p>树的遍历有两个基本方法：深度优先遍历和广度优先遍历</p>
 <p>深度优先遍历分为中序遍历、前序遍历和后序遍历</p>
@@ -471,7 +484,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            103
+                            104
                         </p>
                     </a>
                 </div>
@@ -577,9 +590,9 @@
         <span class="has-mr-6">1.4</span>
         <span>两个有序链表合并成一个有序链表</span>
         </a></li><li>
-        <a class="is-flex" href="#反转链表">
+        <a class="is-flex" href="#反转链表92">
         <span class="has-mr-6">1.5</span>
-        <span>反转链表</span>
+        <span>反转链表92</span>
         </a></li><li>
         <a class="is-flex" href="#两两交换链表节点">
         <span class="has-mr-6">1.6</span>
@@ -589,8 +602,12 @@
         <span class="has-mr-6">1.7</span>
         <span>移除链表指定元素</span>
         </a></li><li>
-        <a class="is-flex" href="#删除排序链表中的重复元素">
+        <a class="is-flex" href="#旋转链表61">
         <span class="has-mr-6">1.8</span>
+        <span>旋转链表61</span>
+        </a></li><li>
+        <a class="is-flex" href="#删除排序链表中的重复元素">
+        <span class="has-mr-6">1.9</span>
         <span>删除排序链表中的重复元素</span>
         </a></li></ul></li><li>
         <a class="is-flex" href="#二叉树">
@@ -621,36 +638,52 @@
         <span class="has-mr-6">2.6</span>
         <span>二叉树的最大深度(104)</span>
         </a></li><li>
-        <a class="is-flex" href="#填充每一个节点的下一个右侧指针-116、117">
+        <a class="is-flex" href="#二叉树的最小深度">
         <span class="has-mr-6">2.7</span>
+        <span>二叉树的最小深度</span>
+        </a></li><li>
+        <a class="is-flex" href="#填充每一个节点的下一个右侧指针-116、117">
+        <span class="has-mr-6">2.8</span>
         <span>填充每一个节点的下一个右侧指针(116、117)</span>
         </a></li><li>
         <a class="is-flex" href="#二叉树的前序144、中序94、后序遍历145">
-        <span class="has-mr-6">2.8</span>
+        <span class="has-mr-6">2.9</span>
         <span>二叉树的前序144、中序94、后序遍历145</span>
         </a></li><li>
         <a class="is-flex" href="#层序遍历-102、107">
-        <span class="has-mr-6">2.9</span>
+        <span class="has-mr-6">2.10</span>
         <span>层序遍历(102、107)</span>
         </a></li><li>
         <a class="is-flex" href="#从最下层输出到根节点">
-        <span class="has-mr-6">2.10</span>
+        <span class="has-mr-6">2.11</span>
         <span>从最下层输出到根节点</span>
         </a></li><li>
         <a class="is-flex" href="#之字形打印二叉树-103">
-        <span class="has-mr-6">2.11</span>
+        <span class="has-mr-6">2.12</span>
         <span>之字形打印二叉树(103)</span>
         </a></li><li>
+        <a class="is-flex" href="#二叉树展开生成链表114">
+        <span class="has-mr-6">2.13</span>
+        <span>二叉树展开生成链表114</span>
+        </a></li><li>
+        <a class="is-flex" href="#二叉树的坡度563">
+        <span class="has-mr-6">2.14</span>
+        <span>二叉树的坡度563</span>
+        </a></li><li>
+        <a class="is-flex" href="#二叉树的右视图199">
+        <span class="has-mr-6">2.15</span>
+        <span>二叉树的右视图199</span>
+        </a></li><li>
         <a class="is-flex" href="#根据数组生成二叉树">
-        <span class="has-mr-6">2.12</span>
+        <span class="has-mr-6">2.16</span>
         <span>根据数组生成二叉树</span>
         </a></li><li>
         <a class="is-flex" href="#根据链表生成二叉树">
-        <span class="has-mr-6">2.13</span>
+        <span class="has-mr-6">2.17</span>
         <span>根据链表生成二叉树</span>
         </a></li><li>
         <a class="is-flex" href="#树的旋转">
-        <span class="has-mr-6">2.14</span>
+        <span class="has-mr-6">2.18</span>
         <span>树的旋转</span>
         </a></li></ul></li></ul>
             </div>
@@ -732,7 +765,7 @@
                 <span class="level-item">技术博客</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">33</span>
+                <span class="level-item tag">34</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%9C%8B%E5%8F%8B/">
@@ -769,7 +802,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/IT/" style="font-size: 10px;">IT</a> <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 12px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 10px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8C/" style="font-size: 12px;">IT,Web，</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 12px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 14px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 12px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 12px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb/" style="font-size: 16px;">IT，Web</a> <a href="/tags/IT%EF%BC%8CWeb-Javascript/" style="font-size: 10px;">IT，Web,Javascript</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 18px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 14px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Rust/" style="font-size: 10px;">IT，Web,Rust</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 14px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 16px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 12px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 10px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 12px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 18px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 14px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 14px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">幸福</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 14px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/" style="font-size: 14px;">技术，IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 12px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 12px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 12px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 18px;">生活、幸福</a> <a href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">记录，生活</a>
+        <a href="/tags/IT/" style="font-size: 10px;">IT</a> <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 12px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 10px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8C/" style="font-size: 14px;">IT,Web，</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 12px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 14px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 12px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 12px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb/" style="font-size: 16px;">IT，Web</a> <a href="/tags/IT%EF%BC%8CWeb-Javascript/" style="font-size: 10px;">IT，Web,Javascript</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 18px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 14px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Rust/" style="font-size: 10px;">IT，Web,Rust</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 14px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 16px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 12px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 10px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 12px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 18px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 14px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 14px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">幸福</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 14px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/" style="font-size: 14px;">技术，IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 12px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 12px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 12px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 18px;">生活、幸福</a> <a href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">记录，生活</a>
     </div>
 </div>
     
@@ -781,6 +814,25 @@
         <h3 class="menu-label">
             最新文章
         </h3>
+        
+        <article class="media">
+            
+            <a href="/2021/03/06/%E6%B7%B1%E5%9C%B33/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://cdn.kunkunzhang.top/psc.jpg" alt="深圳感悟(三)">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-03-06T13:40:33.000Z">2021-03-06</time></div>
+                    <a href="/2021/03/06/%E6%B7%B1%E5%9C%B33/" class="title has-link-black-ter is-size-6 has-text-weight-normal">深圳感悟(三)</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">技术博客</a>
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -805,33 +857,14 @@
             
             <a href="/2021/01/23/Node9/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/nestjs.png" alt="NodeJs开发（四）">
+                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/nestjs.png" alt="NodeJs开发（五）">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-23T13:40:33.000Z">2021-01-23</time></div>
-                    <a href="/2021/01/23/Node9/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（四）</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/IT/">IT</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2021/01/22/Node7/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/koajs.jpeg" alt="NodeJs开发（三）">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-22T14:40:33.000Z">2021-01-22</time></div>
-                    <a href="/2021/01/22/Node7/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（三）</a>
+                    <a href="/2021/01/23/Node9/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（五）</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/IT/">IT</a>
                     </p>
@@ -843,14 +876,14 @@
             
             <a href="/2021/01/22/Node8/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/koajs.jpeg" alt="NodeJs开发（三）">
+                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/koajs.jpeg" alt="NodeJs开发（四）">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-22T14:40:33.000Z">2021-01-22</time></div>
-                    <a href="/2021/01/22/Node8/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（三）</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-22T14:41:33.000Z">2021-01-22</time></div>
+                    <a href="/2021/01/22/Node8/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（四）</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/IT/">IT</a>
                     </p>
@@ -860,16 +893,16 @@
         
         <article class="media">
             
-            <a href="/2021/01/21/Node6/" class="media-left">
+            <a href="/2021/01/22/Node7/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/typescript.jpg" alt="NodeJs开发（二）">
+                    <img class="thumbnail" src="https://cdn.kunkunzhang.top/express.jpg" alt="NodeJs开发（三）">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-21T13:40:33.000Z">2021-01-21</time></div>
-                    <a href="/2021/01/21/Node6/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（二）</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-22T14:40:33.000Z">2021-01-22</time></div>
+                    <a href="/2021/01/22/Node7/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（三）</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/IT/">IT</a>
                     </p>
@@ -887,6 +920,17 @@
             归档
         </h3>
         <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2021/03/">
+                <span class="level-start">
+                    <span class="level-item">三月 2021</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
         
         <li>
             <a class="level is-marginless" href="/archives/2021/02/">
@@ -927,7 +971,7 @@
                     <span class="level-item">十月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">1</span>
+                    <span class="level-item tag">4</span>
                 </span>
             </a>
         </li>
@@ -949,7 +993,7 @@
                     <span class="level-item">八月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">9</span>
+                    <span class="level-item tag">8</span>
                 </span>
             </a>
         </li>
@@ -960,7 +1004,7 @@
                     <span class="level-item">七月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">2</span>
+                    <span class="level-item tag">1</span>
                 </span>
             </a>
         </li>
@@ -1004,7 +1048,7 @@
                     <span class="level-item">三月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">47</span>
+                    <span class="level-item tag">46</span>
                 </span>
             </a>
         </li>
@@ -1064,7 +1108,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8C/">
                         <span class="tag">IT,Web，</span>
-                        <span class="tag is-grey">2</span>
+                        <span class="tag is-grey">3</span>
                     </a>
                 </div>
                 
