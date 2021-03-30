@@ -7,19 +7,19 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<title>Vue.js前端框架 - kun&#39;s blog</title>
+<title>Vue.js前端框架(三) - kun&#39;s blog</title>
 
 
     <meta name="description" content="vue新版本解析，代号”one-piece“">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Vue.js前端框架">
+<meta property="og:title" content="Vue.js前端框架(三)">
 <meta property="og:url" content="http://kun8018.gitee.io/2020/10/02/vue3/index.html">
 <meta property="og:site_name" content="kun&#39;s blog">
 <meta property="og:description" content="vue新版本解析，代号”one-piece“">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://s1.ax1x.com/2020/03/27/G9XCuD.th.jpg">
 <meta property="article:published_time" content="2020-10-02T13:40:33.000Z">
-<meta property="article:modified_time" content="2021-03-20T08:17:50.223Z">
+<meta property="article:modified_time" content="2021-03-27T02:39:06.217Z">
 <meta property="article:author" content="Kun Zhang">
 <meta property="article:tag" content="IT，Web,Vue">
 <meta name="twitter:card" content="summary">
@@ -82,7 +82,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="https://s1.ax1x.com/2020/03/27/G9OfNn.th.png" alt="Vue.js前端框架" height="28">
+                <img src="https://s1.ax1x.com/2020/03/27/G9OfNn.th.png" alt="Vue.js前端框架(三)" height="28">
             
             </a>
         </div>
@@ -140,7 +140,7 @@
     
     <div class="card-image">
         <span  class="image is-7by1">
-            <img class="thumbnail" src="https://s1.ax1x.com/2020/03/27/G9XCuD.th.jpg" alt="Vue.js前端框架">
+            <img class="thumbnail" src="https://s1.ax1x.com/2020/03/27/G9XCuD.th.jpg" alt="Vue.js前端框架(三)">
         </span>
     </div>
     
@@ -158,7 +158,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    13 分钟 读完 (大约 1913 个字)
+                    26 分钟 读完 (大约 3949 个字)
                 </span>
                 
                 
@@ -172,7 +172,7 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                Vue.js前端框架
+                Vue.js前端框架(三)
             
         </h1>
         <div class="content">
@@ -327,27 +327,121 @@
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; createApp &#125; <span class="keyword">from</span> <span class="string">'vue'</span></span><br><span class="line"><span class="keyword">import</span> Foo <span class="keyword">from</span> <span class="string">'./Foo.vue'</span></span><br><span class="line"><span class="keyword">import</span> Bar <span class="keyword">from</span> <span class="string">'./Bar.vue'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> createMyApp = <span class="function"><span class="params">options</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> app = createApp(options)</span><br><span class="line">  app.directive(<span class="string">'focus'</span> <span class="comment">/* ... */</span>)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> app</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">createMyApp(Foo).mount(<span class="string">'#foo'</span>)</span><br><span class="line">createMyApp(Bar).mount(<span class="string">'#bar'</span>)</span><br></pre></td></tr></table></figure>
 
 <p>上面代码中，createMyApp(Bar).mount(‘#bar’)Foo 和 Bar 实例及其后代中都可以使用 focus 指令</p>
-<h3 id="模版语法变化"><a href="#模版语法变化" class="headerlink" title="模版语法变化"></a>模版语法变化</h3><p>在 2.x 中，不支持多根组件，当用户意外创建多根组件时会发出警告，因此，为了修复此错误，许多组件被包装在一个 <code>&lt;div&gt;</code> 中。</p>
+<h3 id="模版语法变化-Fragment片段"><a href="#模版语法变化-Fragment片段" class="headerlink" title="模版语法变化(Fragment片段)"></a>模版语法变化(Fragment片段)</h3><p>在 2.x 中，不支持多根组件，当用户意外创建多根组件时会发出警告，因此，为了修复此错误，许多组件被包装在一个 <code>&lt;div&gt;</code> 中。</p>
 <p>在 3.x 中，组件现在可以有多个根节点！但是，这确实要求开发者明确定义属性应该分布在哪里。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;vue2</span><br><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div&gt;</span><br><span class="line">    &lt;header&gt;...&lt;&#x2F;header&gt;</span><br><span class="line">    &lt;main&gt;...&lt;&#x2F;main&gt;</span><br><span class="line">    &lt;footer&gt;...&lt;&#x2F;footer&gt;</span><br><span class="line">  &lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;template&gt;</span><br><span class="line">&#x2F;&#x2F;vue3</span><br><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;header&gt;...&lt;&#x2F;header&gt;</span><br><span class="line">  &lt;main v-bind&#x3D;&quot;$attrs&quot;&gt;...&lt;&#x2F;main&gt;</span><br><span class="line">  &lt;footer&gt;...&lt;&#x2F;footer&gt;</span><br><span class="line">&lt;&#x2F;template&gt;</span><br></pre></td></tr></table></figure>
 
 
 
 <h3 id="生命周期函数变化"><a href="#生命周期函数变化" class="headerlink" title="生命周期函数变化"></a>生命周期函数变化</h3><p>filter将不再被继续允许使用，鼓励使用computed或mothod替代filter功能</p>
-<h3 id="组合式API"><a href="#组合式API" class="headerlink" title="组合式API"></a>组合式API</h3><p>组合式API是vue中类似于react hook类似的功能，尤雨溪在关于此部分功能的考虑和征求意见稿的全文如下</p>
+<p>其他生命周期函数：</p>
+<p>被弃用/替换：</p>
+<ol>
+<li>beforeCreate -&gt; setup()</li>
+<li>created -&gt; setup()</li>
+</ol>
+<p>重命名的生命周期：</p>
+<p>beforeMount -&gt; onBeforeMount</p>
+<p>mounted -&gt; onMounted</p>
+<p>beforeUpdate -&gt; onBeforeUpdate</p>
+<p>updated -&gt; onUpdated</p>
+<p>beforeDestroy -&gt; onBeforeUnmount</p>
+<p>destroyed -&gt; onUnmounted</p>
+<p>errorCaptured -&gt; onErrorCaptured</p>
+<h3 id="组合式API-composition"><a href="#组合式API-composition" class="headerlink" title="组合式API/composition"></a>组合式API/composition</h3><p>组合式API是vue中类似于react hook类似的功能，尤雨溪在关于此部分功能的考虑和征求意见稿的全文如下</p>
 <p><a href="https://vue3js.cn/vue-composition/">https://vue3js.cn/vue-composition/</a></p>
 <p>简言之，vue在两种情况下不太友好：</p>
-<p>1.随着功能的增长，复杂组件的代码变得越来越难以阅读和理解。这种情况在开发人员阅读他人编写的代码时尤为常见。根本原因是 Vue 现有的 API 迫使我们通过选项组织代码，但是有的时候通过逻辑关系组织代码更有意义。</p>
+<p>1.随着功能的增长，复杂组件的代码变得越来越难以阅读和理解。这种情况在开发人员阅读他人编写的代码时尤为常见。根本原因是 Vue 现有的 API 迫使我们通过<strong>选项组织代码</strong>，但是有的时候通过<strong>逻辑关系</strong>组织代码更有意义。</p>
 <p>目前vue缺少一种简洁且低成本的机制来提取和重用多个组件之间的逻辑。</p>
-<p>2.来自大型项目开发者的常见需求是更好的 TypeScript 支持。Vue 当前的 API 在集成 TypeScript 时遇到了不小的麻烦，其主要原因是 Vue 依靠一个简单的 <code>this</code> 上下文来暴露 property，我们现在使用 <code>this</code> 的方式是比较微妙的。</p>
+<p>2.来自大型项目开发者的常见需求是更好的 TypeScript 支持，不支持typescript意味着意味推断不够好。Vue 当前的 API 在集成 TypeScript 时遇到了不小的麻烦，其主要原因是 Vue 依靠一个简单的 <code>this</code> 上下文来暴露 property，我们现在使用 <code>this</code> 的方式是比较微妙的。</p>
+<p>3.缺少一种比较「干净」的在多个组件之间提取和复用逻辑的机制。</p>
 <p>Vue 现有的 API 在设计之初没有照顾到类型推导，这使适配 TypeScript 变得复杂。</p>
+<p><strong>composition核心函数：</strong></p>
+<p>1.setup函数</p>
+<ul>
+<li><code>setup</code> 就是将 Vue2.x 中的 <code>beforeCreate</code> 和 <code>created</code> 代替了，以一个 <code>setup</code> 函数的形式，可以灵活组织代码了。</li>
+<li><code>setup</code> 还可以 return 数据或者 template，相当于把 <code>data</code> 和 <code>render</code> 也一并代替了！</li>
+</ul>
+<p>实例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div&gt;&#123;&#123; count &#125;&#125; &#123;&#123; object.foo &#125;&#125;&lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">import &#123; ref, reactive &#125; from &#39;vue&#39;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  setup() &#123;</span><br><span class="line">    const count &#x3D; ref(0)</span><br><span class="line">    const object &#x3D; reactive(&#123; foo: &#39;bar&#39; &#125;)</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; expose to template</span><br><span class="line">    return &#123;</span><br><span class="line">      count,</span><br><span class="line">      object</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
+
+<p>需要注意的是，setup函数中取消this，取消了 <code>this</code>，取而代之的是 <code>setup</code> 增加了2个参数：props，组件参数和context，上下文信息</p>
+<p>2.Reactive方法：</p>
+<p>被 <code>reactive</code> 方法包裹后的 <code>对象</code> 就变成了一个代理对象，相当于 Vue2.x 中的 <code>Vue.observable()</code>。也就可以实现页面和数据之间的双向绑定了。</p>
+<p>这个包裹的方法是 <code>deep</code> 的， <a href="vue3.md">vue3.md</a> 对所有嵌套的属性都生效。</p>
+<p>3.ref方法</p>
+<p>被 <code>ref</code> 方法包裹后的 <code>元素</code> 就变成了一个代理对象。一般而言，这里的元素参数指 <code>基本元素</code> 或者称之为 <code>inner value</code>，如：number, string, boolean,null,undefined 等，object 一般不使用 <code>ref</code>，而是使用上文的 <code>reactive</code>。</p>
+<p>也就是说 <code>ref</code> 一般适用于某个元素的；而 <code>reactive</code> 适用于一个对象。</p>
+<p>4.isRef方法</p>
+<p>判断一个对象是否 <code>ref</code> 代理对象。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const unwrapped &#x3D; isRef(foo) ? foo.value : foo</span><br></pre></td></tr></table></figure>
+
+<p>5.toRefs 方法</p>
+<p>将一个 <code>reactive</code> 代理对象打平，转换为 <code>ref</code> 代理对象，使得对象的属性可以直接在 <code>template</code> 上使用。</p>
+<p>6.computed函数</p>
+<p>与 Vue2.x 中的作用类似，获取一个计算结果。当然功能有所增强，不仅支持取值 <code>get</code>（默认），还支持赋值 <code>set</code>。</p>
+<p>结果是一个 <code>ref</code> 代理对象，js中取值需要 <code>.value</code>。</p>
+<p>当 computed 参数使用 object 对象书写时，使用 get 和 set 属性。set 属性可以将这个对象编程一个可写的对象。</p>
+<p>也就是说 <code>computed</code> 不仅可以获取一个计算结果，它还可以反过来处理 <code>ref</code> 或者 <code>reactive</code> 对象</p>
+<p>7.readonly函数</p>
+<p>使用 <code>readonly</code> 函数，可以把 <code>普通 object 对象</code>、<code>reactive 对象</code>、<code>ref 对象</code> 返回一个只读对象。</p>
+<p>返回的 readonly 对象，一旦修改就会在 console 有 warning 警告。程序还是会照常运行，不会报错。</p>
+<p>8.watch函数</p>
+<p>watch 函数用来侦听特定的数据源，并在回调函数中执行副作用。默认情况是惰性的，也就是说仅在侦听的源数据变更时才执行回调。</p>
+<p>监听不同的数据</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//侦听reactive的数据</span></span><br><span class="line"><span class="keyword">import</span> &#123; defineComponent, ref, reactive, toRefs, watch &#125; <span class="keyword">from</span> <span class="string">"vue"</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> defineComponent(&#123;</span><br><span class="line">  setup() &#123;</span><br><span class="line">    <span class="keyword">const</span> state = reactive(&#123; <span class="attr">nickname</span>: <span class="string">"xiaofan"</span>, <span class="attr">age</span>: <span class="number">20</span> &#125;);</span><br><span class="line"></span><br><span class="line">    setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      state.age++;</span><br><span class="line">    &#125;, <span class="number">1000</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 修改age值时会触发 watch的回调</span></span><br><span class="line">    watch(</span><br><span class="line">      () =&gt; state.age,</span><br><span class="line">      (curAge, preAge) =&gt; &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">"新值:"</span>, curAge, <span class="string">"老值:"</span>, preAge);</span><br><span class="line">      &#125;</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      ...toRefs(state),</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">//侦听ref定义的数据</span></span><br><span class="line"><span class="keyword">const</span> year = ref(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  year.value++;</span><br><span class="line">&#125;, <span class="number">1000</span>);</span><br><span class="line"></span><br><span class="line">watch(year, (newVal, oldVal) =&gt; &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"新值:"</span>, newVal, <span class="string">"老值:"</span>, oldVal);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//侦听多个数据时进行合并监听</span></span><br><span class="line">watch([<span class="function"><span class="params">()</span> =&gt;</span> state.age, year], ([curAge, newVal], [preAge, oldVal]) =&gt; &#123;</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"新值:"</span>, curAge, <span class="string">"老值:"</span>, preAge); <span class="built_in">console</span>.log(<span class="string">"新值:"</span>, newVal,</span><br><span class="line"><span class="string">"老值:"</span>, oldVal); &#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">//侦听复杂数据</span></span><br><span class="line"><span class="keyword">const</span> state = reactive(&#123;</span><br><span class="line">  room: &#123;</span><br><span class="line">    id: <span class="number">100</span>,</span><br><span class="line">    attrs: &#123;</span><br><span class="line">      size: <span class="string">"140平方米"</span>,</span><br><span class="line">      type: <span class="string">"三室两厅"</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;);</span><br><span class="line">watch(</span><br><span class="line">  () =&gt; state.room,</span><br><span class="line">  (newType, oldType) =&gt; &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"新值:"</span>, newType, <span class="string">"老值:"</span>, oldType);</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123; <span class="attr">deep</span>: <span class="literal">true</span> &#125;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+
+
+<p>停止监听</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> stopWatchRoom = watch(<span class="function"><span class="params">()</span> =&gt;</span> state.room, (newType, oldType) =&gt; &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"新值:"</span>, newType, <span class="string">"老值:"</span>, oldType);</span><br><span class="line">&#125;, &#123;<span class="attr">deep</span>:<span class="literal">true</span>&#125;);</span><br><span class="line"></span><br><span class="line">setTimeout(<span class="function"><span class="params">()</span>=&gt;</span>&#123;</span><br><span class="line">    <span class="comment">// 停止监听</span></span><br><span class="line">    stopWatchRoom()</span><br><span class="line">&#125;, <span class="number">3000</span>)</span><br></pre></td></tr></table></figure>
+
+<p>9.watcheffect函数</p>
+<p>watcheffect与watch的区别：</p>
+<ol>
+<li>watchEffect 不需要手动传入依赖</li>
+<li>watchEffect 会先执行一次用来自动收集依赖</li>
+<li>watchEffect 无法获取到变化前的值， 只能获取变化后的值</li>
+</ol>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; reactive, watchEffect &#125; <span class="keyword">from</span> <span class="string">'vue'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> state = reactive(&#123;</span><br><span class="line">  count: <span class="number">0</span>,</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">increment</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  state.count++</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> renderContext = &#123;</span><br><span class="line">  state,</span><br><span class="line">  increment,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">watchEffect(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// 假设的方法，并不是真实的 API</span></span><br><span class="line">  renderTemplate(</span><br><span class="line">    <span class="string">`&lt;button @click="increment"&gt;&#123;&#123; state.count &#125;&#125;&lt;/button&gt;`</span>,</span><br><span class="line">    renderContext</span><br><span class="line">  )</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 
+<h4 id="自定义hook"><a href="#自定义hook" class="headerlink" title="自定义hook"></a>自定义hook</h4><p>约定这些「自定义 Hook」以 use 作为前缀，和普通的函数加以区分</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; ref, Ref, computed &#125; <span class="keyword">from</span> <span class="string">"vue"</span>;</span><br><span class="line"></span><br><span class="line">type CountResultProps = &#123;</span><br><span class="line">  count: Ref&lt;number&gt;;</span><br><span class="line">  multiple: Ref&lt;number&gt;;</span><br><span class="line">  increase: <span class="function">(<span class="params">delta?: number</span>) =&gt;</span> <span class="keyword">void</span>;</span><br><span class="line">  decrease: <span class="function">(<span class="params">delta?: number</span>) =&gt;</span> <span class="keyword">void</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">useCount</span>(<span class="params">initValue = <span class="number">1</span></span>): <span class="title">CountResultProps</span> </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> count = ref(initValue);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> increase = (delta?: number): <span class="function"><span class="params">void</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> delta !== <span class="string">"undefined"</span>) &#123;</span><br><span class="line">      count.value += delta;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      count.value += <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">const</span> multiple = computed(<span class="function"><span class="params">()</span> =&gt;</span> count.value * <span class="number">2</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> decrease = (delta?: number): <span class="function"><span class="params">void</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> delta !== <span class="string">"undefined"</span>) &#123;</span><br><span class="line">      count.value -= delta;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      count.value -= <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    count,</span><br><span class="line">    multiple,</span><br><span class="line">    increase,</span><br><span class="line">    decrease,</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用useCount这个hook</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;p&gt;count: &#123;&#123; count &#125;&#125;&lt;&#x2F;p&gt;</span><br><span class="line">  &lt;p&gt;倍数： &#123;&#123; multiple &#125;&#125;&lt;&#x2F;p&gt;</span><br><span class="line">  &lt;div&gt;</span><br><span class="line">    &lt;button @click&#x3D;&quot;increase()&quot;&gt;加1&lt;&#x2F;button&gt;</span><br><span class="line">    &lt;button @click&#x3D;&quot;decrease()&quot;&gt;减一&lt;&#x2F;button&gt;</span><br><span class="line">  &lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script lang&#x3D;&quot;ts&quot;&gt;</span><br><span class="line">import useCount from &quot;..&#x2F;hooks&#x2F;useCount&quot;;</span><br><span class="line"> setup() &#123;</span><br><span class="line">    const &#123; count, multiple, increase, decrease &#125; &#x3D; useCount(10);</span><br><span class="line">        return &#123;</span><br><span class="line">            count,</span><br><span class="line">            multiple,</span><br><span class="line">            increase,</span><br><span class="line">            decrease,</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;,</span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
+
+<p>Vue2.x 实现，分散在<code>data</code>,<code>method</code>,<code>computed</code>等， 如果刚接手项目，实在无法快速将<code>data</code>字段和<code>method</code>关联起来，而 Vue3 的方式可以很明确的看出，将 count 相关的逻辑聚合在一起， 看起来舒服多了， 而且<code>useCount</code>还可以扩展更多的功能。 项目开发完之后，后续还会写一篇总结项目中使用到的「自定义 Hooks 的文章」，帮助大家更高效的开发，</p>
+<h3 id="teleport"><a href="#teleport" class="headerlink" title="teleport"></a>teleport</h3><p>在子组件<code>Header</code>中使用到<code>Dialog</code>组件，我们实际开发中经常会在类似的情形下使用到 <code>Dialog</code> ，此时<code>Dialog</code>就被渲染到一层层子组件内部，处理嵌套组件的定位、<code>z-index</code>和样式都变得困难。 <code>Dialog</code>从用户感知的层面，应该是一个独立的组件，从 dom 结构应该完全剥离 Vue 顶层组件挂载的 DOM；同时还可以使用到 Vue 组件内的状态（<code>data</code>或者<code>props</code>）的值。简单来说就是,<strong>即希望继续在组件内部使用<code>Dialog</code>, 又希望渲染的 DOM 结构不嵌套在组件的 DOM 中</strong>。 此时就需要 Teleport 上场，我们可以用<code>&lt;Teleport&gt;</code>包裹<code>Dialog</code>, 此时就建立了一个传送门，可以将<code>Dialog</code>渲染的内容传送到任何指定的地方。</p>
+<h3 id="Suspense"><a href="#Suspense" class="headerlink" title="Suspense"></a>Suspense</h3><p>在前后端交互获取数据时， 是一个异步过程，一般我们都会提供一个加载中的动画，当数据返回时配合<code>v-if</code>来控制数据显示。 如果你使用过<code>vue-async-manager</code>这个插件来完成上面的需求， 你对<code>Suspense</code>可能不会陌生</p>
+<p>Vue3.x 新出的内置组件<code>Suspense</code>, 它提供两个<code>template</code> slot, 刚开始会渲染一个 fallback 状态下的内容， 直到到达某个条件后才会渲染 default 状态的正式内容， 通过使用<code>Suspense</code>组件进行展示异步渲染就更加的简单。:::warning 如果使用 <code>Suspense</code>, 要返回一个 promise :::<code>Suspense</code> 组件的使用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">  &lt;Suspense&gt;</span><br><span class="line">        &lt;template #default&gt;</span><br><span class="line">            &lt;async-component&gt;&lt;&#x2F;async-component&gt;</span><br><span class="line">        &lt;&#x2F;template&gt;</span><br><span class="line">        &lt;template #fallback&gt;</span><br><span class="line">            &lt;div&gt;</span><br><span class="line">                Loading...</span><br><span class="line">            &lt;&#x2F;div&gt;</span><br><span class="line">        &lt;&#x2F;template&gt;</span><br><span class="line">  &lt;&#x2F;Suspense&gt;</span><br><span class="line"></span><br><span class="line">&lt;&lt;template&gt;</span><br><span class="line">&lt;div&gt;</span><br><span class="line">    &lt;h4&gt;这个是一个异步加载数据&lt;&#x2F;h4&gt;</span><br><span class="line">    &lt;p&gt;用户名：&#123;&#123;user.nickname&#125;&#125;&lt;&#x2F;p&gt;</span><br><span class="line">    &lt;p&gt;年龄：&#123;&#123;user.age&#125;&#125;&lt;&#x2F;p&gt;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">import &#123; defineComponent &#125; from &quot;vue&quot;</span><br><span class="line">import axios from &quot;axios&quot;</span><br><span class="line">export default defineComponent(&#123;</span><br><span class="line">    setup()&#123;</span><br><span class="line">        const rawData &#x3D; await axios.get(&quot;http:&#x2F;&#x2F;xxx.xinp.cn&#x2F;user&quot;)</span><br><span class="line">        return &#123;</span><br><span class="line">            user: rawData.data</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
 
 
 
+<h3 id="slot变化"><a href="#slot变化" class="headerlink" title="slot变化"></a>slot变化</h3><p>vue2中使用slot插槽</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 父组件中使用 --&gt;</span><br><span class="line">&lt;template slot&#x3D;&quot;content&quot; slot-scope&#x3D;&quot;scoped&quot;&gt;</span><br><span class="line">    &lt;div v-for&#x3D;&quot;item in scoped.data&quot;&gt;&#123;&#123;item&#125;&#125;&lt;&#x2F;div&gt;</span><br><span class="line">&lt;template&gt;</span><br><span class="line">  </span><br><span class="line">  &#x2F;&#x2F; 子组件</span><br><span class="line">&lt;slot name&#x3D;&quot;content&quot; :data&#x3D;&quot;data&quot;&gt;&lt;&#x2F;slot&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">    data()&#123;</span><br><span class="line">        return&#123;</span><br><span class="line">            data:[&quot;走过来人来人往&quot;,&quot;不喜欢也得欣赏&quot;,&quot;陪伴是最长情的告白&quot;]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="Reactive-API"><a href="#Reactive-API" class="headerlink" title="Reactive API"></a>Reactive API</h3><h2 id="Element-plus"><a href="#Element-plus" class="headerlink" title="Element-plus"></a>Element-plus</h2>
+<p>Vue3将<code>slot</code>和<code>slot-scope</code>进行了合并同意使用。 Vue3.0 中<code>v-slot</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 父组件中使用 --&gt;</span><br><span class="line"> &lt;template v-slot:content&#x3D;&quot;scoped&quot;&gt;</span><br><span class="line">   &lt;div v-for&#x3D;&quot;item in scoped.data&quot;&gt;&#123;&#123;item&#125;&#125;&lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;template&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- 也可以简写成： --&gt;</span><br><span class="line">&lt;template #content&#x3D;&quot;&#123;data&#125;&quot;&gt;</span><br><span class="line">    &lt;div v-for&#x3D;&quot;item in data&quot;&gt;&#123;&#123;item&#125;&#125;&lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;template&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="异步组件"><a href="#异步组件" class="headerlink" title="异步组件"></a>异步组件</h3><p>Vue3 中 使用 <code>defineAsyncComponent</code> 定义异步组件，配置选项 <code>component</code> 替换为 <code>loader</code> ,Loader 函数本身不再接收 resolve 和 reject 参数，且必须返回一个 Promise，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;!-- 异步组件的使用 --&gt;</span><br><span class="line">  &lt;AsyncPage &#x2F;&gt;</span><br><span class="line">&lt;&#x2F;tempate&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">import &#123; defineAsyncComponent &#125; from &quot;vue&quot;;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  components: &#123;</span><br><span class="line">    &#x2F;&#x2F; 无配置项异步组件</span><br><span class="line">    AsyncPage: defineAsyncComponent(() &#x3D;&gt; import(&quot;.&#x2F;NextPage.vue&quot;)),</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; 有配置项异步组件</span><br><span class="line">    AsyncPageWithOptions: defineAsyncComponent(&#123;</span><br><span class="line">   loader: () &#x3D;&gt; import(&quot;.NextPage.vue&quot;),</span><br><span class="line">   delay: 200,</span><br><span class="line">   timeout: 3000,</span><br><span class="line">   errorComponent: () &#x3D;&gt; import(&quot;.&#x2F;ErrorComponent.vue&quot;),</span><br><span class="line">   loadingComponent: () &#x3D;&gt; import(&quot;.&#x2F;LoadingComponent.vue&quot;),</span><br><span class="line"> &#125;)</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="tree-shaking"><a href="#tree-shaking" class="headerlink" title="tree-shaking"></a>tree-shaking</h3><p>Vue3.x 在考虑到 <code>tree-shaking</code>的基础上重构了全局和内部 API, 表现结果就是现在的全局 API 需要通过 <code>ES Module</code>的引用方式进行具名引用</p>
+<p>如vue中使用nextTick()</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// vue2.x</span></span><br><span class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">"vue"</span></span><br><span class="line"></span><br><span class="line">Vue.nextTick(<span class="function"><span class="params">()</span>=&gt;</span>&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> &#123; nextTick &#125; <span class="keyword">from</span> <span class="string">"vue"</span></span><br><span class="line"></span><br><span class="line">nextTick(<span class="function"><span class="params">()</span> =&gt;</span>&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>类似的api变化</p>
+<ul>
+<li><code>Vue.nextTick</code></li>
+<li><code>Vue.observable</code>（用 <code>Vue.reactive</code> 替换）</li>
+<li><code>Vue.version</code></li>
+<li><code>Vue.compile</code>（仅限完整版本时可用）</li>
+<li><code>Vue.set</code>（仅在 2.x 兼容版本中可用）</li>
+<li><code>Vue.delete</code>（与上同）</li>
+</ul>
+<h2 id="Element-plus"><a href="#Element-plus" class="headerlink" title="Element-plus"></a>Element-plus</h2>
         </div>
         
         <div class="level is-size-7 is-uppercase">
@@ -496,7 +590,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            104
+                            106
                         </p>
                     </a>
                 </div>
@@ -634,21 +728,41 @@
         <span class="has-mr-6">2.1</span>
         <span>全局变量</span>
         </a></li><li>
-        <a class="is-flex" href="#模版语法变化">
+        <a class="is-flex" href="#模版语法变化-Fragment片段">
         <span class="has-mr-6">2.2</span>
-        <span>模版语法变化</span>
+        <span>模版语法变化(Fragment片段)</span>
         </a></li><li>
         <a class="is-flex" href="#生命周期函数变化">
         <span class="has-mr-6">2.3</span>
         <span>生命周期函数变化</span>
         </a></li><li>
-        <a class="is-flex" href="#组合式API">
+        <a class="is-flex" href="#组合式API-composition">
         <span class="has-mr-6">2.4</span>
-        <span>组合式API</span>
-        </a></li><li>
-        <a class="is-flex" href="#Reactive-API">
+        <span>组合式API/composition</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#自定义hook">
+        <span class="has-mr-6">2.4.1</span>
+        <span>自定义hook</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#teleport">
         <span class="has-mr-6">2.5</span>
-        <span>Reactive API</span>
+        <span>teleport</span>
+        </a></li><li>
+        <a class="is-flex" href="#Suspense">
+        <span class="has-mr-6">2.6</span>
+        <span>Suspense</span>
+        </a></li><li>
+        <a class="is-flex" href="#slot变化">
+        <span class="has-mr-6">2.7</span>
+        <span>slot变化</span>
+        </a></li><li>
+        <a class="is-flex" href="#异步组件">
+        <span class="has-mr-6">2.8</span>
+        <span>异步组件</span>
+        </a></li><li>
+        <a class="is-flex" href="#tree-shaking">
+        <span class="has-mr-6">2.9</span>
+        <span>tree-shaking</span>
         </a></li></ul></li><li>
         <a class="is-flex" href="#Element-plus">
         <span class="has-mr-6">3</span>
@@ -725,7 +839,7 @@
                 <span class="level-item">个人生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">24</span>
+                <span class="level-item tag">25</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">
@@ -733,7 +847,7 @@
                 <span class="level-item">技术博客</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">34</span>
+                <span class="level-item tag">35</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%9C%8B%E5%8F%8B/">
@@ -770,7 +884,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/IT/" style="font-size: 10px;">IT</a> <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 12px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 10px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8C/" style="font-size: 14px;">IT,Web，</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 12px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 14px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 12px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 12px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb/" style="font-size: 16px;">IT，Web</a> <a href="/tags/IT%EF%BC%8CWeb-Javascript/" style="font-size: 10px;">IT，Web,Javascript</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 18px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 14px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Rust/" style="font-size: 10px;">IT，Web,Rust</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 14px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 16px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 12px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 10px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 12px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 18px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 14px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 14px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">幸福</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 14px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/" style="font-size: 14px;">技术，IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 12px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 12px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 12px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 18px;">生活、幸福</a> <a href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">记录，生活</a>
+        <a href="/tags/IT/" style="font-size: 10px;">IT</a> <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 11.67px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 11.67px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8C/" style="font-size: 13.33px;">IT,Web，</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 11.67px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 13.33px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 11.67px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 11.67px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb/" style="font-size: 15px;">IT，Web</a> <a href="/tags/IT%EF%BC%8CWeb-Javascript/" style="font-size: 10px;">IT，Web,Javascript</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 16.67px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 13.33px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Rust/" style="font-size: 10px;">IT，Web,Rust</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 13.33px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 15px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 11.67px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 10px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 11.67px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 16.67px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 13.33px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 13.33px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">幸福</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 13.33px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/" style="font-size: 13.33px;">技术，IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 11.67px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 11.67px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 11.67px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 18.33px;">生活、幸福</a> <a href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">记录，生活</a>
     </div>
 </div>
     
@@ -782,6 +896,25 @@
         <h3 class="menu-label">
             最新文章
         </h3>
+        
+        <article class="media">
+            
+            <a href="/2021/03/20/%E6%B7%B1%E5%A4%9C%E9%A2%98%E8%AE%B0(%E4%B8%80)/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="深夜题记(一)：我也想成为一个温柔的人啊">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-03-20T13:40:33.000Z">2021-03-20</time></div>
+                    <a href="/2021/03/20/%E6%B7%B1%E5%A4%9C%E9%A2%98%E8%AE%B0(%E4%B8%80)/" class="title has-link-black-ter is-size-6 has-text-weight-normal">深夜题记(一)：我也想成为一个温柔的人啊</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">个人生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -859,25 +992,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2021/01/22/Node7/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="https://cdn.kunkunzhang.top/express.jpg" alt="NodeJs开发（三）">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-22T14:40:33.000Z">2021-01-22</time></div>
-                    <a href="/2021/01/22/Node7/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（三）</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/IT/">IT</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
         
@@ -895,7 +1009,7 @@
                     <span class="level-item">三月 2021</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">1</span>
+                    <span class="level-item tag">2</span>
                 </span>
             </a>
         </li>
@@ -983,7 +1097,7 @@
                     <span class="level-item">六月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">18</span>
+                    <span class="level-item tag">19</span>
                 </span>
             </a>
         </li>
@@ -1069,7 +1183,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT-Web/">
                         <span class="tag">IT,Web,</span>
-                        <span class="tag is-grey">1</span>
+                        <span class="tag is-grey">2</span>
                     </a>
                 </div>
                 
@@ -1370,7 +1484,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/">
                         <span class="tag">生活、幸福</span>
-                        <span class="tag is-grey">5</span>
+                        <span class="tag is-grey">6</span>
                     </a>
                 </div>
                 
@@ -1400,7 +1514,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="https://s1.ax1x.com/2020/03/27/G9OfNn.th.png" alt="Vue.js前端框架" height="28">
+                    <img src="https://s1.ax1x.com/2020/03/27/G9OfNn.th.png" alt="Vue.js前端框架(三)" height="28">
                 
                 </a>
                 <p class="is-size-7">

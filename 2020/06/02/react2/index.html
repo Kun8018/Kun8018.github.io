@@ -19,7 +19,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://kun8018.gitee.io/images/og_image.png">
 <meta property="article:published_time" content="2020-06-02T13:40:33.000Z">
-<meta property="article:modified_time" content="2021-03-15T16:45:35.113Z">
+<meta property="article:modified_time" content="2021-03-27T15:28:20.758Z">
 <meta property="article:author" content="Kun Zhang">
 <meta property="article:tag" content="IT，Web,Node，React">
 <meta name="twitter:card" content="summary">
@@ -152,7 +152,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    44 分钟 读完 (大约 6623 个字)
+                    1 小时 读完 (大约 7726 个字)
                 </span>
                 
                 
@@ -252,6 +252,50 @@
 <h3 id="自定义hook混用"><a href="#自定义hook混用" class="headerlink" title="自定义hook混用"></a>自定义hook混用</h3><p>可以把不同的hook按照实际的需求混合起来，封装成一个新的函数使用</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">const useList &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">  const [list, setList] &#x3D; useState(null);</span><br><span class="line">  useEffect(() &#x3D;&gt; &#123;</span><br><span class="line">    ajax(&quot;&#x2F;list&quot;).then(list &#x3D;&gt; &#123;</span><br><span class="line">      setList(list);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;, []); &#x2F;&#x2F; [] 确保只在第一次运行</span><br><span class="line">  return &#123;</span><br><span class="line">    list: list,</span><br><span class="line">    setList: setList</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br><span class="line">export default useList;</span><br></pre></td></tr></table></figure>
 
+<h3 id="hook的使用规则"><a href="#hook的使用规则" class="headerlink" title="hook的使用规则"></a>hook的使用规则</h3><p>hook有以下使用规则：</p>
+<ol>
+<li>不要在循环，条件或嵌套函数中调用 Hook</li>
+<li>确保总是在你的 React 函数的最顶层调用他们。</li>
+<li>顺序调用。遵守这条规则，你就能确保 Hook 在每一次渲染中都按照同样的顺序被调用。这让 React 能够在多次的 useState 和 useEffect 调用之间保持 hook 状态的正确。</li>
+</ol>
+<p>在单个组件中可以使用多个 State Hook 或 Effect Hook，但是React 怎么知道哪个 state 对应哪个 <code>useState</code>？答案是 React 靠的是 Hook 调用的顺序。因为我们的示例中，Hook 的调用顺序在每次渲染中都是相同的，所以它能够正常工作。只要 Hook 的调用顺序在多次渲染之间保持一致，React 就能正确地将内部 state 和对应的 Hook 进行关联。</p>
+<p>如果在语句中使用hook</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 🔴 在条件语句中使用 Hook 违反第一条规则</span></span><br><span class="line"> <span class="keyword">if</span> (name !== <span class="string">''</span>) &#123;</span><br><span class="line">   useEffect(<span class="function"><span class="keyword">function</span> <span class="title">persistForm</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">     localStorage.setItem(<span class="string">'formData'</span>, name);</span><br><span class="line">   &#125;);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>在第一次渲染中 <code>name !== &#39;&#39;</code> 这个条件值为 <code>true</code>，所以我们会执行这个 Hook。但是下一次渲染时我们可能清空了表单，表达式值变为 <code>false</code>。此时的渲染会跳过该 Hook，Hook 的调用顺序发生了改变：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">useState(<span class="string">'Mary'</span>)           <span class="comment">// 1. 读取变量名为 name 的 state（参数被忽略）</span></span><br><span class="line"><span class="comment">// useEffect(persistForm)  // 🔴 此 Hook 被忽略！</span></span><br><span class="line">useState(<span class="string">'Poppins'</span>)        <span class="comment">// 🔴 2 （之前为 3）。读取变量名为 surname 的 state 失败</span></span><br><span class="line">useEffect(updateTitle)     <span class="comment">// 🔴 3 （之前为 4）。替换更新标题的 effect 失败</span></span><br></pre></td></tr></table></figure>
+
+<p>React 不知道第二个 <code>useState</code> 的 Hook 应该返回什么。React 会以为在该组件中第二个 Hook 的调用像上次的渲染一样，对应的是 <code>persistForm</code> 的 effect，但并非如此。从这里开始，后面的 Hook 调用都被提前执行，导致 bug 的产生。</p>
+<h3 id="Hook的闭包陷阱-过期闭包"><a href="#Hook的闭包陷阱-过期闭包" class="headerlink" title="Hook的闭包陷阱(过期闭包)"></a>Hook的闭包陷阱(过期闭包)</h3><p>闭包陷阱就是在React Hook进行开发时，通过useState定义的值拿到的都不是最新的值</p>
+<p>上代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">const App &#x3D; () &#x3D;&gt;&#123;</span><br><span class="line">   const [count,setCount] &#x3D; useState(0)</span><br><span class="line">   useEffect(()&#x3D;&gt;&#123;</span><br><span class="line">     const timeId &#x3D; setInterval(()&#x3D;&gt;&#123;</span><br><span class="line">        setCount(count+1)</span><br><span class="line">     &#125;,1000)</span><br><span class="line">     return ()&#x3D;&gt;&#123;clearInterval(timeId)&#125;</span><br><span class="line">   &#125;,[])</span><br><span class="line">   return (</span><br><span class="line">      &lt;span&gt;&#123;count&#125;&lt;&#x2F;span&gt;</span><br><span class="line">   )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面的代码中，count并不会和理想中一样每过一秒自动+1并更新DOM，而是从0变成1后，console打印出的count一直是设立的默认值0</p>
+<p>因为useEffect的依赖数组是空数组，那setInterval里面的count是通过闭包取得的值，他读取到的第一次的count，并且useEffect并没有更新，因为每次都是0</p>
+<p>如果去掉useEffect的依赖数组可以解决这个问题，然而会造成每次App组件渲染都会运行useEffect里面的函数，就会造成不必要的浪费和隐藏的bug</p>
+<h4 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h4><p><strong>使用setstate回调</strong></p>
+<p>把setCount(count+1)改成setCount(count=&gt;count+1)，函数式更新</p>
+<p>它允许我们指定state如何改变而不引用当前的state，因为回调函数中的参数是最新的count值</p>
+<p><strong>使用useReducer代替</strong></p>
+<p>把setCount改成useReducer的dispatch，因为useReducer的dispatch的身份永远是稳定的。即使reducer函数是定义在函数内部且依赖props</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">const setCountReducer &#x3D; (state,action)&#x3D;&gt;&#123;</span><br><span class="line">   switch(action.type)&#123;</span><br><span class="line">     case &#39;add&#39;:</span><br><span class="line">       return state+action.value </span><br><span class="line">     case &#39;minus&#39;:</span><br><span class="line">       return state-action.value</span><br><span class="line">     default: </span><br><span class="line">       return state</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const App &#x3D; () &#x3D;&gt;&#123;</span><br><span class="line">  const [count,dispatch] &#x3D; useReducer(setCountReducer,0)</span><br><span class="line">  useEffect(()&#x3D;&gt;&#123;</span><br><span class="line">    const timeId &#x3D; setInterval(()&#x3D;&gt;&#123;</span><br><span class="line">      dispatch(&#123;type:&#39;add&#39;,value:1&#125;)</span><br><span class="line">    &#125;,1000)</span><br><span class="line">    return ()&#x3D;&gt; clearInterval(timeId)</span><br><span class="line">  &#125;,[])</span><br><span class="line">  return (</span><br><span class="line">     &lt;span&gt;&#123;count&#125;&lt;&#x2F;span&gt;</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>使用useRef存储变量</strong></p>
+<p>通过useRef生成的对象默认都是{current:{}},每次组件重新渲染时，他也是同一个对象的引用，不会因为组件的重新渲染导致取得闭包的对象引用，因此它不仅可以绑定DOM，也可以绑定任意我们想绑定的数据</p>
+<p>改造代码如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">const App &#x3D; () &#x3D;&gt;&#123;</span><br><span class="line">  const [count,setCount] &#x3D; useState(0)</span><br><span class="line">  const countRef &#x3D; useRef()</span><br><span class="line">  countRef.current &#x3D; count</span><br><span class="line">  useEffect(()&#x3D;&gt;&#123;</span><br><span class="line">    const timeId &#x3D; setInterval(()&#x3D;&gt;&#123;</span><br><span class="line">      setCount(countRef.current+1)</span><br><span class="line">    &#125;,1000)</span><br><span class="line">    return ()&#x3D;&gt; clearInterval(timeId)</span><br><span class="line">  &#125;,[])</span><br><span class="line">  return (</span><br><span class="line">     &lt;span&gt;&#123;countRef.current&#125;&lt;&#x2F;span&gt;</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="其他会导致闭包陷阱的情况"><a href="#其他会导致闭包陷阱的情况" class="headerlink" title="其他会导致闭包陷阱的情况"></a>其他会导致闭包陷阱的情况</h4><p>异步函数</p>
+<p>使用setInterval和setTimeout函数时，内部的变量读取的是异步函数在运行时组件处在闭包情况下的当前值，因为在异步函数内部的数据并不会在dom更新之后更新为新的值，他们的变量引用已经不是同一个了</p>
+<p>上代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">const App &#x3D; ()&#x3D;&gt;&#123;</span><br><span class="line">  const [count,setCount] &#x3D; useState(0)</span><br><span class="line">  const consoleCount &#x3D; ()&#x3D;&gt;&#123;</span><br><span class="line">    const timeId &#x3D; setTimeout(()&#x3D;&gt;&#123;</span><br><span class="line">       console.log(count)</span><br><span class="line">    &#125;,2000)</span><br><span class="line">    return ()&#x3D;&gt; clearTimeout(timeId)</span><br><span class="line">  &#125;</span><br><span class="line">  return (</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">      &lt;span&gt;&#123;count&#125;&lt;&#x2F;span&gt;</span><br><span class="line">      &lt;button onClick&#x3D;&#123;()&#x3D;&gt;setCount(count+1)&#125;&gt;按我加1&lt;&#x2F;button&gt;</span><br><span class="line">      &lt;button onClick&#x3D;&#123;consoleCount&#125;&gt;输出count&lt;&#x2F;button&gt;</span><br><span class="line">    &lt;&#x2F;div&gt;</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>先点击三次加1按钮，把count变成3，然后点击输出按钮，此时再点击加1按钮，可以看到输出的count还是3，即输出的count是旧值</p>
+<p>dom监听函数事件中的匿名函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">const App &#x3D; () &#x3D;&gt;&#123;</span><br><span class="line">    const [count,setCount] &#x3D; useState(0)</span><br><span class="line">    const consoleCount &#x3D; ()&#x3D;&gt;&#123;</span><br><span class="line">      console.log(count)</span><br><span class="line">    &#125;</span><br><span class="line">    useEffect(()&#x3D;&gt;&#123;</span><br><span class="line">      window.addEventListener(&#39;scroll&#39;,consoleCount)</span><br><span class="line">      return ()&#x3D;&gt;&#123;</span><br><span class="line">         window.removeEventListener(&#39;scroll&#39;,consoleCount)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,[])</span><br><span class="line">  </span><br><span class="line">    return (</span><br><span class="line">       &lt;div style&#x3D;&#123;&#123;height:&#39;400vh&#39;&#125;&#125;&gt;</span><br><span class="line">         &lt;span&gt;&#123;count&#125;&lt;&#x2F;span&gt;</span><br><span class="line">        &lt;button onClick&#x3D;&#123;()&#x3D;&gt;setCount(count+1)&#125;&gt;按我加1&lt;&#x2F;button&gt;</span><br><span class="line">      &lt;button onClick&#x3D;&#123;consoleCount&#125;&gt;输出count&lt;&#x2F;button&gt;</span><br><span class="line">      &lt;&#x2F;div&gt;</span><br><span class="line">    )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以看到不管页面怎么滚动，输出的count永远是0。因为addEventListener只在useEffect初始化的时候进行了绑定，执行函数的时候，count读取的是绑定函数时的旧值</p>
+<p>使用useRef()存储实例变量也能解决这两个问题，也是react官方推荐的方法。</p>
 <h2 id="Fiber架构"><a href="#Fiber架构" class="headerlink" title="Fiber架构"></a>Fiber架构</h2><p>react16相比于react15，经过重构后Reconciliation和Rendering被分为两个不同的阶段。</p>
 <p><strong>reconciler协调阶段</strong>：当组件次初始化和其后的状态更新中，React会创建两颗不相同的虚拟树，React 需要基于这两棵树之间的差别来判断如何有效率的更新 UI 以保证当前 UI 与最新的树保持同步，计算树哪些部分需要更新。</p>
 <p><strong>renderer阶段</strong>：渲染器负责将拿到的虚拟组件树信息，根据其对应环境真实地更新渲染到应用中。有兴趣的朋友可以看一下dan自己的博客中的文章=》<a href="https://overreacted.io/react-as-a-ui-runtime/#renderers">运行时的react=》渲染器</a>，介绍了react的Renderer渲染器如react-dom和react native等，其可以根据不同的主环境来生成不同的实例。</p>
@@ -275,38 +319,6 @@
 <p>如果有相邻兄弟，则遍历；<code>beginWork</code>中收集；收集完后返回其长子，回到<code>第2步</code>循环遍历</p>
 <h3 id="Commit阶段"><a href="#Commit阶段" class="headerlink" title="Commit阶段"></a>Commit阶段</h3><p>类似于<code>Git</code>的分支功能，从旧树里面fork一份，在新分支中进行<strong>添加、删除、更新</strong>操作，然后再进行提交。</p>
 <p>fiber大量使用链表。由于数组的大小是固定的，从数组的起点或者中间插入或移除项的成本很高。链表相对于传统的数组的优势在于添加或移除元素的时候不需要移动其他元素，<strong>需要添加和移除很多元素时，最好的选择是链表，而非数组。</strong> 链表在React的Fiber架构和Hooks实现发挥很大的作用。</p>
-<h2 id="react库"><a href="#react库" class="headerlink" title="react库"></a>react库</h2><h3 id="使用antd"><a href="#使用antd" class="headerlink" title="使用antd"></a>使用antd</h3><p>Ant-Design是蚂蚁金服开发的面向React和Vue的类似于bootstrap的框架，官网链接为：<a href="https://ant.design/index-cn">https://ant.design/index-cn</a></p>
-<p>安装包</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install antd --save</span><br><span class="line">cnpm i antd -S</span><br></pre></td></tr></table></figure>
-
-
-
-<p>在App.css文件中导入样式</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@import &#39;~antd&#x2F;dist&#x2F;antd.css&#39;;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>按需导入包</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import &#123;  &#125; from &#39;antd&#39;;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>组件</p>
-<h3 id="GraphQL"><a href="#GraphQL" class="headerlink" title="GraphQL"></a>GraphQL</h3><p>Apollo是基于GraphQL的全栈解决方案集合，包括了apollo-client和apollo-server，从后端到前端提供了对应的lib使得开发GraphQL更加方便</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">apollo-boost 包含启动阿波罗客户端的所有依赖</span><br><span class="line">react-apollo 视图层面的集合</span><br><span class="line">graph-tag 解析查询语句</span><br><span class="line">graphql 也是解析查询语句</span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">import ApolloClient from &#39;apollo-boost&#39; </span><br><span class="line"></span><br><span class="line">const client &#x3D; new ApolloClient(&#123;</span><br><span class="line">    uri: &#39;http:&#x2F;&#x2F;localhost:5000&#x2F;graphql&#39;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">import &#123; ApolloProvider,Query &#125; from &#39;react-apollo&#39;</span><br><span class="line">import &#123; Mutation,MutationFunc &#125; from &#39;react-apollo&#39;</span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install @apollo&#x2F;client graphql</span><br></pre></td></tr></table></figure>
-
-
-
-<p>使用hooks</p>
-<h3 id="react-dnd"><a href="#react-dnd" class="headerlink" title="react-dnd"></a>react-dnd</h3><p><a href="Https://juejin.cn/post/6933036276660731912">Https://juejin.cn/post/6933036276660731912</a>　</p>
 <h2 id="React优化"><a href="#React优化" class="headerlink" title="React优化"></a>React优化</h2><p><a href="https://juejin.cn/post/6935584878071119885">https://juejin.cn/post/6935584878071119885</a></p>
 <h3 id="懒渲染"><a href="#懒渲染" class="headerlink" title="懒渲染"></a>懒渲染</h3><p>当组件进入可视区域才渲染组件，如modal/drawer这种需要用户操作才会出现的组件。</p>
 <p>使用react-visibility-observer监听</p>
@@ -580,7 +592,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            104
+                            106
                         </p>
                     </a>
                 </div>
@@ -705,7 +717,23 @@
         <a class="is-flex" href="#自定义hook混用">
         <span class="has-mr-6">2.8</span>
         <span>自定义hook混用</span>
-        </a></li></ul></li><li>
+        </a></li><li>
+        <a class="is-flex" href="#hook的使用规则">
+        <span class="has-mr-6">2.9</span>
+        <span>hook的使用规则</span>
+        </a></li><li>
+        <a class="is-flex" href="#Hook的闭包陷阱-过期闭包">
+        <span class="has-mr-6">2.10</span>
+        <span>Hook的闭包陷阱(过期闭包)</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#解决方案">
+        <span class="has-mr-6">2.10.1</span>
+        <span>解决方案</span>
+        </a></li><li>
+        <a class="is-flex" href="#其他会导致闭包陷阱的情况">
+        <span class="has-mr-6">2.10.2</span>
+        <span>其他会导致闭包陷阱的情况</span>
+        </a></li></ul></li></ul></li><li>
         <a class="is-flex" href="#Fiber架构">
         <span class="has-mr-6">3</span>
         <span>Fiber架构</span>
@@ -714,92 +742,76 @@
         <span class="has-mr-6">3.1</span>
         <span>Commit阶段</span>
         </a></li></ul></li><li>
-        <a class="is-flex" href="#react库">
-        <span class="has-mr-6">4</span>
-        <span>react库</span>
-        </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#使用antd">
-        <span class="has-mr-6">4.1</span>
-        <span>使用antd</span>
-        </a></li><li>
-        <a class="is-flex" href="#GraphQL">
-        <span class="has-mr-6">4.2</span>
-        <span>GraphQL</span>
-        </a></li><li>
-        <a class="is-flex" href="#react-dnd">
-        <span class="has-mr-6">4.3</span>
-        <span>react-dnd</span>
-        </a></li></ul></li><li>
         <a class="is-flex" href="#React优化">
-        <span class="has-mr-6">5</span>
+        <span class="has-mr-6">4</span>
         <span>React优化</span>
         </a><ul class="menu-list"><li>
         <a class="is-flex" href="#懒渲染">
-        <span class="has-mr-6">5.1</span>
+        <span class="has-mr-6">4.1</span>
         <span>懒渲染</span>
         </a></li></ul></li><li>
         <a class="is-flex" href="#React原理">
-        <span class="has-mr-6">6</span>
+        <span class="has-mr-6">5</span>
         <span>React原理</span>
         </a><ul class="menu-list"><li>
         <a class="is-flex" href="#setState原理">
-        <span class="has-mr-6">6.1</span>
+        <span class="has-mr-6">5.1</span>
         <span>setState原理</span>
         </a></li><li>
         <a class="is-flex" href="#setState的异步同步">
-        <span class="has-mr-6">6.2</span>
+        <span class="has-mr-6">5.2</span>
         <span>setState的异步同步</span>
         </a><ul class="menu-list"><li>
         <a class="is-flex" href="#setstate更新数组">
-        <span class="has-mr-6">6.2.1</span>
+        <span class="has-mr-6">5.2.1</span>
         <span>setstate更新数组</span>
         </a></li><li>
         <a class="is-flex" href="#连续调用setstate只有一次生效">
-        <span class="has-mr-6">6.2.2</span>
+        <span class="has-mr-6">5.2.2</span>
         <span>连续调用setstate只有一次生效</span>
         </a></li><li>
         <a class="is-flex" href="#setstate自动触发两次">
-        <span class="has-mr-6">6.2.3</span>
+        <span class="has-mr-6">5.2.3</span>
         <span>setstate自动触发两次</span>
         </a></li><li>
         <a class="is-flex" href="#定时器中的setstate">
-        <span class="has-mr-6">6.2.4</span>
+        <span class="has-mr-6">5.2.4</span>
         <span>定时器中的setstate</span>
         </a></li><li>
         <a class="is-flex" href="#原生事件中的setstate">
-        <span class="has-mr-6">6.2.5</span>
+        <span class="has-mr-6">5.2.5</span>
         <span>原生事件中的setstate</span>
         </a></li><li>
         <a class="is-flex" href="#生命周期函数调用setstate">
-        <span class="has-mr-6">6.2.6</span>
+        <span class="has-mr-6">5.2.6</span>
         <span>生命周期函数调用setstate</span>
         </a></li></ul></li><li>
         <a class="is-flex" href="#React渲染机制-work-loop">
-        <span class="has-mr-6">6.3</span>
+        <span class="has-mr-6">5.3</span>
         <span>React渲染机制(work loop)</span>
         </a></li><li>
         <a class="is-flex" href="#Effect-Hook机制">
-        <span class="has-mr-6">6.4</span>
+        <span class="has-mr-6">5.4</span>
         <span>Effect Hook机制</span>
         </a></li><li>
         <a class="is-flex" href="#State、Reducer-Hook机制">
-        <span class="has-mr-6">6.5</span>
+        <span class="has-mr-6">5.5</span>
         <span>State、Reducer Hook机制</span>
         </a></li><li>
         <a class="is-flex" href="#Hook系统原理">
-        <span class="has-mr-6">6.6</span>
+        <span class="has-mr-6">5.6</span>
         <span>Hook系统原理</span>
         </a></li><li>
         <a class="is-flex" href="#redux">
-        <span class="has-mr-6">6.7</span>
+        <span class="has-mr-6">5.7</span>
         <span>redux</span>
         </a></li><li>
         <a class="is-flex" href="#利用context-api实现redux">
-        <span class="has-mr-6">6.8</span>
+        <span class="has-mr-6">5.8</span>
         <span>利用context api实现redux</span>
         </a></li><li>
         <a class="is-flex" href="#手写自定义hook，实现切换状态">
-        <span class="has-mr-6">6.9</span>
+        <span class="has-mr-6">5.9</span>
         <span>手写自定义hook，实现切换状态</span>
         </a></li></ul></li></ul>
             </div>
@@ -873,7 +885,7 @@
                 <span class="level-item">个人生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">24</span>
+                <span class="level-item tag">25</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">
@@ -881,7 +893,7 @@
                 <span class="level-item">技术博客</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">34</span>
+                <span class="level-item tag">35</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%9C%8B%E5%8F%8B/">
@@ -918,7 +930,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/IT/" style="font-size: 10px;">IT</a> <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 12px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 10px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8C/" style="font-size: 14px;">IT,Web，</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 12px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 14px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 12px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 12px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb/" style="font-size: 16px;">IT，Web</a> <a href="/tags/IT%EF%BC%8CWeb-Javascript/" style="font-size: 10px;">IT，Web,Javascript</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 18px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 14px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Rust/" style="font-size: 10px;">IT，Web,Rust</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 14px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 16px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 12px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 10px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 12px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 18px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 14px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 14px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">幸福</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 14px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/" style="font-size: 14px;">技术，IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 12px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 12px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 12px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 18px;">生活、幸福</a> <a href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">记录，生活</a>
+        <a href="/tags/IT/" style="font-size: 10px;">IT</a> <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 11.67px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 11.67px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8C/" style="font-size: 13.33px;">IT,Web，</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 11.67px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 13.33px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 11.67px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 11.67px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb/" style="font-size: 15px;">IT，Web</a> <a href="/tags/IT%EF%BC%8CWeb-Javascript/" style="font-size: 10px;">IT，Web,Javascript</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 16.67px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 13.33px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Rust/" style="font-size: 10px;">IT，Web,Rust</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 13.33px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 15px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 11.67px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 10px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 11.67px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 16.67px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 13.33px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 13.33px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">幸福</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 13.33px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/" style="font-size: 13.33px;">技术，IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 11.67px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 11.67px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 11.67px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 18.33px;">生活、幸福</a> <a href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">记录，生活</a>
     </div>
 </div>
     
@@ -930,6 +942,25 @@
         <h3 class="menu-label">
             最新文章
         </h3>
+        
+        <article class="media">
+            
+            <a href="/2021/03/20/%E6%B7%B1%E5%A4%9C%E9%A2%98%E8%AE%B0(%E4%B8%80)/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="深夜题记(一)：我也想成为一个温柔的人啊">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-03-20T13:40:33.000Z">2021-03-20</time></div>
+                    <a href="/2021/03/20/%E6%B7%B1%E5%A4%9C%E9%A2%98%E8%AE%B0(%E4%B8%80)/" class="title has-link-black-ter is-size-6 has-text-weight-normal">深夜题记(一)：我也想成为一个温柔的人啊</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">个人生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -1007,25 +1038,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2021/01/22/Node7/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="https://cdn.kunkunzhang.top/express.jpg" alt="NodeJs开发（三）">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-22T14:40:33.000Z">2021-01-22</time></div>
-                    <a href="/2021/01/22/Node7/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（三）</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/IT/">IT</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
         
@@ -1043,7 +1055,7 @@
                     <span class="level-item">三月 2021</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">1</span>
+                    <span class="level-item tag">2</span>
                 </span>
             </a>
         </li>
@@ -1131,7 +1143,7 @@
                     <span class="level-item">六月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">18</span>
+                    <span class="level-item tag">19</span>
                 </span>
             </a>
         </li>
@@ -1217,7 +1229,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT-Web/">
                         <span class="tag">IT,Web,</span>
-                        <span class="tag is-grey">1</span>
+                        <span class="tag is-grey">2</span>
                     </a>
                 </div>
                 
@@ -1518,7 +1530,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/">
                         <span class="tag">生活、幸福</span>
-                        <span class="tag is-grey">5</span>
+                        <span class="tag is-grey">6</span>
                     </a>
                 </div>
                 
