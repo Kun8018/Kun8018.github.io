@@ -1,0 +1,1787 @@
+<!DOCTYPE html>
+<html  lang="zh">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 4.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>算法题（一） - kun&#39;s blog</title>
+
+
+    <meta name="description" content="​     非科班出身，在校时没写过算法题，因此特做专题收录。 ​      算法题我会偏向于python和go，说不定也会用java和js写一些，暂时不想用c++，也不会用php（只用它写web）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="算法题（一）">
+<meta property="og:url" content="http://kun8018.gitee.io/2020/06/06/%E7%AE%97%E6%B3%95%E9%A2%981/index.html">
+<meta property="og:site_name" content="kun&#39;s blog">
+<meta property="og:description" content="​     非科班出身，在校时没写过算法题，因此特做专题收录。 ​      算法题我会偏向于python和go，说不定也会用java和js写一些，暂时不想用c++，也不会用php（只用它写web）">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://kun8018.gitee.io/images/og_image.png">
+<meta property="article:published_time" content="2020-06-06T13:40:33.000Z">
+<meta property="article:modified_time" content="2021-04-23T00:05:46.198Z">
+<meta property="article:author" content="Kun Zhang">
+<meta property="article:tag" content="IT,Web，算法">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://kun8018.gitee.io/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="https://s1.ax1x.com/2020/03/27/G9OfNn.th.png">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    <script async="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="https://s1.ax1x.com/2020/03/27/G9OfNn.th.png" alt="算法题（一）" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">首页</a>
+                
+                <a class="navbar-item"
+                href="/archives">最近发布</a>
+                
+                <a class="navbar-item"
+                href="/categories">目录</a>
+                
+                <a class="navbar-item"
+                href="/tags">分类</a>
+                
+                <a class="navbar-item"
+                href="/about">关于我</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    <a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-9-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-06-06T13:40:33.000Z">2020-06-06</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">技术博客</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    36 分钟 读完 (大约 5471 个字)
+                </span>
+                
+                
+                <span class="level-item has-text-grey" id="busuanzi_container_page_pv">
+                    <i class="far fa-eye"></i>
+                    <span id="busuanzi_value_page_pv">0</span>次访问
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                算法题（一）
+            
+        </h1>
+        <div class="content">
+            <p>​     非科班出身，在校时没写过算法题，因此特做专题收录。</p>
+<p>​      算法题我会偏向于python和go，说不定也会用java和js写一些，暂时不想用c++，也不会用php（只用它写web）</p>
+<a id="more"></a>
+
+<h2 id="基础算法"><a href="#基础算法" class="headerlink" title="基础算法"></a>基础算法</h2><p>输入a、b，输出a+b</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a=input().split()</span><br><span class="line"></span><br><span class="line">c = int(a[<span class="number">0</span>])+int(a[<span class="number">1</span>])</span><br><span class="line"><span class="keyword">print</span> (c)</span><br></pre></td></tr></table></figure>
+
+<h3 id="手写进制转化"><a href="#手写进制转化" class="headerlink" title="手写进制转化"></a>手写进制转化</h3><p>26进制与10进制互相转化</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">ALPHBET = (<span class="string">'a'</span>,<span class="string">'b'</span>,<span class="string">'c'</span>,<span class="string">'d'</span>,<span class="string">'e'</span>,<span class="string">'f'</span>,<span class="string">'g'</span>,<span class="string">'h'</span>,<span class="string">'i'</span>,<span class="string">'j'</span>,<span class="string">'k'</span>,<span class="string">'l'</span>,<span class="string">'m'</span>,<span class="string">'n'</span>,<span class="string">'o'</span>,<span class="string">'p'</span>,<span class="string">'q'</span>,<span class="string">'r'</span>,<span class="string">'s'</span>,<span class="string">'t'</span>,<span class="string">'u'</span>,<span class="string">'v'</span>,<span class="string">'w'</span>,<span class="string">'x'</span>,<span class="string">'y'</span>,<span class="string">'z'</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> 26210<span class="params">(alphabet)</span></span></span><br><span class="line"><span class="function">    <span class="title">return</span> <span class="title">sum</span><span class="params">(ALPHABET.index<span class="params">(a)</span>*<span class="params">(<span class="number">26</span> ** e)</span> for e,a in enumerate<span class="params">(reversed<span class="params">(alphabet)</span>)</span>)</span>  </span></span><br><span class="line"><span class="function">  </span></span><br><span class="line"><span class="function"><span class="title">def</span> 10226<span class="params">(digit)</span></span></span><br><span class="line"><span class="function">    ##十进制转26进制</span></span><br><span class="line">    (mod,remainder) = divmod(digit,26)</span><br><span class="line">    alphbet = ALPHABET[remainder]</span><br><span class="line">    <span class="keyword">while</span> mod:</span><br><span class="line">        mod,remainder = divmod(mod,<span class="number">26</span>)</span><br><span class="line">        alphbet = ALPHABET[remainder] + alphabet</span><br><span class="line">    <span class="keyword">return</span> alphabet</span><br><span class="line">  </span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> (<span class="string">'a'</span>,<span class="string">'b'</span>,<span class="string">'c'</span>):</span><br><span class="line">   d = <span class="number">26210</span>(i);</span><br><span class="line">   a = <span class="number">10226</span>(d);</span><br><span class="line">   print(d,a)</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="数论算法"><a href="#数论算法" class="headerlink" title="数论算法"></a>数论算法</h2><h3 id="实现求平方跟-69"><a href="#实现求平方跟-69" class="headerlink" title="实现求平方跟(69)"></a>实现求平方跟(69)</h3><p>实现int sqrt(int x)函数</p>
+<p>计算并返回x的平方根，其中x是非负整数</p>
+<p>返回类型为整数，如果结果是小数只保留整数，小数部分将被舍去。</p>
+<p>输入：4</p>
+<p>输出：2</p>
+<p>输入：8</p>
+<p>输出：2</p>
+<p>代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">mySqrt</span><span class="params">(self, x: int)</span> -&gt; int:</span></span><br><span class="line">        <span class="keyword">if</span> x &lt;= <span class="number">1</span>:</span><br><span class="line">            <span class="keyword">return</span> x</span><br><span class="line">        r = x</span><br><span class="line">        <span class="keyword">while</span> r &gt; x / r:</span><br><span class="line">            r = (r + x / r) // <span class="number">2</span></span><br><span class="line">        <span class="keyword">return</span> int(r)</span><br></pre></td></tr></table></figure>
+
+<h3 id="斐波那契数列-509"><a href="#斐波那契数列-509" class="headerlink" title="斐波那契数列(509)"></a>斐波那契数列(509)</h3><p>斐波那契数，通常用 F(n) 表示，形成的序列称为 斐波那契数列 。该数列由 0 和 1 开始，后面的每一项数字都是前面两项数字的和。也就是：</p>
+<p>F(0) = 0，F(1) = 1<br>F(n) = F(n - 1) + F(n - 2)，其中 n &gt; 1</p>
+<p>给你 <code>n</code> ，请计算 <code>F(n)</code> 。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">fib</span><span class="params">(self,n:int)</span>-&gt;int:</span></span><br><span class="line">        <span class="keyword">if</span>(n&gt;<span class="number">1</span>):</span><br><span class="line">           <span class="keyword">return</span> self.fib(n<span class="number">-1</span>)+self.fib(n<span class="number">-2</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">           <span class="keyword">return</span> n</span><br></pre></td></tr></table></figure>
+
+<h3 id="爬楼梯问题-70"><a href="#爬楼梯问题-70" class="headerlink" title="爬楼梯问题(70)"></a>爬楼梯问题(70)</h3><p>假设你正在爬楼梯。需要 <em>n</em> 阶你才能到达楼顶。</p>
+<p>每次你可以爬 1 或 2 个台阶。你有多少种不同的方法可以爬到楼顶呢？</p>
+<p>例如：输入：2</p>
+<p>输出：2 有两种方法：一阶一阶上，或者跨两阶直接上</p>
+<p>输入：3</p>
+<p>输出：3 有三种方法：一阶一阶上、先跨两阶后一阶、先一阶后两阶</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">climbStairs</span><span class="params">(self, n: int)</span> -&gt; int:</span></span><br><span class="line">        dp = [<span class="number">1</span>, <span class="number">1</span> ,<span class="number">2</span>]</span><br><span class="line">        <span class="keyword">if</span> n &lt;=<span class="number">2</span>:</span><br><span class="line">            <span class="keyword">return</span> dp[n]</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">3</span>,n+<span class="number">1</span>):</span><br><span class="line">            dp.append(dp[i<span class="number">-1</span>] + dp[i<span class="number">-2</span>])</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> dp[n]</span><br></pre></td></tr></table></figure>
+
+<h5 id="变形1：爬楼梯的方法"><a href="#变形1：爬楼梯的方法" class="headerlink" title="变形1：爬楼梯的方法"></a>变形1：爬楼梯的方法</h5><p>每次你可以爬 1 或 3个台阶。你有多少种不同的方法可以爬到楼顶呢？</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">climbStairs</span><span class="params">(self, n: int)</span> -&gt; int:</span></span><br><span class="line">        dp = [<span class="number">1</span>, <span class="number">1</span> ,<span class="number">2</span>]</span><br><span class="line">        <span class="keyword">if</span> n &lt;=<span class="number">2</span>:</span><br><span class="line">            <span class="keyword">return</span> dp[n]</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">3</span>,n+<span class="number">1</span>):</span><br><span class="line">            dp.append(dp[i<span class="number">-1</span>] + dp[i<span class="number">-3</span>])</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> dp[n]</span><br></pre></td></tr></table></figure>
+
+<h5 id="变形2：不能去指定层数或者指定倍数的层数"><a href="#变形2：不能去指定层数或者指定倍数的层数" class="headerlink" title="变形2：不能去指定层数或者指定倍数的层数"></a>变形2：不能去指定层数或者指定倍数的层数</h5><p>不能经过指定的楼层数，或者指定倍数（比如5的倍数的层数或者7的倍数的层数）</p>
+<p>在楼层前加if，符合条件则置空</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">climbStairs</span><span class="params">(self, n: int)</span> -&gt; int:</span></span><br><span class="line">        dp = [<span class="number">1</span>, <span class="number">1</span> ,<span class="number">2</span>]</span><br><span class="line">        <span class="keyword">if</span> n &lt;=<span class="number">2</span>:</span><br><span class="line">            <span class="keyword">return</span> dp[n]</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">3</span>,n+<span class="number">1</span>):</span><br><span class="line">            <span class="comment">##假设指定层数为4</span></span><br><span class="line">            <span class="keyword">if</span> i == <span class="number">4</span>:</span><br><span class="line">               dp.append(<span class="number">0</span>)</span><br><span class="line">            <span class="comment">##假设指定不能经过5的倍数</span></span><br><span class="line">            <span class="keyword">elif</span> i % <span class="number">5</span> == <span class="number">0</span>:</span><br><span class="line">               dp.append(<span class="number">0</span>)</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            	 dp.append(dp[i<span class="number">-1</span>] + dp[i<span class="number">-2</span>])</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> dp[n]</span><br></pre></td></tr></table></figure>
+
+<p>我一开始的思路是总方法数减去删去指定层数的方法数，后面经人提点，经过指定层数也要能够到达终点。所以这种思路的方法应该是减去到达指定层数的方法数*单独后面的层数的方法数，理论上应该也是可行的。但是此种方法对于倍数的问题计算量会很大，也就是每经过一次不能去的楼层都要计算倍数，所以不推荐</p>
+<h5 id="变形3-爬两步之后只能爬一步"><a href="#变形3-爬两步之后只能爬一步" class="headerlink" title="变形3:爬两步之后只能爬一步"></a>变形3:爬两步之后只能爬一步</h5><p>f(n,status)=f(n-1,1)+f(n-2,2)</p>
+<h3 id="快乐数-202"><a href="#快乐数-202" class="headerlink" title="快乐数(202)"></a>快乐数(202)</h3><p>编写一个算法来判断一个数是不是快乐数</p>
+<p>快乐数的定义：</p>
+<h3 id="4的幂342"><a href="#4的幂342" class="headerlink" title="4的幂342"></a>4的幂342</h3><p>给定一个整数，写一个函数来判断是否是4的幂次方，如果是返回true，如果不是返回false</p>
+<p>例：输入：16</p>
+<p>返回：true</p>
+<p>递归</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">isPowerOfFour</span><span class="params">(self,n:int)</span>-&gt;bool:</span></span><br><span class="line">        <span class="keyword">if</span> n == <span class="number">0</span>: <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">        <span class="keyword">if</span> n == <span class="number">1</span>: <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">        <span class="keyword">if</span> n % <span class="number">4</span> == <span class="number">0</span>:</span><br><span class="line">           <span class="keyword">return</span> self.isPowerOfFour(n/<span class="number">4</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="计数质数-204"><a href="#计数质数-204" class="headerlink" title="计数质数(204)"></a>计数质数(204)</h3><p>统计所有小于非负整数 <em><code>n</code></em> 的质数的数量。</p>
+<p>例：输入：n=10</p>
+<p>输出：4，小于10的质数有2，3，5，7四个</p>
+<h3 id="等差数列划分-413"><a href="#等差数列划分-413" class="headerlink" title="等差数列划分(413)"></a>等差数列划分(413)</h3><p>如果一个数列至少有三个元素，并且任意两个相邻元素之差相同，则称该数列为等差数列。</p>
+<p>函数要返回数组 A 中所有为等差数组的子数组个数。</p>
+<p>例：输入：A= [1,3,5,7]</p>
+<p>输出：[1,3,5],[3,5,7],[1,3,5,7]</p>
+<p>动态规划</p>
+<p>由上面[1,2,3,4,5,6]的示例可知，(由于数列长度需要大于2，所以dp[0] = dp[1] = 0)<br>dp[2] = dp[1] + 1,因为A[2] - A[1] == A[1] - A[0]<br>dp[3] = dp[2] + 1,因为A[3] - A[2] == A[2] - A[1] （这里有些道友可能认为需要判断以A[2]结尾的步长是否等于以A[3]结尾的等差步长，其实无形之中已经进行了判断，以A[2]结尾的步长就是A[2] - A[1]（如果A[2]找到了等差数列，那么它的步长必定为A[2] - A[1]），而A[3]结尾的等差步长必定是dp[2] + 1）<br>…</p>
+<p>如果[1,2,3,4,5,6]是一个等差数列，则<br>以A[2]结尾的等差数列 [1,2,3]<br>以A[3]结尾的等差数列 [1,2,3,4],[2,3,4]<br>以A[4]结尾的等差数列 [1,2,3,4,5],[2,3,4,5],[3,4,5]<br>以A[5]结尾的等差数列 [1,2,3,4,5,6],[2,3,4,5,6],[3,4,5,6],[4,5,6]</p>
+<p>转移方程： dp[i] = dp[i - 1] + 1</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">numberOfArithmeticSlices</span><span class="params">(self, nums: List[int])</span> -&gt; int:</span></span><br><span class="line">        n=len(nums)</span><br><span class="line">        dp=[<span class="number">0</span>]*n</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>,n):</span><br><span class="line">            <span class="keyword">if</span> nums[i]-nums[i<span class="number">-1</span>]==nums[i<span class="number">-1</span>]-nums[i<span class="number">-2</span>]:</span><br><span class="line">                dp[i]=dp[i<span class="number">-1</span>]+<span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> sum(dp)</span><br></pre></td></tr></table></figure>
+
+<h3 id="回文数9"><a href="#回文数9" class="headerlink" title="回文数9"></a>回文数9</h3><p>给你一个整数 x ，如果 x 是一个回文整数，返回 true ；否则，返回 false 。</p>
+<p>回文数是指正序（从左向右）和倒序（从右向左）读都是一样的整数。例如，121 是回文，而 123 不是。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">isPalindrome</span><span class="params">(self, x: int)</span> -&gt; bool:</span></span><br><span class="line">        <span class="keyword">if</span> x &lt; <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            y = str(x)[::<span class="number">-1</span>]</span><br><span class="line">            <span class="keyword">if</span> y == str(x):</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">            <span class="keyword">else</span>: </span><br><span class="line">                <span class="keyword">return</span> <span class="literal">False</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="判断一个数是否为质数"><a href="#判断一个数是否为质数" class="headerlink" title="判断一个数是否为质数"></a>判断一个数是否为质数</h3><p>方法一：暴力求解，从1到该数一个一个整除验证</p>
+<p>方法二：质数为6*n+1或者6n-1，判断</p>
+<p>平方数</p>
+<p>判断一个数是否为平方数</p>
+<p>方法一：暴力求解，从1到该数一个一个平方验证</p>
+<p>方法二：平方数的性质——一个平方数可以表达为一个初值为1等差为2的等差数列的和公式，不同的平方数对应的项数不同</p>
+<p>所以用该数减从头开始的等差数列，如果减到某一项正好为0，则为平方数，否则不是</p>
+<p>车站建造问题</p>
+<p>牛牛建造车站，</p>
+<p>哥德巴赫猜想：一个偶数必然能拆分成两个质数。一个奇数必然能分解成一个偶质数和一个奇质数之和，偶质数只有2，且减2后的奇数必然能分解成两个质数之和。</p>
+<p>所以判断一个数是否为偶数，偶数则增加一个车站。</p>
+<p>杨辉三角</p>
+<p>给定非负整数numrows，返回杨辉三角前numrows行</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">generate</span><span class="params">(self, numRows: int)</span> -&gt; List[List[int]]:</span></span><br><span class="line">        nums = [ [<span class="number">0</span>] * (i+<span class="number">1</span>) <span class="keyword">for</span> i <span class="keyword">in</span> range(numRows)]</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(len(nums)):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(len(nums[i])):</span><br><span class="line">                <span class="keyword">if</span> j == <span class="number">0</span> <span class="keyword">or</span> j == i:</span><br><span class="line">                    nums[i][j] = <span class="number">1</span></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    nums[i][j] = nums[i<span class="number">-1</span>][j<span class="number">-1</span>]+nums[i<span class="number">-1</span>][j]</span><br><span class="line">        <span class="keyword">return</span> nums</span><br></pre></td></tr></table></figure>
+
+<p>给定非负索引k，返回杨辉三角第k行</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">getRow</span><span class="params">(self, rowIndex: int)</span> -&gt; List[int]:</span></span><br><span class="line">        row = [<span class="number">1</span> <span class="keyword">for</span> _ <span class="keyword">in</span> range(rowIndex+<span class="number">1</span>)]  <span class="comment"># 先生成一个目标行元素的列表</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>,rowIndex+<span class="number">1</span>):  <span class="comment"># 从第3行开始dp</span></span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(i<span class="number">-1</span>,<span class="number">0</span>,<span class="number">-1</span>):     <span class="comment"># 从后往前，保证O(n)空间</span></span><br><span class="line">                row[j] = row[j<span class="number">-1</span>]+row[j]          </span><br><span class="line">        <span class="keyword">return</span> row</span><br></pre></td></tr></table></figure>
+
+
+
+<p>只出现一次过的数字</p>
+<p>给定一个非空整数数组，除了某个元素只出现一次以外，其余每个元素均出现两次。找出那个只出现了一次的元素。</p>
+<p>算法应该具有线性时间复杂度。 你可以不使用额外空间来实现吗？</p>
+<p>实例：输入[2,2,1],输出1</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#计算出现次数</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">singleNumber</span><span class="params">(self, nums)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type nums: List[int]</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        count = &#123;&#125;                  <span class="comment"># 定义字典</span></span><br><span class="line">        <span class="keyword">for</span> num <span class="keyword">in</span> nums:            <span class="comment"># 遍历数组</span></span><br><span class="line">            <span class="keyword">if</span> num <span class="keyword">in</span> count:        <span class="comment"># 如果字典中存在当前记录</span></span><br><span class="line">                count[num] += <span class="number">1</span>     <span class="comment"># 次数 + 1</span></span><br><span class="line">            <span class="keyword">else</span>:                   <span class="comment"># 否则</span></span><br><span class="line">                count[num] = <span class="number">1</span>      <span class="comment"># 当前数加入到字典中，且出现次数为1</span></span><br><span class="line">        count = &#123;v: k <span class="keyword">for</span> k, v <span class="keyword">in</span> count.items()&#125;    <span class="comment"># 字典键值交换</span></span><br><span class="line">        <span class="keyword">return</span> count[<span class="number">1</span>]             <span class="comment"># 返回出现一次的数字</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="n个数前m大的值"><a href="#n个数前m大的值" class="headerlink" title="n个数前m大的值"></a>n个数前m大的值</h2><p>利用堆结构进行排序</p>
+<p>先建立m个节点的小根堆，然后对后面n-m个数进行遍历，比根节点大时交换，重新建立小根堆，最后得到m个最大的数</p>
+<h2 id="字符串相关算法"><a href="#字符串相关算法" class="headerlink" title="字符串相关算法"></a>字符串相关算法</h2><h3 id="反转单词序列"><a href="#反转单词序列" class="headerlink" title="反转单词序列"></a>反转单词序列</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">solution</span> </span></span><br><span class="line"><span class="class">      <span class="title">def</span> <span class="title">Reverse</span><span class="params">(self,s)</span></span></span><br><span class="line">      if s is None or len(s) == </span><br><span class="line">         <span class="keyword">return</span> s</span><br><span class="line">      <span class="keyword">return</span> <span class="string">""</span>.join(s.split(<span class="string">''</span>)[::<span class="number">-1</span>])</span><br></pre></td></tr></table></figure>
+
+<h3 id="无重复最长子串的长度"><a href="#无重复最长子串的长度" class="headerlink" title="无重复最长子串的长度"></a>无重复最长子串的长度</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">a = input()</span><br><span class="line"></span><br><span class="line">temp = <span class="string">''</span></span><br><span class="line">length = <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> a:</span><br><span class="line">    <span class="keyword">if</span> i <span class="keyword">not</span> <span class="keyword">in</span> temp:</span><br><span class="line">        temp+=i</span><br><span class="line">        length = max(length,len(temp))</span><br><span class="line">     <span class="keyword">else</span>:</span><br><span class="line">        temp+=i</span><br><span class="line">        temp = temp[temp.index(i)+<span class="number">1</span>:]</span><br><span class="line"><span class="keyword">print</span> (length)</span><br></pre></td></tr></table></figure>
+
+<h3 id="最长回文子串5"><a href="#最长回文子串5" class="headerlink" title="最长回文子串5"></a>最长回文子串5</h3><p>给你一个字符串 <code>s</code>，找到 <code>s</code> 中最长的回文子串。</p>
+<p>输入：s = “babad”</p>
+<p>输出：”bab”或者”aba”</p>
+<p>输入：s = “cbbd”</p>
+<p>输出：”bb”</p>
+<p>思路：</p>
+<p>对任意字符串，如果头和尾相同，那么它的最长回文子串一定是去头去尾之后的部分的最长回文子串加上头和尾。</p>
+<p>如果头和尾不同，那么它的最长回文子串是去头的部分的最长回文子串和去尾的部分的最长回文子串的较长的那一个。</p>
+<p>代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">longestPalindrome</span><span class="params">(self, s: str)</span> -&gt; str:</span></span><br><span class="line">        n = len(s)</span><br><span class="line">        maxl = <span class="number">0</span></span><br><span class="line">        start = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(n):</span><br><span class="line">            <span class="keyword">if</span> i - maxl &gt;= <span class="number">1</span> <span class="keyword">and</span> s[i-maxl<span class="number">-1</span>: i+<span class="number">1</span>] == s[i-maxl<span class="number">-1</span>: i+<span class="number">1</span>][::<span class="number">-1</span>]:</span><br><span class="line">                start = i - maxl - <span class="number">1</span></span><br><span class="line">                maxl += <span class="number">2</span></span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">            <span class="keyword">if</span> i - maxl &gt;= <span class="number">0</span> <span class="keyword">and</span> s[i-maxl: i+<span class="number">1</span>] == s[i-maxl: i+<span class="number">1</span>][::<span class="number">-1</span>]:</span><br><span class="line">                start = i - maxl</span><br><span class="line">                maxl += <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> s[start: start + maxl]</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="检验一个字符串是否回文"><a href="#检验一个字符串是否回文" class="headerlink" title="检验一个字符串是否回文"></a>检验一个字符串是否回文</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">//普通方法</span><br><span class="line">s = input()</span><br><span class="line"></span><br><span class="line">a = len(s)</span><br><span class="line">i = <span class="number">0</span></span><br><span class="line">count = <span class="number">1</span></span><br><span class="line"><span class="keyword">while</span> i &lt;= (a/<span class="number">2</span>)</span><br><span class="line">      <span class="keyword">if</span> s[i]== s[a-i<span class="number">-1</span>]:</span><br><span class="line">         count = <span class="number">1</span></span><br><span class="line">         i += <span class="number">1</span></span><br><span class="line">      <span class="keyword">else</span>:</span><br><span class="line">         count = <span class="number">0</span></span><br><span class="line">         <span class="keyword">break</span></span><br><span class="line">        </span><br><span class="line"><span class="keyword">if</span> count == <span class="number">1</span></span><br><span class="line">   print(<span class="string">'是回文序列'</span>)</span><br><span class="line"><span class="keyword">else</span> </span><br><span class="line">   print(<span class="string">'不是回文序列'</span>)</span><br><span class="line"></span><br><span class="line">//函数</span><br><span class="line">s = input()</span><br><span class="line">a = reversed(list(s))</span><br><span class="line"><span class="keyword">if</span> list(a)=list(s)</span><br><span class="line">   print(<span class="string">'是回文序列'</span>)</span><br><span class="line"><span class="keyword">else</span> </span><br><span class="line">   print(<span class="string">'不是回文序列'</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="字符串相加"><a href="#字符串相加" class="headerlink" title="字符串相加"></a>字符串相加</h3><p>给定两个字符串形式的非负整数 num1 和num2 ，计算它们的和。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">addStrings</span><span class="params">(self, num1, num2)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type num1: str</span></span><br><span class="line"><span class="string">        :type num2: str</span></span><br><span class="line"><span class="string">        :rtype: str</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        num1, num2 = num1[::<span class="number">-1</span>], num2[::<span class="number">-1</span>]                     <span class="comment"># 将输入字符串逆序</span></span><br><span class="line">        len1, len2 = len(num1), len(num2)                       <span class="comment"># 获得字符串长度</span></span><br><span class="line">        res = <span class="string">''</span>                                                <span class="comment"># 初始化结果变量</span></span><br><span class="line">        carry = <span class="number">0</span>                                               <span class="comment"># 初始化进位</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(max(len1, len2)):                        <span class="comment"># 开始遍历</span></span><br><span class="line">            n1 = ord(num1[i]) - ord(<span class="string">'0'</span>) <span class="keyword">if</span> i &lt; len1 <span class="keyword">else</span> <span class="number">0</span>     <span class="comment"># 取第一个数的当前位</span></span><br><span class="line">            n2 = ord(num2[i]) - ord(<span class="string">'0'</span>) <span class="keyword">if</span> i &lt; len2 <span class="keyword">else</span> <span class="number">0</span>     <span class="comment"># 取第二个数的当前位</span></span><br><span class="line">            s = n1 + n2 + carry                                 <span class="comment"># 当前位的计算结果</span></span><br><span class="line">            carry, r = s // <span class="number">10</span>, s % <span class="number">10</span>                          <span class="comment"># 获得余数和进位</span></span><br><span class="line">            res = str(r) + res                                  <span class="comment"># 把余数加到当前结果的最高位</span></span><br><span class="line">        <span class="keyword">if</span> carry:                                               <span class="comment"># 如果算完还有进位</span></span><br><span class="line">            res = str(carry) + res                              <span class="comment"># 加到结果最高位</span></span><br><span class="line">        <span class="keyword">return</span> res                                              <span class="comment"># 返回最终结果</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="统计字符串中出现最多的字母"><a href="#统计字符串中出现最多的字母" class="headerlink" title="统计字符串中出现最多的字母"></a>统计字符串中出现最多的字母</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">findMaxDuplicateChar</span>(<span class="params">str</span>) </span>&#123;  </span><br><span class="line">  <span class="keyword">if</span>(str.length == <span class="number">1</span>) </span><br><span class="line">  &#123; <span class="keyword">return</span> str; &#125; </span><br><span class="line">  <span class="keyword">let</span> charObj = &#123;&#125;; </span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>;i&lt;str.length;i++) &#123; </span><br><span class="line">    <span class="keyword">if</span>(!charObj[str.charAt(i)]) </span><br><span class="line">			&#123; charObj[str.charAt(i)] = <span class="number">1</span>; &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">      &#123; charObj[str.charAt(i)] += <span class="number">1</span>; &#125; </span><br><span class="line">    &#125; </span><br><span class="line">  <span class="keyword">let</span> maxChar = <span class="string">''</span>, </span><br><span class="line">      maxValue = <span class="number">1</span>; </span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">var</span> k <span class="keyword">in</span> charObj) </span><br><span class="line">  &#123; <span class="keyword">if</span>(charObj[k] &gt;= maxValue) </span><br><span class="line">    &#123; maxChar = k; maxValue = charObj[k]; &#125; </span><br><span class="line">  &#125; <span class="keyword">return</span> maxChar; </span><br><span class="line">&#125; </span><br><span class="line">  <span class="built_in">module</span>.exports = findMaxDuplicateChar;</span><br></pre></td></tr></table></figure>
+
+<h3 id="添加最少字符构造回文字符串-1312"><a href="#添加最少字符构造回文字符串-1312" class="headerlink" title="添加最少字符构造回文字符串(1312)"></a>添加最少字符构造回文字符串(1312)</h3><p>给你一个字符串 <code>s</code> ，每一次操作你都可以在字符串的任意位置插入任意字符。</p>
+<p>返回让 <code>s</code> 成为回文串的 <strong>最少操作次数</strong> 。</p>
+<p>例：输入：s = “zzazz”</p>
+<p>输出：0，已经是回文字符串</p>
+<p>输入：s = “mbadm”</p>
+<p>输出：2，将s变为“mbdadbm”或者“mdbabdm”</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">minInsertions</span><span class="params">(self, s: str)</span> -&gt; int:</span></span><br><span class="line">        n = len(s)</span><br><span class="line">        f = [[<span class="number">0</span>] * n <span class="keyword">for</span> _ <span class="keyword">in</span> range(n)]</span><br><span class="line">        <span class="comment"># 从长度为2的字符串开始枚举</span></span><br><span class="line">        <span class="keyword">for</span> l <span class="keyword">in</span> range(<span class="number">1</span>, n):</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(n - l):</span><br><span class="line">                j = i + l</span><br><span class="line">                <span class="keyword">if</span> s[i] != s[j]:</span><br><span class="line">                    f[i][j] = min(f[i][j - <span class="number">1</span>], f[i + <span class="number">1</span>][j]) + <span class="number">1</span></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    <span class="comment"># 这里长度为2时 i + 1 &gt; j - 1， f[i + 1][j - 1]=0，所以可以省略 if l!=1 else 0 的判断条件</span></span><br><span class="line">                    f[i][j] = f[i + <span class="number">1</span>][j - <span class="number">1</span>]</span><br><span class="line">        <span class="keyword">return</span> f[<span class="number">0</span>][n - <span class="number">1</span>]</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="Leetcode93-复原ip地址"><a href="#Leetcode93-复原ip地址" class="headerlink" title="Leetcode93:复原ip地址"></a>Leetcode93:复原ip地址</h3><p>给定一个只有数字的字符串，将其转化为合法的ip地址，并存起来</p>
+<p>例：</p>
+<p>输入“25525511135”</p>
+<p>输出：[“255.255.11.135”,”255.255.111.35”]</p>
+<p>dfs</p>
+<p>当segment=4时结束循环，将结果添加到列表中，每个部分值均需要在0-255之间，所以回溯最多需要判断3个元素，即i-i+2三个数字</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span></span></span><br><span class="line"><span class="class">    <span class="title">def</span> <span class="title">restoreIpAddress</span><span class="params">(self,s)</span>:</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">dfs</span><span class="params">(s,segment,res,ip)</span>:</span></span><br><span class="line">            <span class="keyword">if</span> segment = <span class="number">4</span>:</span><br><span class="line">               <span class="keyword">if</span> s == <span class="string">''</span>:</span><br><span class="line">                  res.append(ip[<span class="number">1</span>:])</span><br><span class="line">               <span class="keyword">return</span> </span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,<span class="number">4</span>):</span><br><span class="line">               <span class="keyword">if</span> i &lt;= len(s):</span><br><span class="line">                  <span class="keyword">if</span> (ints[:i]) &lt;= <span class="number">255</span>:</span><br><span class="line">                     dfs(s[i:],segment+<span class="number">1</span>,res,ip+<span class="string">'.'</span>+s[:i])</span><br><span class="line">                      <span class="keyword">if</span> s[<span class="number">0</span>] == <span class="string">'0'</span>:</span><br><span class="line">                          <span class="keyword">break</span></span><br><span class="line">        res = []</span><br><span class="line">        dfs(s,<span class="number">0</span>,res,<span class="string">''</span>)</span><br><span class="line">        <span class="keyword">return</span> res</span><br><span class="line"><span class="keyword">if</span> _name_ == <span class="string">'_main_'</span>:</span><br><span class="line">   S = Solution()</span><br><span class="line">   s = <span class="string">'25525511135'</span></span><br><span class="line">   S.restoreIpAddress(s)</span><br></pre></td></tr></table></figure>
+
+<h3 id="有效括号-20"><a href="#有效括号-20" class="headerlink" title="有效括号(20)"></a>有效括号(20)</h3><p>给定一个只包括 <code>&#39;(&#39;</code>，<code>&#39;)&#39;</code>，<code>&#39;{&#39;</code>，<code>&#39;}&#39;</code>，<code>&#39;[&#39;</code>，<code>&#39;]&#39;</code> 的字符串 <code>s</code> ，判断字符串是否有效。</p>
+<p>有效括号的原则：</p>
+<p>1.左括号必须由相同类型的右括号闭合</p>
+<p>2.右括号必须以正确的顺序闭合左括号</p>
+<p>比如</p>
+<p>输入：s=”()”</p>
+<p>输出：true</p>
+<p>输入：s=”{[}]”</p>
+<p>输出：false</p>
+<p>大神做法（思路巧妙）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">isValid</span><span class="params">(self,s)</span>:</span></span><br><span class="line">        <span class="keyword">while</span> <span class="string">'&#123;&#125;'</span> <span class="keyword">in</span> s <span class="keyword">or</span> <span class="string">'()'</span> <span class="keyword">in</span> s <span class="keyword">or</span> <span class="string">'[]'</span> <span class="keyword">in</span> s</span><br><span class="line">           s = s.replace(<span class="string">'&#123;&#125;'</span>,<span class="string">''</span>)</span><br><span class="line">           s = s.replece(<span class="string">'()'</span>,<span class="string">''</span>)</span><br><span class="line">           s = s.replace(<span class="string">'[]'</span>,<span class="string">''</span>)</span><br><span class="line">        <span class="keyword">return</span> s == <span class="string">''</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="括号生成22"><a href="#括号生成22" class="headerlink" title="括号生成22"></a>括号生成22</h3><p>数字 <code>n</code> 代表生成括号的对数，请你设计一个函数，用于能够生成所有可能的并且 <strong>有效的</strong> 括号组合。</p>
+<p>输入：n = 3<br>输出：[“((()))”,”(()())”,”(())()”,”()(())”,”()()()”]</p>
+<p>递归</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">generateParenthesis</span><span class="params">(self, n: int)</span> -&gt; List[str]:</span></span><br><span class="line">        ans = []</span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">f</span><span class="params">(l, r, s)</span>:</span></span><br><span class="line">            l == r == n <span class="keyword">and</span> ans.append(s)</span><br><span class="line">            l &lt; n <span class="keyword">and</span> f(l + <span class="number">1</span>, r, s + <span class="string">'('</span>)</span><br><span class="line">            r &lt; l <span class="keyword">and</span> f(l, r + <span class="number">1</span>, s + <span class="string">')'</span>)</span><br><span class="line">        f(<span class="number">0</span>, <span class="number">0</span>, <span class="string">''</span>)</span><br><span class="line">        <span class="keyword">return</span> ans</span><br></pre></td></tr></table></figure>
+
+<h3 id="最长有效括号-32"><a href="#最长有效括号-32" class="headerlink" title="最长有效括号(32)"></a>最长有效括号(32)</h3><p>给你一个只包含 <code>&#39;(&#39;</code> 和 <code>&#39;)&#39;</code> 的字符串，找出最长有效（格式正确且连续）括号子串的长度。</p>
+<p>输入：s=“(()”</p>
+<p>输出：2，最长有效子串是()</p>
+<p>输入：s=“)()())”</p>
+<p>输出：4，最长有效子串是()()</p>
+<p>使用栈或者动态规划解决</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">longestValidParentheses</span><span class="params">(self, s: str)</span> -&gt; int:</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="实现一个strStr-函数28"><a href="#实现一个strStr-函数28" class="headerlink" title="实现一个strStr()函数28"></a>实现一个strStr()函数28</h3><p>给定一个 haystack 字符串和一个 needle 字符串，在 haystack 字符串中找出 needle 字符串出现的第一个位置 (从0开始)。如果不存在，则返回  -1。</p>
+<p>输入: haystack = “hello”, needle = “ll”<br>输出: 2</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">strStr</span><span class="params">(self, haystack: str, needle: str)</span> -&gt; int:</span></span><br><span class="line">        <span class="keyword">if</span> haystack == needle:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, len(haystack)+<span class="number">1</span>):</span><br><span class="line">            <span class="keyword">if</span> needle <span class="keyword">in</span> haystack[<span class="number">0</span>:i]:</span><br><span class="line">                <span class="keyword">return</span> i - len(needle)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="比较版本号-165"><a href="#比较版本号-165" class="headerlink" title="比较版本号(165)"></a>比较版本号(165)</h3><p>给你两个版本号version1和version2，比较。</p>
+<p>返回信息：</p>
+<p>如果version1&gt;version2，返回1</p>
+<p>如果version1&lt;version2，返回-1</p>
+<p>除此之外返回0</p>
+<p>比较的方式：</p>
+<p>比较版本号时，从左到右依次比较修订号，比较时忽略任何前导0，也就是修订号1和001相同</p>
+<p>例：输入：version1=”1.01”，version2=”1.001”</p>
+<p>输出：0，规则为忽略前导0，所以相同</p>
+<p>输入：version1=”1.0.1”，version2=”1”</p>
+<p>输出：1</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">   <span class="function"><span class="keyword">def</span> <span class="title">compareVersion</span><span class="params">(self,version1:str,version2:str)</span>-&gt;int:</span></span><br><span class="line">       v1 = version1.split(<span class="string">"."</span>)</span><br><span class="line">       v2 = version2.split(<span class="string">"."</span>)</span><br><span class="line">      <span class="keyword">while</span> v1 <span class="keyword">or</span> v2</span><br><span class="line">          x = int(v1.pop(<span class="number">0</span>)) <span class="keyword">if</span> v1 <span class="keyword">else</span> <span class="number">0</span></span><br><span class="line">          y = int(v2.pop(<span class="number">0</span>)) <span class="keyword">if</span> v2 <span class="keyword">else</span> <span class="number">0</span></span><br><span class="line">          </span><br><span class="line">          <span class="keyword">if</span> x &gt; y </span><br><span class="line">             <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">          <span class="keyword">elif</span> x &lt; y</span><br><span class="line">             <span class="keyword">return</span> <span class="number">-1</span></span><br><span class="line">      <span class="keyword">return</span> <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="翻转字符里的单词-151"><a href="#翻转字符里的单词-151" class="headerlink" title="翻转字符里的单词(151)"></a>翻转字符里的单词(151)</h3><p>给定一个字符串，翻转字符串里的每个单词</p>
+<p>说明：</p>
+<p>无空格字符串构成一个单词</p>
+<p>输入字符串前面可以有空格，输出后的字符不包括</p>
+<p>如果两个单词之间有多余的空格，反转后的单词间的空格减少到只剩一个</p>
+<p>例：输入：”   hello world!  “</p>
+<p>输出：”world! Hello”</p>
+<p>输入：”a good    example”</p>
+<p>输出：”example good a”</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">   <span class="function"><span class="keyword">def</span> <span class="title">reverseWords</span><span class="params">(self,s:str)</span>-&gt;str:</span></span><br><span class="line">       <span class="keyword">return</span> <span class="string">" "</span>.join(s.split())[::<span class="number">-1</span>]</span><br></pre></td></tr></table></figure>
+
+<h2 id="数据结构相关算法"><a href="#数据结构相关算法" class="headerlink" title="数据结构相关算法"></a>数据结构相关算法</h2><h3 id="数组相关算法"><a href="#数组相关算法" class="headerlink" title="数组相关算法"></a>数组相关算法</h3><h4 id="无序数组"><a href="#无序数组" class="headerlink" title="无序数组"></a>无序数组</h4><h5 id="调整数组顺序使得奇数位于偶数前面"><a href="#调整数组顺序使得奇数位于偶数前面" class="headerlink" title="调整数组顺序使得奇数位于偶数前面"></a>调整数组顺序使得奇数位于偶数前面</h5><p>设置两个指针，偶数就删除插入尾部，奇数不做处理</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">solution</span></span></span><br><span class="line"><span class="class">      <span class="title">def</span> <span class="title">reorderArray</span><span class="params">(self,array)</span>:</span></span><br><span class="line">           l=<span class="number">0</span></span><br><span class="line">           h=length(array)</span><br><span class="line">           <span class="keyword">while</span> l &lt; h:</span><br><span class="line">                <span class="keyword">if</span> array[l] % <span class="number">2</span> == <span class="number">0</span>:</span><br><span class="line">                    array.append(array.pop(l))</span><br><span class="line">                    h-=<span class="number">1</span></span><br><span class="line">                <span class="keyword">else</span></span><br><span class="line">                    l+=<span class="number">1</span></span><br><span class="line">           <span class="keyword">return</span> array</span><br></pre></td></tr></table></figure>
+
+<h5 id="移动零-283"><a href="#移动零-283" class="headerlink" title="移动零 283"></a>移动零 283</h5><p>给定一个数组 <code>nums</code>，编写一个函数将所有 <code>0</code> 移动到数组的末尾，同时保持非零元素的相对顺序。</p>
+<p>如，输入：[0,1,0,3,12]</p>
+<p>输出：[1,3,12,0,0]</p>
+<p>注意：不拷贝额外的数组，减少操作次数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">moveZeroes</span><span class="params">(self, nums: List[int])</span> -&gt; <span class="keyword">None</span>:</span></span><br><span class="line">        i = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> num <span class="keyword">in</span> nums:</span><br><span class="line">            <span class="keyword">if</span> num != <span class="number">0</span>:</span><br><span class="line">                nums[i] = num</span><br><span class="line">                i += <span class="number">1</span></span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> xrange(i, len(nums)):</span><br><span class="line">            nums[j] = <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h5 id="两数之和"><a href="#两数之和" class="headerlink" title="两数之和"></a>两数之和</h5><h5 id="三数之和"><a href="#三数之和" class="headerlink" title="三数之和"></a>三数之和</h5><p>最接近的三数之和</p>
+<p>给定一个包括  n 个整数的数组  nums 和 一个目标值  target。找出  nums 中的三个整数，使得它们的和与  target 最接近。返回这三个数的和。假定每组输入只存在唯一答案。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">threeSumClosest</span><span class="params">(self, nums: List[int], target: int)</span> -&gt; int:</span></span><br><span class="line">        nums, r, end = sorted(nums), float(<span class="string">'inf'</span>), len(nums) - <span class="number">1</span></span><br><span class="line">        <span class="keyword">for</span> c <span class="keyword">in</span> range(len(nums) - <span class="number">2</span>):</span><br><span class="line">            i, j = max(c + <span class="number">1</span>, bisect.bisect_left(nums, target - nums[end] - nums[c], c + <span class="number">1</span>, end) - <span class="number">1</span>), end</span><br><span class="line">            <span class="keyword">while</span> r != target <span class="keyword">and</span> i &lt; j:</span><br><span class="line">                s = nums[c] + nums[i] + nums[j]</span><br><span class="line">                r, i, j = min(r, s, key=<span class="keyword">lambda</span> x: abs(x - target)), i + (s &lt; target), j - (s &gt; target)</span><br><span class="line">        <span class="keyword">return</span> r</span><br></pre></td></tr></table></figure>
+
+<p>两个数组的交集</p>
+<p>给定两个数组，编写算法计算他们的交集</p>
+<p>例：输入：nums1 = [1,2,2,1], nums2 = [2,2]<br>输出：[2,2]</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">intersect</span><span class="params">(self, nums1, nums2)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type nums1: List[int]</span></span><br><span class="line"><span class="string">        :type nums2: List[int]</span></span><br><span class="line"><span class="string">        :rtype: List[int]</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        inter = set(nums1) &amp; set(nums2)</span><br><span class="line">        l = []</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> inter:</span><br><span class="line">            l += [i] * min(nums1.count(i), nums2.count(i))  </span><br><span class="line">        <span class="keyword">return</span> l</span><br></pre></td></tr></table></figure>
+
+<h5 id="四数之和"><a href="#四数之和" class="headerlink" title="四数之和"></a>四数之和</h5><h5 id="无序整数数组，找出第k大的值"><a href="#无序整数数组，找出第k大的值" class="headerlink" title="无序整数数组，找出第k大的值"></a>无序整数数组，找出第k大的值</h5><h5 id="买卖股票的最佳时机-121"><a href="#买卖股票的最佳时机-121" class="headerlink" title="买卖股票的最佳时机(121,)"></a>买卖股票的最佳时机(121,)</h5><p>给定数组prices，第i个元素表示股票第i天的价格</p>
+<p>需选择在某一天买入，并在某一天卖出，设计一个算法计算获取的最大利润</p>
+<p>例：输入：[7,1,5,3,6,4]</p>
+<p>输出：5 在第二天买入，第5天卖出，6-1=5</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">maxProfit</span><span class="params">(self,prices:List[int])</span>-&gt; int:</span></span><br><span class="line">        min_p,max_v = float(<span class="string">'inf'</span>),<span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> p <span class="keyword">in</span> prices:</span><br><span class="line">            min_p = min(min_p,p)</span><br><span class="line">            max_v = max(max_v,p-min_p)</span><br><span class="line">        <span class="keyword">return</span> max_v</span><br></pre></td></tr></table></figure>
+
+<h5 id="连续子数组最大和"><a href="#连续子数组最大和" class="headerlink" title="连续子数组最大和"></a>连续子数组最大和</h5><h5 id="全排列-46、47、39、40、78、90"><a href="#全排列-46、47、39、40、78、90" class="headerlink" title="全排列(46、47、39、40、78、90)"></a>全排列(46、47、39、40、78、90)</h5><p>给一个不含重复数组，返回其所有可能的全排列</p>
+<p>输入:[1,2,3]</p>
+<p>输出:[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">   <span class="function"><span class="keyword">def</span> <span class="title">permute</span><span class="params">(self,nums:List[int])</span>-&gt;List[List[int]]:</span></span><br><span class="line">       res = []</span><br><span class="line">       <span class="function"><span class="keyword">def</span> <span class="title">backtrack</span><span class="params">(nums,tmp)</span>:</span></span><br><span class="line">           <span class="keyword">if</span> <span class="keyword">not</span> nums:</span><br><span class="line">               res.append(tmp)</span><br><span class="line">               <span class="keyword">return</span> </span><br><span class="line">           <span class="keyword">for</span> i <span class="keyword">in</span> range(len(nums)):</span><br><span class="line">               backtrack(nums[:i]+nums[i+<span class="number">1</span>],tmp+[nums[i]])</span><br><span class="line">       backtrack(nums,[])</span><br><span class="line">       <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
+
+<h5 id="最长连续递增子序列-300"><a href="#最长连续递增子序列-300" class="headerlink" title="最长连续递增子序列(300)"></a>最长连续递增子序列(300)</h5><p>给你一个整数数组 nums ，找到其中最长严格递增子序列的长度。</p>
+<p>子序列是由数组派生而来的序列，删除（或不删除）数组中的元素而不改变其余元素的顺序。例如，[3,6,2,7] 是数组 [0,3,1,6,2,2,7] 的子序列。</p>
+<p>例如：输入：[10,9,2,5,3,7,101,18]</p>
+<p>输出：4 ，最长递增子序列为[2,5,7,101]</p>
+<p>输入：[0,1,0,3,2,3]</p>
+<p>输出：4，最长递增子序列为[0,1,2,3]</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">lengthOfLIS</span><span class="params">(self, nums: List[int])</span> -&gt; int:</span></span><br><span class="line">        n = len(nums)</span><br><span class="line">        dp = [<span class="number">1</span> <span class="keyword">for</span> _ <span class="keyword">in</span> range(n)]</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, n):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(i):</span><br><span class="line">                <span class="keyword">if</span> nums[j] &lt; nums[i]:</span><br><span class="line">                    dp[i] = max(dp[i], dp[j] + <span class="number">1</span>)</span><br><span class="line">        <span class="keyword">return</span> max(dp)</span><br></pre></td></tr></table></figure>
+
+<h5 id="数组拼接最小数"><a href="#数组拼接最小数" class="headerlink" title="数组拼接最小数"></a>数组拼接最小数</h5><h4 id="多维数组"><a href="#多维数组" class="headerlink" title="多维数组"></a>多维数组</h4><h5 id="岛屿数量"><a href="#岛屿数量" class="headerlink" title="岛屿数量"></a>岛屿数量</h5><p>深度优先与广度优先都可以。DFS（深度优先搜索）：</p>
+<p>从一个为1的根节点开始访问，从每个相邻1节点向下访问到顶点（周围全是水），依次访问其他相邻1节点到顶点</p>
+<p>BFS（广度优先搜索）：从一个为1的根节点开始访问，每次向下访问一个节点，直到访问到最后一个顶点</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">numIslands</span><span class="params">(self, grid: List[List[str]])</span> -&gt; int:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> grid <span class="keyword">or</span> len(grid) == <span class="string">'o'</span>: <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        row, columns = len(grid), len(grid[<span class="number">0</span>])</span><br><span class="line">        count = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(row):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(columns):</span><br><span class="line">                <span class="keyword">if</span> grid[i][j] == <span class="string">'1'</span>:</span><br><span class="line">                    self.dfs(grid, i, j, row, columns)</span><br><span class="line">                    count += <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> count</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">dfs</span><span class="params">(self, grid: List[List[str]], i: int, j: int, row: int, columns: int)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> i &gt;= row <span class="keyword">or</span> i &lt; <span class="number">0</span> <span class="keyword">or</span> j &gt;= columns <span class="keyword">or</span> j &lt; <span class="number">0</span> <span class="keyword">or</span> grid[i][j] == <span class="string">'0'</span>: <span class="keyword">return</span></span><br><span class="line">        grid[i][j] = <span class="string">'0'</span></span><br><span class="line">        self.dfs(grid, i - <span class="number">1</span>, j, row, columns)</span><br><span class="line">        self.dfs(grid, i, j - <span class="number">1</span>, row, columns)</span><br><span class="line">        self.dfs(grid, i + <span class="number">1</span>, j, row, columns)</span><br><span class="line">        self.dfs(grid, i, j + <span class="number">1</span>, row, columns)</span><br></pre></td></tr></table></figure>
+
+<h5 id="岛屿最大面积"><a href="#岛屿最大面积" class="headerlink" title="岛屿最大面积"></a>岛屿最大面积</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">helper</span><span class="params">(self,grid,i,j)</span>:</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> i&lt;<span class="number">0</span> <span class="keyword">or</span> j&lt;<span class="number">0</span> <span class="keyword">or</span> i&gt;=len(grid) <span class="keyword">or</span> j&gt;=len(grid[<span class="number">0</span>]) <span class="keyword">or</span> grid[i][j]==<span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        grid[i][j]=<span class="number">0</span></span><br><span class="line">        count=<span class="number">1</span></span><br><span class="line">        tmp = [[<span class="number">1</span>,<span class="number">0</span>],[<span class="number">-1</span>,<span class="number">0</span>],[<span class="number">0</span>,<span class="number">1</span>],[<span class="number">0</span>,<span class="number">-1</span>]]</span><br><span class="line">        <span class="keyword">for</span> x,y <span class="keyword">in</span> tmp:</span><br><span class="line">            dx = x+i</span><br><span class="line">            dy = y+j</span><br><span class="line">            count+=self.helper(grid,dx,dy)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> count</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">maxAreaOfIsland</span><span class="params">(self, grid: List[List[int]])</span> -&gt; int:</span></span><br><span class="line">        res = <span class="number">0</span> </span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(len(grid)):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(len(grid[<span class="number">0</span>])):</span><br><span class="line">                <span class="keyword">if</span> grid[i][j]==<span class="number">1</span>:</span><br><span class="line">                    </span><br><span class="line">                    tmp = self.helper(grid,i,j)</span><br><span class="line">                    res = max(tmp,res)</span><br><span class="line">        <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
+
+<h5 id="三角形路径之和-120"><a href="#三角形路径之和-120" class="headerlink" title="三角形路径之和(120)"></a>三角形路径之和(120)</h5><p>给定一个三角形 triangle ，找出自顶向下的最小路径和。</p>
+<p>每一步只能移动到下一行中相邻的结点上。相邻的结点 在这里指的是 下标 与 上一层结点下标 相同或者等于 上一层结点下标 + 1 的两个结点。也就是说，如果正位于当前行的下标 i ，那么下一步可以移动到下一行的下标 i 或 i + 1 。</p>
+<p>例：输入：[[2],[3,4],[6,5,7],[4,1,8,3]]</p>
+<p>输出：11 2–3–5–1</p>
+<p>实例</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">minimumTotal</span><span class="params">(self, triangle: List[List[int]])</span> -&gt; int:</span></span><br><span class="line">      <span class="comment">#自底向上</span></span><br><span class="line">        dp = triangle</span><br><span class="line">        m = len(triangle)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(m<span class="number">-1</span>,<span class="number">-1</span>,<span class="number">-1</span>):</span><br><span class="line">            <span class="keyword">if</span> i&lt;m<span class="number">-1</span>:</span><br><span class="line">                <span class="keyword">for</span> j <span class="keyword">in</span> range(len(triangle[i])):</span><br><span class="line">                    dp[i][j] += min(dp[i+<span class="number">1</span>][j],dp[i+<span class="number">1</span>][j+<span class="number">1</span>])</span><br><span class="line">        <span class="keyword">return</span> dp[<span class="number">0</span>][<span class="number">0</span>]   </span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">minimumTotal</span><span class="params">(self, triangle: List[List[int]])</span> -&gt; int:</span></span><br><span class="line">        <span class="comment">#自底向上</span></span><br><span class="line">        dp = triangle[<span class="number">-1</span>]</span><br><span class="line">        m = len(triangle)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(m<span class="number">-1</span>,<span class="number">-1</span>,<span class="number">-1</span>):</span><br><span class="line">            <span class="keyword">if</span> i&lt;m<span class="number">-1</span>:</span><br><span class="line">                <span class="keyword">for</span> j <span class="keyword">in</span> range(len(triangle[i])):</span><br><span class="line">                    dp[j] = min(dp[j],dp[j+<span class="number">1</span>]) + triangle[i][j]</span><br><span class="line">        <span class="keyword">return</span> dp[<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+
+<h5 id="顺时针打印数组-54"><a href="#顺时针打印数组-54" class="headerlink" title="顺时针打印数组(54)"></a>顺时针打印数组(54)</h5><p>给你一个m*n的矩阵，请按照顺时针螺旋顺序，打印矩阵中的所有元素</p>
+<p>如：输入：matrix = [[1,2,3],[4,5,6],[7,8,9]]</p>
+<p>输出：[1,2,3,6,9,8,7,4,5]</p>
+<p>思路： 取首行，去除首行后，对矩阵翻转来创建新的矩阵，<br>           再递归直到新矩阵为[],退出并将取到的数据返回</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">spiralOrder</span><span class="params">(self, matrix: List[List[int]])</span> -&gt; List[int]:</span></span><br><span class="line">        ret = []</span><br><span class="line">        <span class="keyword">if</span> matrix == []:</span><br><span class="line">            <span class="keyword">return</span> ret</span><br><span class="line">        ret.extend(matrix[<span class="number">0</span>]) <span class="comment"># 上侧</span></span><br><span class="line">        new = [reversed(i) <span class="keyword">for</span> i <span class="keyword">in</span> matrix[<span class="number">1</span>:]]</span><br><span class="line">        <span class="keyword">if</span> new == []:</span><br><span class="line">            <span class="keyword">return</span> ret</span><br><span class="line">        r = self.spiralOrder([i <span class="keyword">for</span> i <span class="keyword">in</span> zip(*new)])</span><br><span class="line">        ret.extend(r)</span><br><span class="line">        <span class="keyword">return</span> ret</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h4 id="旋转数组"><a href="#旋转数组" class="headerlink" title="旋转数组"></a>旋转数组</h4><h5 id="搜索旋转排序数组目标值33、81"><a href="#搜索旋转排序数组目标值33、81" class="headerlink" title="搜索旋转排序数组目标值33、81"></a>搜索旋转排序数组目标值33、81</h5><p>旋转有序数组是分段有序的，给你 <strong>旋转后</strong> 的数组 <code>nums</code> 和一个整数 <code>target</code> ，如果 <code>nums</code> 中存在这个目标值 <code>target</code> ，则返回它的索引，否则返回 <code>-1</code> 。</p>
+<p>例：</p>
+<p>输入：nums = [4,5,6,7,0,1,2], target = 0<br>输出：4</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">   <span class="function"><span class="keyword">def</span> <span class="title">search</span><span class="params">(self,nums,target)</span>:</span></span><br><span class="line">       lo,hi = <span class="number">0</span>,len(nums)<span class="number">-1</span></span><br><span class="line">       <span class="keyword">while</span> lo &lt; hi:</span><br><span class="line">          mid = (lo + hi)//<span class="number">2</span></span><br><span class="line">          <span class="keyword">if</span>(nums[<span class="number">0</span>] &gt; target) ^ (nums[<span class="number">0</span>]&gt;nums[mid]) ^ (target&gt;nums[mid]):</span><br><span class="line">             lo = mid + <span class="number">1</span></span><br><span class="line">          <span class="keyword">else</span> </span><br><span class="line">             hi = mid</span><br><span class="line">       <span class="keyword">return</span> lo <span class="keyword">if</span> lo == hi <span class="keyword">and</span> target == nums[lo] <span class="keyword">else</span> <span class="number">-1</span></span><br></pre></td></tr></table></figure>
+
+<p>如果数组中有重复元素，编写一个函数来判断给定的目标值是否存在于数组中。若存在返回 true，否则返回 false。】</p>
+<h5 id="搜索旋转排序数组最小值153、154"><a href="#搜索旋转排序数组最小值153、154" class="headerlink" title="搜索旋转排序数组最小值153、154"></a>搜索旋转排序数组最小值153、154</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span> </span><br><span class="line">   <span class="function"><span class="keyword">def</span> <span class="title">findMin</span><span class="params">(self,nums:List[int])</span>-&gt;int:</span></span><br><span class="line">       lo,hi=<span class="number">0</span>,len(nums)<span class="number">-1</span></span><br><span class="line">       <span class="keyword">while</span> lo &lt; li:</span><br><span class="line">          mid = (lo+li)//<span class="number">2</span></span><br><span class="line">          <span class="keyword">if</span>(nums[mid]) &gt; nums[hi]:</span><br><span class="line">            lo = mid + <span class="number">1</span></span><br><span class="line">          <span class="keyword">elif</span> nums[mid] == nums[hi]:</span><br><span class="line">            hi -=<span class="number">1</span></span><br><span class="line">          <span class="keyword">else</span> </span><br><span class="line">            hi = mid</span><br><span class="line">       <span class="keyword">return</span> nums[lo]</span><br></pre></td></tr></table></figure>
+
+<p>如果数组中有重复元素，</p>
+<h4 id="排序数组"><a href="#排序数组" class="headerlink" title="排序数组"></a>排序数组</h4><h5 id="搜索插入位置35"><a href="#搜索插入位置35" class="headerlink" title="搜索插入位置35"></a>搜索插入位置35</h5><p>给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。</p>
+<p>你可以假设数组中无重复元素。</p>
+<p>例：输入:[1,3,5,6],5</p>
+<p>输出：2</p>
+<p>输入：[1,3,5,6],2</p>
+<p>输出：1</p>
+<p>二分法查找</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">searchInsert</span><span class="params">(self, nums: List[int], target: int)</span> -&gt; int:</span></span><br><span class="line">        low = <span class="number">0</span></span><br><span class="line">        high = len(nums)</span><br><span class="line">        <span class="keyword">while</span> low &lt; high:</span><br><span class="line">            mid = low + (high - low)//<span class="number">2</span></span><br><span class="line">            <span class="keyword">if</span> nums[mid] &gt; target:</span><br><span class="line">                high = mid</span><br><span class="line">            <span class="keyword">elif</span> nums[mid] &lt; target:</span><br><span class="line">                low = mid +<span class="number">1</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">return</span> mid</span><br><span class="line">        <span class="keyword">return</span> low</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" rel="tag">IT,Web，算法</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        <div class="social-share" data-disabled="tencent,linkedin,douban,diandian,google"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css">
+<script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script>
+
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3>
+        <div class="buttons is-centered">
+            
+                
+<a class="button is-info donate">
+    <span class="icon is-small">
+        <i class="fab fa-alipay"></i>
+    </span>
+    <span>支付宝</span>
+    <div class="qrcode"><img src="http://q6mb9zdoi.bkt.clouddn.com/alipay.jpg" alt="支付宝"></div>
+</a>
+
+                
+                
+<a class="button is-success donate">
+    <span class="icon is-small">
+        <i class="fab fa-weixin"></i>
+    </span>
+    <span>微信</span>
+    <div class="qrcode"><img src="http://q6mb9zdoi.bkt.clouddn.com/wechatpay.jpg" alt="微信"></div>
+</a>
+
+                
+        </div>
+    </div>
+</div>
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/06/06/%E7%AE%97%E6%B3%95%E9%A2%983/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">算法题（三）</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/06/02/react/">
+                <span class="level-item">React</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">评论</h3>
+        
+<div class="notification is-danger">
+    You forgot to set the <code>app_id</code> or <code>app_key</code> for Valine. Please set it in <code>_config.yml</code>.
+</div>
+
+    </div>
+</div>
+
+
+<div class="level is-size-7 has-text-grey">
+</br>
+    <div class="level-left">
+	
+        <i class="far fa-eye"></i>
+		<span>&nbsp;</span>
+		
+		<h3>本文章阅读量：</h3>
+        <span>&nbsp;</span>
+        <span id="busuanzi_container_page_pv" style="display: inline;">
+            <span id="busuanzi_value_page_pv">0</span>
+        </span>
+    </div>
+</div></div>
+                
+
+
+
+
+
+<div class="column is-4-tablet is-5-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="" src="https://s1.ax1x.com/2020/03/27/G9OfNn.th.png" alt="张坤">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        张坤
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        Undergraduates/Tech Learner
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>山西·太原</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <a href="/archives">
+                        <p class="title has-text-weight-normal">
+                            111
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <a href="/categories">
+                        <p class="title has-text-weight-normal">
+                            7
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <a href="/tags">
+                        <p class="title has-text-weight-normal">
+                            48
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/Kun8018" target="_blank" rel="noopener">
+                关注我</a>
+        </div>
+        
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="微信" href="http://q6mb9zdoi.bkt.clouddn.com/alipay.jpg">
+                
+                <i class="fab fa-weixin"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="QQ" href="https://facebook.com">
+                
+                <i class="fab fa-qq"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="邮箱" href="https://twitter.com">
+                
+                <i class="fa fa-envelope"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="B站" href="https://dribbble.com">
+                
+                <i class="fab fa-dribbble"></i>
+                
+            </a>
+            
+        </div>
+        
+		<hr>
+        <p id="evan">IT学徒、技术民工、斜杠青年</p>
+          <p id="evan">机器人爱好者、摄影爱好者</p>
+          <p id="evan">PS、PR、LR、达芬奇潜在学习者</p>
+		  </div>
+</div>
+    
+        
+
+    <div class="card widget" id="toc">
+        <div class="card-content">
+            <div class="menu">
+                <h3 class="menu-label">
+                    目录
+                </h3>
+                <ul class="menu-list"><li>
+        <a class="is-flex" href="#基础算法">
+        <span class="has-mr-6">1</span>
+        <span>基础算法</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#手写进制转化">
+        <span class="has-mr-6">1.1</span>
+        <span>手写进制转化</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#数论算法">
+        <span class="has-mr-6">2</span>
+        <span>数论算法</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#实现求平方跟-69">
+        <span class="has-mr-6">2.1</span>
+        <span>实现求平方跟(69)</span>
+        </a></li><li>
+        <a class="is-flex" href="#斐波那契数列-509">
+        <span class="has-mr-6">2.2</span>
+        <span>斐波那契数列(509)</span>
+        </a></li><li>
+        <a class="is-flex" href="#爬楼梯问题-70">
+        <span class="has-mr-6">2.3</span>
+        <span>爬楼梯问题(70)</span>
+        </a></li><li>
+        <a class="is-flex" href="#快乐数-202">
+        <span class="has-mr-6">2.4</span>
+        <span>快乐数(202)</span>
+        </a></li><li>
+        <a class="is-flex" href="#4的幂342">
+        <span class="has-mr-6">2.5</span>
+        <span>4的幂342</span>
+        </a></li><li>
+        <a class="is-flex" href="#计数质数-204">
+        <span class="has-mr-6">2.6</span>
+        <span>计数质数(204)</span>
+        </a></li><li>
+        <a class="is-flex" href="#等差数列划分-413">
+        <span class="has-mr-6">2.7</span>
+        <span>等差数列划分(413)</span>
+        </a></li><li>
+        <a class="is-flex" href="#回文数9">
+        <span class="has-mr-6">2.8</span>
+        <span>回文数9</span>
+        </a></li><li>
+        <a class="is-flex" href="#判断一个数是否为质数">
+        <span class="has-mr-6">2.9</span>
+        <span>判断一个数是否为质数</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#n个数前m大的值">
+        <span class="has-mr-6">3</span>
+        <span>n个数前m大的值</span>
+        </a></li><li>
+        <a class="is-flex" href="#字符串相关算法">
+        <span class="has-mr-6">4</span>
+        <span>字符串相关算法</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#反转单词序列">
+        <span class="has-mr-6">4.1</span>
+        <span>反转单词序列</span>
+        </a></li><li>
+        <a class="is-flex" href="#无重复最长子串的长度">
+        <span class="has-mr-6">4.2</span>
+        <span>无重复最长子串的长度</span>
+        </a></li><li>
+        <a class="is-flex" href="#最长回文子串5">
+        <span class="has-mr-6">4.3</span>
+        <span>最长回文子串5</span>
+        </a></li><li>
+        <a class="is-flex" href="#检验一个字符串是否回文">
+        <span class="has-mr-6">4.4</span>
+        <span>检验一个字符串是否回文</span>
+        </a></li><li>
+        <a class="is-flex" href="#字符串相加">
+        <span class="has-mr-6">4.5</span>
+        <span>字符串相加</span>
+        </a></li><li>
+        <a class="is-flex" href="#统计字符串中出现最多的字母">
+        <span class="has-mr-6">4.6</span>
+        <span>统计字符串中出现最多的字母</span>
+        </a></li><li>
+        <a class="is-flex" href="#添加最少字符构造回文字符串-1312">
+        <span class="has-mr-6">4.7</span>
+        <span>添加最少字符构造回文字符串(1312)</span>
+        </a></li><li>
+        <a class="is-flex" href="#Leetcode93-复原ip地址">
+        <span class="has-mr-6">4.8</span>
+        <span>Leetcode93:复原ip地址</span>
+        </a></li><li>
+        <a class="is-flex" href="#有效括号-20">
+        <span class="has-mr-6">4.9</span>
+        <span>有效括号(20)</span>
+        </a></li><li>
+        <a class="is-flex" href="#括号生成22">
+        <span class="has-mr-6">4.10</span>
+        <span>括号生成22</span>
+        </a></li><li>
+        <a class="is-flex" href="#最长有效括号-32">
+        <span class="has-mr-6">4.11</span>
+        <span>最长有效括号(32)</span>
+        </a></li><li>
+        <a class="is-flex" href="#实现一个strStr-函数28">
+        <span class="has-mr-6">4.12</span>
+        <span>实现一个strStr()函数28</span>
+        </a></li><li>
+        <a class="is-flex" href="#比较版本号-165">
+        <span class="has-mr-6">4.13</span>
+        <span>比较版本号(165)</span>
+        </a></li><li>
+        <a class="is-flex" href="#翻转字符里的单词-151">
+        <span class="has-mr-6">4.14</span>
+        <span>翻转字符里的单词(151)</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#数据结构相关算法">
+        <span class="has-mr-6">5</span>
+        <span>数据结构相关算法</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#数组相关算法">
+        <span class="has-mr-6">5.1</span>
+        <span>数组相关算法</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#无序数组">
+        <span class="has-mr-6">5.1.1</span>
+        <span>无序数组</span>
+        </a></li><li>
+        <a class="is-flex" href="#多维数组">
+        <span class="has-mr-6">5.1.2</span>
+        <span>多维数组</span>
+        </a></li><li>
+        <a class="is-flex" href="#旋转数组">
+        <span class="has-mr-6">5.1.3</span>
+        <span>旋转数组</span>
+        </a></li><li>
+        <a class="is-flex" href="#排序数组">
+        <span class="has-mr-6">5.1.4</span>
+        <span>排序数组</span>
+        </a></li></ul></li></ul></li></ul>
+            </div>
+        </div>
+    </div>
+
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https:www.iros2019.org" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">IEEE-IROS</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.iros2019.org</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https:www.icra2020.org" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">IEEE-ICRA</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.icra2020.org</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/IT/">
+            <span class="level-start">
+                <span class="level-item">IT</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">38</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E4%B8%AA%E4%BA%BA%E5%B9%B8%E7%A6%8F/">
+            <span class="level-start">
+                <span class="level-item">个人幸福</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">
+            <span class="level-start">
+                <span class="level-item">个人生活</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">27</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">
+            <span class="level-start">
+                <span class="level-item">技术博客</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">36</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%9C%8B%E5%8F%8B/">
+            <span class="level-start">
+                <span class="level-item">朋友</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E7%94%9F%E6%B4%BB/">
+            <span class="level-start">
+                <span class="level-item">生活</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E7%94%9F%E6%B4%BB%E6%84%9F%E6%82%9F/">
+            <span class="level-start">
+                <span class="level-item">生活感悟</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            标签云
+        </h3>
+        <a href="/tags/IT/" style="font-size: 10px;">IT</a> <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 12px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 12px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8C/" style="font-size: 16px;">IT,Web，</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 12px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 14px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 12px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 12px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb/" style="font-size: 16px;">IT，Web</a> <a href="/tags/IT%EF%BC%8CWeb-Javascript/" style="font-size: 10px;">IT，Web,Javascript</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 18px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 16px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Rust/" style="font-size: 10px;">IT，Web,Rust</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 14px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 16px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 12px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 10px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 12px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 18px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 14px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 14px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">幸福</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 14px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/" style="font-size: 14px;">技术，IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 12px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 12px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 12px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 20px;">生活、幸福</a> <a href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">记录，生活</a>
+    </div>
+</div>
+    
+    
+        <div class="column-right-shadow  ">
+        
+            <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2021/03/20/%E6%B7%B1%E5%A4%9C%E9%A2%98%E8%AE%B0(%E4%B8%80)/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="深夜题记(一)：我也想成为一个温柔的人啊">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-03-20T13:40:33.000Z">2021-03-20</time></div>
+                    <a href="/2021/03/20/%E6%B7%B1%E5%A4%9C%E9%A2%98%E8%AE%B0(%E4%B8%80)/" class="title has-link-black-ter is-size-6 has-text-weight-normal">深夜题记(一)：我也想成为一个温柔的人啊</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">个人生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2021/03/20/%E6%9D%AD%E5%B7%9E%E5%8D%B0%E8%B1%A1(%E4%B8%80)/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="杭州印象(一)">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-03-20T13:40:33.000Z">2021-03-20</time></div>
+                    <a href="/2021/03/20/%E6%9D%AD%E5%B7%9E%E5%8D%B0%E8%B1%A1(%E4%B8%80)/" class="title has-link-black-ter is-size-6 has-text-weight-normal">杭州印象(一)</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">技术博客</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2021/03/06/%E6%B7%B1%E5%9C%B33/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://cdn.kunkunzhang.top/psc.jpg" alt="深圳感悟(三)">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-03-06T13:40:33.000Z">2021-03-06</time></div>
+                    <a href="/2021/03/06/%E6%B7%B1%E5%9C%B33/" class="title has-link-black-ter is-size-6 has-text-weight-normal">深圳感悟(三)</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">技术博客</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2021/02/02/2020%E6%96%B0%E5%B9%B4%E6%80%BB%E7%BB%93/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/happy-new-year-fireworks.jpg" alt="2020小结">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-02-02T13:40:33.000Z">2021-02-02</time></div>
+                    <a href="/2021/02/02/2020%E6%96%B0%E5%B9%B4%E6%80%BB%E7%BB%93/" class="title has-link-black-ter is-size-6 has-text-weight-normal">2020小结</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">个人生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2021/02/02/2021%E6%96%B0%E5%B9%B4%E6%80%BB%E7%BB%93/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="2021新年总结">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-02-02T13:40:33.000Z">2021-02-02</time></div>
+                    <a href="/2021/02/02/2021%E6%96%B0%E5%B9%B4%E6%80%BB%E7%BB%93/" class="title has-link-black-ter is-size-6 has-text-weight-normal">2021新年总结</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">个人生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            归档
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2021/03/">
+                <span class="level-start">
+                    <span class="level-item">三月 2021</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2021/02/">
+                <span class="level-start">
+                    <span class="level-item">二月 2021</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2021/01/">
+                <span class="level-start">
+                    <span class="level-item">一月 2021</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">10</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/12/">
+                <span class="level-start">
+                    <span class="level-item">十二月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">5</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/10/">
+                <span class="level-start">
+                    <span class="level-item">十月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/09/">
+                <span class="level-start">
+                    <span class="level-item">九月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/08/">
+                <span class="level-start">
+                    <span class="level-item">八月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">8</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/07/">
+                <span class="level-start">
+                    <span class="level-item">七月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/06/">
+                <span class="level-start">
+                    <span class="level-item">六月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">20</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/04/">
+                <span class="level-start">
+                    <span class="level-item">四月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/03/">
+                <span class="level-start">
+                    <span class="level-item">三月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">47</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/02/">
+                <span class="level-start">
+                    <span class="level-item">二月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                标签
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT/">
+                        <span class="tag">IT</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Java-Web/">
+                        <span class="tag">IT,Java,Web</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web/">
+                        <span class="tag">IT,Web</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web/">
+                        <span class="tag">IT,Web,</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8C/">
+                        <span class="tag">IT,Web，</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/">
+                        <span class="tag">IT,Web，Android、Java</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8CC/">
+                        <span class="tag">IT,Web，C++</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8CFlutter/">
+                        <span class="tag">IT,Web，Flutter</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8CIOS/">
+                        <span class="tag">IT,Web，IOS</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8CMac/">
+                        <span class="tag">IT,Web，Mac</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/">
+                        <span class="tag">IT,Web，算法</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/">
+                        <span class="tag">IT、友情</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/">
+                        <span class="tag">IT、小程序、H5App</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8C/">
+                        <span class="tag">IT，</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CApp-Node-Electron/">
+                        <span class="tag">IT，App,Node,Electron</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CFlutter/">
+                        <span class="tag">IT，Flutter</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CGithub/">
+                        <span class="tag">IT，Github</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CRN%EF%BC%8C/">
+                        <span class="tag">IT，RN，</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb/">
+                        <span class="tag">IT，Web</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Javascript/">
+                        <span class="tag">IT，Web,Javascript</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Node/">
+                        <span class="tag">IT，Web,Node</span>
+                        <span class="tag is-grey">6</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/">
+                        <span class="tag">IT，Web,Node，React</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-PHP/">
+                        <span class="tag">IT，Web,PHP</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Rust/">
+                        <span class="tag">IT，Web,Rust</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Vue/">
+                        <span class="tag">IT，Web,Vue</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/">
+                        <span class="tag">IT，Web,Vue，Node、React</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/">
+                        <span class="tag">IT，Web,数据库</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8Cweb/">
+                        <span class="tag">IT，web</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/">
+                        <span class="tag">IT，未来</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Web-IT-Flutter/">
+                        <span class="tag">Web,IT,Flutter</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Web-IT-Go/">
+                        <span class="tag">Web,IT,Go</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/">
+                        <span class="tag">Web，IT，HTML，CSS</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/">
+                        <span class="tag">个人生活，幸福</span>
+                        <span class="tag is-grey">6</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/">
+                        <span class="tag">兴趣，幸福</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/">
+                        <span class="tag">励志、文学</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E5%8F%8B%E6%83%85/">
+                        <span class="tag">友情</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E5%B9%B8%E7%A6%8F/">
+                        <span class="tag">幸福</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">
+                        <span class="tag">幸福，个人生活</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/">
+                        <span class="tag">技术宅、IT</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/">
+                        <span class="tag">技术，IT</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/">
+                        <span class="tag">技术，Robotic，IT</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/">
+                        <span class="tag">摄影，记录，生活</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%B7%B1%E5%9C%B3/">
+                        <span class="tag">深圳</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/">
+                        <span class="tag">爱情，幸福</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E7%94%9F%E6%B4%BB/">
+                        <span class="tag">生活</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E7%94%9F%E6%B4%BB/">
+                        <span class="tag">生活#</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/">
+                        <span class="tag">生活、幸福</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/">
+                        <span class="tag">记录，生活</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+				
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="https://s1.ax1x.com/2020/03/27/G9OfNn.th.png" alt="算法题（一）" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2021 Kun Zhang&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+               <!-- 
+                <br>
+                <span id="busuanzi_container_site_uv">
+                共<span id="busuanzi_value_site_uv">0</span>个访客
+                </span>
+                 -->
+				
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+	
+	   <div style="text-align: center;">
+			<br>
+			<p class="is-size-7">
+				
+				<span id="busuanzi_container_site_uv">
+					<i class="fa fa-user"></i> 本站访客数 <span id="busuanzi_value_site_uv"></span> 人次
+				</span>
+				<span id="busuanzi_container_site_pv">
+					|  <i class="fa fa-eye"></i> 本站总访问量 <span id="busuanzi_value_site_pv"></span> 次
+				</span>
+				
+			</p>
+			<span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+		<script>
+			var now = new Date(); 
+			function createtime() { 
+				var grt= new Date("3/2/2020 08:00:00");// 此处修改你的建站时间或者网站上线时间 
+				now.setTime(now.getTime()+250); 
+				days = (now - grt) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+				hours = (now - grt) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+				if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+				mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+				seconds = (now - grt) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+				snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+				document.getElementById("timeDate").innerHTML = "本站已安全运行"+dnum+"天"; 
+				document.getElementById("times").innerHTML = hnum + "小时" + mnum + "分" + snum + "秒"; 
+			} 
+			setInterval("createtime()",250);
+		</script>
+		</div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'http://kun8018.gitee.io',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'unfolded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

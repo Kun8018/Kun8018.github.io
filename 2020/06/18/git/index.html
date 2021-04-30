@@ -19,7 +19,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://cdn.kunkunzhang.top/git-logo.jpg">
 <meta property="article:published_time" content="2020-06-18T13:40:33.000Z">
-<meta property="article:modified_time" content="2021-04-01T16:06:41.708Z">
+<meta property="article:modified_time" content="2021-04-14T22:56:32.838Z">
 <meta property="article:author" content="Kun Zhang">
 <meta property="article:tag" content="IT，Github">
 <meta name="twitter:card" content="summary">
@@ -154,7 +154,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    38 分钟 读完 (大约 5713 个字)
+                    39 分钟 读完 (大约 5880 个字)
                 </span>
                 
                 
@@ -264,8 +264,6 @@
 <p>reflog可以显示所有分支的操作记录，包括已经删除的commit，要回复已经删除的commit使用cherry-pick</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git cherru-pick 4c97ff3</span><br></pre></td></tr></table></figure>
 
-
-
 <h2 id="远程操作"><a href="#远程操作" class="headerlink" title="远程操作"></a>远程操作</h2><p>添加远程仓库（Git服务器）</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote add origin git@gitee.com:jackfrued/python.git</span><br></pre></td></tr></table></figure>
 
@@ -318,6 +316,8 @@
 <h2 id="其他操作"><a href="#其他操作" class="headerlink" title="其他操作"></a>其他操作</h2><p><code>git fetch</code>：下载远程仓库的所有变动，可以将远程仓库下载到一个临时分支，然后再根据需要进行合并操作，<code>git fetch</code>命令和<code>git merge</code>命令可以看作是之前讲的<code>git pull</code>命令的分解动作。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git fetch origin master:temp</span><br><span class="line">git merge temp</span><br></pre></td></tr></table></figure>
 
+<p><code>git push -f</code>：强制提交，完全以自己的提交为准，之前其他人的提交都会被覆盖，适用于pr被block知乎重新提交，提交后不需要重新提pr.</p>
+<p><code>git rebase dev</code>：解决合并冲突。rebase之后如果有冲突，会进入临时变基分支，手动消除冲突之后在rebase</p>
 <p><code>git diff</code>：常用于比较工作区和仓库、暂存区与仓库、两个分支之间有什么差别。</p>
 <p><code>git diff --cached</code>：查看邮件add但没有commit的改动</p>
 <p><code>git diff HEAD</code>:是上面两条命令的合并</p>
@@ -358,6 +358,15 @@
 
 <p>特别注意：执行命令后，git会弹出一个GitHub登陆的小界面，你登录成功后要求你输入用户名和密码。这里的密码并不是你的GitHub的密码或者本地git的密码。<strong>而是GitHub的Personal access tokens</strong></p>
 <p><a href="https://github.com/settings/tokens">https://github.com/settings/tokens</a></p>
+<h3 id="错误"><a href="#错误" class="headerlink" title="错误"></a>错误</h3><p>GitHub pull之后有冲突</p>
+<p>尚未完成合并(MERGE_HEAD存在)？</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm -rf .git/MERGE*</span><br></pre></td></tr></table></figure>
+
+<p>或者</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git merge --quit</span><br></pre></td></tr></table></figure>
+
+
+
 <h2 id="git-action"><a href="#git-action" class="headerlink" title="git action"></a>git action</h2><p>持续集成由很多操作组成，比如抓取代码、运行测试、登录远程服务器，发布到第三方服务等等。GitHub 把这些操作就称为 actions。</p>
 <p>很多操作在不同项目里都是类似的，完全可以共享，因此github允许开发者把每个操作写成独立的脚本文件，存放到代码仓库里，使得其他开发者可以引用</p>
 <p>如果你需要某个action，不必自己写复杂的脚本，直接引用别人写好的action即可，整个持续集成过程就变成了一个actions 的组合</p>
@@ -509,6 +518,12 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git diff</span><br></pre></td></tr></table></figure>
 
 <p>git-diff能在命令行显示当前代码与上次提交时代码的修改，可以逐行见检查代码</p>
+<h2 id="在Github上工作"><a href="#在Github上工作" class="headerlink" title="在Github上工作"></a>在Github上工作</h2><h3 id="向开源项目贡献代码"><a href="#向开源项目贡献代码" class="headerlink" title="向开源项目贡献代码"></a>向开源项目贡献代码</h3><p>一般开源库不会给其他人开放push权限，如果有很好的想法或者发现开源库有bug，可以向作者提pr(pull request)/mr(merge request)</p>
+<p>首先Fork（关联复制）一份开源库A的代码到自己的github账号下( A1)</p>
+<p>自己对于A1有完全的权限，此时在A1上加入自己的代码，commitA</p>
+<p>发送Merge Request到原A库作者</p>
+<p>原A库作者审核同意后，将commitA merge到A库代码中</p>
+<h3 id="GitHub-activity"><a href="#GitHub-activity" class="headerlink" title="GitHub activity"></a>GitHub activity</h3><p>一般来说，只有对GitHub上repo的master分支操作时，比如push或者合并到master时GitHub activity会有记录</p>
 <h2 id="git-open"><a href="#git-open" class="headerlink" title="git-open"></a>git-open</h2><p>git-open是一个npm包，可以在git提交后在命令行输入，快速打开gitlab</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install git-open</span><br></pre></td></tr></table></figure>
 
@@ -519,11 +534,6 @@
 <p>如果提交的分支不是master，需要在gitlab页面创建合并请求，选择审核人进行审核合并</p>
 <p>在审核人确定合并之前，下次提交时不需要再次创建合并请求</p>
 <p>确定合并之后下次提交到分支时则需要再次创建</p>
-<h2 id="在Github上向开源项目贡献代码"><a href="#在Github上向开源项目贡献代码" class="headerlink" title="在Github上向开源项目贡献代码"></a>在Github上向开源项目贡献代码</h2><p>一般开源库不会给其他人开放push权限，如果有很好的想法或者发现开源库有bug，可以向作者提pr(pull request)/mr(merge request)</p>
-<p>首先Fork（关联复制）一份开源库A的代码到自己的github账号下( A1)</p>
-<p>自己对于A1有完全的权限，此时在A1上加入自己的代码，commitA</p>
-<p>发送Merge Request到原A库作者</p>
-<p>原A库作者审核同意后，将commitA merge到A库代码中</p>
 <h2 id="Gitlab"><a href="#Gitlab" class="headerlink" title="Gitlab"></a>Gitlab</h2><p>gitlab自带nginx、redis等软件，所以运行起来较大，在RAM4GB及以上的服务器才可以跑起来</p>
 <h2 id="Gitbook"><a href="#Gitbook" class="headerlink" title="Gitbook"></a>Gitbook</h2><p>Gitbook是一个提供Markdown书籍托管的网络平台。支持通过git及github进行文档管理，使用它可以很简单地生成、发布电子图书。Gitbook也是一个Nodejs命令行工具，可以使用它搭建自己的gitbook站点。GitBook甚至提供Github hook，在每次push前自动更新书籍内容。</p>
 <p>安装GitBook 控制台</p>
@@ -719,7 +729,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            107
+                            111
                         </p>
                     </a>
                 </div>
@@ -848,7 +858,7 @@
                 <span class="level-item">IT</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">36</span>
+                <span class="level-item tag">38</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E4%B8%AA%E4%BA%BA%E5%B9%B8%E7%A6%8F/">
@@ -864,7 +874,7 @@
                 <span class="level-item">个人生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">25</span>
+                <span class="level-item tag">27</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">
@@ -909,7 +919,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/IT/" style="font-size: 10px;">IT</a> <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 11.67px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 11.67px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8C/" style="font-size: 15px;">IT,Web，</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 11.67px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 13.33px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 11.67px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 11.67px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb/" style="font-size: 15px;">IT，Web</a> <a href="/tags/IT%EF%BC%8CWeb-Javascript/" style="font-size: 10px;">IT，Web,Javascript</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 16.67px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 13.33px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Rust/" style="font-size: 10px;">IT，Web,Rust</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 13.33px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 15px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 11.67px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 10px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 11.67px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 16.67px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 13.33px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 13.33px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">幸福</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 13.33px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/" style="font-size: 13.33px;">技术，IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 11.67px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 11.67px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 11.67px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 18.33px;">生活、幸福</a> <a href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">记录，生活</a>
+        <a href="/tags/IT/" style="font-size: 10px;">IT</a> <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 12px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 12px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8C/" style="font-size: 16px;">IT,Web，</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 12px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 14px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 12px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 12px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb/" style="font-size: 16px;">IT，Web</a> <a href="/tags/IT%EF%BC%8CWeb-Javascript/" style="font-size: 10px;">IT，Web,Javascript</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 18px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 16px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Rust/" style="font-size: 10px;">IT，Web,Rust</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 14px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 16px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 12px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 10px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 12px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 18px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 14px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 14px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">幸福</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 14px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/" style="font-size: 14px;">技术，IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 12px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 12px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 12px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 20px;">生活、幸福</a> <a href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">记录，生活</a>
     </div>
 </div>
     
@@ -936,6 +946,25 @@
                     <a href="/2021/03/20/%E6%B7%B1%E5%A4%9C%E9%A2%98%E8%AE%B0(%E4%B8%80)/" class="title has-link-black-ter is-size-6 has-text-weight-normal">深夜题记(一)：我也想成为一个温柔的人啊</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">个人生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2021/03/20/%E6%9D%AD%E5%B7%9E%E5%8D%B0%E8%B1%A1(%E4%B8%80)/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="杭州印象(一)">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-03-20T13:40:33.000Z">2021-03-20</time></div>
+                    <a href="/2021/03/20/%E6%9D%AD%E5%B7%9E%E5%8D%B0%E8%B1%A1(%E4%B8%80)/" class="title has-link-black-ter is-size-6 has-text-weight-normal">杭州印象(一)</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">技术博客</a>
                     </p>
                 </div>
             </div>
@@ -981,37 +1010,18 @@
         
         <article class="media">
             
-            <a href="/2021/01/23/Node9/" class="media-left">
+            <a href="/2021/02/02/2021%E6%96%B0%E5%B9%B4%E6%80%BB%E7%BB%93/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/nestjs.png" alt="NodeJs开发（五）">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="2021新年总结">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-23T13:40:33.000Z">2021-01-23</time></div>
-                    <a href="/2021/01/23/Node9/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（五）</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-02-02T13:40:33.000Z">2021-02-02</time></div>
+                    <a href="/2021/02/02/2021%E6%96%B0%E5%B9%B4%E6%80%BB%E7%BB%93/" class="title has-link-black-ter is-size-6 has-text-weight-normal">2021新年总结</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/IT/">IT</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2021/01/22/Node8/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/koajs.jpeg" alt="NodeJs开发（四）">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-22T14:41:33.000Z">2021-01-22</time></div>
-                    <a href="/2021/01/22/Node8/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（四）</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/IT/">IT</a>
+                        <a class="has-link-grey -link" href="/categories/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">个人生活</a>
                     </p>
                 </div>
             </div>
@@ -1034,7 +1044,7 @@
                     <span class="level-item">三月 2021</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">2</span>
+                    <span class="level-item tag">3</span>
                 </span>
             </a>
         </li>
@@ -1045,7 +1055,7 @@
                     <span class="level-item">二月 2021</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">1</span>
+                    <span class="level-item tag">2</span>
                 </span>
             </a>
         </li>
@@ -1056,7 +1066,7 @@
                     <span class="level-item">一月 2021</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">9</span>
+                    <span class="level-item tag">10</span>
                 </span>
             </a>
         </li>
@@ -1122,7 +1132,7 @@
                     <span class="level-item">六月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">19</span>
+                    <span class="level-item tag">20</span>
                 </span>
             </a>
         </li>
@@ -1327,14 +1337,14 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Node/">
                         <span class="tag">IT，Web,Node</span>
-                        <span class="tag is-grey">5</span>
+                        <span class="tag is-grey">6</span>
                     </a>
                 </div>
                 
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/">
                         <span class="tag">IT，Web,Node，React</span>
-                        <span class="tag is-grey">3</span>
+                        <span class="tag is-grey">4</span>
                     </a>
                 </div>
                 
@@ -1411,7 +1421,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/">
                         <span class="tag">个人生活，幸福</span>
-                        <span class="tag is-grey">5</span>
+                        <span class="tag is-grey">6</span>
                     </a>
                 </div>
                 
@@ -1509,7 +1519,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/">
                         <span class="tag">生活、幸福</span>
-                        <span class="tag is-grey">6</span>
+                        <span class="tag is-grey">7</span>
                     </a>
                 </div>
                 

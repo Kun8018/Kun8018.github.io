@@ -19,7 +19,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://s1.ax1x.com/2020/03/27/G9XCuD.th.jpg">
 <meta property="article:published_time" content="2020-10-02T13:40:33.000Z">
-<meta property="article:modified_time" content="2021-03-27T02:38:55.499Z">
+<meta property="article:modified_time" content="2021-04-16T00:10:25.275Z">
 <meta property="article:author" content="Kun Zhang">
 <meta property="article:tag" content="IT，Web,Vue">
 <meta name="twitter:card" content="summary">
@@ -158,7 +158,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    39 分钟 读完 (大约 5801 个字)
+                    43 分钟 读完 (大约 6426 个字)
                 </span>
                 
                 
@@ -236,6 +236,28 @@
 <p>Generate AST:</p>
 <p>渲染函数</p>
 <p>Patch phase:数据模型一旦变化，会被调用生成新的虚拟DOM</p>
+<h3 id="v-model原理-vue2、vue3"><a href="#v-model原理-vue2、vue3" class="headerlink" title="v-model原理-vue2、vue3"></a>v-model原理-vue2、vue3</h3><p>v-model基于object.defineproperty实现</p>
+<p>vue官方文档中提到：</p>
+<p>由于JavaScript语言的限制，vue不能检测数组和对象的变化</p>
+<p>对于对象，vue无法检测property的添加或移除</p>
+<p>对于数组，当你利用数组的索引设置值，或者修改数组的长度时，无法检测到变动</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> vm = <span class="keyword">new</span> Vue(&#123;</span><br><span class="line">  data:&#123;</span><br><span class="line">    a:<span class="number">1</span>;</span><br><span class="line">    items:[<span class="string">'a'</span>,<span class="string">'b'</span>,<span class="string">'c'</span>]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">vm.b = <span class="number">2</span>; <span class="comment">//添加vm.b为2，但是vm.b是非响应的</span></span><br><span class="line"></span><br><span class="line">vm.items[<span class="number">1</span>] = <span class="string">'x'</span> <span class="comment">//不是响应式的</span></span><br><span class="line">vm.items.length = <span class="number">2</span> <span class="comment">//不是响应式的</span></span><br></pre></td></tr></table></figure>
+
+<p>原因：</p>
+<p>ES6中对象有两种属性，数据属性和访问属性，数据属性的描述符为：Configurable、Enumerable、Writable、Value，访问属性的描述符为：Configurable、Enumerable、set、get属性</p>
+<p>vue初始化时将对象和数组中的数据属性转换为访问属性，而我们后面再次使用普通的赋值，仅仅是赋值了一个数据属性，这个属性不会有访问器属性的事件监听功能。</p>
+<p>对于数组，js中length属性初始为non-configurable、non-enumerable、writable，也就是通过object.defineproperty是不可枚举或者改变length属性的</p>
+<p>官方解决方法：</p>
+<p>vue2中：</p>
+<p>对于对象，使用vue.set进行响应式数据的添加</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Vue.set(vm.someObject,<span class="string">'b'</span>,<span class="number">2</span>)</span><br><span class="line"><span class="comment">//this.$set是Vue.set的别名</span></span><br><span class="line"><span class="keyword">this</span>.$<span class="keyword">set</span>(this.someObject,'b',2)</span><br></pre></td></tr></table></figure>
+
+<p>对于数组使用同样的方法</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Vue.set(vm.items,indexOfItem,<span class="number">1</span>,newValue)</span><br><span class="line">vm.$<span class="keyword">set</span>(vm.items,indexOfItem,1,newValue)</span><br><span class="line"></span><br><span class="line">vm.items.splice(indexOfItem,1,newValue)</span><br><span class="line"></span><br><span class="line">//改变数组长度</span><br><span class="line">vm.items.splice(newLength)</span><br></pre></td></tr></table></figure>
+
+<p>vue3中使用proxy进行劫持</p>
+<p>vue3中proxy与reflect进行搭配使用，proxy的语法是在语言层面作出修改，属于一种元编程，proxy在对象之前设置一层拦截，当被监听的对象被访问时，都必须经过这层拦截，可以在拦截中对原对象处理，返回需要的数据格式。也就是无论访问对象的什么属性，不管是定义好的还是新增的，都会走到拦截中进行处理，而不是像vue2中初始化时通过object.defineproperty遍历对象转换成访问器属性再进行监听</p>
+<p>Reflect是一个内置对象，不是一个函数对象不可构造，它提供拦截JavaScript操作的方法，这些方法与proxy handler的方法相同</p>
 <h3 id="diff算法"><a href="#diff算法" class="headerlink" title="diff算法"></a>diff算法</h3><p>patch.js文件夹</p>
 <h3 id="vue-cli原理"><a href="#vue-cli原理" class="headerlink" title="vue-cli原理"></a>vue-cli原理</h3><p>下载模版、生成模版、</p>
 <p>构建自定义模版</p>
@@ -613,7 +635,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            107
+                            111
                         </p>
                     </a>
                 </div>
@@ -727,64 +749,68 @@
         <span class="has-mr-6">2.1</span>
         <span>mini Vue</span>
         </a></li><li>
-        <a class="is-flex" href="#diff算法">
+        <a class="is-flex" href="#v-model原理-vue2、vue3">
         <span class="has-mr-6">2.2</span>
+        <span>v-model原理-vue2、vue3</span>
+        </a></li><li>
+        <a class="is-flex" href="#diff算法">
+        <span class="has-mr-6">2.3</span>
         <span>diff算法</span>
         </a></li><li>
         <a class="is-flex" href="#vue-cli原理">
-        <span class="has-mr-6">2.3</span>
+        <span class="has-mr-6">2.4</span>
         <span>vue-cli原理</span>
         </a></li><li>
         <a class="is-flex" href="#响应式原理data、props">
-        <span class="has-mr-6">2.4</span>
+        <span class="has-mr-6">2.5</span>
         <span>响应式原理data、props</span>
         </a></li><li>
         <a class="is-flex" href="#computed、watch">
-        <span class="has-mr-6">2.5</span>
+        <span class="has-mr-6">2.6</span>
         <span>computed、watch</span>
         </a></li><li>
         <a class="is-flex" href="#v-bind原理">
-        <span class="has-mr-6">2.6</span>
+        <span class="has-mr-6">2.7</span>
         <span>v-bind原理</span>
         </a><ul class="menu-list"><li>
         <a class="is-flex" href="#v-model与v-bind的区别">
-        <span class="has-mr-6">2.6.1</span>
+        <span class="has-mr-6">2.7.1</span>
         <span>v-model与v-bind的区别</span>
         </a></li></ul></li><li>
         <a class="is-flex" href="#vue父组件与子组件生命周期钩子执行顺序">
-        <span class="has-mr-6">2.7</span>
+        <span class="has-mr-6">2.8</span>
         <span>vue父组件与子组件生命周期钩子执行顺序</span>
         </a></li><li>
         <a class="is-flex" href="#vue3-0与2-0的区别">
-        <span class="has-mr-6">2.8</span>
+        <span class="has-mr-6">2.9</span>
         <span>vue3.0与2.0的区别</span>
         </a></li><li>
         <a class="is-flex" href="#vue模版解析原理">
-        <span class="has-mr-6">2.9</span>
+        <span class="has-mr-6">2.10</span>
         <span>vue模版解析原理</span>
         </a><ul class="menu-list"><li>
         <a class="is-flex" href="#html解析器">
-        <span class="has-mr-6">2.9.1</span>
+        <span class="has-mr-6">2.10.1</span>
         <span>html解析器</span>
         </a></li><li>
         <a class="is-flex" href="#文本解析器">
-        <span class="has-mr-6">2.9.2</span>
+        <span class="has-mr-6">2.10.2</span>
         <span>文本解析器</span>
         </a></li></ul></li><li>
         <a class="is-flex" href="#vue-router的实现原理">
-        <span class="has-mr-6">2.10</span>
+        <span class="has-mr-6">2.11</span>
         <span>vue-router的实现原理</span>
         </a></li><li>
         <a class="is-flex" href="#vue-use">
-        <span class="has-mr-6">2.11</span>
+        <span class="has-mr-6">2.12</span>
         <span>vue.use</span>
         </a></li><li>
         <a class="is-flex" href="#vuex实现原理">
-        <span class="has-mr-6">2.12</span>
+        <span class="has-mr-6">2.13</span>
         <span>vuex实现原理</span>
         </a></li><li>
         <a class="is-flex" href="#组件keep-alive实现原理">
-        <span class="has-mr-6">2.13</span>
+        <span class="has-mr-6">2.14</span>
         <span>组件keep-alive实现原理</span>
         </a></li></ul></li><li>
         <a class="is-flex" href="#chromevue调试工具">
@@ -906,7 +932,7 @@
                 <span class="level-item">IT</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">36</span>
+                <span class="level-item tag">38</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E4%B8%AA%E4%BA%BA%E5%B9%B8%E7%A6%8F/">
@@ -922,7 +948,7 @@
                 <span class="level-item">个人生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">25</span>
+                <span class="level-item tag">27</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">
@@ -967,7 +993,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/IT/" style="font-size: 10px;">IT</a> <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 11.67px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 11.67px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8C/" style="font-size: 15px;">IT,Web，</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 11.67px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 13.33px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 11.67px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 11.67px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb/" style="font-size: 15px;">IT，Web</a> <a href="/tags/IT%EF%BC%8CWeb-Javascript/" style="font-size: 10px;">IT，Web,Javascript</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 16.67px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 13.33px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Rust/" style="font-size: 10px;">IT，Web,Rust</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 13.33px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 15px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 11.67px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 10px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 11.67px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 16.67px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 13.33px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 13.33px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">幸福</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 13.33px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/" style="font-size: 13.33px;">技术，IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 11.67px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 11.67px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 11.67px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 18.33px;">生活、幸福</a> <a href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">记录，生活</a>
+        <a href="/tags/IT/" style="font-size: 10px;">IT</a> <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 12px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 12px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8C/" style="font-size: 16px;">IT,Web，</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 12px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 14px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 12px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 12px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb/" style="font-size: 16px;">IT，Web</a> <a href="/tags/IT%EF%BC%8CWeb-Javascript/" style="font-size: 10px;">IT，Web,Javascript</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 18px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 16px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Rust/" style="font-size: 10px;">IT，Web,Rust</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 14px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 16px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 12px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 10px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 12px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 18px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 14px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 14px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">幸福</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 14px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/" style="font-size: 14px;">技术，IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 12px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 12px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 12px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 20px;">生活、幸福</a> <a href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">记录，生活</a>
     </div>
 </div>
     
@@ -994,6 +1020,25 @@
                     <a href="/2021/03/20/%E6%B7%B1%E5%A4%9C%E9%A2%98%E8%AE%B0(%E4%B8%80)/" class="title has-link-black-ter is-size-6 has-text-weight-normal">深夜题记(一)：我也想成为一个温柔的人啊</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">个人生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2021/03/20/%E6%9D%AD%E5%B7%9E%E5%8D%B0%E8%B1%A1(%E4%B8%80)/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="杭州印象(一)">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-03-20T13:40:33.000Z">2021-03-20</time></div>
+                    <a href="/2021/03/20/%E6%9D%AD%E5%B7%9E%E5%8D%B0%E8%B1%A1(%E4%B8%80)/" class="title has-link-black-ter is-size-6 has-text-weight-normal">杭州印象(一)</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">技术博客</a>
                     </p>
                 </div>
             </div>
@@ -1039,37 +1084,18 @@
         
         <article class="media">
             
-            <a href="/2021/01/23/Node9/" class="media-left">
+            <a href="/2021/02/02/2021%E6%96%B0%E5%B9%B4%E6%80%BB%E7%BB%93/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/nestjs.png" alt="NodeJs开发（五）">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="2021新年总结">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-23T13:40:33.000Z">2021-01-23</time></div>
-                    <a href="/2021/01/23/Node9/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（五）</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-02-02T13:40:33.000Z">2021-02-02</time></div>
+                    <a href="/2021/02/02/2021%E6%96%B0%E5%B9%B4%E6%80%BB%E7%BB%93/" class="title has-link-black-ter is-size-6 has-text-weight-normal">2021新年总结</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/IT/">IT</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2021/01/22/Node8/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/koajs.jpeg" alt="NodeJs开发（四）">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-22T14:41:33.000Z">2021-01-22</time></div>
-                    <a href="/2021/01/22/Node8/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（四）</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/IT/">IT</a>
+                        <a class="has-link-grey -link" href="/categories/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">个人生活</a>
                     </p>
                 </div>
             </div>
@@ -1092,7 +1118,7 @@
                     <span class="level-item">三月 2021</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">2</span>
+                    <span class="level-item tag">3</span>
                 </span>
             </a>
         </li>
@@ -1103,7 +1129,7 @@
                     <span class="level-item">二月 2021</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">1</span>
+                    <span class="level-item tag">2</span>
                 </span>
             </a>
         </li>
@@ -1114,7 +1140,7 @@
                     <span class="level-item">一月 2021</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">9</span>
+                    <span class="level-item tag">10</span>
                 </span>
             </a>
         </li>
@@ -1180,7 +1206,7 @@
                     <span class="level-item">六月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">19</span>
+                    <span class="level-item tag">20</span>
                 </span>
             </a>
         </li>
@@ -1385,14 +1411,14 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Node/">
                         <span class="tag">IT，Web,Node</span>
-                        <span class="tag is-grey">5</span>
+                        <span class="tag is-grey">6</span>
                     </a>
                 </div>
                 
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/">
                         <span class="tag">IT，Web,Node，React</span>
-                        <span class="tag is-grey">3</span>
+                        <span class="tag is-grey">4</span>
                     </a>
                 </div>
                 
@@ -1469,7 +1495,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/">
                         <span class="tag">个人生活，幸福</span>
-                        <span class="tag is-grey">5</span>
+                        <span class="tag is-grey">6</span>
                     </a>
                 </div>
                 
@@ -1567,7 +1593,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/">
                         <span class="tag">生活、幸福</span>
-                        <span class="tag is-grey">6</span>
+                        <span class="tag is-grey">7</span>
                     </a>
                 </div>
                 

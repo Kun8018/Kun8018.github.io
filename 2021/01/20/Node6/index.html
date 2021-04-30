@@ -1,0 +1,1850 @@
+<!DOCTYPE html>
+<html  lang="zh">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 4.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>NodeJs开发（一） - kun&#39;s blog</title>
+
+
+    <meta name="description" content="第五篇注重Node后端开发。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NodeJs开发（一）">
+<meta property="og:url" content="http://kun8018.gitee.io/2021/01/20/Node6/index.html">
+<meta property="og:site_name" content="kun&#39;s blog">
+<meta property="og:description" content="第五篇注重Node后端开发。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://cdn.kunkunzhang.top/nodejs.png">
+<meta property="article:published_time" content="2021-01-20T13:40:33.000Z">
+<meta property="article:modified_time" content="2021-04-05T05:18:04.105Z">
+<meta property="article:author" content="Kun Zhang">
+<meta property="article:tag" content="IT，Web,Node">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://cdn.kunkunzhang.top/nodejs.png">
+
+
+
+
+
+
+
+<link rel="icon" href="https://s1.ax1x.com/2020/03/27/G9OfNn.th.png">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    <script async="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="https://s1.ax1x.com/2020/03/27/G9OfNn.th.png" alt="NodeJs开发（一）" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">首页</a>
+                
+                <a class="navbar-item"
+                href="/archives">最近发布</a>
+                
+                <a class="navbar-item"
+                href="/categories">目录</a>
+                
+                <a class="navbar-item"
+                href="/tags">分类</a>
+                
+                <a class="navbar-item"
+                href="/about">关于我</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    <a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-9-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-image">
+        <span  class="image is-7by1">
+            <img class="thumbnail" src="http://cdn.kunkunzhang.top/nodejs.png" alt="NodeJs开发（一）">
+        </span>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2021-01-20T13:40:33.000Z">2021-01-20</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/IT/">IT</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    1 小时 读完 (大约 7801 个字)
+                </span>
+                
+                
+                <span class="level-item has-text-grey" id="busuanzi_container_page_pv">
+                    <i class="far fa-eye"></i>
+                    <span id="busuanzi_value_page_pv">0</span>次访问
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                NodeJs开发（一）
+            
+        </h1>
+        <div class="content">
+            <p>第五篇注重Node后端开发。</p>
+<a id="more"></a>
+
+<h2 id="初始化Node文件夹"><a href="#初始化Node文件夹" class="headerlink" title="初始化Node文件夹"></a>初始化Node文件夹</h2><p>初始化文件夹</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm init -y</span><br></pre></td></tr></table></figure>
+
+<p>初始化文件夹后生成pacakge.json文件</p>
+<p><em>nodemon</em>用来监视node.js应用程序中的任何更改并自动重启服务,非常适合用在开发环境中。</p>
+<p>安装nodemon</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm i -g nodemon</span><br><span class="line">npm run serve  &#x2F;&#x2F;运行服务器</span><br></pre></td></tr></table></figure>
+
+<p>package.json中dependency是全局使用的依赖</p>
+<p> dev_dependcy只在开发时用的依赖，打包后不会上传，使用npm install -D 安装</p>
+<h2 id="创建服务器与客户端"><a href="#创建服务器与客户端" class="headerlink" title="创建服务器与客户端"></a>创建服务器与客户端</h2><p>创建服务器</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> http = <span class="built_in">require</span>(<span class="string">'http'</span>);</span><br><span class="line"></span><br><span class="line">http.createServer(<span class="function"><span class="keyword">function</span> (<span class="params">request, response</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 发送 HTTP 头部 </span></span><br><span class="line">    <span class="comment">// HTTP 状态值: 200 : OK</span></span><br><span class="line">    <span class="comment">// 内容类型: text/plain</span></span><br><span class="line">    response.writeHead(<span class="number">200</span>, &#123;<span class="string">'Content-Type'</span>: <span class="string">'text/plain'</span>&#125;);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 发送响应数据 "Hello World"</span></span><br><span class="line">    response.end(<span class="string">'Hello World\n'</span>);</span><br><span class="line">&#125;).listen(<span class="number">8888</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 终端打印如下信息</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'Server running at http://127.0.0.1:8888/'</span>);</span><br></pre></td></tr></table></figure>
+
+<p>创建客户端</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> http = <span class="built_in">require</span>(<span class="string">'http'</span>);</span><br><span class="line"> </span><br><span class="line"><span class="comment">// 用于请求的选项</span></span><br><span class="line"><span class="keyword">var</span> options = &#123;</span><br><span class="line">   host: <span class="string">'localhost'</span>,</span><br><span class="line">   port: <span class="string">'8080'</span>,</span><br><span class="line">   path: <span class="string">'/index.html'</span>  </span><br><span class="line">&#125;;</span><br><span class="line"> </span><br><span class="line"><span class="comment">// 处理响应的回调函数</span></span><br><span class="line"><span class="keyword">var</span> callback = <span class="function"><span class="keyword">function</span>(<span class="params">response</span>)</span>&#123;</span><br><span class="line">   <span class="comment">// 不断更新数据</span></span><br><span class="line">   <span class="keyword">var</span> body = <span class="string">''</span>;</span><br><span class="line">   response.on(<span class="string">'data'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">data</span>) </span>&#123;</span><br><span class="line">      body += data;</span><br><span class="line">   &#125;);</span><br><span class="line">   </span><br><span class="line">   response.on(<span class="string">'end'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="comment">// 数据接收完成</span></span><br><span class="line">      <span class="built_in">console</span>.log(body);</span><br><span class="line">   &#125;);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 向服务端发送请求</span></span><br><span class="line"><span class="keyword">var</span> req = http.request(options, callback);</span><br><span class="line">req.end();</span><br></pre></td></tr></table></figure>
+
+<p>服务端处理get、post请求</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="读取文件夹、文件"><a href="#读取文件夹、文件" class="headerlink" title="读取文件夹、文件"></a>读取文件夹、文件</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>)</span><br><span class="line"><span class="comment">//读、写文件</span></span><br><span class="line"><span class="keyword">var</span> readme = fs.readFileSync(<span class="string">"readme.txt"</span>,<span class="string">"utf8"</span>);<span class="comment">//同步读文件</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> readme = fs.readFile(<span class="string">"readme.txt"</span>,<span class="string">"utf8"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">err,data</span>)</span>&#123;</span><br><span class="line">    </span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">fs.writeFileSync(<span class="string">"writeme.txt"</span>,readme)</span><br><span class="line">fs.writeFile(<span class="string">'writeme.txt'</span>,data,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">//创建、读取、移除目录</span></span><br><span class="line">fs.mkdir(<span class="string">''</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;)</span><br><span class="line">fs.readdir(<span class="string">''</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;)</span><br><span class="line">fs.rmdir(<span class="string">''</span>)</span><br><span class="line"><span class="comment">//识别文件、目录类型</span></span><br><span class="line">fs.stat(<span class="string">''</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">stats.isFile()</span><br><span class="line">stats.isDirectory()</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">//删除文件</span></span><br><span class="line">fs.unlink(<span class="string">'input.txt'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">err</span>) </span>&#123;</span><br><span class="line">   <span class="keyword">if</span> (err) &#123;</span><br><span class="line">       <span class="keyword">return</span> <span class="built_in">console</span>.error(err);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="Stream"><a href="#Stream" class="headerlink" title="Stream"></a>Stream</h3><p>stream（流）是一种抽象的数据结构。流可以把文件资源拆分成小块，一块一块的运输，资源就像水流一样进行传输，减轻服务器压力。</p>
+<p>stream可以分为四类：</p>
+<p>可读 Readable，有两个状态：paused、flowing。</p>
+<p>可写 Writable，两个重要事件：drain、finish。</p>
+<p>可读可写（双向）Duplex</p>
+<p>可读可写（变化）Transform</p>
+<p>可读流有两个状态 paused 和 flowing。</p>
+<p>可读流默认处于 paused 态，一旦添加 data 事件监听，它就变为 flowing 态。删掉 data 事件监听，paused 态。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 默认处于 paused 态</span></span><br><span class="line"><span class="keyword">const</span> stream = fs.createReadStream(<span class="string">'./big_file.txt'</span>)</span><br><span class="line">stream.pipe(response)</span><br><span class="line">stream.pause(); <span class="comment">// 暂停</span></span><br><span class="line">setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// 恢复</span></span><br><span class="line">  stream.resume()</span><br><span class="line">&#125;, <span class="number">3000</span>)</span><br></pre></td></tr></table></figure>
+
+<p>用管道pipe连接两个不同的流，管道可以分为两个事件，监听data，stream1一有数据就传给stream2，监听 end 事件，当 stream1 停了，就停掉 stream2</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">stream1.on(<span class="string">'data'</span>, (chunk) =&gt; &#123;</span><br><span class="line">	stream2.write(chunk)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">stream1.on(<span class="string">'end'</span>, () =&gt; &#123;</span><br><span class="line">	stream2.end()</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://juejin.im/post/5f1c508ff265da22ff546dca#heading-25">https://juejin.im/post/5f1c508ff265da22ff546dca#heading-25</a></p>
+<h3 id="Buffer"><a href="#Buffer" class="headerlink" title="Buffer"></a>Buffer</h3><p>JavaScript 语言自身只有字符串数据类型，没有二进制数据类型。</p>
+<p>但在处理像TCP流或文件流时，必须使用到二进制数据。因此在 Node.js中，定义了一个 Buffer 类，该类用来创建一个专门存放二进制数据的缓存区。</p>
+<p>在 Node.js 中，Buffer 类是随 Node 内核一起发布的核心库。Buffer 库为 Node.js 带来了一种存储原始数据的方法，可以让 Node.js 处理二进制数据，每当需要在 Node.js 中处理I/O操作中移动的数据时，就有可能使用 Buffer 库。原始数据存储在 Buffer 类的实例中。一个 Buffer 类似于一个整数数组，但它对应于 V8 堆内存之外的一块原始内存。</p>
+<p><a href="https://juejin.im/post/6845166891401478158">https://juejin.im/post/6845166891401478158</a></p>
+<h2 id="OS操作"><a href="#OS操作" class="headerlink" title="OS操作"></a>OS操作</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">os.tmpdir()<span class="comment">//返回操作系统的默认临时文件夹</span></span><br><span class="line">os.hostname()<span class="comment">//返回操作系统的主机名</span></span><br><span class="line">os.release()<span class="comment">//返回操作系统的发行版本</span></span><br><span class="line">os.type()<span class="comment">//返回操作系统名</span></span><br><span class="line">os.uptime()<span class="comment">//返回操作系统的运行时间，单位为秒</span></span><br><span class="line">os.totalmem()<span class="comment">//返回系统总内存量，单位字节</span></span><br><span class="line">os.freemem()<span class="comment">//返回系统空闲内存量，单位字节</span></span><br><span class="line">os.arch()<span class="comment">//返回操作系统的CPU架构</span></span><br><span class="line">os.cpus()<span class="comment">//返回数组对象，包含每个CPU的信息</span></span><br><span class="line">os.networkInterfaces()<span class="comment">//返回网络接口列表</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="路径操作"><a href="#路径操作" class="headerlink" title="路径操作"></a>路径操作</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> path = <span class="built_in">require</span>(<span class="string">"path"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//获取文件夹路径</span></span><br><span class="line">path.dirname(p)</span><br><span class="line"><span class="comment">//获取文件名</span></span><br><span class="line">path.basename(p[, ext])</span><br><span class="line"><span class="comment">//获取文件后缀名</span></span><br><span class="line">path.extname(p)</span><br><span class="line"><span class="comment">//将路径转化为数组</span></span><br><span class="line">path.parse(filepath)</span><br><span class="line"><span class="comment">//绝对路径相对路径转化</span></span><br><span class="line">path.resolve([<span class="keyword">from</span> ...], to)<span class="comment">//转化为绝对路径</span></span><br><span class="line">path.relative(<span class="keyword">from</span>, to)<span class="comment">//转化为相对路径</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="核心工具函数"><a href="#核心工具函数" class="headerlink" title="核心工具函数"></a>核心工具函数</h2><p>util 是一个Node.js 核心模块，提供常用函数的集合，用于弥补核心 JavaScript 的功能 过于精简的不足。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> util = <span class="built_in">require</span>(<span class="string">'util'</span>);</span><br></pre></td></tr></table></figure>
+
+<p><strong>util.inherits(constructor, superConstructor)</strong> 是一个实现对象间原型继承的函数。JavaScript 的面向对象特性是基于原型的，与常见的基于类的不同。JavaScript 没有提供对象继承的语言级别特性，而是通过原型复制来实现的。</p>
+<p><strong>util.inspect(object,[showHidden],[depth],[colors])</strong> 是一个将任意对象转换 为字符串的方法，通常用于调试和错误输出。它至少接受一个参数 object，即要转换的对象。</p>
+<p>util.isArray(object)判断给定的参数 “object” 是一个数组则返回 true，否则返回 false。</p>
+<p>util.isRegExp(object)判断给定的参数 “object” 是一个正则表达式返回true，否则返回false。</p>
+<p>util.isDate(object)判断给定的参数 “object” 是一个data对象则返回true，否则返回false。</p>
+<h2 id="Node模块化加载方法"><a href="#Node模块化加载方法" class="headerlink" title="Node模块化加载方法"></a>Node模块化加载方法</h2><p>JavaScript 现在有两种模块。一种是 ES6 模块，简称 ESM；另一种是 CommonJS 模块，简称 CJS。</p>
+<p>CommonJS 模块是 Node.js 专用的，与 ES6 模块不兼容。它们采用不同的加载方案。从 Node.js v13.2 版本开始，Node.js 已经默认打开了 ES6 模块支持。</p>
+<p>Node.js 要求 ES6 模块采用<code>.mjs</code>后缀文件名。也就是说，只要脚本文件里面使用<code>import</code>或者<code>export</code>命令，那么就必须采用<code>.mjs</code>后缀名。Node.js 遇到<code>.mjs</code>文件，就认为它是 ES6 模块，默认启用严格模式，不必在每个模块文件顶部指定<code>&quot;use strict&quot;</code>。</p>
+<p>如果不希望将后缀名改成<code>.mjs</code>，可以在项目的<code>package.json</code>文件中，指定<code>type</code>字段为<code>module</code>。</p>
+<p>ES6 模块与 CommonJS 模块尽量不要混用。<code>require</code>命令不能加载<code>.mjs</code>文件，会报错，只有<code>import</code>命令才可以加载<code>.mjs</code>文件。反过来，<code>.mjs</code>文件里面也不能使用<code>require</code>命令，必须使用<code>import</code>。</p>
+<p><code>package.json</code>文件有两个字段可以指定模块的入口文件：<code>main</code>和<code>exports</code>。比较简单的模块，可以只使用<code>main</code>字段，指定模块加载的入口文件。</p>
+<h2 id="Node全局变量"><a href="#Node全局变量" class="headerlink" title="Node全局变量"></a>Node全局变量</h2><p>node程序内部自带一些变量和函数，可以在node程序全局使用</p>
+<h3 id="当前目录与当前文件"><a href="#当前目录与当前文件" class="headerlink" title="当前目录与当前文件"></a>当前目录与当前文件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">_filename&#x2F;&#x2F;输出当前脚本文件的绝对路径</span><br><span class="line">_dirname&#x2F;&#x2F;输出当前脚本文件的目录</span><br></pre></td></tr></table></figure>
+
+<h3 id="定时器函数"><a href="#定时器函数" class="headerlink" title="定时器函数"></a>定时器函数</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var t&#x3D; setTimeout(cb, ms);&#x2F;&#x2F;设定ms后执行函数cb</span><br><span class="line">clearTimeout(t)</span><br><span class="line">setInterval(cb, ms)&#x2F;&#x2F;每个ms后执行函数cb</span><br><span class="line">clearTimeout(t)&#x2F;&#x2F;停止一个之前创建的定时器</span><br></pre></td></tr></table></figure>
+
+<p>Node独有的定时器函数：</p>
+<p>setImmediate/clearImmediate</p>
+<h3 id="控制台输出函数"><a href="#控制台输出函数" class="headerlink" title="控制台输出函数"></a>控制台输出函数</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log</span><br></pre></td></tr></table></figure>
+
+<h3 id="Process"><a href="#Process" class="headerlink" title="Process"></a>Process</h3><p><code>process</code>对象是 Node 的一个全局对象，提供当前 Node 进程的信息。它可以在脚本的任意位置使用，不必通过<code>require</code>命令加载。该对象部署了<code>EventEmitter</code>接口。</p>
+<p>基本属性：</p>
+<ul>
+<li><code>process.argv</code>：返回一个数组，成员是当前进程的所有命令行参数。</li>
+<li><code>process.env</code>：返回一个对象，成员为当前Shell的环境变量，比如<code>process.env.HOME</code>。</li>
+<li><code>process.installPrefix</code>：返回一个字符串，表示 Node 安装路径的前缀，比如<code>/usr/local</code>。相应地，Node 的执行文件目录为<code>/usr/local/bin/node</code>。</li>
+<li><code>process.pid</code>：返回一个数字，表示当前进程的进程号。</li>
+<li><code>process.platform</code>：返回一个字符串，表示当前的操作系统，比如<code>Linux</code>。</li>
+<li><code>process.title</code>：返回一个字符串，默认值为<code>node</code>，可以自定义该值。</li>
+<li><code>process.version</code>：返回一个字符串，表示当前使用的 Node 版本，比如<code>v7.10.0</code>。</li>
+</ul>
+<p>针对shell的属性：</p>
+<p><code>process.env</code>属性返回一个对象，包含了当前Shell的所有环境变量。比如，<code>process.env.HOME</code>返回用户的主目录。</p>
+<p>通常的做法是，新建一个环境变量<code>NODE_ENV</code>，用它确定当前所处的开发阶段，生产阶段设为<code>production</code>，开发阶段设为<code>develop</code>或<code>staging</code>，然后在脚本中读取<code>process.env.NODE_ENV</code>即可。</p>
+<p>方法：</p>
+<ul>
+<li><code>process.chdir()</code>：切换工作目录到指定目录。</li>
+<li><code>process.cwd()</code>：返回运行当前脚本的工作目录的路径。<code>process.cwd()</code>与<code>__dirname</code>的区别。前者进程发起时的位置，后者是脚本的位置，两者可能是不一致的。</li>
+<li><code>process.exit()</code>：退出当前进程。</li>
+<li><code>process.getgid()</code>：返回当前进程的组ID（数值）。</li>
+<li><code>process.getuid()</code>：返回当前进程的用户ID（数值）。</li>
+<li><code>process.nextTick()</code>：指定回调函数在当前执行栈的尾部、下一次Event Loop之前执行。</li>
+<li><code>process.on()</code>：监听事件。</li>
+<li><code>process.setgid()</code>：指定当前进程的组，可以使用数字ID，也可以使用字符串ID。</li>
+<li><code>process.setuid()</code>：指定当前进程的用户，可以使用数字ID，也可以使用字符串ID。</li>
+</ul>
+<h2 id="Node运行原理"><a href="#Node运行原理" class="headerlink" title="Node运行原理"></a>Node运行原理</h2><h3 id="运行原理"><a href="#运行原理" class="headerlink" title="运行原理"></a>运行原理</h3><p>Node.js 被分为了四层，分别是 <code>应用层</code>、<code>V8引擎层</code>、<code>Node API层</code> 和 <code>LIBUV层</code>。</p>
+<p>应用层： 即 JavaScript 交互层，常见的就是 Node.js 的模块，比如 http，fs</p>
+<p>V8引擎层： 即利用 V8 引擎来解析JavaScript 语法，进而和下层 API 交互</p>
+<p>NodeAPI层： 为上层模块提供系统调用，一般是由 C 语言来实现，和操作系统进行交互 。</p>
+<p>LIBUV层： 是跨平台的底层封装，实现了 事件循环、文件操作等，是 Node.js 实现异步的核心</p>
+<h3 id="事件循环"><a href="#事件循环" class="headerlink" title="事件循环"></a>事件循环</h3><p>node事件循环与浏览器循环是不同的</p>
+<p>当Node.js启动时会初始化<code>event loop</code>, 每一个<code>event loop</code>都会包含按如下顺序六个循环阶段：</p>
+<p>1.<strong><code>timers</code> 阶段</strong>: 这个阶段执行 <code>setTimeout(callback)</code> 和 <code>setInterval(callback)</code> 预定的 callback, timer指定一个下限时间而不是准确时间，在达到这个下限时间后执行回调。在指定时间过后，timers会尽可能早地执行回调，但系统调度或者其它回调的执行可能会延迟它们。</p>
+<p>2.<strong><code>I/O callbacks</code> 阶段</strong>: 此阶段执行某些系统操作的回调，例如TCP错误的类型。 例如，如果TCP套接字在尝试连接时收到 ECONNREFUSED，则某些* nix系统希望等待报告错误。 这将操作将等待在==I/O回调阶段==执行;</p>
+<p>3.<strong><code>idle, prepare</code> 阶段</strong>: 仅node内部使用;</p>
+<p>4.<strong><code>poll</code> 阶段</strong>: 获取新的I/O事件, 例如操作读取文件等等，适当的条件下node将阻塞在这里;如果 poll 队列不空，event loop会遍历队列并同步执行回调，直到队列清空或执行的回调数到达系统上限；如果 poll 队列为空，则发生以下两件事之一：如果代码已经被setImmediate()设定了回调, event loop将结束 poll 阶段进入 check 阶段来执行 check 队列（里面的回调 callback）。如果代码没有被setImmediate()设定回调，event loop将阻塞在该阶段等待回调被加入 poll 队列，并立即执行。setImmediate() 实际上是一个特殊的timer，跑在event loop中一个独立的阶段。它使用<code>libuv</code>的API 来设定在 poll 阶段结束后立即执行回调。</p>
+<p>5.<strong><code>check</code> 阶段</strong>: 执行 <code>setImmediate()</code> 设定的callbacks;</p>
+<p>6.<strong><code>close callbacks</code> 阶段</strong>: 比如 <code>socket.on(‘close’, callback)</code> 的callback会在这个阶段执行;如果一个 socket 或 handle 被突然关掉，close事件将在这个阶段被触发，否则将通过process.nextTick()触发</p>
+<h2 id="eventEmitter"><a href="#eventEmitter" class="headerlink" title="eventEmitter"></a>eventEmitter</h2><p>Node.js 所有的异步 I/O 操作在完成时都会发送一个事件到事件队列。</p>
+<p>Node.js 里面的许多对象都会分发事件：一个 net.Server 对象会在每次有新连接时触发一个事件， 一个 fs.readStream 对象会在文件被打开的时候触发一个事件。 所有这些产生事件的对象都是 events.EventEmitter 的实例。</p>
+<p>events 模块只提供了一个对象： events.EventEmitter。EventEmitter 的核心就是事件触发与事件监听器功能的封装。</p>
+<p>实例</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//event.js 文件</span></span><br><span class="line"><span class="keyword">var</span> EventEmitter = <span class="built_in">require</span>(<span class="string">'events'</span>).EventEmitter; </span><br><span class="line"><span class="keyword">var</span> event = <span class="keyword">new</span> EventEmitter(); </span><br><span class="line">event.on(<span class="string">'some_event'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; </span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'some_event 事件触发'</span>); </span><br><span class="line">&#125;); </span><br><span class="line">setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; </span><br><span class="line">    event.emit(<span class="string">'some_event'</span>); </span><br><span class="line">&#125;, <span class="number">1000</span>);</span><br></pre></td></tr></table></figure>
+
+<p>常用场景：</p>
+<p>1) 模块间传递消息 </p>
+<p>2) 回调函数内外传递消息 </p>
+<p>3) 处理流数据，因为流是在EventEmitter基础上实现的. 4) 观察者模式发射触发机制相关应用</p>
+<h2 id="多进程"><a href="#多进程" class="headerlink" title="多进程"></a>多进程</h2><p>child_process模块开启多个子进程来执行node文件，执行开启的进程是主进程，被开启的进程是子进程。</p>
+<p>child_process模块用于新建子进程。子进程的运行结果储存在系统缓存之中（最大200KB），等到子进程运行结束以后，主进程再用回调函数读取子进程的运行结果。</p>
+<p>node有三种创建子进程的接口，每种方法有特定的使用场景。</p>
+<p>exec/execFile: 用于执行bash命令，它的参数是一个命令字符串。用操作系统原生的方式执行各种命令，适用于输出轻量数据，执行的结果会存储在Buffer中，不同的是前者创建shell进行来执行命令，后者直接创建进程执行可执行文件，</p>
+<p>spawn:是流式和操作系统进行交互，它属于异步执行，适用于子进程长时间运行的情况，适用于进程输入、输出数据量比较大的情况，支持stream的形式输入输出，可以用于任何命令，可以创建常驻后台进程。</p>
+<p>fork: fork是spawn的特例，fork是两个node程序(javascript)之间时行交互，fork会在父子进程之间创建IPC通道，通过监听message事件和调用send方法，就可以在父子进程间通信了。</p>
+<p>进程通信</p>
+<p>使用 child_process.fork() 生成新进程之后，就可以用 child.send(message, [sendHandle]) 向新进程发送消息。新进程中通过监听message事件，来获取消息。</p>
+<p>Node.js默认单进程运行，对于32位系统最高可以使用512MB内存，对于64位最高可以使用1GB内存。对于多核CPU的计算机来说，这样做效率很低，因为只有一个核在运行，其他核都在闲置。Node中提供了cluster模块，cluster实现了对child_process的封装，通过fork方法创建子进程的方式实现多进程模型。通过该模块简化多进程服务器程序的开发，统一通过主进程监听接口和分发请求。</p>
+<p>cluster模块允许设立一个主进程和若干个worker进程，由主进程监控和协调worker进程的运行。worker之间采用进程间通信交换消息，cluster模块内置一个负载均衡器，采用Round-robin算法协调各个worker进程之间的负载。运行时，所有新建立的链接都由主进程完成，然后主进程再把TCP连接分配给指定的worker进程。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//导入cluster</span></span><br><span class="line"><span class="keyword">var</span> cluster = <span class="built_in">require</span>(<span class="string">'cluster'</span>);</span><br><span class="line"><span class="comment">//判断是否是主进程，是主进程就按cpu数新建若干worker进程，是worker进程就在该进程启动一个服务器程序</span></span><br><span class="line"><span class="keyword">if</span>(cluster.isMaster) &#123;</span><br><span class="line">  <span class="keyword">var</span> numWorkers = <span class="built_in">require</span>(<span class="string">'os'</span>).cpus().length;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'Master cluster setting up '</span> + numWorkers + <span class="string">' workers...'</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; numWorkers; i++) &#123;</span><br><span class="line">    cluster.fork();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">//监听子进程状态，主进程一旦监听到worker进程的exit事件，就会重启一个worker进程。worker进程一旦启动成功，可以正常运行了，就会发出online事件。</span></span><br><span class="line">  cluster.on(<span class="string">'online'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">worker</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'Worker '</span> + worker.process.pid + <span class="string">' is online'</span>);</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  cluster.on(<span class="string">'exit'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">worker, code, signal</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'Worker '</span> + worker.process.pid + <span class="string">' died with code: '</span> + code + <span class="string">', and signal: '</span> + signal);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'Starting a new worker'</span>);</span><br><span class="line">    cluster.fork();</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;<span class="keyword">else</span> &#123;</span><br><span class="line">  http.createServer(<span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">    res.writeHead(<span class="number">200</span>);</span><br><span class="line">    res.end(<span class="string">"hello world\n"</span>);</span><br><span class="line">  &#125;).listen(<span class="number">8000</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>cluster代表整个集群，也就是工作进程和主进程，随着当前执行进程的变化，cluster的属性也在变化。在cluster上绑定的事件对每个进程都起作用，cluster的某些api只对主进程起作用，如fork、cluster.workers，有一些只对工作进程有用，如cluter.worker</p>
+<p>worker对象：</p>
+<h2 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h2><p>通常node的单线程是由于JavaScript的执行默认是单线程的，但是JavaScript的宿主环境，无论是node还是浏览器都是多线程的</p>
+<p>node的单线程带来了一些问题，比如对cpu 的利用不足，某个未捕获的异常可能会导致整个程序的退出等。node的事件驱动和无阻塞特性使得在I/O密集型的业务场景（如限时抢购）等体现出巨大的优势。但是遇到加密、解密等CPU密集型复杂运算。当一个CPU占用率高的任务执行迟迟未完成时，后续队列中的延时、监听回调、nextTick等函数都会因被阻塞而无法执行，造成严重的延迟。更严重的情况。如果某个请求抛出错误，将有可能导致整个服务瘫痪。</p>
+<p>nodejs中有三种线程</p>
+<p>event loop的主线程</p>
+<p>libuv的异步I/O线程池</p>
+<p>Node10.5之后，Node提供了worker_threads给node提供了真正的多线程</p>
+<p>worker_thread模块中有四个对象两个类</p>
+<p>isMainThread:是否是主线程</p>
+<p>MessagePort:用于线程间的通信，继承自EventEmitter</p>
+<p>MessageChannel:用于创建异步、双向通信的通道实例</p>
+<p>threadId:线程ID</p>
+<p>Worker：用于在主线程中创建子线程，第一个参数为filename，表示子线程的执行入口</p>
+<p>parentPort:在worker线程中表示父进程的MessagePort类型的对象，在主线程中为null</p>
+<p>workData:用于在主进程中向子进程传递数据</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123;</span><br><span class="line">    Worker,</span><br><span class="line">    MessageChannel,</span><br><span class="line">    MessagePort,</span><br><span class="line">    isMainThread,</span><br><span class="line">    parentPort</span><br><span class="line">&#125; = <span class="built_in">require</span>(<span class="string">'worker_threads'</span>);</span><br><span class="line"><span class="keyword">if</span>(isMainThread) &#123;</span><br><span class="line">    <span class="keyword">const</span> worker = <span class="keyword">new</span> Workd(_filename);</span><br><span class="line">    <span class="keyword">const</span> subChannel = <span class="keyword">new</span> MessageChannel();</span><br><span class="line">    worker.postMessage(&#123;<span class="attr">hereIsYourPort</span>:subChannel.port1&#125;,[subChannel.port1]);</span><br><span class="line">    subChannel.port2.on(<span class="string">'message'</span>,(value)=&gt;&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'received:'</span>,value)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    subChannel.once(<span class="string">'message'</span>,(value)=&gt;&#123;</span><br><span class="line">        assert(value.hereIsYourPort <span class="keyword">instanceof</span> MessagePort);</span><br><span class="line">        value.hereIsYourPort.postMessage(<span class="string">'the worker is sending this'</span>);</span><br><span class="line">        value.hereIsYourPort.close();</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="线程间通信"><a href="#线程间通信" class="headerlink" title="线程间通信"></a>线程间通信</h3><p>worker_thread线程之间可以共享内存。使用ArrayBuffer或SharedArrayBuffer</p>
+<p><strong>parentPort</strong></p>
+<p>主要用于主子线程通信，通过经典的 on(‘message’), postMessage形式</p>
+<p><strong>MessageChannel</strong></p>
+<p>可以通过线程间的消息传递来实现双向通信。 在内部，一个 Worker 具有一对内置的 MessagePort，在创建该 Worker 时它们已经相互关联。 虽然父端的 MessagePort 对象没有直接公开，但其功能是通过父线程的 Worker 对象上的 worker.postMessage() 和 worker.on(‘message’) 事件公开的。<br>要创建自定义的消息传递通道（建议使用默认的全局通道，因为这样可以促进关联点的分离），用户可以在任一线程上创建一个 MessageChannel 对象，并将该 MessageChannel 上的 MessagePort 中的一个通过预先存在的通道传给另一个线程，</p>
+<p><a href="https://www.cnblogs.com/mengff/p/12815198.html">https://www.cnblogs.com/mengff/p/12815198.html</a></p>
+<h2 id="Node调用C-包"><a href="#Node调用C-包" class="headerlink" title="Node调用C++包"></a>Node调用C++包</h2><p><code>node-ffi</code>提供了一组强大的工具，用于在<code>Node.js</code>环境中使用纯<code>JavaScript</code>调用动态链接库接口。它可以用来为库构建接口绑定，而不需要使用任何<code>C++</code>代码。</p>
+<p><code>node-ffi</code>并不能直接调用<code>C++</code>代码，你需要将<code>C++</code>代码编译为动态链接库：在 <code>Windows</code>下是 <code>Dll</code> ，在 <code>Mac OS</code>下是 <code>dylib</code> <code>，Linux</code> 是 <code>so</code> 。</p>
+<p><code>node-ffi</code> 加载 <code>Library</code>是有限制的，只能处理 <code>C</code>风格的 <code>Library</code>。</p>
+<p>编辑tsconfig.json</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>ts由于有较严的格式规范，往往会报一些不必要的格式警告，干扰编译</p>
+<p>解决方法：</p>
+<p>在vscode中下载插件prettier，然后在代码中全选，右键菜单选择格式化文档即可</p>
+<h2 id="Node常用命令"><a href="#Node常用命令" class="headerlink" title="Node常用命令"></a>Node常用命令</h2><p>　设置镜像源</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">npm config get registry  &#x2F;&#x2F; 查看npm当前镜像源</span><br><span class="line"></span><br><span class="line">https:&#x2F;&#x2F;registry.npm.taobao.org&#x2F;  &#x2F;&#x2F; 设置npm镜像源为淘宝镜像</span><br><span class="line"></span><br><span class="line">yarn config get registry  &#x2F;&#x2F; 查看yarn当前镜像源</span><br><span class="line"></span><br><span class="line">https:&#x2F;&#x2F;registry.npm.taobao.org&#x2F;  &#x2F;&#x2F; 设置yarn镜像源为淘宝镜像</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="MD5加密包"><a href="#MD5加密包" class="headerlink" title="MD5加密包"></a>MD5加密包</h2><p>Js-md5</p>
+<h2 id="js-导出读取xlsx包"><a href="#js-导出读取xlsx包" class="headerlink" title="js-导出读取xlsx包"></a>js-导出读取xlsx包</h2><p>sheetjs</p>
+<p><a href="https://github.com/SheetJS/sheetjs">https://github.com/SheetJS/sheetjs</a></p>
+<p>安装</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install xlsx</span><br></pre></td></tr></table></figure>
+
+<p>读取本地文件</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 读取本地excel文件</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">readWorkbookFromLocalFile</span>(<span class="params">file, callback</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">var</span> reader = <span class="keyword">new</span> FileReader();</span><br><span class="line">	reader.onload = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">		<span class="keyword">var</span> data = e.target.result;</span><br><span class="line">		<span class="keyword">var</span> workbook = XLSX.read(data, &#123;<span class="attr">type</span>: <span class="string">'binary'</span>&#125;);</span><br><span class="line">		<span class="keyword">if</span>(callback) callback(workbook);</span><br><span class="line">	&#125;;</span><br><span class="line">	reader.readAsBinaryString(file);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>读取网络文件</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 从网络上读取某个excel文件，url必须同域，否则报错</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">readWorkbookFromRemoteFile</span>(<span class="params">url, callback</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHttpRequest();</span><br><span class="line">	xhr.open(<span class="string">'get'</span>, url, <span class="literal">true</span>);</span><br><span class="line">	xhr.responseType = <span class="string">'arraybuffer'</span>;</span><br><span class="line">	xhr.onload = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">		<span class="keyword">if</span>(xhr.status == <span class="number">200</span>) &#123;</span><br><span class="line">			<span class="keyword">var</span> data = <span class="keyword">new</span> <span class="built_in">Uint8Array</span>(xhr.response)</span><br><span class="line">			<span class="keyword">var</span> workbook = XLSX.read(data, &#123;<span class="attr">type</span>: <span class="string">'array'</span>&#125;);</span><br><span class="line">			<span class="keyword">if</span>(callback) callback(workbook);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;;</span><br><span class="line">	xhr.send();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过上述代码获取到workbook对象</p>
+<p>workbook对象中的<code>SheetNames</code>里面保存了所有的sheet名字，然后<code>Sheets</code>则保存了每个sheet的具体内容（我们称之为<code>Sheet Object</code>）。每一个<code>sheet</code>是通过类似<code>A1</code>这样的键值保存每个单元格的内容，我们称之为单元格对象（<code>Cell Object</code>）</p>
+<p><code>Sheet Object</code>表示一张表格，只要不是<code>!</code>开头的都表示普通<code>cell</code>，否则，表示一些特殊含义，具体如下：</p>
+<p> !ref：表示此sheet所有单元格的范围，如A1到F8</p>
+<p><code>[!merges]</code>：存放一些单元格合并信息，是一个数组，每个数组由包含<code>s</code>和<code>e</code>构成的对象组成，<code>s</code>表示开始，<code>e</code>表示结束，<code>r</code>表示行，<code>c</code>表示列；</p>
+<p>每一个单元格是一个对象（<code>Cell Object</code>），主要有<code>t</code>、<code>v</code>、<code>r</code>、<code>h</code>、<code>w</code>等字段</p>
+<ul>
+<li>t：表示内容类型，<code>s</code>表示string类型，<code>n</code>表示number类型，<code>b</code>表示boolean类型，<code>d</code>表示date类型，等等</li>
+<li>v：表示原始值；</li>
+<li>f：表示公式，如<code>B2+B3</code>；</li>
+<li>h：HTML内容</li>
+<li>w：格式化后的内容</li>
+<li>r：富文本内容<code>rich text</code></li>
+</ul>
+<p>读取workbook对象</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 读取 excel文件</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">outputWorkbook</span>(<span class="params">workbook</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">var</span> sheetNames = workbook.SheetNames; <span class="comment">// 工作表名称集合</span></span><br><span class="line">	sheetNames.forEach(<span class="function"><span class="params">name</span> =&gt;</span> &#123;</span><br><span class="line">		<span class="keyword">var</span> worksheet = workbook.Sheets[name]; <span class="comment">// 只能通过工作表名称来获取指定工作表</span></span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">var</span> key <span class="keyword">in</span> worksheet) &#123;</span><br><span class="line">			<span class="comment">// v是读取单元格的原始值</span></span><br><span class="line">			<span class="built_in">console</span>.log(key, key[<span class="number">0</span>] === <span class="string">'!'</span> ? worksheet[key] : worksheet[key].v);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>XLSX.utils.sheet_to_csv</code>：生成CSV格式</li>
+<li><code>XLSX.utils.sheet_to_txt</code>：生成纯文本格式</li>
+<li><code>XLSX.utils.sheet_to_html</code>：生成HTML格式</li>
+<li><code>XLSX.utils.sheet_to_json</code>：输出JSON格式</li>
+</ul>
+<p>导出xlsx文件</p>
+<p>使用插件官方提供的工具类</p>
+<ul>
+<li><code>aoa_to_sheet</code>: 这个工具类最强大也最实用了，将一个二维数组转成sheet，会自动处理number、string、boolean、date等类型数据；</li>
+<li><code>table_to_sheet</code>: 将一个<code>table dom</code>直接转成sheet，会自动识别<code>colspan</code>和<code>rowspan</code>并将其转成对应的单元格合并；</li>
+<li><code>json_to_sheet</code>: 将一个由对象组成的数组转成sheet；</li>
+</ul>
+<p>处理单元格合并</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> aoa = [</span><br><span class="line">	[<span class="string">'主要信息'</span>, <span class="literal">null</span>, <span class="literal">null</span>, <span class="string">'其它信息'</span>], <span class="comment">// 特别注意合并的地方后面预留2个null</span></span><br><span class="line">	[<span class="string">'姓名'</span>, <span class="string">'性别'</span>, <span class="string">'年龄'</span>, <span class="string">'注册时间'</span>],</span><br><span class="line">	[<span class="string">'张三'</span>, <span class="string">'男'</span>, <span class="number">18</span>, <span class="keyword">new</span> <span class="built_in">Date</span>()],</span><br><span class="line">	[<span class="string">'李四'</span>, <span class="string">'女'</span>, <span class="number">22</span>, <span class="keyword">new</span> <span class="built_in">Date</span>()]</span><br><span class="line">];</span><br><span class="line"><span class="keyword">var</span> sheet = XLSX.utils.aoa_to_sheet(aoa);</span><br><span class="line">sheet[<span class="string">'!merges'</span>] = [</span><br><span class="line">	<span class="comment">// 设置A1-C1的单元格合并</span></span><br><span class="line">	&#123;<span class="attr">s</span>: &#123;<span class="attr">r</span>: <span class="number">0</span>, <span class="attr">c</span>: <span class="number">0</span>&#125;, <span class="attr">e</span>: &#123;<span class="attr">r</span>: <span class="number">0</span>, <span class="attr">c</span>: <span class="number">2</span>&#125;&#125;</span><br><span class="line">];</span><br><span class="line">openDownloadDialog(sheet2blob(sheet), <span class="string">'单元格合并示例.xlsx'</span>);</span><br></pre></td></tr></table></figure>
+
+<p><a href="http://blog.haoji.me/js-excel.html#dao-chu-excel">http://blog.haoji.me/js-excel.html#dao-chu-excel</a></p>
+<h2 id="文件包"><a href="#文件包" class="headerlink" title="文件包"></a>文件包</h2><p>安装</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install fs-extra</span><br></pre></td></tr></table></figure>
+
+<p>文件包可以替代原生的node fs模块，实现更强大的文件处理功能。</p>
+<p>导入</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">'fs-extra'</span>)</span><br></pre></td></tr></table></figure>
+
+<p>异步拷贝文件</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Async with promises:</span></span><br><span class="line">fs.copy(<span class="string">'/tmp/myfile'</span>, <span class="string">'/tmp/mynewfile'</span>)</span><br><span class="line">  .then(<span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="string">'success!'</span>))</span><br><span class="line">  .catch(<span class="function"><span class="params">err</span> =&gt;</span> <span class="built_in">console</span>.error(err))</span><br><span class="line"></span><br><span class="line"><span class="comment">// Sync:</span></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  fs.copySync(<span class="string">'/tmp/myfile'</span>, <span class="string">'/tmp/mynewfile'</span>)</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'success!'</span>)</span><br><span class="line">&#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">  <span class="built_in">console</span>.error(err)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="转码包"><a href="#转码包" class="headerlink" title="转码包"></a>转码包</h2><p>node默认支持utf8、base64、binary，如果要请求或处理GBK或者Gb2312页面或文件就需要转码</p>
+<p>安装iconv-lite</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install iconv-lite --save</span><br></pre></td></tr></table></figure>
+
+<p>引入</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> iconv = <span class="built_in">require</span>(<span class="string">'iconv-lite'</span>)</span><br></pre></td></tr></table></figure>
+
+<p>在原来的输出语句中加入解码函数就可以</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="string">'stdout'</span>+iconv.decode(data,<span class="string">'GBK'</span>))</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="功能模块"><a href="#功能模块" class="headerlink" title="功能模块"></a>功能模块</h2><h3 id="Graphql"><a href="#Graphql" class="headerlink" title="Graphql"></a>Graphql</h3><p>安装依赖</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install apollo-server@<span class="number">2.13</span><span class="number">.1</span> graphql@<span class="number">14.6</span><span class="number">.0</span>  type-graphql@<span class="number">0.17</span><span class="number">.6</span></span><br></pre></td></tr></table></figure>
+
+<p>引入</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">"reflect-metadata"</span></span><br><span class="line"><span class="keyword">import</span> &#123;buildSchema,ObjectType,Field,ID,Resolver,Query&#125; <span class="keyword">from</span> <span class="string">"type-graphql"</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;ApolloServer&#125; <span class="keyword">from</span> <span class="string">"apollo-server"</span>;</span><br></pre></td></tr></table></figure>
+
+<p>后端定义schema和resolver</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">@ObjectType()</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Post</span></span>&#123;</span><br><span class="line">    @Field(<span class="function"><span class="params">type</span> =&gt;</span> ID)</span><br><span class="line">    id: string;</span><br><span class="line"></span><br><span class="line">    @Field()</span><br><span class="line">    created: Data;</span><br><span class="line"></span><br><span class="line">    @Field()</span><br><span class="line">    content: <span class="built_in">String</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@Resolver(Post)</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PostResolver</span> </span>&#123;</span><br><span class="line">    @Query(<span class="function"><span class="params">returns</span> =&gt;</span> [Post])</span><br><span class="line">    <span class="keyword">async</span> posts(): <span class="built_in">Promise</span>&lt;Post[]&gt;&#123;</span><br><span class="line">        <span class="keyword">return</span> [</span><br><span class="line">           &#123;</span><br><span class="line">              id:<span class="string">"0"</span>,</span><br><span class="line">              created: <span class="keyword">new</span> <span class="built_in">Date</span>(),</span><br><span class="line">              content:<span class="string">'aaa'</span></span><br><span class="line">            &#125;,</span><br><span class="line">            &#123;</span><br><span class="line">              id:<span class="string">"1"</span>,</span><br><span class="line">              created: <span class="keyword">new</span> <span class="built_in">Date</span>(),</span><br><span class="line">              content:<span class="string">'bbb'</span></span><br><span class="line">            &#125;,</span><br><span class="line">            &#123;</span><br><span class="line">              id:<span class="string">"2"</span>,</span><br><span class="line">              created: <span class="keyword">new</span> <span class="built_in">Date</span>(),</span><br><span class="line">              content:<span class="string">'ccc'</span></span><br><span class="line">            &#125;,</span><br><span class="line">        ]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行项目，在localhost:4444打开graphql的playground进行测试</p>
+<h3 id="剪贴板的使用"><a href="#剪贴板的使用" class="headerlink" title="剪贴板的使用"></a>剪贴板的使用</h3><p>使用第三方包，安装</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install clipboard-polyfill</span><br></pre></td></tr></table></figure>
+
+<p>引用</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> clipboard <span class="keyword">from</span> <span class="string">"clipboard-polyfill"</span></span><br></pre></td></tr></table></figure>
+
+<p>实例</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">clipboard.writeText(<span class="string">"this"</span>);</span><br><span class="line">clipboard.readText().then(<span class="built_in">console</span>.log,<span class="built_in">console</span>.error);</span><br></pre></td></tr></table></figure>
+
+<h3 id="生成二维码"><a href="#生成二维码" class="headerlink" title="生成二维码"></a>生成二维码</h3><h3 id="判断设备信息"><a href="#判断设备信息" class="headerlink" title="判断设备信息"></a>判断设备信息</h3><p>使用navigator对象</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">checkdevice</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> browser = &#123;</span><br><span class="line">    versions: (<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="keyword">var</span> u = navigator.userAgent,</span><br><span class="line">        app = navigator.appVersion;</span><br><span class="line">      <span class="keyword">return</span> &#123;</span><br><span class="line">        <span class="comment">//移动终端浏览器版本信息</span></span><br><span class="line">        trident: u.indexOf(<span class="string">"Trident"</span>) &gt; <span class="number">-1</span>, <span class="comment">//IE内核</span></span><br><span class="line">        presto: u.indexOf(<span class="string">"Presto"</span>) &gt; <span class="number">-1</span>, <span class="comment">//opera内核</span></span><br><span class="line">        webKit: u.indexOf(<span class="string">"AppleWebKit"</span>) &gt; <span class="number">-1</span>, <span class="comment">//苹果、谷歌内核</span></span><br><span class="line">        gecko: u.indexOf(<span class="string">"Gecko"</span>) &gt; <span class="number">-1</span> &amp;&amp; u.indexOf(<span class="string">"KHTML"</span>) == <span class="number">-1</span>, <span class="comment">//火狐内核</span></span><br><span class="line">        mobile: !!u.match(<span class="regexp">/AppleWebKit.*Mobile.*/</span>), <span class="comment">//是否为移动终端</span></span><br><span class="line">        ios: !!u.match(<span class="regexp">/\(i[^;]+;( U;)? CPU.+Mac OS X/</span>), <span class="comment">//ios终端</span></span><br><span class="line">        android: u.indexOf(<span class="string">"Android"</span>) &gt; <span class="number">-1</span> || u.indexOf(<span class="string">"Linux"</span>) &gt; <span class="number">-1</span>, <span class="comment">//android终端或uc浏览器</span></span><br><span class="line">        iPhone: u.indexOf(<span class="string">"iPhone"</span>) &gt; <span class="number">-1</span>, <span class="comment">//是否为iPhone或者QQHD浏览器</span></span><br><span class="line">        iPad: u.indexOf(<span class="string">"iPad"</span>) &gt; <span class="number">-1</span>, <span class="comment">//是否iPad</span></span><br><span class="line">        webApp: u.indexOf(<span class="string">"Safari"</span>) == <span class="number">-1</span>, <span class="comment">//是否web应该程序，没有头部与底部</span></span><br><span class="line">      &#125;;</span><br><span class="line">    &#125;)(),</span><br><span class="line">    language: (navigator.browserLanguage || navigator.language).toLowerCase(),</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (browser.versions.mobile) &#123;</span><br><span class="line">    <span class="comment">//判断是否是移动设备打开。browser代码在下面</span></span><br><span class="line">    <span class="comment">// 此时为移动端打开.跳转到移动站</span></span><br><span class="line">    <span class="comment">// if(window.location.href.indexOf("ooo0o.com/mobile") != -1)&#123;</span></span><br><span class="line">    <span class="comment">//     return;</span></span><br><span class="line">    <span class="comment">// &#125;else &#123;</span></span><br><span class="line">    <span class="comment">//     window.location.href = "https://www.ooo0o.com/mobile"</span></span><br><span class="line">    <span class="comment">// &#125;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> ua = navigator.userAgent.toLowerCase(); <span class="comment">//获取判断用的对象</span></span><br><span class="line">    <span class="keyword">if</span> (ua.match(<span class="regexp">/MicroMessenger/i</span>) == <span class="string">"micromessenger"</span>) &#123;</span><br><span class="line">      <span class="comment">//在微信中打开</span></span><br><span class="line">      <span class="keyword">if</span> (browser.versions.ios) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"weixinios"</span>;</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"weixin"</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (browser.versions.android) &#123;</span><br><span class="line">      <span class="comment">//是否在安卓浏览器打开</span></span><br><span class="line"></span><br><span class="line">      <span class="comment">// alert('安卓手机中打开的');</span></span><br><span class="line">      <span class="comment">/*window.location.href="https://jushizhibo.com/android/app-release.apk";*/</span></span><br><span class="line">      <span class="comment">// window.open('https://jushizhibo.com/android/app-release.apk','_self')</span></span><br><span class="line">      <span class="keyword">return</span> <span class="string">"anzhuo"</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (browser.versions.ios) &#123;</span><br><span class="line">      <span class="comment">//是否在IOS浏览器打开</span></span><br><span class="line">      <span class="comment">// alert('IOS中打开的');</span></span><br><span class="line">      <span class="comment">/*window.location.href="https://www.baidu.com";*/</span></span><br><span class="line">      <span class="comment">// window.open('transparentfactory://xiangqingye','_self')</span></span><br><span class="line">      <span class="keyword">return</span> <span class="string">"ios"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">//此时是非移动端,则跳转PC站</span></span><br><span class="line">    <span class="comment">// alert('PC中打开的');</span></span><br><span class="line">    <span class="comment">// if(window.location.href.indexOf("ooo0o.com/mobile") != -1)&#123;</span></span><br><span class="line">    <span class="comment">//     window.location.href = "https://www.ooo0o.com"</span></span><br><span class="line">    <span class="comment">// &#125;</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">"pc"</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用时导入</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;checkdevice&#125;  <span class="keyword">from</span> <span class="string">'checkdevice.js'</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="七牛云的使用"><a href="#七牛云的使用" class="headerlink" title="七牛云的使用"></a>七牛云的使用</h3><p>安装七牛包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install qiniu</span><br></pre></td></tr></table></figure>
+
+<p>新建文件，设置七牛云参数</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> bucket=<span class="string">''</span>,</span><br><span class="line"><span class="keyword">var</span> imageUrl=<span class="string">''</span>,</span><br><span class="line"><span class="keyword">var</span> accessKey = <span class="string">''</span>,</span><br><span class="line"><span class="keyword">var</span> secretKey = <span class="string">''</span>,</span><br><span class="line"><span class="keyword">var</span> mac = <span class="keyword">new</span> qiniu.auth.digest.Mac(accessKey,secretKey);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> option=&#123;</span><br><span class="line">    scope:bucket,</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> putPolicy= <span class="keyword">new</span> qiniu.rs.PutPolicy(option)</span><br><span class="line"><span class="keyword">var</span> uploadToken = putPolicy.uploadToken(mac);</span><br></pre></td></tr></table></figure>
+
+<p>上传代码</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> config = <span class="keyword">new</span> qiniu.conf.Config()</span><br><span class="line"></span><br><span class="line">config.zone= qiniu.zone.Zone_z0;<span class="comment">//选择七牛云的机房</span></span><br><span class="line"><span class="comment">//是否使用https、是否使用cdn加速</span></span><br><span class="line">config.usehttpsDomain=<span class="literal">true</span>;</span><br><span class="line">config.useCdnDomain = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> formUploader = <span class="keyword">new</span> qiniu.form_up.FormUploader(config);</span><br><span class="line"><span class="keyword">var</span> putExtra = <span class="keyword">new</span> qiniu.form_up.PutExtra();</span><br><span class="line"><span class="keyword">var</span> key = <span class="string">''</span>;</span><br><span class="line"></span><br><span class="line">formUploader.putFile(uploadToken,key,path.resolve(pathName),putExtra,<span class="function"><span class="keyword">function</span>(<span class="params">respErr,respBody,respInfo</span>)</span>&#123;</span><br><span class="line">       <span class="keyword">if</span>(resqErr)&#123;</span><br><span class="line">         <span class="keyword">throw</span> respErr;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">if</span>(respInfo.statusCode == <span class="number">200</span>)&#123;</span><br><span class="line">       <span class="built_in">console</span>.log(respBody);</span><br><span class="line">       &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">           <span class="built_in">console</span>.log(respInfo.statusCode);</span><br><span class="line">           <span class="built_in">console</span>.log(respBody)</span><br><span class="line">       &#125;                                                   &#125;);</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://segmentfault.com/a/1190000017064729">https://segmentfault.com/a/1190000017064729</a></p>
+<h3 id="发邮件"><a href="#发邮件" class="headerlink" title="发邮件"></a>发邮件</h3><p>导入模块Nodemailer</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install nodemailer</span><br></pre></td></tr></table></figure>
+
+<p>使用方法(包官网<a href="https://nodemailer.com/">https://nodemailer.com/</a>)</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//引入包</span></span><br><span class="line"><span class="keyword">const</span> nodemailer = <span class="built_in">require</span>(<span class="string">"nodemailer"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//创建邮件请求对象（qq邮箱、163邮箱或其他）</span></span><br><span class="line">  <span class="keyword">let</span> transporter = nodemailer.createTransport(&#123;</span><br><span class="line">    host: <span class="string">"smtp.ethereal.email"</span>,<span class="comment">//邮箱服务器</span></span><br><span class="line">    port: <span class="number">587</span>,（端口号）</span><br><span class="line">    secure: <span class="literal">false</span>, <span class="comment">// true for 465, false for other ports</span></span><br><span class="line">    auth: &#123;</span><br><span class="line">      user: testAccount.user, <span class="comment">// 账号</span></span><br><span class="line">      pass: testAccount.pass <span class="comment">// 你的邮箱服务器请求密码</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="comment">//所发送的邮件信息</span></span><br><span class="line">  <span class="keyword">let</span> mailobj=&#123;</span><br><span class="line">    <span class="keyword">from</span>: <span class="string">'"Fred Foo 👻" &lt;foo@example.com&gt;'</span>, <span class="comment">// sender address</span></span><br><span class="line">    to: <span class="string">"bar@example.com, baz@example.com"</span>, <span class="comment">// list of receivers</span></span><br><span class="line">    subject: <span class="string">"Hello ✔"</span>, <span class="comment">// Subject line</span></span><br><span class="line">    text: <span class="string">"Hello world?"</span>, <span class="comment">// plain text body</span></span><br><span class="line">    html: <span class="string">"&lt;b&gt;Hello world?&lt;/b&gt;"</span> <span class="comment">// html body</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//发送邮件</span></span><br><span class="line">  transporter.sendMail(mailobj);</span><br></pre></td></tr></table></figure>
+
+<h3 id="http爬虫"><a href="#http爬虫" class="headerlink" title="http爬虫"></a>http爬虫</h3><h3 id="Node应用部署Docker"><a href="#Node应用部署Docker" class="headerlink" title="Node应用部署Docker"></a>Node应用部署Docker</h3><p>Docker允许你以应用程序所有的依赖打包成一个标准化的单元，这被称为一个容器，对于应用开发而言，一个容器就是一个蜕化到最基础的linux操作系统，一个镜像是你加载到容器中的软件</p>
+<p>在node app应用的目录下新建一个Dockerfile，编辑这个文件</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#从Docker站点获取相关镜像</span></span><br><span class="line"><span class="keyword">From</span> node:<span class="number">12</span></span><br><span class="line"><span class="comment">#在镜像中创建一个文件夹存放应用程序代码，这将是应用程序工作的目录</span></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="bash"> /usr/src/app</span></span><br><span class="line"><span class="comment">#安装应用程序的所有依赖</span></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> package*.json ./</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> npm install </span></span><br><span class="line"><span class="comment">#在Docker镜像中使用COPY命令绑定你的应用程序</span></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> . .</span></span><br><span class="line"><span class="comment">#定义映射端口，如应用程序的端口为8080，则与docker的镜像做映射</span></span><br><span class="line"><span class="keyword">EXPOSE</span> <span class="number">8080</span></span><br><span class="line"><span class="comment">#最后要定义运行时的CMD命令来运行应用程序，这里使用node serverjs启动服务器</span></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> [<span class="string">"node"</span>,<span class="string">"server.js"</span>]</span></span><br></pre></td></tr></table></figure>
+
+<p>在dockerfile的同一个文件夹下创建.dockerignore文件，带有以下内容</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">node_modules</span><br><span class="line">npm-debug.log</span><br></pre></td></tr></table></figure>
+
+<p>这将避免本地模块和调试日志被拷贝进入你的Docker镜像中，不会把镜像中安装的模块覆盖</p>
+<p>准备好之后就可以使用命令行构建和运行镜像</p>
+<p>进入dockerfile所在的目录，运行命令构建镜像</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build -t &lt;username&gt;/node-web-app</span><br></pre></td></tr></table></figure>
+
+<p>构建之后就可以显示或者运行镜像</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker images</span><br></pre></td></tr></table></figure>
+
+<p>使用-d模式以分离模式运行docker容器，使得容器在后台自助运行</p>
+<p>开关符-p在容器中把一个公共端口导向到私有的端口</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -p 49160:8080 -d &lt;username&gt;/node-web-app</span><br></pre></td></tr></table></figure>
+
+<h2 id="Node常见问题汇总"><a href="#Node常见问题汇总" class="headerlink" title="Node常见问题汇总"></a>Node常见问题汇总</h2><h3 id="npm-ERR-Maximum-call-stack-size-exceeded"><a href="#npm-ERR-Maximum-call-stack-size-exceeded" class="headerlink" title="npm ERR! Maximum call stack size exceeded"></a>npm ERR! Maximum call stack size exceeded</h3><p>解决方法：全局更新npm</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install npm -g</span><br></pre></td></tr></table></figure>
+
+<h3 id="core-js"><a href="#core-js" class="headerlink" title="core-js"></a>core-js</h3><p>warning react-native &gt; create-react-class &gt; fbjs &gt; <a href="mailto:core-js@1.2.7">core-js@1.2.7</a>: core-js@&lt;2.6.8 is no longer maintained. Please, upgrade to core-js@3 or at least to actual version of core-js@2</p>
+<p>旧包不在维护，安装新包，自动卸载旧版本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save core-js@^3</span><br></pre></td></tr></table></figure>
+
+<p>注意：警告可能是由于你所安装的新包在使用旧版本的依赖所导致的警告，但是如果不是你自己开发的，你不能更改包的源码和依赖项，所以这种情况忽略警告吧</p>
+<h2 id="学习资源"><a href="#学习资源" class="headerlink" title="学习资源"></a>学习资源</h2><p>node问答：<a href="https://github.com/jimuyouyou/node-interview-questions">https://github.com/jimuyouyou/node-interview-questions</a></p>
+<p><a href="https://javascript.ruanyifeng.com/">https://javascript.ruanyifeng.com/</a></p>
+<p><a href="https://markpop.github.io/2014/10/29/NodeJs%E6%95%99%E7%A8%8B/">https://markpop.github.io/2014/10/29/NodeJs%E6%95%99%E7%A8%8B/</a></p>
+<p>node包讲解：<a href="https://github.com/chyingp/nodejs-learning-guide">https://github.com/chyingp/nodejs-learning-guide</a></p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/IT%EF%BC%8CWeb-Node/" rel="tag">IT，Web,Node</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        <div class="social-share" data-disabled="tencent,linkedin,douban,diandian,google"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css">
+<script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script>
+
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3>
+        <div class="buttons is-centered">
+            
+                
+<a class="button is-info donate">
+    <span class="icon is-small">
+        <i class="fab fa-alipay"></i>
+    </span>
+    <span>支付宝</span>
+    <div class="qrcode"><img src="http://q6mb9zdoi.bkt.clouddn.com/alipay.jpg" alt="支付宝"></div>
+</a>
+
+                
+                
+<a class="button is-success donate">
+    <span class="icon is-small">
+        <i class="fab fa-weixin"></i>
+    </span>
+    <span>微信</span>
+    <div class="qrcode"><img src="http://q6mb9zdoi.bkt.clouddn.com/wechatpay.jpg" alt="微信"></div>
+</a>
+
+                
+        </div>
+    </div>
+</div>
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2021/01/21/Node7/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">NodeJs开发（二）</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2021/01/19/Node5/">
+                <span class="level-item">JavaScript开发（四）</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">评论</h3>
+        
+<div class="notification is-danger">
+    You forgot to set the <code>app_id</code> or <code>app_key</code> for Valine. Please set it in <code>_config.yml</code>.
+</div>
+
+    </div>
+</div>
+
+
+<div class="level is-size-7 has-text-grey">
+</br>
+    <div class="level-left">
+	
+        <i class="far fa-eye"></i>
+		<span>&nbsp;</span>
+		
+		<h3>本文章阅读量：</h3>
+        <span>&nbsp;</span>
+        <span id="busuanzi_container_page_pv" style="display: inline;">
+            <span id="busuanzi_value_page_pv">0</span>
+        </span>
+    </div>
+</div></div>
+                
+
+
+
+
+
+<div class="column is-4-tablet is-5-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="" src="https://s1.ax1x.com/2020/03/27/G9OfNn.th.png" alt="张坤">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        张坤
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        Undergraduates/Tech Learner
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>山西·太原</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <a href="/archives">
+                        <p class="title has-text-weight-normal">
+                            111
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <a href="/categories">
+                        <p class="title has-text-weight-normal">
+                            7
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <a href="/tags">
+                        <p class="title has-text-weight-normal">
+                            48
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/Kun8018" target="_blank" rel="noopener">
+                关注我</a>
+        </div>
+        
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="微信" href="http://q6mb9zdoi.bkt.clouddn.com/alipay.jpg">
+                
+                <i class="fab fa-weixin"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="QQ" href="https://facebook.com">
+                
+                <i class="fab fa-qq"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="邮箱" href="https://twitter.com">
+                
+                <i class="fa fa-envelope"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="B站" href="https://dribbble.com">
+                
+                <i class="fab fa-dribbble"></i>
+                
+            </a>
+            
+        </div>
+        
+		<hr>
+        <p id="evan">IT学徒、技术民工、斜杠青年</p>
+          <p id="evan">机器人爱好者、摄影爱好者</p>
+          <p id="evan">PS、PR、LR、达芬奇潜在学习者</p>
+		  </div>
+</div>
+    
+        
+
+    <div class="card widget" id="toc">
+        <div class="card-content">
+            <div class="menu">
+                <h3 class="menu-label">
+                    目录
+                </h3>
+                <ul class="menu-list"><li>
+        <a class="is-flex" href="#初始化Node文件夹">
+        <span class="has-mr-6">1</span>
+        <span>初始化Node文件夹</span>
+        </a></li><li>
+        <a class="is-flex" href="#创建服务器与客户端">
+        <span class="has-mr-6">2</span>
+        <span>创建服务器与客户端</span>
+        </a></li><li>
+        <a class="is-flex" href="#读取文件夹、文件">
+        <span class="has-mr-6">3</span>
+        <span>读取文件夹、文件</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#Stream">
+        <span class="has-mr-6">3.1</span>
+        <span>Stream</span>
+        </a></li><li>
+        <a class="is-flex" href="#Buffer">
+        <span class="has-mr-6">3.2</span>
+        <span>Buffer</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#OS操作">
+        <span class="has-mr-6">4</span>
+        <span>OS操作</span>
+        </a></li><li>
+        <a class="is-flex" href="#路径操作">
+        <span class="has-mr-6">5</span>
+        <span>路径操作</span>
+        </a></li><li>
+        <a class="is-flex" href="#核心工具函数">
+        <span class="has-mr-6">6</span>
+        <span>核心工具函数</span>
+        </a></li><li>
+        <a class="is-flex" href="#Node模块化加载方法">
+        <span class="has-mr-6">7</span>
+        <span>Node模块化加载方法</span>
+        </a></li><li>
+        <a class="is-flex" href="#Node全局变量">
+        <span class="has-mr-6">8</span>
+        <span>Node全局变量</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#当前目录与当前文件">
+        <span class="has-mr-6">8.1</span>
+        <span>当前目录与当前文件</span>
+        </a></li><li>
+        <a class="is-flex" href="#定时器函数">
+        <span class="has-mr-6">8.2</span>
+        <span>定时器函数</span>
+        </a></li><li>
+        <a class="is-flex" href="#控制台输出函数">
+        <span class="has-mr-6">8.3</span>
+        <span>控制台输出函数</span>
+        </a></li><li>
+        <a class="is-flex" href="#Process">
+        <span class="has-mr-6">8.4</span>
+        <span>Process</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#Node运行原理">
+        <span class="has-mr-6">9</span>
+        <span>Node运行原理</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#运行原理">
+        <span class="has-mr-6">9.1</span>
+        <span>运行原理</span>
+        </a></li><li>
+        <a class="is-flex" href="#事件循环">
+        <span class="has-mr-6">9.2</span>
+        <span>事件循环</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#eventEmitter">
+        <span class="has-mr-6">10</span>
+        <span>eventEmitter</span>
+        </a></li><li>
+        <a class="is-flex" href="#多进程">
+        <span class="has-mr-6">11</span>
+        <span>多进程</span>
+        </a></li><li>
+        <a class="is-flex" href="#多线程">
+        <span class="has-mr-6">12</span>
+        <span>多线程</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#线程间通信">
+        <span class="has-mr-6">12.1</span>
+        <span>线程间通信</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#Node调用C-包">
+        <span class="has-mr-6">13</span>
+        <span>Node调用C++包</span>
+        </a></li><li>
+        <a class="is-flex" href="#Node常用命令">
+        <span class="has-mr-6">14</span>
+        <span>Node常用命令</span>
+        </a></li><li>
+        <a class="is-flex" href="#MD5加密包">
+        <span class="has-mr-6">15</span>
+        <span>MD5加密包</span>
+        </a></li><li>
+        <a class="is-flex" href="#js-导出读取xlsx包">
+        <span class="has-mr-6">16</span>
+        <span>js-导出读取xlsx包</span>
+        </a></li><li>
+        <a class="is-flex" href="#文件包">
+        <span class="has-mr-6">17</span>
+        <span>文件包</span>
+        </a></li><li>
+        <a class="is-flex" href="#转码包">
+        <span class="has-mr-6">18</span>
+        <span>转码包</span>
+        </a></li><li>
+        <a class="is-flex" href="#功能模块">
+        <span class="has-mr-6">19</span>
+        <span>功能模块</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#Graphql">
+        <span class="has-mr-6">19.1</span>
+        <span>Graphql</span>
+        </a></li><li>
+        <a class="is-flex" href="#剪贴板的使用">
+        <span class="has-mr-6">19.2</span>
+        <span>剪贴板的使用</span>
+        </a></li><li>
+        <a class="is-flex" href="#生成二维码">
+        <span class="has-mr-6">19.3</span>
+        <span>生成二维码</span>
+        </a></li><li>
+        <a class="is-flex" href="#判断设备信息">
+        <span class="has-mr-6">19.4</span>
+        <span>判断设备信息</span>
+        </a></li><li>
+        <a class="is-flex" href="#七牛云的使用">
+        <span class="has-mr-6">19.5</span>
+        <span>七牛云的使用</span>
+        </a></li><li>
+        <a class="is-flex" href="#发邮件">
+        <span class="has-mr-6">19.6</span>
+        <span>发邮件</span>
+        </a></li><li>
+        <a class="is-flex" href="#http爬虫">
+        <span class="has-mr-6">19.7</span>
+        <span>http爬虫</span>
+        </a></li><li>
+        <a class="is-flex" href="#Node应用部署Docker">
+        <span class="has-mr-6">19.8</span>
+        <span>Node应用部署Docker</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#Node常见问题汇总">
+        <span class="has-mr-6">20</span>
+        <span>Node常见问题汇总</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#npm-ERR-Maximum-call-stack-size-exceeded">
+        <span class="has-mr-6">20.1</span>
+        <span>npm ERR! Maximum call stack size exceeded</span>
+        </a></li><li>
+        <a class="is-flex" href="#core-js">
+        <span class="has-mr-6">20.2</span>
+        <span>core-js</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#学习资源">
+        <span class="has-mr-6">21</span>
+        <span>学习资源</span>
+        </a></li></ul>
+            </div>
+        </div>
+    </div>
+
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https:www.iros2019.org" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">IEEE-IROS</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.iros2019.org</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https:www.icra2020.org" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">IEEE-ICRA</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.icra2020.org</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/IT/">
+            <span class="level-start">
+                <span class="level-item">IT</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">38</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E4%B8%AA%E4%BA%BA%E5%B9%B8%E7%A6%8F/">
+            <span class="level-start">
+                <span class="level-item">个人幸福</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">
+            <span class="level-start">
+                <span class="level-item">个人生活</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">27</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">
+            <span class="level-start">
+                <span class="level-item">技术博客</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">36</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%9C%8B%E5%8F%8B/">
+            <span class="level-start">
+                <span class="level-item">朋友</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E7%94%9F%E6%B4%BB/">
+            <span class="level-start">
+                <span class="level-item">生活</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E7%94%9F%E6%B4%BB%E6%84%9F%E6%82%9F/">
+            <span class="level-start">
+                <span class="level-item">生活感悟</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            标签云
+        </h3>
+        <a href="/tags/IT/" style="font-size: 10px;">IT</a> <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 12px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 12px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8C/" style="font-size: 16px;">IT,Web，</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 12px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 14px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 12px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 12px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb/" style="font-size: 16px;">IT，Web</a> <a href="/tags/IT%EF%BC%8CWeb-Javascript/" style="font-size: 10px;">IT，Web,Javascript</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 18px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 16px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Rust/" style="font-size: 10px;">IT，Web,Rust</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 14px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 16px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 12px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 10px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 12px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 18px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 14px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 14px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">幸福</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 14px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/" style="font-size: 14px;">技术，IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 12px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 12px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 12px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 20px;">生活、幸福</a> <a href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">记录，生活</a>
+    </div>
+</div>
+    
+    
+        <div class="column-right-shadow  ">
+        
+            <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2021/03/20/%E6%B7%B1%E5%A4%9C%E9%A2%98%E8%AE%B0(%E4%B8%80)/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="深夜题记(一)：我也想成为一个温柔的人啊">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-03-20T13:40:33.000Z">2021-03-20</time></div>
+                    <a href="/2021/03/20/%E6%B7%B1%E5%A4%9C%E9%A2%98%E8%AE%B0(%E4%B8%80)/" class="title has-link-black-ter is-size-6 has-text-weight-normal">深夜题记(一)：我也想成为一个温柔的人啊</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">个人生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2021/03/20/%E6%9D%AD%E5%B7%9E%E5%8D%B0%E8%B1%A1(%E4%B8%80)/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="杭州印象(一)">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-03-20T13:40:33.000Z">2021-03-20</time></div>
+                    <a href="/2021/03/20/%E6%9D%AD%E5%B7%9E%E5%8D%B0%E8%B1%A1(%E4%B8%80)/" class="title has-link-black-ter is-size-6 has-text-weight-normal">杭州印象(一)</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">技术博客</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2021/03/06/%E6%B7%B1%E5%9C%B33/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://cdn.kunkunzhang.top/psc.jpg" alt="深圳感悟(三)">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-03-06T13:40:33.000Z">2021-03-06</time></div>
+                    <a href="/2021/03/06/%E6%B7%B1%E5%9C%B33/" class="title has-link-black-ter is-size-6 has-text-weight-normal">深圳感悟(三)</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">技术博客</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2021/02/02/2020%E6%96%B0%E5%B9%B4%E6%80%BB%E7%BB%93/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/happy-new-year-fireworks.jpg" alt="2020小结">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-02-02T13:40:33.000Z">2021-02-02</time></div>
+                    <a href="/2021/02/02/2020%E6%96%B0%E5%B9%B4%E6%80%BB%E7%BB%93/" class="title has-link-black-ter is-size-6 has-text-weight-normal">2020小结</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">个人生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2021/02/02/2021%E6%96%B0%E5%B9%B4%E6%80%BB%E7%BB%93/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="2021新年总结">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-02-02T13:40:33.000Z">2021-02-02</time></div>
+                    <a href="/2021/02/02/2021%E6%96%B0%E5%B9%B4%E6%80%BB%E7%BB%93/" class="title has-link-black-ter is-size-6 has-text-weight-normal">2021新年总结</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">个人生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            归档
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2021/03/">
+                <span class="level-start">
+                    <span class="level-item">三月 2021</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2021/02/">
+                <span class="level-start">
+                    <span class="level-item">二月 2021</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2021/01/">
+                <span class="level-start">
+                    <span class="level-item">一月 2021</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">10</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/12/">
+                <span class="level-start">
+                    <span class="level-item">十二月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">5</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/10/">
+                <span class="level-start">
+                    <span class="level-item">十月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/09/">
+                <span class="level-start">
+                    <span class="level-item">九月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/08/">
+                <span class="level-start">
+                    <span class="level-item">八月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">8</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/07/">
+                <span class="level-start">
+                    <span class="level-item">七月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/06/">
+                <span class="level-start">
+                    <span class="level-item">六月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">20</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/04/">
+                <span class="level-start">
+                    <span class="level-item">四月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/03/">
+                <span class="level-start">
+                    <span class="level-item">三月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">47</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/02/">
+                <span class="level-start">
+                    <span class="level-item">二月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                标签
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT/">
+                        <span class="tag">IT</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Java-Web/">
+                        <span class="tag">IT,Java,Web</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web/">
+                        <span class="tag">IT,Web</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web/">
+                        <span class="tag">IT,Web,</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8C/">
+                        <span class="tag">IT,Web，</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/">
+                        <span class="tag">IT,Web，Android、Java</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8CC/">
+                        <span class="tag">IT,Web，C++</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8CFlutter/">
+                        <span class="tag">IT,Web，Flutter</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8CIOS/">
+                        <span class="tag">IT,Web，IOS</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8CMac/">
+                        <span class="tag">IT,Web，Mac</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/">
+                        <span class="tag">IT,Web，算法</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/">
+                        <span class="tag">IT、友情</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/">
+                        <span class="tag">IT、小程序、H5App</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8C/">
+                        <span class="tag">IT，</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CApp-Node-Electron/">
+                        <span class="tag">IT，App,Node,Electron</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CFlutter/">
+                        <span class="tag">IT，Flutter</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CGithub/">
+                        <span class="tag">IT，Github</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CRN%EF%BC%8C/">
+                        <span class="tag">IT，RN，</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb/">
+                        <span class="tag">IT，Web</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Javascript/">
+                        <span class="tag">IT，Web,Javascript</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Node/">
+                        <span class="tag">IT，Web,Node</span>
+                        <span class="tag is-grey">6</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/">
+                        <span class="tag">IT，Web,Node，React</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-PHP/">
+                        <span class="tag">IT，Web,PHP</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Rust/">
+                        <span class="tag">IT，Web,Rust</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Vue/">
+                        <span class="tag">IT，Web,Vue</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/">
+                        <span class="tag">IT，Web,Vue，Node、React</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/">
+                        <span class="tag">IT，Web,数据库</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8Cweb/">
+                        <span class="tag">IT，web</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/">
+                        <span class="tag">IT，未来</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Web-IT-Flutter/">
+                        <span class="tag">Web,IT,Flutter</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Web-IT-Go/">
+                        <span class="tag">Web,IT,Go</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/">
+                        <span class="tag">Web，IT，HTML，CSS</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/">
+                        <span class="tag">个人生活，幸福</span>
+                        <span class="tag is-grey">6</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/">
+                        <span class="tag">兴趣，幸福</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/">
+                        <span class="tag">励志、文学</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E5%8F%8B%E6%83%85/">
+                        <span class="tag">友情</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E5%B9%B8%E7%A6%8F/">
+                        <span class="tag">幸福</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">
+                        <span class="tag">幸福，个人生活</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/">
+                        <span class="tag">技术宅、IT</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/">
+                        <span class="tag">技术，IT</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/">
+                        <span class="tag">技术，Robotic，IT</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/">
+                        <span class="tag">摄影，记录，生活</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%B7%B1%E5%9C%B3/">
+                        <span class="tag">深圳</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/">
+                        <span class="tag">爱情，幸福</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E7%94%9F%E6%B4%BB/">
+                        <span class="tag">生活</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E7%94%9F%E6%B4%BB/">
+                        <span class="tag">生活#</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/">
+                        <span class="tag">生活、幸福</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/">
+                        <span class="tag">记录，生活</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+				
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="https://s1.ax1x.com/2020/03/27/G9OfNn.th.png" alt="NodeJs开发（一）" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2021 Kun Zhang&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+               <!-- 
+                <br>
+                <span id="busuanzi_container_site_uv">
+                共<span id="busuanzi_value_site_uv">0</span>个访客
+                </span>
+                 -->
+				
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+	
+	   <div style="text-align: center;">
+			<br>
+			<p class="is-size-7">
+				
+				<span id="busuanzi_container_site_uv">
+					<i class="fa fa-user"></i> 本站访客数 <span id="busuanzi_value_site_uv"></span> 人次
+				</span>
+				<span id="busuanzi_container_site_pv">
+					|  <i class="fa fa-eye"></i> 本站总访问量 <span id="busuanzi_value_site_pv"></span> 次
+				</span>
+				
+			</p>
+			<span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+		<script>
+			var now = new Date(); 
+			function createtime() { 
+				var grt= new Date("3/2/2020 08:00:00");// 此处修改你的建站时间或者网站上线时间 
+				now.setTime(now.getTime()+250); 
+				days = (now - grt) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+				hours = (now - grt) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+				if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+				mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+				seconds = (now - grt) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+				snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+				document.getElementById("timeDate").innerHTML = "本站已安全运行"+dnum+"天"; 
+				document.getElementById("times").innerHTML = hnum + "小时" + mnum + "分" + snum + "秒"; 
+			} 
+			setInterval("createtime()",250);
+		</script>
+		</div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'http://kun8018.gitee.io',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'unfolded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

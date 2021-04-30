@@ -19,7 +19,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://s1.ax1x.com/2020/03/27/G9OI3V.th.jpg">
 <meta property="article:published_time" content="2020-03-02T13:40:33.000Z">
-<meta property="article:modified_time" content="2021-01-06T10:28:45.316Z">
+<meta property="article:modified_time" content="2021-04-23T01:01:05.513Z">
 <meta property="article:author" content="Kun Zhang">
 <meta property="article:tag" content="IT，">
 <meta name="twitter:card" content="summary">
@@ -158,7 +158,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    24 分钟 读完 (大约 3564 个字)
+                    29 分钟 读完 (大约 4331 个字)
                 </span>
                 
                 
@@ -244,6 +244,25 @@
 
 
 
+<h2 id="linux下软件包"><a href="#linux下软件包" class="headerlink" title="linux下软件包"></a>linux下软件包</h2><p>linux下应用程序的软件包按<strong>内容类别</strong>分为两类：</p>
+<p>1.可执行文件(编译后的二进制软件包)</p>
+<p>解压包之后就可以直接运行，类似于windows下的软件包，安装完可以直接使用，但是看不到源程序，而且下载时要注意这个软件是否是你所使用的平台，否则无法正常安装，如centos与ubuntu</p>
+<p>优点：使用简单，只需要几个命令就能实现软件包的安装、卸载、升级、查询，安装速度快</p>
+<p>缺点：不能看源代码，功能选择不如源代码灵活，依赖性</p>
+<p>2.源程序(源码包)</p>
+<p>解开包之后你还需要使用编译器将其编译为可执行文件，这是linux独有的，windows的思想是不开放源程序</p>
+<p>优点：开源，可以自由选择所需功能，可看源码，卸载方便</p>
+<p>缺点：安装步骤过多，编译时间过长</p>
+<p>二进制软件包与源码包区别：</p>
+<p>与直接从源代码安装相比，软件包管理易于安装和卸载，易于更新已安装的软件包，易于保护配置文件，易于跟踪已安装文件</p>
+<p>通常用tar打包的都是源程序，用rpm、dpkg打包的则常是可执行程序，一般来说，自己动手打包源程序更具灵活性，但是容易遇到各种问题，而可执行程序包更容易安装，但是灵活性会差很多，所以一般一个软件会提供多种打包格式的安装程序。</p>
+<p>linux下应用程序的软件包按<strong>格式</strong>分类：</p>
+<p>linux下的软件安装包主要有rpm、deb、tar.gz三种格式</p>
+<p>软件后缀为.rpm最初是Red Hat Linux提供的一种包封装格式，rpm较deb发行早，所以现在许多linux发行版本都使用。rpm包本质就是一个可以在特定机器上运行的Linux软件，可以在红帽Linux、Suse、Fedora直接进行安装，但在Ubuntu上无法识别</p>
+<p>软件后缀为.deb是Debian linux提供的包封装格式。deb的包管理器dpkg只在debian上有，ubuntu也支持，可以在ubuntu上进行安装</p>
+<p>软件后缀.tar.gz、tar.Z、tar.bz2、.tgz是使用unix系统打包工具tar打包的。tar包在所有Linux版本中都能运行，但是安装过程也最麻烦，tar包就是一个压缩包，是为了便于传输所产生的一种专门用于网络流通的文件格式，tar包与deb、rpm包相比，tar包不一定是软件，也可能是图片、文本等等</p>
+<p>软件后缀为.bin的一般是一些商业软件</p>
+<h3 id="安装方法"><a href="#安装方法" class="headerlink" title="安装方法"></a>安装方法</h3><p>tar包：</p>
 <h2 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a>Nginx</h2><p>Nginx是常用的网络服务器，ubuntu和debian类似，这里以centos7为例</p>
 <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">yum</span> install nginx</span><br></pre></td></tr></table></figure>
 
@@ -603,7 +622,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            107
+                            111
                         </p>
                     </a>
                 </div>
@@ -721,60 +740,68 @@
         <span class="has-mr-6">8</span>
         <span>Vim</span>
         </a></li><li>
-        <a class="is-flex" href="#Nginx">
+        <a class="is-flex" href="#linux下软件包">
         <span class="has-mr-6">9</span>
+        <span>linux下软件包</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#安装方法">
+        <span class="has-mr-6">9.1</span>
+        <span>安装方法</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#Nginx">
+        <span class="has-mr-6">10</span>
         <span>Nginx</span>
         </a><ul class="menu-list"><li>
         <a class="is-flex" href="#反向代理">
-        <span class="has-mr-6">9.1</span>
+        <span class="has-mr-6">10.1</span>
         <span>反向代理</span>
         </a></li><li>
         <a class="is-flex" href="#负载均衡">
-        <span class="has-mr-6">9.2</span>
+        <span class="has-mr-6">10.2</span>
         <span>负载均衡</span>
         </a></li><li>
         <a class="is-flex" href="#支持CORS跨域">
-        <span class="has-mr-6">9.3</span>
+        <span class="has-mr-6">10.3</span>
         <span>支持CORS跨域</span>
         </a></li><li>
         <a class="is-flex" href="#高可用keep-alived">
-        <span class="has-mr-6">9.4</span>
+        <span class="has-mr-6">10.4</span>
         <span>高可用keep-alived</span>
         </a></li><li>
         <a class="is-flex" href="#屏蔽ip">
-        <span class="has-mr-6">9.5</span>
+        <span class="has-mr-6">10.5</span>
         <span>屏蔽ip</span>
         </a></li><li>
         <a class="is-flex" href="#重定向">
-        <span class="has-mr-6">9.6</span>
+        <span class="has-mr-6">10.6</span>
         <span>重定向</span>
         </a></li><li>
         <a class="is-flex" href="#Https配置">
-        <span class="has-mr-6">9.7</span>
+        <span class="has-mr-6">10.7</span>
         <span>Https配置</span>
         </a></li><li>
         <a class="is-flex" href="#性能">
-        <span class="has-mr-6">9.8</span>
+        <span class="has-mr-6">10.8</span>
         <span>性能</span>
         </a></li></ul></li><li>
         <a class="is-flex" href="#Apache">
-        <span class="has-mr-6">10</span>
+        <span class="has-mr-6">11</span>
         <span>Apache</span>
         </a></li><li>
         <a class="is-flex" href="#docker">
-        <span class="has-mr-6">11</span>
+        <span class="has-mr-6">12</span>
         <span>docker</span>
         </a></li><li>
         <a class="is-flex" href="#V2ray">
-        <span class="has-mr-6">12</span>
+        <span class="has-mr-6">13</span>
         <span>V2ray</span>
         </a><ul class="menu-list"><li>
         <a class="is-flex" href="#客户端使用">
-        <span class="has-mr-6">12.1</span>
+        <span class="has-mr-6">13.1</span>
         <span>客户端使用</span>
         </a></li></ul></li><li>
         <a class="is-flex" href="#Nextcloud个人网盘服务器">
-        <span class="has-mr-6">13</span>
+        <span class="has-mr-6">14</span>
         <span>Nextcloud个人网盘服务器</span>
         </a></li></ul>
             </div>
@@ -832,7 +859,7 @@
                 <span class="level-item">IT</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">36</span>
+                <span class="level-item tag">38</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E4%B8%AA%E4%BA%BA%E5%B9%B8%E7%A6%8F/">
@@ -848,7 +875,7 @@
                 <span class="level-item">个人生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">25</span>
+                <span class="level-item tag">27</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">
@@ -893,7 +920,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/IT/" style="font-size: 10px;">IT</a> <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 11.67px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 11.67px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8C/" style="font-size: 15px;">IT,Web，</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 11.67px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 13.33px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 11.67px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 11.67px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb/" style="font-size: 15px;">IT，Web</a> <a href="/tags/IT%EF%BC%8CWeb-Javascript/" style="font-size: 10px;">IT，Web,Javascript</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 16.67px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 13.33px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Rust/" style="font-size: 10px;">IT，Web,Rust</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 13.33px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 15px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 11.67px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 10px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 11.67px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 16.67px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 13.33px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 13.33px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">幸福</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 13.33px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/" style="font-size: 13.33px;">技术，IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 11.67px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 11.67px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 11.67px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 18.33px;">生活、幸福</a> <a href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">记录，生活</a>
+        <a href="/tags/IT/" style="font-size: 10px;">IT</a> <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 12px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 12px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8C/" style="font-size: 16px;">IT,Web，</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 12px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 14px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 12px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 12px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb/" style="font-size: 16px;">IT，Web</a> <a href="/tags/IT%EF%BC%8CWeb-Javascript/" style="font-size: 10px;">IT，Web,Javascript</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 18px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 16px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Rust/" style="font-size: 10px;">IT，Web,Rust</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 14px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 16px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 12px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 10px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 12px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 18px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 14px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 14px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">幸福</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 14px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/" style="font-size: 14px;">技术，IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 12px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 12px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 12px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 20px;">生活、幸福</a> <a href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">记录，生活</a>
     </div>
 </div>
     
@@ -920,6 +947,25 @@
                     <a href="/2021/03/20/%E6%B7%B1%E5%A4%9C%E9%A2%98%E8%AE%B0(%E4%B8%80)/" class="title has-link-black-ter is-size-6 has-text-weight-normal">深夜题记(一)：我也想成为一个温柔的人啊</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">个人生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2021/03/20/%E6%9D%AD%E5%B7%9E%E5%8D%B0%E8%B1%A1(%E4%B8%80)/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="杭州印象(一)">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-03-20T13:40:33.000Z">2021-03-20</time></div>
+                    <a href="/2021/03/20/%E6%9D%AD%E5%B7%9E%E5%8D%B0%E8%B1%A1(%E4%B8%80)/" class="title has-link-black-ter is-size-6 has-text-weight-normal">杭州印象(一)</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">技术博客</a>
                     </p>
                 </div>
             </div>
@@ -965,37 +1011,18 @@
         
         <article class="media">
             
-            <a href="/2021/01/23/Node9/" class="media-left">
+            <a href="/2021/02/02/2021%E6%96%B0%E5%B9%B4%E6%80%BB%E7%BB%93/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/nestjs.png" alt="NodeJs开发（五）">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="2021新年总结">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-23T13:40:33.000Z">2021-01-23</time></div>
-                    <a href="/2021/01/23/Node9/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（五）</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-02-02T13:40:33.000Z">2021-02-02</time></div>
+                    <a href="/2021/02/02/2021%E6%96%B0%E5%B9%B4%E6%80%BB%E7%BB%93/" class="title has-link-black-ter is-size-6 has-text-weight-normal">2021新年总结</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/IT/">IT</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2021/01/22/Node8/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/koajs.jpeg" alt="NodeJs开发（四）">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-22T14:41:33.000Z">2021-01-22</time></div>
-                    <a href="/2021/01/22/Node8/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（四）</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/IT/">IT</a>
+                        <a class="has-link-grey -link" href="/categories/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">个人生活</a>
                     </p>
                 </div>
             </div>
@@ -1018,7 +1045,7 @@
                     <span class="level-item">三月 2021</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">2</span>
+                    <span class="level-item tag">3</span>
                 </span>
             </a>
         </li>
@@ -1029,7 +1056,7 @@
                     <span class="level-item">二月 2021</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">1</span>
+                    <span class="level-item tag">2</span>
                 </span>
             </a>
         </li>
@@ -1040,7 +1067,7 @@
                     <span class="level-item">一月 2021</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">9</span>
+                    <span class="level-item tag">10</span>
                 </span>
             </a>
         </li>
@@ -1106,7 +1133,7 @@
                     <span class="level-item">六月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">19</span>
+                    <span class="level-item tag">20</span>
                 </span>
             </a>
         </li>
@@ -1311,14 +1338,14 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Node/">
                         <span class="tag">IT，Web,Node</span>
-                        <span class="tag is-grey">5</span>
+                        <span class="tag is-grey">6</span>
                     </a>
                 </div>
                 
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/">
                         <span class="tag">IT，Web,Node，React</span>
-                        <span class="tag is-grey">3</span>
+                        <span class="tag is-grey">4</span>
                     </a>
                 </div>
                 
@@ -1395,7 +1422,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/">
                         <span class="tag">个人生活，幸福</span>
-                        <span class="tag is-grey">5</span>
+                        <span class="tag is-grey">6</span>
                     </a>
                 </div>
                 
@@ -1493,7 +1520,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/">
                         <span class="tag">生活、幸福</span>
-                        <span class="tag is-grey">6</span>
+                        <span class="tag is-grey">7</span>
                     </a>
                 </div>
                 

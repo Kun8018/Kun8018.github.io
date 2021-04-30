@@ -19,7 +19,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://cdn.kunkunzhang.top/graphql.png">
 <meta property="article:published_time" content="2020-06-06T13:40:33.000Z">
-<meta property="article:modified_time" content="2021-03-29T00:49:14.317Z">
+<meta property="article:modified_time" content="2021-04-29T00:20:16.747Z">
 <meta property="article:author" content="Kun Zhang">
 <meta property="article:tag" content="IT,Web,">
 <meta name="twitter:card" content="summary">
@@ -158,7 +158,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    43 分钟 读完 (大约 6397 个字)
+                    1 小时 读完 (大约 8352 个字)
                 </span>
                 
                 
@@ -301,8 +301,24 @@
 <p>Pro/Professional：专业版</p>
 <p>Mini/Lite：精简版，只有最基本的功能</p>
 <p>Corporation/Enterprise：企业版</p>
+<h2 id="灰度发布-蓝绿部署-滚动发布"><a href="#灰度发布-蓝绿部署-滚动发布" class="headerlink" title="灰度发布/蓝绿部署/滚动发布"></a>灰度发布/蓝绿部署/滚动发布</h2><p>在一般情况下，升级服务器端应用，需要将应用源码或程序包上传到服务器，然后停止掉老版本服务，再启动新版本。但是这种简单的发布方式存在两个问题，一方面，在新版本升级过程中，服务是暂时中断的，另一方面，如果新版本有 BUG，升级失败，回滚起来也非常麻烦，容易造成更长时间的服务不可用。</p>
+<p><strong>蓝绿部署</strong></p>
+<p>所谓蓝绿部署，是指同时运行两个版本的应用，蓝绿部署的时候，并不停止掉老版本，而是直接部署一套新版本，等新版本运行起来后，再将流量切换到新版本上。但是蓝绿部署要求在升级过程中，同时运行两套程序，对硬件的要求就是日常所需的二倍，比如日常运行时，需要 10 台服务器支撑业务，那么使用蓝绿部署，你就需要购置二十台服务器。</p>
+<p><strong>滚动发布</strong></p>
+<p>所谓滚动升级，就是在升级过程中，并不一下子启动所有新版本，是先启动一台新版本，再停止一台老版本，然后再启动一台新版本，再停止一台老版本，直到升级完成，这样的话，如果日常需要 10 台服务器，那么升级过程中也就只需要 11 台就行了。</p>
+<p>但是滚动升级有一个问题，在开始滚动升级后，流量会直接流向已经启动起来的新版本，但是这个时候，新版本是不一定可用的，比如需要进一步的测试才能确认。那么在滚动升级期间，整个系统就处于非常不稳定的状态，如果发现了问题，也比较难以确定是新版本还是老版本造成的问题。</p>
+<p>为了解决这个问题，我们需要为滚动升级实现流量控制能力。</p>
+<p><strong>灰度发布</strong></p>
+<p>灰度发布（又名金丝雀发布，起源是，矿井工人发现，金丝雀对瓦斯气体很敏感，矿工会在下井之前，先放一只金丝雀到井中，如果金丝雀不叫了，就代表瓦斯浓度高）是指在黑与白之间，能够平滑过渡的一种发布方式。在其上可以进行A/B testing，即让一部分用户继续用产品特性A，一部分用户开始用产品特性B，如果用户对B没有什么反对意见，那么逐步扩大范围，把所有用户都迁移到B上面来。灰度发布可以保证整体系统的稳定，在初始灰度的时候就可以发现、调整问题，以保证其影响度。</p>
+<p>灰度期：灰度发布开始到结束期间的这一段时间，称为灰度期。</p>
+<p>在灰度发布开始后，先启动一个新版本应用，但是并不直接将流量切过来，而是测试人员对新版本进行线上测试，启动的这个新版本应用，就是我们的金丝雀。如果没有问题，那么可以将少量的用户流量导入到新版本上，然后再对新版本做运行状态观察，收集各种运行时数据，如果此时对新旧版本做各种数据对比，就是所谓的 A/B 测试。</p>
+<p>当确认新版本运行良好后，再逐步将更多的流量导入到新版本上，在此期间，还可以不断地调整新旧两个版本的运行的服务器副本数量，以使得新版本能够承受越来越大的流量压力。直到将 100% 的流量都切换到新版本上，最后关闭剩下的老版本服务，完成灰度发布。</p>
+<p>如果在灰度发布过程中（灰度期）发现了新版本有问题，就应该立即将流量切回老版本上，这样，就会将负面影响控制在最小范围内</p>
+<p>总结</p>
+<p>在新版本应用发布时，为了服务器不停机升级，使用灰度发布策略，在灰度发布开始时，使用 HTTP Header 匹配指定测试人员的流量到新版本上，然后当新版本内部测试通过后，可以再按百分比，将用户流量一点一点导入到新版本中，比如先导入 10% 观察一下运行情况，然后再导入 20%，如此累加，直到将流量全部导入到新版本上，最后完成升级，如果期间发现问题，就立即取消升级，将流量切回到老版本。</p>
+<p>运用灰度发布，就再也不需要加班到深夜进行停机升级了，在白天就可以放心大胆地、安全地发布新版本</p>
 <h2 id="状态机"><a href="#状态机" class="headerlink" title="状态机"></a>状态机</h2><p>有限状态机，英文翻译是 Finite State Machine，缩写为 FSM，简称为状态机。状态机有 3 个组成部分：状态（State）、事件（Event）、动作（Action）。其中，事件也称为转移条件（Transition Condition）。事件触发状态的转移及动作的执行。不过，动作不是必须的，也可能只转移状态，不执行任何动作。</p>
-<h2 id="直播"><a href="#直播" class="headerlink" title="直播"></a>直播</h2><p>视频直播服务目前支持三种直播协议，分别是RTMP、HLS、FLV</p>
+<h2 id="WebRTC"><a href="#WebRTC" class="headerlink" title="WebRTC"></a>WebRTC</h2><h2 id="直播"><a href="#直播" class="headerlink" title="直播"></a>直播</h2><p>视频直播服务目前支持三种直播协议，分别是RTMP、HLS、FLV</p>
 <ul>
 <li>RTMP <code>实时消息传输协议，由Adobe公司研发，但当前还没有收入国际标准（wikipedia）</code>。协议比较全能，既可以用来推送又可以用来直播，其核心理念是将大块的视频帧和音频帧“剁碎”，然后以小数据包的形式在互联网上进行传输，且支持加密，因此隐私性相对比较理想，但拆包组包的过程比较复杂，所以在海量并发时容易出现一些不可预期的稳定性问题。</li>
 <li>HLS 协议：<code>基于HTTP协议的流直播（wikipedia）</code>。苹果推出的解决方案，将视频分成 5-10 秒的视频小分片，然后用 m3u8 索引表进行管理。由于客户端下载到的视频都是 5-10 秒的完整数据，故视频的流畅性很好，但也同样引入了很大的延迟（HLS 的一般延迟在 10-30s 左右）。相比于 FLV， HLS 在iPhone 和大部分 Android 手机浏览器上的支持非常给力，所以常用于 QQ 和微信朋友圈的 URL 分享。</li>
@@ -318,6 +334,18 @@
 <p>BaaS（Backend-as-a-Service）包含了后端服务组件，它是基于 API 的第三方服务，用于实现应用程序中的核心功能，包含常用的数据库、对象存储、消息队列、日志服务等等</p>
 <p>Serverless 其实是通过事件驱动的，当一个任务被触发时，比如 HTTP 请求，API Gateway 接受请求、解析和认证，传递对应参数给云函数平台，平台中执行对应回调函数，配合 DB、MQ 等 BaaS 服务在特定容器中完成计算，最终将结果返回给用户。函数执行完成后，一般会被 FaaS 平台销毁，释放对应容器，等待下一个函数运行。</p>
 <h3 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h3><p>Serverless 其实是通过事件驱动的，当一个任务被触发时，比如 HTTP 请求，API Gateway 接受请求、解析和认证，传递对应参数给云函数平台，平台中执行对应回调函数，配合 DB、MQ 等 BaaS 服务在特定容器中完成计算，最终将结果返回给用户。函数执行完成后，一般会被 FaaS 平台销毁，释放对应容器，等待下一个函数运行。</p>
+<h2 id="RPC"><a href="#RPC" class="headerlink" title="RPC"></a>RPC</h2><p>RPC(Remote Procedure Call)，远程过程调用，是一种通过网络从远程计算机上请求服务，而不需要了解底层网络技术的协议。RPC协议假定某些传输协议的存在，如TCP或UDP，为通信程序直接携带信息数据。</p>
+<p>RPC实现了服务消费调用方Client与服务提供实现方Server之间的点对点调用，即包括stub、通信、数据的序列化/反序列化，且client与server一般采用直连的方式</p>
+<p>RPC一般是用来实现部署在不同机器上的系统之间的方法调用，使得程序能够像访问本地系统资源一样，通过网络传输去访问远端资源。一般来说，RPC框架的实现原理都是类似的</p>
+<p>RPC调用的过程：</p>
+<p>客户端调用：负责发起RPC调用，为调用方用户提供使用API</p>
+<p>服务端响应：主要是服务端业务逻辑实现</p>
+<p>序列化/反序列化：负责对RPC调用通过网络传输的内容进行序列化和反序列化，不同的RPC框架有不同的实现机制，一般分为文本(xml,json)与二进制(java原生的，Hessian、protobuf、Thrift、Avro、Kryo、MessagePack)。需要注意的是，不同的序列化方式在可读性、码流大小、支持的数据类型及性能方面都有较大差距，我们可以根据需要自行选择</p>
+<p>Stub：我们看成代理对象，它会屏蔽RPC调用过程中的复杂的网络处理逻辑，使其透明简单，且能够保持与本地调用一样的代码风格</p>
+<p>通信传输：即RPC的底层通信传输模块，一般通过Socket在客户端与服务端传递请求和应答消息。</p>
+<p>Grpc</p>
+<p>Grpc是Google的rpc框架</p>
+<h3 id="与分布式服务框架的区别"><a href="#与分布式服务框架的区别" class="headerlink" title="与分布式服务框架的区别"></a>与分布式服务框架的区别</h3><p>分布式服务框架除了包含RPC的特性，还包括多台server提供服务的负载均衡、策略及实现，服务的注册、发布与引入，以及服务的高可用策略，服务治理等等。</p>
 <h2 id="内网穿透"><a href="#内网穿透" class="headerlink" title="内网穿透"></a>内网穿透</h2><p>测试时用</p>
 
         </div>
@@ -378,16 +406,16 @@
     <div class="level post-navigation is-flex-wrap is-mobile">
         
         <div class="level-start">
-            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/06/06/%E7%AE%97%E6%B3%95%E9%A2%98%E4%BA%8C/">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/06/06/%E5%89%8D%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91%E6%A6%82%E8%BF%B0/">
                 <i class="level-item fas fa-chevron-left"></i>
-                <span class="level-item">算法题（二）</span>
+                <span class="level-item">前后端开发概述</span>
             </a>
         </div>
         
         
         <div class="level-end">
-            <a class="level level-item has-link-grey  article-nav-next" href="/2020/06/02/react/">
-                <span class="level-item">React</span>
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/06/06/%E7%AE%97%E6%B3%95%E9%A2%982/">
+                <span class="level-item">算法题（二）</span>
                 <i class="level-item fas fa-chevron-right"></i>
             </a>
         </div>
@@ -468,7 +496,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            107
+                            111
                         </p>
                     </a>
                 </div>
@@ -590,24 +618,40 @@
         <span class="has-mr-6">5</span>
         <span>软件版本控制</span>
         </a></li><li>
-        <a class="is-flex" href="#状态机">
+        <a class="is-flex" href="#灰度发布-蓝绿部署-滚动发布">
         <span class="has-mr-6">6</span>
+        <span>灰度发布/蓝绿部署/滚动发布</span>
+        </a></li><li>
+        <a class="is-flex" href="#状态机">
+        <span class="has-mr-6">7</span>
         <span>状态机</span>
         </a></li><li>
+        <a class="is-flex" href="#WebRTC">
+        <span class="has-mr-6">8</span>
+        <span>WebRTC</span>
+        </a></li><li>
         <a class="is-flex" href="#直播">
-        <span class="has-mr-6">7</span>
+        <span class="has-mr-6">9</span>
         <span>直播</span>
         </a></li><li>
         <a class="is-flex" href="#Serverless">
-        <span class="has-mr-6">8</span>
+        <span class="has-mr-6">10</span>
         <span>Serverless</span>
         </a><ul class="menu-list"><li>
         <a class="is-flex" href="#应用场景">
-        <span class="has-mr-6">8.1</span>
+        <span class="has-mr-6">10.1</span>
         <span>应用场景</span>
         </a></li></ul></li><li>
+        <a class="is-flex" href="#RPC">
+        <span class="has-mr-6">11</span>
+        <span>RPC</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#与分布式服务框架的区别">
+        <span class="has-mr-6">11.1</span>
+        <span>与分布式服务框架的区别</span>
+        </a></li></ul></li><li>
         <a class="is-flex" href="#内网穿透">
-        <span class="has-mr-6">9</span>
+        <span class="has-mr-6">12</span>
         <span>内网穿透</span>
         </a></li></ul>
             </div>
@@ -665,7 +709,7 @@
                 <span class="level-item">IT</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">36</span>
+                <span class="level-item tag">38</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E4%B8%AA%E4%BA%BA%E5%B9%B8%E7%A6%8F/">
@@ -681,7 +725,7 @@
                 <span class="level-item">个人生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">25</span>
+                <span class="level-item tag">27</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">
@@ -726,7 +770,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/IT/" style="font-size: 10px;">IT</a> <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 11.67px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 11.67px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8C/" style="font-size: 15px;">IT,Web，</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 11.67px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 13.33px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 11.67px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 11.67px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb/" style="font-size: 15px;">IT，Web</a> <a href="/tags/IT%EF%BC%8CWeb-Javascript/" style="font-size: 10px;">IT，Web,Javascript</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 16.67px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 13.33px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Rust/" style="font-size: 10px;">IT，Web,Rust</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 13.33px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 15px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 11.67px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 10px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 11.67px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 16.67px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 13.33px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 13.33px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">幸福</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 13.33px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/" style="font-size: 13.33px;">技术，IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 11.67px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 11.67px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 11.67px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 18.33px;">生活、幸福</a> <a href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">记录，生活</a>
+        <a href="/tags/IT/" style="font-size: 10px;">IT</a> <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 12px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 12px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8C/" style="font-size: 16px;">IT,Web，</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 12px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 14px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 12px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 12px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb/" style="font-size: 16px;">IT，Web</a> <a href="/tags/IT%EF%BC%8CWeb-Javascript/" style="font-size: 10px;">IT，Web,Javascript</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 18px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 16px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Rust/" style="font-size: 10px;">IT，Web,Rust</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 14px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 16px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 12px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 10px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 12px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 18px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 14px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 14px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">幸福</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 14px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/" style="font-size: 14px;">技术，IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 12px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 12px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 12px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 20px;">生活、幸福</a> <a href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">记录，生活</a>
     </div>
 </div>
     
@@ -753,6 +797,25 @@
                     <a href="/2021/03/20/%E6%B7%B1%E5%A4%9C%E9%A2%98%E8%AE%B0(%E4%B8%80)/" class="title has-link-black-ter is-size-6 has-text-weight-normal">深夜题记(一)：我也想成为一个温柔的人啊</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">个人生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2021/03/20/%E6%9D%AD%E5%B7%9E%E5%8D%B0%E8%B1%A1(%E4%B8%80)/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="杭州印象(一)">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-03-20T13:40:33.000Z">2021-03-20</time></div>
+                    <a href="/2021/03/20/%E6%9D%AD%E5%B7%9E%E5%8D%B0%E8%B1%A1(%E4%B8%80)/" class="title has-link-black-ter is-size-6 has-text-weight-normal">杭州印象(一)</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">技术博客</a>
                     </p>
                 </div>
             </div>
@@ -798,37 +861,18 @@
         
         <article class="media">
             
-            <a href="/2021/01/23/Node9/" class="media-left">
+            <a href="/2021/02/02/2021%E6%96%B0%E5%B9%B4%E6%80%BB%E7%BB%93/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/nestjs.png" alt="NodeJs开发（五）">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="2021新年总结">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-23T13:40:33.000Z">2021-01-23</time></div>
-                    <a href="/2021/01/23/Node9/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（五）</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-02-02T13:40:33.000Z">2021-02-02</time></div>
+                    <a href="/2021/02/02/2021%E6%96%B0%E5%B9%B4%E6%80%BB%E7%BB%93/" class="title has-link-black-ter is-size-6 has-text-weight-normal">2021新年总结</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/IT/">IT</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2021/01/22/Node8/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/koajs.jpeg" alt="NodeJs开发（四）">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-22T14:41:33.000Z">2021-01-22</time></div>
-                    <a href="/2021/01/22/Node8/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（四）</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/IT/">IT</a>
+                        <a class="has-link-grey -link" href="/categories/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">个人生活</a>
                     </p>
                 </div>
             </div>
@@ -851,7 +895,7 @@
                     <span class="level-item">三月 2021</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">2</span>
+                    <span class="level-item tag">3</span>
                 </span>
             </a>
         </li>
@@ -862,7 +906,7 @@
                     <span class="level-item">二月 2021</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">1</span>
+                    <span class="level-item tag">2</span>
                 </span>
             </a>
         </li>
@@ -873,7 +917,7 @@
                     <span class="level-item">一月 2021</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">9</span>
+                    <span class="level-item tag">10</span>
                 </span>
             </a>
         </li>
@@ -939,7 +983,7 @@
                     <span class="level-item">六月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">19</span>
+                    <span class="level-item tag">20</span>
                 </span>
             </a>
         </li>
@@ -1144,14 +1188,14 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Node/">
                         <span class="tag">IT，Web,Node</span>
-                        <span class="tag is-grey">5</span>
+                        <span class="tag is-grey">6</span>
                     </a>
                 </div>
                 
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/">
                         <span class="tag">IT，Web,Node，React</span>
-                        <span class="tag is-grey">3</span>
+                        <span class="tag is-grey">4</span>
                     </a>
                 </div>
                 
@@ -1228,7 +1272,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/">
                         <span class="tag">个人生活，幸福</span>
-                        <span class="tag is-grey">5</span>
+                        <span class="tag is-grey">6</span>
                     </a>
                 </div>
                 
@@ -1326,7 +1370,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/">
                         <span class="tag">生活、幸福</span>
-                        <span class="tag is-grey">6</span>
+                        <span class="tag is-grey">7</span>
                     </a>
                 </div>
                 

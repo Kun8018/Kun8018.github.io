@@ -19,7 +19,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://cdn.kunkunzhang.top/css3.png">
 <meta property="article:published_time" content="2020-08-02T13:40:33.000Z">
-<meta property="article:modified_time" content="2021-04-01T14:32:07.106Z">
+<meta property="article:modified_time" content="2021-04-28T01:04:29.316Z">
 <meta property="article:author" content="Kun Zhang">
 <meta property="article:tag" content="Web，IT，HTML，CSS">
 <meta name="twitter:card" content="summary">
@@ -158,7 +158,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    24 分钟 读完 (大约 3661 个字)
+                    1 小时 读完 (大约 6864 个字)
                 </span>
                 
                 
@@ -198,23 +198,115 @@
 <p>4.dispaly:flex,右边设置flex：1</p>
 <p>角度单位有四种</p>
 <p>deg度数，一个圆共360度，grad梯度，一个圆共400梯度，rad弧度，一个圆共2n弧度，turn转、圈，一个圆共1转，</p>
-<h3 id="常见图形"><a href="#常见图形" class="headerlink" title="常见图形"></a>常见图形</h3><p>使用css绘制椭圆、三角形、圆形、扇形、梯形</p>
+<h3 id="常见图形"><a href="#常见图形" class="headerlink" title="常见图形"></a>常见图形</h3><p>使用css绘制斜线、椭圆、三角形、圆形、扇形、梯形</p>
+<p>斜线</p>
+<p>用伪元素画一条直线，然后旋转</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">&lt;div&gt;&lt;/div&gt;</span><br><span class="line"><span class="selector-tag">div</span>&#123;</span><br><span class="line">  div&#123;</span><br><span class="line">  <span class="selector-tag">position</span><span class="selector-pseudo">:relative</span>;</span><br><span class="line">  <span class="selector-tag">margin</span><span class="selector-pseudo">:50px</span> <span class="selector-tag">auto</span>;</span><br><span class="line">  <span class="selector-tag">width</span><span class="selector-pseudo">:100px</span>;</span><br><span class="line">  <span class="selector-tag">height</span><span class="selector-pseudo">:100px</span>;</span><br><span class="line">  <span class="selector-tag">box-sizing</span><span class="selector-pseudo">:border-box</span>;</span><br><span class="line">  <span class="selector-tag">border</span><span class="selector-pseudo">:1px</span> <span class="selector-tag">solid</span> <span class="selector-id">#333</span>;  </span><br><span class="line">  // background-color:#333;</span><br><span class="line">  <span class="selector-tag">line-height</span><span class="selector-pseudo">:120px</span>;</span><br><span class="line">  <span class="selector-tag">text-indent</span><span class="selector-pseudo">:5px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">div</span><span class="selector-pseudo">::before</span>&#123;</span><br><span class="line">  <span class="attribute">content</span>:<span class="string">""</span>;</span><br><span class="line">  <span class="attribute">position</span>:absolute;</span><br><span class="line">  <span class="attribute">left</span>:<span class="number">0</span>;</span><br><span class="line">  <span class="attribute">top</span>:<span class="number">0</span>;</span><br><span class="line">  <span class="attribute">width</span>:<span class="number">100%</span>;</span><br><span class="line">  <span class="attribute">height</span>:<span class="number">50px</span>;</span><br><span class="line">  <span class="attribute">box-sizing</span>:border-box;</span><br><span class="line">  <span class="attribute">border-bottom</span>:<span class="number">1px</span> solid deeppink;</span><br><span class="line">  <span class="attribute">transform-origin</span>:bottom center;</span><br><span class="line">  // transform:rotateZ(45deg) scale(1.414);</span><br><span class="line">  <span class="selector-tag">animation</span><span class="selector-pseudo">:slash</span> 5<span class="selector-tag">s</span> <span class="selector-tag">infinite</span> <span class="selector-tag">ease</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@keyframes</span> slash&#123;</span><br><span class="line">  0%&#123;</span><br><span class="line">    <span class="attribute">transform</span>:<span class="built_in">rotateZ</span>(<span class="number">0deg</span>) <span class="built_in">scale</span>(<span class="number">1</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  30%&#123;</span><br><span class="line">    <span class="attribute">transform</span>:<span class="built_in">rotateZ</span>(<span class="number">45deg</span>) <span class="built_in">scale</span>(<span class="number">1</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  60%&#123;</span><br><span class="line">    <span class="attribute">transform</span>:<span class="built_in">rotateZ</span>(<span class="number">45deg</span>) <span class="built_in">scale</span>(<span class="number">1.414</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  100%&#123;</span><br><span class="line">    <span class="attribute">transform</span>:<span class="built_in">rotateZ</span>(<span class="number">45deg</span>) <span class="built_in">scale</span>(<span class="number">1.414</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>或者</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">div</span>&#123;</span><br><span class="line">  <span class="attribute">position</span>:relative;</span><br><span class="line">  <span class="attribute">margin</span>:<span class="number">50px</span> auto;</span><br><span class="line">  <span class="attribute">width</span>:<span class="number">100px</span>;</span><br><span class="line">  <span class="attribute">height</span>:<span class="number">100px</span>;</span><br><span class="line">  <span class="attribute">box-sizing</span>:border-box;</span><br><span class="line">  <span class="attribute">border</span>:<span class="number">1px</span> solid <span class="number">#333</span>;  </span><br><span class="line">  <span class="attribute">line-height</span>:<span class="number">120px</span>;</span><br><span class="line">  <span class="attribute">text-indent</span>:<span class="number">5px</span>;</span><br><span class="line">  <span class="attribute">background</span>:</span><br><span class="line">  <span class="built_in">linear-gradient</span>(<span class="number">45deg</span>, transparent <span class="number">49.5%</span>, deeppink <span class="number">49.5%</span>, deeppink <span class="number">50.5%</span>, transparent <span class="number">50.5%</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>先建立三角形，然后用白色小三角形遮挡，可以用剪裁clip-path或者伪元素</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>圆形</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.circle</span>&#123;</span><br><span class="line">  <span class="attribute">border-radius</span>:<span class="number">50%</span>;</span><br><span class="line">  <span class="attribute">width</span>:<span class="number">80px</span>;</span><br><span class="line">  <span class="attribute">height</span>:<span class="number">80px</span>;</span><br><span class="line">  <span class="attribute">background</span>:<span class="number">#666</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>三角形</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.tri-angle</span>&#123;</span><br><span class="line">   <span class="attribute">width</span>:<span class="number">0px</span>;</span><br><span class="line">   <span class="attribute">height</span>:<span class="number">0px</span>;</span><br><span class="line">   <span class="attribute">border-left</span>:<span class="number">50px</span> solid transparent;</span><br><span class="line">   <span class="attribute">border-right</span>:<span class="number">50px</span> solid transparent;</span><br><span class="line">   <span class="attribute">border-bottom</span>:<span class="number">100px</span> solid red;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>扇形</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
 <p>梯形</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
+<h3 id="响应式布局CSS"><a href="#响应式布局CSS" class="headerlink" title="响应式布局CSS"></a>响应式布局CSS</h3><p>1.在网页头部加上viewport元标签</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
 
+<p>2.不使用绝对宽度</p>
+<p>3.流式布局</p>
+<p><a href="http://designshack.net/articles/css/everything-you-never-knew-about-css-floats/">float</a>的好处是，如果宽度太小，放不下两个元素，后面的元素会自动滚动到前面元素的下方，不会在水平方向overflow（溢出），避免了水平滚动条的出现。</p>
+<p>绝对定位（<code>position: absolute</code>）的使用，也要非常小心。</p>
+<p>4.选择加载CSS</p>
+<p>自适应网页的核心就是CSS引入的Media Query模块</p>
+<p>自动检测屏幕宽度，然后加载相应的CSS文件</p>
+<p>实例</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">type</span>=<span class="string">"text/css"</span> <span class="attr">media</span>=<span class="string">"screen and (max-device-width: 400px)"</span> <span class="attr">href</span>=<span class="string">"tinyScreen.css"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">type</span>=<span class="string">"text/css"</span> <span class="attr">media</span>=<span class="string">"screen and (min-width: 400px) and (max-device-width: 600px)"</span> <span class="attr">href</span>=<span class="string">"smallScreen.css"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="常见标签属性"><a href="#常见标签属性" class="headerlink" title="常见标签属性"></a>常见标签属性</h3><p>文本属性</p>
-<p>text-transform:控制文本大小写 direction：书写方向 color:文本颜色</p>
-<p>text-indent：规定文本首行的缩进 white-space：处理元素的空白如nowrap表示文本不会换行</p>
-<p>letter-spacing/Word-spacing:设置字符/单词间距  text-wrap 规定文本的换行规则 </p>
-<p>Text-align:文本对齐方式 text-align-last:最后一行的对齐方式 text-transform:定义文本的大小写 text-shadow:添加阴影</p>
-<p>text-overflow:设置文本溢出时的属性，clip表示修剪，ellipsis表示用省略号代替被修剪的文本，string表示用字符串代替被修剪的文本</p>
-<p>word-wrap：允许对长的不可分割的单词进行分割并换行到下一行。</p>
+<p>上面的代码意思是，如果屏幕宽度小于400像素（max-device-width: 400px），就加载tinyScreen.css文件。</p>
+<p>如果屏幕宽度在400像素到600像素之间，则加载smallScreen.css文件。</p>
+<p>或者，在同一个CSS文件中利用@media的属性也能选择性加载样式</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@media</span> </span><br><span class="line">screen <span class="keyword">and</span> (<span class="attribute">max-device-width:</span> <span class="number">400px</span>) </span><br><span class="line">&#123; <span class="selector-class">.column</span> </span><br><span class="line">  &#123;<span class="attribute">float</span>: none;<span class="attribute">width</span>: auto;&#125; </span><br><span class="line">  <span class="selector-id">#sidebar</span> &#123; </span><br><span class="line">    <span class="attribute">display</span>: none<span class="string">'</span></span><br><span class="line"><span class="string">  &#125;</span></span><br><span class="line"><span class="string">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>5.图片的自适应</p>
+<p>添加属性</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">img</span> &#123; <span class="attribute">max-width</span>: <span class="number">100%</span>;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这行代码对于大多数嵌入网页的视频也有效，所以可以写成：<code>img, object { max-width: 100%;}</code></p>
+<h4 id="各自的优缺点"><a href="#各自的优缺点" class="headerlink" title="各自的优缺点"></a>各自的优缺点</h4><p>响应式的优缺点：</p>
+<p>优点：兼容性好，@media在ie9上是支持的，pc端和mobile是一套代码，不用分开</p>
+<p>缺点：要写的css比另外两个多很多，而且各个断点都要做好。css样式要稍微大点的话更麻烦</p>
+<p>Rem的优缺点：</p>
+<p>优点：能维持整体的布局效果，移动端兼容性好，不用写多个css代码，而且还可以使用@media进行优化</p>
+<p>缺点：开头要引入一段js，单位都要改成rem，计算rem比较麻烦，可以引用预处理器，但是增加了编译过程。PC和mobile要分开</p>
+<p>设置viewport的width：</p>
+<p>优点：与Rem相同，而且不用写rem，直接使用px，更加快捷</p>
+<p>缺点：效果可能没rem好，图片会相对模糊，而且无法使用@media进行断点，不同size的手机上显示高度差距可能会相差很大</p>
+<h3 id="元素层级"><a href="#元素层级" class="headerlink" title="元素层级"></a>元素层级</h3><p>DOM层级顺序，就是DOM节点在z轴方向（垂直于屏幕向外的方向）的显示优先级。由于屏幕是一个二维平面，因此我们并不是真正地看到了z轴。 我们说看到z轴，其实是通过透视，通过元素展现在与其共享二维空间的其他元素的前面或者后面来看到的。有几大规则。</p>
+<p>顺序规则</p>
+<p>在不设置position属性（或设置成static）的情况下，文档流后面的DOM节点会覆盖前面的DOM节点。</p>
+<p>定位规则</p>
+<p>定位节点（position属性设置为relative，absolute或fixed的节点）会覆盖非定位节点（不设置position属性或position属性设为static的节点）</p>
+<p>根据顺序规则和定位规则, 我们可以做出更加复杂的结构。A和 B 都设为非定位节点，A 的子节点 A-1 设定定位节点。</p>
+<p>默认值规则</p>
+<p>对于所有的定位节点，z-index值大的节点会覆盖z-index值小的节点。</p>
+<p>z-index设为0和没有设置z-index的节点在同一层级内没有高低之分。在IE6和7种，z-index的默认值为0，其他浏览器中默认值为auto。</p>
+<p>从父规则</p>
+<p>两个节点A和B都是定位节点，如果节点A的z-index值比节点B的大，那么节点A的子元素都会覆盖在节点B以及节点B的子节点上。</p>
+<p>如果定位节点A和B的z-index值一样大，那么根据顺序规则，B会覆盖A，那么即使A的子节点的z-index比B的子节点大，B的子节点还是会覆盖A的子节点。(这就是为什么即使我们把A-1的z-index设置得很大，依然无法盖住B节点的原因)。</p>
+<p>层级树规则</p>
+<p>定位节点，且z-index有整数值的（不包括z-index:auto），会被放置到一个与DOM节点不一样的层级树里。</p>
+<p>在下面的DOM节点中，A和B是兄弟节点，但是在层级树种，A和B-1才是兄弟节点（因为他们都是Root下的第一层含有整数z-index的定位节点），所以A在B和B-1之上。虽然A-1的z-index比B-1的小，但是根据从父规则，A-1也在B-1之上。</p>
+<p>层叠上下文</p>
+<p>层叠上下文是HTML元素的三维概念，这些HTML元素在一条假想的相对于面向（电脑屏幕的）视窗或者网页的用户的z轴上延伸，HTML元素依据其自身属性按照优先级顺序占用层叠上下文的空间。</p>
+<p>从底部到顶部</p>
+<p>1.<strong>背景和边框</strong> —— 形成层叠上下文的元素的背景和边框。 层叠上下文中的最低等级，一般为父元素。</p>
+<p>2.负堆叠顺序的子元素 z-index: <negative integer>; position: relative (or absolute or fixed)</negative></p>
+<p>3.<strong>块级盒</strong>。文档流中，非内联，非定位子元素 display: /* not inline */; position: static</p>
+<p>4.浮动盒。非定位浮动子元素 float: left (or right); position: static</p>
+<p>5.行内盒。内联流，非定位子元素 display: inline; position: static</p>
+<p>6.堆叠顺序为0的子元素 z-index: auto (or 0); position: position: relative(or absolute or fixed)</p>
+<p>7.堆叠顺序为正的子元素 z-index: <positive integer>; position: relative(or absolute or fixed)</positive></p>
+<h3 id="盒模型"><a href="#盒模型" class="headerlink" title="盒模型"></a>盒模型</h3><p>当对一个文档进行布局（lay out）的时候，浏览器的渲染引擎会根据标准之一的 <strong>CSS 基础框盒模型</strong>（<strong>CSS basic box model</strong>），将所有元素表示为一个个矩形的盒子（box）。CSS 决定这些盒子的大小、位置以及属性（例如颜色、背景、边框尺寸…）</p>
+<p>每个盒子有四个边界，由外到内分别是：<em>外边框边界</em> <em>Margin Edge<em>、</em>边框边界</em> <em>Border Edge<em>、</em>内边距边界</em> <em>Padding Edge<em>、</em>内容边界</em> <em>Content edge</em>、、、。</p>
+<p>Margin：元素边界外的距离</p>
+<p>Border：</p>
+<p>Padding：元素边界外的距离</p>
+<p>Content：</p>
+<p>margin、padding有四个距离，分别对应上 右 下 左。如果只有两个距离，是上下和左右</p>
+<p>距离设为负值时可以进行重叠</p>
+<h3 id="CSS选择器、权重问题"><a href="#CSS选择器、权重问题" class="headerlink" title="CSS选择器、权重问题"></a>CSS选择器、权重问题</h3><p>html标签样式的优先级</p>
+<p>行间样式 &gt; id选择器 &gt; class选择器 &gt; 标签选择器 &gt; 通配符选择器 &gt;继承&gt;默认</p>
+<p>权重</p>
+<p>！important 无限大  行间样式 1000 id选择器 100 </p>
+<p>class选择器 10 标签选择器 1 通配符选择器 0 </p>
+<p>class与id区别</p>
+<p>class可以有多个，id只有一个</p>
+<p>class一般为元素添加样式，利用id为元素添加行为–js</p>
+<h3 id="CSS中符号"><a href="#CSS中符号" class="headerlink" title="CSS中符号"></a>CSS中符号</h3><p>“&gt;”符号</p>
+<p>大于号代表某个元素的的下一代元素，A&gt;B是指A元素里的第一代B元素</p>
+<p>“~”符号</p>
+<p>波浪号A～B表示A标签之后所有的B标签，但是A和B标签必须拥有相同的父元素</p>
+<p>“+“符号</p>
+<p>加号又被称作兄弟选择器，A+B表示紧邻在A后面的B元素，且A和B必须拥有相同的父元素，所选到的仅为一个B标签</p>
+<p>@media</p>
+<p>@media可用于基于一个或多个的媒体查询结果来选择应用样式表的部分</p>
+<h3 id="属性关键字"><a href="#属性关键字" class="headerlink" title="属性关键字"></a>属性关键字</h3><p>inherit：从父元素继承值</p>
+<p>initial：将属性的初始值或者默认值应用于元素</p>
+<p>revert：等价于unset，只有safari和iso支持</p>
+<p>unset：属性从其父级继承，如果没有继承父级样式，则该属性重新设置为初始值。也就是说，在第一种情况下它的行为类似于inherit，第二种情况下它的行为类似于initial</p>
+<p>all：修改所有元素或其父元素的属性为初始值，all属性用于重置所有属性，除了unicode-bidi和direction</p>
 <h3 id="典型样式"><a href="#典型样式" class="headerlink" title="典型样式"></a>典型样式</h3><h4 id="元素、文本垂直水平居中"><a href="#元素、文本垂直水平居中" class="headerlink" title="元素、文本垂直水平居中"></a>元素、文本垂直水平居中</h4><p>三种方法：转换成表格、flex、css3transform</p>
 <p>1.转换成表格</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.container</span>&#123;</span><br><span class="line">  <span class="attribute">display</span>:table-cell;</span><br><span class="line">  <span class="attribute">vertical-align</span>:center;</span><br><span class="line">  <span class="attribute">text-align</span>:center;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -319,12 +411,57 @@
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@keyframes</span> animationname&#123;</span><br><span class="line">  <span class="selector-tag">keyframes-selector</span> &#123;</span><br><span class="line">    css-style</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*定义mymove动画，定义0%、25%、50%、75%、100%五个阶段的样式*/</span></span><br><span class="line"><span class="keyword">@keyframes</span> mymove &#123;</span><br><span class="line">  0%&#123;<span class="attribute">top</span>:<span class="number">0px</span>; <span class="attribute">background</span>:red; <span class="attribute">width</span>:<span class="number">100px</span>; <span class="attribute">-webkit-transform</span>: <span class="built_in">rotate</span>(<span class="number">0deg</span>);</span><br><span class="line">        <span class="attribute">transform</span>: <span class="built_in">rotate</span>(<span class="number">0deg</span>);&#125;</span><br><span class="line">  25%&#123;<span class="attribute">top</span>:<span class="number">200px</span>;&#125;</span><br><span class="line">  50%&#123;<span class="attribute">top</span>:<span class="number">100px</span>;&#125;</span><br><span class="line">  75%&#123;<span class="attribute">top</span>:<span class="number">200px</span>;&#125;</span><br><span class="line">  100%&#123;<span class="attribute">top</span>:<span class="number">200px</span>; <span class="attribute">background</span>:yellow; <span class="attribute">width</span>:<span class="number">300px</span>;<span class="attribute">-webkit-transform</span>:        <span class="built_in">rotate</span>(<span class="number">360deg</span>);<span class="attribute">transform</span>: <span class="built_in">rotate</span>(<span class="number">360deg</span>);&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*在load-border中引入mymove animation，定义线性与非线性、循环等属性*/</span></span><br><span class="line"><span class="selector-class">.load-border</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">120px</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">120px</span>;</span><br><span class="line">    <span class="attribute">background</span>: <span class="built_in">url</span>(../images/loading_icon.png) no-repeat center center;</span><br><span class="line">    <span class="attribute">-webkit-animation</span>: mymove <span class="number">1.4s</span> infinite linear;</span><br><span class="line">    <span class="attribute">animation</span>: mymove <span class="number">1.4s</span> infinite linear; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>使用时为了兼容不同浏览器，可以加上-webkit-、-o-、-ms-、-moz-、-khtml-等前缀</p>
+<h4 id="js实现css动画"><a href="#js实现css动画" class="headerlink" title="js实现css动画"></a>js实现css动画</h4><p>纯css animation或者transform的动画，js不好进行控制，因此可以使用js生成基于element.animate的动画，以便使用web animate api和其他事件(如点击按钮)进行互动。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//像css keyframes一样，先定义关键帧</span></span><br><span class="line"><span class="keyword">var</span> boxframes = [</span><br><span class="line">  &#123;</span><br><span class="line">    transform:<span class="string">'tranlateX(0)'</span>,</span><br><span class="line">    background:<span class="string">'red'</span>,</span><br><span class="line">    borderRadius:<span class="number">0</span></span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    transform:<span class="string">'translateX(45vw) scale(.5)'</span>,</span><br><span class="line">    background:<span class="string">'orange'</span>,</span><br><span class="line">    borderRadius:<span class="number">0</span></span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    transform:<span class="string">'translateX(90vw)'</span>,</span><br><span class="line">    background:<span class="string">'green'</span>,</span><br><span class="line">    borderRadius:<span class="string">'50%'</span></span><br><span class="line">  &#125;</span><br><span class="line">]</span><br><span class="line"><span class="comment">//获取要执行动画的DOM</span></span><br><span class="line"><span class="keyword">var</span> boxref = <span class="built_in">document</span>.getElementById(<span class="string">"box"</span>)</span><br><span class="line"><span class="comment">//在该DOM上通过element.animate api执行动画</span></span><br><span class="line"><span class="keyword">var</span> boxanimation = boxref.animate(boxframes,</span><br><span class="line"> &#123;</span><br><span class="line">  duration: <span class="number">5000</span>,<span class="comment">//动画执行时长</span></span><br><span class="line">  fill:<span class="string">'both'</span>,</span><br><span class="line">  easing:<span class="string">'linear'</span>,</span><br><span class="line">  iterations:<span class="string">'Infinity'</span>,</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>其他对动画的操作通过动画对象实现</p>
+<p>实例对象的属性：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">boxanimation.currentTime:获取或设置动画的当前时间值</span><br><span class="line">boxanimation.effect：获取或设置动画的目标效果</span><br><span class="line">boxanimation.id 用于表示动画的字符串</span><br><span class="line">boxanimation.playbackRate:用于获取或设置动画回放速率的整数，<span class="number">1</span>表示支持，<span class="number">0</span>表示暂停，<span class="number">2</span>表示双倍，<span class="number">-1</span>表示反向</span><br><span class="line">boxanimation.ready：</span><br><span class="line">boxanimation.finish：</span><br><span class="line">boxanimation.startTime：</span><br><span class="line">boxanimation.timeline：</span><br></pre></td></tr></table></figure>
+
+<p>实例对象的方法：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">boxanimation.cancel() <span class="comment">//取消动画</span></span><br><span class="line">boxanimation.finish()  <span class="comment">//立即完成一个动画</span></span><br><span class="line">boxanimation.pause()  <span class="comment">//暂停动画</span></span><br><span class="line">boxanimation.play()   <span class="comment">//播放动画</span></span><br><span class="line">boxanimation.reverse()  <span class="comment">//颠倒动画的方向，反向播放</span></span><br></pre></td></tr></table></figure>
+
+<p>实例对象的事件</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//当动画取消时触发</span></span><br><span class="line">boxanimation.cancle = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  boxanimation.reverse();</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//当动画完成时触发</span></span><br><span class="line">boxanimation.finish = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  boxanimation.reverse();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="监测动画掉帧的方法"><a href="#监测动画掉帧的方法" class="headerlink" title="监测动画掉帧的方法"></a>监测动画掉帧的方法</h4><p>Chrome dev tool中Timeline的Frame模块</p>
+<p>地址栏输入“chrome:flags”搜索“fps”，将FPS计数器开启，浏览器重启后右上角会实时显示帧速率</p>
 <h3 id="滚动视差的实现"><a href="#滚动视差的实现" class="headerlink" title="滚动视差的实现"></a>滚动视差的实现</h3><p><code>background-attachment</code>：如果指定了 <code>background-image</code> ，那么 <code>background-attachment</code> 决定背景是在视口中固定的还是随着包含它的区块滚动的。</p>
 <p>属性：</p>
 <p><code>scroll</code>：表示背景相对于元素本身固定， 而不是随着它的内容滚动。</p>
 <p><code>local</code>：表示背景相对于元素的内容固定。如果一个元素拥有滚动机制，背景将会随着元素的内容滚动， 并且背景的绘制区域和定位区域是相对于可滚动的区域而不是包含他们的边框。</p>
 <p><code>Fixed</code>:</p>
-<h3 id="浏览器兼容性问题"><a href="#浏览器兼容性问题" class="headerlink" title="浏览器兼容性问题"></a>浏览器兼容性问题</h3><h3 id="SCSS"><a href="#SCSS" class="headerlink" title="SCSS"></a>SCSS</h3><p><strong><a href="https://link.zhihu.com/?target=http%3A//sass-lang.com/">Sass</a></strong>是成熟、稳定、强大的<strong>CSS预处理器</strong>，<strong>SCSS</strong>是<strong>Sass3</strong>版本当中引入的新语法特性，完全兼容CSS3的同时继承了<strong>Sass</strong>强大的动态功能。</p>
+<h3 id="浏览器兼容性问题"><a href="#浏览器兼容性问题" class="headerlink" title="浏览器兼容性问题"></a>浏览器兼容性问题</h3><p>使用css时加上-webkit-、-o-、-ms-、-moz-、-khtml-等前缀</p>
+<h3 id="GPU加速"><a href="#GPU加速" class="headerlink" title="GPU加速"></a>GPU加速</h3><p>现代的浏览器通常会有两个重要的执行线程，这两个线程协同工作来渲染一个网页：主线程和合成线程</p>
+<p>一般情况下，主线程负责运行JavaScript，计算HTML元素的CSS样式，页面的布局，将元素绘制到一个或者多个位图，将这些位图交给合成线程</p>
+<p>合成线程负责通过GPU将位图绘制到屏幕上，通知主线程更新页面中可见或即将变成可见的部分的位图，计算出页面中哪部分时可见的，计算出当你滚动页面时哪部分是即将变成可见的，当你滚动页面时即将相应的页面移动到可视区域</p>
+<p>CSS animation、transforms以及transitions不会自动开启GPU加速，而是由浏览器缓慢的软件渲染引擎来执行。但是像Chrome、Firefox、Safari和最新的Opera都支持硬件加速。我们需要手动触发。</p>
+<p>浏览器会在元素的3D变换时开启，对于没有3D变换的效果，可以使用translateZ(0)来骗过浏览器，开启硬件加速</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.cube</span>&#123;</span><br><span class="line">  <span class="attribute">-webkit-transform</span>:<span class="built_in">translateZ</span>(<span class="number">0</span>);</span><br><span class="line">  <span class="attribute">-moz-transform</span>:<span class="built_in">translateZ</span>(<span class="number">0</span>);</span><br><span class="line">  <span class="attribute">-ms-transform</span>:<span class="built_in">translateZ</span>(<span class="number">0</span>);</span><br><span class="line">  <span class="attribute">-o-transform</span>:<span class="built_in">translateZ</span>(<span class="number">0</span>);</span><br><span class="line">  <span class="attribute">transform</span>:<span class="built_in">translateZ</span>(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在chrome和safari中使用translateZ开启GPU加速后可能会有页面闪烁的问题，使用下面的代码修复此情况</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">.cube&#123;</span><br><span class="line">  -webkit-backface-visibility:hidden;  </span><br><span class="line">  -moz-backface-visibility:hidden;</span><br><span class="line">  -ms-backface-visibility:hidden;</span><br><span class="line">  backface-visibility:hidden;</span><br><span class="line">  </span><br><span class="line">  -webkit-perspective:<span class="number">1000</span>;</span><br><span class="line">  -moz-perspective:<span class="number">1000</span>;</span><br><span class="line">  -ms-perspective:<span class="number">1000</span>;</span><br><span class="line">  perspective:<span class="number">1000</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在webkit的浏览器中使用另一个行之有效的方法</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.cube</span>&#123;</span><br><span class="line">  <span class="attribute">-webkit-transform</span>:<span class="built_in">translate3d</span>(<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>);  </span><br><span class="line">  <span class="attribute">-moz-transform</span>:<span class="built_in">translate3d</span>(<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>);</span><br><span class="line">  <span class="attribute">-ms-transform</span>:<span class="built_in">translate3d</span>(<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>);</span><br><span class="line">  <span class="attribute">transform</span>:<span class="built_in">translate3d</span>(<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>原生的移动端应用总是可以很好地应用GPU，这就是它比网页应用表现更好的原因，硬件加速在移动端尤其有用，因为它可以有效地减少资源地利用</p>
+<p>适合使用transform3d或者translateZ开启GPU硬件加速的使用范围：</p>
+<ul>
+<li><p>使用很多大尺寸图片(尤其是PNG24)进行动画的时候</p>
+</li>
+<li><p>页面有很多大尺寸图片并且进行了CSS缩放处理，页面可以滚动时</p>
+</li>
+<li><p>使用background-size：cover设置大尺寸背景图，并且页面可以滚动时</p>
+</li>
+<li><p>编写大量DOM元素进行CSS动画时(transition/transform/keyframes/absTop/left)</p>
+</li>
+<li><p>使用很多PNG图片拼接成CSS Sprite时</p>
+</li>
+</ul>
+<p>GPU缺点：</p>
+<p>GPU增加了内存的使用，而且它会减少移动端电池的使用寿命，所以确保需要时使用</p>
+<h3 id="SCSS"><a href="#SCSS" class="headerlink" title="SCSS"></a>SCSS</h3><p><strong><a href="https://link.zhihu.com/?target=http%3A//sass-lang.com/">Sass</a></strong>是成熟、稳定、强大的<strong>CSS预处理器</strong>，<strong>SCSS</strong>是<strong>Sass3</strong>版本当中引入的新语法特性，完全兼容CSS3的同时继承了<strong>Sass</strong>强大的动态功能。</p>
 <p><a href="https://sass-lang.com/">Scss</a> 是 CSS 的扩展， 在保证兼容性的基础上， 允许使用变量、 嵌套、 混合、 导入等特性， 在编写大量的 CSS 文件时很有帮助。</p>
 <p>Scss 是 CSS3 的扩展， 在 CSS3 的基础上， 添加了下面几个重要的特性。</p>
 <p>支持使用变量</p>
@@ -519,7 +656,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            107
+                            111
                         </p>
                     </a>
                 </div>
@@ -625,48 +762,84 @@
         <span class="has-mr-6">1.2</span>
         <span>常见图形</span>
         </a></li><li>
-        <a class="is-flex" href="#常见标签属性">
+        <a class="is-flex" href="#响应式布局CSS">
         <span class="has-mr-6">1.3</span>
-        <span>常见标签属性</span>
+        <span>响应式布局CSS</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#各自的优缺点">
+        <span class="has-mr-6">1.3.1</span>
+        <span>各自的优缺点</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#元素层级">
+        <span class="has-mr-6">1.4</span>
+        <span>元素层级</span>
+        </a></li><li>
+        <a class="is-flex" href="#盒模型">
+        <span class="has-mr-6">1.5</span>
+        <span>盒模型</span>
+        </a></li><li>
+        <a class="is-flex" href="#CSS选择器、权重问题">
+        <span class="has-mr-6">1.6</span>
+        <span>CSS选择器、权重问题</span>
+        </a></li><li>
+        <a class="is-flex" href="#CSS中符号">
+        <span class="has-mr-6">1.7</span>
+        <span>CSS中符号</span>
+        </a></li><li>
+        <a class="is-flex" href="#属性关键字">
+        <span class="has-mr-6">1.8</span>
+        <span>属性关键字</span>
         </a></li><li>
         <a class="is-flex" href="#典型样式">
-        <span class="has-mr-6">1.4</span>
+        <span class="has-mr-6">1.9</span>
         <span>典型样式</span>
         </a><ul class="menu-list"><li>
         <a class="is-flex" href="#元素、文本垂直水平居中">
-        <span class="has-mr-6">1.4.1</span>
+        <span class="has-mr-6">1.9.1</span>
         <span>元素、文本垂直水平居中</span>
         </a></li><li>
         <a class="is-flex" href="#元素高度始终为宽度的一半">
-        <span class="has-mr-6">1.4.2</span>
+        <span class="has-mr-6">1.9.2</span>
         <span>元素高度始终为宽度的一半</span>
         </a></li></ul></li><li>
         <a class="is-flex" href="#滚动条样式">
-        <span class="has-mr-6">1.5</span>
+        <span class="has-mr-6">1.10</span>
         <span>滚动条样式</span>
         </a></li><li>
         <a class="is-flex" href="#字体">
-        <span class="has-mr-6">1.6</span>
+        <span class="has-mr-6">1.11</span>
         <span>字体</span>
         </a></li><li>
         <a class="is-flex" href="#CSS3伪类、伪元素">
-        <span class="has-mr-6">1.7</span>
+        <span class="has-mr-6">1.12</span>
         <span>CSS3伪类、伪元素</span>
         </a></li><li>
         <a class="is-flex" href="#CSS动画">
-        <span class="has-mr-6">1.8</span>
+        <span class="has-mr-6">1.13</span>
         <span>CSS动画</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#js实现css动画">
+        <span class="has-mr-6">1.13.1</span>
+        <span>js实现css动画</span>
         </a></li><li>
+        <a class="is-flex" href="#监测动画掉帧的方法">
+        <span class="has-mr-6">1.13.2</span>
+        <span>监测动画掉帧的方法</span>
+        </a></li></ul></li><li>
         <a class="is-flex" href="#滚动视差的实现">
-        <span class="has-mr-6">1.9</span>
+        <span class="has-mr-6">1.14</span>
         <span>滚动视差的实现</span>
         </a></li><li>
         <a class="is-flex" href="#浏览器兼容性问题">
-        <span class="has-mr-6">1.10</span>
+        <span class="has-mr-6">1.15</span>
         <span>浏览器兼容性问题</span>
         </a></li><li>
+        <a class="is-flex" href="#GPU加速">
+        <span class="has-mr-6">1.16</span>
+        <span>GPU加速</span>
+        </a></li><li>
         <a class="is-flex" href="#SCSS">
-        <span class="has-mr-6">1.11</span>
+        <span class="has-mr-6">1.17</span>
         <span>SCSS</span>
         </a></li></ul></li></ul>
             </div>
@@ -724,7 +897,7 @@
                 <span class="level-item">IT</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">36</span>
+                <span class="level-item tag">38</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E4%B8%AA%E4%BA%BA%E5%B9%B8%E7%A6%8F/">
@@ -740,7 +913,7 @@
                 <span class="level-item">个人生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">25</span>
+                <span class="level-item tag">27</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">
@@ -785,7 +958,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/IT/" style="font-size: 10px;">IT</a> <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 11.67px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 11.67px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8C/" style="font-size: 15px;">IT,Web，</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 11.67px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 13.33px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 11.67px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 11.67px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb/" style="font-size: 15px;">IT，Web</a> <a href="/tags/IT%EF%BC%8CWeb-Javascript/" style="font-size: 10px;">IT，Web,Javascript</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 16.67px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 13.33px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Rust/" style="font-size: 10px;">IT，Web,Rust</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 13.33px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 15px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 11.67px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 10px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 11.67px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 16.67px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 13.33px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 13.33px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">幸福</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 13.33px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/" style="font-size: 13.33px;">技术，IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 11.67px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 11.67px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 11.67px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 18.33px;">生活、幸福</a> <a href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">记录，生活</a>
+        <a href="/tags/IT/" style="font-size: 10px;">IT</a> <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 12px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 12px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8C/" style="font-size: 16px;">IT,Web，</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 12px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 14px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 12px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 12px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb/" style="font-size: 16px;">IT，Web</a> <a href="/tags/IT%EF%BC%8CWeb-Javascript/" style="font-size: 10px;">IT，Web,Javascript</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 18px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 16px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Rust/" style="font-size: 10px;">IT，Web,Rust</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 14px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 16px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 12px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 10px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 12px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 18px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 14px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 14px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">幸福</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 14px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/" style="font-size: 14px;">技术，IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 12px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 12px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 12px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 20px;">生活、幸福</a> <a href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">记录，生活</a>
     </div>
 </div>
     
@@ -812,6 +985,25 @@
                     <a href="/2021/03/20/%E6%B7%B1%E5%A4%9C%E9%A2%98%E8%AE%B0(%E4%B8%80)/" class="title has-link-black-ter is-size-6 has-text-weight-normal">深夜题记(一)：我也想成为一个温柔的人啊</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">个人生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2021/03/20/%E6%9D%AD%E5%B7%9E%E5%8D%B0%E8%B1%A1(%E4%B8%80)/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="杭州印象(一)">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-03-20T13:40:33.000Z">2021-03-20</time></div>
+                    <a href="/2021/03/20/%E6%9D%AD%E5%B7%9E%E5%8D%B0%E8%B1%A1(%E4%B8%80)/" class="title has-link-black-ter is-size-6 has-text-weight-normal">杭州印象(一)</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">技术博客</a>
                     </p>
                 </div>
             </div>
@@ -857,37 +1049,18 @@
         
         <article class="media">
             
-            <a href="/2021/01/23/Node9/" class="media-left">
+            <a href="/2021/02/02/2021%E6%96%B0%E5%B9%B4%E6%80%BB%E7%BB%93/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/nestjs.png" alt="NodeJs开发（五）">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="2021新年总结">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-23T13:40:33.000Z">2021-01-23</time></div>
-                    <a href="/2021/01/23/Node9/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（五）</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-02-02T13:40:33.000Z">2021-02-02</time></div>
+                    <a href="/2021/02/02/2021%E6%96%B0%E5%B9%B4%E6%80%BB%E7%BB%93/" class="title has-link-black-ter is-size-6 has-text-weight-normal">2021新年总结</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/IT/">IT</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2021/01/22/Node8/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/koajs.jpeg" alt="NodeJs开发（四）">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-22T14:41:33.000Z">2021-01-22</time></div>
-                    <a href="/2021/01/22/Node8/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（四）</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/IT/">IT</a>
+                        <a class="has-link-grey -link" href="/categories/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">个人生活</a>
                     </p>
                 </div>
             </div>
@@ -910,7 +1083,7 @@
                     <span class="level-item">三月 2021</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">2</span>
+                    <span class="level-item tag">3</span>
                 </span>
             </a>
         </li>
@@ -921,7 +1094,7 @@
                     <span class="level-item">二月 2021</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">1</span>
+                    <span class="level-item tag">2</span>
                 </span>
             </a>
         </li>
@@ -932,7 +1105,7 @@
                     <span class="level-item">一月 2021</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">9</span>
+                    <span class="level-item tag">10</span>
                 </span>
             </a>
         </li>
@@ -998,7 +1171,7 @@
                     <span class="level-item">六月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">19</span>
+                    <span class="level-item tag">20</span>
                 </span>
             </a>
         </li>
@@ -1203,14 +1376,14 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Node/">
                         <span class="tag">IT，Web,Node</span>
-                        <span class="tag is-grey">5</span>
+                        <span class="tag is-grey">6</span>
                     </a>
                 </div>
                 
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/">
                         <span class="tag">IT，Web,Node，React</span>
-                        <span class="tag is-grey">3</span>
+                        <span class="tag is-grey">4</span>
                     </a>
                 </div>
                 
@@ -1287,7 +1460,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/">
                         <span class="tag">个人生活，幸福</span>
-                        <span class="tag is-grey">5</span>
+                        <span class="tag is-grey">6</span>
                     </a>
                 </div>
                 
@@ -1385,7 +1558,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/">
                         <span class="tag">生活、幸福</span>
-                        <span class="tag is-grey">6</span>
+                        <span class="tag is-grey">7</span>
                     </a>
                 </div>
                 

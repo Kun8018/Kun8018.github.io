@@ -1,0 +1,1677 @@
+<!DOCTYPE html>
+<html  lang="zh">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 4.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>NodeJs开发（四） - kun&#39;s blog</title>
+
+
+    <meta name="description" content="万万万万万万没想到会来到第七篇，第七篇写Koa框架及Eggjs">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NodeJs开发（四）">
+<meta property="og:url" content="http://kun8018.gitee.io/2021/01/22/Node9/index.html">
+<meta property="og:site_name" content="kun&#39;s blog">
+<meta property="og:description" content="万万万万万万没想到会来到第七篇，第七篇写Koa框架及Eggjs">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://cdn.kunkunzhang.top/koajs.jpeg">
+<meta property="article:published_time" content="2021-01-22T14:41:33.000Z">
+<meta property="article:modified_time" content="2021-04-05T15:23:42.957Z">
+<meta property="article:author" content="Kun Zhang">
+<meta property="article:tag" content="IT，Web">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://cdn.kunkunzhang.top/koajs.jpeg">
+
+
+
+
+
+
+
+<link rel="icon" href="https://s1.ax1x.com/2020/03/27/G9OfNn.th.png">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    <script async="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="https://s1.ax1x.com/2020/03/27/G9OfNn.th.png" alt="NodeJs开发（四）" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">首页</a>
+                
+                <a class="navbar-item"
+                href="/archives">最近发布</a>
+                
+                <a class="navbar-item"
+                href="/categories">目录</a>
+                
+                <a class="navbar-item"
+                href="/tags">分类</a>
+                
+                <a class="navbar-item"
+                href="/about">关于我</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    <a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-9-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-image">
+        <span  class="image is-7by1">
+            <img class="thumbnail" src="http://cdn.kunkunzhang.top/koajs.jpeg" alt="NodeJs开发（四）">
+        </span>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2021-01-22T14:41:33.000Z">2021-01-22</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/IT/">IT</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    30 分钟 读完 (大约 4451 个字)
+                </span>
+                
+                
+                <span class="level-item has-text-grey" id="busuanzi_container_page_pv">
+                    <i class="far fa-eye"></i>
+                    <span id="busuanzi_value_page_pv">0</span>次访问
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                NodeJs开发（四）
+            
+        </h1>
+        <div class="content">
+            <p>万万万万万万没想到会来到第七篇，第七篇写Koa框架及Eggjs</p>
+<a id="more"></a>
+
+<h2 id="koa"><a href="#koa" class="headerlink" title="koa"></a>koa</h2><h3 id="简介-安装"><a href="#简介-安装" class="headerlink" title="简介/安装"></a>简介/安装</h3><p>Koa是一个类似于Express的Web开发框架，创始人也是同一个人。它的主要特点是，使用了ES6的Generator函数，进行了架构的重新设计。也就是说，Koa的原理和内部结构很像Express，但是语法和内部结构进行了升级。</p>
+<p>官方<a href="https://github.com/koajs/koa/blob/master/docs/faq.md#why-isnt-koa-just-express-40">faq</a>有这样一个问题：”为什么koa不是Express 4.0？“，回答是这样的：”Koa与Express有很大差异，整个设计都是不同的，所以如果将Express 3.0按照这种写法升级到4.0，就意味着重写整个程序。所以，我们觉得创造一个新的库，是更合适的做法。“</p>
+<p>一个Koa应用就是一个对象，包含了一个middleware数组，这个数组由一组Generator函数组成。这些函数负责对HTTP请求进行各种加工，比如生成缓存、指定代理、请求重定向等等。</p>
+<p>初始化文件夹</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm init</span><br></pre></td></tr></table></figure>
+
+<p>安装koa</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install koa</span><br></pre></td></tr></table></figure>
+
+<p>最简单的demo</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> Koa = <span class="built_in">require</span>(<span class="string">'koa'</span>)</span><br><span class="line"><span class="keyword">const</span> app = <span class="keyword">new</span> Koa()</span><br><span class="line"></span><br><span class="line">app.ues(<span class="keyword">async</span> (ctx,next)=&gt;&#123;</span><br><span class="line">   ctx.response.body = <span class="string">"我是吴彦祖"</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">app.listen(<span class="number">3333</span>,()=&gt;&#123;</span><br><span class="line">   <span class="built_in">console</span>.log(<span class="string">'server is running'</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="核心概念"><a href="#核心概念" class="headerlink" title="核心概念"></a>核心概念</h3><p>ctx：koa将node的request和response对象封装进ctx，得到ctx.request、cox.response。特别的，ctx将常用的属性做了进一步简化，可以由ctx直接访问，如ctx.request,url可以简化为ctx.request</p>
+<p>next：next参数将处理的控制权转交下一个中间件，响应结束时再由中间件逐层传递回来，也是著名的洋葱模型</p>
+<p>request对象：表示HTTP请求。</p>
+<p>response对象：表示HTTP回应。</p>
+<p>ctx对象的属性：</p>
+<ul>
+<li>request：指向Request对象</li>
+<li>response：指向Response对象</li>
+<li>req：指向Node的request对象</li>
+<li>res：指向Node的response对象</li>
+<li>app：指向App对象</li>
+<li>state：用于在中间件传递信息。</li>
+</ul>
+<p>request对象的属性：</p>
+<p>(1) this.request.header：返回一个对象，包含所有HTTP请求的头信息。也可以写成<code>this.request.headers</code>。</p>
+<p>(2) this.request.method：返回HTTP请求的方法，该属性可读写。</p>
+<p>(3)this.request.length:返回HTTP请求的Content-Length属性，取不到值，则返回undefined。</p>
+<p>(4)this.request.path:返回HTTP请求的路径，该属性可读写。</p>
+<p>(5)this.request.href:返回HTTP请求的完整路径，包括协议、端口和url。</p>
+<p>(6)this.request.querystring:返回HTTP请求的查询字符串，不含问号。该属性可读写。</p>
+<p>(7)this.request.ip:返回发出HTTP请求的IP地址。</p>
+<p>(8)this.request.fresh:返回一个布尔值，表示缓存是否代表了最新内容。通常与If-None-Match、ETag、If-Modified-Since、Last-Modified等缓存头，配合使用。</p>
+<p>(9)this.request.query:返回一个对象，包含了HTTP请求的查询字符串。如果没有查询字符串，则返回一个空对象。该属性可读写。</p>
+<p>(10)this.request.host:返回HTTP请求的主机（含端口号）。</p>
+<p>(11)this.request.hostname:返回HTTP的主机名（不含端口号）。</p>
+<p>(12)this.request.search:返回HTTP请求的查询字符串，含问号。该属性可读写。</p>
+<p>(13)this.request.type:返回HTTP请求的Content-Type属性。</p>
+<p>(14)this.request.charset:返回HTTP请求的字符集。</p>
+<p>(15)this.request.protocol:返回HTTP请求的协议，https或者http。</p>
+<p>(16)this.request.secure:返回一个布尔值，表示当前协议是否为https。</p>
+<p>(17)this.request.is(types…):返回指定的类型字符串，表示HTTP请求的Content-Type属性是否为指定类型。</p>
+<p>(18)this.request.accepts(types):检查HTTP请求的Accept属性是否可接受，如果可接受，则返回指定的媒体类型，否则返回false。</p>
+<p>(19)this.request.acceptsEncodings(encodings):该方法根据HTTP请求的Accept-Encoding字段，返回最佳匹配，如果没有合适的匹配，则返回false。</p>
+<p>(20)this.request.acceptsCharsets(charsets):该方法根据HTTP请求的Accept-Charset字段，返回最佳匹配，如果没有合适的匹配，则返回false。</p>
+<p>(21)this.request.acceptsLanguages(langs):该方法根据HTTP请求的Accept-Language字段，返回最佳匹配，如果没有合适的匹配，则返回false。</p>
+<p>(22)this.request.socket:返回HTTP请求的socket。</p>
+<p>(23)this.request.get(field):返回HTTP请求指定的字段。</p>
+<p>response对象的属性：</p>
+<p>(1)this.response.header：返回HTTP回应的头信息。</p>
+<p>(2)this.response.socket：返回HTTP回应的socket。</p>
+<p>(3)this.response.status:返回HTTP回应的状态码。默认情况下，该属性没有值。该属性可读写，设置时等于一个整数。</p>
+<p>(4)this.response.message：返回HTTP回应的状态信息。该属性与<code>this.response.message</code>是配对的。该属性可读写。</p>
+<p>(5)this.response.length:返回HTTP回应的Content-Length字段。该属性可读写，如果没有设置它的值，koa会自动从this.request.body推断。</p>
+<p>(6)this.response.body: 返回HTTP回应的信息体。该属性可读写，它的值可能有以下几种类型。</p>
+<p> 字符串：Content-Type字段默认为text/html或text/plain，字符集默认为utf-8，Content-Length字段同时设定。<br>二进制Buffer：Content-Type字段默认为application/octet-stream，Content-Length字段同时设定。<br>Stream：Content-Type字段默认为application/octet-stream。<br>JSON对象：Content-Type字段默认为application/json。<br>null（表示没有信息体）</p>
+<p>(7)this.response.get(field):返回HTTP回应的指定字段。</p>
+<p>(8)this.response.set():设置HTTP回应的指定字段。</p>
+<p>(9)this.response.remove(field):移除HTTP回应的指定字段。</p>
+<p>(10)this.response.is(types…):该方法类似于<code>this.request.is()</code>，用于检查HTTP回应的类型是否为支持的类型。</p>
+<p>它可以在中间件中起到处理不同格式内容的作用。</p>
+<p>(11)this.response.redirect(url, [alt]):该方法执行302跳转到指定网址。如果redirect方法的第一个参数是back，将重定向到HTTP请求的Referrer字段指定的网址，如果没有该字段，则重定向到第二个参数或“/”网址。</p>
+<p>(12)this.response.attachment([filename]):该方法将HTTP回应的Content-Disposition字段，设为“attachment”，提示浏览器下载指定文件。</p>
+<p>(13)this.response.headerSent：该方法返回一个布尔值，检查是否HTTP回应已经发出。</p>
+<p>(14)this.response.lastModified：该属性以Date对象的形式，返回HTTP回应的Last-Modified字段（如果该字段存在）。该属性可写。</p>
+<p>(15)this.response.etag:该属性设置HTTP回应的ETag字段。</p>
+<p>(16)this.response.vary(field):该方法将参数添加到HTTP回应的Vary字段。</p>
+<h3 id="中间件"><a href="#中间件" class="headerlink" title="中间件"></a>中间件</h3><p>Koa的中间件很像Express的中间件，也是对HTTP请求进行处理的函数，但是必须是一个Generator函数。而且，Koa的中间件是一个级联式（Cascading）的结构，也就是说，属于是层层调用，第一个中间件调用第二个中间件，第二个调用第三个，以此类推。上游的中间件必须等到下游的中间件返回结果，才会继续执行，这点很像递归。</p>
+<p>中间件通过当前应用的use方法注册。</p>
+<p><code>app.use</code>方法的参数就是中间件，它是一个Generator函数，最大的特征就是function命令与参数之间，必须有一个星号。Generator函数的参数next，表示下一个中间件。</p>
+<h3 id="洋葱模型"><a href="#洋葱模型" class="headerlink" title="洋葱模型"></a>洋葱模型</h3><p>实例</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="路由"><a href="#路由" class="headerlink" title="路由"></a>路由</h3><p>使用koa-router处理URL</p>
+<p>安装</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i koa-router --save</span><br></pre></td></tr></table></figure>
+
+<p>实例</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> Koa = <span class="built_in">require</span>(<span class="string">'koa'</span>);</span><br><span class="line"><span class="keyword">const</span> app = <span class="keyword">new</span> Koa();</span><br><span class="line"><span class="keyword">const</span> Router = <span class="built_in">require</span>(<span class="string">'koa-router'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//写法1，一个路由对象</span></span><br><span class="line"><span class="keyword">const</span> router = <span class="keyword">new</span> Router();</span><br><span class="line"></span><br><span class="line">router.get(<span class="string">'/'</span>,<span class="keyword">async</span> (ctx,next)=&gt;&#123;</span><br><span class="line">  ctx.body = <span class="string">'index页'</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">router.get(<span class="string">'/'</span>,<span class="keyword">async</span> (ctx,next)=&gt;&#123;</span><br><span class="line">  ctx.body = <span class="string">'index页'</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">app.use(router.routes())</span><br><span class="line">app.listen(<span class="number">3333</span>,()=&gt;&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"server is running"</span>)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">//写法2，建立不同路由对象然后一起装载,嵌套路由</span></span><br><span class="line"><span class="keyword">let</span> oneRouter = <span class="keyword">new</span> Router();</span><br><span class="line"><span class="keyword">let</span> twoRouter = <span class="keyword">new</span> Router();</span><br><span class="line"></span><br><span class="line">oneRouter.get(<span class="string">'/'</span>,<span class="keyword">async</span>(ctx,next)=&gt;&#123;</span><br><span class="line">   ctx.body = <span class="string">"onerouter 页"</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">twoRouter.get(<span class="string">'/'</span>,<span class="keyword">async</span>(ctx,next)=&gt;&#123;</span><br><span class="line">   ctx.body = <span class="string">'tworouter页'</span></span><br><span class="line">&#125;).get(<span class="string">'/home'</span>,<span class="keyword">async</span>(ctx,next)=&gt;&#123;</span><br><span class="line">   ctx.body = <span class="string">'home页'</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> indexRouter = <span class="keyword">new</span> Router();</span><br><span class="line">indexRouter.use(<span class="string">'/one'</span>,oneRouter.routes(),oneRouter.allowedMethods())</span><br><span class="line">indexRouter.use(<span class="string">'/two'</span>,twoRouter.routes(),twoRouter.allowedMethods())</span><br><span class="line"></span><br><span class="line">app</span><br><span class="line">  .use(indexRouter.routes())</span><br><span class="line">  .use(indexRouter.allowedMethods())</span><br><span class="line"></span><br><span class="line">app.listen(<span class="number">3333</span>,()=&gt;&#123;</span><br><span class="line">   <span class="built_in">console</span>.log(<span class="string">'server'</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="处理请求"><a href="#处理请求" class="headerlink" title="处理请求"></a>处理请求</h3><p>使用koa-router处理请求，如get、post</p>
+<p>post请求使用koa-bodyparser处理body中的数据</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i koa-bodyparser --save</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> Koa = <span class="built_in">require</span>(<span class="string">'koa'</span>);</span><br><span class="line"><span class="keyword">const</span> app = <span class="keyword">new</span> Koa()</span><br><span class="line"><span class="keyword">const</span> Router.= <span class="built_in">require</span> (<span class="string">'koa-router'</span>)</span><br><span class="line"><span class="keyword">const</span> router = <span class="keyword">new</span> Router()</span><br><span class="line"></span><br><span class="line"><span class="comment">//get请求</span></span><br><span class="line">router.get(<span class="string">'/data'</span>,<span class="keyword">async</span>(ctx,next)=&gt;&#123;</span><br><span class="line">  <span class="keyword">let</span> url = ctx.url;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">let</span> data = ctx.request.query;<span class="comment">//查询的的对象</span></span><br><span class="line">  <span class="keyword">let</span> dataQuery = ctx.request.querystring; <span class="comment">// 查询的字符串</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//restful风格api，get请求</span></span><br><span class="line">router.get(<span class="string">'data/:id'</span>,<span class="keyword">async</span>(ctx,next)=&gt;&#123;</span><br><span class="line">   <span class="keyword">let</span> data = ctx.params;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//post请求</span></span><br><span class="line">router.post(<span class="string">'/post/result'</span>,<span class="keyword">async</span> (ctx,next)=&gt;&#123;</span><br><span class="line">    <span class="keyword">let</span> &#123;name,num&#125; = ctx.request.body</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(name &amp;&amp; num )&#123;</span><br><span class="line">     ctx.body = <span class="string">"$&#123;name&#125; $&#123;num&#125;"</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="cookie、session操作"><a href="#cookie、session操作" class="headerlink" title="cookie、session操作"></a>cookie、session操作</h3><p>koa可以直接操作cookie</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">router.post(<span class="string">'/post/result'</span>,<span class="keyword">async</span>(ctx,next)=&gt;&#123;</span><br><span class="line">		<span class="keyword">let</span> &#123;name,num&#125; = ctx.request.body</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(name &amp;&amp; num )&#123;</span><br><span class="line">      ctx.body = <span class="string">"$&#123;name&#125; $&#123;num&#125;"</span></span><br><span class="line">      ctx.cookies.set(</span><br><span class="line">        <span class="string">'xunleiCode'</span>,num,</span><br><span class="line">        &#123;</span><br><span class="line">          domain:<span class="string">'localhost'</span>,  <span class="comment">//写cookie所在的域名</span></span><br><span class="line">          path:<span class="string">'/post/result'</span>,  <span class="comment">//写cookie所在的路径</span></span><br><span class="line">          maxAge: <span class="number">10</span> * <span class="number">60</span> * <span class="number">1000</span>; <span class="comment">//cookie有效时长</span></span><br><span class="line">          expires: <span class="keyword">new</span> <span class="built_in">Date</span>(<span class="string">'2018-09-17'</span>); <span class="comment">//cookie失效时间</span></span><br><span class="line">          httpOnly:<span class="literal">false</span>, <span class="comment">//是否只用于http请求中获取</span></span><br><span class="line">          overwrite： <span class="literal">false</span>， <span class="comment">//是否允许重写</span></span><br><span class="line">        &#125;</span><br><span class="line">      )</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>安装koa-session</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i koa-session</span><br></pre></td></tr></table></figure>
+
+<p>实例</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> session = <span class="built_in">require</span>(<span class="string">'koa-session'</span>)</span><br><span class="line"></span><br><span class="line">app.keys = [<span class="string">'some secret hurr'</span>];</span><br><span class="line"><span class="keyword">const</span> CONFIG = &#123;</span><br><span class="line">  key:<span class="string">"koa:sess"</span>,  <span class="comment">//默认cookie为koa：sess</span></span><br><span class="line">  maxAge: <span class="number">86400000</span>,<span class="comment">// 过期时间，默认为1天</span></span><br><span class="line">  overwrite: <span class="literal">true</span>, <span class="comment">// 是否可以重写</span></span><br><span class="line">  httpOnly: <span class="literal">true</span>,  <span class="comment">//cookie是否只有服务端可以访问</span></span><br><span class="line">  signed:<span class="literal">true</span>,     <span class="comment">//签名默认为true</span></span><br><span class="line">  rolling:<span class="literal">false</span>,   <span class="comment">//在每次请求时重新设置cookie，重置cookie过期时间</span></span><br><span class="line">  renew:<span class="literal">false</span>,     <span class="comment">//刷新session当session接近失效</span></span><br><span class="line">&#125;</span><br><span class="line">app.use(session(CONFIG,app));</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="CSRF攻击"><a href="#CSRF攻击" class="headerlink" title="CSRF攻击"></a>CSRF攻击</h3><p>CSRF攻击是指用户的session被劫持，用来冒充用户的攻击。</p>
+<p>koa-csrf插件用来防止CSRF攻击。原理是在session之中写入一个秘密的token，用户每次使用POST方法提交数据的时候，必须含有这个token，否则就会抛出错误。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> koa = <span class="built_in">require</span>(<span class="string">'koa'</span>);</span><br><span class="line"><span class="keyword">var</span> session = <span class="built_in">require</span>(<span class="string">'koa-session'</span>);</span><br><span class="line"><span class="keyword">var</span> csrf = <span class="built_in">require</span>(<span class="string">'koa-csrf'</span>);</span><br><span class="line"><span class="keyword">var</span> route = <span class="built_in">require</span>(<span class="string">'koa-route'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> app = <span class="built_in">module</span>.exports = koa();</span><br><span class="line"></span><br><span class="line">app.keys = [<span class="string">'session key'</span>, <span class="string">'csrf example'</span>];</span><br><span class="line">app.use(session(app));</span><br><span class="line"></span><br><span class="line">app.use(csrf());</span><br><span class="line"></span><br><span class="line">app.use(route.get(<span class="string">'/token'</span>, token));</span><br><span class="line">app.use(route.post(<span class="string">'/post'</span>, post));</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">token</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.body = <span class="keyword">this</span>.csrf;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">post</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.body = &#123;<span class="attr">ok</span>: <span class="literal">true</span>&#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">app.listen(<span class="number">3000</span>);</span><br></pre></td></tr></table></figure>
+
+<p>POST请求含有token，可以是以下几种方式之一，koa-csrf插件就能获得token。</p>
+<ul>
+<li>表单的_csrf字段</li>
+<li>查询字符串的_csrf字段</li>
+<li>HTTP请求头信息的x-csrf-token字段</li>
+<li>HTTP请求头信息的x-xsrf-token字段</li>
+</ul>
+<h3 id="数据压缩"><a href="#数据压缩" class="headerlink" title="数据压缩"></a>数据压缩</h3><p>koa-compress模块可以实现数据压缩。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">app.use(<span class="built_in">require</span>(<span class="string">'koa-compress'</span>)())</span><br><span class="line">app.use(<span class="function"><span class="keyword">function</span>* (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.type = <span class="string">'text/plain'</span></span><br><span class="line">  <span class="keyword">this</span>.body = fs.createReadStream(<span class="string">'filename.txt'</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h3><p>koa2有四个核心文件：application.js、context.js、request.js、response.js。</p>
+<p>application.js：application.js是koa的入口文件，它向外导出了创建class实例的构造函数，它继承了events，这样就会赋予框架事件监听和事件触发的能力。application还暴露了一些常用的api，比如toJSON、listen、use等等。</p>
+<p>Context.js：这部分就是koa的应用上下文ctx,其实就一个简单的对象暴露，里面的重点在delegate，这个就是代理，这个就是为了开发者方便而设计的，比如我们要访问ctx.repsponse.status但是我们通过delegate，可以直接访问ctx.status访问到它。</p>
+<p>Request.js、Response.js ： 这两部分就是对原生的res、req的一些操作了，大量使用es6的get和set的一些语法，去取headers或者设置headers、还有设置body等等</p>
+<p>基于此，如果要实现koa框架需要四个模块：</p>
+<ul>
+<li>封装node http server、创建Koa类构造函数</li>
+<li>构造request、response、context对象</li>
+<li>中间件机制和剥洋葱模型的实现</li>
+<li>错误捕获和错误处理</li>
+</ul>
+<p><a href="https://github.com/airuikun/blog/issues/2">https://github.com/airuikun/blog/issues/2</a></p>
+<h2 id="eggjs"><a href="#eggjs" class="headerlink" title="eggjs"></a>eggjs</h2><p>web应用离不开session、视图模版、路由、文件上传、日志管理，这些koa都不提供，需要自行去官方的中间件网站去找，100个人可能有100种搭配</p>
+<p>而eggjs是基于koajs，解决了上述问题，将社区最佳实践整合进koajs，并且将多进程启动、开发时的热更新等问题一并解决，对开发者很友好，开箱即是最佳/较佳配置</p>
+<h3 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h3><p><code>app/router.js</code>:用于配置URL路由规则</p>
+<p><code>app/controller/**</code>:用于解析用户的输入，处理返回相应的结果</p>
+<p><code>app/service/**</code>:用于编写业务逻辑层，可选</p>
+<p><code>app/middleware/**</code>:用于编写中间件，</p>
+<p><code>app/public/**</code>:用于放置静态资源</p>
+<p><code>app/extend/**</code>:用于框架的扩展</p>
+<p><code>config/config.{env}.js</code>:用于编写配置文件</p>
+<p><code>config/plugin.js</code>:用于配置需要加载的文件</p>
+<p><code>test/**</code>:用于单元测试</p>
+<p><code>app.js</code>和<code>agent.js</code>:用于自定义的初始化工作</p>
+<h3 id="内置对象"><a href="#内置对象" class="headerlink" title="内置对象"></a>内置对象</h3><p>eggjs继承了koa的application、context、request、response对象，并且扩展了一些新的全局对象，controller、service、logger、config、helper</p>
+<p>每个controller下面都有以下属性：</p>
+<p>ctx：当前请求的context实例</p>
+<p>app：应用的application实例</p>
+<p>config：应用的配置</p>
+<p>service：应用所有的service</p>
+<p>logger：为当前controller封装的logger对象</p>
+<p>推荐从egg对象上获取controller基类，也可以从app实例上获取</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//从egg上获取</span></span><br><span class="line"><span class="keyword">const</span> Controller = <span class="built_in">require</span>(<span class="string">'egg'</span>).Controller</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">USerController</span> <span class="keyword">extends</span> <span class="title">Controller</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">module</span>.exports = UserController;</span><br><span class="line"><span class="comment">//从app上获取</span></span><br><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="params">app</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="class"><span class="keyword">class</span> <span class="title">UserController</span> <span class="keyword">extends</span> <span class="title">app</span>.<span class="title">controller</span></span>&#123;</span><br><span class="line">    </span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Service基类与controller基类基本相同，获取方式也相同</p>
+<h3 id="路由Router"><a href="#路由Router" class="headerlink" title="路由Router"></a>路由Router</h3><p>Router的请求用来描述URL与具体承担执行动作的controller的关系，框架约定了<code>app/router.js</code>文件用于统一所有路由规则</p>
+<p>路由定义时需指定：</p>
+<p>1.请求方法/请求动作，包括head、options、get、post、delete、put、patch、redirect等</p>
+<p>2.路由名称，给路由设定一个别名</p>
+<p>3.中间件，在router里可以配置多个中间件，<strong>串联执行</strong></p>
+<p>4.控制器，指定路由映射到具体到控制器上</p>
+<p>特别地，Restful风格的CRUD的路由配置如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="params">app</span> =&gt;</span>&#123;</span><br><span class="line">   <span class="keyword">const</span> &#123; router,controller&#125; = app;</span><br><span class="line">   router.resources(<span class="string">'posts'</span>,<span class="string">'/api/posts'</span>,controller.posts);</span><br><span class="line">   router.resources(<span class="string">'users'</span>,<span class="string">'/api/v1/users'</span>,controller.v1.users)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="控制器controller"><a href="#控制器controller" class="headerlink" title="控制器controller"></a>控制器controller</h3><p>控制器与路由对应，实现控制器的服务</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//router.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="params">app</span> =&gt;</span>&#123;</span><br><span class="line">  <span class="keyword">const</span> &#123;router,controller&#125; = app;</span><br><span class="line">  router.get(<span class="string">'/user/:id'</span>,controller.user.info);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//controller,user.js</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UserController</span> <span class="keyword">extends</span> <span class="title">Controller</span> </span>&#123;</span><br><span class="line">  <span class="keyword">async</span> info()&#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; ctx &#125; = <span class="keyword">this</span>;</span><br><span class="line">    ctx.body = &#123;</span><br><span class="line">      name:<span class="string">`hello <span class="subst">$&#123;ctx.params.id&#125;</span>`</span>,</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="服务-service"><a href="#服务-service" class="headerlink" title="服务(service)"></a>服务(service)</h3><p>service是复杂场景下用于做业务逻辑封装的一个抽象层，有利于：</p>
+<p>1.保持controller的逻辑更加简洁</p>
+<p>2.保持业务逻辑的独立性，抽象出来的service可以被多个controller重复调用</p>
+<p>3.将逻辑与展现分离，更容易编写测试用例</p>
+<p>使用场景：</p>
+<p>复杂数据的处理，如需要查数据库、按一定规则计算或者计算完成之后更新到数据库</p>
+<p>调用第三方的服务时</p>
+<p>定义service</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//app/service/user.js</span></span><br><span class="line"><span class="keyword">const</span> Service = <span class="built_in">require</span>(<span class="string">'egg'</span>).Service</span><br><span class="line"></span><br><span class="line">Class UserService extends Service&#123;</span><br><span class="line">   <span class="keyword">async</span> find(uid)&#123;</span><br><span class="line">     <span class="keyword">const</span> user = <span class="keyword">await</span> <span class="keyword">this</span>.ctx.db.query(<span class="string">'select * from user where uid = ?'</span>,uid);</span><br><span class="line">     <span class="keyword">return</span> user;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = UserService</span><br></pre></td></tr></table></figure>
+
+<p>在controller中调用对应的service</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> Controller = <span class="built_in">require</span>(<span class="string">'egg'</span>).Controller;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UserController</span> <span class="keyword">extends</span> <span class="title">Controller</span> </span>&#123;</span><br><span class="line">  <span class="keyword">async</span> info()&#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; ctx &#125; = <span class="keyword">this</span>;</span><br><span class="line">    <span class="keyword">const</span> userId = ctx.params.id;</span><br><span class="line">    <span class="keyword">const</span> userInfo = <span class="keyword">await</span> ctx.service.user.find(userId)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">module</span>.exports = UserController;</span><br></pre></td></tr></table></figure>
+
+<h3 id="中间件-1"><a href="#中间件-1" class="headerlink" title="中间件"></a>中间件</h3><p>我们约定中间件是一个放置在<code>app/middleware</code>目录下的单独文件，它接受两个参数，</p>
+<p>Options:中间件的配置，框架会将config传递进来</p>
+<p>app:当前应用application的实例</p>
+<p>中间件实例</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//app/middleware/gzip.js</span></span><br><span class="line"><span class="keyword">const</span> isJSON = <span class="built_in">require</span>(<span class="string">'koa-js-json'</span>);</span><br><span class="line"><span class="keyword">const</span> zli = <span class="built_in">require</span>(<span class="string">'zlib'</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="params">options</span> =&gt;</span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">gzip</span>(<span class="params">ctx,next</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">await</span> next();</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">let</span> body = ctx.body;</span><br><span class="line">    <span class="keyword">if</span>(!body) <span class="keyword">return</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">const</span> stream = zlib.createGzip();</span><br><span class="line">    ctx.body = stream;</span><br><span class="line">    ctx.set(<span class="string">'Content-Encoding'</span>,<span class="string">'gzip'</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在单个router中或者全局实例化和挂载</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//单个路由加载</span></span><br><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="params">app</span> =&gt;</span>&#123;</span><br><span class="line">  <span class="keyword">const</span> gzip = app.middleware.gzip(&#123; <span class="attr">threshold</span>:<span class="number">1024</span> &#125;);</span><br><span class="line">  app.router.get(<span class="string">'/needgzip'</span>,gzip,app.controller.handler);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>全局加载</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//config.default.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  middleware:[gzip],</span><br><span class="line">  gzip:&#123;</span><br><span class="line">    threshold:<span class="number">1024</span>,</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="插件"><a href="#插件" class="headerlink" title="插件"></a>插件</h3><p>koa的中间件系统有其固有的缺点：</p>
+<p>1.中间件的顺序不可固定，使用先后顺序的不同，结果可能有天壤之别</p>
+<p>2.有些功能是与请求无关的，如定时任务、消息订阅，中间件处理起来麻烦</p>
+<p>3.初始化逻辑复杂，需要在应用启动的时候完成</p>
+<p>一个插件就像一个mini的应用，有service，中间件，配置等，没有路由和controller，没有plugin</p>
+<p>插件一般提供npm的方式安装</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i egg-mysql --save</span><br></pre></td></tr></table></figure>
+
+<p>在package.json中引入依赖</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"dependencies"</span>:&#123;</span><br><span class="line">    <span class="attr">"egg-mysql"</span>:<span class="string">"^3.0.0"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在plugin.js中声明</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">exports.mysql = &#123;</span><br><span class="line">  enable:<span class="literal">true</span>;</span><br><span class="line">  package:<span class="string">'egg-dev'</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="定时任务"><a href="#定时任务" class="headerlink" title="定时任务"></a>定时任务</h3><p>有一些任务是需要定时运行的，比如</p>
+<p>1.定时上报任务状态</p>
+<p>2.定时从远程接口更新本地缓存</p>
+<p>3.定时进行文件切割、文件删除等</p>
+<p>所有的定时任务放在<code>app/schedule</code>目录下，每一个文件都是独立的定时任务，可以配置定时任务的属性和要执行的方法</p>
+<p>比如，定义一个更新远程数据到内存缓存的定时任务</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//app/schedule/update_cache.js</span></span><br><span class="line"><span class="keyword">const</span> Subscription = <span class="built_in">require</span>(<span class="string">'egg'</span>).Subscription</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UpdayeCache</span> <span class="keyword">extends</span> <span class="title">Subscription</span> </span>&#123;</span><br><span class="line">  <span class="keyword">static</span> <span class="keyword">get</span> schedule()&#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      interval:<span class="string">'1m'</span>,</span><br><span class="line">      type:<span class="string">'all'</span>,</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">async</span> subscribe()&#123;</span><br><span class="line">    <span class="keyword">const</span> res = <span class="keyword">await</span> <span class="keyword">this</span>.ctx.curl(<span class="string">'http://www.api.com/cache'</span>,&#123;</span><br><span class="line">      dataType: <span class="string">'json'</span></span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">this</span>.ctx.app.cache = res.data;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = UpdateCache;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="midwayjs"><a href="#midwayjs" class="headerlink" title="midwayjs"></a>midwayjs</h2>
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/IT%EF%BC%8CWeb/" rel="tag">IT，Web</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        <div class="social-share" data-disabled="tencent,linkedin,douban,diandian,google"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css">
+<script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script>
+
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3>
+        <div class="buttons is-centered">
+            
+                
+<a class="button is-info donate">
+    <span class="icon is-small">
+        <i class="fab fa-alipay"></i>
+    </span>
+    <span>支付宝</span>
+    <div class="qrcode"><img src="http://q6mb9zdoi.bkt.clouddn.com/alipay.jpg" alt="支付宝"></div>
+</a>
+
+                
+                
+<a class="button is-success donate">
+    <span class="icon is-small">
+        <i class="fab fa-weixin"></i>
+    </span>
+    <span>微信</span>
+    <div class="qrcode"><img src="http://q6mb9zdoi.bkt.clouddn.com/wechatpay.jpg" alt="微信"></div>
+</a>
+
+                
+        </div>
+    </div>
+</div>
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2021/01/23/Node10/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">NodeJs开发（五）</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2021/01/22/Node8/">
+                <span class="level-item">NodeJs开发（三）</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">评论</h3>
+        
+<div class="notification is-danger">
+    You forgot to set the <code>app_id</code> or <code>app_key</code> for Valine. Please set it in <code>_config.yml</code>.
+</div>
+
+    </div>
+</div>
+
+
+<div class="level is-size-7 has-text-grey">
+</br>
+    <div class="level-left">
+	
+        <i class="far fa-eye"></i>
+		<span>&nbsp;</span>
+		
+		<h3>本文章阅读量：</h3>
+        <span>&nbsp;</span>
+        <span id="busuanzi_container_page_pv" style="display: inline;">
+            <span id="busuanzi_value_page_pv">0</span>
+        </span>
+    </div>
+</div></div>
+                
+
+
+
+
+
+<div class="column is-4-tablet is-5-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="" src="https://s1.ax1x.com/2020/03/27/G9OfNn.th.png" alt="张坤">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        张坤
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        Undergraduates/Tech Learner
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>山西·太原</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <a href="/archives">
+                        <p class="title has-text-weight-normal">
+                            111
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <a href="/categories">
+                        <p class="title has-text-weight-normal">
+                            7
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <a href="/tags">
+                        <p class="title has-text-weight-normal">
+                            48
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/Kun8018" target="_blank" rel="noopener">
+                关注我</a>
+        </div>
+        
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="微信" href="http://q6mb9zdoi.bkt.clouddn.com/alipay.jpg">
+                
+                <i class="fab fa-weixin"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="QQ" href="https://facebook.com">
+                
+                <i class="fab fa-qq"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="邮箱" href="https://twitter.com">
+                
+                <i class="fa fa-envelope"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="B站" href="https://dribbble.com">
+                
+                <i class="fab fa-dribbble"></i>
+                
+            </a>
+            
+        </div>
+        
+		<hr>
+        <p id="evan">IT学徒、技术民工、斜杠青年</p>
+          <p id="evan">机器人爱好者、摄影爱好者</p>
+          <p id="evan">PS、PR、LR、达芬奇潜在学习者</p>
+		  </div>
+</div>
+    
+        
+
+    <div class="card widget" id="toc">
+        <div class="card-content">
+            <div class="menu">
+                <h3 class="menu-label">
+                    目录
+                </h3>
+                <ul class="menu-list"><li>
+        <a class="is-flex" href="#koa">
+        <span class="has-mr-6">1</span>
+        <span>koa</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#简介-安装">
+        <span class="has-mr-6">1.1</span>
+        <span>简介/安装</span>
+        </a></li><li>
+        <a class="is-flex" href="#核心概念">
+        <span class="has-mr-6">1.2</span>
+        <span>核心概念</span>
+        </a></li><li>
+        <a class="is-flex" href="#中间件">
+        <span class="has-mr-6">1.3</span>
+        <span>中间件</span>
+        </a></li><li>
+        <a class="is-flex" href="#洋葱模型">
+        <span class="has-mr-6">1.4</span>
+        <span>洋葱模型</span>
+        </a></li><li>
+        <a class="is-flex" href="#路由">
+        <span class="has-mr-6">1.5</span>
+        <span>路由</span>
+        </a></li><li>
+        <a class="is-flex" href="#处理请求">
+        <span class="has-mr-6">1.6</span>
+        <span>处理请求</span>
+        </a></li><li>
+        <a class="is-flex" href="#cookie、session操作">
+        <span class="has-mr-6">1.7</span>
+        <span>cookie、session操作</span>
+        </a></li><li>
+        <a class="is-flex" href="#CSRF攻击">
+        <span class="has-mr-6">1.8</span>
+        <span>CSRF攻击</span>
+        </a></li><li>
+        <a class="is-flex" href="#数据压缩">
+        <span class="has-mr-6">1.9</span>
+        <span>数据压缩</span>
+        </a></li><li>
+        <a class="is-flex" href="#源码">
+        <span class="has-mr-6">1.10</span>
+        <span>源码</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#eggjs">
+        <span class="has-mr-6">2</span>
+        <span>eggjs</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#目录结构">
+        <span class="has-mr-6">2.1</span>
+        <span>目录结构</span>
+        </a></li><li>
+        <a class="is-flex" href="#内置对象">
+        <span class="has-mr-6">2.2</span>
+        <span>内置对象</span>
+        </a></li><li>
+        <a class="is-flex" href="#路由Router">
+        <span class="has-mr-6">2.3</span>
+        <span>路由Router</span>
+        </a></li><li>
+        <a class="is-flex" href="#控制器controller">
+        <span class="has-mr-6">2.4</span>
+        <span>控制器controller</span>
+        </a></li><li>
+        <a class="is-flex" href="#服务-service">
+        <span class="has-mr-6">2.5</span>
+        <span>服务(service)</span>
+        </a></li><li>
+        <a class="is-flex" href="#中间件-1">
+        <span class="has-mr-6">2.6</span>
+        <span>中间件</span>
+        </a></li><li>
+        <a class="is-flex" href="#插件">
+        <span class="has-mr-6">2.7</span>
+        <span>插件</span>
+        </a></li><li>
+        <a class="is-flex" href="#定时任务">
+        <span class="has-mr-6">2.8</span>
+        <span>定时任务</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#midwayjs">
+        <span class="has-mr-6">3</span>
+        <span>midwayjs</span>
+        </a></li></ul>
+            </div>
+        </div>
+    </div>
+
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https:www.iros2019.org" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">IEEE-IROS</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.iros2019.org</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https:www.icra2020.org" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">IEEE-ICRA</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.icra2020.org</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/IT/">
+            <span class="level-start">
+                <span class="level-item">IT</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">38</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E4%B8%AA%E4%BA%BA%E5%B9%B8%E7%A6%8F/">
+            <span class="level-start">
+                <span class="level-item">个人幸福</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">
+            <span class="level-start">
+                <span class="level-item">个人生活</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">27</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">
+            <span class="level-start">
+                <span class="level-item">技术博客</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">36</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%9C%8B%E5%8F%8B/">
+            <span class="level-start">
+                <span class="level-item">朋友</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E7%94%9F%E6%B4%BB/">
+            <span class="level-start">
+                <span class="level-item">生活</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E7%94%9F%E6%B4%BB%E6%84%9F%E6%82%9F/">
+            <span class="level-start">
+                <span class="level-item">生活感悟</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            标签云
+        </h3>
+        <a href="/tags/IT/" style="font-size: 10px;">IT</a> <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 12px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 12px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8C/" style="font-size: 16px;">IT,Web，</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 12px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 14px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 12px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 12px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb/" style="font-size: 16px;">IT，Web</a> <a href="/tags/IT%EF%BC%8CWeb-Javascript/" style="font-size: 10px;">IT，Web,Javascript</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 18px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 16px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Rust/" style="font-size: 10px;">IT，Web,Rust</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 14px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 16px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 12px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 10px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 12px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 18px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 14px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 14px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">幸福</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 14px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/" style="font-size: 14px;">技术，IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 12px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 12px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 12px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 20px;">生活、幸福</a> <a href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">记录，生活</a>
+    </div>
+</div>
+    
+    
+        <div class="column-right-shadow  ">
+        
+            <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2021/03/20/%E6%B7%B1%E5%A4%9C%E9%A2%98%E8%AE%B0(%E4%B8%80)/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="深夜题记(一)：我也想成为一个温柔的人啊">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-03-20T13:40:33.000Z">2021-03-20</time></div>
+                    <a href="/2021/03/20/%E6%B7%B1%E5%A4%9C%E9%A2%98%E8%AE%B0(%E4%B8%80)/" class="title has-link-black-ter is-size-6 has-text-weight-normal">深夜题记(一)：我也想成为一个温柔的人啊</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">个人生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2021/03/20/%E6%9D%AD%E5%B7%9E%E5%8D%B0%E8%B1%A1(%E4%B8%80)/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="杭州印象(一)">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-03-20T13:40:33.000Z">2021-03-20</time></div>
+                    <a href="/2021/03/20/%E6%9D%AD%E5%B7%9E%E5%8D%B0%E8%B1%A1(%E4%B8%80)/" class="title has-link-black-ter is-size-6 has-text-weight-normal">杭州印象(一)</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">技术博客</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2021/03/06/%E6%B7%B1%E5%9C%B33/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://cdn.kunkunzhang.top/psc.jpg" alt="深圳感悟(三)">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-03-06T13:40:33.000Z">2021-03-06</time></div>
+                    <a href="/2021/03/06/%E6%B7%B1%E5%9C%B33/" class="title has-link-black-ter is-size-6 has-text-weight-normal">深圳感悟(三)</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">技术博客</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2021/02/02/2020%E6%96%B0%E5%B9%B4%E6%80%BB%E7%BB%93/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/happy-new-year-fireworks.jpg" alt="2020小结">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-02-02T13:40:33.000Z">2021-02-02</time></div>
+                    <a href="/2021/02/02/2020%E6%96%B0%E5%B9%B4%E6%80%BB%E7%BB%93/" class="title has-link-black-ter is-size-6 has-text-weight-normal">2020小结</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">个人生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2021/02/02/2021%E6%96%B0%E5%B9%B4%E6%80%BB%E7%BB%93/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="2021新年总结">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-02-02T13:40:33.000Z">2021-02-02</time></div>
+                    <a href="/2021/02/02/2021%E6%96%B0%E5%B9%B4%E6%80%BB%E7%BB%93/" class="title has-link-black-ter is-size-6 has-text-weight-normal">2021新年总结</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">个人生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            归档
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2021/03/">
+                <span class="level-start">
+                    <span class="level-item">三月 2021</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2021/02/">
+                <span class="level-start">
+                    <span class="level-item">二月 2021</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2021/01/">
+                <span class="level-start">
+                    <span class="level-item">一月 2021</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">10</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/12/">
+                <span class="level-start">
+                    <span class="level-item">十二月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">5</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/10/">
+                <span class="level-start">
+                    <span class="level-item">十月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/09/">
+                <span class="level-start">
+                    <span class="level-item">九月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/08/">
+                <span class="level-start">
+                    <span class="level-item">八月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">8</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/07/">
+                <span class="level-start">
+                    <span class="level-item">七月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/06/">
+                <span class="level-start">
+                    <span class="level-item">六月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">20</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/04/">
+                <span class="level-start">
+                    <span class="level-item">四月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/03/">
+                <span class="level-start">
+                    <span class="level-item">三月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">47</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/02/">
+                <span class="level-start">
+                    <span class="level-item">二月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                标签
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT/">
+                        <span class="tag">IT</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Java-Web/">
+                        <span class="tag">IT,Java,Web</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web/">
+                        <span class="tag">IT,Web</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web/">
+                        <span class="tag">IT,Web,</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8C/">
+                        <span class="tag">IT,Web，</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/">
+                        <span class="tag">IT,Web，Android、Java</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8CC/">
+                        <span class="tag">IT,Web，C++</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8CFlutter/">
+                        <span class="tag">IT,Web，Flutter</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8CIOS/">
+                        <span class="tag">IT,Web，IOS</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8CMac/">
+                        <span class="tag">IT,Web，Mac</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/">
+                        <span class="tag">IT,Web，算法</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/">
+                        <span class="tag">IT、友情</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/">
+                        <span class="tag">IT、小程序、H5App</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8C/">
+                        <span class="tag">IT，</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CApp-Node-Electron/">
+                        <span class="tag">IT，App,Node,Electron</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CFlutter/">
+                        <span class="tag">IT，Flutter</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CGithub/">
+                        <span class="tag">IT，Github</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CRN%EF%BC%8C/">
+                        <span class="tag">IT，RN，</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb/">
+                        <span class="tag">IT，Web</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Javascript/">
+                        <span class="tag">IT，Web,Javascript</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Node/">
+                        <span class="tag">IT，Web,Node</span>
+                        <span class="tag is-grey">6</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/">
+                        <span class="tag">IT，Web,Node，React</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-PHP/">
+                        <span class="tag">IT，Web,PHP</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Rust/">
+                        <span class="tag">IT，Web,Rust</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Vue/">
+                        <span class="tag">IT，Web,Vue</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/">
+                        <span class="tag">IT，Web,Vue，Node、React</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/">
+                        <span class="tag">IT，Web,数据库</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8Cweb/">
+                        <span class="tag">IT，web</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/">
+                        <span class="tag">IT，未来</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Web-IT-Flutter/">
+                        <span class="tag">Web,IT,Flutter</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Web-IT-Go/">
+                        <span class="tag">Web,IT,Go</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/">
+                        <span class="tag">Web，IT，HTML，CSS</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/">
+                        <span class="tag">个人生活，幸福</span>
+                        <span class="tag is-grey">6</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/">
+                        <span class="tag">兴趣，幸福</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/">
+                        <span class="tag">励志、文学</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E5%8F%8B%E6%83%85/">
+                        <span class="tag">友情</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E5%B9%B8%E7%A6%8F/">
+                        <span class="tag">幸福</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">
+                        <span class="tag">幸福，个人生活</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/">
+                        <span class="tag">技术宅、IT</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/">
+                        <span class="tag">技术，IT</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/">
+                        <span class="tag">技术，Robotic，IT</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/">
+                        <span class="tag">摄影，记录，生活</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%B7%B1%E5%9C%B3/">
+                        <span class="tag">深圳</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/">
+                        <span class="tag">爱情，幸福</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E7%94%9F%E6%B4%BB/">
+                        <span class="tag">生活</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E7%94%9F%E6%B4%BB/">
+                        <span class="tag">生活#</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/">
+                        <span class="tag">生活、幸福</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/">
+                        <span class="tag">记录，生活</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+				
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="https://s1.ax1x.com/2020/03/27/G9OfNn.th.png" alt="NodeJs开发（四）" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2021 Kun Zhang&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+               <!-- 
+                <br>
+                <span id="busuanzi_container_site_uv">
+                共<span id="busuanzi_value_site_uv">0</span>个访客
+                </span>
+                 -->
+				
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+	
+	   <div style="text-align: center;">
+			<br>
+			<p class="is-size-7">
+				
+				<span id="busuanzi_container_site_uv">
+					<i class="fa fa-user"></i> 本站访客数 <span id="busuanzi_value_site_uv"></span> 人次
+				</span>
+				<span id="busuanzi_container_site_pv">
+					|  <i class="fa fa-eye"></i> 本站总访问量 <span id="busuanzi_value_site_pv"></span> 次
+				</span>
+				
+			</p>
+			<span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+		<script>
+			var now = new Date(); 
+			function createtime() { 
+				var grt= new Date("3/2/2020 08:00:00");// 此处修改你的建站时间或者网站上线时间 
+				now.setTime(now.getTime()+250); 
+				days = (now - grt) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+				hours = (now - grt) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+				if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+				mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+				seconds = (now - grt) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+				snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+				document.getElementById("timeDate").innerHTML = "本站已安全运行"+dnum+"天"; 
+				document.getElementById("times").innerHTML = hnum + "小时" + mnum + "分" + snum + "秒"; 
+			} 
+			setInterval("createtime()",250);
+		</script>
+		</div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'http://kun8018.gitee.io',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'unfolded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

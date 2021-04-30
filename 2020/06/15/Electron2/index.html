@@ -19,7 +19,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://cdn.kunkunzhang.top/electron.png">
 <meta property="article:published_time" content="2020-06-15T13:40:33.000Z">
-<meta property="article:modified_time" content="2021-03-20T08:11:54.744Z">
+<meta property="article:modified_time" content="2021-04-24T10:47:49.649Z">
 <meta property="article:author" content="Kun Zhang">
 <meta property="article:tag" content="IT，App,Node,Electron">
 <meta name="twitter:card" content="summary">
@@ -158,7 +158,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    4 分钟 读完 (大约 657 个字)
+                    20 分钟 读完 (大约 2993 个字)
                 </span>
                 
                 
@@ -179,7 +179,7 @@
             <p>　　目前看来Electron 的开发并没有想像的那么简单，简单尝试一下之后目前先搁置了，等有空再来。</p>
 <a id="more"></a>
 
-<h2 id="扩展能力"><a href="#扩展能力" class="headerlink" title="扩展能力"></a>扩展能力</h2><p>在很多情况下，你的应用程序要和外部设备进行交互，一般情况下厂商会为你提供硬件设备的开发包，这些开发包基本上都是通过<code>C++</code> 编写，在使用<code>electron</code>开发的情况下，并不具备直接调用<code>C++</code>代码的能力，我们可以利用<code>node-ffi</code>来实现这一功能。</p>
+<h2 id="Node扩展能力"><a href="#Node扩展能力" class="headerlink" title="Node扩展能力"></a>Node扩展能力</h2><p>在很多情况下，你的应用程序要和外部设备进行交互，一般情况下厂商会为你提供硬件设备的开发包，这些开发包基本上都是通过<code>C++</code> 编写，在使用<code>electron</code>开发的情况下，并不具备直接调用<code>C++</code>代码的能力，我们可以利用<code>node-ffi</code>来实现这一功能。</p>
 <p><code>node-ffi</code>提供了一组强大的工具，用于在<code>Node.js</code>环境中使用纯<code>JavaScript</code>调用动态链接库接口。它可以用来为库构建接口绑定，而不需要使用任何<code>C++</code>代码。</p>
 <p>注意<code>node-ffi</code>并不能直接调用<code>C++</code>代码，你需要将<code>C++</code>代码编译为动态链接库：在 <code>Windows</code>下是 <code>Dll</code> ，在 <code>Mac OS</code>下是 <code>dylib</code> <code>，Linux</code> 是 <code>so</code> 。</p>
 <p><code>node-ffi</code> 加载 <code>Library</code>是有限制的，只能处理 <code>C</code>风格的 <code>Library</code>。</p>
@@ -187,6 +187,65 @@
 
 
 
+<h2 id="js-brige"><a href="#js-brige" class="headerlink" title="js-brige"></a>js-brige</h2><p>一套代码既能跑在浏览器端，又能跑在electron 端，</p>
+<p>与NW.js相比，Electron 作为 NW.js 的继任者，最大的改动就是将 NW.js 的融合环境（以 HTML 为入口，同时支持前端和 Node 技术的环境）一分为二，变成了一个<strong>纯 Node.js 的主进程（Main process）\</strong>加上*<em>一系列默认关闭 Node 支持的前端渲染进程（Renderer process）*</em>。</p>
+<p>如果从 NW.js 和 Electron 同源于 Chromium 的角度来看，NW.js 相当于一个嵌入了 Node.js 支持的单窗口浏览器，每开一个进程就相当于打开了一个新的<strong>浏览器窗口</strong>；而 Electron 则相当于一个支持<strong>多标签页</strong>的浏览器，主进程是那个独立于所有标签页之外的那个「看不见的」框架层，渲染进程则相当于在这个浏览器中打开的一个个「看得见的」<strong>Tab</strong>。</p>
+<p><strong>Nodejs与前端代码相互侵入</strong></p>
+<p>虽然官方允许你直接在前端业务代码中直接使用 Electron 甚至直接引用 Node.js 依赖，但这种方式却对业务无意间侵入了前端业务代码。当项目加载远端业务页面以及业务代码由其他项目打包工具生成的情况下，你可能无法对前端业务代码做修改。如果引入 Native 与 HTML 页面的 Bridge 通信模式</p>
+<p>同时，前端代码也可能使用electron代码。Electron 提供了 <a href="https://www.electronjs.org/docs/api/ipc-main">ipcMain</a> 与 ipcRenderer 模块用以主进程与渲染进程之间的通信，前端页面可能通过调用子进程的方式获取数据。</p>
+<p>如果想在你的前端页面使用这种通信方式，那么你需要在 webview 中配置 <code>&lt;webview src=&quot;http://www.google.com/&quot; nodeintegration&gt;&lt;/webview&gt;</code> 或者在 BrowserWindow 实例中的 webPreferences 属性里配置 <code>nodeIntegration: true</code>。这虽然能够解决进程间的通信问题，但也将 Node.js 环境引入了前端业务页面。</p>
+<p>解决办法</p>
+<p>需要在代码中先判断环境，再分别写对应的逻辑。每次写到electron环境下的逻辑，又要区分渲染进程和主进程，因为有些事只能渲染进程做，有些事只能主进程做。所以，我希望能将这些抽象出来，某个方法，只能在electron环境下被调用，并且不需要关心在什么进程下，web只要判断环境，调不同的方法就行，不需要关心和electron的交互。</p>
+<p>另外，这样做也能快速的开启另一个electron的项目，我希望我web里的代码能轻易的获取到electron的能力，而不是重新开始编写，这个时候，我希望有一层对electron能力的封装</p>
+<p>团队内有些成员对web很熟悉，但是对electron不是很了解，如果加入项目，就需要去学习electron的知识，这个时候，如果能有一个库列出了所有electron能做的事，你只需要调用，无需关心它是怎么实现的，能很大程度提高开发效率。</p>
+<p>目标</p>
+<p>1.给web注入适当的环境变量，让web知道自己的环境</p>
+<p>2.给web注入一个对象，包含所有electron能做的事（包括主进程、渲染进程）</p>
+<p><strong>给web注入环境变量</strong></p>
+<p>在load web页面的时候，有个webPreferences配置，我们在这里预加载一个js文件，就是electron-bridge.js。这个文件拥有node的能力，并且它是属于渲染进程的，所以它能做渲染进程里的事, 也能跟主进程通讯。</p>
+<p>在主进程中使用BrowserWindow时，添加WebPreferences</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// main.js</span></span><br><span class="line"><span class="keyword">const</span> mainViwndo = <span class="keyword">new</span> BrowserWindow(&#123;</span><br><span class="line">    webPreferences: &#123;</span><br><span class="line">        webSecurity: <span class="literal">false</span>,</span><br><span class="line">        nodeIntegration: <span class="literal">true</span>,</span><br><span class="line">        preload: path.join(__dirname, <span class="string">'preload.js'</span>),</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>当我们启动electron的时候，主进程开始通知这个渲染进程，给渲染进程注入主进程的环境变量，再有渲染进程挂载到window对象上，这样web就能获取自己的环境信息</p>
+<p>然后在preload.js里面</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//preload.js</span></span><br><span class="line"><span class="built_in">window</span>._ipcRenderer = <span class="built_in">require</span>(<span class="string">'electron'</span>).ipcRenderer;</span><br><span class="line"><span class="built_in">window</span>._remote = <span class="built_in">require</span>(<span class="string">'electron'</span>).remote;</span><br><span class="line"><span class="built_in">window</span>._platform = process.platform;</span><br><span class="line"><span class="keyword">const</span> &#123;ipcRenderer&#125; = <span class="built_in">require</span>(<span class="string">'electron'</span>);</span><br><span class="line"> </span><br><span class="line"><span class="comment">//监听主进程，设置环境变量</span></span><br><span class="line">ipcRenderer.on(<span class="string">'set-env'</span>, (event, msg) =&gt; &#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">const</span> key <span class="keyword">in</span> msg) &#123;</span><br><span class="line">    <span class="built_in">window</span>[key] = msg[key];</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>在main.js中获取创建好的环境变量并发送信息</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">//main.js</span></span><br><span class="line"><span class="keyword">const</span> &#123;BrowserWindow, ipcMain&#125; = <span class="built_in">require</span>(<span class="string">'electron'</span>);</span><br><span class="line"> </span><br><span class="line"><span class="keyword">const</span> win = <span class="keyword">new</span> BrowserWindow(&#123;...&#125;);</span><br><span class="line"> </span><br><span class="line"><span class="comment">//获取创建好的window对象发送消息</span></span><br><span class="line">win.webContents.on(<span class="string">'did-finish-load'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  win.webContents.send(<span class="string">'set-env'</span>, &#123; <span class="comment">//设置web环境变量</span></span><br><span class="line">    __ELECTRON__: <span class="literal">true</span>,</span><br><span class="line">    __DEV__: <span class="literal">true</span>,</span><br><span class="line">    __PRO__: <span class="literal">false</span>,</span><br><span class="line">    __SERVER__: <span class="literal">false</span>,</span><br><span class="line">    windowLoaded: <span class="literal">true</span></span><br><span class="line">  &#125;);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>在web端就可以调用bridge.js暴露出来的事件，实现electron代码(业务代码)和前端代码分开</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ../web/index.js</span></span><br><span class="line"> </span><br><span class="line">$btn1.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (__ELECTRON__ &amp;&amp; ElectronBridge) &#123; <span class="comment">//electron 环境</span></span><br><span class="line">    ElectronBridge.setFullScreen(<span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (err) <span class="keyword">return</span>;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">'done'</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123; <span class="comment">//web 环境</span></span><br><span class="line">    alert(<span class="string">'不能设置全屏'</span>)</span><br><span class="line">    <span class="comment">//do something else</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>bridge.js能自己处理渲染进程的事件，也能通过调用主进程事件处理主进程才能完成的事件</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//处理渲染进程事件</span></span><br><span class="line"><span class="comment">//bridge.js</span></span><br><span class="line"><span class="keyword">const</span> &#123;webFrame&#125; = <span class="built_in">require</span>(<span class="string">'electron'</span>);</span><br><span class="line"><span class="comment">//设置缩放比，只能在渲染进程中实现</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">setZoomFactor</span>(<span class="params">params, cb</span>) </span>&#123;</span><br><span class="line">  webFrame.setZoomFactor(params);</span><br><span class="line">  cb &amp;&amp; cb();</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="built_in">window</span>.ElectronBridge = &#123;</span><br><span class="line">  setZoomFactor</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>调用主进程事件：</p>
+<p>我们通过ipcRender给主进程发送一系列消息，包括做什么事情(eventName), 根据哪些参数（params），对外根据不同的事件暴露不同的方法，接受参数，和回调函数。</p>
+<ul>
+<li>先将回调函数放在 eventsMap上暂存起来，因为ipcRender不能发送函数，所有的信息会被序列化后再发送给主进程，所以，我们先生成一个时间戳，让 eventsMap[时间戳] = cb 并把时间戳一同发送过去，等一会儿，主进程通知渲染进程调用哪个时间戳函数</li>
+<li>通过’resist-event’频道, 发送参数，包括 eventName、params、timeStamp</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//bridge.js</span></span><br><span class="line"><span class="keyword">const</span> &#123;ipcRenderer&#125; = <span class="built_in">require</span>(<span class="string">'electron'</span>);</span><br><span class="line"> </span><br><span class="line"><span class="keyword">const</span> eventsMap = &#123;&#125;;</span><br><span class="line"> </span><br><span class="line"><span class="comment">//调用原生事件</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">registEvent</span>(<span class="params">eventName, params, cb</span>) </span>&#123;</span><br><span class="line">  <span class="comment">//允许只传两个数据</span></span><br><span class="line">  <span class="keyword">if</span> (!cb) &#123;</span><br><span class="line">    cb = params;</span><br><span class="line">    params = &#123;&#125;;</span><br><span class="line">  &#125;</span><br><span class="line"> </span><br><span class="line">  <span class="comment">//如果win还未ready</span></span><br><span class="line">  <span class="keyword">if</span> (!windowLoaded) &#123;</span><br><span class="line">    cb(<span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'window not ready'</span>));</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line"> </span><br><span class="line">  <span class="keyword">const</span> stamp = <span class="built_in">String</span>(<span class="keyword">new</span> <span class="built_in">Date</span>().getTime());</span><br><span class="line">  <span class="keyword">const</span> opts = <span class="built_in">Object</span>.assign(&#123;eventName&#125;, params, &#123;stamp&#125;);</span><br><span class="line">  eventsMap[stamp] = cb; <span class="comment">//注册唯一函数</span></span><br><span class="line">  ipcRenderer.send(<span class="string">'regist-event'</span>, opts); <span class="comment">//发送事件</span></span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="comment">//进入全屏</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">setFullScreen</span>(<span class="params">cb</span>) </span>&#123;</span><br><span class="line">  registEvent(SET_FULL_SCREEN, cb);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">window</span>.ElectronBridge = &#123;</span><br><span class="line">  setFullScreen</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>主进程监听‘resist-event’频道，做对应的事。我们会将所有主进程能做的事，放在eventsList对象下，当接受到渲染进程的通知，去eventsList找有没有对应的事能做，有，做完通过promise，或者通过回调函数，去在‘fire-event’频道通知，渲染进程，事情已经做完，并把数据传回去，包括 stamp(之前渲染进程传过来的，现在传回去，告诉渲染进程执行哪个回调函数) 、 payload(返回数据) 、err (错误信息)</p>
+<p>在渲染进程再监听‘fire-event’执行对应时间戳回调函数，并把主进程传过来的数据传给回调函数。触发完成后，删掉该回调函数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//bridge.js</span></span><br><span class="line"><span class="comment">//触发事件回调</span></span><br><span class="line">ipcRenderer.on(<span class="string">'fire-event'</span>, (event, arg) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> cb = eventsMap[arg.stamp];</span><br><span class="line">  <span class="keyword">if</span> (cb) &#123;</span><br><span class="line">    <span class="keyword">if</span> (arg.err) &#123;</span><br><span class="line">      cb(arg.err, arg.payload);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      cb(<span class="literal">false</span>, arg.payload);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">delete</span> eventsMap[arg.stamp];</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+
+
+<p>这样代码就可以同时跑在浏览器端和electron</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// electron-client.js</span></span><br><span class="line"><span class="keyword">const</span> _rpc = <span class="built_in">window</span>._ipcRenderer;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">minWindow</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    _rpc &amp;&amp; _rpc.send(<span class="string">'minWindow'</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">maxWindow</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    _rpc &amp;&amp; _rpc.send(<span class="string">'maxWindow'</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">closeWindow</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    _rpc &amp;&amp; _rpc.send(<span class="string">'closeWindow'</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">unMaxWindow</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    _rpc &amp;&amp;  _rpc.send(<span class="string">'unMaxWindow'</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="混合架构"><a href="#混合架构" class="headerlink" title="混合架构"></a>混合架构</h2><p>业务下沉：将通用的、核心的业务下沉。例如消息处理、语音/视频、会议、数据存储等核心模块, 核心协议是 XMPP、SIP。这些模块变动频率较低、对性能要求也比较高，而且有跨平台需求，因此适合用 C/C++ 来实现。</p>
+<p>UI混合：视图层混合化目前也有较多的解决方案，例如 Electron、React Native、Flutter、或者是 HTML Hybrid。我们选择先从 Electron 开始，因为它在桌面端开发中已经有非常成熟的表现，市场上也有很多大型的 Electron 应用，例如 VSCode、Atom、Slack。在移动端，我们对 React Native 和 Flutter 还比较保守，后续可能会进行尝试。</p>
+<p>对应的MVC架构：</p>
+<p>M：通用混合层，C/C++ 封装核心、通用的业务模块以及业务数据存储。</p>
+<p>V：UI层，视图层，使用跨平台视图解决方案，对于性能要求较高的部分使用原生实现。比如 Electron</p>
+<p>C：<strong>平台桥接层</strong>。介于 M 和 V 之间，桥接<code>通用混合层</code>接口，同时也为 UI 层暴露一些<strong>平台相关</strong>的特性。比如在桌面端，这里会通过 Node 原生模块桥接通用混合层, 同时也补充一些 Electron 缺失或不完美的功能。</p>
 <h2 id="CEF"><a href="#CEF" class="headerlink" title="CEF"></a>CEF</h2><p>Chromium Embedded Framework (CEF)是个基于Google Chromium项目的开源Web browser控件（俗称谷歌亲儿子），支持Windows, Linux, Mac平台， 其包含C/C++程序接口，能够完美的与C++库集成，完善的支持Html5 Web页面开发，并且可以通过修改编译选项和源代码后编译的方式来实现剪裁CEF和提供原CEF没有的功能，定制自己的窗口类型。</p>
 <p>优点：</p>
 <p>•CEF可以通过编译和修改源代码的方式来定制</p>
@@ -347,7 +406,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            107
+                            111
                         </p>
                     </a>
                 </div>
@@ -433,12 +492,20 @@
                     目录
                 </h3>
                 <ul class="menu-list"><li>
-        <a class="is-flex" href="#扩展能力">
+        <a class="is-flex" href="#Node扩展能力">
         <span class="has-mr-6">1</span>
-        <span>扩展能力</span>
+        <span>Node扩展能力</span>
+        </a></li><li>
+        <a class="is-flex" href="#js-brige">
+        <span class="has-mr-6">2</span>
+        <span>js-brige</span>
+        </a></li><li>
+        <a class="is-flex" href="#混合架构">
+        <span class="has-mr-6">3</span>
+        <span>混合架构</span>
         </a></li><li>
         <a class="is-flex" href="#CEF">
-        <span class="has-mr-6">2</span>
+        <span class="has-mr-6">4</span>
         <span>CEF</span>
         </a></li></ul>
             </div>
@@ -496,7 +563,7 @@
                 <span class="level-item">IT</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">36</span>
+                <span class="level-item tag">38</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E4%B8%AA%E4%BA%BA%E5%B9%B8%E7%A6%8F/">
@@ -512,7 +579,7 @@
                 <span class="level-item">个人生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">25</span>
+                <span class="level-item tag">27</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">
@@ -557,7 +624,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/IT/" style="font-size: 10px;">IT</a> <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 11.67px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 11.67px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8C/" style="font-size: 15px;">IT,Web，</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 11.67px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 13.33px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 11.67px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 11.67px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb/" style="font-size: 15px;">IT，Web</a> <a href="/tags/IT%EF%BC%8CWeb-Javascript/" style="font-size: 10px;">IT，Web,Javascript</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 16.67px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 13.33px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Rust/" style="font-size: 10px;">IT，Web,Rust</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 13.33px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 15px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 11.67px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 10px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 11.67px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 16.67px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 13.33px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 13.33px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">幸福</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 13.33px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/" style="font-size: 13.33px;">技术，IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 11.67px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 11.67px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 11.67px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 18.33px;">生活、幸福</a> <a href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">记录，生活</a>
+        <a href="/tags/IT/" style="font-size: 10px;">IT</a> <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 12px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 12px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8C/" style="font-size: 16px;">IT,Web，</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 12px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 14px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 12px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 12px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb/" style="font-size: 16px;">IT，Web</a> <a href="/tags/IT%EF%BC%8CWeb-Javascript/" style="font-size: 10px;">IT，Web,Javascript</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 18px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 16px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Rust/" style="font-size: 10px;">IT，Web,Rust</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 14px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 16px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 12px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 10px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 12px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 18px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 14px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 14px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">幸福</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 14px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/" style="font-size: 14px;">技术，IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 12px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 12px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 12px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 20px;">生活、幸福</a> <a href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">记录，生活</a>
     </div>
 </div>
     
@@ -584,6 +651,25 @@
                     <a href="/2021/03/20/%E6%B7%B1%E5%A4%9C%E9%A2%98%E8%AE%B0(%E4%B8%80)/" class="title has-link-black-ter is-size-6 has-text-weight-normal">深夜题记(一)：我也想成为一个温柔的人啊</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">个人生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2021/03/20/%E6%9D%AD%E5%B7%9E%E5%8D%B0%E8%B1%A1(%E4%B8%80)/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="杭州印象(一)">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-03-20T13:40:33.000Z">2021-03-20</time></div>
+                    <a href="/2021/03/20/%E6%9D%AD%E5%B7%9E%E5%8D%B0%E8%B1%A1(%E4%B8%80)/" class="title has-link-black-ter is-size-6 has-text-weight-normal">杭州印象(一)</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">技术博客</a>
                     </p>
                 </div>
             </div>
@@ -629,37 +715,18 @@
         
         <article class="media">
             
-            <a href="/2021/01/23/Node9/" class="media-left">
+            <a href="/2021/02/02/2021%E6%96%B0%E5%B9%B4%E6%80%BB%E7%BB%93/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/nestjs.png" alt="NodeJs开发（五）">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="2021新年总结">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-23T13:40:33.000Z">2021-01-23</time></div>
-                    <a href="/2021/01/23/Node9/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（五）</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-02-02T13:40:33.000Z">2021-02-02</time></div>
+                    <a href="/2021/02/02/2021%E6%96%B0%E5%B9%B4%E6%80%BB%E7%BB%93/" class="title has-link-black-ter is-size-6 has-text-weight-normal">2021新年总结</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/IT/">IT</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2021/01/22/Node8/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="http://cdn.kunkunzhang.top/koajs.jpeg" alt="NodeJs开发（四）">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-22T14:41:33.000Z">2021-01-22</time></div>
-                    <a href="/2021/01/22/Node8/" class="title has-link-black-ter is-size-6 has-text-weight-normal">NodeJs开发（四）</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/IT/">IT</a>
+                        <a class="has-link-grey -link" href="/categories/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/">个人生活</a>
                     </p>
                 </div>
             </div>
@@ -682,7 +749,7 @@
                     <span class="level-item">三月 2021</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">2</span>
+                    <span class="level-item tag">3</span>
                 </span>
             </a>
         </li>
@@ -693,7 +760,7 @@
                     <span class="level-item">二月 2021</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">1</span>
+                    <span class="level-item tag">2</span>
                 </span>
             </a>
         </li>
@@ -704,7 +771,7 @@
                     <span class="level-item">一月 2021</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">9</span>
+                    <span class="level-item tag">10</span>
                 </span>
             </a>
         </li>
@@ -770,7 +837,7 @@
                     <span class="level-item">六月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">19</span>
+                    <span class="level-item tag">20</span>
                 </span>
             </a>
         </li>
@@ -975,14 +1042,14 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Node/">
                         <span class="tag">IT，Web,Node</span>
-                        <span class="tag is-grey">5</span>
+                        <span class="tag is-grey">6</span>
                     </a>
                 </div>
                 
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/">
                         <span class="tag">IT，Web,Node，React</span>
-                        <span class="tag is-grey">3</span>
+                        <span class="tag is-grey">4</span>
                     </a>
                 </div>
                 
@@ -1059,7 +1126,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/">
                         <span class="tag">个人生活，幸福</span>
-                        <span class="tag is-grey">5</span>
+                        <span class="tag is-grey">6</span>
                     </a>
                 </div>
                 
@@ -1157,7 +1224,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/">
                         <span class="tag">生活、幸福</span>
-                        <span class="tag is-grey">6</span>
+                        <span class="tag is-grey">7</span>
                     </a>
                 </div>
                 
