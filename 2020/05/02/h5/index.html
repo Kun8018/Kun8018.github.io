@@ -19,7 +19,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://kun8018.gitee.io/images/og_image.png">
 <meta property="article:published_time" content="2020-05-02T13:40:33.000Z">
-<meta property="article:modified_time" content="2021-04-28T00:29:50.909Z">
+<meta property="article:modified_time" content="2021-05-05T08:48:07.373Z">
 <meta property="article:author" content="Kun Zhang">
 <meta property="article:tag" content="IT、小程序、H5App">
 <meta name="twitter:card" content="summary">
@@ -152,7 +152,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    1 小时 读完 (大约 9381 个字)
+                    1 小时 读完 (大约 7481 个字)
                 </span>
                 
                 
@@ -177,6 +177,49 @@
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;video controls src=<span class="string">"./assets/demo.mp4"</span> width=<span class="string">"400"</span> height=<span class="string">"300"</span> id=<span class="string">"video"</span>&gt;</span><br><span class="line">      Sorry, your browser doesn<span class="string">'t support embedded videos.</span></span><br><span class="line"><span class="string">    &lt;/video&gt;</span></span><br><span class="line"><span class="string">    &lt;button onclick="screenShot()"&gt;Screenshot&lt;/button&gt;</span></span><br><span class="line"><span class="string">    &lt;script&gt;</span></span><br><span class="line"><span class="string">      function screenShot() &#123;</span></span><br><span class="line"><span class="string">        const video = document.getElementById('</span>video<span class="string">');</span></span><br><span class="line"><span class="string">        const canvas = document.createElement('</span>canvas<span class="string">');</span></span><br><span class="line"><span class="string">        const ctx = canvas.getContext('</span><span class="number">2</span>d<span class="string">');</span></span><br><span class="line"><span class="string">        canvas.width = video.videoWidth;</span></span><br><span class="line"><span class="string">        canvas.height = video.videoHeight;</span></span><br><span class="line"><span class="string">        ctx.drawImage(video, 0, 0);</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        // download picture</span></span><br><span class="line"><span class="string">        const a = document.createElement('</span>a<span class="string">');</span></span><br><span class="line"><span class="string">        a.href = canvas.toDataURL('</span>image/png<span class="string">');</span></span><br><span class="line"><span class="string">        a.download = `$&#123;Date.now()&#125;`;</span></span><br><span class="line"><span class="string">        a.click();</span></span><br><span class="line"><span class="string">      &#125;</span></span><br><span class="line"><span class="string">    &lt;/script&gt;</span></span><br></pre></td></tr></table></figure>
 
 <p><a href="http://www.html5plus.org/doc">http://www.html5plus.org/doc</a></p>
+<h3 id="判断是否是微信浏览器"><a href="#判断是否是微信浏览器" class="headerlink" title="判断是否是微信浏览器"></a>判断是否是微信浏览器</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//判断是否微信登陆</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">isWeiXin</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> ua = <span class="built_in">window</span>.navigator.userAgent.toLowerCase();</span><br><span class="line">        <span class="built_in">console</span>.log(ua);<span class="comment">//mozilla/5.0 (iphone; cpu iphone os 9_1 like mac os x) applewebkit/601.1.46 (khtml, like gecko)version/9.0 mobile/13b143 safari/601.1</span></span><br><span class="line">        <span class="keyword">if</span> (ua.match(<span class="regexp">/MicroMessenger/i</span>) == <span class="string">'micromessenger'</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (isWeiXin()) &#123;</span><br><span class="line">        alert(<span class="string">" 是来自微信内置浏览器"</span>)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        alert(<span class="string">"不是来自微信内置浏览器"</span>)</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="h5打开电话号码、邮件应用"><a href="#h5打开电话号码、邮件应用" class="headerlink" title="h5打开电话号码、邮件应用"></a>h5打开电话号码、邮件应用</h3><p>通过设置html标签就可以打开</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"tel:150****2223"</span> /&gt;</span>手机号码<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"mailto:***@***.com"</span> /&gt;</span>send email<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>或者通过form表单提交,还可以默认显示邮件标题和内容</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"mailto:**@**.com"</span> <span class="attr">entype</span>=<span class="string">"text/plain"</span>&gt;</span> </span><br><span class="line">   <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">input</span> <span class="attr">name</span> = <span class="string">"subject"</span> <span class="attr">value</span>=<span class="string">"C++研发"</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"投递简历"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>微信内置浏览器由于安全问题，在微信内部打开邮件app之后地址栏是空白，可以选择外部浏览器打开页面</p>
+<h3 id="h5多行文本截断"><a href="#h5多行文本截断" class="headerlink" title="h5多行文本截断"></a>h5多行文本截断</h3><p><a href="Https://zoo.team/article/text-overflow">Https://zoo.team/article/text-overflow</a></p>
+<p>普通的单行文本截断（只支持单行文本截断）</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.demo</span> &#123;</span><br><span class="line">   <span class="attribute">overflow</span>:hidden;</span><br><span class="line">   <span class="attribute">white-space</span>:nowrap;</span><br><span class="line">   <span class="attribute">text-overflow</span>:ellipsis;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>对于移动端，可以使用webkit特有的显示方式，因为移动端设备大多是基于webkit的内核，只有opera mini和ie不是</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.demo</span> &#123;</span><br><span class="line">  <span class="attribute">-webkit-line-clamp</span>:<span class="number">2</span>;<span class="comment">/*用来限制一个块元素显示的文本行数，2表示最多显示2行，还需要组合其他webkit属性*/</span></span><br><span class="line">  <span class="attribute">display</span>:-webkit-box;<span class="comment">/*和第一行结合使用，将对象作为弹性伸缩盒子模型显示*/</span></span><br><span class="line">  <span class="attribute">-webkit-box-orient</span>:vertical; <span class="comment">/*和第一行结合使用，设置或检索伸缩盒对象的子元素的排列方式*/</span></span><br><span class="line">  <span class="attribute">overflow</span>:hidden;</span><br><span class="line">  <span class="attribute">text-overflow</span>:ellipsis;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>也可以设置伪元素，适用于文本一定会超出范围的情况</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.demo</span> &#123;</span><br><span class="line">  <span class="attribute">position</span>:relative;</span><br><span class="line">  <span class="attribute">line-height</span>:<span class="number">20px</span>;</span><br><span class="line">  <span class="attribute">height</span>:<span class="number">40px</span>;</span><br><span class="line">  <span class="attribute">overflow</span>:hidden;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*设置伪元素的内容和样式*/</span></span><br><span class="line"><span class="selector-class">.demo</span><span class="selector-pseudo">::after</span> &#123;</span><br><span class="line">  <span class="attribute">content</span>:<span class="string">"..."</span>;</span><br><span class="line">  <span class="attribute">position</span>:absolute;</span><br><span class="line">  <span class="attribute">bottom</span>:<span class="number">0</span>;</span><br><span class="line">  <span class="attribute">right</span>:<span class="number">0</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="h5抽屉原生实现"><a href="#h5抽屉原生实现" class="headerlink" title="h5抽屉原生实现"></a>h5抽屉原生实现</h3><p>顶部抽屉导航栏</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"root"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"box"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"btn-box"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">"btn"</span> <span class="attr">class</span>=<span class="string">"btn"</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"content-box"</span> <span class="attr">class</span>=<span class="string">"content-box"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">"content-ul"</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"content-li active"</span>&gt;</span>首页<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"content-li"</span>&gt;</span>文章<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"content-li"</span>&gt;</span>归档<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript"><span class="keyword">let</span> btn = <span class="built_in">document</span>.getElementById(<span class="string">"btn"</span>);</span></span><br><span class="line"><span class="javascript"><span class="keyword">let</span> nav = <span class="built_in">document</span>.getElementById(<span class="string">"content-box"</span>);</span></span><br><span class="line"><span class="javascript"><span class="keyword">let</span> contentLi = <span class="built_in">document</span>.getElementsByClassName(<span class="string">"content-li"</span>);</span></span><br><span class="line"></span><br><span class="line"><span class="javascript"><span class="keyword">let</span> hide = <span class="literal">true</span>;</span></span><br><span class="line"><span class="javascript"><span class="keyword">let</span> length = contentLi.length;</span></span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> *  实现导航条抽屉式</span><br><span class="line"> */</span><br><span class="line"><span class="actionscript">btn.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> </span>&#123;</span></span><br><span class="line">    if (hide)&#123;</span><br><span class="line"><span class="actionscript">        nav.style.height = <span class="string">"200px"</span>;</span></span><br><span class="line"><span class="actionscript">        hide = <span class="literal">false</span>;</span></span><br><span class="line"><span class="actionscript">    &#125; <span class="keyword">else</span> &#123;</span></span><br><span class="line"><span class="actionscript">        nav.style.height = <span class="string">"0"</span>;</span></span><br><span class="line"><span class="actionscript">        hide = <span class="literal">true</span>;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> *  导航选中效果</span><br><span class="line"> */</span><br><span class="line"><span class="javascript"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; length; i++ )&#123;</span></span><br><span class="line"><span class="actionscript">    contentLi[i].addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> </span>&#123;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">for</span> (<span class="keyword">let</span> j = <span class="number">0</span>; j &lt; length; j++)&#123;</span></span><br><span class="line"><span class="actionscript">            contentLi[j].classList.remove(<span class="string">'active'</span>);</span></span><br><span class="line">        &#125;</span><br><span class="line"><span class="actionscript">        contentLi[i].classList.add(<span class="string">'active'</span>);</span></span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>样式</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-id">#root</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">400px</span>;</span><br><span class="line">    <span class="attribute">margin-top</span>: <span class="number">100px</span>;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#cccccc</span>;</span><br><span class="line">&#125;</span><br><span class="line">*&#123;</span><br><span class="line">    <span class="attribute">margin</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">padding</span>: <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">li</span>&#123;</span><br><span class="line">    <span class="attribute">list-style</span>: none;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.box</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">400px</span>;</span><br><span class="line">    <span class="attribute">border</span>: <span class="number">1px</span> solid <span class="number">#eeeeee</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">margin</span>: <span class="number">0</span> auto;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#ffffff</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.btn-box</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">60px</span>;</span><br><span class="line">    <span class="attribute">display</span>: flex;</span><br><span class="line">    <span class="attribute">justify-content</span>: flex-end;</span><br><span class="line">    <span class="attribute">align-items</span>: center;</span><br><span class="line">    <span class="attribute">border-bottom</span>: <span class="number">1px</span> solid <span class="number">#cccccc</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.btn</span>&#123;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">40px</span>;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">40px</span>;</span><br><span class="line">    <span class="attribute">display</span>: flex;</span><br><span class="line">    <span class="attribute">flex-direction</span>: column;</span><br><span class="line">    <span class="attribute">flex-wrap</span>: wrap;</span><br><span class="line">    <span class="attribute">justify-content</span>: space-around;</span><br><span class="line">    <span class="attribute">border</span>: none;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#ffffff</span>;</span><br><span class="line">    <span class="attribute">outline</span>: none;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.btn</span> <span class="selector-tag">span</span>&#123;</span><br><span class="line">    <span class="attribute">display</span>: inline-block;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">4px</span>;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">30px</span>;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#2b2b2b</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.content-box</span>&#123;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">border-bottom</span>: <span class="number">1px</span> solid <span class="number">#dddddd</span>;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#cccccc</span>;</span><br><span class="line">    <span class="attribute">overflow</span>: hidden;  <span class="comment">/* 让子元素不能撑开父元素 */</span></span><br><span class="line">    <span class="attribute">transition</span>:height ease-out .<span class="number">3s</span>;</span><br><span class="line">    <span class="attribute">-webkit-transition</span>:height ease-out .<span class="number">3s</span>; <span class="comment">/* Safari */</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.content-li</span>&#123;</span><br><span class="line">    <span class="attribute">padding</span>: <span class="number">5px</span> <span class="number">10px</span>;</span><br><span class="line">    <span class="attribute">margin-bottom</span>: <span class="number">20px</span>;</span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">20px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.active</span>&#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#ffffff</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>侧边抽屉–主体不移动</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"main"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"open"</span>&gt;</span>打开<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"left"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"mask"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">  <span class="keyword">var</span> open = <span class="built_in">document</span>.getElementById(<span class="string">"open"</span>);</span></span><br><span class="line"><span class="javascript">  <span class="keyword">var</span> left = <span class="built_in">document</span>.querySelector(<span class="string">".left"</span>);</span></span><br><span class="line"><span class="javascript">  <span class="keyword">var</span> mask = <span class="built_in">document</span>.querySelector(<span class="string">".mask"</span>);</span></span><br><span class="line"><span class="actionscript">  open.onclick = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>&#123;</span></span><br><span class="line"><span class="actionscript">    left.className += <span class="string">" left-open"</span>;</span></span><br><span class="line"><span class="actionscript">    mask.style.display = <span class="string">"block"</span>;</span></span><br><span class="line">  &#125;</span><br><span class="line"><span class="actionscript">  mask.onclick = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>&#123;</span></span><br><span class="line"><span class="actionscript">      left.className += <span class="string">"left"</span>;</span></span><br><span class="line"><span class="actionscript">      mask.style.display = <span class="string">"none"</span>;</span></span><br><span class="line">  &#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>样式</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">body</span>,<span class="selector-tag">html</span>&#123;</span><br><span class="line">  <span class="attribute">height</span>:<span class="number">100%</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.main</span>&#123;</span><br><span class="line">  <span class="attribute">position</span>:relative;</span><br><span class="line">  <span class="attribute">width</span>:<span class="number">100%</span>;</span><br><span class="line">  <span class="attribute">height</span>:<span class="number">100%</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.left</span>&#123;</span><br><span class="line">  <span class="attribute">position</span>:absolute;</span><br><span class="line">  <span class="attribute">width</span>:<span class="number">260px</span>;</span><br><span class="line">  <span class="attribute">height</span>:<span class="number">100%</span>;</span><br><span class="line">  <span class="attribute">left</span>:-<span class="number">300px</span>;</span><br><span class="line">  <span class="attribute">background</span>:skyblue;</span><br><span class="line">  <span class="attribute">z-index</span>:<span class="number">1000</span>;  </span><br><span class="line">  <span class="attribute">box-shadow</span>:<span class="number">5px</span> <span class="number">0px</span> <span class="number">10px</span> <span class="built_in">rgba</span>(<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,.<span class="number">2</span>);</span><br><span class="line">  <span class="attribute">transition</span>:all <span class="number">0.3s</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.left</span><span class="selector-class">.left-open</span>&#123;</span><br><span class="line">  <span class="attribute">left</span>:<span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.mask</span>&#123;</span><br><span class="line">  <span class="attribute">display</span>:none;</span><br><span class="line">  <span class="attribute">position</span>:absolute;</span><br><span class="line">  <span class="attribute">height</span>:<span class="number">100%</span>;</span><br><span class="line">  <span class="attribute">width</span>:<span class="number">100%</span>;</span><br><span class="line">  <span class="attribute">background</span>:<span class="built_in">rgba</span>(<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,.<span class="number">5</span>);</span><br><span class="line">  <span class="attribute">z-index</span>:<span class="number">500</span>;  </span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-id">#open</span>&#123;</span><br><span class="line">  <span class="attribute">position</span>:absolute;</span><br><span class="line">  <span class="attribute">top</span>:<span class="number">10px</span>;</span><br><span class="line">  <span class="attribute">left</span>:<span class="number">10px</span>;</span><br><span class="line">  <span class="attribute">padding</span>:<span class="number">10px</span>;</span><br><span class="line">  <span class="attribute">background</span>:skyblue;</span><br><span class="line">  <span class="attribute">cursor</span>:pointer;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>侧边抽屉–主体移动</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"all"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"drawer"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"main"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"nav"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"open"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"content"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"mask"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">  <span class="keyword">var</span> drawer = <span class="built_in">document</span>.getElementById(<span class="string">"drawer"</span>);</span></span><br><span class="line"><span class="javascript">  <span class="keyword">var</span> main = <span class="built_in">document</span>.getElementById(<span class="string">"main"</span>);</span></span><br><span class="line"><span class="javascript">  <span class="keyword">var</span> mask = <span class="built_in">document</span>.getElementById(<span class="string">"mask"</span>);</span></span><br><span class="line"><span class="javascript">  <span class="built_in">document</span>.getElementById(<span class="string">"open"</span>).onclick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span></span><br><span class="line">    drawer.style.left = 0; </span><br><span class="line"><span class="actionscript">    main.style.left = <span class="number">200</span> + <span class="string">"px"</span>; </span></span><br><span class="line"><span class="actionscript">    mask.style.display = <span class="string">"block"</span>;</span></span><br><span class="line">  &#125;</span><br><span class="line"><span class="actionscript">  mask.onclick = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>&#123;</span></span><br><span class="line"><span class="actionscript">    drawer.style.left = <span class="number">-200</span> + <span class="string">"px"</span>; </span></span><br><span class="line">    main.style.left = 0; </span><br><span class="line"><span class="actionscript">    mask.style.display = <span class="string">"none"</span>;</span></span><br><span class="line">  &#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>样式</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-id">#all</span>&#123;</span><br><span class="line">  <span class="attribute">position</span>:absolute;</span><br><span class="line">  <span class="attribute">top</span>:<span class="number">50%</span>;</span><br><span class="line">  <span class="attribute">left</span>:<span class="number">50%</span>;</span><br><span class="line">  <span class="attribute">transform</span>:<span class="built_in">translate</span>(-<span class="number">50%</span>,-<span class="number">50%</span>);</span><br><span class="line">  <span class="attribute">background</span>:<span class="number">#ddd</span>;</span><br><span class="line">  <span class="attribute">width</span>:<span class="number">300px</span>;</span><br><span class="line">  <span class="attribute">height</span>:<span class="number">500px</span>;</span><br><span class="line">  <span class="attribute">overflow</span>:hidden;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-id">#drawer</span>&#123;</span><br><span class="line">  <span class="attribute">position</span>:absolute;</span><br><span class="line">  <span class="attribute">width</span>:<span class="number">200px</span>;</span><br><span class="line">  <span class="attribute">height</span>:<span class="number">500px</span>;</span><br><span class="line">  <span class="attribute">background</span>:skyblue;</span><br><span class="line">  <span class="attribute">top</span>:<span class="number">0</span>;</span><br><span class="line">  <span class="attribute">left</span>:-<span class="number">200px</span>;</span><br><span class="line">  <span class="attribute">transition</span>:all <span class="number">0.5s</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-id">#main</span>&#123;</span><br><span class="line">  <span class="attribute">position</span>:absolute;</span><br><span class="line">  <span class="attribute">width</span>:<span class="number">300px</span>;</span><br><span class="line">  <span class="attribute">height</span>:<span class="number">500px</span>;</span><br><span class="line">  <span class="attribute">background</span>:tomato;</span><br><span class="line">  <span class="attribute">top</span>:<span class="number">0</span>;</span><br><span class="line">  <span class="attribute">left</span>:<span class="number">0</span>;</span><br><span class="line">  <span class="attribute">transition</span>:all <span class="number">0.5s</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-id">#nav</span>&#123;</span><br><span class="line">  <span class="attribute">height</span>:<span class="number">50px</span>;</span><br><span class="line">  <span class="attribute">background</span>:yellow;</span><br><span class="line">  <span class="attribute">position</span>:relative;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-id">#open</span>&#123;</span><br><span class="line">  <span class="attribute">background</span>:tomato;</span><br><span class="line">  <span class="attribute">width</span>:<span class="number">35px</span>;</span><br><span class="line">  <span class="attribute">height</span>:<span class="number">35px</span>;</span><br><span class="line">  <span class="attribute">position</span>:absolute;</span><br><span class="line">  <span class="attribute">top</span>:<span class="number">50%</span>;</span><br><span class="line">  <span class="attribute">left</span>:<span class="number">10px</span>;</span><br><span class="line">  <span class="attribute">transform</span>:<span class="built_in">translate</span>(<span class="number">0</span>,-<span class="number">50%</span>);</span><br><span class="line">  <span class="attribute">cursor</span>:pointer;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-id">#mask</span>&#123;</span><br><span class="line">  <span class="attribute">display</span>:none;</span><br><span class="line">  <span class="attribute">position</span>:absolute;</span><br><span class="line">  <span class="attribute">width</span>:<span class="number">300px</span>;</span><br><span class="line">  <span class="attribute">height</span>:<span class="number">500px</span>;</span><br><span class="line">  <span class="attribute">top</span>:<span class="number">0</span>;</span><br><span class="line">  <span class="attribute">background</span>:<span class="built_in">rgba</span>(<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,.<span class="number">5</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h2 id="jsbridge"><a href="#jsbridge" class="headerlink" title="jsbridge"></a>jsbridge</h2><p><a href="https://www.zoo.team/article/jsbridge">https://www.zoo.team/article/jsbridge</a></p>
 <p>jsbridge<strong>就是JavaScript(H5)与Native通信的桥梁</strong>，在H5开发中经常有操作客户端的需求，比如获取App信息，打开/关闭一个WebView，吊起支付面板等等，但这些功能只能在Native中实现，因此诞生JSBridge，通过JSBridge与Native通信，赋予了JavaScript操作Native的能力，同时也给了Native调用JavaScript的能力。</p>
 <p>在大多数APP开发过程中，都会通过H5来实现部分功能，而Hybird APP基本90%以上都是H5。现在很少有纯原生的APP。但是，由于H5页面是内嵌到原生应用的WebView组件（一个浏览器内核）中，而手机浏览器Javascript引擎是在一个沙箱环境中运行，因此JavaScript的权限受到严格限制，比如没有本地文件读写权限、不能使用GPS、不能修改系统配置等。所以，如果JavaScript要用到这些受限的能力时，就需要委托原生去实现，原生完成后，再将结果通知JavaScript，因此，JavaScript和原生之间就需要一个通信的桥梁，而这个桥梁本质上就是原生的浏览器组件（我们统一称之为WebView）与Javascript 通信的通道，一般称为 WebView JavaScript Bridge, 为了简单，一般简称为 JS bridge。需要说明的是，原生不仅仅指移动端（Android、IOS）上原生代码开发的部分，它也可以是Windows、MAC上的，所以原生一词主要是为了区分H5，而本文只讨论移动端的Js Bridge 。</p>
@@ -255,152 +298,94 @@
 <p>render线程</p>
 <p>上面代码是 wxml 语法写的一个小程序界面，worker 线程中的内存 dom tree 可以和 wxml 里的节点一一对应，只需要把 dom tree 通过递归迭代映射到 wxml 的节点。</p>
 <p>kbone 定义了一个 [Element 自定义组件]，用于渲染 dom tree 上的每个节点和他的孩子节点。<br>Element 节点做的事情比较简单，首先是把自己渲染出来，然后再把子节点渲染出来，同时子节点的子节点又通过 Element 来渲染，这样就通过自定义组件实现了递归功能，这是 wxml 自定义组件提供的自引用特性，每个节点通过 dom 节点的 type 来区分，从而把一棵内存 dom tree 通过 wxml 渲染出来了。</p>
+<p>Kbone提供运行时的兼容方案. 通过伪造的 window document 闭包运行将 jsx vue 文件的运行结果转成虚拟 dom 树的方式, 再通过自定义组件的方式(合并节点组层), 最后渲染到小程序中. 本质上是一种 view = f(state) 的方式.</p>
+<p>这种方式保持了 web 的开发习惯, 能兼容多种框架. 只需要有对应的 render 就可以做到兼容其他小程序. 但是也存在一定的上限, 也就是页面节点数越多, 则带来的计算虚拟节点的消耗也越来越大.</p>
+<p>理论上通过 BOM/DOM 的模拟伪造, 可以达到运行时完全兼容. 之后主要精力则放在了设备 APIS 的差异化上.</p>
+<p>同时由于闭包实现的机制 页面间的数据共享等方案需要特殊对待 <a href="https://github.com/Tencent/kbone/issues/71">https://github.com/Tencent/kbone/issues/71</a> 中讨论的问题.</p>
+<p>微信小程序团队出品, 平台也有一定的支持, miniprogram-element miniprogram-render 不会计算到小程序的包大小中.</p>
+<blockquote>
+<p>同时也带来了额外问题, 如果有个性化修改, 同样也得不到内置的支持. 可能不会继续支持其他平台.</p>
+</blockquote>
 <p>Remax</p>
 <p>Remax 是通过 react 来写小程序，整个小程序是运行在 worker 线程，remax 实现了一套自定义的 renderer，原理是在 worker 线程维护了一套 vdom tree，这个 vdom tree 会通过小程序提供的 setData 方法传到 render 线程，render 线程则把 vdom tree 递归的遍历出来。</p>
 <p>所以整体实现和 kbone 类似，都是在 worker 线程维护一棵 dom tree，再把这棵 dom tree 传到 render 线程进行渲染，唯一的区别是 remax dom tree 发生变化时，会计算差异，而不需要把整棵树都传到 render 线程，此功能是 react 提供的，就是在 diff 完后找出差异，则把差异传到 render 线程，</p>
 <p>差异里面记录好了是哪个节点要进行删除或添加，其中 path 变量标识是树上的哪个节点，如 root.children.0.children.1，他代表的意思就是顶节点下第 0 个孩子节点下的第 1 个孩子节点。</p>
 <p>render 线程会记录一棵 vdom tree 在内存中，每次 worker 线程传过来的 patch 会标识要操作树上的哪些节点，把这些节点 patch 到 render 线程的 vdom tree 上后，再更新到界面上。</p>
-<h2 id="VueH5"><a href="#VueH5" class="headerlink" title="VueH5"></a>VueH5</h2><h3 id="uniapp"><a href="#uniapp" class="headerlink" title="uniapp"></a>uniapp</h3><h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><p>启动uniapp项目（已安装vue-cli）</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vue create -p dcloudio/uni-preset-vue user-uni-order</span><br></pre></td></tr></table></figure>
-
-<p>目录结构</p>
-<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">┌─components      //uni-app组件目录</span><br><span class="line">│    └─comp-a.vue     //可复用的a组件</span><br><span class="line">├─common   // 通用的js&amp;css工具等</span><br><span class="line">├─hybrid    //存放本地网页的目录</span><br><span class="line">├─platforms     //存放各平台专用页面的目录</span><br><span class="line">├─pages       //业务页面文件存放的目录</span><br><span class="line">│    ├─index</span><br><span class="line">│    │   └─components   // 页级别组件</span><br><span class="line">│    │   └─vuex  // index页面vuex主要存放index的逻辑</span><br><span class="line">│    │   └─index.vue   // index页面</span><br><span class="line">├─static    //存放应用引用静态资源（如图片、视频等）</span><br><span class="line">│ ├─mp-weixin   //条件编译png</span><br><span class="line">│     │ └─a.png</span><br><span class="line">│     │ └─b.png</span><br><span class="line">├─store // 状态统一管理，将各个页面的vuex汇总</span><br><span class="line">├─service // 汇总请求，api等</span><br><span class="line">│    └─api.js // 接口api相关</span><br><span class="line">│    └─config.js // 环境配置</span><br><span class="line">│    └─index.js</span><br><span class="line">│    └─request.js // 网络请求</span><br><span class="line">├─ttcomponents // 头条小程序自定义组件存放目录 </span><br><span class="line">├─main.js      //Vue初始化入口文件</span><br><span class="line">├─App.vue      //应用配置，用来配置App全局样式以及监听 </span><br><span class="line">├─manifest.json //配置应用名称、appid、logo、版本等打包信息</span><br><span class="line">└─pages.json //配置页面路由、导航条、选项卡等页面类信息</span><br></pre></td></tr></table></figure>
-
-<h4 id="开发规范"><a href="#开发规范" class="headerlink" title="开发规范"></a>开发规范</h4><p>为了实现多端兼容，综合考虑编译速度、运行性能等因素，<code>uni-app</code> 约定了如下开发规范：</p>
-<ul>
-<li>页面文件遵循 vue单页面编写方式</li>
-<li>组件标签靠近小程序规范，(比如基本的 view、text、image)。</li>
-<li>接口能力（JS API）靠近微信小程序规范，但需将前缀 <code>wx</code> 替换为 <code>uni</code>，</li>
-<li><strong>「数据绑定及事件处理同 <code>Vue.js</code> 规范」</strong>，同时补充了App及页面的生命周期</li>
-<li>为兼容多端运行，建议使用flex布局进行开发</li>
-</ul>
-<h4 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h4><p>onLoad 监听页面加载，主要通过这个获取页面参数 <code>onLoad(option)}{}</code>，参考<a href="https://uniapp.dcloud.io/api/router?id=navigateto">示例</a>  </p>
-<p> onShow 监听页面显示。页面每次出现在屏幕上都触发，包括从下级页面点返回露出当前页面  </p>
-<p>onReady 监听页面初次渲染完成。注意如果渲染速度快，会在页面进入动画完成前触发  </p>
-<p>onHide 监听页面隐藏  </p>
-<p>onUnload 监听页面卸载</p>
-<h4 id="页面跳转"><a href="#页面跳转" class="headerlink" title="页面跳转"></a>页面跳转</h4><p>getCurrentPages() 函数用于获取当前页面栈的实例，以数组形式按栈的顺序给出，第一个元素为首页，最后一个元素为当前页面。 最好 自己打印出来 看下 所需信息  <code>const pages = getCurrentPages()</code></p>
-<p>uni.navigateTo({    url: ‘test?id=1&amp;name=uniapp’ });:保留当前页面，跳转到某个页面</p>
-<p>uni.redirectTo(OBJECT):关闭当前页面，跳转到应用内的某个页面。</p>
-<p>uni.switchTab(OBJECT):跳转到 tabBar 页面，并关闭其他所有非 tabBar 页面。</p>
-<p>uni.navigateBack({    delta: 2 });:关闭当前页面，返回上一页面或多级页面.通过 <code>getCurrentPages()</code> 获取当前的页面栈，决定需要返回几层。</p>
-<h4 id="页面间通信"><a href="#页面间通信" class="headerlink" title="页面间通信"></a>页面间通信</h4><p>触发全局的自定事件：<code>uni.$emit(eventName,OBJECT)</code> 附加参数都会传给监听器回调。</p>
-<p>监听全局的自定义事件：<code>uni.$on(eventName,callback)</code>事件可以由 uni.$emit 触发，回调函数会接收所有传入事件触发函数的额外参数。</p>
-<h4 id="数据缓存"><a href="#数据缓存" class="headerlink" title="数据缓存"></a>数据缓存</h4><p>uni-app的Storage在不同端的实现不同：</p>
-<ul>
-<li>H5端为localStorage，浏览器限制5M大小，是缓存概念，可能会被清理</li>
-<li>App端为原生的plus.storage，无大小限制，不是缓存，是持久化的</li>
-<li>各个小程序端为其自带的storage api，数据存储生命周期跟小程序本身一致，即除用户主动删除或超过一定时间被自动清理，否则数据都一直可用。</li>
-<li>微信小程序单个 key 允许存储的最大数据长度为 1MB，所有数据存储上限为 10MB。</li>
-<li>支付宝小程序单条数据转换成字符串后，字符串长度最大200*1024。同一个支付宝用户，同一个小程序缓存总上限为10MB。</li>
-<li>百度、字节跳动小程序文档未说明大小限制</li>
-</ul>
-<p>具体操作代码</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">uni.setStorage(&#123;</span><br><span class="line">    key: <span class="string">'storage_key'</span>,</span><br><span class="line">    data: <span class="built_in">JSON</span>.stringify(data), <span class="comment">// 需要存储的内容，只支持原生类型、及能够通过 JSON.stringify 序列化的对象</span></span><br><span class="line">    success: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'success'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line">uni.getStorage(&#123;</span><br><span class="line">    key: <span class="string">'storage_key'</span>,</span><br><span class="line">    success: <span class="function"><span class="keyword">function</span> (<span class="params">res</span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(res.data);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line">uni.removeStorage(&#123;</span><br><span class="line">    key: <span class="string">'storage_key'</span>,</span><br><span class="line">    success: <span class="function"><span class="keyword">function</span> (<span class="params">res</span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'success'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line">uni.clearStorage()</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="UI库"><a href="#UI库" class="headerlink" title="UI库"></a>UI库</h4><p>Vant UI</p>
-<p>安装</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i vant -S # 通过npm安装vant的H5版本</span><br></pre></td></tr></table></figure>
-
-<p>在main.js中引入</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Vant <span class="keyword">from</span> <span class="string">'vant'</span>;</span><br><span class="line"></span><br><span class="line">Vue.use(Vant);</span><br><span class="line"></span><br><span class="line"><span class="comment">//对vant进行注册,注意这里没有引入vant的样式文件,在main.js中 引入样式文件会报错,请在App.vue中引入</span></span><br></pre></td></tr></table></figure>
-
-<p>引入样式库</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;style&gt;</span><br><span class="line">	@import &#39;vant&#x2F;lib&#x2F;index.css&#39;;</span><br><span class="line">&lt;&#x2F;style&gt;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>Color UI</p>
-<p>为小程序开发的UI样式，在其官网: <a href="https://www.color-ui.com/">www.color-ui.com/</a> 下载UI库文件</p>
-<p>将下载的colorui 文件夹复制到我们的项目根目录(注意 是CSS 本版的,犹豫是 H5项目,请不要复制wxss版本)</p>
-<h4 id="页面"><a href="#页面" class="headerlink" title="页面"></a>页面</h4><h4 id="媒体"><a href="#媒体" class="headerlink" title="媒体"></a>媒体</h4><h4 id="管理设备"><a href="#管理设备" class="headerlink" title="管理设备"></a>管理设备</h4><p>键盘</p>
-<p><a href="https://uniapp.dcloud.io/api/key?id=hidekeyboard">uni.hideKeyboard()</a>：隐藏已经显示的软键盘，如果软键盘没有显示则不做任何操作。</p>
-<p><a href="https://uniapp.dcloud.io/api/key?id=onkeyboardheightchange">uni.onKeyboardHeightChange(CALLBACK)</a>：监听键盘高度变化</p>
-<p>网络状态</p>
-<p><a href="https://uniapp.dcloud.io/api/system/network?id=getnetworktype">uni.getNetworkType(OBJECT)</a>：获取网络状态</p>
-<p>内存</p>
-<p><a href="https://uniapp.dcloud.io/api/system/memory?id=onmemorywarning">uni.onMemoryWarning(CALLBACK)</a>：监听内存不足事件</p>
-<p>剪贴板</p>
-<p><a href="https://uniapp.dcloud.io/api/system/clipboard?id=setclipboarddata">uni.setClipboardData(OBJECT)</a>：设置系统剪贴板的内容。</p>
-<p><a href="https://uniapp.dcloud.io/api/system/clipboard?id=getclipboarddata">uni.getClipboardData(OBJECT)</a>：获取系统剪贴板内容。</p>
-<p>屏幕</p>
-<p><a href="https://uniapp.dcloud.io/api/system/brightness?id=setscreenbrightness">uni.setScreenBrightness(OBJECT)</a>：设置屏幕亮度。</p>
-<p><a href="https://uniapp.dcloud.io/api/system/brightness?id=getscreenbrightness">uni.getScreenBrightness(OBJECT)</a>：获取屏幕亮度</p>
-<p><a href="https://uniapp.dcloud.io/api/system/brightness?id=setkeepscreenon">uni.setKeepScreenOn(OBJECT)</a>：设置是否保持常亮状态。仅在当前应用生效，离开应用后设置失效。</p>
-<p>截屏事件</p>
-<p><a href="https://uniapp.dcloud.io/api/system/capture-screen?id=onusercapturescreen">uni.onUserCaptureScreen(CALLBACK)</a>：监听用户主动截屏事件，用户使用系统截屏按键截屏时触发此事件。</p>
-<p>手机联系人</p>
-<p><a href="https://uniapp.dcloud.io/api/system/contact?id=addphonecontact">uni.addPhoneContact(OBJECT)</a>：调用后，用户可以选择将该表单以“新增联系人”或“添加到已有联系人”的方式（APP端目前没有选择步骤，将直接写入），写入手机系统通讯录，完成手机通讯录联系人和联系方式的增加。</p>
-<p>App平台提供了更多通讯录相关API，包括读取联系人，详见：<a href="https://www.html5plus.org/doc/zh_cn/contacts.html">https://www.html5plus.org/doc/zh_cn/contacts.html</a></p>
-<p>拨打电话</p>
-<p><a href="https://uniapp.dcloud.io/api/system/phone?id=makephonecall">uni.makePhoneCall(OBJECT)</a>：拨打电话。</p>
-<p>扫码</p>
-<p><a href="https://uniapp.dcloud.io/api/system/barcode?id=scancode">uni.scanCode(OBJECT)</a>：调起客户端扫码界面，扫码成功后返回对应的结果。</p>
-<p>蓝牙</p>
-<p>振动</p>
-<p><a href="https://uniapp.dcloud.io/api/system/vibrate?id=vibrate">uni.vibrate(OBJECT)</a>：使手机发生振动。</p>
-<p><a href="https://uniapp.dcloud.io/api/system/vibrate?id=vibratelong">uni.vibrateLong(OBJECT)</a>：使手机发生较长时间的振动（400ms）。</p>
-<p><a href="https://uniapp.dcloud.io/api/system/vibrate?id=vibrateshort">uni.vibrateShort(OBJECT)</a>：使手机发生较短时间的振动（15ms）。</p>
-<h4 id="第三方"><a href="#第三方" class="headerlink" title="第三方"></a>第三方</h4><p>获取第三方服务商</p>
-<p>登录</p>
-<p><a href="https://uniapp.dcloud.io/api/plugins/login?id=login">uni.login(OBJECT)</a></p>
-<p>支付</p>
-<p>分享</p>
-<h4 id="打包项目"><a href="#打包项目" class="headerlink" title="打包项目"></a>打包项目</h4><p>从 github 下载 <a href="https://github.com/zhetengbiji/uniapp-snippets-vscode">uni-app 代码块</a>，放到项目目录下的 .vscode 目录即可拥有和 HBuilderX 一样的代码块。</p>
-<p>运行</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run dev:%PLATFORM%</span><br></pre></td></tr></table></figure>
-
-<p>打包</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run build:%PLATFORM%</span><br></pre></td></tr></table></figure>
-
-<p><code>%PLATFORM%</code> 可取值如下：</p>
-<table>
-<thead>
-<tr>
-<th>值</th>
-<th>平台</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>h5</td>
-<td>H5</td>
-</tr>
-<tr>
-<td>mp-alipay</td>
-<td>支付宝小程序</td>
-</tr>
-<tr>
-<td>mp-baidu</td>
-<td>百度小程序</td>
-</tr>
-<tr>
-<td>mp-weixin</td>
-<td>微信小程序</td>
-</tr>
-<tr>
-<td>mp-toutiao</td>
-<td>头条小程序</td>
-</tr>
-<tr>
-<td>mp-qq</td>
-<td>qq 小程序</td>
-</tr>
-</tbody></table>
-<h4 id="组件语法提示"><a href="#组件语法提示" class="headerlink" title="组件语法提示"></a>组件语法提示</h4><p>安装包</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i @dcloudio/uni-helper-json</span><br></pre></td></tr></table></figure>
-
-<p>vscode插件</p>
-<p>下载vetur</p>
-<h2 id="React-H5"><a href="#React-H5" class="headerlink" title="React H5"></a>React H5</h2><h3 id="Taro"><a href="#Taro" class="headerlink" title="Taro"></a>Taro</h3><p>使用 npm 安装 CLI</p>
+<h2 id="Taro"><a href="#Taro" class="headerlink" title="Taro"></a>Taro</h2><p>使用 npm 安装 CLI</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g @tarojs/cli</span><br></pre></td></tr></table></figure>
 
 <p>项目初始化</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">taro init myApp</span><br></pre></td></tr></table></figure>
 
 <p>在创建完项目之后，Taro 会默认开始安装项目所需要的依赖，安装使用的工具按照 yarn&gt;cnpm&gt;npm 顺序进行检测，一般来说，依赖安装会比较顺利，但某些情况下可能会安装失败，这时候你可以在项目目录下自己使用安装命令进行安装</p>
-<h3 id="Remax"><a href="#Remax" class="headerlink" title="Remax"></a>Remax</h3><h3 id="taro与remax"><a href="#taro与remax" class="headerlink" title="taro与remax"></a>taro与remax</h3><p>Taro：静态编译，没有真实的用到React，只是使用了react的写法，写法上有诸多限制。</p>
+<p>不同小程序打包</p>
+<p>选择微信小程序模式，需要自行下载并打开微信开发者工具，然后选择项目根目录进行预览</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> npm script</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> npm run dev:weapp</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> npm run build:weapp</span></span><br></pre></td></tr></table></figure>
+
+<p>选择百度小程序模式，需要自行下载并打开<a href="https://smartprogram.baidu.com/docs/develop/devtools/show_sur/">百度开发者工具</a>，然后在项目编译完后选择项目根目录下 dist 目录进行预览</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> npm script</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> npm run dev:swan</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> npm run build:swan</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="taro多端兼容的原理"><a href="#taro多端兼容的原理" class="headerlink" title="taro多端兼容的原理"></a>taro多端兼容的原理</h3><p>taro 有自己实现的类 react 实现, 写法上与 react 无异. 编译时转义, 最大的好处就是能够保证各端上的运行效率不会太差, 只是牺牲部分框架兼容的性能, 静态模板的能力得以保留. 同样的由于 react jsx 语法的灵活性, 无法做到百分百的兼容转义, 在开发时就要注意, 按照官方给的最佳实践来书写.</p>
+<p>taro 有众多的社区实践, 表明次方法是可以走得通的. 只要避开一些高级的写法.</p>
+<p>转义同时带来另一个开发体验的不友好. 由于经过 CODE &gt; AST &gt; AST &gt; CODE 的过程, 大量穷举 jsx 语法的转换, 丢失了 sourceMap.</p>
+<p>由于这种转换的无穷尽, taro 团队长期陷入对模板的转义维护. 包括对 DSL 的跟进程度. 生态自建等. 无法复用社区组件等.</p>
+<p>架构特点：</p>
+<ul>
+<li>重编译时，轻运行时：这从两边代码行数的对比就可见一斑。</li>
+<li>编译后代码与 React 无关：Taro 只是在开发时遵循了 React 的语法。</li>
+<li>直接使用 Babel 进行编译：这也导致当前 Taro 在工程化和插件方面的羸弱。</li>
+</ul>
+<p>mpvue也是将 Vue SFC 写法的代码编译成 小程序代码文件（JS、WXML、WXSS、JSON）。</p>
+<p>最大的区别是 Taro 将 JSX 编译成 小程序模版，而 mpvue 是将 Vue 模版编译成 小程序模版。但是由于 Vue 模版和 小程序模版的相似性，mpvue 在这一块的工作量比 Taro 少得多。</p>
+<p>而 mpvue 的运行时和 Vue 的运行时是强关联的，首先我们来看看 Vue 的运行时。</p>
+<p>一个 .vue 的单文件由三部分构成: <code>template</code>, <code>script</code>, <code>style</code> 。</p>
+<p>橙色路径部分, template 会在编译的过程中，在 <code>vue-loader</code> 中通过 ast 进行分析，最终生成一段 render 函数，执行 render 函数会生成虚拟dom树，虚拟 DOM 树是对真实 DOM 树的抽象，树中的节点被称作 vnode 。</p>
+<p>Vue 拿到 虚拟 DOM 树之后，就可以去和上次老的 虚拟 DOM 树 做 <code>patch diff</code> 对比。patch 阶段之后，vue 就会使用真实的操作DOM 的方法（比如说 <code>insertBefore</code> , <code>appendChild</code> 之类的），去操作DOM结点，更新视图。</p>
+<p>同时，绿色路径的部分，在实例化 Vue 的时候，会对数据 data 做响应式的处理，在监测到 data 发生改变时，会调用 render 函数，生成最新的虚拟 DOM 树， 接着对比老的虚拟 DOM 树进行 patch, 找出最小修改代价的 vnode 节点进行修改。</p>
+<p>而 mpvue 的运行时，会首先将 patch 阶段的 DOM 操作相关方法置空，也就是什么都不做。其次，在创建 Vue 实例的同时，还会偷偷的调用 <code>Page()</code> 用于生成了小程序的 page 实例。然后 运行时的 patch 阶段会直接调用 <code>$updateDataToMp()</code> 方法，这个方法会获取挂在在 page 实例上维护的数据 ，然后通过 <code>setData</code> 方法更新到视图层。</p>
+<p>和 Taro 重编译时轻运行时不同，mpvue 算是：<strong>半编译时，半运行时</strong>。这点从代码量的对比也能大致反映出来。</p>
+<p>mpvue 的 WXML 模版和 Taro 一样，也是通过代码编译得到的；不同于 Taro 运行时和 React 无关，mpvue 本质上还是将 Vue 运行在了小程序，且实现了 <code>Vue@2.4.1</code> 绝大部分特性（只有极少数特性由于小程序模版的限制未能实现，如 ：<code>filter</code>、<code>slot</code>、<code>v-html</code>）；且整个框架基于 Webpack 实现了较为完善的工程化。</p>
+<p>taro团队掘金总结：<a href="https://juejin.cn/post/6844904036743774216#heading-4">https://juejin.cn/post/6844904036743774216#heading-4</a></p>
+<h3 id="taro-Next"><a href="#taro-Next" class="headerlink" title="taro@Next"></a>taro@Next</h3><p>taro@Next和之前的架构不同，Taro Next 是 <strong>近乎全运行</strong>。</p>
+<p>新架构的特点：</p>
+<ul>
+<li><strong>无 DSL 限制</strong>：无论是你们团队是 React 还是 Vue 技术栈，都能够使用 Taro 开发（domain-specific language (DSL) ，即：领域特定语言，可以理解为：React/Vue 不同的语法就是不同的 DSL。 ）</li>
+<li><strong>模版动态构建</strong>：和之前模版通过编译生成的不同，Taro Next 的模版是固定的，然后基于组件的 template，动态 “递归” 渲染整棵 Taro DOM 树。</li>
+<li><strong>新特性无缝支持</strong>：由于 Taro Next 本质上是将 React/Vue 运行在小程序上，因此，各种新特性也就无缝支持了。</li>
+<li><strong>社区贡献更简单</strong>：错误栈将和 React/Vue 一致，团队只需要维护核心的 taro-runtime。</li>
+<li><strong>基于 Webpack</strong>：Taro Next 基于 Webpack 实现了多端的工程化，提供了插件功能。</li>
+</ul>
+<p>taro@Next创建了 <a href="https://github.com/NervJS/taro/tree/next/packages/taro-runtime">taro-runtime</a> 的包，然后在这个包中实现了 <strong>一套 高效、精简版的 DOM/BOM API</strong>，然后通过 Webpack 的 <a href="https://webpack.js.org/plugins/provide-plugin/">ProvidePlugin</a> 插件，注入到小程序的逻辑层。</p>
+<p>在 <code>DOM/BOM</code> 注入之后，理论上来说，Nerv/Preact 就可以直接运行了。但是 React 有点特殊，因为 <code>React-DOM</code> 包含大量浏览器兼容类的代码，导致包太大，而这部分代码我们是不需要的，因此我们需要做一些定制和优化。</p>
+<p>React 16之后的架构，最上层是 React 的核心部分 <code>react-core</code> ，中间是 <code>react-reconciler</code>，其的职责是维护 <code>VirtualDOM</code> 树，内部实现了 <code>Diff/Fiber</code> 算法，决定什么时候更新、以及要更新什么。</p>
+<p>而 <code>Renderer</code> 负责具体平台的渲染工作，它会提供宿主组件、处理事件等等。例如 <code>React-DOM</code> 就是一个渲染器，负责 DOM 节点的渲染和 DOM 事件处理。</p>
+<p>因此，taro@Next实现了 <a href="https://github.com/NervJS/taro/tree/next/packages/taro-react">taro-react</a> 包，用来连接 <code>react-reconciler</code> 和 <code>taro-runtime</code> 的 BOM/DOM API：</p>
+<p>具体的实现主要分为两步：</p>
+<ol>
+<li>实现 <code>react-reconciler</code> 的 <code>hostConfig</code> 配置，即在 <code>hostConfig</code> 的方法中调用对应的 Taro BOM/DOM 的 API。</li>
+<li>实现 render 函数（类似于 <code>ReactDOM.render</code>）方法，可以看成是创建 <code>Taro DOM Tree</code> 的容器。</li>
+</ol>
+<p>Vue 和 React 最大的区别就在于运行时的 <code>CreateVuePage</code> 方法，这个方法里进行了一些运行时的处理，比如：生命周期的对齐。</p>
+<p>其他的部分，如通过 BOM/DOM 方法构建、修改 DOM Tree 及渲染原理，都是和 React 一致的。</p>
+<h4 id="性能优化"><a href="#性能优化" class="headerlink" title="性能优化"></a>性能优化</h4><p>同等条件下，编译时做的工作越多，也就意味着运行时做的工作越少，性能会更好。Taro Next 的新架构变成 近乎全运行 之后，花了很多精力在性能优化上面。</p>
+<p>相比原生小程序，Taro Next 多了一些其他工作，如：引入React/Vue 带来的 包的 Size 增加，运行时的损耗、Taro DOM Tree 的构建和更新、DOM data 初始化和更新。</p>
+<p><strong>Taro DOM Tree 的构建和更新</strong>、<strong>DOM data 初始化和更新</strong>两个过程是主要的性能优化方向</p>
+<p>包大小</p>
+<p>和之前模版通过编译生成的不同，Taro Next 的模版是固定的，然后基于组件的 template，动态 “递归” 渲染整棵 Taro DOM 树。也就是说，<strong>Taro Next 的 WXML 大小是有上限的</strong>。</p>
+<p>随着项目的增加，页面越来越多，原生的项目 WXML 体积会不断增加，而 Taro Next 不会。也就是说，当页面的数量超过一个临界点时，Taro Next 的包体积可能会更小。因此，包 Size 的问题不足为虑。</p>
+<p>DOM Tree</p>
+<p>在 Taro DOM Tree 的构建和更新阶段，我们实现了一套仅实现了高效的、精简版 DOM/BOM API，而且仅仅实现了必要的。</p>
+<p>Github上有一个仓库 <a href="https://github.com/jsdom/jsdom">jsdom</a>，基本上是在 Node.js 上实现了一套 Web 标准的 DOM/BOM ，这个仓库的代码在压缩前大概有 2.1M，而 Taro Next 的核心的 DOM/BOM API 代码才 1000 行不到。</p>
+<p>因此，我们最大限度的保证了 Taro DOM Tree 构建和更新阶段的性能。</p>
+<p>Update data</p>
+<p>在数据更新阶段，首先前面有提到过，Taro Next 的更新是 DOM 级别的，比 Data 级别的更新更加高效，因为 <strong>Data 粒度更新实际上是有冗余的，并不是所有的 Data 的改变最后都会引起 DOM 的更新</strong>。</p>
+<p>其次，Taro 在更新的时候将 Taro DOM Tree 的 <code>path</code> 进行压缩，这点也极大的提升了性能。</p>
+<p>最终的结果是：在某些业务场景写，<code>add</code>、<code>select</code> 数据，Taro Next 的性能比原生的还要好。</p>
+<h2 id="Remax"><a href="#Remax" class="headerlink" title="Remax"></a>Remax</h2><h3 id="remax的特点"><a href="#remax的特点" class="headerlink" title="remax的特点"></a>remax的特点</h3><p>Taro：静态编译，没有真实的用到React，只是使用了react的写法，写法上有诸多限制。</p>
 <p>Remax: Remax 的运行时本质是一个通过 react-reconciler 实现的一个小程序端的渲染器</p>
 <p>remax的缺点：</p>
 <ul>
@@ -418,121 +403,11 @@
 <li><p>支持引用自定义组件，引用便捷</p>
 </li>
 </ul>
-<h2 id="小程序开发"><a href="#小程序开发" class="headerlink" title="小程序开发"></a>小程序开发</h2><p>微信小程序中默认的wxml、wxss，功能有限：</p>
-<p>​       不支持组件化</p>
-<p>​     不能使用less、scss等预编译器</p>
-<p>，套用目前的spa框架如vue、react可以解决上述问题，会大大有利于项目的开发，且一套框架可以在微信小程序、支付宝小程序、百度小程序等多端运行。</p>
-<p>​       vue有腾讯开发的wepy，美团开发的mpvue，dcloud开发的uniapp，react有京东开发的Taro，</p>
-<p>​       美团和腾讯的貌似都不怎么好，使用uniapp社区好，功能多，十端一套代码</p>
-<h3 id="注册"><a href="#注册" class="headerlink" title="注册"></a>注册</h3><p><a href="https://mp.weixin.qq.com/waxmp/home在这里注册成为开发者">https://mp.weixin.qq.com/waxmp/home在这里注册成为开发者</a></p>
-<p><a href="https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html下载开发者工具">https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html下载开发者工具</a></p>
-<h3 id="uniapp-1"><a href="#uniapp-1" class="headerlink" title="uniapp"></a>uniapp</h3><h4 id="vueh5转uniapp"><a href="#vueh5转uniapp" class="headerlink" title="vueh5转uniapp"></a>vueh5转uniapp</h4><p>文件处理</p>
-<p>把之前的vue web项目的<strong>前端</strong>代码copy到新项目下</p>
-<p>html模版处理</p>
-<p>1.标签自动转换</p>
-<p>uni-app的标签组件与小程序相同，比如<code>&lt;div&gt;</code>变成了<code>&lt;view&gt;</code>，<code>&lt;span&gt;</code>变成了<code>&lt;text&gt;</code>。<br>但<strong>uni-app的编译器已经自动处理了这部分转换</strong>，如果源码中写了可自动转换的组件，在编译到非H5端时会被自动转换（再编译回到H5端时div还是div）。</p>
-<p>2.音频标签<audio>不能使用，改用api组件</audio></p>
-<p>左右、上下滑动切换，有专门的<a href="https://uniapp.dcloud.io/component/swiper">swiper组件</a>，不要使用div模拟</p>
-<p>input的search，原来的type没用了，改成confirmtype，</p>
-<p>js处理</p>
-<p>web中的window、navigator、document等api不可以直接使用，需要替换，具体如下：</p>
-<p>window对象：</p>
-<p>​       cookie、session、localstorage改换成uni.storage</p>
-<p>​       Alert、confirm改成uni.showmodal</p>
-<p>​       ajax换成uni.request,也可以使用插件uni.axios等</p>
-<p>navigator对象：</p>
-<p>​       geolocation 的定位方式改为 <a href="https://uniapp.dcloud.io/api/location/location?id=getlocation">uni.getLocation</a>，</p>
-<p>​       useragent的设备api没有了，改用<a href="https://uniapp.dcloud.io/api/system/info?id=getsysteminfo">uni.getSystemInfo</a></p>
-<p>dom对象：</p>
-<p>​        vue中使用双向数据绑定，不需要操作dom</p>
-<p>其他api</p>
-<p>​       web中还有canvas、video、audio、websocket、webgl、webbluetooth、webnfc，这些在uni-app中都有专门的API。</p>
-<p>生命周期：</p>
-<p>​       uniapp补充了小程序的生命周期，包括app的启动、页面加载等。</p>
-<p>​        vue h5一般在created或者mounted中请求数据，而在uni-app的页面中，使用onLoad或者onShow中请求数据。（组件仍然是created或者mounted）</p>
-<p>web端的插件有些不能使用，需要到uniapp插件市场去寻找对应的插件</p>
-<p>css处理</p>
-<p>uniapp的app、小程序仍然是web-view的形式展示，所以大部分css选择器依然支持</p>
-<p>不支持被替换的html标签对应的样式也会自动替换为对应标签</p>
-<p>不支持*选择器</p>
-<p><a href="https://ask.dcloud.net.cn/article/36174">https://ask.dcloud.net.cn/article/36174</a></p>
-<h3 id="uView"><a href="#uView" class="headerlink" title="uView"></a>uView</h3><h3 id="微信登录"><a href="#微信登录" class="headerlink" title="微信登录"></a>微信登录</h3><p><a href="https://segmentfault.com/a/1190000016614852?utm_source=sf-related">https://segmentfault.com/a/1190000016614852?utm_source=sf-related</a></p>
-<h3 id="小程序架构"><a href="#小程序架构" class="headerlink" title="小程序架构"></a>小程序架构</h3><p>小程序本质上是运行在 webview 上的一个 H5 应用，代码经过打包后分别运行在 render 线程与 worker 线程，这么做最大的原因是保证平台安全性，不能让开发者控制 render 线程，控制 render 线程将会造成小程序平台方管控困难，比如通过 js dom api 操作 dom 元素，通过 location.href 随意跳转，那整个小程序就完全不可控，可以轻意绕过小程序审核，上线时是个正常小程序，开发者可以随意控制界面上展示的内容或随意跳转到赌博或黄色页面。小程序平台就把 view 与逻辑分离，view 放在 render 线程，提供了一种特殊的语言（微信叫 wxml 、支付宝叫 axml）来写 view，并且不能写入 js 代码，逻辑就放在 worker 线程，由于 worker 并不能操作 dom，所以就解决了上面管控困难的问题，</p>
-<p>每个小程序界面有 axml 与 js 文件，js 文件是页面逻辑，逻辑主要做两件事情：</p>
-<ol>
-<li>响应 render 线程的事件，并执行小程序业务逻辑。</li>
-<li>准备好数据，通过 setData 传到 page 中，由 page 进行渲染。</li>
-</ol>
-<h2 id="跨端Flutter、RN、Uniapp对比"><a href="#跨端Flutter、RN、Uniapp对比" class="headerlink" title="跨端Flutter、RN、Uniapp对比"></a>跨端Flutter、RN、Uniapp对比</h2><h3 id="性能"><a href="#性能" class="headerlink" title="性能"></a>性能</h3><p>在3大主流渲染引擎里，webview、react native/weex、flutter，复杂度依次降低，渲染性能依次上升。（uni-app是双渲染引擎，webview和weex都内置了，随便开发者使用切换）</p>
-<p>flutter作为界面库（注意它只是界面库，dart语言是另一个项目），它唯一要干的事情就是渲染界面。不像HTML5，flutter界面库连视频、定位等都没有，就是一个纯排版引擎，绘制文字、按钮、图片等常用界面控件。这个排版引擎的特点是简单、高性能。提升性能是有代价的，你究竟想要灵活丰富的css3，还是想要固定flex模式排版，抑或是最简单但高性能的flutter排版？开发便利性和运行性能不可兼得。</p>
-<p>浏览器的html提供了tag和样式分离的写法，还有各种各样的选择器，但其实这也是有代价的。它导致webview初始化时要同时先启动webkit排版引擎来解析这些编写随性的html、css，同时还要启动一个js引擎比如v8或jscore来解析里面的js。</p>
-<p>而dart就很简单，只启动一个dart引擎，解析严格的dart语法，它不会去操心有些标签未闭合要如何容错，不会判断宽度320后面是px还是rem或者是动态计算百分比。</p>
-<p>flutter的性能高，除了简单严格，还有一个特点，就是逻辑层与视图层统一，运行在同一套dart虚拟机下。</p>
-<p>我们知道rn和weex，也是原生渲染的，它们的性能高于webview。但同为原生渲染的，怎么会慢于flutter呢？其实不是原生渲染慢，而是js和原生通信慢。</p>
-<p>rn和weex都采用了独立的js引擎（iOS是jscore，Android是v8，最新版rn开始在Android上搞自己的js引擎Hermes），从js与dart的比较上，性能稍逊一筹。但这不是主要问题，因为v8的jit不是盖的，也是编译为原生代码解析的。性能上的主要问题是，rn、weex的js引擎和原生渲染层是两个运行环境。</p>
-<p>当js引擎联网获取到数据后，通知原生视图层更新界面时，有一个跨环境的通信折损。同样，当用户在屏幕上操作原生视图层时，要给js引擎发送通知，也会产生这个通信折损。</p>
-<p>webview渲染小程序，为什么性能高，核心是预载。点击一个新页面时，webview是提前创建好的，不会走复杂的webkit、v8的初始化流程，连开发者的js代码，也是预载好的。所以点击新页面时，它的渲染速度和原生应用没什么差别。当然也有个坏处，就是启动慢。微信里启动小程序速度看着还行，其实是微信在启动小程序之前，就已经提前初始化了小程序运行环境。</p>
-<h3 id="设计"><a href="#设计" class="headerlink" title="设计"></a>设计</h3><p>flutter，在iOS上写一个button，要用CupertinoButton，是iOS风格的控件，在Android上则要用RaisedButton，是Material风格的控件。</p>
-<p>rn也是如此，它的官方说法是：learn once，write anywhere。它都不敢说：write once，run anywhere。因为它确实要求开发者写2套代码。</p>
-<p>国产Android Rom，根本不是Material风格，很多rom以仿iOS体验为卖点。中国的App，全都是贴近iOS的中性风格，中国的用户换了手机，不管是手机os本身，还是App的使用，都不会造成切换障碍。</p>
-<p>rn和flutter这种“跨平台”排版引擎，其跨平台性，对于中国开发者而言，又打了折扣。uni-app默认也是这种通用ui风格。uni-app的开发者只需要写一套界面ui，就可以适应不同手机的用户，真正的 write once，run anywhere。</p>
-<h3 id="生态"><a href="#生态" class="headerlink" title="生态"></a>生态</h3><p>对于国外的开发者，rn、flutter的生态肯定比uni-app好，比如facebook登陆分享、Google地图等。</p>
-<p>但对于国内的开发者，那是反过来的，中国开发者需要的全端推送（UniPush集成了iOS、华为、小米、OPPO等众多原厂推送）、各种国内登陆、支付、分享SDK、各种国内地图、各种ui库、以及Echart图表等，都是在uni-app体系里，这方面生态可比rn、flutter丰富多了。uni-app的插件市场有数千款插件，不能说应有尽有，但确实是最丰富的跨端开发框架生态了。</p>
-<p>uni-app的生态还比其他竞品强在如下方面：</p>
-<ul>
-<li>App和H5提供了renderjs技术，使得浏览器专用的库也可以在App和H5里使用，比如echart、threejs等<a href="https://uniapp.dcloud.io/frame?id=renderjs">参考</a></li>
-<li>兼容微信小程序 JS SDK，丰富的小程序生态内容可直接引入uni-app，并且在App侧通用，<a href="http://ask.dcloud.net.cn/article/35070">参考</a></li>
-<li>兼容微信小程序自定义组件，并且App、H5侧通用，<a href="http://uniapp.dcloud.io/frame?id=小程序组件支持">参考</a></li>
-</ul>
-<p>这些丰富的生态兼容，是rn和flutter无法享受的。</p>
-<h3 id="动态更新"><a href="#动态更新" class="headerlink" title="动态更新"></a>动态更新</h3><p>除了flutter，rn/weex/uni-app都可以动态热更新。</p>
-<p>webview、rn/weex，都有一个特点，可以远程动态载入js代码，可以更新本地的js代码。前端开发者认为动态性是天经地义的，但其实flutter并不支持。</p>
-<h3 id="技术难度、写法和学习成本"><a href="#技术难度、写法和学习成本" class="headerlink" title="技术难度、写法和学习成本"></a>技术难度、写法和学习成本</h3><p>rn，要求开发者学习react，要求精通flex布局，要求原生开发协作。</p>
-<p>flutter，要求开发者学习dart，了解dart和flutter的API、要求精通flex布局，要求原生开发协作。</p>
-<p>uni-app，要求开发者学习vue，了解小程序。</p>
-<p>学习成本和难度，直接意味着：开发成本、招聘成本、上线速度、上线风险。</p>
-<p>从代码的写法来说，flutter没有tag和样式的说法，更没有选择器，从头到尾只有dart语言，它的界面控件是用dart代码new出来的，每个控件的样式，是在new的时候设置的类json写法的参数。</p>
-<p>如果我们要嵌套布局，就要不停的在dart里写child，同时在dart里给child们设样式参数。上面的代码，只是嵌套了1层，实际开发中，dom要嵌套好多层，想象那样的代码。。。所以大家都诟病dart是“嵌套地狱”。</p>
-<p>flutter使用的也是flex布局思想，这是一个强嵌套布局模型，比web常规排版引擎的嵌套更多。当界面复杂时，flutter的代码要嵌套几十层，每层的元素的json样式都和元素一起混写在dart代码里，让人崩溃。</p>
-<p>或者，你可以这么理解，这是一个只有js，没有html和css的浏览器。你需要用js createElement来创建元素，用js的style方法给每个element设style，反正就是不能写html和css代码。前端都已经发展到各种mvc等视图逻辑分离的架构了，也有了vue组件这种组件化模式方便用各种轮子快速完成界面。你是否能适应dart这种低效的界面开发模式？从开发模式来讲，这确实是一种倒退。</p>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>flutter与uni-app的比较：</p>
-<ul>
-<li>flutter与uni-app的相对优势：<ul>
-<li>性能好一丢丢。比rn有优势，但比拥有bindingx和wxs的weex/uni-app，在实际开发中没有很明显的差距。</li>
-</ul>
-</li>
-<li>flutter与uni-app的相对劣势：<ul>
-<li>需要原生协作，维护3套代码，无法有效降低开发成本，提升开发效率</li>
-<li>嵌套地狱，代码难看难维护</li>
-<li>不支持热更新</li>
-<li>目前质量和成熟度很低</li>
-<li>原生可视控件融合不好，比如webview、video、map</li>
-<li>ui库不适合国情</li>
-<li>学习成本高</li>
-<li>应用场景有限，dart未来扑朔迷离</li>
-</ul>
-</li>
-</ul>
-<p>rn和uni-app的比较</p>
-<ul>
-<li>rn与uni-app的相对优势：<ul>
-<li>rn的坑虽然比weex的少，但uni-app已经填了weex的很多坑。这方面差别不大。</li>
-<li>rn的生态虽然比weex丰富。但uni-app是反过来的，uni-app的国内应用生态丰富度超过了rn。</li>
-<li>rn是纯单页的，嵌入原生App比较灵活。而uni-app是应用整体的概念，如果要内嵌入其他原生应用的话，要求原生应用内嵌uni-app应用整体进来。即集成<a href="https://ask.dcloud.net.cn/docs/#https://ask.dcloud.net.cn/article/36941">uni小程序sdk</a>。</li>
-</ul>
-</li>
-<li>rn与uni-app的相对劣势：<ul>
-<li>需要原生协作，维护3套代码，无法有效降低开发成本，提升开发效率</li>
-<li>不支持小程序，发布到h5也无法直接发</li>
-<li>性能不如uni-app</li>
-<li>国内的插件生态不如uni-app丰富</li>
-<li>ui库不适合国情，learn once，write anywhere</li>
-<li>学习成本高，用人成本高，不利于开发商降低开发成本</li>
-<li>rn是纯单页应用，如果一个应用的页面很多，用rn写会很崩溃，变量污染和干扰严重。而weex/uni-app支持多页面，页面之间上下文隔离，写页面较多的大型应用更合适<br>另外react在中国的市场占有率远不如vue。这也是中国与国外不同的特色情况。</li>
-</ul>
-</li>
-</ul>
-<p><a href="https://ask.dcloud.net.cn/article/36083">https://ask.dcloud.net.cn/article/36083</a></p>
+<p>目前的多端开发主要就两种模式 <strong>编译转换</strong> <strong>运行兼容</strong> 两种方式的优缺点都非常明显;</p>
+<p>静态编辑相对而言能提供更好的体验支持, 对开发者有一定的语法约束, 调试能力的要求.</p>
+<p>运行时兼容优点无需额外的学习成本(<em>目前都在往这个方向上不断靠拢</em>)也就是 BOM/DOM 的支持. 缺点也很明显, 由于小程序对 setData &amp; 节点长度的限制. 运行时兼容首次渲染/长列表上的性能会受较大的影响. <em>页面更新基本上框架做到 diff update</em></p>
+<p>目前社区中基本都在 <strong>运行时</strong> 上做文章, 因为这对开发者来说能最小的迁移成本, 以及扩展成本. 只要开发对应端的 react-reconciler 即可. 对性能要求苛刻的, 基本都写原生了.</p>
+<p>另一个观点就是设备的性能逐步提高, 优化业务逻辑的更新效率, 用户体验能逐步的提高, 也就更倾向于该方案了.</p>
 
         </div>
         
@@ -600,8 +475,8 @@
         
         
         <div class="level-end">
-            <a class="level level-item has-link-grey  article-nav-next" href="/2020/04/15/php%E4%B8%8Elaravel/">
-                <span class="level-item">PHP与Laravel开发</span>
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/05/02/h52/">
+                <span class="level-item">微信小程序、H5App开发</span>
                 <i class="level-item fas fa-chevron-right"></i>
             </a>
         </div>
@@ -682,7 +557,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            111
+                            113
                         </p>
                     </a>
                 </div>
@@ -771,7 +646,23 @@
         <a class="is-flex" href="#原生h5api">
         <span class="has-mr-6">1</span>
         <span>原生h5api</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#判断是否是微信浏览器">
+        <span class="has-mr-6">1.1</span>
+        <span>判断是否是微信浏览器</span>
         </a></li><li>
+        <a class="is-flex" href="#h5打开电话号码、邮件应用">
+        <span class="has-mr-6">1.2</span>
+        <span>h5打开电话号码、邮件应用</span>
+        </a></li><li>
+        <a class="is-flex" href="#h5多行文本截断">
+        <span class="has-mr-6">1.3</span>
+        <span>h5多行文本截断</span>
+        </a></li><li>
+        <a class="is-flex" href="#h5抽屉原生实现">
+        <span class="has-mr-6">1.4</span>
+        <span>h5抽屉原生实现</span>
+        </a></li></ul></li><li>
         <a class="is-flex" href="#jsbridge">
         <span class="has-mr-6">2</span>
         <span>jsbridge</span>
@@ -784,137 +675,29 @@
         <span class="has-mr-6">3.1</span>
         <span>kbone与remax</span>
         </a></li></ul></li><li>
-        <a class="is-flex" href="#VueH5">
-        <span class="has-mr-6">4</span>
-        <span>VueH5</span>
-        </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#uniapp">
-        <span class="has-mr-6">4.1</span>
-        <span>uniapp</span>
-        </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#安装">
-        <span class="has-mr-6">4.1.1</span>
-        <span>安装</span>
-        </a></li><li>
-        <a class="is-flex" href="#开发规范">
-        <span class="has-mr-6">4.1.2</span>
-        <span>开发规范</span>
-        </a></li><li>
-        <a class="is-flex" href="#生命周期">
-        <span class="has-mr-6">4.1.3</span>
-        <span>生命周期</span>
-        </a></li><li>
-        <a class="is-flex" href="#页面跳转">
-        <span class="has-mr-6">4.1.4</span>
-        <span>页面跳转</span>
-        </a></li><li>
-        <a class="is-flex" href="#页面间通信">
-        <span class="has-mr-6">4.1.5</span>
-        <span>页面间通信</span>
-        </a></li><li>
-        <a class="is-flex" href="#数据缓存">
-        <span class="has-mr-6">4.1.6</span>
-        <span>数据缓存</span>
-        </a></li><li>
-        <a class="is-flex" href="#UI库">
-        <span class="has-mr-6">4.1.7</span>
-        <span>UI库</span>
-        </a></li><li>
-        <a class="is-flex" href="#页面">
-        <span class="has-mr-6">4.1.8</span>
-        <span>页面</span>
-        </a></li><li>
-        <a class="is-flex" href="#媒体">
-        <span class="has-mr-6">4.1.9</span>
-        <span>媒体</span>
-        </a></li><li>
-        <a class="is-flex" href="#管理设备">
-        <span class="has-mr-6">4.1.10</span>
-        <span>管理设备</span>
-        </a></li><li>
-        <a class="is-flex" href="#第三方">
-        <span class="has-mr-6">4.1.11</span>
-        <span>第三方</span>
-        </a></li><li>
-        <a class="is-flex" href="#打包项目">
-        <span class="has-mr-6">4.1.12</span>
-        <span>打包项目</span>
-        </a></li><li>
-        <a class="is-flex" href="#组件语法提示">
-        <span class="has-mr-6">4.1.13</span>
-        <span>组件语法提示</span>
-        </a></li></ul></li></ul></li><li>
-        <a class="is-flex" href="#React-H5">
-        <span class="has-mr-6">5</span>
-        <span>React H5</span>
-        </a><ul class="menu-list"><li>
         <a class="is-flex" href="#Taro">
-        <span class="has-mr-6">5.1</span>
+        <span class="has-mr-6">4</span>
         <span>Taro</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#taro多端兼容的原理">
+        <span class="has-mr-6">4.1</span>
+        <span>taro多端兼容的原理</span>
         </a></li><li>
+        <a class="is-flex" href="#taro-Next">
+        <span class="has-mr-6">4.2</span>
+        <span>taro@Next</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#性能优化">
+        <span class="has-mr-6">4.2.1</span>
+        <span>性能优化</span>
+        </a></li></ul></li></ul></li><li>
         <a class="is-flex" href="#Remax">
-        <span class="has-mr-6">5.2</span>
+        <span class="has-mr-6">5</span>
         <span>Remax</span>
-        </a></li><li>
-        <a class="is-flex" href="#taro与remax">
-        <span class="has-mr-6">5.3</span>
-        <span>taro与remax</span>
-        </a></li></ul></li><li>
-        <a class="is-flex" href="#小程序开发">
-        <span class="has-mr-6">6</span>
-        <span>小程序开发</span>
         </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#注册">
-        <span class="has-mr-6">6.1</span>
-        <span>注册</span>
-        </a></li><li>
-        <a class="is-flex" href="#uniapp-1">
-        <span class="has-mr-6">6.2</span>
-        <span>uniapp</span>
-        </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#vueh5转uniapp">
-        <span class="has-mr-6">6.2.1</span>
-        <span>vueh5转uniapp</span>
-        </a></li></ul></li><li>
-        <a class="is-flex" href="#uView">
-        <span class="has-mr-6">6.3</span>
-        <span>uView</span>
-        </a></li><li>
-        <a class="is-flex" href="#微信登录">
-        <span class="has-mr-6">6.4</span>
-        <span>微信登录</span>
-        </a></li><li>
-        <a class="is-flex" href="#小程序架构">
-        <span class="has-mr-6">6.5</span>
-        <span>小程序架构</span>
-        </a></li></ul></li><li>
-        <a class="is-flex" href="#跨端Flutter、RN、Uniapp对比">
-        <span class="has-mr-6">7</span>
-        <span>跨端Flutter、RN、Uniapp对比</span>
-        </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#性能">
-        <span class="has-mr-6">7.1</span>
-        <span>性能</span>
-        </a></li><li>
-        <a class="is-flex" href="#设计">
-        <span class="has-mr-6">7.2</span>
-        <span>设计</span>
-        </a></li><li>
-        <a class="is-flex" href="#生态">
-        <span class="has-mr-6">7.3</span>
-        <span>生态</span>
-        </a></li><li>
-        <a class="is-flex" href="#动态更新">
-        <span class="has-mr-6">7.4</span>
-        <span>动态更新</span>
-        </a></li><li>
-        <a class="is-flex" href="#技术难度、写法和学习成本">
-        <span class="has-mr-6">7.5</span>
-        <span>技术难度、写法和学习成本</span>
-        </a></li><li>
-        <a class="is-flex" href="#总结">
-        <span class="has-mr-6">7.6</span>
-        <span>总结</span>
+        <a class="is-flex" href="#remax的特点">
+        <span class="has-mr-6">5.1</span>
+        <span>remax的特点</span>
         </a></li></ul></li></ul>
             </div>
         </div>
@@ -971,7 +754,7 @@
                 <span class="level-item">IT</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">38</span>
+                <span class="level-item tag">39</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E4%B8%AA%E4%BA%BA%E5%B9%B8%E7%A6%8F/">
@@ -995,7 +778,7 @@
                 <span class="level-item">技术博客</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">36</span>
+                <span class="level-item tag">37</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%9C%8B%E5%8F%8B/">
@@ -1032,7 +815,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/IT/" style="font-size: 10px;">IT</a> <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 12px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 12px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8C/" style="font-size: 16px;">IT,Web，</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 12px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 14px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 12px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 12px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb/" style="font-size: 16px;">IT，Web</a> <a href="/tags/IT%EF%BC%8CWeb-Javascript/" style="font-size: 10px;">IT，Web,Javascript</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 18px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 16px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Rust/" style="font-size: 10px;">IT，Web,Rust</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 14px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 16px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 12px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 10px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 12px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 18px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 14px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 14px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">幸福</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 14px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/" style="font-size: 14px;">技术，IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 12px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 12px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 12px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 20px;">生活、幸福</a> <a href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">记录，生活</a>
+        <a href="/tags/IT/" style="font-size: 12px;">IT</a> <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 12px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 12px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8C/" style="font-size: 16px;">IT,Web，</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 12px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 14px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 14px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 12px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb/" style="font-size: 16px;">IT，Web</a> <a href="/tags/IT%EF%BC%8CWeb-Javascript/" style="font-size: 10px;">IT，Web,Javascript</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 18px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 16px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Rust/" style="font-size: 10px;">IT，Web,Rust</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 14px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 16px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 12px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 10px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 12px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 18px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 14px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 14px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">幸福</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 14px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/" style="font-size: 14px;">技术，IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 12px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 12px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 12px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 20px;">生活、幸福</a> <a href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">记录，生活</a>
     </div>
 </div>
     
@@ -1256,7 +1039,7 @@
                     <span class="level-item">五月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">3</span>
+                    <span class="level-item tag">4</span>
                 </span>
             </a>
         </li>
@@ -1278,7 +1061,7 @@
                     <span class="level-item">三月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">47</span>
+                    <span class="level-item tag">48</span>
                 </span>
             </a>
         </li>
@@ -1310,7 +1093,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT/">
                         <span class="tag">IT</span>
-                        <span class="tag is-grey">1</span>
+                        <span class="tag is-grey">2</span>
                     </a>
                 </div>
                 
@@ -1394,7 +1177,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/">
                         <span class="tag">IT、小程序、H5App</span>
-                        <span class="tag is-grey">2</span>
+                        <span class="tag is-grey">3</span>
                     </a>
                 </div>
                 

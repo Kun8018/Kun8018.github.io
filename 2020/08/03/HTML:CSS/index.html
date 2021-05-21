@@ -19,7 +19,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://cdn.kunkunzhang.top/html.jpeg">
 <meta property="article:published_time" content="2020-08-03T13:40:33.000Z">
-<meta property="article:modified_time" content="2021-04-26T11:43:08.241Z">
+<meta property="article:modified_time" content="2021-05-16T03:04:48.221Z">
 <meta property="article:author" content="Kun Zhang">
 <meta property="article:tag" content="Web，IT，HTML，CSS">
 <meta name="twitter:card" content="summary">
@@ -158,7 +158,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    1 小时 读完 (大约 7872 个字)
+                    1 小时 读完 (大约 8323 个字)
                 </span>
                 
                 
@@ -204,11 +204,30 @@
 
 
 
-<h4 id="管理外链的内容"><a href="#管理外链的内容" class="headerlink" title="管理外链的内容"></a>管理外链的内容</h4><h4 id="script标签"><a href="#script标签" class="headerlink" title="script标签"></a>script标签</h4><p>defer、async与正常代码区别</p>
+<h4 id="管理外链的内容"><a href="#管理外链的内容" class="headerlink" title="管理外链的内容"></a>管理外链的内容</h4><h4 id="form标签"><a href="#form标签" class="headerlink" title="form标签"></a>form标签</h4><h4 id="input标签"><a href="#input标签" class="headerlink" title="input标签"></a>input标签</h4><h4 id="script标签"><a href="#script标签" class="headerlink" title="script标签"></a>script标签</h4><p>现代网站中，脚本往往比html更重，更大，处理时间也更长。</p>
+<p><strong>当浏览器加载html时，遇到<code>&lt;script&gt;...&lt;/script&gt;</code>标签时浏览器就不能继续构建DOM，它必须立即执行此脚本，对于外部脚本<code>&lt;script src=&quot;...&quot;&gt;&lt;/script&gt;</code>也是一样，浏览器必须等待脚本下载完并执行结束之后才能继续处理剩余的页面。</strong></p>
+<p>这会导致两个问题：</p>
+<p>​       1.脚本不能访问到位于它之后的DOM元素，无法访问到意味着也无法给它们添加处理程序</p>
+<p>​       2.如果页面顶部有一个笨重的脚本会阻塞页面，在该脚本下载并执行完之前用户都不能看到页面。</p>
+<p>可以把script放在html页面的底部，这样浏览器会下载完整的HTML文档之后在监测到脚本</p>
+<p>但是对于长的HTML文档，这样会造成明显的延迟</p>
+<p>defer特性</p>
+<p>defer特性告诉浏览器不要等待脚本，浏览器继续构建DOM，脚本会在后台下载，等DOM构建完之后，DOMContentLoaded脚本才继续执行</p>
+<p>同时defer能保证相对顺序，就像保证常规脚本一样</p>
+<p>defer特性只适用于外部js文件，即src内加载的脚本</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--这两个脚本会并行下载，但是不管谁先下载完，都会先执行pre.js,执行完之后再执行after.js--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">defer</span> <span class="attr">src</span>=<span class="string">"pre.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">defer</span> <span class="attr">src</span>=<span class="string">"after.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>async特性</p>
+<p>async特性的script，不会与DOM和其他脚本产生冲突，独立运行，任何一个asnyc js加载完就运行，也不会等待任何东西</p>
+<p>defer、async与正常代码区别</p>
 <p>没有 <code>defer</code> 或 <code>async</code>，浏览器会立即加载并执行指定的脚本，“立即”指的是在渲染该 <code>script</code> 标签之下的文档元素之前，也就是说不等待后续载入的文档元素，读到就加载并执行。</p>
 <p>有 <code>async</code>，加载和渲染后续文档元素的过程将和 <code>script.js</code> 的加载与执行并行进行（异步）。</p>
 <p>有 <code>defer</code>，加载后续文档元素的过程将和 <code>script.js</code> 的加载并行进行（异步），但是 <code>script.js</code> 的执行要在所有元素解析完成之后，<code>DOMContentLoaded</code> 事件触发之前完成。</p>
 <p><em>async</em> 对于应用脚本的用处不大，因为它完全不考虑依赖（哪怕是最低级的顺序执行），不过它对于那些可以不依赖任何脚本或不被任何脚本依赖的脚本来说却是非常合适的，最典型的例子：Google Analytics</p>
+<p><strong>动态脚本</strong></p>
+<p>可以通过js代码来动态加载脚本</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">loadScript</span>(<span class="params">src</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">let</span> script = <span class="built_in">document</span>.createElement(<span class="string">'script'</span>);</span><br><span class="line">  script.src = src;</span><br><span class="line">  script.async = <span class="literal">false</span>;<span class="comment">//默认通过js加载脚本是async方式，可以设置为false，则按照defer的规则来执行</span></span><br><span class="line">  <span class="built_in">document</span>.body.append(script);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">loadScript(<span class="string">"pre.js"</span>)</span><br><span class="line">loadScript(<span class="string">"after.js"</span>)</span><br></pre></td></tr></table></figure>
+
 <h3 id="常见HTML标签属性"><a href="#常见HTML标签属性" class="headerlink" title="常见HTML标签属性"></a>常见HTML标签属性</h3><p>html连接：<a>标签：target属性规定在何处打开链接文档。浏览器会根据target的属性值去打开与其命名或名称相符的 框架<frame>或者窗口.</a></p>
 <p>​             _blank:在新窗口中打开被链接文档。</p>
 <p>​             _self:在相同的框架中打开被链接文档。</p>
@@ -324,6 +343,10 @@
 <li>屏幕外或被折叠的部分，如菜单</li>
 </ul>
 <p><code>aria-hidden=&quot;true&quot;</code>这个属性不应该用于可聚焦的元素上</p>
+<h4 id="SEO优化"><a href="#SEO优化" class="headerlink" title="SEO优化"></a>SEO优化</h4><p>提交sitemap.xml和robot.txt：robot.txt和sitemap.xml都要在根目录下才有效。</p>
+<p>默认情况下，搜索引擎是可以抓取所有页面的，也就是说允许搜索引擎完全抓取站点可以不设置robot.txt，但是如果不设置，请保证搜索引擎访问robot.txt文件时返回404错误码， 防止搜索引擎误解。</p>
+<p>sitemap.xml是站点地图，百利而无一害，提交站点地图可以加速搜索引擎爬取速度，影响内容的更新。在站点结构不佳，功能板块和内容比较分散的情况下站点地图是改善seo的重要环节</p>
+<p>不过sitemap不会影响对站点的最终收录情况、权重、相关数据还得搜索引擎根据内容计算</p>
 <h3 id="html文档流-文本流"><a href="#html文档流-文本流" class="headerlink" title="html文档流/文本流"></a>html文档流/文本流</h3><p>文档流是指“Normal flow”，文本流是指“Text flow”。</p>
 <p>具体来说“Normal flow”是css中定位的一种默认情况，平时我们所说的BFC、IFC等都是“Normal flow”的情况下的规则。</p>
 <p>只要不是float和绝对定位方式布局的，都在普通流里面。</p>
@@ -343,24 +366,13 @@
 <h3 id="html-unicode图标"><a href="#html-unicode图标" class="headerlink" title="html unicode图标"></a>html unicode图标</h3><p>在浏览器中已经有庞大的图标和符号库-unicode，可以在html或者css文件中直接使用，在php或者js等文件中可以像使用字符串一样使用。需要注意的是，html或者css必须是utf-8，否则可能会出现乱码。也可以使用转义字符。</p>
 <p>字符串网站<a href="http://www.keyin.cn/font">http://www.keyin.cn/font</a></p>
 <p>字符串网站：<a href="https://blog.csdn.net/lhjuejiang/article/details/79818358">https://blog.csdn.net/lhjuejiang/article/details/79818358</a></p>
-<h2 id="CSS"><a href="#CSS" class="headerlink" title="CSS"></a>CSS</h2><h3 id="写法分类"><a href="#写法分类" class="headerlink" title="写法分类"></a>写法分类</h3><p>原生css有四种：</p>
-<p>行内样式:直接在html中的style属性编写css代码</p>
-<p>内嵌样式:编写class，在html中style标签中引入class</p>
-<p>导入样式:在内联样式中通过@import方法导入其他样式，供当前页面使用</p>
-<p>外部样式：在html中通过link标签加载样式，提供给当前页面使用</p>
-<p>推荐使用内嵌样式和外部样式</p>
-<p>行内样式的缺点：</p>
-<p>1.样式不能复用</p>
-<p>2.样式的权重太高，样式不好覆盖</p>
-<p>3.表现层与结构层没有分离</p>
-<p>4.不能进行缓存，影响加载效率</p>
-<p>导入样式的缺点：</p>
-<p>1.导入样式只能放到第一行，放在其他行会无效</p>
-<p>2.@import声明的样式表不能充分利用浏览器并发请求资源的行为，其加载行为往往会延后触发或被其他资源挂起</p>
-<p>3.由于@import样式表的延后加载，可能导致页面样式闪烁</p>
-<h3 id="模块化"><a href="#模块化" class="headerlink" title="模块化"></a>模块化</h3><p>使用css-loader，设置options.module为true</p>
-<p>构建时根据文件到位置、内容生成一个全局唯一的base64字符串，替换原来的名称以解决全局命名冲突的问题，这样就达到了模块化的目的</p>
-<h3 id="常见CSS属性"><a href="#常见CSS属性" class="headerlink" title="常见CSS属性"></a>常见CSS属性</h3><p><strong>背景图片</strong></p>
+<h3 id="在html中添加Google搜索"><a href="#在html中添加Google搜索" class="headerlink" title="在html中添加Google搜索"></a>在html中添加Google搜索</h3><p>可以在html中添加定制化Google搜索引擎</p>
+<p>注册Google账号，然后登陆到 <a href="https://www.google.com/cse/all，或者直接搜索Google">https://www.google.com/cse/all，或者直接搜索Google</a> custom search</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"gcse-search"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">async</span> <span class="attr">src</span>=<span class="string">"https://cse.google.com/cse.js?cx=de1f4d876bf449124"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="CSS"><a href="#CSS" class="headerlink" title="CSS"></a>CSS</h2><h3 id="常见CSS属性"><a href="#常见CSS属性" class="headerlink" title="常见CSS属性"></a>常见CSS属性</h3><p><strong>背景图片</strong></p>
 <p>background-img:</p>
 <p>Background-repeat:重复背景图片</p>
 <p>background-size：设定背景图片的尺寸</p>
@@ -591,7 +603,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            111
+                            113
                         </p>
                     </a>
                 </div>
@@ -701,8 +713,16 @@
         <span class="has-mr-6">1.2.3</span>
         <span>管理外链的内容</span>
         </a></li><li>
-        <a class="is-flex" href="#script标签">
+        <a class="is-flex" href="#form标签">
         <span class="has-mr-6">1.2.4</span>
+        <span>form标签</span>
+        </a></li><li>
+        <a class="is-flex" href="#input标签">
+        <span class="has-mr-6">1.2.5</span>
+        <span>input标签</span>
+        </a></li><li>
+        <a class="is-flex" href="#script标签">
+        <span class="has-mr-6">1.2.6</span>
         <span>script标签</span>
         </a></li></ul></li><li>
         <a class="is-flex" href="#常见HTML标签属性">
@@ -764,7 +784,7 @@
                 <span class="level-item">IT</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">38</span>
+                <span class="level-item tag">39</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E4%B8%AA%E4%BA%BA%E5%B9%B8%E7%A6%8F/">
@@ -788,7 +808,7 @@
                 <span class="level-item">技术博客</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">36</span>
+                <span class="level-item tag">37</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%9C%8B%E5%8F%8B/">
@@ -825,7 +845,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/IT/" style="font-size: 10px;">IT</a> <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 12px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 12px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8C/" style="font-size: 16px;">IT,Web，</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 12px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 14px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 12px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 12px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb/" style="font-size: 16px;">IT，Web</a> <a href="/tags/IT%EF%BC%8CWeb-Javascript/" style="font-size: 10px;">IT，Web,Javascript</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 18px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 16px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Rust/" style="font-size: 10px;">IT，Web,Rust</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 14px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 16px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 12px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 10px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 12px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 18px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 14px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 14px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">幸福</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 14px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/" style="font-size: 14px;">技术，IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 12px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 12px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 12px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 20px;">生活、幸福</a> <a href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">记录，生活</a>
+        <a href="/tags/IT/" style="font-size: 12px;">IT</a> <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 12px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 12px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8C/" style="font-size: 16px;">IT,Web，</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 12px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 14px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 14px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 12px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb/" style="font-size: 16px;">IT，Web</a> <a href="/tags/IT%EF%BC%8CWeb-Javascript/" style="font-size: 10px;">IT，Web,Javascript</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 18px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 16px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Rust/" style="font-size: 10px;">IT，Web,Rust</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 14px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 16px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 12px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 10px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 12px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 18px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 14px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 14px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">幸福</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 14px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/" style="font-size: 14px;">技术，IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 12px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 12px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 12px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 20px;">生活、幸福</a> <a href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">记录，生活</a>
     </div>
 </div>
     
@@ -1049,7 +1069,7 @@
                     <span class="level-item">五月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">3</span>
+                    <span class="level-item tag">4</span>
                 </span>
             </a>
         </li>
@@ -1071,7 +1091,7 @@
                     <span class="level-item">三月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">47</span>
+                    <span class="level-item tag">48</span>
                 </span>
             </a>
         </li>
@@ -1103,7 +1123,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT/">
                         <span class="tag">IT</span>
-                        <span class="tag is-grey">1</span>
+                        <span class="tag is-grey">2</span>
                     </a>
                 </div>
                 
@@ -1187,7 +1207,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/">
                         <span class="tag">IT、小程序、H5App</span>
-                        <span class="tag is-grey">2</span>
+                        <span class="tag is-grey">3</span>
                     </a>
                 </div>
                 
