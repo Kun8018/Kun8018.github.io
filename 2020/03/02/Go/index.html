@@ -19,7 +19,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://s1.ax1x.com/2020/04/20/J1Iu4O.th.jpg">
 <meta property="article:published_time" content="2020-03-02T13:40:33.000Z">
-<meta property="article:modified_time" content="2021-04-09T01:04:58.154Z">
+<meta property="article:modified_time" content="2021-05-27T23:07:10.084Z">
 <meta property="article:author" content="Kun Zhang">
 <meta property="article:tag" content="Web,IT,Go">
 <meta name="twitter:card" content="summary">
@@ -158,7 +158,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    28 分钟 读完 (大约 4178 个字)
+                    31 分钟 读完 (大约 4596 个字)
                 </span>
                 
                 
@@ -184,6 +184,10 @@
 
 
 
+<h2 id="变量与常量"><a href="#变量与常量" class="headerlink" title="变量与常量"></a>变量与常量</h2><p>变量使用var关键字，常量使用const关键字</p>
+<p>声明时可以显示声明类型，也可以有编译器自行推断</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a <span class="keyword">string</span> = <span class="string">"run"</span>  </span><br><span class="line"><span class="keyword">var</span> b,c <span class="keyword">int</span> = <span class="number">1</span>,<span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> b <span class="keyword">string</span> = <span class="string">"abc"</span>  <span class="comment">//显式声明</span></span><br><span class="line"><span class="keyword">const</span> b = <span class="string">"abc"</span>  <span class="comment">//编译器自行推断</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> c_name,c_name1 = value1,value2 <span class="comment">//多个声明简写</span></span><br></pre></td></tr></table></figure>
+
 
 
 <h2 id="关键字"><a href="#关键字" class="headerlink" title="关键字"></a>关键字</h2><p>defer</p>
@@ -193,6 +197,24 @@
 <p>make和new</p>
 <p><code>make</code> 的作用是初始化内置的数据结构，也就是我们在前面提到的切片、哈希表和 Channel<a href="https://draveness.me/golang/docs/part2-foundation/ch05-keyword/golang-make-and-new/#fn:2">2</a>；</p>
 <p><code>new</code> 的作用是根据传入的类型分配一片内存空间并返回指向这片内存空间的指针<a href="https://draveness.me/golang/docs/part2-foundation/ch05-keyword/golang-make-and-new/#fn:3">3</a>；</p>
+<h2 id="引入包"><a href="#引入包" class="headerlink" title="引入包"></a>引入包</h2><p>包是函数和数据的集合。用package保留字定义一个包，文件名不需要与包名一致，包名的约定是小写字符。</p>
+<p>单个引入包</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">"fmt"</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">"os"</span></span><br></pre></td></tr></table></figure>
+
+<p>常用的包：</p>
+<p>fmt:包fmt实现了格式化的I/O函数，这与C的printf和scanf类似</p>
+<p>io：这个包提供了原始的I/O操作界面</p>
+<p>bufio：这个包实现了缓冲的io</p>
+<p>sync：sync包提供了基本的同步原语</p>
+<p>sort:sort包提供了对数组和用户定义集合的原始的排序功能</p>
+<p>strconv：strconv包提供了字符串与基本数据类型的转换功能</p>
+<p>text/template:数据驱动的模版，用于生成文本输出，例如HTML</p>
+<p>net/http:net/http实现了http请求、响应和URL的解析，并提供了可扩展的HTTP服务和基本的HTTP客户端</p>
+<p>unsafe:unsafe包包含了Go程序中数据类型上所有不安全的操作，通常无须使用这个</p>
+<p>encoding/json:实现了编码和解码RFC 4627定义的JSON对象</p>
+<p>reflect:实现了运行时反射，允许程序通过抽象类型操作对象</p>
+<p>flag：flag包实现了命令行的解析</p>
+<p>os/exec:os/exec包执行外部命令</p>
 <h2 id="并发编程"><a href="#并发编程" class="headerlink" title="并发编程"></a>并发编程</h2><h3 id="调度器"><a href="#调度器" class="headerlink" title="调度器"></a>调度器</h3><p>Go 语言在并发编程方面有强大的能力，这离不开语言层面对并发编程的支持。</p>
 <p>多个线程可以属于同一个进程并共享内存空间。因为多线程不需要创建新的虚拟内存空间，所以它们也不需要内存管理单元处理上下文的切换，线程之间的通信也正是基于共享的内存进行的，与重量级的进程相比，线程显得比较轻量。</p>
 <p>虽然线程比较轻量，但是在调度时也有比较大的额外开销。每个线程会都占用 1 兆以上的内存空间，在对线程进行切换时不止会消耗较多的内存，恢复寄存器中的内容还需要向操作系统申请或者销毁对应的资源，每一次线程上下文的切换都需要消耗 ~1us 左右的时间<a href="https://draveness.me/golang/docs/part3-runtime/ch06-concurrency/golang-goroutine/#fn:1">1</a>，但是 Go 调度器对 Goroutine 的上下文切换约为 ~0.2us，减少了 80% 的额外开销</p>
@@ -524,76 +546,84 @@
         <span class="has-mr-6">1</span>
         <span>安装</span>
         </a></li><li>
-        <a class="is-flex" href="#关键字">
+        <a class="is-flex" href="#变量与常量">
         <span class="has-mr-6">2</span>
+        <span>变量与常量</span>
+        </a></li><li>
+        <a class="is-flex" href="#关键字">
+        <span class="has-mr-6">3</span>
         <span>关键字</span>
         </a></li><li>
+        <a class="is-flex" href="#引入包">
+        <span class="has-mr-6">4</span>
+        <span>引入包</span>
+        </a></li><li>
         <a class="is-flex" href="#并发编程">
-        <span class="has-mr-6">3</span>
+        <span class="has-mr-6">5</span>
         <span>并发编程</span>
         </a><ul class="menu-list"><li>
         <a class="is-flex" href="#调度器">
-        <span class="has-mr-6">3.1</span>
+        <span class="has-mr-6">5.1</span>
         <span>调度器</span>
         </a></li><li>
         <a class="is-flex" href="#定时器">
-        <span class="has-mr-6">3.2</span>
+        <span class="has-mr-6">5.2</span>
         <span>定时器</span>
         </a></li><li>
         <a class="is-flex" href="#管道">
-        <span class="has-mr-6">3.3</span>
+        <span class="has-mr-6">5.3</span>
         <span>管道</span>
         </a></li><li>
         <a class="is-flex" href="#网络轮询器">
-        <span class="has-mr-6">3.4</span>
+        <span class="has-mr-6">5.4</span>
         <span>网络轮询器</span>
         </a></li><li>
         <a class="is-flex" href="#系统监控">
-        <span class="has-mr-6">3.5</span>
+        <span class="has-mr-6">5.5</span>
         <span>系统监控</span>
         </a></li></ul></li><li>
         <a class="is-flex" href="#内存管理">
-        <span class="has-mr-6">4</span>
+        <span class="has-mr-6">6</span>
         <span>内存管理</span>
         </a><ul class="menu-list"><li>
         <a class="is-flex" href="#分配方法">
-        <span class="has-mr-6">4.1</span>
+        <span class="has-mr-6">6.1</span>
         <span>分配方法</span>
         </a></li><li>
         <a class="is-flex" href="#垃圾回收器">
-        <span class="has-mr-6">4.2</span>
+        <span class="has-mr-6">6.2</span>
         <span>垃圾回收器</span>
         </a></li><li>
         <a class="is-flex" href="#栈内存管理">
-        <span class="has-mr-6">4.3</span>
+        <span class="has-mr-6">6.3</span>
         <span>栈内存管理</span>
         </a></li></ul></li><li>
         <a class="is-flex" href="#数据库">
-        <span class="has-mr-6">5</span>
+        <span class="has-mr-6">7</span>
         <span>数据库</span>
         </a></li><li>
         <a class="is-flex" href="#模版引擎-Hugo">
-        <span class="has-mr-6">6</span>
+        <span class="has-mr-6">8</span>
         <span>模版引擎/Hugo</span>
         </a><ul class="menu-list"><li>
         <a class="is-flex" href="#模版引擎">
-        <span class="has-mr-6">6.1</span>
+        <span class="has-mr-6">8.1</span>
         <span>模版引擎</span>
         </a></li><li>
         <a class="is-flex" href="#路由-列表页">
-        <span class="has-mr-6">6.2</span>
+        <span class="has-mr-6">8.2</span>
         <span>路由/列表页</span>
         </a></li><li>
         <a class="is-flex" href="#变量">
-        <span class="has-mr-6">6.3</span>
+        <span class="has-mr-6">8.3</span>
         <span>变量</span>
         </a></li></ul></li><li>
         <a class="is-flex" href="#调试工具">
-        <span class="has-mr-6">7</span>
+        <span class="has-mr-6">9</span>
         <span>调试工具</span>
         </a></li><li>
         <a class="is-flex" href="#Node、Go、Python对比">
-        <span class="has-mr-6">8</span>
+        <span class="has-mr-6">10</span>
         <span>Node、Go、Python对比</span>
         </a></li></ul>
             </div>

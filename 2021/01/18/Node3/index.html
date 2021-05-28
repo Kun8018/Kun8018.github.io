@@ -19,7 +19,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://cdn.kunkunzhang.top/javascript.png">
 <meta property="article:published_time" content="2021-01-18T13:40:33.000Z">
-<meta property="article:modified_time" content="2021-05-16T18:57:49.598Z">
+<meta property="article:modified_time" content="2021-05-23T14:08:44.489Z">
 <meta property="article:author" content="Kun Zhang">
 <meta property="article:tag" content="IT，Web,Node">
 <meta name="twitter:card" content="summary">
@@ -158,7 +158,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    1 小时 读完 (大约 9712 个字)
+                    1 小时 读完 (大约 9752 个字)
                 </span>
                 
                 
@@ -320,6 +320,10 @@
 
 
 
+<h4 id="原生原型链"><a href="#原生原型链" class="headerlink" title="原生原型链"></a>原生原型链</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> b = <span class="number">2</span>;</span><br><span class="line">a = b;</span><br></pre></td></tr></table></figure>
+
+<p>b是基础类型，所以a的原型指向Number</p>
+<h5 id="改变原型"><a href="#改变原型" class="headerlink" title="改变原型"></a>改变原型</h5><p>使用构造函数的prototype属性</p>
 <h3 id="浏览器缓存storage方法"><a href="#浏览器缓存storage方法" class="headerlink" title="浏览器缓存storage方法"></a>浏览器缓存storage方法</h3><p>storage 接口用于脚本在浏览器保存数据。两个对象部署了这个接口：<code>window.sessionStorage</code>和<code>window.localStorage</code>。</p>
 <p>属性：</p>
 <p><code>Storage.length</code>：返回保存的数据项个数。</p>
@@ -738,7 +742,15 @@
         <a class="is-flex" href="#构造函数与构造函数的继承">
         <span class="has-mr-6">5.2</span>
         <span>构造函数与构造函数的继承</span>
-        </a></li></ul></li><li>
+        </a></li><li>
+        <a class="is-flex" href="#原生原型链">
+        <span class="has-mr-6">5.3</span>
+        <span>原生原型链</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#改变原型">
+        <span class="has-mr-6">5.3.1</span>
+        <span>改变原型</span>
+        </a></li></ul></li></ul></li><li>
         <a class="is-flex" href="#浏览器缓存storage方法">
         <span class="has-mr-6">6</span>
         <span>浏览器缓存storage方法</span>

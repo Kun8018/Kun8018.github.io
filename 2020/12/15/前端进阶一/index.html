@@ -19,7 +19,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://cdn.kunkunzhang.top/webpack.png">
 <meta property="article:published_time" content="2020-12-15T13:40:33.000Z">
-<meta property="article:modified_time" content="2021-05-06T00:56:46.276Z">
+<meta property="article:modified_time" content="2021-05-25T00:43:25.937Z">
 <meta property="article:author" content="Kun Zhang">
 <meta property="article:tag" content="IT，Web,数据库">
 <meta name="twitter:card" content="summary">
@@ -158,7 +158,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    1 小时 读完 (大约 8165 个字)
+                    1 小时 读完 (大约 8798 个字)
                 </span>
                 
                 
@@ -314,7 +314,39 @@
 <p>有一些编译插件中的步骤是异步的，这样就需要额外传入一个 callback 回调函数，并且在插件运行结束时，_必须_调用这个回调函数。</p>
 <p>loader</p>
 <h3 id="创建脚手架"><a href="#创建脚手架" class="headerlink" title="创建脚手架"></a>创建脚手架</h3><p>‘</p>
-<h3 id="webpack生命周期"><a href="#webpack生命周期" class="headerlink" title="webpack生命周期"></a>webpack生命周期</h3><h3 id="webpack-的缺点"><a href="#webpack-的缺点" class="headerlink" title="webpack 的缺点"></a>webpack 的缺点</h3><h3 id="webpack优化"><a href="#webpack优化" class="headerlink" title="webpack优化"></a>webpack优化</h3><p> 如果你的项目很小，构建很快，其实不需要特别关注性能方面的问题。</p>
+<h3 id="webpack生命周期"><a href="#webpack生命周期" class="headerlink" title="webpack生命周期"></a>webpack生命周期</h3><h3 id="webpack多入口配置"><a href="#webpack多入口配置" class="headerlink" title="webpack多入口配置"></a>webpack多入口配置</h3><p>通常使用webpack来打包单页应用，这个时候只需要配置一个入口文件，但是有时候会出现需要打包多个页面的项目，比如项目比较大或者项目需要多次的更新迭代时，都适合做成多页面程序；</p>
+<p>又或者，公司经常开发一些活动页，几个活动页毫不相关，页面之间也没有共享的数据，但是页面都是用相同的react框架，使用相同的弹框组件，在这种情景下就需要webpack进行多页面打包。</p>
+<p>这样既保留了单页应用的开发习惯，可以把每个页面看成单独的应用，又可以独立部署，解耦项目的复杂性，甚至可以在不同的页面选择不同的技术栈。</p>
+<p>可以把多页面应用看成乞丐版的前端微服务。</p>
+<p>手动配置</p>
+<p>配置多个入口文件和htmlwebpackplugin</p>
+<p>单页面</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  entry:&#123;</span><br><span class="line">    <span class="string">'page1'</span>:<span class="string">'./src/page/page1.js'</span>, <span class="comment">//页面1</span></span><br><span class="line">  &#125;，</span><br><span class="line">  output:&#123;</span><br><span class="line">     path:path.resolve(_dirname,<span class="string">'./dist'</span>),</span><br><span class="line">     filename:<span class="string">'js/[name]/[name]-bundle.js'</span>, <span class="comment">//filename不能写死，通过name获取bundle</span></span><br><span class="line">	&#125;，</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>多页面</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  entry:&#123;</span><br><span class="line">    <span class="string">'page1'</span>:<span class="string">'./src/page/page1.js'</span>, <span class="comment">//页面1</span></span><br><span class="line">    <span class="string">'page2'</span>:<span class="string">'./src/page/page2.js'</span>  <span class="comment">//页面2</span></span><br><span class="line">  &#125;，</span><br><span class="line">  output:&#123;</span><br><span class="line">     path:path.resolve(_dirname,<span class="string">'./dist'</span>),</span><br><span class="line">     filename:<span class="string">'js/[name]/[name]-bundle.js'</span>, <span class="comment">//filename不能写死，通过name获取bundle</span></span><br><span class="line">	&#125;，</span><br><span class="line">  plugins:[</span><br><span class="line">    <span class="keyword">new</span> HtmlWebpackPlugin(</span><br><span class="line">      &#123;</span><br><span class="line">        template: <span class="string">'./src/pages/page1/index.html'</span>,</span><br><span class="line">        chunks:[<span class="string">'page1'</span>],</span><br><span class="line">   		&#125;</span><br><span class="line">    ),</span><br><span class="line">    <span class="keyword">new</span> HtmlWebpackPlugin(</span><br><span class="line">      &#123;</span><br><span class="line">        template: <span class="string">'./src/pages/page2/index.html'</span>,</span><br><span class="line">        chunks:[<span class="string">'page2'</span>],</span><br><span class="line">   		&#125;</span><br><span class="line">    ),</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其他细节</p>
+<p>1.把多个页面共用的第三方库(React、Fastclick)单独打包成一个vendor.js</p>
+<p>2.把多个页面共用的逻辑代码和共用的全局css(字体、icon、全局cssreset)等单独打包common.js和common.css</p>
+<p>3.把运行时代码单独提取出来manifest.js</p>
+<p>4.把每个页面自己的业务代码打包出page1.js和page1.css</p>
+<p>通过optimization实现</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.export = &#123;</span><br><span class="line">  optimization:&#123;</span><br><span class="line">    splitChunks:&#123;</span><br><span class="line">      cacheGroups:&#123;</span><br><span class="line">        common:&#123;</span><br><span class="line">          name:<span class="string">"common"</span>,</span><br><span class="line">          chunks:<span class="string">"initial"</span>,</span><br><span class="line">          minSize:<span class="number">1</span>,</span><br><span class="line">          priority:<span class="number">0</span>,</span><br><span class="line">          minChunks:<span class="number">2</span> <span class="comment">//引用了2次才打包</span></span><br><span class="line">        &#125;,</span><br><span class="line">        vendor:&#123;</span><br><span class="line">          name:<span class="string">"vendor"</span>,</span><br><span class="line">          test:<span class="regexp">/[\\/]node_modules[\\/]/</span>,</span><br><span class="line">          chunks:<span class="string">"initial"</span>,</span><br><span class="line">          priority:<span class="number">10</span>,</span><br><span class="line">          minchunks:<span class="number">2</span> <span class="comment">//引用了2次才打包</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    runtimeChunk:&#123;<span class="attr">name</span>:<span class="string">'manifest'</span>&#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>动态添加</p>
+<p>通过glob库动态添加</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> getEntry = <span class="function"><span class="params">()</span> =&gt;</span>&#123;</span><br><span class="line">  <span class="keyword">const</span> entry = &#123;&#125;</span><br><span class="line">  glob.sync(<span class="string">'/src/js/*.js'</span>).forEach(<span class="function">(<span class="params">name</span>)=&gt;</span>&#123;</span><br><span class="line">    <span class="keyword">const</span> start = name.indexOf(<span class="string">'/src/js'</span>)+<span class="number">8</span>;</span><br><span class="line">    <span class="keyword">const</span> end = name.length <span class="number">-3</span>;</span><br><span class="line">    <span class="keyword">const</span> eArr = [];</span><br><span class="line">    <span class="keyword">const</span> n = name.slice(start,end);</span><br><span class="line">    eArr.push(name);</span><br><span class="line">    entry[n] = eArr;</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="keyword">return</span> entry;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  entry:getEntry(),</span><br><span class="line">  output:&#123;</span><br><span class="line">    path:path.resolve(_dirname,<span class="string">'./dist'</span>),</span><br><span class="line">    filename:<span class="string">'./js/[name].[chunkhash:8].js'</span> <span class="comment">//包名</span></span><br><span class="line">    chunkFilename:<span class="string">'js/[name].[chunkhash:8].js'</span><span class="comment">//公共块名</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">Object</span>.keys(config.entry).forEach(<span class="function">(<span class="params">name</span>)=&gt;</span>&#123;</span><br><span class="line">  config.plugins.push(<span class="keyword">new</span> HtmlWebpackPlugin(&#123;</span><br><span class="line">    template:<span class="string">`./src/<span class="subst">$&#123;name&#125;</span>.pug`</span></span><br><span class="line">    filename:<span class="string">`<span class="subst">$&#123;name&#125;</span>.html`</span></span><br><span class="line">    chunks:[<span class="string">'js'</span>,<span class="string">`<span class="subst">$&#123;name<span class="string">`],</span></span></span></span><br><span class="line"><span class="string"><span class="subst"><span class="string">    minify:&#123;</span></span></span></span><br><span class="line"><span class="string"><span class="subst"><span class="string">      collapseWhitespace:false;</span></span></span></span><br><span class="line"><span class="string"><span class="subst"><span class="string">		&#125;</span></span></span></span><br><span class="line"><span class="string"><span class="subst"><span class="string">  &#125;))</span></span></span></span><br><span class="line"><span class="string"><span class="subst"><span class="string">&#125;)</span></span></span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<h3 id="webpack-的缺点"><a href="#webpack-的缺点" class="headerlink" title="webpack 的缺点"></a>webpack 的缺点</h3><h3 id="webpack优化"><a href="#webpack优化" class="headerlink" title="webpack优化"></a>webpack优化</h3><p> 如果你的项目很小，构建很快，其实不需要特别关注性能方面的问题。</p>
 <p>但是随着项目涉及到的页面越来越多，功能和业务代码也会越来越多，相应的 <code>webpack</code> 的构建时间也会越来越久，这个时候我们就不得不考虑性能优化的事情了。</p>
 <p>因为这个构建时间与我们的日常开发是密切相关，当我们本地开发启动 <code>devServer</code> 或者 <code>build</code> 的时候，如果时间过长，会大大降低我们的工作效率。</p>
 <p>试想一个场景，我们突然碰到一个紧急 <code>bug</code>，项目启动需要花费 <code>3/4</code> 分钟，改完后项目 <code>build</code> 上线也要 <code>3/4</code> 分钟，这个时候脑瓜是不是 <code>duang</code>、<code>duang</code>、<code>duang</code>…</p>
@@ -348,6 +380,10 @@
 <li>合理配置 <code>chunk</code> 的哈希值</li>
 </ul>
 <p>在生产环境打包，一定要配置文件的 <code>hash</code>，这样有助于浏览器缓存我们的文件，当我们的代码文件没变化的时候，用户就只需要读取浏览器缓存的文件即可。<strong>一般来说 <code>javascript</code> 文件使用 <code>[chunkhash]</code>、<code>css</code> 文件使用 <code>[contenthash]</code>、其他资源（例如图片、字体等）使用 <code>[hash]</code>。</strong></p>
+<h2 id="Webpack-loader"><a href="#Webpack-loader" class="headerlink" title="Webpack loader"></a>Webpack loader</h2><p>scss-loader</p>
+<p>style-loader</p>
+<p>css-loader</p>
+<p>babel-loader</p>
 <h2 id="Webpack插件汇总"><a href="#Webpack插件汇总" class="headerlink" title="Webpack插件汇总"></a>Webpack插件汇总</h2><h3 id="功能类"><a href="#功能类" class="headerlink" title="功能类"></a>功能类</h3><p>html-webpack-plugin</p>
 <p>自动生成html，基本用法：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> HtmlWebpackPlugin(&#123;</span><br><span class="line">  filename: <span class="string">'index.html'</span>, <span class="comment">// 生成文件名</span></span><br><span class="line">  template: path.join(process.cwd(), <span class="string">'./index.html'</span>) <span class="comment">// 模班文件</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
@@ -837,76 +873,84 @@
         <span class="has-mr-6">2.8</span>
         <span>webpack生命周期</span>
         </a></li><li>
-        <a class="is-flex" href="#webpack-的缺点">
+        <a class="is-flex" href="#webpack多入口配置">
         <span class="has-mr-6">2.9</span>
+        <span>webpack多入口配置</span>
+        </a></li><li>
+        <a class="is-flex" href="#webpack-的缺点">
+        <span class="has-mr-6">2.10</span>
         <span>webpack 的缺点</span>
         </a></li><li>
         <a class="is-flex" href="#webpack优化">
-        <span class="has-mr-6">2.10</span>
+        <span class="has-mr-6">2.11</span>
         <span>webpack优化</span>
         </a></li></ul></li><li>
-        <a class="is-flex" href="#Webpack插件汇总">
+        <a class="is-flex" href="#Webpack-loader">
         <span class="has-mr-6">3</span>
+        <span>Webpack loader</span>
+        </a></li><li>
+        <a class="is-flex" href="#Webpack插件汇总">
+        <span class="has-mr-6">4</span>
         <span>Webpack插件汇总</span>
         </a><ul class="menu-list"><li>
         <a class="is-flex" href="#功能类">
-        <span class="has-mr-6">3.1</span>
+        <span class="has-mr-6">4.1</span>
         <span>功能类</span>
         </a></li><li>
         <a class="is-flex" href="#代码相关类">
-        <span class="has-mr-6">3.2</span>
+        <span class="has-mr-6">4.2</span>
         <span>代码相关类</span>
         </a></li><li>
         <a class="is-flex" href="#编译结果优化类">
-        <span class="has-mr-6">3.3</span>
+        <span class="has-mr-6">4.3</span>
         <span>编译结果优化类</span>
         </a></li><li>
         <a class="is-flex" href="#编译优化类">
-        <span class="has-mr-6">3.4</span>
+        <span class="has-mr-6">4.4</span>
         <span>编译优化类</span>
         </a></li><li>
         <a class="is-flex" href="#编译分析类">
-        <span class="has-mr-6">3.5</span>
+        <span class="has-mr-6">4.5</span>
         <span>编译分析类</span>
         </a></li></ul></li><li>
         <a class="is-flex" href="#Gulp">
-        <span class="has-mr-6">4</span>
+        <span class="has-mr-6">5</span>
         <span>Gulp</span>
         </a><ul class="menu-list"><li>
         <a class="is-flex" href="#Gulp-Api">
-        <span class="has-mr-6">4.1</span>
+        <span class="has-mr-6">5.1</span>
         <span>Gulp Api</span>
         </a></li><li>
         <a class="is-flex" href="#常用插件">
-        <span class="has-mr-6">4.2</span>
+        <span class="has-mr-6">5.2</span>
         <span>常用插件</span>
         </a></li><li>
         <a class="is-flex" href="#gulp与webpack、grant的区别">
-        <span class="has-mr-6">4.3</span>
+        <span class="has-mr-6">5.3</span>
         <span>gulp与webpack、grant的区别</span>
         </a></li></ul></li><li>
         <a class="is-flex" href="#Rollup">
-        <span class="has-mr-6">5</span>
+        <span class="has-mr-6">6</span>
         <span>Rollup</span>
         </a><ul class="menu-list"><li>
         <a class="is-flex" href="#Rollup-的好处">
-        <span class="has-mr-6">5.1</span>
+        <span class="has-mr-6">6.1</span>
         <span>Rollup 的好处</span>
         </a></li><li>
         <a class="is-flex" href="#基础插件">
-        <span class="has-mr-6">5.2</span>
+        <span class="has-mr-6">6.2</span>
         <span>基础插件</span>
         </a></li></ul></li><li>
         <a class="is-flex" href="#Parcel">
-        <span class="has-mr-6">6</span>
+        <span class="has-mr-6">7</span>
         <span>Parcel</span>
         </a></li><li>
         <a class="is-flex" href="#WebRTC">
-        <span class="has-mr-6">7</span>
+        <span class="has-mr-6">8</span>
         <span>WebRTC</span>
         </a></li><li>
         <a class="is-flex" href="#webpack学习资源">
-        <span class="has-mr-6">8</span>
+        <span class="has-mr-6">9</span>
         <span>webpack学习资源</span>
         </a></li></ul>
             </div>

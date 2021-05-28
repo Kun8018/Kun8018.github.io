@@ -19,7 +19,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://cdn.kunkunzhang.top/css3.png">
 <meta property="article:published_time" content="2020-08-02T13:40:33.000Z">
-<meta property="article:modified_time" content="2021-05-16T03:04:25.831Z">
+<meta property="article:modified_time" content="2021-05-24T23:24:24.507Z">
 <meta property="article:author" content="Kun Zhang">
 <meta property="article:tag" content="Web，IT，HTML，CSS">
 <meta name="twitter:card" content="summary">
@@ -158,7 +158,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    1 小时 读完 (大约 7612 个字)
+                    1 小时 读完 (大约 8330 个字)
                 </span>
                 
                 
@@ -327,6 +327,10 @@
 <p>class与id区别</p>
 <p>class可以有多个，id只有一个</p>
 <p>class一般为元素添加样式，利用id为元素添加行为–js</p>
+<p>以代码为例</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"a"</span> <span class="attr">class</span>=<span class="string">"a"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"b"</span> <span class="attr">class</span>=<span class="string">"b"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">id</span>=<span class="string">"c"</span> <span class="attr">class</span>=<span class="string">"c"</span>&gt;</span>I am here<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">type</span>=<span class="string">"text/css"</span>&gt;</span></span><br><span class="line"><span class="css">  <span class="selector-id">#a</span> &#123; <span class="attribute">font-size</span>:<span class="number">12px</span> &#125;</span></span><br><span class="line"><span class="css">  <span class="selector-tag">div</span> <span class="selector-tag">p</span> &#123; <span class="attribute">font-size</span>:<span class="number">13px</span> &#125;</span></span><br><span class="line"><span class="css">  <span class="selector-tag">div</span> <span class="selector-class">.c</span> &#123; <span class="attribute">font-size</span>:<span class="number">14px</span> &#125;</span></span><br><span class="line"><span class="css">  <span class="selector-class">.a</span> <span class="selector-class">.b</span> <span class="selector-class">.c</span> &#123; <span class="attribute">font-size</span>:<span class="number">15px</span> &#125;  <span class="comment">/*优先级最高*/</span></span></span><br><span class="line"><span class="css">  <span class="selector-id">#b</span> &#123; <span class="attribute">font-size</span>:<span class="number">16px</span> &#125;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>代码运行效果：只有15px生效</p>
 <h3 id="CSS中符号"><a href="#CSS中符号" class="headerlink" title="CSS中符号"></a>CSS中符号</h3><p>“&gt;”符号</p>
 <p>大于号代表某个元素的的下一代元素，A&gt;B是指A元素里的第一代B元素</p>
 <p>“~”符号</p>
@@ -361,6 +365,12 @@
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.father</span>&#123;</span><br><span class="line">  <span class="attribute">overflow</span>:hidden;</span><br><span class="line">  <span class="attribute">position</span>: absolute;</span><br><span class="line">  <span class="attribute">left</span>:<span class="number">20px</span>;</span><br><span class="line">  <span class="attribute">right</span>:<span class="number">20px</span>;</span><br><span class="line">  <span class="attribute">top</span>:<span class="number">50%</span>;</span><br><span class="line">  <span class="attribute">transform</span>: <span class="built_in">translateY</span>(-<span class="number">50%</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.son</span>&#123;</span><br><span class="line">  <span class="attribute">height</span>:<span class="number">0</span>;</span><br><span class="line">  <span class="attribute">width</span>:<span class="number">100%</span>;</span><br><span class="line">  <span class="attribute">padding-top</span>:<span class="number">50%</span>;</span><br><span class="line">  <span class="attribute">background</span>:pink;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">span</span>&#123;</span><br><span class="line">  <span class="attribute">position</span>:absolute;</span><br><span class="line">  <span class="attribute">top</span>:<span class="number">50%</span>;</span><br><span class="line">  <span class="attribute">left</span>:<span class="number">50%</span>; </span><br><span class="line">  <span class="attribute">transform</span>: <span class="built_in">translate</span>(-<span class="number">50%</span>,-<span class="number">50%</span>);</span><br><span class="line">  <span class="attribute">font-size</span>:<span class="number">10px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p><a href="https://segmentfault.com/a/1190000011668865">https://segmentfault.com/a/1190000011668865</a></p>
+<h4 id="字体渐变色"><a href="#字体渐变色" class="headerlink" title="字体渐变色"></a>字体渐变色</h4><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line">      span&#123;</span><br><span class="line">        background: linear-gradient(to right,red,blue);</span><br><span class="line"><span class="css">        <span class="selector-tag">-webkit-background-clip</span><span class="selector-pseudo">:text</span>;</span></span><br><span class="line"><span class="css">        <span class="selector-tag">color</span><span class="selector-pseudo">:transparent</span>;</span></span><br><span class="line">      &#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span>&gt;</span>前端渐变色<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
 <h3 id="滚动条样式"><a href="#滚动条样式" class="headerlink" title="滚动条样式"></a>滚动条样式</h3><p>webkit下滚动条主要有7个属性：</p>
 <p>::webkit-scrollbar：滚动条整体部分，可以设置宽度等</p>
 <p>::webkit-scrollbar-button：滚动条两端的按钮</p>
@@ -536,14 +546,30 @@
 <p>输出css文件为</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.container</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">article</span><span class="selector-attr">[role=<span class="string">"main"</span>]</span> &#123;</span><br><span class="line">  <span class="attribute">float</span>: left;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">62.5%</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">aside</span><span class="selector-attr">[role=<span class="string">"complimentary"</span>]</span> &#123;</span><br><span class="line">  <span class="attribute">float</span>: right;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">31.25%</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-
-
-
-
-
-
-
-
+<h4 id="scss与sass、less的区别"><a href="#scss与sass、less的区别" class="headerlink" title="scss与sass、less的区别"></a>scss与sass、less的区别</h4><p>Sass(Syntactically Awesome Stylesheet)是一种动态样式语言，比css多出很多功能(如变量、嵌套、运算、混入、继承、颜色处理、函数等等)。</p>
+<p>但是sass属于缩排语法，对于习惯CSS前端写法的来说很不直观，因此sass的语法进行了改良，sass 3就变成了scss。scss是css语法的拓展，用{}取代了缩进</p>
+<p>Less也是一种动态样式语言，对Css赋予了动态语言的特性，比如变量、继承、运算、函数，less既可以在客户端上运行，也可以在服务端运行</p>
+<p>scss与less的区别</p>
+<p>1.编译环境不一样</p>
+<p>scss是在服务端处理的，以前是Ruby，现在是Dart-Scss或者Node-Scss，而less是需要引入less.js来处理less代码输出css到浏览器，也可以在开发服务器将less语法编译成css再输出css到生产包目录，也有在线编译工具</p>
+<p>2.变量符不一样</p>
+<p>less是@，scss是$</p>
+<p>3.输出设置。Less没有输出设置，Scss提供四种输出设置</p>
+<p>nested：嵌套缩进的css代码</p>
+<p>Expanded：展开的多行代码</p>
+<p>compact:简洁格式的css代码</p>
+<p>compressed：压缩后的css代码</p>
+<p>4.Scss支持条件语句if{}else{}循环语句for{}循环等等，而less不支持</p>
+<p>5.引用外部css文件</p>
+<p>scss使用@import引用外部文件，如果不想编译生成同名的css文件，命名必须以_开头，scss会认为该文件是一个引用文件，不会将其编译为同名的css文件</p>
+<p>less的引用与css的@import没什么差异</p>
+<p>6.scss和less的工具库不同</p>
+<p>Less有UI组件库Bootstrap，Bootstrap的样式文件部分源码就是less写的</p>
+<p>Scss有工具库Compass，Compass与Scss的关系就像JQuery与JavaScript，封装了一系列有用的模块和模版，补充强化了Scss的功能</p>
+<p>7.安装体验不同</p>
+<p>使用npm或者yarn安装less很容易，而scss没有翻墙的话容易安装失败</p>
+<p>总结：</p>
+<p>less和scss都是css的强化版本，scss比less强大，是一种真正的编程语言，而less相对清晰明了，易于上手，对编译环境要求宽松。编译scss一般要安装ruby，ruby官网国内访问不了，所以更倾向于选择less</p>
 
         </div>
         
@@ -862,6 +888,10 @@
         <a class="is-flex" href="#元素高度始终为宽度的一半">
         <span class="has-mr-6">1.11.2</span>
         <span>元素高度始终为宽度的一半</span>
+        </a></li><li>
+        <a class="is-flex" href="#字体渐变色">
+        <span class="has-mr-6">1.11.3</span>
+        <span>字体渐变色</span>
         </a></li></ul></li><li>
         <a class="is-flex" href="#滚动条样式">
         <span class="has-mr-6">1.12</span>
@@ -906,7 +936,11 @@
         <a class="is-flex" href="#SCSS">
         <span class="has-mr-6">1.19</span>
         <span>SCSS</span>
-        </a></li></ul></li></ul>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#scss与sass、less的区别">
+        <span class="has-mr-6">1.19.1</span>
+        <span>scss与sass、less的区别</span>
+        </a></li></ul></li></ul></li></ul>
             </div>
         </div>
     </div>

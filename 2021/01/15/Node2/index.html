@@ -19,7 +19,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://cdn.kunkunzhang.top/jsEvent.jpg">
 <meta property="article:published_time" content="2021-01-15T13:40:33.000Z">
-<meta property="article:modified_time" content="2021-04-16T00:15:41.692Z">
+<meta property="article:modified_time" content="2021-05-27T01:02:33.770Z">
 <meta property="article:author" content="Kun Zhang">
 <meta property="article:tag" content="IT，Web,Node">
 <meta name="twitter:card" content="summary">
@@ -158,7 +158,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    1 小时 读完 (大约 8500 个字)
+                    1 小时 读完 (大约 8720 个字)
                 </span>
                 
                 
@@ -335,7 +335,7 @@
 <p><code>Event.isTrusted</code>属性返回一个布尔值，表示该事件是否由真实的用户行为产生。比如，用户点击链接会产生一个<code>click</code>事件，该事件是用户产生的；<code>Event</code>构造函数生成的事件，则是脚本产生的。</p>
 <p><code>Event.detail</code>属性只有浏览器的 UI （用户界面）事件才具有。该属性返回一个数值，表示事件的某种信息。具体含义与事件类型相关。比如，对于<code>click</code>和<code>dblclick</code>事件，<code>Event.detail</code>是鼠标按下的次数（<code>1</code>表示单击，<code>2</code>表示双击，<code>3</code>表示三击）；对于鼠标滚轮事件，<code>Event.detail</code>是滚轮正向滚动的距离，负值就是负向滚动的距离，返回值总是3的倍数。</p>
 <p>实例方法</p>
-<p><code>Event.preventDefault</code>方法取消浏览器对当前事件的默认行为。比如点击链接后，浏览器默认会跳转到另一个页面，使用这个方法以后，就不会跳转了；再比如，按一下空格键，页面向下滚动一段距离，使用这个方法以后也不会滚动了。该方法生效的前提是，事件对象的<code>cancelable</code>属性为<code>true</code>，如果为<code>false</code>，调用该方法没有任何效果。</p>
+<p><code>Event.preventDefault</code>方法取消浏览器对当前事件的默认行为。比如点击链接后，浏览器默认会跳转到另一个页面，使用这个方法以后，就不会跳转了；再比如，按一下空格键，页面向下滚动一段距离，使用这个方法以后也不会滚动了。该方法生效的前提是，事件对象的<code>cancelable</code>属性为<code>true</code>，如果为<code>false</code>，调用该方法没有任何效果。<strong>该方法只是取消事件对当前元素的默认影响，不会阻止事件的传播。如果要阻止传播，可以使用<code>stopPropagation()</code>或<code>stopImmediatePropagation()</code>方法。</strong></p>
 <p><code>Event.stopPropagation</code>方法阻止事件在 DOM 中继续传播，防止再触发定义在别的节点上的监听函数，但是不包括在当前节点上其他的事件监听函数。</p>
 <p><code>Event.stopImmediatePropagation</code>方法阻止同一个事件的其他监听函数被调用，不管监听函数定义在当前节点还是其他节点。也就是说，该方法阻止事件的传播，比<code>Event.stopPropagation()</code>更彻底。</p>
 <p><code>Event.composedPath()</code>返回一个数组，成员是事件的最底层节点和依次冒泡经过的所有上层节点。</p>
@@ -396,6 +396,10 @@
 <p><code>DataTransfer.clearData()</code>方法接受一个字符串（表示数据类型）作为参数，删除事件所带的指定类型的数据。如果没有指定类型，则删除所有数据。如果指定类型不存在，则调用该方法不会产生任何效果。</p>
 <p><code>DataTransfer.setDragImage()</code>拖动过程中（<code>dragstart</code>事件触发后），浏览器会显示一张图片跟随鼠标一起移动，表示被拖动的节点。这张图片是自动创造的，通常显示为被拖动节点的外观，不需要自己动手设置。</p>
 <p><code>DataTransfer.setDragImage()</code>方法可以自定义这张图片。它接受三个参数。第一个是<code>&lt;img&gt;</code>节点或者<code>&lt;canvas&gt;</code>节点，如果省略或为<code>null</code>，则使用被拖动的节点的外观；第二个和第三个参数为鼠标相对于该图片左上角的横坐标和纵坐标。</p>
+<h3 id="全局事件"><a href="#全局事件" class="headerlink" title="全局事件"></a>全局事件</h3><p>指定事件的回调函数，推荐使用的方法是元素的<code>addEventListener</code>方法。</p>
+<p>除了之外，还有一种方法可以直接指定事件的回调函数。</p>
+<p>这个接口是由<code>GlobalEventHandlers</code>接口提供的。它的优点是使用比较方便，缺点是只能为每个事件指定一个回调函数，并且无法指定事件触发的阶段（捕获阶段还是冒泡阶段）。</p>
+<p><code>HTMLElement</code>、<code>Document</code>和<code>Window</code>都继承了这个接口，也就是说，各种 HTML 元素、<code>document</code>对象、<code>window</code>对象上面都可以使用<code>GlobalEventHandlers</code>接口提供的属性。</p>
 
         </div>
         
@@ -686,7 +690,11 @@
         <a class="is-flex" href="#鼠标事件">
         <span class="has-mr-6">1.2.5</span>
         <span>鼠标事件</span>
-        </a></li></ul></li></ul></li></ul>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#全局事件">
+        <span class="has-mr-6">1.3</span>
+        <span>全局事件</span>
+        </a></li></ul></li></ul>
             </div>
         </div>
     </div>

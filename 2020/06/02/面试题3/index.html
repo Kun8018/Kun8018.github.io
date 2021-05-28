@@ -19,7 +19,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://kun8018.gitee.io/images/og_image.png">
 <meta property="article:published_time" content="2020-06-02T13:40:33.000Z">
-<meta property="article:modified_time" content="2021-05-16T03:40:57.795Z">
+<meta property="article:modified_time" content="2021-05-23T15:11:26.248Z">
 <meta property="article:author" content="Kun Zhang">
 <meta property="article:tag" content="IT，web">
 <meta name="twitter:card" content="summary">
@@ -152,7 +152,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    1 小时 读完 (大约 7497 个字)
+                    1 小时 读完 (大约 7547 个字)
                 </span>
                 
                 
@@ -412,6 +412,11 @@
 
 <h4 id="函数柯里化"><a href="#函数柯里化" class="headerlink" title="函数柯里化"></a>函数柯里化</h4><p>把接收多个参数的函数转换为接收单一参数的函数</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//普通函数</span></span><br><span class="line"><span class="keyword">var</span> add = <span class="function"><span class="keyword">function</span>(<span class="params">x,y</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">return</span> x+y</span><br><span class="line">&#125;</span><br><span class="line">add(<span class="number">3</span>,<span class="number">4</span>)</span><br><span class="line"><span class="comment">//柯里化之后</span></span><br><span class="line"><span class="keyword">var</span> foo = <span class="function"><span class="keyword">function</span>(<span class="params">x</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">y</span>)</span>&#123;</span><br><span class="line">     <span class="keyword">return</span> x+y</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">foo(<span class="number">3</span>)(<span class="number">4</span>)</span><br></pre></td></tr></table></figure>
+
+<h4 id="遍历深层次对象"><a href="#遍历深层次对象" class="headerlink" title="遍历深层次对象"></a>遍历深层次对象</h4><p>给定一个对象，用给定str去遍历</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> obj = &#123;</span><br><span class="line">   a:&#123;</span><br><span class="line">      b:&#123;</span><br><span class="line">        c:<span class="number">666</span></span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> str = <span class="string">'a.b.c'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> getData = <span class="function">(<span class="params">obj,str</span>)=&gt;</span>&#123;</span><br><span class="line">  str.split(<span class="string">'.'</span>).forEach(<span class="function"><span class="params">element</span> =&gt;</span>&#123;</span><br><span class="line">    obj = obj[element]</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="keyword">return</span> obj;</span><br><span class="line">&#125;</span><br><span class="line"> <span class="built_in">console</span>.log(getData(obj,str))</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+
 
 
 
@@ -831,56 +836,60 @@
         <span class="has-mr-6">2.1.17</span>
         <span>函数柯里化</span>
         </a></li><li>
-        <a class="is-flex" href="#数字千分位加逗号">
+        <a class="is-flex" href="#遍历深层次对象">
         <span class="has-mr-6">2.1.18</span>
+        <span>遍历深层次对象</span>
+        </a></li><li>
+        <a class="is-flex" href="#数字千分位加逗号">
+        <span class="has-mr-6">2.1.19</span>
         <span>数字千分位加逗号</span>
         </a></li><li>
         <a class="is-flex" href="#箭头函数与普通函数的区别">
-        <span class="has-mr-6">2.1.19</span>
+        <span class="has-mr-6">2.1.20</span>
         <span>箭头函数与普通函数的区别</span>
         </a></li><li>
         <a class="is-flex" href="#函数调用">
-        <span class="has-mr-6">2.1.20</span>
+        <span class="has-mr-6">2.1.21</span>
         <span>函数调用</span>
         </a></li><li>
         <a class="is-flex" href="#立即执行函数的作用">
-        <span class="has-mr-6">2.1.21</span>
+        <span class="has-mr-6">2.1.22</span>
         <span>立即执行函数的作用</span>
         </a></li><li>
         <a class="is-flex" href="#ES6语法转ES5语法的实现">
-        <span class="has-mr-6">2.1.22</span>
+        <span class="has-mr-6">2.1.23</span>
         <span>ES6语法转ES5语法的实现</span>
         </a></li><li>
         <a class="is-flex" href="#let、const、var区别">
-        <span class="has-mr-6">2.1.23</span>
+        <span class="has-mr-6">2.1.24</span>
         <span>let、const、var区别</span>
         </a></li><li>
         <a class="is-flex" href="#Jquery事件">
-        <span class="has-mr-6">2.1.24</span>
+        <span class="has-mr-6">2.1.25</span>
         <span>Jquery事件</span>
         </a></li><li>
         <a class="is-flex" href="#定时器原理">
-        <span class="has-mr-6">2.1.25</span>
+        <span class="has-mr-6">2.1.26</span>
         <span>定时器原理</span>
         </a></li><li>
         <a class="is-flex" href="#js实现红绿灯">
-        <span class="has-mr-6">2.1.26</span>
+        <span class="has-mr-6">2.1.27</span>
         <span>js实现红绿灯</span>
         </a></li><li>
         <a class="is-flex" href="#连线">
-        <span class="has-mr-6">2.1.27</span>
+        <span class="has-mr-6">2.1.28</span>
         <span>连线</span>
         </a></li><li>
         <a class="is-flex" href="#js判断数组方法比较">
-        <span class="has-mr-6">2.1.28</span>
+        <span class="has-mr-6">2.1.29</span>
         <span>js判断数组方法比较</span>
         </a></li><li>
         <a class="is-flex" href="#浏览器兼容问题">
-        <span class="has-mr-6">2.1.29</span>
+        <span class="has-mr-6">2.1.30</span>
         <span>浏览器兼容问题</span>
         </a></li><li>
         <a class="is-flex" href="#笔试资源">
-        <span class="has-mr-6">2.1.30</span>
+        <span class="has-mr-6">2.1.31</span>
         <span>笔试资源</span>
         </a></li></ul></li></ul></li></ul>
             </div>
