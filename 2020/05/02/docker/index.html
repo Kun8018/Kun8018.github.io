@@ -7,19 +7,19 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<title>Docker学习 - kun&#39;s blog</title>
+<title>docker - kun&#39;s blog</title>
 
 
     <meta name="description" content="概述　　Docker容器部署">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Docker学习">
+<meta property="og:title" content="docker">
 <meta property="og:url" content="http://kun8018.gitee.io/2020/05/02/docker/index.html">
 <meta property="og:site_name" content="kun&#39;s blog">
 <meta property="og:description" content="概述　　Docker容器部署">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://cdn.kunkunzhang.top/docker.png">
 <meta property="article:published_time" content="2020-05-02T13:40:33.000Z">
-<meta property="article:modified_time" content="2020-11-14T03:11:09.200Z">
+<meta property="article:modified_time" content="2021-06-14T03:21:28.529Z">
 <meta property="article:author" content="Kun Zhang">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://cdn.kunkunzhang.top/docker.png">
@@ -81,7 +81,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="https://s1.ax1x.com/2020/03/27/G9OfNn.th.png" alt="Docker学习" height="28">
+                <img src="https://s1.ax1x.com/2020/03/27/G9OfNn.th.png" alt="docker" height="28">
             
             </a>
         </div>
@@ -139,7 +139,7 @@
     
     <div class="card-image">
         <span  class="image is-7by1">
-            <img class="thumbnail" src="http://cdn.kunkunzhang.top/docker.png" alt="Docker学习">
+            <img class="thumbnail" src="http://cdn.kunkunzhang.top/docker.png" alt="docker">
         </span>
     </div>
     
@@ -157,7 +157,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    1 小时 读完 (大约 7735 个字)
+                    1 小时 读完 (大约 7853 个字)
                 </span>
                 
                 
@@ -171,7 +171,7 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                Docker学习
+                docker
             
         </h1>
         <div class="content">
@@ -226,6 +226,25 @@
 <p>为了保证数据的独立性，我们通常会单独挂载一个文件系统来存放数据。这种操作在虚拟机中是繁琐的，因为我们不但要搞定挂载在不同宿主机中实现的方法，还要考虑挂载文件系统兼容性，虚拟操作系统配置等问题。值得庆幸的是，这些在 Docker 里都已经为我们轻松的实现了，我们只需要简单的一两个命令或参数，就能完成文件系统目录的挂载。</p>
 <p>能够这么简单的实现挂载，主要还是得益于 <code>Docker</code> 底层的 Union File System 技术。在 <code>UnionFS</code> 的加持下，除了能够从宿主操作系统中挂载目录外，还能够建立独立的目录持久存放数据，或者在容器间共享。</p>
 <p>在 <code>Docker</code> 中，通过这几种方式进行数据共享或持久化的文件或目录，我们都称为数据卷 ( <code>Volume</code> )…</p>
+<h2 id="报错处理"><a href="#报错处理" class="headerlink" title="报错处理"></a>报错处理</h2><h3 id="rate-limit"><a href="#rate-limit" class="headerlink" title="rate limit"></a>rate limit</h3><p>docker拉取镜像时报错</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Error response from daemon:toomanyrequests: You have reached your pull rate limit</span><br></pre></td></tr></table></figure>
+
+<p>dockerhub从2020年11月2日起限制非付费用户的拉取频率：</p>
+<p>匿名用户每6小时允许pull100次，</p>
+<p>已登录用户每6小时允许pull200次</p>
+<p>方法：修改拉取的镜像源</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/docker/daemon.json</span><br></pre></td></tr></table></figure>
+
+<p>添加中科大的镜像源</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"registry-mirrors"</span>:[<span class="string">"https://ustc-edu-cn.mirror.aliyuncs.com"</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>重启docker服务</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl daemon-reload &amp;&amp; systemctl restart docker</span><br></pre></td></tr></table></figure>
+
+
+
+
+
 <h2 id="Dockerfile"><a href="#Dockerfile" class="headerlink" title="Dockerfile"></a>Dockerfile</h2><p>Dockerfile 是一个用来构建镜像的文本文件，文本内容包含了一条条构建镜像所需的指令和说明。通过 <code>Dockerfile</code> 我们可以更加清晰、明确的给定 <code>Docker</code> 镜像的制作过程，而由于其仅是简单、小体积的文件，在网络等其他介质中传递的速度极快，能够更快的帮助我们实现容器迁移和集群部署</p>
 <p><code>Dockerfile</code> 的指令简单分为五大类：</p>
 <ul>
@@ -643,7 +662,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            113
+                            116
                         </p>
                     </a>
                 </div>
@@ -753,80 +772,88 @@
         <span class="has-mr-6">3</span>
         <span>基本概念</span>
         </a></li><li>
-        <a class="is-flex" href="#Dockerfile">
+        <a class="is-flex" href="#报错处理">
         <span class="has-mr-6">4</span>
+        <span>报错处理</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#rate-limit">
+        <span class="has-mr-6">4.1</span>
+        <span>rate limit</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#Dockerfile">
+        <span class="has-mr-6">5</span>
         <span>Dockerfile</span>
         </a><ul class="menu-list"><li>
         <a class="is-flex" href="#使用技巧">
-        <span class="has-mr-6">4.1</span>
+        <span class="has-mr-6">5.1</span>
         <span>使用技巧</span>
         </a></li></ul></li><li>
         <a class="is-flex" href="#容器">
-        <span class="has-mr-6">5</span>
+        <span class="has-mr-6">6</span>
         <span>容器</span>
         </a><ul class="menu-list"><li>
         <a class="is-flex" href="#容器网络">
-        <span class="has-mr-6">5.1</span>
+        <span class="has-mr-6">6.1</span>
         <span>容器网络</span>
         </a></li><li>
         <a class="is-flex" href="#容器互联">
-        <span class="has-mr-6">5.2</span>
+        <span class="has-mr-6">6.2</span>
         <span>容器互联</span>
         </a></li></ul></li><li>
         <a class="is-flex" href="#镜像">
-        <span class="has-mr-6">6</span>
+        <span class="has-mr-6">7</span>
         <span>镜像</span>
         </a><ul class="menu-list"><li>
         <a class="is-flex" href="#镜像基本操作">
-        <span class="has-mr-6">6.1</span>
+        <span class="has-mr-6">7.1</span>
         <span>镜像基本操作</span>
         </a></li><li>
         <a class="is-flex" href="#保存和共享镜像">
-        <span class="has-mr-6">6.2</span>
+        <span class="has-mr-6">7.2</span>
         <span>保存和共享镜像</span>
         </a></li></ul></li><li>
         <a class="is-flex" href="#Docker-hub">
-        <span class="has-mr-6">7</span>
+        <span class="has-mr-6">8</span>
         <span>Docker-hub</span>
         </a></li><li>
         <a class="is-flex" href="#Docker-machine">
-        <span class="has-mr-6">8</span>
+        <span class="has-mr-6">9</span>
         <span>Docker-machine</span>
         </a></li><li>
         <a class="is-flex" href="#Docker-compose">
-        <span class="has-mr-6">9</span>
+        <span class="has-mr-6">10</span>
         <span>Docker-compose</span>
         </a></li><li>
         <a class="is-flex" href="#数据管理">
-        <span class="has-mr-6">10</span>
+        <span class="has-mr-6">11</span>
         <span>数据管理</span>
         </a></li><li>
         <a class="is-flex" href="#Docker-Swam">
-        <span class="has-mr-6">11</span>
+        <span class="has-mr-6">12</span>
         <span>Docker-Swam</span>
         </a><ul class="menu-list"><li>
         <a class="is-flex" href="#建立跨主机网络">
-        <span class="has-mr-6">11.1</span>
+        <span class="has-mr-6">12.1</span>
         <span>建立跨主机网络</span>
         </a></li></ul></li><li>
         <a class="is-flex" href="#搭建私有docker仓库">
-        <span class="has-mr-6">12</span>
+        <span class="has-mr-6">13</span>
         <span>搭建私有docker仓库</span>
         </a></li><li>
         <a class="is-flex" href="#镜像批量清理脚本">
-        <span class="has-mr-6">13</span>
+        <span class="has-mr-6">14</span>
         <span>镜像批量清理脚本</span>
         </a></li><li>
         <a class="is-flex" href="#实战1：部署mysql和nginx">
-        <span class="has-mr-6">14</span>
+        <span class="has-mr-6">15</span>
         <span>实战1：部署mysql和nginx</span>
         </a></li><li>
         <a class="is-flex" href="#实战2-部署php、mysql、nginx">
-        <span class="has-mr-6">15</span>
+        <span class="has-mr-6">16</span>
         <span>实战2:部署php、mysql、nginx</span>
         </a></li><li>
         <a class="is-flex" href="#docker中文资源">
-        <span class="has-mr-6">16</span>
+        <span class="has-mr-6">17</span>
         <span>docker中文资源</span>
         </a></li></ul>
             </div>
@@ -884,7 +911,7 @@
                 <span class="level-item">IT</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">39</span>
+                <span class="level-item tag">40</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E4%B8%AA%E4%BA%BA%E5%B9%B8%E7%A6%8F/">
@@ -908,7 +935,7 @@
                 <span class="level-item">技术博客</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">37</span>
+                <span class="level-item tag">39</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%9C%8B%E5%8F%8B/">
@@ -945,7 +972,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/IT/" style="font-size: 12px;">IT</a> <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 12px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 12px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8C/" style="font-size: 16px;">IT,Web，</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 12px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 14px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 14px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 12px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb/" style="font-size: 16px;">IT，Web</a> <a href="/tags/IT%EF%BC%8CWeb-Javascript/" style="font-size: 10px;">IT，Web,Javascript</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 18px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 16px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Rust/" style="font-size: 10px;">IT，Web,Rust</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 14px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 16px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 12px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 10px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 12px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 18px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 14px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 14px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">幸福</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 14px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/" style="font-size: 14px;">技术，IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 12px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 12px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 12px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 20px;">生活、幸福</a> <a href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">记录，生活</a>
+        <a href="/tags/IT/" style="font-size: 11.67px;">IT</a> <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 11.67px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 13.33px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8C/" style="font-size: 15px;">IT,Web，</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 11.67px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 13.33px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 13.33px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 11.67px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb/" style="font-size: 15px;">IT，Web</a> <a href="/tags/IT%EF%BC%8CWeb-Javascript/" style="font-size: 10px;">IT，Web,Javascript</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 16.67px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 15px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Rust/" style="font-size: 10px;">IT，Web,Rust</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 13.33px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 15px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 11.67px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 10px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 13.33px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 16.67px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 13.33px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 13.33px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">幸福</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 13.33px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/" style="font-size: 13.33px;">技术，IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 11.67px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 11.67px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 11.67px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 18.33px;">生活、幸福</a> <a href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">记录，生活</a>
     </div>
 </div>
     
@@ -1103,7 +1130,7 @@
                     <span class="level-item">十二月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">5</span>
+                    <span class="level-item tag">6</span>
                 </span>
             </a>
         </li>
@@ -1136,7 +1163,7 @@
                     <span class="level-item">八月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">8</span>
+                    <span class="level-item tag">9</span>
                 </span>
             </a>
         </li>
@@ -1158,7 +1185,7 @@
                     <span class="level-item">六月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">20</span>
+                    <span class="level-item tag">21</span>
                 </span>
             </a>
         </li>
@@ -1244,7 +1271,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT-Web/">
                         <span class="tag">IT,Web,</span>
-                        <span class="tag is-grey">2</span>
+                        <span class="tag is-grey">3</span>
                     </a>
                 </div>
                 
@@ -1405,7 +1432,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/">
                         <span class="tag">IT，Web,数据库</span>
-                        <span class="tag is-grey">7</span>
+                        <span class="tag is-grey">8</span>
                     </a>
                 </div>
                 
@@ -1440,7 +1467,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/">
                         <span class="tag">Web，IT，HTML，CSS</span>
-                        <span class="tag is-grey">2</span>
+                        <span class="tag is-grey">3</span>
                     </a>
                 </div>
                 
@@ -1575,7 +1602,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="https://s1.ax1x.com/2020/03/27/G9OfNn.th.png" alt="Docker学习" height="28">
+                    <img src="https://s1.ax1x.com/2020/03/27/G9OfNn.th.png" alt="docker" height="28">
                 
                 </a>
                 <p class="is-size-7">

@@ -19,7 +19,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://kun8018.gitee.io/images/og_image.png">
 <meta property="article:published_time" content="2020-06-02T13:40:33.000Z">
-<meta property="article:modified_time" content="2021-05-02T15:54:12.075Z">
+<meta property="article:modified_time" content="2021-06-14T15:11:23.705Z">
 <meta property="article:author" content="Kun Zhang">
 <meta property="article:tag" content="IT，Web,Node，React">
 <meta name="twitter:card" content="summary">
@@ -152,7 +152,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    1 小时 读完 (大约 7041 个字)
+                    1 小时 读完 (大约 7601 个字)
                 </span>
                 
                 
@@ -352,7 +352,7 @@
 
 
 <h2 id="React优化"><a href="#React优化" class="headerlink" title="React优化"></a>React优化</h2><p><a href="https://juejin.cn/post/6935584878071119885">https://juejin.cn/post/6935584878071119885</a></p>
-<h3 id="懒渲染"><a href="#懒渲染" class="headerlink" title="懒渲染"></a>懒渲染</h3><p>当组件进入可视区域才渲染组件，如modal/drawer这种需要用户操作才会出现的组件。</p>
+<h3 id="懒渲染react-visibility-observer"><a href="#懒渲染react-visibility-observer" class="headerlink" title="懒渲染react-visibility-observer"></a>懒渲染react-visibility-observer</h3><p>当组件进入可视区域才渲染组件，如modal/drawer这种需要用户操作才会出现的组件。</p>
 <p>使用react-visibility-observer监听</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">import VisibilityObserver,&#123;useVisibilityObserver,&#125; from &quot;react-visibility-observer&quot;</span><br><span class="line"></span><br><span class="line">const VisibilityObserverChildren &#x3D; (&#123;callback,children&#125;) &#x3D;&gt;&#123;</span><br><span class="line">  const &#123;isVisible&#125; &#x3D; useVisibilityObserver()</span><br><span class="line">  useEffect(()&#x3D;&gt;&#123;</span><br><span class="line">    callback(isVisible)</span><br><span class="line">  &#125;,[callback,isVisible])</span><br><span class="line">  </span><br><span class="line">  return &lt;&gt;&#123;children&#125;&lt;&#x2F;&gt;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -407,8 +407,63 @@
 
 
 <p>使用hooks</p>
-<h3 id="react-dnd"><a href="#react-dnd" class="headerlink" title="react-dnd"></a>react-dnd</h3><p><a href="Https://juejin.cn/post/6933036276660731912">Https://juejin.cn/post/6933036276660731912</a>　</p>
-<h3 id="react-intl-universal"><a href="#react-intl-universal" class="headerlink" title="react-intl-universal"></a>react-intl-universal</h3><h2 id="immutablejs"><a href="#immutablejs" class="headerlink" title="immutablejs"></a>immutablejs</h2><p>Immutable数据就是一旦创建，就不能更改的数据。每当对Immutable对象进行修改的时候，就会返回一个新的Immutable对象，以此来保证数据的不可变</p>
+<h3 id="eventbus"><a href="#eventbus" class="headerlink" title="eventbus"></a>eventbus</h3><p>安装</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn add events</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//event.ts</span></span><br><span class="line"><span class="keyword">import</span> &#123;EventEmitter&#125; <span class="keyword">from</span> <span class="string">'events'</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">new</span> EventEmitter()</span><br><span class="line"></span><br><span class="line"><span class="comment">//发布</span></span><br><span class="line"><span class="keyword">import</span> emitter <span class="keyword">from</span> <span class="string">'./event'</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Father</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(props)&#123;</span><br><span class="line">    <span class="keyword">super</span>(props)</span><br><span class="line">  &#125;</span><br><span class="line">  handleClick = <span class="function"><span class="params">()</span> =&gt;</span>&#123;</span><br><span class="line">    emitter.emit(<span class="string">'info'</span>,<span class="string">'来自father的info'</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> Father</span><br><span class="line"><span class="comment">//订阅</span></span><br><span class="line"><span class="comment">//emitter.addListener()事件监听订阅</span></span><br><span class="line"><span class="comment">//emitter.removeListener()进行事件销毁，取消订阅</span></span><br><span class="line"><span class="keyword">import</span> emitter <span class="keyword">from</span> <span class="string">'./event'</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Son</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(props)&#123;</span><br><span class="line">    <span class="keyword">super</span>(props)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="react-beautiful-dnd"><a href="#react-beautiful-dnd" class="headerlink" title="react-beautiful-dnd"></a>react-beautiful-dnd</h3><h3 id="react-dnd"><a href="#react-dnd" class="headerlink" title="react-dnd"></a>react-dnd</h3><p><a href="Https://juejin.cn/post/6933036276660731912">Https://juejin.cn/post/6933036276660731912</a>　</p>
+<h3 id="react-intl-universal"><a href="#react-intl-universal" class="headerlink" title="react-intl-universal"></a>react-intl-universal</h3><h3 id="uuid"><a href="#uuid" class="headerlink" title="uuid"></a>uuid</h3><p>uuid是通用唯一识别码(Universally Unique Identifier)的缩写。是一种软件建构辨准，亦为开发软件基金会组织在分布式计算环境领域的一部分。其目的是让分布式系统中的所有元素具有唯一的辨识信息，而不需要通过中央控制端来做辨识信息的指定。</p>
+<p>UUID由一组32位数的16进制数字构成。对于UUID，就算每纳秒产生一百万个UUID，要花100亿年才会将所有UUID用完。</p>
+<p>格式</p>
+<p>uuid32个16进制数字用连字号分成五组来显示，所以共有36个字符</p>
+<p>UUID版本通过M表示，当前规范有5个版本，可选值为1、2、3、4、5，这5个版本使用不同的算法，利用不同的信息产生UUID，各版本有各版本的优势，具体来说：</p>
+<p>uuid.v1()：创建版本1(时间戳)UUID</p>
+<p>uuid.v3()：创建版本3(md5命名空间)UUID</p>
+<p>uuid.v4()：创建版本4(随机)UUID</p>
+<p>uuid.v5()：创建版本5(带SHA-1的命名空间)IIOD</p>
+<p>安装</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install uuid</span><br></pre></td></tr></table></figure>
+
+<p>使用</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; v4 <span class="keyword">as</span> uuidv4&#125; <span class="keyword">from</span> <span class="string">'uuid'</span></span><br><span class="line"></span><br><span class="line">uuidv4()</span><br></pre></td></tr></table></figure>
+
+<p>可以使用uuid进行验证登陆,未登陆状态下生产uuid</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> uuid = sessionStorage.getItem(<span class="string">'uuid'</span>)</span><br><span class="line"><span class="keyword">if</span>(!uuid)&#123;</span><br><span class="line">  sessionStorage.setItem(<span class="string">'uuid'</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(getToken())&#123;</span><br><span class="line">  sessionStorage.removeItem(<span class="string">'uuid'</span>);</span><br><span class="line">&#125;<span class="keyword">else</span> &#123;</span><br><span class="line">  <span class="keyword">let</span> uuid = sessionStorage.getItem(<span class="string">'uuid'</span>);</span><br><span class="line">  <span class="keyword">if</span>(!uuid)&#123;</span><br><span class="line">    sessionStorage.setItem(<span class="string">'uuid'</span>,uuidv4());</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<h3 id="js-cookie"><a href="#js-cookie" class="headerlink" title="js-cookie"></a>js-cookie</h3><p>cookie插件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install js-cookie --save</span><br></pre></td></tr></table></figure>
+
+<p>引用</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Cookies <span class="keyword">from</span> <span class="string">'js-cookie'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//设置cookie</span></span><br><span class="line">Cookies.set(<span class="string">'name'</span>,<span class="string">'value'</span>,&#123;<span class="attr">expire</span>:<span class="number">7</span>,<span class="attr">path</span>:<span class="string">''</span>&#125;); <span class="comment">//7天过期</span></span><br><span class="line">Cookies.set(<span class="string">'name'</span>,&#123;<span class="attr">foo</span>:<span class="string">'bar'</span>&#125;); <span class="comment">//设置一个json</span></span><br><span class="line"><span class="comment">//获取cookie</span></span><br><span class="line">Cookies.get(<span class="string">'name'</span>); <span class="comment">//获取cookie</span></span><br><span class="line">Cookies.get();  <span class="comment">//读取所有cookie</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//删除cookie</span></span><br><span class="line">Cookies.remove(<span class="string">'name'</span>); <span class="comment">//删除cookie</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="react-color"><a href="#react-color" class="headerlink" title="react-color"></a>react-color</h3><p>react-color是一个拾色器，通过它获取颜色值</p>
+<p>安装</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i react-color -S</span><br></pre></td></tr></table></figure>
+
+<p>使用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">import &#123; TwitterPicker &#125; from &#39;react-dom&#39;</span><br><span class="line"></span><br><span class="line">function () &#123;</span><br><span class="line">  render() &#123;</span><br><span class="line">    &lt;TwitterPicker </span><br><span class="line">      width&#x3D;&quot;240px&quot;</span><br><span class="line">      </span><br><span class="line">      &#x2F;&gt;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="react-lazyload"><a href="#react-lazyload" class="headerlink" title="react-lazyload"></a>react-lazyload</h3><p>安装</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save react-lazyload</span><br></pre></td></tr></table></figure>
+
+<p>懒加载图片</p>
+<p>懒加载组件</p>
+<h2 id="immutablejs"><a href="#immutablejs" class="headerlink" title="immutablejs"></a>immutablejs</h2><p>Immutable数据就是一旦创建，就不能更改的数据。每当对Immutable对象进行修改的时候，就会返回一个新的Immutable对象，以此来保证数据的不可变</p>
 <p>有人说 Immutable 可以给 React 应用带来数十倍的提升，也有人说 Immutable 的引入是近期 JavaScript 中伟大的发明，因为同期 React 太火，它的光芒被掩盖了。这些至少说明 Immutable 是很有价值的。</p>
 <p>JavaScript 中的对象一般是可变的（Mutable），因为使用了引用赋值，新的对象简单的引用了原始对象，改变新的对象将影响到原始对象，比如</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line"> a: <span class="number">1</span>,</span><br><span class="line"> b: <span class="number">2</span></span><br><span class="line">&#125;;<span class="keyword">var</span> obj1 = obj;obj1.a = <span class="number">999</span>;</span><br><span class="line">obj.a <span class="comment">//999</span></span><br></pre></td></tr></table></figure>
@@ -626,7 +681,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            113
+                            116
                         </p>
                     </a>
                 </div>
@@ -796,9 +851,9 @@
         <span class="has-mr-6">2</span>
         <span>React优化</span>
         </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#懒渲染">
+        <a class="is-flex" href="#懒渲染react-visibility-observer">
         <span class="has-mr-6">2.1</span>
-        <span>懒渲染</span>
+        <span>懒渲染react-visibility-observer</span>
         </a></li></ul></li><li>
         <a class="is-flex" href="#react库">
         <span class="has-mr-6">3</span>
@@ -816,13 +871,37 @@
         <span class="has-mr-6">3.3</span>
         <span>GraphQL</span>
         </a></li><li>
-        <a class="is-flex" href="#react-dnd">
+        <a class="is-flex" href="#eventbus">
         <span class="has-mr-6">3.4</span>
+        <span>eventbus</span>
+        </a></li><li>
+        <a class="is-flex" href="#react-beautiful-dnd">
+        <span class="has-mr-6">3.5</span>
+        <span>react-beautiful-dnd</span>
+        </a></li><li>
+        <a class="is-flex" href="#react-dnd">
+        <span class="has-mr-6">3.6</span>
         <span>react-dnd</span>
         </a></li><li>
         <a class="is-flex" href="#react-intl-universal">
-        <span class="has-mr-6">3.5</span>
+        <span class="has-mr-6">3.7</span>
         <span>react-intl-universal</span>
+        </a></li><li>
+        <a class="is-flex" href="#uuid">
+        <span class="has-mr-6">3.8</span>
+        <span>uuid</span>
+        </a></li><li>
+        <a class="is-flex" href="#js-cookie">
+        <span class="has-mr-6">3.9</span>
+        <span>js-cookie</span>
+        </a></li><li>
+        <a class="is-flex" href="#react-color">
+        <span class="has-mr-6">3.10</span>
+        <span>react-color</span>
+        </a></li><li>
+        <a class="is-flex" href="#react-lazyload">
+        <span class="has-mr-6">3.11</span>
+        <span>react-lazyload</span>
         </a></li></ul></li><li>
         <a class="is-flex" href="#immutablejs">
         <span class="has-mr-6">4</span>
@@ -911,7 +990,7 @@
                 <span class="level-item">IT</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">39</span>
+                <span class="level-item tag">40</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E4%B8%AA%E4%BA%BA%E5%B9%B8%E7%A6%8F/">
@@ -935,7 +1014,7 @@
                 <span class="level-item">技术博客</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">37</span>
+                <span class="level-item tag">39</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%9C%8B%E5%8F%8B/">
@@ -972,7 +1051,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/IT/" style="font-size: 12px;">IT</a> <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 12px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 12px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8C/" style="font-size: 16px;">IT,Web，</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 12px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 14px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 14px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 12px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb/" style="font-size: 16px;">IT，Web</a> <a href="/tags/IT%EF%BC%8CWeb-Javascript/" style="font-size: 10px;">IT，Web,Javascript</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 18px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 16px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Rust/" style="font-size: 10px;">IT，Web,Rust</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 14px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 16px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 12px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 10px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 12px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 18px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 14px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 14px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">幸福</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 14px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/" style="font-size: 14px;">技术，IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 12px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 12px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 12px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 20px;">生活、幸福</a> <a href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">记录，生活</a>
+        <a href="/tags/IT/" style="font-size: 11.67px;">IT</a> <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 11.67px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 13.33px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8C/" style="font-size: 15px;">IT,Web，</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 11.67px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 13.33px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 13.33px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 11.67px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb/" style="font-size: 15px;">IT，Web</a> <a href="/tags/IT%EF%BC%8CWeb-Javascript/" style="font-size: 10px;">IT，Web,Javascript</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 16.67px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 15px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Rust/" style="font-size: 10px;">IT，Web,Rust</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 13.33px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 15px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 11.67px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 10px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 13.33px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 16.67px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 13.33px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 13.33px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">幸福</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 13.33px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/" style="font-size: 13.33px;">技术，IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 11.67px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 11.67px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 11.67px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 18.33px;">生活、幸福</a> <a href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">记录，生活</a>
     </div>
 </div>
     
@@ -1130,7 +1209,7 @@
                     <span class="level-item">十二月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">5</span>
+                    <span class="level-item tag">6</span>
                 </span>
             </a>
         </li>
@@ -1163,7 +1242,7 @@
                     <span class="level-item">八月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">8</span>
+                    <span class="level-item tag">9</span>
                 </span>
             </a>
         </li>
@@ -1185,7 +1264,7 @@
                     <span class="level-item">六月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">20</span>
+                    <span class="level-item tag">21</span>
                 </span>
             </a>
         </li>
@@ -1271,7 +1350,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT-Web/">
                         <span class="tag">IT,Web,</span>
-                        <span class="tag is-grey">2</span>
+                        <span class="tag is-grey">3</span>
                     </a>
                 </div>
                 
@@ -1432,7 +1511,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/">
                         <span class="tag">IT，Web,数据库</span>
-                        <span class="tag is-grey">7</span>
+                        <span class="tag is-grey">8</span>
                     </a>
                 </div>
                 
@@ -1467,7 +1546,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/">
                         <span class="tag">Web，IT，HTML，CSS</span>
-                        <span class="tag is-grey">2</span>
+                        <span class="tag is-grey">3</span>
                     </a>
                 </div>
                 

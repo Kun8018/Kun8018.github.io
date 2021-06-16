@@ -19,7 +19,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://cdn.kunkunzhang.top/react.png">
 <meta property="article:published_time" content="2020-06-02T13:40:33.000Z">
-<meta property="article:modified_time" content="2021-04-19T00:57:22.191Z">
+<meta property="article:modified_time" content="2021-06-15T21:09:03.085Z">
 <meta property="article:author" content="Kun Zhang">
 <meta property="article:tag" content="IT，Web,Node，React">
 <meta name="twitter:card" content="summary">
@@ -158,7 +158,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    43 分钟 读完 (大约 6441 个字)
+                    43 分钟 读完 (大约 6515 个字)
                 </span>
                 
                 
@@ -218,7 +218,7 @@
 <p>react-router与react-router-dom是两个包，前者提供react的核心api，如Router、Route、Switch等，后者包含前者的依赖，并且提供BrowserRoute、Route、Link等api，可以通过dom操作触发事件控制路由。</p>
 <p>一般使用后者</p>
 <p>导入包,新建Router.js</p>
-<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;BrowserRoute <span class="keyword">as</span> Router,HashRouter,Route,Link&#125; <span class="keyword">from</span> <span class="string">'react-router-dom'</span></span><br><span class="line"><span class="comment">//Route用来表示路由规则，有path和component、exact</span></span><br><span class="line"><span class="comment">//Link用来表示链接</span></span><br><span class="line"><span class="keyword">import</span> Home <span class="keyword">from</span> <span class="string">'./components/Home'</span></span><br><span class="line"><span class="keyword">import</span> About <span class="keyword">from</span> <span class="string">'./components/About'</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">router</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;Router&gt;</span><br><span class="line">          &lt;Route path=<span class="string">"/home"</span> component=&#123;Home&#125;/&gt;</span><br><span class="line">          &lt;Route path=<span class="string">"/about"</span> component=&#123;About&#125;/&gt;</span><br><span class="line">     &lt;<span class="regexp">/Router&gt;</span></span><br><span class="line"><span class="regexp">  );</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;BrowserRoute <span class="keyword">as</span> Router,HashRouter,Link&#125; <span class="keyword">from</span> <span class="string">'react-router-dom'</span></span><br><span class="line"><span class="comment">//Route用来表示路由规则，有path和component、exact</span></span><br><span class="line"><span class="comment">//Link用来表示链接</span></span><br><span class="line"><span class="keyword">import</span> Home <span class="keyword">from</span> <span class="string">'./components/Home'</span></span><br><span class="line"><span class="keyword">import</span> About <span class="keyword">from</span> <span class="string">'./components/About'</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">router</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;Router&gt;</span><br><span class="line">          &lt;Route path=<span class="string">"/home"</span> component=&#123;Home&#125;/&gt;</span><br><span class="line">          &lt;Route path=<span class="string">"/about"</span> component=&#123;About&#125;/&gt;</span><br><span class="line">     &lt;<span class="regexp">/Router&gt;</span></span><br><span class="line"><span class="regexp">  );</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
 
 <p>Home.jsx</p>
 <figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React,&#123;Component&#125; <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Home</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">    render() &#123;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">            &lt;div&gt;</span><br><span class="line">            首页</span><br><span class="line">            &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">       )</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp">export default Home</span></span><br></pre></td></tr></table></figure>
@@ -233,14 +233,14 @@
 <p>在app.js中引入</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Router <span class="keyword">from</span> <span class="string">'./Router'</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">App</span> <span class="keyword">extends</span> <span class="title">Component</span></span>&#123;</span><br><span class="line">    render()&#123;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">           &lt;Router /&gt;</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<h3 id="路由匹配"><a href="#路由匹配" class="headerlink" title="路由匹配"></a>路由匹配</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">import &#123; HashRouter,Route,Switch &#125; from &#39;react-router-dom&#39;</span><br><span class="line"></span><br><span class="line">const BasicRoute &#x3D; () &#x3D;&gt; (</span><br><span class="line">   &lt;HashRouter&gt;</span><br><span class="line">      &lt;Switch&gt;</span><br><span class="line">         &lt;Route exact path&#x3D;&quot;&#x2F;&quot; component&#x3D;&#123;Home&#125;&#x2F;&gt;         </span><br><span class="line">         &lt;Route exact path&#x3D;&quot;&#x2F;detail&quot; component&#x3D;&#123;Detail&#125;&#x2F;&gt;</span><br><span class="line">      &lt;&#x2F;Switch&gt;</span><br><span class="line">   &lt;&#x2F;HashRouter&gt;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
 <h3 id="嵌套路由"><a href="#嵌套路由" class="headerlink" title="嵌套路由"></a>嵌套路由</h3><p>router.js</p>
 <figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Other <span class="keyword">from</span> <span class="string">'./components/Other'</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">router</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span>&#123;</span><br><span class="line">        &lt;Router&gt;</span><br><span class="line">            &lt;Route path=<span class="string">"/home"</span> component=&#123;Home&#125; /&gt;</span><br><span class="line">            &lt;Route path=<span class="string">"/home"</span> render=&#123;()=&gt;(</span><br><span class="line">                    &lt;About&gt;</span><br><span class="line">                       &lt;Route path=<span class="string">"/about/other"</span> component=&#123;other&#125;/&gt;</span><br><span class="line">                    &lt;<span class="regexp">/About&gt;</span></span><br><span class="line"><span class="regexp">                )&#125;&gt;</span></span><br><span class="line"><span class="regexp">        &lt;/</span>Router&gt;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h3 id="重定向"><a href="#重定向" class="headerlink" title="重定向"></a>重定向</h3><figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;Redirect&#125; <span class="keyword">from</span> <span class="string">"react-router-dom"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> &#123;(</span><br><span class="line">&lt;Router&gt;</span><br><span class="line">        &lt;Route path=<span class="string">"/home"</span> component=&#123;Home&#125; /&gt;</span><br><span class="line">        &lt;Route path=<span class="string">"/"</span> render=&#123;</span><br><span class="line">        ()=&gt;(</span><br><span class="line">        &lt;Redirect to=<span class="string">"/home"</span>/&gt;)&#125;&gt;</span><br><span class="line">        &lt;<span class="regexp">/Route&gt;</span></span><br><span class="line"><span class="regexp">    &lt;/</span>Router&gt;</span><br><span class="line">);&#125;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> router;</span><br></pre></td></tr></table></figure>
 
-
-
-<h2 id="组件"><a href="#组件" class="headerlink" title="组件"></a>组件</h2><p>react会将以小写字母开头的组件视为原生DOM标签，而组件名称必须以大写字母开口</p>
+<h3 id="其他API"><a href="#其他API" class="headerlink" title="其他API"></a>其他API</h3><h3 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h3><h2 id="组件"><a href="#组件" class="headerlink" title="组件"></a>组件</h2><p>react会将以小写字母开头的组件视为原生DOM标签，而组件名称必须以大写字母开口</p>
 <p>组件的定义方式</p>
 <p>以函数方式定义组件</p>
 <figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Welcome</span>(<span class="params">props</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>hello,&#123;props.name&#125;<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -296,13 +296,13 @@
 
 <h2 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h2><p>生命周期函数</p>
 <p>旧版生命周期</p>
-<p>componentWillMount(){}在新版生命周期中被弃用</p>
+<p>ComponentWillMount(){}在新版生命周期中被弃用</p>
 <p>ComponentDidMount(){}</p>
-<p>componentWillReceiveProps(Props)在新版生命周期中被弃用</p>
-<p>shouldComponentUpdate(Props){}</p>
+<p>ComponentWillReceiveProps(Props)在新版生命周期中被弃用</p>
+<p>ShouldComponentUpdate(Props){}</p>
 <p>ComponentWillUpdate(Props){}在新版生命周期中被弃用</p>
-<p>componentDidUpdate(Props){}</p>
-<p>componentWillUnmount</p>
+<p>ComponentDidUpdate(Props){}</p>
+<p>ComponentWillUnmount(Props){}</p>
 <p>当初次加载DOM时，下列生命周期函数会被依次调用：</p>
 <ul>
 <li><strong><code>constructor()</code></strong>：初始化 state 或进行方法绑定</li>
@@ -335,6 +335,9 @@
 <p><strong>该生命周期钩子触发的时机</strong> ：被调用于 <code>render</code> 之后、更新 <code>DOM</code> 和 <code>refs</code> 之前</p>
 <p><strong>该生命周期钩子的作用：</strong> 它能让你在组件更新 <code>DOM</code> 和 <code>refs</code> 之前，从 <code>DOM</code> 中捕获一些信息（例如滚动位置）</p>
 <p>配合 <code>componentDidUpdate</code>, 可以覆盖 <code>componentWillUpdate</code> 的所有用法</p>
+<h3 id="旧版生命周期函数被弃用的原因"><a href="#旧版生命周期函数被弃用的原因" class="headerlink" title="旧版生命周期函数被弃用的原因"></a>旧版生命周期函数被弃用的原因</h3><p>ComponentWillReceiveProps(Props):getDerivedStateFromProps与ComponentDidUpdate配合，可以覆盖ComponentWillReceiveProps的所有用法</p>
+<p>ComponentWillUpdate(Props){}:getSnapshotBeforeUpdate与ComponentWillUpdate配合，可以覆盖ComponentWillUpdate的所有用法</p>
+<p>ComponentWillMount(){}:</p>
 <h2 id="事件处理"><a href="#事件处理" class="headerlink" title="事件处理"></a>事件处理</h2><p>React事件的命名采用小驼峰式命名，而不是纯小写</p>
 <p>使用jsx语法是传入函数作为事件处理函数而不是字符串，这体现在写法上</p>
 <figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//html</span></span><br><span class="line">&lt;button onclick=<span class="string">"active()"</span>&gt;</span><br><span class="line">      active</span><br><span class="line">&lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">/</span><span class="regexp">/React</span></span><br><span class="line"><span class="regexp">&lt;button onClick=&#123;active&#125;&gt;</span></span><br><span class="line"><span class="regexp">      active</span></span><br><span class="line"><span class="regexp">&lt;/</span>button&gt;</span><br></pre></td></tr></table></figure>
@@ -355,7 +358,7 @@
 <figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;button onClick=&#123;(e) =&gt; <span class="keyword">this</span>.deleteRow(id,e)&#125;&gt;DeleteRow&lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">&lt;button onClick=&#123;this.deleteRow.bind(this,id)&#125;&gt;DeleteRow&lt;/</span>button&gt;</span><br></pre></td></tr></table></figure>
 
 <p>通过箭头函数和function.prototype.bind实现</p>
-<h2 id="条件渲染"><a href="#条件渲染" class="headerlink" title="条件渲染"></a>条件渲染</h2><p>React 中的条件渲染和 JavaScript 中的一样，使用 JavaScript 运算符 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/if...else"><code>if</code></a> 或者<a href="https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Operators/Conditional_Operator">条件运算符</a>去创建元素来表现当前的状态，然后让 React 根据它们来更新 UI。</p>
+<h2 id="Ref属性"><a href="#Ref属性" class="headerlink" title="Ref属性"></a>Ref属性</h2><h2 id="条件渲染"><a href="#条件渲染" class="headerlink" title="条件渲染"></a>条件渲染</h2><p>React 中的条件渲染和 JavaScript 中的一样，使用 JavaScript 运算符 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/if...else"><code>if</code></a> 或者<a href="https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Operators/Conditional_Operator">条件运算符</a>去创建元素来表现当前的状态，然后让 React 根据它们来更新 UI。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">class LoginControl extends React.Component &#123;</span><br><span class="line">  constructor(props) &#123;</span><br><span class="line">    super(props);</span><br><span class="line">    this.handleLoginClick &#x3D; this.handleLoginClick.bind(this);</span><br><span class="line">    this.handleLogoutClick &#x3D; this.handleLogoutClick.bind(this);</span><br><span class="line">    this.state &#x3D; &#123;isLoggedIn: false&#125;;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  handleLoginClick() &#123;</span><br><span class="line">    this.setState(&#123;isLoggedIn: true&#125;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  handleLogoutClick() &#123;</span><br><span class="line">    this.setState(&#123;isLoggedIn: false&#125;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    const isLoggedIn &#x3D; this.state.isLoggedIn;</span><br><span class="line">    let button;</span><br><span class="line">    if (isLoggedIn) &#123;</span><br><span class="line">      button &#x3D; &lt;LogoutButton onClick&#x3D;&#123;this.handleLogoutClick&#125; &#x2F;&gt;;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      button &#x3D; &lt;LoginButton onClick&#x3D;&#123;this.handleLoginClick&#125; &#x2F;&gt;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return (</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        &lt;Greeting isLoggedIn&#x3D;&#123;isLoggedIn&#125; &#x2F;&gt;</span><br><span class="line">        &#123;button&#125;</span><br><span class="line">      &lt;&#x2F;div&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ReactDOM.render(</span><br><span class="line">  &lt;LoginControl &#x2F;&gt;,</span><br><span class="line">  document.getElementById(&#39;root&#39;)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
 
 
@@ -546,9 +549,9 @@
     <div class="level post-navigation is-flex-wrap is-mobile">
         
         <div class="level-start">
-            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/06/06/%E7%AE%97%E6%B3%95%E9%A2%981/">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/06/06/%E5%89%8D%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91%E6%A6%82%E8%BF%B0(%E4%B8%89)/">
                 <i class="level-item fas fa-chevron-left"></i>
-                <span class="level-item">算法题（三）</span>
+                <span class="level-item">前后端开发概述</span>
             </a>
         </div>
         
@@ -636,7 +639,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            113
+                            116
                         </p>
                     </a>
                 </div>
@@ -734,13 +737,25 @@
         <span class="has-mr-6">3</span>
         <span>构建路由</span>
         </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#嵌套路由">
+        <a class="is-flex" href="#路由匹配">
         <span class="has-mr-6">3.1</span>
+        <span>路由匹配</span>
+        </a></li><li>
+        <a class="is-flex" href="#嵌套路由">
+        <span class="has-mr-6">3.2</span>
         <span>嵌套路由</span>
         </a></li><li>
         <a class="is-flex" href="#重定向">
-        <span class="has-mr-6">3.2</span>
+        <span class="has-mr-6">3.3</span>
         <span>重定向</span>
+        </a></li><li>
+        <a class="is-flex" href="#其他API">
+        <span class="has-mr-6">3.4</span>
+        <span>其他API</span>
+        </a></li><li>
+        <a class="is-flex" href="#方法">
+        <span class="has-mr-6">3.5</span>
+        <span>方法</span>
         </a></li></ul></li><li>
         <a class="is-flex" href="#组件">
         <span class="has-mr-6">4</span>
@@ -761,57 +776,65 @@
         <a class="is-flex" href="#生命周期">
         <span class="has-mr-6">6</span>
         <span>生命周期</span>
-        </a></li><li>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#旧版生命周期函数被弃用的原因">
+        <span class="has-mr-6">6.1</span>
+        <span>旧版生命周期函数被弃用的原因</span>
+        </a></li></ul></li><li>
         <a class="is-flex" href="#事件处理">
         <span class="has-mr-6">7</span>
         <span>事件处理</span>
         </a></li><li>
-        <a class="is-flex" href="#条件渲染">
+        <a class="is-flex" href="#Ref属性">
         <span class="has-mr-6">8</span>
+        <span>Ref属性</span>
+        </a></li><li>
+        <a class="is-flex" href="#条件渲染">
+        <span class="has-mr-6">9</span>
         <span>条件渲染</span>
         </a></li><li>
         <a class="is-flex" href="#Redux">
-        <span class="has-mr-6">9</span>
+        <span class="has-mr-6">10</span>
         <span>Redux</span>
         </a><ul class="menu-list"><li>
         <a class="is-flex" href="#基本概念">
-        <span class="has-mr-6">9.1</span>
+        <span class="has-mr-6">10.1</span>
         <span>基本概念</span>
         </a></li><li>
         <a class="is-flex" href="#React-redux">
-        <span class="has-mr-6">9.2</span>
+        <span class="has-mr-6">10.2</span>
         <span>React-redux</span>
         </a></li><li>
         <a class="is-flex" href="#中间件">
-        <span class="has-mr-6">9.3</span>
+        <span class="has-mr-6">10.3</span>
         <span>中间件</span>
         </a></li></ul></li><li>
         <a class="is-flex" href="#mobx">
-        <span class="has-mr-6">10</span>
+        <span class="has-mr-6">11</span>
         <span>mobx</span>
         </a></li><li>
         <a class="is-flex" href="#Recoil">
-        <span class="has-mr-6">11</span>
+        <span class="has-mr-6">12</span>
         <span>Recoil</span>
         </a></li><li>
         <a class="is-flex" href="#Next">
-        <span class="has-mr-6">12</span>
+        <span class="has-mr-6">13</span>
         <span>Next</span>
         </a><ul class="menu-list"><li>
         <a class="is-flex" href="#多页面">
-        <span class="has-mr-6">12.1</span>
+        <span class="has-mr-6">13.1</span>
         <span>多页面</span>
         </a></li><li>
         <a class="is-flex" href="#使用redux">
-        <span class="has-mr-6">12.2</span>
+        <span class="has-mr-6">13.2</span>
         <span>使用redux</span>
         </a></li><li>
         <a class="is-flex" href="#路由遮盖">
-        <span class="has-mr-6">12.3</span>
+        <span class="has-mr-6">13.3</span>
         <span>路由遮盖</span>
         </a></li><li>
         <a class="is-flex" href="#部署next项目">
-        <span class="has-mr-6">12.4</span>
+        <span class="has-mr-6">13.4</span>
         <span>部署next项目</span>
         </a></li></ul></li></ul>
             </div>
@@ -869,7 +892,7 @@
                 <span class="level-item">IT</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">39</span>
+                <span class="level-item tag">40</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E4%B8%AA%E4%BA%BA%E5%B9%B8%E7%A6%8F/">
@@ -893,7 +916,7 @@
                 <span class="level-item">技术博客</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">37</span>
+                <span class="level-item tag">39</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%9C%8B%E5%8F%8B/">
@@ -930,7 +953,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/IT/" style="font-size: 12px;">IT</a> <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 12px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 12px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8C/" style="font-size: 16px;">IT,Web，</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 12px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 14px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 14px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 12px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb/" style="font-size: 16px;">IT，Web</a> <a href="/tags/IT%EF%BC%8CWeb-Javascript/" style="font-size: 10px;">IT，Web,Javascript</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 18px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 16px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Rust/" style="font-size: 10px;">IT，Web,Rust</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 14px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 16px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 12px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 10px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 12px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 18px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 14px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 14px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">幸福</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 14px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/" style="font-size: 14px;">技术，IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 12px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 12px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 12px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 20px;">生活、幸福</a> <a href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">记录，生活</a>
+        <a href="/tags/IT/" style="font-size: 11.67px;">IT</a> <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 11.67px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 13.33px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8C/" style="font-size: 15px;">IT,Web，</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 11.67px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 13.33px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 13.33px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 11.67px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb/" style="font-size: 15px;">IT，Web</a> <a href="/tags/IT%EF%BC%8CWeb-Javascript/" style="font-size: 10px;">IT，Web,Javascript</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 16.67px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 15px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Rust/" style="font-size: 10px;">IT，Web,Rust</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 13.33px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 15px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 11.67px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 10px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 13.33px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 16.67px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 13.33px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 13.33px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">幸福</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 13.33px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/" style="font-size: 13.33px;">技术，IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 11.67px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 11.67px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 11.67px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 18.33px;">生活、幸福</a> <a href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">记录，生活</a>
     </div>
 </div>
     
@@ -1088,7 +1111,7 @@
                     <span class="level-item">十二月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">5</span>
+                    <span class="level-item tag">6</span>
                 </span>
             </a>
         </li>
@@ -1121,7 +1144,7 @@
                     <span class="level-item">八月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">8</span>
+                    <span class="level-item tag">9</span>
                 </span>
             </a>
         </li>
@@ -1143,7 +1166,7 @@
                     <span class="level-item">六月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">20</span>
+                    <span class="level-item tag">21</span>
                 </span>
             </a>
         </li>
@@ -1229,7 +1252,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT-Web/">
                         <span class="tag">IT,Web,</span>
-                        <span class="tag is-grey">2</span>
+                        <span class="tag is-grey">3</span>
                     </a>
                 </div>
                 
@@ -1390,7 +1413,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/">
                         <span class="tag">IT，Web,数据库</span>
-                        <span class="tag is-grey">7</span>
+                        <span class="tag is-grey">8</span>
                     </a>
                 </div>
                 
@@ -1425,7 +1448,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/">
                         <span class="tag">Web，IT，HTML，CSS</span>
-                        <span class="tag is-grey">2</span>
+                        <span class="tag is-grey">3</span>
                     </a>
                 </div>
                 

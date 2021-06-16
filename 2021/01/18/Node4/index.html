@@ -19,7 +19,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://cdn.kunkunzhang.top/javascript.png">
 <meta property="article:published_time" content="2021-01-18T13:40:33.000Z">
-<meta property="article:modified_time" content="2021-05-08T18:52:41.777Z">
+<meta property="article:modified_time" content="2021-06-14T07:22:02.227Z">
 <meta property="article:author" content="Kun Zhang">
 <meta property="article:tag" content="IT，Web,Node">
 <meta name="twitter:card" content="summary">
@@ -158,7 +158,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    16 分钟 读完 (大约 2354 个字)
+                    21 分钟 读完 (大约 3163 个字)
                 </span>
                 
                 
@@ -245,6 +245,7 @@
 <p>.toFixed()：返回字符串，截取小数点后位数</p>
 <p>.toFormat()：数字格式化</p>
 <p>.toNumber()：转换为js基础数值类型</p>
+<h2 id="slidev"><a href="#slidev" class="headerlink" title="slidev"></a>slidev</h2><p>在线ppt制作</p>
 <h2 id="Robotjs自动化库"><a href="#Robotjs自动化库" class="headerlink" title="Robotjs自动化库"></a>Robotjs自动化库</h2><p>控制鼠标移动</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Move the mouse across the screen as a sine wave.</span></span><br><span class="line"><span class="keyword">var</span> robot = <span class="built_in">require</span>(<span class="string">"robotjs"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Speed up the mouse.</span></span><br><span class="line">robot.setMouseDelay(<span class="number">2</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> twoPI = <span class="built_in">Math</span>.PI * <span class="number">2.0</span>;</span><br><span class="line"><span class="keyword">var</span> screenSize = robot.getScreenSize();</span><br><span class="line"><span class="keyword">var</span> height = (screenSize.height / <span class="number">2</span>) - <span class="number">10</span>;</span><br><span class="line"><span class="keyword">var</span> width = screenSize.width;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> x = <span class="number">0</span>; x &lt; width; x++)</span><br><span class="line">&#123;</span><br><span class="line">	y = height * <span class="built_in">Math</span>.sin((twoPI * x) / width) + height;</span><br><span class="line">	robot.moveMouse(x, y);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -254,8 +255,51 @@
 <p>获取屏幕数据</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Get pixel color under the mouse.</span></span><br><span class="line"><span class="keyword">var</span> robot = <span class="built_in">require</span>(<span class="string">"robotjs"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Get mouse position.</span></span><br><span class="line"><span class="keyword">var</span> mouse = robot.getMousePos();</span><br><span class="line"></span><br><span class="line"><span class="comment">// Get pixel color in hex format.</span></span><br><span class="line"><span class="keyword">var</span> hex = robot.getPixelColor(mouse.x, mouse.y);</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"#"</span> + hex + <span class="string">" at x:"</span> + mouse.x + <span class="string">" y:"</span> + mouse.y);</span><br></pre></td></tr></table></figure>
 
+<h2 id="js-导出读取xlsx包"><a href="#js-导出读取xlsx包" class="headerlink" title="js-导出读取xlsx包"></a>js-导出读取xlsx包</h2><p>sheetjs</p>
+<p><a href="https://github.com/SheetJS/sheetjs">https://github.com/SheetJS/sheetjs</a></p>
+<p>安装</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install xlsx</span><br></pre></td></tr></table></figure>
 
+<p>读取本地文件</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 读取本地excel文件</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">readWorkbookFromLocalFile</span>(<span class="params">file, callback</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">var</span> reader = <span class="keyword">new</span> FileReader();</span><br><span class="line">	reader.onload = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">		<span class="keyword">var</span> data = e.target.result;</span><br><span class="line">		<span class="keyword">var</span> workbook = XLSX.read(data, &#123;<span class="attr">type</span>: <span class="string">'binary'</span>&#125;);</span><br><span class="line">		<span class="keyword">if</span>(callback) callback(workbook);</span><br><span class="line">	&#125;;</span><br><span class="line">	reader.readAsBinaryString(file);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<p>读取网络文件</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 从网络上读取某个excel文件，url必须同域，否则报错</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">readWorkbookFromRemoteFile</span>(<span class="params">url, callback</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHttpRequest();</span><br><span class="line">	xhr.open(<span class="string">'get'</span>, url, <span class="literal">true</span>);</span><br><span class="line">	xhr.responseType = <span class="string">'arraybuffer'</span>;</span><br><span class="line">	xhr.onload = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">		<span class="keyword">if</span>(xhr.status == <span class="number">200</span>) &#123;</span><br><span class="line">			<span class="keyword">var</span> data = <span class="keyword">new</span> <span class="built_in">Uint8Array</span>(xhr.response)</span><br><span class="line">			<span class="keyword">var</span> workbook = XLSX.read(data, &#123;<span class="attr">type</span>: <span class="string">'array'</span>&#125;);</span><br><span class="line">			<span class="keyword">if</span>(callback) callback(workbook);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;;</span><br><span class="line">	xhr.send();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过上述代码获取到workbook对象</p>
+<p>workbook对象中的<code>SheetNames</code>里面保存了所有的sheet名字，然后<code>Sheets</code>则保存了每个sheet的具体内容（我们称之为<code>Sheet Object</code>）。每一个<code>sheet</code>是通过类似<code>A1</code>这样的键值保存每个单元格的内容，我们称之为单元格对象（<code>Cell Object</code>）</p>
+<p><code>Sheet Object</code>表示一张表格，只要不是<code>!</code>开头的都表示普通<code>cell</code>，否则，表示一些特殊含义，具体如下：</p>
+<p> !ref：表示此sheet所有单元格的范围，如A1到F8</p>
+<p><code>[!merges]</code>：存放一些单元格合并信息，是一个数组，每个数组由包含<code>s</code>和<code>e</code>构成的对象组成，<code>s</code>表示开始，<code>e</code>表示结束，<code>r</code>表示行，<code>c</code>表示列；</p>
+<p>每一个单元格是一个对象（<code>Cell Object</code>），主要有<code>t</code>、<code>v</code>、<code>r</code>、<code>h</code>、<code>w</code>等字段</p>
+<ul>
+<li>t：表示内容类型，<code>s</code>表示string类型，<code>n</code>表示number类型，<code>b</code>表示boolean类型，<code>d</code>表示date类型，等等</li>
+<li>v：表示原始值；</li>
+<li>f：表示公式，如<code>B2+B3</code>；</li>
+<li>h：HTML内容</li>
+<li>w：格式化后的内容</li>
+<li>r：富文本内容<code>rich text</code></li>
+</ul>
+<p>读取workbook对象</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 读取 excel文件</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">outputWorkbook</span>(<span class="params">workbook</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">var</span> sheetNames = workbook.SheetNames; <span class="comment">// 工作表名称集合</span></span><br><span class="line">	sheetNames.forEach(<span class="function"><span class="params">name</span> =&gt;</span> &#123;</span><br><span class="line">		<span class="keyword">var</span> worksheet = workbook.Sheets[name]; <span class="comment">// 只能通过工作表名称来获取指定工作表</span></span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">var</span> key <span class="keyword">in</span> worksheet) &#123;</span><br><span class="line">			<span class="comment">// v是读取单元格的原始值</span></span><br><span class="line">			<span class="built_in">console</span>.log(key, key[<span class="number">0</span>] === <span class="string">'!'</span> ? worksheet[key] : worksheet[key].v);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>XLSX.utils.sheet_to_csv</code>：生成CSV格式</li>
+<li><code>XLSX.utils.sheet_to_txt</code>：生成纯文本格式</li>
+<li><code>XLSX.utils.sheet_to_html</code>：生成HTML格式</li>
+<li><code>XLSX.utils.sheet_to_json</code>：输出JSON格式</li>
+</ul>
+<p>导出xlsx文件</p>
+<p>使用插件官方提供的工具类</p>
+<ul>
+<li><code>aoa_to_sheet</code>: 这个工具类最强大也最实用了，将一个二维数组转成sheet，会自动处理number、string、boolean、date等类型数据；</li>
+<li><code>table_to_sheet</code>: 将一个<code>table dom</code>直接转成sheet，会自动识别<code>colspan</code>和<code>rowspan</code>并将其转成对应的单元格合并；</li>
+<li><code>json_to_sheet</code>: 将一个由对象组成的数组转成sheet；</li>
+</ul>
+<p>处理单元格合并</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> aoa = [</span><br><span class="line">	[<span class="string">'主要信息'</span>, <span class="literal">null</span>, <span class="literal">null</span>, <span class="string">'其它信息'</span>], <span class="comment">// 特别注意合并的地方后面预留2个null</span></span><br><span class="line">	[<span class="string">'姓名'</span>, <span class="string">'性别'</span>, <span class="string">'年龄'</span>, <span class="string">'注册时间'</span>],</span><br><span class="line">	[<span class="string">'张三'</span>, <span class="string">'男'</span>, <span class="number">18</span>, <span class="keyword">new</span> <span class="built_in">Date</span>()],</span><br><span class="line">	[<span class="string">'李四'</span>, <span class="string">'女'</span>, <span class="number">22</span>, <span class="keyword">new</span> <span class="built_in">Date</span>()]</span><br><span class="line">];</span><br><span class="line"><span class="keyword">var</span> sheet = XLSX.utils.aoa_to_sheet(aoa);</span><br><span class="line">sheet[<span class="string">'!merges'</span>] = [</span><br><span class="line">	<span class="comment">// 设置A1-C1的单元格合并</span></span><br><span class="line">	&#123;<span class="attr">s</span>: &#123;<span class="attr">r</span>: <span class="number">0</span>, <span class="attr">c</span>: <span class="number">0</span>&#125;, <span class="attr">e</span>: &#123;<span class="attr">r</span>: <span class="number">0</span>, <span class="attr">c</span>: <span class="number">2</span>&#125;&#125;</span><br><span class="line">];</span><br><span class="line">openDownloadDialog(sheet2blob(sheet), <span class="string">'单元格合并示例.xlsx'</span>);</span><br></pre></td></tr></table></figure>
+
+<p><a href="http://blog.haoji.me/js-excel.html#dao-chu-excel">http://blog.haoji.me/js-excel.html#dao-chu-excel</a></p>
 <h2 id="jquery"><a href="#jquery" class="headerlink" title="jquery"></a>jquery</h2><p>jquery是目前使用最广泛的js函数库，在使用JavaScript的网站中，93%使用了jquery，成为了开发者必学的技能</p>
 <p>jquery的优势有两个，首先它基本是一个DOM操作工具，可以使操作DOM对象变得异常简单，其次它统一 了不同浏览器的api接口，使得代码能够在所有现代浏览器运行，开发者不用担心浏览器之间的差异了</p>
 <p>加载jquery可以使用CDN或者本地获取</p>
@@ -505,7 +549,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            113
+                            116
                         </p>
                     </a>
                 </div>
@@ -611,32 +655,40 @@
         <span class="has-mr-6">5</span>
         <span>bigNumberjs</span>
         </a></li><li>
-        <a class="is-flex" href="#Robotjs自动化库">
+        <a class="is-flex" href="#slidev">
         <span class="has-mr-6">6</span>
+        <span>slidev</span>
+        </a></li><li>
+        <a class="is-flex" href="#Robotjs自动化库">
+        <span class="has-mr-6">7</span>
         <span>Robotjs自动化库</span>
         </a></li><li>
+        <a class="is-flex" href="#js-导出读取xlsx包">
+        <span class="has-mr-6">8</span>
+        <span>js-导出读取xlsx包</span>
+        </a></li><li>
         <a class="is-flex" href="#jquery">
-        <span class="has-mr-6">7</span>
+        <span class="has-mr-6">9</span>
         <span>jquery</span>
         </a><ul class="menu-list"><li>
         <a class="is-flex" href="#与DOM属性相关的方法">
-        <span class="has-mr-6">7.1</span>
+        <span class="has-mr-6">9.1</span>
         <span>与DOM属性相关的方法</span>
         </a></li><li>
         <a class="is-flex" href="#与DOM相关的方法">
-        <span class="has-mr-6">7.2</span>
+        <span class="has-mr-6">9.2</span>
         <span>与DOM相关的方法</span>
         </a></li><li>
         <a class="is-flex" href="#动画">
-        <span class="has-mr-6">7.3</span>
+        <span class="has-mr-6">9.3</span>
         <span>动画</span>
         </a></li><li>
         <a class="is-flex" href="#事件处理">
-        <span class="has-mr-6">7.4</span>
+        <span class="has-mr-6">9.4</span>
         <span>事件处理</span>
         </a></li><li>
         <a class="is-flex" href="#jquery的其他应用">
-        <span class="has-mr-6">7.5</span>
+        <span class="has-mr-6">9.5</span>
         <span>jquery的其他应用</span>
         </a></li></ul></li></ul>
             </div>
@@ -694,7 +746,7 @@
                 <span class="level-item">IT</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">39</span>
+                <span class="level-item tag">40</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E4%B8%AA%E4%BA%BA%E5%B9%B8%E7%A6%8F/">
@@ -718,7 +770,7 @@
                 <span class="level-item">技术博客</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">37</span>
+                <span class="level-item tag">39</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%9C%8B%E5%8F%8B/">
@@ -755,7 +807,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/IT/" style="font-size: 12px;">IT</a> <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 12px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 12px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8C/" style="font-size: 16px;">IT,Web，</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 12px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 14px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 14px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 12px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb/" style="font-size: 16px;">IT，Web</a> <a href="/tags/IT%EF%BC%8CWeb-Javascript/" style="font-size: 10px;">IT，Web,Javascript</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 18px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 16px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Rust/" style="font-size: 10px;">IT，Web,Rust</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 14px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 16px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 12px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 10px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 12px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 18px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 14px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 14px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">幸福</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 14px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/" style="font-size: 14px;">技术，IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 12px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 12px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 12px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 20px;">生活、幸福</a> <a href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">记录，生活</a>
+        <a href="/tags/IT/" style="font-size: 11.67px;">IT</a> <a href="/tags/IT-Java-Web/" style="font-size: 10px;">IT,Java,Web</a> <a href="/tags/IT-Web/" style="font-size: 11.67px;">IT,Web</a> <a href="/tags/IT-Web/" style="font-size: 13.33px;">IT,Web,</a> <a href="/tags/IT-Web%EF%BC%8C/" style="font-size: 15px;">IT,Web，</a> <a href="/tags/IT-Web%EF%BC%8CAndroid%E3%80%81Java/" style="font-size: 10px;">IT,Web，Android、Java</a> <a href="/tags/IT-Web%EF%BC%8CC/" style="font-size: 10px;">IT,Web，C++</a> <a href="/tags/IT-Web%EF%BC%8CFlutter/" style="font-size: 11.67px;">IT,Web，Flutter</a> <a href="/tags/IT-Web%EF%BC%8CIOS/" style="font-size: 10px;">IT,Web，IOS</a> <a href="/tags/IT-Web%EF%BC%8CMac/" style="font-size: 10px;">IT,Web，Mac</a> <a href="/tags/IT-Web%EF%BC%8C%E7%AE%97%E6%B3%95/" style="font-size: 13.33px;">IT,Web，算法</a> <a href="/tags/IT%E3%80%81%E5%8F%8B%E6%83%85/" style="font-size: 10px;">IT、友情</a> <a href="/tags/IT%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E3%80%81H5App/" style="font-size: 13.33px;">IT、小程序、H5App</a> <a href="/tags/IT%EF%BC%8C/" style="font-size: 10px;">IT，</a> <a href="/tags/IT%EF%BC%8CApp-Node-Electron/" style="font-size: 11.67px;">IT，App,Node,Electron</a> <a href="/tags/IT%EF%BC%8CFlutter/" style="font-size: 10px;">IT，Flutter</a> <a href="/tags/IT%EF%BC%8CGithub/" style="font-size: 10px;">IT，Github</a> <a href="/tags/IT%EF%BC%8CRN%EF%BC%8C/" style="font-size: 10px;">IT，RN，</a> <a href="/tags/IT%EF%BC%8CWeb/" style="font-size: 15px;">IT，Web</a> <a href="/tags/IT%EF%BC%8CWeb-Javascript/" style="font-size: 10px;">IT，Web,Javascript</a> <a href="/tags/IT%EF%BC%8CWeb-Node/" style="font-size: 16.67px;">IT，Web,Node</a> <a href="/tags/IT%EF%BC%8CWeb-Node%EF%BC%8CReact/" style="font-size: 15px;">IT，Web,Node，React</a> <a href="/tags/IT%EF%BC%8CWeb-PHP/" style="font-size: 10px;">IT，Web,PHP</a> <a href="/tags/IT%EF%BC%8CWeb-Rust/" style="font-size: 10px;">IT，Web,Rust</a> <a href="/tags/IT%EF%BC%8CWeb-Vue/" style="font-size: 13.33px;">IT，Web,Vue</a> <a href="/tags/IT%EF%BC%8CWeb-Vue%EF%BC%8CNode%E3%80%81React/" style="font-size: 10px;">IT，Web,Vue，Node、React</a> <a href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">IT，Web,数据库</a> <a href="/tags/IT%EF%BC%8Cweb/" style="font-size: 15px;">IT，web</a> <a href="/tags/IT%EF%BC%8C%E6%9C%AA%E6%9D%A5/" style="font-size: 11.67px;">IT，未来</a> <a href="/tags/Web-IT-Flutter/" style="font-size: 10px;">Web,IT,Flutter</a> <a href="/tags/Web-IT-Go/" style="font-size: 10px;">Web,IT,Go</a> <a href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/" style="font-size: 13.33px;">Web，IT，HTML，CSS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 16.67px;">个人生活，幸福</a> <a href="/tags/%E5%85%B4%E8%B6%A3%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 13.33px;">兴趣，幸福</a> <a href="/tags/%E5%8A%B1%E5%BF%97%E3%80%81%E6%96%87%E5%AD%A6/" style="font-size: 10px;">励志、文学</a> <a href="/tags/%E5%8F%8B%E6%83%85/" style="font-size: 13.33px;">友情</a> <a href="/tags/%E5%B9%B8%E7%A6%8F/" style="font-size: 10px;">幸福</a> <a href="/tags/%E5%B9%B8%E7%A6%8F%EF%BC%8C%E4%B8%AA%E4%BA%BA%E7%94%9F%E6%B4%BB/" style="font-size: 13.33px;">幸福，个人生活</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AE%85%E3%80%81IT/" style="font-size: 10px;">技术宅、IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CIT/" style="font-size: 13.33px;">技术，IT</a> <a href="/tags/%E6%8A%80%E6%9C%AF%EF%BC%8CRobotic%EF%BC%8CIT/" style="font-size: 11.67px;">技术，Robotic，IT</a> <a href="/tags/%E6%91%84%E5%BD%B1%EF%BC%8C%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">摄影，记录，生活</a> <a href="/tags/%E6%B7%B1%E5%9C%B3/" style="font-size: 11.67px;">深圳</a> <a href="/tags/%E7%88%B1%E6%83%85%EF%BC%8C%E5%B9%B8%E7%A6%8F/" style="font-size: 11.67px;">爱情，幸福</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活#</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E3%80%81%E5%B9%B8%E7%A6%8F/" style="font-size: 18.33px;">生活、幸福</a> <a href="/tags/%E8%AE%B0%E5%BD%95%EF%BC%8C%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">记录，生活</a>
     </div>
 </div>
     
@@ -913,7 +965,7 @@
                     <span class="level-item">十二月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">5</span>
+                    <span class="level-item tag">6</span>
                 </span>
             </a>
         </li>
@@ -946,7 +998,7 @@
                     <span class="level-item">八月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">8</span>
+                    <span class="level-item tag">9</span>
                 </span>
             </a>
         </li>
@@ -968,7 +1020,7 @@
                     <span class="level-item">六月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">20</span>
+                    <span class="level-item tag">21</span>
                 </span>
             </a>
         </li>
@@ -1054,7 +1106,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT-Web/">
                         <span class="tag">IT,Web,</span>
-                        <span class="tag is-grey">2</span>
+                        <span class="tag is-grey">3</span>
                     </a>
                 </div>
                 
@@ -1215,7 +1267,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/IT%EF%BC%8CWeb-%E6%95%B0%E6%8D%AE%E5%BA%93/">
                         <span class="tag">IT，Web,数据库</span>
-                        <span class="tag is-grey">7</span>
+                        <span class="tag is-grey">8</span>
                     </a>
                 </div>
                 
@@ -1250,7 +1302,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/Web%EF%BC%8CIT%EF%BC%8CHTML%EF%BC%8CCSS/">
                         <span class="tag">Web，IT，HTML，CSS</span>
-                        <span class="tag is-grey">2</span>
+                        <span class="tag is-grey">3</span>
                     </a>
                 </div>
                 
