@@ -19,7 +19,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://s1.ax1x.com/2020/03/27/G9OI3V.th.jpg">
 <meta property="article:published_time" content="2020-03-02T13:40:33.000Z">
-<meta property="article:modified_time" content="2021-06-15T20:46:37.834Z">
+<meta property="article:modified_time" content="2021-06-25T01:07:38.130Z">
 <meta property="article:author" content="Kun Zhang">
 <meta property="article:tag" content="IT，">
 <meta name="twitter:card" content="summary">
@@ -158,7 +158,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    34 分钟 读完 (大约 5118 个字)
+                    43 分钟 读完 (大约 6457 个字)
                 </span>
                 
                 
@@ -190,11 +190,15 @@
 <p>清除端口进程</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kill -9 PID//pid号</span><br></pre></td></tr></table></figure>
 
+<p>删除文件/文件夹</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rm -f filename</span><br><span class="line"></span><br><span class="line">rm -rf filename</span><br></pre></td></tr></table></figure>
+
 <p>set</p>
 <p>关机/重启</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 立即关机</span></span></span><br><span class="line">shutdown -h now</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 10分钟后关机</span></span></span><br><span class="line">shutdown -h 10</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 立刻关机</span></span></span><br><span class="line">power off</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 重启</span></span></span><br><span class="line">reboot</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 重启</span></span></span><br><span class="line">shutdown -r now</span><br></pre></td></tr></table></figure>
 
-
+<p>传输文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 从服务器上下载文件</span></span></span><br><span class="line">scp username@servernama:/path/filename /var/www/local_dir</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 上传文件到服务器</span></span></span><br><span class="line">scp /path/filename username@servernama:/path</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 下载目录</span></span></span><br><span class="line">scp -r username@servernama:/path/ /var/www/local_dir</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 上传目录</span></span></span><br><span class="line">scp -r /var/www/local_dir username@servernama:/path</span><br></pre></td></tr></table></figure>
 
 
 
@@ -309,9 +313,19 @@
 
 
 
+<h2 id="Selinux"><a href="#Selinux" class="headerlink" title="Selinux"></a>Selinux</h2><p>安全增强型 Linux（SELinux）是一种采用安全架构的 <a href="https://www.redhat.com/zh/topics/linux/what-is-linux">Linux® 系统</a>，它能够让管理员更好地管控哪些人可以访问系统。它最初是作为 <a href="https://www.redhat.com/zh/topics/linux/what-is-the-linux-kernel">Linux 内核</a>的一系列补丁，由美国国家安全局（NSA）利用 Linux 安全模块（LSM）开发而成。</p>
+<p>SELinux 于 2000 年发布到开源社区，并于 2003 年集成到上游 Linux 内核中。</p>
+<p>SELinux 定义了每个人对系统上的应用、进程和文件的访问权限。它利用安全策略（一组告知 SELinux 哪些能访问，哪些不能访问的规则）来强制执行策略所允许的访问。</p>
+<p>当应用或进程（称为主体）发出访问对象（如文件）的请求时，SELinux 会检查访问向量缓存（AVC），其中缓存有主体和对象的访问权限。</p>
+<p>查看selinux状态</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 命令1</span></span></span><br><span class="line">/usr/sbin/sestatus -v</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># SELinux status:                 enabled</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 命令2</span></span></span><br><span class="line">getenforce</span><br></pre></td></tr></table></figure>
 
+<p>临时关闭</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">setenforce 0 ##设置SELinux 成为permissive模式</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#setenforce 1 设置SELinux 成为enforcing模式</span></span></span><br></pre></td></tr></table></figure>
 
-<h2 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a>Nginx</h2><p>Nginx是常用的网络服务器，ubuntu和debian类似，这里以centos7为例</p>
+<p>也可以修改/etc/selinux/config 文件</p>
+<p>将SELINUX=enforcing改为SELINUX=disabled</p>
+<h2 id="firewalld和utf"><a href="#firewalld和utf" class="headerlink" title="firewalld和utf"></a>firewalld和utf</h2><h2 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a>Nginx</h2><p>Nginx是常用的网络服务器，ubuntu和debian类似，这里以centos7为例</p>
 <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">yum</span> install nginx</span><br></pre></td></tr></table></figure>
 
 <p>nginx的默认安装目录为<code>/usr/local/nginx</code>,配置文件的目录为<code>/usr/local/nginx/conf/nginx.conf</code></p>
@@ -320,6 +334,8 @@
 
 <p>nginx命令</p>
 <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">nginx</span> -s reload  <span class="comment"># 热重启</span></span><br><span class="line">nginx -s reopen  <span class="comment"># 重启Nginx</span></span><br><span class="line">nginx -s stop    <span class="comment"># 快速关闭</span></span><br><span class="line">nginx -s quit    <span class="comment"># 等待工作进程处理完成后关闭</span></span><br><span class="line">nginx -T         <span class="comment"># 查看配置文件的实际内容</span></span><br></pre></td></tr></table></figure>
+
+
 
 <h3 id="反向代理"><a href="#反向代理" class="headerlink" title="反向代理"></a>反向代理</h3><p>先了解正向代理</p>
 <p>正向代理：局域网中的电脑用户想要直接访问网络是不可行的，只能通过代理服务器来访问，这种代理服务就被称为正向代理。</p>
@@ -413,11 +429,39 @@
 
 
 
-<h3 id="屏蔽ip"><a href="#屏蔽ip" class="headerlink" title="屏蔽ip"></a>屏蔽ip</h3><p>在<code>nginx</code>的配置文件<code>nginx.conf</code>中加入如下配置，可以放到<code>http</code>, <code>server</code>, <code>location</code>, <code>limit_except</code>语句块，需要注意相对路径，本例当中<code>nginx.conf</code>，<code>blocksip.conf</code>在同一个目录中</p>
+<h3 id="屏蔽ip-国外ip"><a href="#屏蔽ip-国外ip" class="headerlink" title="屏蔽ip/国外ip"></a>屏蔽ip/国外ip</h3><p>在<code>nginx</code>的配置文件<code>nginx.conf</code>中加入如下配置，可以放到<code>http</code>, <code>server</code>, <code>location</code>, <code>limit_except</code>语句块，需要注意相对路径，本例当中<code>nginx.conf</code>，<code>blocksip.conf</code>在同一个目录中</p>
 <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">include</span> blockip.conf;</span><br></pre></td></tr></table></figure>
 
 <p>blockip.conf</p>
 <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">deny</span> IP;   <span class="comment"># 屏蔽单个ip访问</span></span><br><span class="line"><span class="attribute">allow</span> IP;  <span class="comment"># 允许单个ip访问</span></span><br><span class="line"><span class="attribute">deny</span> all;  <span class="comment"># 屏蔽所有ip访问</span></span><br><span class="line"><span class="attribute">allow</span> all; <span class="comment"># 允许所有ip访问</span></span><br><span class="line"><span class="attribute">deny</span> <span class="number">123.0.0.0</span>/<span class="number">8</span>   <span class="comment"># 屏蔽整个段即从123.0.0.1到123.255.255.254访问的命令</span></span><br><span class="line">deny <span class="number">124.45.0.0</span>/<span class="number">16</span> <span class="comment"># 屏蔽IP段即从123.45.0.1到123.45.255.254访问的命令</span></span><br><span class="line">deny <span class="number">123.45.6.0</span>/<span class="number">24</span> <span class="comment"># 屏蔽IP段即从123.45.6.1到123.45.6.254访问的命令</span></span><br></pre></td></tr></table></figure>
+
+<p>国外ip</p>
+<p>基于 Nginx 的 ngx_http_geoip2 模块来禁止国外 IP 访问网站。</p>
+<p>安装模块依赖</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install libmaxminddb-devel -y</span><br></pre></td></tr></table></figure>
+
+<p>下载模块</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/leev/ngx_http_geoip2_module.git</span><br></pre></td></tr></table></figure>
+
+<p>解压到/usr/local目录</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mv ngx_http_geoip2_module/ /usr/local/</span><br></pre></td></tr></table></figure>
+
+<p>模块安装成功后，还要在 Nginx 里指定数据库，在安装运行库时默认安装了两个，位于 /usr/share/GeoIP/ 目录下，一个只有 IPv4，一个包含 IPv4 和 IPv6。</p>
+<p>登录 <a href="http://www.maxmind.com">www.maxmind.com</a> 网址，创建账户，下载最新的库文件。（账户创建就不演示了）点击左侧，Download Files：</p>
+<p>选择 GeoLite2 Country，点击 Download GZIP 下载即可：</p>
+<p>上传到 /usr/share/GeoIP/ 下并解压：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/share/GeoIP/</span><br></pre></td></tr></table></figure>
+
+<p>在nginx.conf中的http中引入数据库文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">geoip2 /usr/share/GeoIP/GeoLite2-City.mmdb &#123;</span><br><span class="line">        auto_reload 5m;</span><br><span class="line">        $geoip2_data_country_code country iso_code;</span><br><span class="line">        &#125;</span><br><span class="line">        map $geoip2_data_country_code $allowed_country &#123;</span><br><span class="line">default yes;</span><br><span class="line">        CN no;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+
+<p>在 server 中的 location 下添加条件，如果满足 IP 是国外 IP，就执行下面的 return 动作，</p>
+<p>可以直接返回 404或者别的页面：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">if</span> (<span class="variable">$allowed_country</span> = <span class="literal">yes</span>) &#123;</span><br><span class="line">    <span class="comment"># return https://www.baidu.com;</span></span><br><span class="line">    <span class="comment"># return /home/japan;</span></span><br><span class="line">    <span class="attribute">return</span> <span class="number">404</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
 
 <h3 id="重定向"><a href="#重定向" class="headerlink" title="重定向"></a>重定向</h3><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">//重定向网站</span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">server_name</span> old-site.com</span><br><span class="line">    return <span class="number">301</span> <span class="variable">$scheme</span>://new-site.com<span class="variable">$request_uri</span>;</span><br><span class="line">&#125;</span><br><span class="line">//重定向单页面</span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">location</span> = /oldpage.html &#123;</span><br><span class="line">        <span class="attribute">return</span> <span class="number">301</span> http://example.org/newpage.html;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">//重定向子路径</span><br><span class="line"><span class="attribute">location</span> /old-site &#123;</span><br><span class="line">    <span class="attribute">rewrite</span><span class="regexp"> ^/old-site/(.*)</span> http://example.org/new-site/<span class="variable">$1</span> <span class="literal">permanent</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -441,9 +485,31 @@
 <p>let’s Encrypt的证书一般有有效期，需要手动更新续期</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./lensencrypt-auto certonly --renew-by-default --email quiniton@163.com -d www.zhaoheqiang.me -d zhaoheqiang.me</span><br></pre></td></tr></table></figure>
 
+<h4 id="certbot"><a href="#certbot" class="headerlink" title="certbot"></a>certbot</h4><p>certbot是let’s Encrypt官方推荐的获取证书的客户端。可以帮我们获取免费的let’s Encrypt证书。certbot支持所有unix内核的操作系统。</p>
+<p>安装certbot</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install certbot</span><br></pre></td></tr></table></figure>
 
+<p>获取证书</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">certbot certonly --standalone -d example.com -d www.example.com</span><br></pre></td></tr></table></figure>
 
-<h4 id="cerbot"><a href="#cerbot" class="headerlink" title="cerbot"></a>cerbot</h4><h4 id="openssl"><a href="#openssl" class="headerlink" title="openssl"></a>openssl</h4><h3 id="性能"><a href="#性能" class="headerlink" title="性能"></a>性能</h3><p>内容缓存：允许浏览器基本上永久地缓存静态内容。 <code>Nginx</code>将为您设置<code>Expires</code>和<code>Cache-Control</code>头信息。</p>
+<p>也可以用指定根目录的方式生成证书</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">certbot certonly --webroot -w /var/www/example -d example.com -d www.example.com</span><br></pre></td></tr></table></figure>
+
+<p>证书生成后就可以在/etc/letsencrypt/live目录下看到对应域名的证书</p>
+<p>let’s Encrypt提供的证书一般都有90天有效期，在证书到期之前需要更新证书，certbot提供自动更新</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">certbot renew --dry-run</span><br></pre></td></tr></table></figure>
+
+<p>安装时如果报错</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Problem binding to port 80:Could not bind to IPv4 or IPv6</span><br></pre></td></tr></table></figure>
+
+<p>因为nginx占用80端口，需要先停掉nginx进行操作，执行自动更新时也需要停掉nginx</p>
+<h4 id="openssl"><a href="#openssl" class="headerlink" title="openssl"></a>openssl</h4><h4 id="nginx配置"><a href="#nginx配置" class="headerlink" title="nginx配置"></a>nginx配置</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    server_name www.kunzhang.me;</span><br><span class="line">    listen 443 ssl http 1.1;</span><br><span class="line">    ssl_certificate &#x2F;etc&#x2F;letsencrypt&#x2F;live&#x2F;diamondfsd.com&#x2F;fullchain.pem;</span><br><span class="line">    ssl_certificate_key &#x2F;etc&#x2F;letsencrypt&#x2F;live&#x2F;diamondfsd.com&#x2F;privkey.pem;</span><br><span class="line"></span><br><span class="line">    location &#x2F; &#123;</span><br><span class="line">        proxy_pass http:&#x2F;&#x2F;127.0.0.1:3999;</span><br><span class="line">        proxy_http_version 1.1;</span><br><span class="line">        proxy_set_header X_FORWARDED_PROTO https;</span><br><span class="line">        proxy_set_header X-Real-IP $remote_addr;</span><br><span class="line">        proxy_set_header X-Forwarded-For $remote_addr;</span><br><span class="line">        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_set_header Host $host;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="缓冲优化"><a href="#缓冲优化" class="headerlink" title="缓冲优化"></a>缓冲优化</h3><p>Nginx代理之后会有相应的代理缓存区，缓存区默认只有几十K，某些版本的nginx默认设置中没有相关处理，导致部分文件代理是会出现加载不全的现象，其实不仅仅是JS文件。只是因为框架的JS文件略大，所以经常出现类似问题。</p>
+<p>在nginx.conf中添加</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">http &#123;</span><br><span class="line">	proxy_buffer_size 128k;</span><br><span class="line">	proxy_buffers   32 128k;</span><br><span class="line">	proxy_busy_buffers_size 128k;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="错误日志"><a href="#错误日志" class="headerlink" title="错误日志"></a>错误日志</h3><h3 id="性能"><a href="#性能" class="headerlink" title="性能"></a>性能</h3><p>内容缓存：允许浏览器基本上永久地缓存静态内容。 <code>Nginx</code>将为您设置<code>Expires</code>和<code>Cache-Control</code>头信息。</p>
 <p>设置nginx的静态文件地址</p>
 <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">location</span> / &#123;</span><br><span class="line">  <span class="attribute">add_header</span> Cache-Control max-age=<span class="number">360000</span>;</span><br><span class="line">  <span class="attribute">root</span> /usr/share/nginx/html/webrtc-sdk/dist/;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -459,6 +525,13 @@
 <p>设置nginx给某个路径单独的日志文件</p>
 <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">location</span><span class="regexp"> ^~</span> /p/asm &#123;</span><br><span class="line">  <span class="attribute">access_log</span> /var/log/nginx/a.log;</span><br><span class="line">  <span class="attribute">error_log</span> /var/log/nginx/a.err.log;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<h4 id="警告"><a href="#警告" class="headerlink" title="警告"></a>警告</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Starting nginx: nginx: [warn] could not build optimal proxy_headers_hash, you should increase either proxy_headers_hash_max_size: 512 or proxy_headers_hash_bucket_size: 64; ignoring proxy_headers_hash_bucket_size</span><br><span class="line">nginx: [warn] could not build optimal proxy_headers_hash, you should increase either proxy_headers_hash_max_size: 512 or proxy_headers_hash_bucket_size: 64; ignoring proxy_headers_hash_bucket_size</span><br><span class="line">nginx: [warn] could not build optimal proxy_headers_hash, you should increase either proxy_headers_hash_max_size: 512 or proxy_headers_hash_bucket_size: 64;</span><br></pre></td></tr></table></figure>
+
+<p>在代理中设置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">proxy_headers_hash_max_size 51200;</span><br><span class="line">proxy_headers_hash_bucket_size 6400;</span><br></pre></td></tr></table></figure>
+
+
+
 
 
 <h2 id="Apache"><a href="#Apache" class="headerlink" title="Apache"></a>Apache</h2><p>apache在linux下的文件是httpd，centos自带apache,文件目录为cd/etc/init.d</p>
@@ -471,18 +544,17 @@
 <p>文件监控数量超过了系统限制，直接修改系统参数</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">cat /proc/sys/fs/inotify/max_user_matches</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#8192</span></span></span><br><span class="line">sudo vim /etc/sysctl.conf</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 添加语句 fs.inotify.max_user_watches=524288</span></span></span><br><span class="line"></span><br><span class="line">sudo sysctl -p </span><br><span class="line"></span><br><span class="line">cat /proc/sys/fs/inotify/max_user_matches</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#524288</span></span></span><br></pre></td></tr></table></figure>
 
-
-
 <h3 id="Node"><a href="#Node" class="headerlink" title="Node"></a>Node</h3><p>运行命令</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -sL https://rpm.nodesource.com/setup_14.x | bash -</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 14.*</span></span></span><br><span class="line">curl -sL https://rpm.nodesource.com/setup_14.x | bash -</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 12.*</span></span></span><br><span class="line">curl -sL https://rpm.nodesource.com/setup_12.x | bash -</span><br><span class="line"></span><br><span class="line">yum -y install nodejs</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 安装gcc插件</span></span></span><br><span class="line">yum install gcc-c++ cmake</span><br></pre></td></tr></table></figure>
 
 
 
 <h2 id="服务器翻墙GitHub太慢问题"><a href="#服务器翻墙GitHub太慢问题" class="headerlink" title="服务器翻墙GitHub太慢问题"></a>服务器翻墙GitHub太慢问题</h2><p>使用代理网址<a href="https://github.com.cnpmjs.org/">https://github.com.cnpmjs.org/</a></p>
 <h2 id="linux端口无法访问问题排查"><a href="#linux端口无法访问问题排查" class="headerlink" title="linux端口无法访问问题排查"></a>linux端口无法访问问题排查</h2><p>1.确认服务器的项目部署成功</p>
-<p>2.确认访问地址是否存在</p>
-<p>3.确定服务器安全规则是否添加了要访问的端口</p>
-<p>4.</p>
+<p>2.确认访问地址是否存在。访问地址和端口是否正常。</p>
+<p>3.确定服务器安全规则是否添加了要访问的端口。在控制台检查安全规则。</p>
+<p>4.连接服务器的用户。一般服务器有root管理员，和其他个人创建用户。</p>
+<p>5.服务器防火墙问题。服务器一般配置80端口为开放端口，在外网访问服务器80端口</p>
 <p>使用telnet判断端口是否可以访问</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">telnet 47.49.182.93:7001</span><br></pre></td></tr></table></figure>
 
@@ -849,96 +921,120 @@
         <span class="has-mr-6">9.3</span>
         <span>安装cmake</span>
         </a></li></ul></li><li>
-        <a class="is-flex" href="#Nginx">
+        <a class="is-flex" href="#Selinux">
         <span class="has-mr-6">10</span>
+        <span>Selinux</span>
+        </a></li><li>
+        <a class="is-flex" href="#firewalld和utf">
+        <span class="has-mr-6">11</span>
+        <span>firewalld和utf</span>
+        </a></li><li>
+        <a class="is-flex" href="#Nginx">
+        <span class="has-mr-6">12</span>
         <span>Nginx</span>
         </a><ul class="menu-list"><li>
         <a class="is-flex" href="#反向代理">
-        <span class="has-mr-6">10.1</span>
+        <span class="has-mr-6">12.1</span>
         <span>反向代理</span>
         </a><ul class="menu-list"><li>
         <a class="is-flex" href="#域名转发">
-        <span class="has-mr-6">10.1.1</span>
+        <span class="has-mr-6">12.1.1</span>
         <span>域名转发</span>
         </a></li></ul></li><li>
         <a class="is-flex" href="#负载均衡">
-        <span class="has-mr-6">10.2</span>
+        <span class="has-mr-6">12.2</span>
         <span>负载均衡</span>
         </a></li><li>
         <a class="is-flex" href="#支持CORS跨域">
-        <span class="has-mr-6">10.3</span>
+        <span class="has-mr-6">12.3</span>
         <span>支持CORS跨域</span>
         </a></li><li>
         <a class="is-flex" href="#高可用keep-alived">
-        <span class="has-mr-6">10.4</span>
+        <span class="has-mr-6">12.4</span>
         <span>高可用keep-alived</span>
         </a></li><li>
-        <a class="is-flex" href="#屏蔽ip">
-        <span class="has-mr-6">10.5</span>
-        <span>屏蔽ip</span>
+        <a class="is-flex" href="#屏蔽ip-国外ip">
+        <span class="has-mr-6">12.5</span>
+        <span>屏蔽ip/国外ip</span>
         </a></li><li>
         <a class="is-flex" href="#重定向">
-        <span class="has-mr-6">10.6</span>
+        <span class="has-mr-6">12.6</span>
         <span>重定向</span>
         </a></li><li>
         <a class="is-flex" href="#Https配置">
-        <span class="has-mr-6">10.7</span>
+        <span class="has-mr-6">12.7</span>
         <span>Https配置</span>
         </a><ul class="menu-list"><li>
         <a class="is-flex" href="#let’s-Encrypt">
-        <span class="has-mr-6">10.7.1</span>
+        <span class="has-mr-6">12.7.1</span>
         <span>let’s Encrypt</span>
         </a></li><li>
-        <a class="is-flex" href="#cerbot">
-        <span class="has-mr-6">10.7.2</span>
-        <span>cerbot</span>
+        <a class="is-flex" href="#certbot">
+        <span class="has-mr-6">12.7.2</span>
+        <span>certbot</span>
         </a></li><li>
         <a class="is-flex" href="#openssl">
-        <span class="has-mr-6">10.7.3</span>
+        <span class="has-mr-6">12.7.3</span>
         <span>openssl</span>
+        </a></li><li>
+        <a class="is-flex" href="#nginx配置">
+        <span class="has-mr-6">12.7.4</span>
+        <span>nginx配置</span>
         </a></li></ul></li><li>
+        <a class="is-flex" href="#缓冲优化">
+        <span class="has-mr-6">12.8</span>
+        <span>缓冲优化</span>
+        </a></li><li>
+        <a class="is-flex" href="#错误日志">
+        <span class="has-mr-6">12.9</span>
+        <span>错误日志</span>
+        </a></li><li>
         <a class="is-flex" href="#性能">
-        <span class="has-mr-6">10.8</span>
+        <span class="has-mr-6">12.10</span>
         <span>性能</span>
-        </a></li></ul></li><li>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#警告">
+        <span class="has-mr-6">12.10.1</span>
+        <span>警告</span>
+        </a></li></ul></li></ul></li><li>
         <a class="is-flex" href="#Apache">
-        <span class="has-mr-6">11</span>
+        <span class="has-mr-6">13</span>
         <span>Apache</span>
         </a></li><li>
         <a class="is-flex" href="#部署项目">
-        <span class="has-mr-6">12</span>
+        <span class="has-mr-6">14</span>
         <span>部署项目</span>
         </a><ul class="menu-list"><li>
         <a class="is-flex" href="#react">
-        <span class="has-mr-6">12.1</span>
+        <span class="has-mr-6">14.1</span>
         <span>react</span>
         </a></li><li>
         <a class="is-flex" href="#Node">
-        <span class="has-mr-6">12.2</span>
+        <span class="has-mr-6">14.2</span>
         <span>Node</span>
         </a></li></ul></li><li>
         <a class="is-flex" href="#服务器翻墙GitHub太慢问题">
-        <span class="has-mr-6">13</span>
+        <span class="has-mr-6">15</span>
         <span>服务器翻墙GitHub太慢问题</span>
         </a></li><li>
         <a class="is-flex" href="#linux端口无法访问问题排查">
-        <span class="has-mr-6">14</span>
+        <span class="has-mr-6">16</span>
         <span>linux端口无法访问问题排查</span>
         </a></li><li>
         <a class="is-flex" href="#docker">
-        <span class="has-mr-6">15</span>
+        <span class="has-mr-6">17</span>
         <span>docker</span>
         </a></li><li>
         <a class="is-flex" href="#V2ray">
-        <span class="has-mr-6">16</span>
+        <span class="has-mr-6">18</span>
         <span>V2ray</span>
         </a><ul class="menu-list"><li>
         <a class="is-flex" href="#客户端使用">
-        <span class="has-mr-6">16.1</span>
+        <span class="has-mr-6">18.1</span>
         <span>客户端使用</span>
         </a></li></ul></li><li>
         <a class="is-flex" href="#Nextcloud个人网盘服务器">
-        <span class="has-mr-6">17</span>
+        <span class="has-mr-6">19</span>
         <span>Nextcloud个人网盘服务器</span>
         </a></li></ul>
             </div>

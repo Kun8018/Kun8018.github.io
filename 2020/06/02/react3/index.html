@@ -19,7 +19,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://kun8018.gitee.io/images/og_image.png">
 <meta property="article:published_time" content="2020-06-02T13:40:33.000Z">
-<meta property="article:modified_time" content="2021-06-14T15:11:23.705Z">
+<meta property="article:modified_time" content="2021-06-22T00:57:31.568Z">
 <meta property="article:author" content="Kun Zhang">
 <meta property="article:tag" content="IT，Web,Node，React">
 <meta name="twitter:card" content="summary">
@@ -152,7 +152,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    1 小时 读完 (大约 7601 个字)
+                    44 分钟 读完 (大约 6606 个字)
                 </span>
                 
                 
@@ -417,7 +417,23 @@
 
 
 <h3 id="react-beautiful-dnd"><a href="#react-beautiful-dnd" class="headerlink" title="react-beautiful-dnd"></a>react-beautiful-dnd</h3><h3 id="react-dnd"><a href="#react-dnd" class="headerlink" title="react-dnd"></a>react-dnd</h3><p><a href="Https://juejin.cn/post/6933036276660731912">Https://juejin.cn/post/6933036276660731912</a>　</p>
-<h3 id="react-intl-universal"><a href="#react-intl-universal" class="headerlink" title="react-intl-universal"></a>react-intl-universal</h3><h3 id="uuid"><a href="#uuid" class="headerlink" title="uuid"></a>uuid</h3><p>uuid是通用唯一识别码(Universally Unique Identifier)的缩写。是一种软件建构辨准，亦为开发软件基金会组织在分布式计算环境领域的一部分。其目的是让分布式系统中的所有元素具有唯一的辨识信息，而不需要通过中央控制端来做辨识信息的指定。</p>
+<h3 id="react-intl-universal"><a href="#react-intl-universal" class="headerlink" title="react-intl-universal"></a>react-intl-universal</h3><p>React-intl-universal实现</p>
+<h3 id="react-hot-loader"><a href="#react-hot-loader" class="headerlink" title="react-hot-loader"></a>react-hot-loader</h3><p>React-Hot-Loader 使用了 Webpack HMR API，针对 React 框架实现了对单个 component 的热替换，并且能够保持组件的 state。<br>React-Hot-Loader 在编译时会在每一个 React component 外封装一层，每一个这样的封装都会注册自己的 module.hot.accept 回调，它们会监听每一个 component 的更新，在当前 component 代码更新时只替换自己的模块，而不是整个替换 root component。<br>同时，React-Hot-Loader 对 component 的封装还会代理 component 的 state，所以当 component 替换之后依然能够保持之前的 state。</p>
+<p>安装</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev react-hot-loader</span><br></pre></td></tr></table></figure>
+
+<p> hot-loader 是基于 webpack-dev-server，所以还得安装 webpack-dev-server</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev webpack-dev-server</span><br></pre></td></tr></table></figure>
+
+<p>首先还是要让 webpack-dev-server 打开。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> webpack = <span class="built_in">require</span>(<span class="string">'webpack'</span>);</span><br><span class="line"><span class="keyword">var</span> WebpackDevServer = <span class="built_in">require</span>(<span class="string">'webpack-dev-server'</span>);</span><br><span class="line"><span class="keyword">var</span> config = <span class="built_in">require</span>(<span class="string">'./webpack.config'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> WebpackDevServer(webpack(config), &#123;</span><br><span class="line">  publicPath: config.output.publicPath,</span><br><span class="line">  hot: <span class="literal">true</span>,</span><br><span class="line">  historyApiFallback: <span class="literal">true</span></span><br><span class="line">&#125;).listen(<span class="number">3000</span>, <span class="string">'localhost'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">err, result</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (err) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">console</span>.log(err);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'Listening at http://localhost:3000/'</span>)</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>然后在 webpack 的配置文件里添加 react-hot-loader。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> webpack = <span class="built_in">require</span>(<span class="string">'webpack'</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="comment">// 修改 entry</span></span><br><span class="line">  entry: [</span><br><span class="line">    <span class="comment">// 写在入口文件之前</span></span><br><span class="line">    <span class="string">"webpack-dev-server/client?http://0.0.0.0:3000"</span>,</span><br><span class="line">    <span class="string">"webpack/hot/only-dev-server"</span>,</span><br><span class="line">    <span class="comment">// 这里是你的入口文件</span></span><br><span class="line">    <span class="string">"./src/app.js"</span>,</span><br><span class="line">  ],</span><br><span class="line">  output: &#123;</span><br><span class="line">    path: __dirname,</span><br><span class="line">    filename: <span class="string">"build/js/bundle.js"</span>,</span><br><span class="line">    publicPath: <span class="string">"/build"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="built_in">module</span>: &#123;</span><br><span class="line">    loaders: [</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="regexp">/\.jsx?$/</span>,</span><br><span class="line">        exclude: <span class="regexp">/node_modules/</span>,</span><br><span class="line">        <span class="comment">// 在这里添加 react-hot，注意这里使用的是loaders，所以不能用 query，应该把presets参数写在 babel 的后面</span></span><br><span class="line">        loaders: [<span class="string">'react-hot'</span>, <span class="string">'babel?presets[]=react,presets[]=es2015'</span>]</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="comment">// 添加插件</span></span><br><span class="line">  plugins: [</span><br><span class="line">    <span class="keyword">new</span> webpack.HotModuleReplacementPlugin()</span><br><span class="line">  ]</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="uuid"><a href="#uuid" class="headerlink" title="uuid"></a>uuid</h3><p>uuid是通用唯一识别码(Universally Unique Identifier)的缩写。是一种软件建构辨准，亦为开发软件基金会组织在分布式计算环境领域的一部分。其目的是让分布式系统中的所有元素具有唯一的辨识信息，而不需要通过中央控制端来做辨识信息的指定。</p>
 <p>UUID由一组32位数的16进制数字构成。对于UUID，就算每纳秒产生一百万个UUID，要花100亿年才会将所有UUID用完。</p>
 <p>格式</p>
 <p>uuid32个16进制数字用连字号分成五组来显示，所以共有36个字符</p>
@@ -462,77 +478,14 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save react-lazyload</span><br></pre></td></tr></table></figure>
 
 <p>懒加载图片</p>
-<p>懒加载组件</p>
-<h2 id="immutablejs"><a href="#immutablejs" class="headerlink" title="immutablejs"></a>immutablejs</h2><p>Immutable数据就是一旦创建，就不能更改的数据。每当对Immutable对象进行修改的时候，就会返回一个新的Immutable对象，以此来保证数据的不可变</p>
-<p>有人说 Immutable 可以给 React 应用带来数十倍的提升，也有人说 Immutable 的引入是近期 JavaScript 中伟大的发明，因为同期 React 太火，它的光芒被掩盖了。这些至少说明 Immutable 是很有价值的。</p>
-<p>JavaScript 中的对象一般是可变的（Mutable），因为使用了引用赋值，新的对象简单的引用了原始对象，改变新的对象将影响到原始对象，比如</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line"> a: <span class="number">1</span>,</span><br><span class="line"> b: <span class="number">2</span></span><br><span class="line">&#125;;<span class="keyword">var</span> obj1 = obj;obj1.a = <span class="number">999</span>;</span><br><span class="line">obj.a <span class="comment">//999</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">import React from &#39;react&#39;;</span><br><span class="line">import ReactDOM from &#39;react-dom&#39;;</span><br><span class="line">import LazyLoad from &#39;react-lazyload&#39;;</span><br><span class="line">import MyComponent from &#39;.&#x2F;MyComponent&#39;;</span><br><span class="line"></span><br><span class="line">const App &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">  return (</span><br><span class="line">    &lt;div className&#x3D;&quot;list&quot;&gt;</span><br><span class="line">      &lt;LazyLoad height&#x3D;&#123;200&#125;&gt;</span><br><span class="line">        &lt;img src&#x3D;&quot;tiger.jpg&quot; &#x2F;&gt; &#x2F;*</span><br><span class="line">                                  Lazy loading images is supported out of box,</span><br><span class="line">                                  no extra config needed, set &#96;height&#96; for better</span><br><span class="line">                                  experience</span><br><span class="line">                                 *&#x2F;</span><br><span class="line">      &lt;&#x2F;LazyLoad&gt;</span><br><span class="line">      &lt;LazyLoad height&#x3D;&#123;200&#125; once &gt;</span><br><span class="line">                                &#x2F;* Once this component is loaded, LazyLoad will</span><br><span class="line">                                 not care about it anymore, set this to &#96;true&#96;</span><br><span class="line">                                 if you&#39;re concerned about improving performance *&#x2F;</span><br><span class="line">        &lt;MyComponent &#x2F;&gt;</span><br><span class="line">      &lt;&#x2F;LazyLoad&gt;</span><br><span class="line">      &lt;LazyLoad height&#x3D;&#123;200&#125; offset&#x3D;&#123;100&#125;&gt;</span><br><span class="line">                              &#x2F;* This component will be loaded when it&#39;s top</span><br><span class="line">                                 edge is 100px from viewport. It&#39;s useful to</span><br><span class="line">                                 make user ignorant about lazy load effect. *&#x2F;</span><br><span class="line">        &lt;MyComponent &#x2F;&gt;</span><br><span class="line">      &lt;&#x2F;LazyLoad&gt;</span><br><span class="line">      &lt;LazyLoad&gt;</span><br><span class="line">        &lt;MyComponent &#x2F;&gt;</span><br><span class="line">      &lt;&#x2F;LazyLoad&gt;</span><br><span class="line">    &lt;&#x2F;div&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">ReactDOM.render(&lt;App &#x2F;&gt;, document.body);</span><br></pre></td></tr></table></figure>
 
-<p>改变了obj1.a的值，同时也会更改到obj.a的值。</p>
-<p>一般的解法就是使用「深拷贝」(deep copy)而非浅拷贝(shallow copy)，来避免被修改,但是这样造成了 CPU和内存的浪费.</p>
-<p>immutable可以很好地解决这些问题</p>
-<p>Immutable Data 就是一旦创建，就不能再被更改的数据。对 Immutable 对象的任何修改或添加删除操作都会返回一个新的 Immutable 对象。Immutable 实现的原理是 Persistent Data Structure（持久化数据结构），也就是使用旧数据创建新数据时，要保证旧数据同时可用且不变。同时为了避免 deepCopy 把所有节点都复制一遍带来的性能损耗，Immutable 使用了 Structural Sharing（结构共享），即如果对象树中一个节点发生变化，只修改这个节点和受它影响的父节点，其它节点则进行共享。</p>
-<p>Immutable 的几种数据类型：</p>
-<ul>
-<li>List: 有序索引集，类似JavaScript中的Array。</li>
-<li>Map: 无序索引集，类似JavaScript中的Object。</li>
-<li>OrderedMap: 有序的Map，根据数据的set()进行排序。</li>
-<li>Set: 没有重复值的集合。</li>
-<li>OrderedSet: 有序的Set，根据数据的add进行排序。</li>
-<li>Stack: 有序集合，支持使用unshift（）和shift（）添加和删除。</li>
-<li>Range(): 返回一个Seq.Indexed类型的集合，这个方法有三个参数，start表示开始值，默认值为0，end表示结束值，默认为无穷大，step代表每次增大的数值，默认为1.如果start = end,则返回空集合。</li>
-<li>Repeat(): 返回一个vSeq.Indexe类型的集合，这个方法有两个参数，value代表需要重复的值，times代表要重复的次数，默认为无穷大。</li>
-<li>Record: 一个用于生成Record实例的类。类似于JavaScript的Object，但是只接收特定字符串为key，具有默认值。</li>
-<li>Seq: 序列，但是可能不能由具体的数据结构支持。</li>
-<li>Collection: 是构建所有数据结构的基类，不可以直接构建。</li>
-</ul>
-<p>方法：</p>
-<p>fromJS()：</p>
-<p><code>作用</code> : 将一个js数据转换为Immutable类型的数据 <code>用法</code> : <code>fromJS(value, converter)</code> <code>简介</code> : value是要转变的数据，converter是要做的操作。第二个参数可不填，默认情况会将数组准换为List类型，将对象转换为Map类型，其余不做操作。</p>
-<p>is()</p>
-<p><code>作用</code> : 对两个对象进行比较 <code>用法</code> : <code>is(map1,map2)</code> <code>简介</code> : 和js中对象的比较不同，在js中比较两个对象比较的是地址，但是在Immutable中比较的是这个对象hashCode和valueOf，只要两个对象的hashCode相等，值就是相同的，避免了深度遍历，提高了性能</p>
-<h2 id="rxjs"><a href="#rxjs" class="headerlink" title="rxjs"></a>rxjs</h2><p>rxjs是一个库，它通过使用observable序列来编写异步和基于事件的程序。它提供了核心类型Observable，附属类型(observer、schedulers、subjects)和类似于数组的操作符(map、filter、reduce、every)等，这些操作符可以把异步事件作为集合来处理</p>
-<p>可以把rxjs当作用来处理事件的lodash</p>
-<p>rxjs中的基本概念：</p>
-<p>Observable(是一个可观察对象)：表示一个概念，这个概念是一个可调用的未来值或事件的集合</p>
-<p>Observer(观察者)：一个回调函数的集合，它指定如何监听由Observable提供的值</p>
-<p>Subscription(订阅)：表示Observable的执行，它主要用于取消Obervable的执行</p>
-<p>Operator(操作符)：</p>
-<p>Subject(主体)：</p>
-<p>Scheduler(调度器)：</p>
-<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>通过npm安装</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install rxjs</span><br></pre></td></tr></table></figure>
-
-<p>通过es6或者commonjs导入</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Rx = <span class="built_in">require</span>(<span class="string">'rxjs/Rx'</span>)</span><br><span class="line"><span class="keyword">import</span> Rx <span class="keyword">from</span> <span class="string">'rxjs/Rx'</span></span><br><span class="line"></span><br><span class="line">Rx.observable.of(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>)<span class="comment">//等等</span></span><br></pre></td></tr></table></figure>
-
-<p>按需导入函数(可以减少打包体积)</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; Observable &#125; <span class="keyword">from</span> <span class="string">'rxjs/observable'</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">'rxjs/add/observable/of'</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">'rxjs/add/operator/map'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> Observable = <span class="built_in">require</span>(<span class="string">'rxjs/Observable'</span>).Observable</span><br><span class="line"><span class="built_in">require</span>(<span class="string">'rxjs/add/observable/of'</span>)</span><br><span class="line"><span class="built_in">require</span>(<span class="string">'rxjs/add/operator/map'</span>)</span><br><span class="line"></span><br><span class="line">Observable.of(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>).map(<span class="function"><span class="params">x</span> =&gt;</span> x+ <span class="string">'!!!'</span>);<span class="comment">//等等</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="注册事件"><a href="#注册事件" class="headerlink" title="注册事件"></a>注册事件</h3><p>常规写法</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> button = <span class="built_in">document</span>.querySelector(<span class="string">'button'</span>)</span><br><span class="line">button.addEventListener(<span class="string">'click'</span>,()=&gt; <span class="built_in">console</span>.log(<span class="string">'click'</span>))</span><br></pre></td></tr></table></figure>
-
-<p>rxjs写法</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> button = <span class="built_in">document</span>.querySelector(<span class="string">'button'</span>)</span><br><span class="line">Rx.observable.fromEvent(button,<span class="string">'click'</span>)</span><br><span class="line">  .subscribe(<span class="function"><span class="params">()</span>=&gt;</span> <span class="built_in">console</span>.log(<span class="string">'click'</span>))</span><br></pre></td></tr></table></figure>
-
-<h3 id="操作变量"><a href="#操作变量" class="headerlink" title="操作变量"></a>操作变量</h3><p>常规写法是非纯函数，状态管理较乱</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> count = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">var</span> button = <span class="built_in">document</span>.querySelector(<span class="string">'button'</span>)</span><br><span class="line">button.addEventListener(<span class="string">'click'</span>,()=&gt; <span class="built_in">console</span>.log(<span class="string">`click <span class="subst">$&#123;&#123;++count&#125;</span>&#125;`</span>))</span><br></pre></td></tr></table></figure>
-
-<p>Rxjs将应用状态隔离起来</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> button = <span class="built_in">document</span>.querySelector(<span class="string">'button'</span>)</span><br><span class="line">Rx.observable.fromEvent(button,<span class="string">'click'</span>)</span><br><span class="line">  .scan(<span class="function"><span class="params">count</span> =&gt;</span> count +<span class="number">1</span>,<span class="number">0</span>)</span><br><span class="line">  .subscribe(<span class="function"><span class="params">count</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="string">`click <span class="subst">$&#123;count&#125;</span>`</span>))</span><br></pre></td></tr></table></figure>
-
-<p>其他对变量的操作函数</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//获取输入框</span></span><br><span class="line"><span class="keyword">var</span> input = Rx.Observable.fromEvent(<span class="built_in">document</span>.querySelector(<span class="string">'input'</span>),<span class="string">'input'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//传递一个新值</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//传递两个新值</span></span><br><span class="line">input.plunk(<span class="string">'target'</span>,<span class="string">'value'</span>).pairwise()</span><br><span class="line">    .subsribe(<span class="function"><span class="params">value</span> =&gt;</span> <span class="built_in">console</span>.log(value))</span><br><span class="line"></span><br><span class="line"><span class="comment">//只通过唯一的值</span></span><br><span class="line">input.plunk(<span class="string">'data'</span>).distinct()</span><br><span class="line">    .subsribe(<span class="function"><span class="params">value</span> =&gt;</span> <span class="built_in">console</span>.log(value))</span><br><span class="line"></span><br><span class="line"><span class="comment">//不传递重复值</span></span><br><span class="line">input.plunk(<span class="string">'data'</span>).</span><br></pre></td></tr></table></figure>
+<p>默认懒加载组件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">import &#123; lazyload &#125; from &#39;react-lazyload&#39;;</span><br><span class="line"></span><br><span class="line">@lazyload(&#123;</span><br><span class="line">  height: 200,</span><br><span class="line">  once: true,</span><br><span class="line">  offset: 100</span><br><span class="line">&#125;)</span><br><span class="line">class MyComponent extends React.Component &#123;</span><br><span class="line">  render() &#123;</span><br><span class="line">    return &lt;div&gt;this component is lazyloaded by default!&lt;&#x2F;div&gt;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
 
-<h3 id="react使用"><a href="#react使用" class="headerlink" title="react使用"></a>react使用</h3><p>在react中，在componentDidMount生命周期中订阅observable，在componentWillUnmount中取消订阅</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">import messages from &#39;.&#x2F;someObservable&#39;</span><br><span class="line"></span><br><span class="line">class Mycomponent extends ObservableComponent&#123;</span><br><span class="line">  constructor(props)&#123;</span><br><span class="line">    super(props);</span><br><span class="line">    this.state &#x3D; &#123;message:[]&#125;;</span><br><span class="line">  &#125;</span><br><span class="line">  componentDidMount()&#123;</span><br><span class="line">    this.messages &#x3D; messages</span><br><span class="line">       .scan(messages,messages) &#x3D;&gt; [messages].concat(messages,[])</span><br><span class="line">       .subscribe(messages &#x3D;&gt; this.setState(&#123;messages:messages&#125;))</span><br><span class="line">  &#125;</span><br><span class="line">  componentWillUnmount()&#123;</span><br><span class="line">    this.messages.unsubscribe();</span><br><span class="line">  &#125;</span><br><span class="line">  render() &#123;</span><br><span class="line">    return (</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        &lt;ul&gt;</span><br><span class="line">           &#123;this.state.messages.map(message &#x3D;&gt; &lt;li&gt;&#123;message.text&#125;&lt;&#x2F;li&gt;)&#125;</span><br><span class="line">        &lt;&#x2F;ul&gt;</span><br><span class="line">      &lt;&#x2F;div&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">export default MyComponent;</span><br></pre></td></tr></table></figure>
 
-
-
-<p><a href="https://www.jianshu.com/p/273e7ab02fa1">https://www.jianshu.com/p/273e7ab02fa1</a></p>
-<h2 id="cyclejs"><a href="#cyclejs" class="headerlink" title="cyclejs"></a>cyclejs</h2><h2 id="测试框架"><a href="#测试框架" class="headerlink" title="测试框架"></a>测试框架</h2>
         </div>
         
         <div class="level is-size-7 is-uppercase">
@@ -887,54 +840,26 @@
         <span class="has-mr-6">3.7</span>
         <span>react-intl-universal</span>
         </a></li><li>
-        <a class="is-flex" href="#uuid">
+        <a class="is-flex" href="#react-hot-loader">
         <span class="has-mr-6">3.8</span>
+        <span>react-hot-loader</span>
+        </a></li><li>
+        <a class="is-flex" href="#uuid">
+        <span class="has-mr-6">3.9</span>
         <span>uuid</span>
         </a></li><li>
         <a class="is-flex" href="#js-cookie">
-        <span class="has-mr-6">3.9</span>
+        <span class="has-mr-6">3.10</span>
         <span>js-cookie</span>
         </a></li><li>
         <a class="is-flex" href="#react-color">
-        <span class="has-mr-6">3.10</span>
+        <span class="has-mr-6">3.11</span>
         <span>react-color</span>
         </a></li><li>
         <a class="is-flex" href="#react-lazyload">
-        <span class="has-mr-6">3.11</span>
+        <span class="has-mr-6">3.12</span>
         <span>react-lazyload</span>
-        </a></li></ul></li><li>
-        <a class="is-flex" href="#immutablejs">
-        <span class="has-mr-6">4</span>
-        <span>immutablejs</span>
-        </a></li><li>
-        <a class="is-flex" href="#rxjs">
-        <span class="has-mr-6">5</span>
-        <span>rxjs</span>
-        </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#安装">
-        <span class="has-mr-6">5.1</span>
-        <span>安装</span>
-        </a></li><li>
-        <a class="is-flex" href="#注册事件">
-        <span class="has-mr-6">5.2</span>
-        <span>注册事件</span>
-        </a></li><li>
-        <a class="is-flex" href="#操作变量">
-        <span class="has-mr-6">5.3</span>
-        <span>操作变量</span>
-        </a></li><li>
-        <a class="is-flex" href="#react使用">
-        <span class="has-mr-6">5.4</span>
-        <span>react使用</span>
-        </a></li></ul></li><li>
-        <a class="is-flex" href="#cyclejs">
-        <span class="has-mr-6">6</span>
-        <span>cyclejs</span>
-        </a></li><li>
-        <a class="is-flex" href="#测试框架">
-        <span class="has-mr-6">7</span>
-        <span>测试框架</span>
-        </a></li></ul>
+        </a></li></ul></li></ul>
             </div>
         </div>
     </div>

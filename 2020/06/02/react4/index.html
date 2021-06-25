@@ -19,7 +19,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://kun8018.gitee.io/images/og_image.png">
 <meta property="article:published_time" content="2020-06-02T13:40:33.000Z">
-<meta property="article:modified_time" content="2021-06-13T05:57:31.190Z">
+<meta property="article:modified_time" content="2021-06-22T00:57:44.336Z">
 <meta property="article:author" content="Kun Zhang">
 <meta property="article:tag" content="IT，Web,Node，React">
 <meta name="twitter:card" content="summary">
@@ -152,7 +152,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    16 分钟 读完 (大约 2448 个字)
+                    30 分钟 读完 (大约 4560 个字)
                 </span>
                 
                 
@@ -209,7 +209,100 @@
 
 
 <p>demo地址：<a href="https://Xrr2016.github.io/rematch-todos">https://Xrr2016.github.io/rematch-todos</a></p>
-<h3 id="其他插件"><a href="#其他插件" class="headerlink" title="其他插件"></a>其他插件</h3><h2 id="Dvajs"><a href="#Dvajs" class="headerlink" title="Dvajs"></a>Dvajs</h2><p>dva 首先是一个基于 redux 和 redux-saga的数据流方案，然后为了简化开发体验，dva 还额外内置了 react-router和 fetch，所以也可以理解为一个轻量级的应用框架。</p>
+<h3 id="其他插件"><a href="#其他插件" class="headerlink" title="其他插件"></a>其他插件</h3><h2 id="immutablejs"><a href="#immutablejs" class="headerlink" title="immutablejs"></a>immutablejs</h2><p>Immutable数据就是一旦创建，就不能更改的数据。每当对Immutable对象进行修改的时候，就会返回一个新的Immutable对象，以此来保证数据的不可变</p>
+<p>有人说 Immutable 可以给 React 应用带来数十倍的提升，也有人说 Immutable 的引入是近期 JavaScript 中伟大的发明，因为同期 React 太火，它的光芒被掩盖了。这些至少说明 Immutable 是很有价值的。</p>
+<p>JavaScript 中的对象一般是可变的（Mutable），因为使用了引用赋值，新的对象简单的引用了原始对象，改变新的对象将影响到原始对象，比如</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line"> a: <span class="number">1</span>,</span><br><span class="line"> b: <span class="number">2</span></span><br><span class="line">&#125;;<span class="keyword">var</span> obj1 = obj;obj1.a = <span class="number">999</span>;</span><br><span class="line">obj.a <span class="comment">//999</span></span><br></pre></td></tr></table></figure>
+
+<p>改变了obj1.a的值，同时也会更改到obj.a的值。</p>
+<p>一般的解法就是使用「深拷贝」(deep copy)而非浅拷贝(shallow copy)，来避免被修改,但是这样造成了 CPU和内存的浪费.</p>
+<p>immutable可以很好地解决这些问题</p>
+<p>Immutable Data 就是一旦创建，就不能再被更改的数据。对 Immutable 对象的任何修改或添加删除操作都会返回一个新的 Immutable 对象。Immutable 实现的原理是 Persistent Data Structure（持久化数据结构），也就是使用旧数据创建新数据时，要保证旧数据同时可用且不变。同时为了避免 deepCopy 把所有节点都复制一遍带来的性能损耗，Immutable 使用了 Structural Sharing（结构共享），即如果对象树中一个节点发生变化，只修改这个节点和受它影响的父节点，其它节点则进行共享。</p>
+<p>Immutable 的几种数据类型：</p>
+<ul>
+<li>List: 有序索引集，类似JavaScript中的Array。</li>
+<li>Map: 无序索引集，类似JavaScript中的Object。</li>
+<li>OrderedMap: 有序的Map，根据数据的set()进行排序。</li>
+<li>Set: 没有重复值的集合。</li>
+<li>OrderedSet: 有序的Set，根据数据的add进行排序。</li>
+<li>Stack: 有序集合，支持使用unshift（）和shift（）添加和删除。</li>
+<li>Range(): 返回一个Seq.Indexed类型的集合，这个方法有三个参数，start表示开始值，默认值为0，end表示结束值，默认为无穷大，step代表每次增大的数值，默认为1.如果start = end,则返回空集合。</li>
+<li>Repeat(): 返回一个vSeq.Indexe类型的集合，这个方法有两个参数，value代表需要重复的值，times代表要重复的次数，默认为无穷大。</li>
+<li>Record: 一个用于生成Record实例的类。类似于JavaScript的Object，但是只接收特定字符串为key，具有默认值。</li>
+<li>Seq: 序列，但是可能不能由具体的数据结构支持。</li>
+<li>Collection: 是构建所有数据结构的基类，不可以直接构建。</li>
+</ul>
+<p>方法：</p>
+<p>fromJS()：</p>
+<p><code>作用</code> : 将一个js数据转换为Immutable类型的数据 <code>用法</code> : <code>fromJS(value, converter)</code> <code>简介</code> : value是要转变的数据，converter是要做的操作。第二个参数可不填，默认情况会将数组准换为List类型，将对象转换为Map类型，其余不做操作。</p>
+<p>is()</p>
+<p><code>作用</code> : 对两个对象进行比较 <code>用法</code> : <code>is(map1,map2)</code> <code>简介</code> : 和js中对象的比较不同，在js中比较两个对象比较的是地址，但是在Immutable中比较的是这个对象hashCode和valueOf，只要两个对象的hashCode相等，值就是相同的，避免了深度遍历，提高了性能</p>
+<h2 id="rxjs"><a href="#rxjs" class="headerlink" title="rxjs"></a>rxjs</h2><p>rxjs是一个库，它通过使用observable序列来编写异步和基于事件的程序。它提供了核心类型Observable，附属类型(observer、schedulers、subjects)和类似于数组的操作符(map、filter、reduce、every)等，这些操作符可以把异步事件作为集合来处理</p>
+<p>可以把rxjs当作用来处理事件的lodash</p>
+<p>rxjs中的基本概念：</p>
+<p>Observable(是一个可观察对象)：表示一个概念，这个概念是一个可调用的未来值或事件的集合</p>
+<p>Observer(观察者)：一个回调函数的集合，它指定如何监听由Observable提供的值</p>
+<p>Subscription(订阅)：表示Observable的执行，它主要用于取消Obervable的执行</p>
+<p>Operator(操作符)：</p>
+<p>Subject(主体)：</p>
+<p>Scheduler(调度器)：</p>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>通过npm安装</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install rxjs</span><br></pre></td></tr></table></figure>
+
+<p>通过es6或者commonjs导入</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Rx = <span class="built_in">require</span>(<span class="string">'rxjs/Rx'</span>)</span><br><span class="line"><span class="keyword">import</span> Rx <span class="keyword">from</span> <span class="string">'rxjs/Rx'</span></span><br><span class="line"></span><br><span class="line">Rx.observable.of(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>)<span class="comment">//等等</span></span><br></pre></td></tr></table></figure>
+
+<p>按需导入函数(可以减少打包体积)</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; Observable &#125; <span class="keyword">from</span> <span class="string">'rxjs/observable'</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">'rxjs/add/observable/of'</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">'rxjs/add/operator/map'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> Observable = <span class="built_in">require</span>(<span class="string">'rxjs/Observable'</span>).Observable</span><br><span class="line"><span class="built_in">require</span>(<span class="string">'rxjs/add/observable/of'</span>)</span><br><span class="line"><span class="built_in">require</span>(<span class="string">'rxjs/add/operator/map'</span>)</span><br><span class="line"></span><br><span class="line">Observable.of(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>).map(<span class="function"><span class="params">x</span> =&gt;</span> x+ <span class="string">'!!!'</span>);<span class="comment">//等等</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="注册事件"><a href="#注册事件" class="headerlink" title="注册事件"></a>注册事件</h3><p>常规写法</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> button = <span class="built_in">document</span>.querySelector(<span class="string">'button'</span>)</span><br><span class="line">button.addEventListener(<span class="string">'click'</span>,()=&gt; <span class="built_in">console</span>.log(<span class="string">'click'</span>))</span><br></pre></td></tr></table></figure>
+
+<p>rxjs写法</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> button = <span class="built_in">document</span>.querySelector(<span class="string">'button'</span>)</span><br><span class="line">Rx.observable.fromEvent(button,<span class="string">'click'</span>)</span><br><span class="line">  .subscribe(<span class="function"><span class="params">()</span>=&gt;</span> <span class="built_in">console</span>.log(<span class="string">'click'</span>))</span><br></pre></td></tr></table></figure>
+
+<h3 id="操作变量"><a href="#操作变量" class="headerlink" title="操作变量"></a>操作变量</h3><p>常规写法是非纯函数，状态管理较乱</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> count = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">var</span> button = <span class="built_in">document</span>.querySelector(<span class="string">'button'</span>)</span><br><span class="line">button.addEventListener(<span class="string">'click'</span>,()=&gt; <span class="built_in">console</span>.log(<span class="string">`click <span class="subst">$&#123;&#123;++count&#125;</span>&#125;`</span>))</span><br></pre></td></tr></table></figure>
+
+<p>Rxjs将应用状态隔离起来</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> button = <span class="built_in">document</span>.querySelector(<span class="string">'button'</span>)</span><br><span class="line">Rx.observable.fromEvent(button,<span class="string">'click'</span>)</span><br><span class="line">  .scan(<span class="function"><span class="params">count</span> =&gt;</span> count +<span class="number">1</span>,<span class="number">0</span>)</span><br><span class="line">  .subscribe(<span class="function"><span class="params">count</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="string">`click <span class="subst">$&#123;count&#125;</span>`</span>))</span><br></pre></td></tr></table></figure>
+
+<p>其他对变量的操作函数</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//获取输入框</span></span><br><span class="line"><span class="keyword">var</span> input = Rx.Observable.fromEvent(<span class="built_in">document</span>.querySelector(<span class="string">'input'</span>),<span class="string">'input'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//传递一个新值</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//传递两个新值</span></span><br><span class="line">input.plunk(<span class="string">'target'</span>,<span class="string">'value'</span>).pairwise()</span><br><span class="line">    .subsribe(<span class="function"><span class="params">value</span> =&gt;</span> <span class="built_in">console</span>.log(value))</span><br><span class="line"></span><br><span class="line"><span class="comment">//只通过唯一的值</span></span><br><span class="line">input.plunk(<span class="string">'data'</span>).distinct()</span><br><span class="line">    .subsribe(<span class="function"><span class="params">value</span> =&gt;</span> <span class="built_in">console</span>.log(value))</span><br><span class="line"></span><br><span class="line"><span class="comment">//不传递重复值</span></span><br><span class="line">input.plunk(<span class="string">'data'</span>).</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="react使用"><a href="#react使用" class="headerlink" title="react使用"></a>react使用</h3><p>在react中，在componentDidMount生命周期中订阅observable，在componentWillUnmount中取消订阅</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">import messages from &#39;.&#x2F;someObservable&#39;</span><br><span class="line"></span><br><span class="line">class Mycomponent extends ObservableComponent&#123;</span><br><span class="line">  constructor(props)&#123;</span><br><span class="line">    super(props);</span><br><span class="line">    this.state &#x3D; &#123;message:[]&#125;;</span><br><span class="line">  &#125;</span><br><span class="line">  componentDidMount()&#123;</span><br><span class="line">    this.messages &#x3D; messages</span><br><span class="line">       .scan(messages,messages) &#x3D;&gt; [messages].concat(messages,[])</span><br><span class="line">       .subscribe(messages &#x3D;&gt; this.setState(&#123;messages:messages&#125;))</span><br><span class="line">  &#125;</span><br><span class="line">  componentWillUnmount()&#123;</span><br><span class="line">    this.messages.unsubscribe();</span><br><span class="line">  &#125;</span><br><span class="line">  render() &#123;</span><br><span class="line">    return (</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        &lt;ul&gt;</span><br><span class="line">           &#123;this.state.messages.map(message &#x3D;&gt; &lt;li&gt;&#123;message.text&#125;&lt;&#x2F;li&gt;)&#125;</span><br><span class="line">        &lt;&#x2F;ul&gt;</span><br><span class="line">      &lt;&#x2F;div&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">export default MyComponent;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><a href="https://www.jianshu.com/p/273e7ab02fa1">https://www.jianshu.com/p/273e7ab02fa1</a></p>
+<h2 id="cyclejs"><a href="#cyclejs" class="headerlink" title="cyclejs"></a>cyclejs</h2><h2 id="测试框架"><a href="#测试框架" class="headerlink" title="测试框架"></a>测试框架</h2><h2 id="Nextjs"><a href="#Nextjs" class="headerlink" title="Nextjs"></a>Nextjs</h2><p><a href="Https://juejin.cn/post/6844904017487724557">Https://juejin.cn/post/6844904017487724557</a></p>
+<p><code>Next.js</code>是一个基于<code>React</code>的一个服务端渲染简约框架。它使用<code>React</code>语法，可以很好的实现代码的模块化，有利于代码的开发和维护</p>
+<p>Next的优点：</p>
+<ul>
+<li>默认服务端渲染模式，以文件系统为基础的客户端路由</li>
+<li>代码自动分隔使页面加载更快</li>
+<li>以页面为基础的简洁的客户端路由</li>
+<li>以<code>webpack</code>的热替换为基础的开发环境</li>
+<li>使用<code>React</code>的<code>JSX</code>和<code>ES6</code>的<code>module</code>，模块化和维护更方便</li>
+<li>可以运行在<code>Express</code>和其他<code>Node.js</code>的<code>HTTP</code> 服务器上</li>
+<li>可以定制化专属的<code>babel</code>和<code>webpack</code>配置</li>
+</ul>
+<p>创建next项目</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save react react-dom next</span><br></pre></td></tr></table></figure>
+
+<p><code>Next.js</code>是从服务器生成页面，再返回给前端展示。<code>Next.js</code>默认从 <code>pages</code> 目录下取页面进行渲染返回给前端展示，并默认取 <code>pages/index.js</code> 作为系统的首页进行展示。注意，<code>pages</code> 是默认存放页面的目录，路由的根路径也是<code>pages</code>目录</p>
+<p>在pages目录下创建indexjs</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// next-Link用于引入文件</span></span><br><span class="line"><span class="keyword">import</span> Link <span class="keyword">from</span> <span class="string">'next/link'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> Index = <span class="function"><span class="params">()</span> =&gt;</span> (</span><br><span class="line">  &lt;div&gt;</span><br><span class="line">    &lt;Link href=<span class="string">"/about"</span>&gt;</span><br><span class="line">      &lt;a&gt;About Page&lt;<span class="regexp">/a&gt;</span></span><br><span class="line"><span class="regexp">    &lt;/</span>Link&gt;</span><br><span class="line">    &lt;p&gt;Hello Next.js&lt;<span class="regexp">/p&gt;</span></span><br><span class="line"><span class="regexp">  &lt;/</span>div&gt;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> Index</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="多页面"><a href="#多页面" class="headerlink" title="多页面"></a>多页面</h3><h3 id="使用redux"><a href="#使用redux" class="headerlink" title="使用redux"></a>使用redux</h3><h3 id="路由遮盖"><a href="#路由遮盖" class="headerlink" title="路由遮盖"></a>路由遮盖</h3><p><code>Next.js</code>上提供了一个独特的特性：路由遮盖（Route Masking）。它可以使得在浏览器上显示的是路由<code>A</code>，而<code>App</code>内部真正的路由是<code>B</code>。这个特性可以让我们来设置一些比较简洁的路由显示在页面，而系统背后是使用一个带参数的路由。比如上面的例子中，地址栏中显示的是 <code>http://localhost:3000/post?title=Hello%20Next.js</code> ，这个地址含有一个<code>title</code>参数，看着很不整洁。下面我们就用<code>Next.js</code>来改造路由，使用路由遮盖来创建一个更加简洁的路由地址。比如我们将该地址改造成 `<a href="http://localhost:3000/p/hello-nextjs">http://localhost:3000/p/hello-nextjs</a></p>
+<h3 id="部署next项目"><a href="#部署next项目" class="headerlink" title="部署next项目"></a>部署next项目</h3><p><code>Next.js</code> 项目的部署，需要一个 <code>Node.js</code>的服务器，可以选择 <code>Express</code>, <code>Koa</code>或其他 <code>Nodejs</code> 的Web服务器。本文中以 <code>Express</code> 为例来部署 <code>Next</code> 项目。</p>
+<h2 id="Dvajs"><a href="#Dvajs" class="headerlink" title="Dvajs"></a>Dvajs</h2><p>dva 首先是一个基于 redux 和 redux-saga的数据流方案，然后为了简化开发体验，dva 还额外内置了 react-router和 fetch，所以也可以理解为一个轻量级的应用框架。</p>
+<p>dva把redux的action、reducer、createActions、actionType等不同目录的文件组织在一个modle文件中。</p>
 <p>安装</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install dva-cli@next -g</span><br></pre></td></tr></table></figure>
 
@@ -223,7 +316,17 @@
 
 
 
-<h2 id="blitz-js"><a href="#blitz-js" class="headerlink" title="blitz.js"></a>blitz.js</h2><h2 id="Umijs"><a href="#Umijs" class="headerlink" title="Umijs"></a>Umijs</h2><p>和creat-react-app的不同</p>
+<h2 id="blitz-js"><a href="#blitz-js" class="headerlink" title="blitz.js"></a>blitz.js</h2><p>安装</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g blitz</span><br></pre></td></tr></table></figure>
+
+<p>创建项目</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">blitz new AppName</span><br><span class="line">cd</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="Umijs"><a href="#Umijs" class="headerlink" title="Umijs"></a>Umijs</h2><p>和creat-react-app的不同</p>
 <p>create-react-app 是基于 webpack 的打包层方案，包含 build、dev、lint 等，他在打包层把体验做到了极致，但是不包含路由，不是框架，也不支持配置。所以，如果大家想基于他修改部分配置，或者希望在打包层之外也做技术收敛时，就会遇到困难。</p>
 <p>和nextjs的不同</p>
 <p>next.js 是个很好的选择，Umi 很多功能是参考 next.js 做的。要说有哪些地方不如 Umi，我觉得可能是不够贴近业务，不够接地气。比如 antd、dva 的深度整合，比如国际化、权限、数据流、配置式路由、补丁方案、自动化 external 方面等等一线开发者才会遇到的问题。</p>
@@ -231,7 +334,7 @@
 <p>Ramda强调更加纯粹的函数式编程风格，数据不变性和无副作用是其核心设计理念，可以帮助你使用简洁优雅的代码完成工作</p>
 <p>Ramda函数本身都是自动柯里化的，这可以让你在只提供部分参数的情况下，轻松在已有函数的基础上创建新的函数</p>
 <p>Ramda函数参数的排列顺序更便于柯里化，要操作的数据通常在最后面。</p>
-<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>安装</p>
+<h3 id="安装-1"><a href="#安装-1" class="headerlink" title="安装"></a>安装</h3><p>安装</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install ramda</span><br></pre></td></tr></table></figure>
 
 <p>全部引入</p>
@@ -537,48 +640,100 @@
         <span class="has-mr-6">1.1</span>
         <span>其他插件</span>
         </a></li></ul></li><li>
-        <a class="is-flex" href="#Dvajs">
+        <a class="is-flex" href="#immutablejs">
         <span class="has-mr-6">2</span>
+        <span>immutablejs</span>
+        </a></li><li>
+        <a class="is-flex" href="#rxjs">
+        <span class="has-mr-6">3</span>
+        <span>rxjs</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#安装">
+        <span class="has-mr-6">3.1</span>
+        <span>安装</span>
+        </a></li><li>
+        <a class="is-flex" href="#注册事件">
+        <span class="has-mr-6">3.2</span>
+        <span>注册事件</span>
+        </a></li><li>
+        <a class="is-flex" href="#操作变量">
+        <span class="has-mr-6">3.3</span>
+        <span>操作变量</span>
+        </a></li><li>
+        <a class="is-flex" href="#react使用">
+        <span class="has-mr-6">3.4</span>
+        <span>react使用</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#cyclejs">
+        <span class="has-mr-6">4</span>
+        <span>cyclejs</span>
+        </a></li><li>
+        <a class="is-flex" href="#测试框架">
+        <span class="has-mr-6">5</span>
+        <span>测试框架</span>
+        </a></li><li>
+        <a class="is-flex" href="#Nextjs">
+        <span class="has-mr-6">6</span>
+        <span>Nextjs</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#多页面">
+        <span class="has-mr-6">6.1</span>
+        <span>多页面</span>
+        </a></li><li>
+        <a class="is-flex" href="#使用redux">
+        <span class="has-mr-6">6.2</span>
+        <span>使用redux</span>
+        </a></li><li>
+        <a class="is-flex" href="#路由遮盖">
+        <span class="has-mr-6">6.3</span>
+        <span>路由遮盖</span>
+        </a></li><li>
+        <a class="is-flex" href="#部署next项目">
+        <span class="has-mr-6">6.4</span>
+        <span>部署next项目</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#Dvajs">
+        <span class="has-mr-6">7</span>
         <span>Dvajs</span>
         </a></li><li>
         <a class="is-flex" href="#blitz-js">
-        <span class="has-mr-6">3</span>
+        <span class="has-mr-6">8</span>
         <span>blitz.js</span>
         </a></li><li>
         <a class="is-flex" href="#Umijs">
-        <span class="has-mr-6">4</span>
+        <span class="has-mr-6">9</span>
         <span>Umijs</span>
         </a></li><li>
         <a class="is-flex" href="#Ramda">
-        <span class="has-mr-6">5</span>
+        <span class="has-mr-6">10</span>
         <span>Ramda</span>
         </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#安装">
-        <span class="has-mr-6">5.1</span>
+        <a class="is-flex" href="#安装-1">
+        <span class="has-mr-6">10.1</span>
         <span>安装</span>
         </a></li></ul></li><li>
         <a class="is-flex" href="#Preact">
-        <span class="has-mr-6">6</span>
+        <span class="has-mr-6">11</span>
         <span>Preact</span>
         </a><ul class="menu-list"><li>
         <a class="is-flex" href="#基本概念">
-        <span class="has-mr-6">6.1</span>
+        <span class="has-mr-6">11.1</span>
         <span>基本概念</span>
         </a></li><li>
         <a class="is-flex" href="#性能监控">
-        <span class="has-mr-6">6.2</span>
+        <span class="has-mr-6">11.2</span>
         <span>性能监控</span>
         </a></li><li>
         <a class="is-flex" href="#把React替换为Preact">
-        <span class="has-mr-6">6.3</span>
+        <span class="has-mr-6">11.3</span>
         <span>把React替换为Preact</span>
         </a></li><li>
         <a class="is-flex" href="#优缺点">
-        <span class="has-mr-6">6.4</span>
+        <span class="has-mr-6">11.4</span>
         <span>优缺点</span>
         </a></li><li>
         <a class="is-flex" href="#与react对比">
-        <span class="has-mr-6">6.5</span>
+        <span class="has-mr-6">11.5</span>
         <span>与react对比</span>
         </a></li></ul></li></ul>
             </div>

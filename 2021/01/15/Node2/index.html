@@ -19,7 +19,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://cdn.kunkunzhang.top/jsEvent.jpg">
 <meta property="article:published_time" content="2021-01-15T13:40:33.000Z">
-<meta property="article:modified_time" content="2021-06-12T09:15:24.152Z">
+<meta property="article:modified_time" content="2021-06-17T12:01:23.821Z">
 <meta property="article:author" content="Kun Zhang">
 <meta property="article:tag" content="IT，Web,Node">
 <meta name="twitter:card" content="summary">
@@ -362,8 +362,7 @@
 <p>最后采用w3c的折中方案：先捕获后冒泡，形成了事件传播的3个阶段</p>
 <p>简单来说，如果父dom和子dom都定义了相同的事件（如点击事件），那么触发子dom的事件时会同时触发父dom上的事件</p>
 <p>举例</p>
-<p>阻止事件冒泡</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">"#div1"</span>).mousedown(<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> e=event||<span class="built_in">window</span>.event;</span><br><span class="line">    event.stopPropagation();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h5 id="阻止事件冒泡"><a href="#阻止事件冒泡" class="headerlink" title="阻止事件冒泡"></a>阻止事件冒泡</h5><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">"#div1"</span>).mousedown(<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> e=event||<span class="built_in">window</span>.event;</span><br><span class="line">    event.stopPropagation();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 
 <p>不支持冒泡的事件类型：</p>
 <p>mouseenter、mouseleave、blur、focus、load、unload、resize</p>

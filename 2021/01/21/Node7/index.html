@@ -10,16 +10,16 @@
 <title>NodeJs开发（二） - kun&#39;s blog</title>
 
 
-    <meta name="description" content="万万没想到会来到第六篇，第六篇写TypeScript，算是加成。">
+    <meta name="description" content="万万没想到会来到第七篇，第七篇写TypeScript，算是加成。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="NodeJs开发（二）">
 <meta property="og:url" content="http://kun8018.gitee.io/2021/01/21/Node7/index.html">
 <meta property="og:site_name" content="kun&#39;s blog">
-<meta property="og:description" content="万万没想到会来到第六篇，第六篇写TypeScript，算是加成。">
+<meta property="og:description" content="万万没想到会来到第七篇，第七篇写TypeScript，算是加成。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://cdn.kunkunzhang.top/typescript.jpg">
 <meta property="article:published_time" content="2021-01-21T13:40:33.000Z">
-<meta property="article:modified_time" content="2021-03-15T16:53:47.610Z">
+<meta property="article:modified_time" content="2021-06-24T01:02:21.204Z">
 <meta property="article:author" content="Kun Zhang">
 <meta property="article:tag" content="IT，Web">
 <meta name="twitter:card" content="summary">
@@ -158,7 +158,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    1 小时 读完 (大约 6911 个字)
+                    1 小时 读完 (大约 7118 个字)
                 </span>
                 
                 
@@ -176,7 +176,7 @@
             
         </h1>
         <div class="content">
-            <p>万万没想到会来到第六篇，第六篇写TypeScript，算是加成。</p>
+            <p>万万没想到会来到第七篇，第七篇写TypeScript，算是加成。</p>
 <a id="more"></a>
 
 <h2 id="Typescript"><a href="#Typescript" class="headerlink" title="Typescript"></a>Typescript</h2><p>Typescript是JavaScript的超集，主要提供了<strong>类型系统</strong>和<strong>对 ES6 的支持</strong>，它由 Microsoft 开发，代码<a href="https://github.com/Microsoft/TypeScript">开源于 GitHub</a> 上。</p>
@@ -388,6 +388,14 @@
 <p>这时，我们需要使用 <code>declare var</code> 来定义它的类型</p>
 <p>通常我们会把声明语句放到一个单独的文件（<code>jQuery.d.ts</code>）中，这就是声明文件。声明文件必需以 <code>.d.ts</code> 为后缀。一般来说，ts 会解析项目中所有的 <code>*.ts</code> 文件，当然也包含以 <code>.d.ts</code> 结尾的文件。所以当我们将 <code>jQuery.d.ts</code> 放到项目中时，其他所有 <code>*.ts</code> 文件就都可以获得 <code>jQuery</code> 的类型定义了。</p>
 <p>假如仍然无法解析，那么可以检查下 <code>tsconfig.json</code> 中的 <code>files</code>、<code>include</code> 和 <code>exclude</code> 配置，确保其包含了 <code>jQuery.d.ts</code> 文件。</p>
+<p>TS可以在编译时自动生成.d.ts文件，只需要在tsconfig.json配置文件中开启即可</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"compilerOptions"</span>: &#123;</span><br><span class="line">    <span class="attr">"declaration"</span>: <span class="literal">true</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>一般只有三种情况需要手动定义声明文件：</p>
+<p>1.通过script标签引入第三方库</p>
+<p>2.使用的第三方npm包没有提供声明文件</p>
+<p>3.自己团队内比较优秀的js库或者插件，为了提升开发体验</p>
+<p>声明文件只是对类型的定义，不能赋值</p>
 <p>如果定义了同名的函数、类、接口，typescript会自动合并。接口的属性和方法都支持合并</p>
 <figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> Alarm&#123;</span><br><span class="line">  price: <span class="built_in">number</span>;</span><br><span class="line">  alert(s:<span class="built_in">string</span>):<span class="built_in">string</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">interface</span> Alarm&#123;</span><br><span class="line">  weight: <span class="built_in">number</span>;</span><br><span class="line">  alert(s:<span class="built_in">string</span>,n:<span class="built_in">number</span>):<span class="built_in">string</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//相当于</span></span><br><span class="line"><span class="keyword">interface</span> Alarm&#123;</span><br><span class="line">  price: <span class="built_in">number</span>;</span><br><span class="line">  alert(s:<span class="built_in">string</span>):<span class="built_in">string</span>;</span><br><span class="line">  weight: <span class="built_in">number</span>;</span><br><span class="line">  alert(s:<span class="built_in">string</span>,n:<span class="built_in">number</span>):<span class="built_in">string</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -395,6 +403,16 @@
 <figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> Alarm&#123;</span><br><span class="line">  price: <span class="built_in">number</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">interface</span> Alarm&#123;</span><br><span class="line">  price: <span class="built_in">number</span>;<span class="comment">//可以</span></span><br><span class="line">  weight: <span class="built_in">number</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">interface</span> Alarm&#123;</span><br><span class="line">  price: <span class="built_in">string</span>;<span class="comment">//报错</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>类的合并和接口的合并类似</p>
+<p>对于没有提供声明文件的npm包，可以创建一个types目录，来管理自己写的声明文件，同时在配置文件tsconfig.json中的paths和baseUrl配置</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"compilerOptions"</span>: &#123;</span><br><span class="line">    <span class="attr">"module"</span>: <span class="string">"commonjs"</span>,</span><br><span class="line">    <span class="attr">"baseUrl"</span>: <span class="string">"./"</span>,</span><br><span class="line">    <span class="attr">"paths"</span>: &#123;<span class="attr">"*"</span>:[<span class="string">"types/*"</span>]&#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>npm包的声明文件主要有以下几种语法</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">const</span>/<span class="keyword">let</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">namespace</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span></span><br><span class="line"><span class="keyword">export</span> =</span><br></pre></td></tr></table></figure>
+
+
+
+
+
 <h3 id="readonly-只读"><a href="#readonly-只读" class="headerlink" title="readonly(只读)"></a>readonly(只读)</h3><p>typescript类型系统允许在一个接口中使用readonly来标记属性，也就是只读的方式，不可预期的改变是很糟糕的。</p>
 <p>可以在接口、类</p>
 <h3 id="代码检查"><a href="#代码检查" class="headerlink" title="代码检查"></a>代码检查</h3><h4 id="Es-lint"><a href="#Es-lint" class="headerlink" title="Es-lint"></a>Es-lint</h4><p>安装es-lint</p>

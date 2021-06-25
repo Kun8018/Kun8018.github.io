@@ -19,7 +19,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://cdn.kunkunzhang.top/react.png">
 <meta property="article:published_time" content="2020-06-02T13:40:33.000Z">
-<meta property="article:modified_time" content="2021-06-15T21:09:03.085Z">
+<meta property="article:modified_time" content="2021-06-20T06:59:39.578Z">
 <meta property="article:author" content="Kun Zhang">
 <meta property="article:tag" content="IT，Web,Node，React">
 <meta name="twitter:card" content="summary">
@@ -158,7 +158,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    43 分钟 读完 (大约 6515 个字)
+                    1 小时 读完 (大约 6756 个字)
                 </span>
                 
                 
@@ -218,7 +218,7 @@
 <p>react-router与react-router-dom是两个包，前者提供react的核心api，如Router、Route、Switch等，后者包含前者的依赖，并且提供BrowserRoute、Route、Link等api，可以通过dom操作触发事件控制路由。</p>
 <p>一般使用后者</p>
 <p>导入包,新建Router.js</p>
-<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;BrowserRoute <span class="keyword">as</span> Router,HashRouter,Link&#125; <span class="keyword">from</span> <span class="string">'react-router-dom'</span></span><br><span class="line"><span class="comment">//Route用来表示路由规则，有path和component、exact</span></span><br><span class="line"><span class="comment">//Link用来表示链接</span></span><br><span class="line"><span class="keyword">import</span> Home <span class="keyword">from</span> <span class="string">'./components/Home'</span></span><br><span class="line"><span class="keyword">import</span> About <span class="keyword">from</span> <span class="string">'./components/About'</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">router</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;Router&gt;</span><br><span class="line">          &lt;Route path=<span class="string">"/home"</span> component=&#123;Home&#125;/&gt;</span><br><span class="line">          &lt;Route path=<span class="string">"/about"</span> component=&#123;About&#125;/&gt;</span><br><span class="line">     &lt;<span class="regexp">/Router&gt;</span></span><br><span class="line"><span class="regexp">  );</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;BrowserRoute <span class="keyword">as</span> Router,HashRouter,Link&#125; <span class="keyword">from</span> <span class="string">'react-router-dom'</span></span><br><span class="line"><span class="comment">//Router组件本身只是一个容器，真正的路由要通过Route组件定义。</span></span><br><span class="line"><span class="comment">//Route用来表示路由规则，有path和component、exact</span></span><br><span class="line"><span class="comment">//Link组件用于取代&lt;a&gt;元素，生成一个链接，允许用户点击后跳转到另一个路由。它基本上就是&lt;a&gt;元素的React 版本，可以接收Router的状态。</span></span><br><span class="line"><span class="keyword">import</span> Home <span class="keyword">from</span> <span class="string">'./components/Home'</span></span><br><span class="line"><span class="keyword">import</span> About <span class="keyword">from</span> <span class="string">'./components/About'</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">router</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;Router&gt;</span><br><span class="line">          &lt;Route path=<span class="string">"/home"</span> component=&#123;Home&#125;/&gt;</span><br><span class="line">          &lt;Route path=<span class="string">"/about"</span> component=&#123;About&#125;/&gt;</span><br><span class="line">     &lt;<span class="regexp">/Router&gt;</span></span><br><span class="line"><span class="regexp">  );</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
 
 <p>Home.jsx</p>
 <figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React,&#123;Component&#125; <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Home</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">    render() &#123;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">            &lt;div&gt;</span><br><span class="line">            首页</span><br><span class="line">            &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">       )</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp">export default Home</span></span><br></pre></td></tr></table></figure>
@@ -233,14 +233,28 @@
 <p>在app.js中引入</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Router <span class="keyword">from</span> <span class="string">'./Router'</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">App</span> <span class="keyword">extends</span> <span class="title">Component</span></span>&#123;</span><br><span class="line">    render()&#123;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">           &lt;Router /&gt;</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="路由匹配"><a href="#路由匹配" class="headerlink" title="路由匹配"></a>路由匹配</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">import &#123; HashRouter,Route,Switch &#125; from &#39;react-router-dom&#39;</span><br><span class="line"></span><br><span class="line">const BasicRoute &#x3D; () &#x3D;&gt; (</span><br><span class="line">   &lt;HashRouter&gt;</span><br><span class="line">      &lt;Switch&gt;</span><br><span class="line">         &lt;Route exact path&#x3D;&quot;&#x2F;&quot; component&#x3D;&#123;Home&#125;&#x2F;&gt;         </span><br><span class="line">         &lt;Route exact path&#x3D;&quot;&#x2F;detail&quot; component&#x3D;&#123;Detail&#125;&#x2F;&gt;</span><br><span class="line">      &lt;&#x2F;Switch&gt;</span><br><span class="line">   &lt;&#x2F;HashRouter&gt;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>NavLink是一个特殊版本的Link，可以使用activeClassName来设置Link被选中时被附加的class，使用activeStyl</p>
+<p>来配置被选中时应用的样式。</p>
+<h3 id="路由匹配"><a href="#路由匹配" class="headerlink" title="路由匹配"></a>路由匹配</h3><p>Switch</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">import &#123; HashRouter,Route,Switch &#125; from &#39;react-router-dom&#39;</span><br><span class="line"></span><br><span class="line">const BasicRoute &#x3D; () &#x3D;&gt; (</span><br><span class="line">   &lt;HashRouter&gt;</span><br><span class="line">      &lt;Switch&gt;</span><br><span class="line">         &lt;Route exact path&#x3D;&quot;&#x2F;&quot; component&#x3D;&#123;Home&#125;&#x2F;&gt;         </span><br><span class="line">         &lt;Route exact path&#x3D;&quot;&#x2F;detail&quot; component&#x3D;&#123;Detail&#125;&#x2F;&gt;</span><br><span class="line">      &lt;&#x2F;Switch&gt;</span><br><span class="line">   &lt;&#x2F;HashRouter&gt;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
 
 <h3 id="嵌套路由"><a href="#嵌套路由" class="headerlink" title="嵌套路由"></a>嵌套路由</h3><p>router.js</p>
 <figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Other <span class="keyword">from</span> <span class="string">'./components/Other'</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">router</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span>&#123;</span><br><span class="line">        &lt;Router&gt;</span><br><span class="line">            &lt;Route path=<span class="string">"/home"</span> component=&#123;Home&#125; /&gt;</span><br><span class="line">            &lt;Route path=<span class="string">"/home"</span> render=&#123;()=&gt;(</span><br><span class="line">                    &lt;About&gt;</span><br><span class="line">                       &lt;Route path=<span class="string">"/about/other"</span> component=&#123;other&#125;/&gt;</span><br><span class="line">                    &lt;<span class="regexp">/About&gt;</span></span><br><span class="line"><span class="regexp">                )&#125;&gt;</span></span><br><span class="line"><span class="regexp">        &lt;/</span>Router&gt;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h3 id="重定向"><a href="#重定向" class="headerlink" title="重定向"></a>重定向</h3><figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;Redirect&#125; <span class="keyword">from</span> <span class="string">"react-router-dom"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> &#123;(</span><br><span class="line">&lt;Router&gt;</span><br><span class="line">        &lt;Route path=<span class="string">"/home"</span> component=&#123;Home&#125; /&gt;</span><br><span class="line">        &lt;Route path=<span class="string">"/"</span> render=&#123;</span><br><span class="line">        ()=&gt;(</span><br><span class="line">        &lt;Redirect to=<span class="string">"/home"</span>/&gt;)&#125;&gt;</span><br><span class="line">        &lt;<span class="regexp">/Route&gt;</span></span><br><span class="line"><span class="regexp">    &lt;/</span>Router&gt;</span><br><span class="line">);&#125;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> router;</span><br></pre></td></tr></table></figure>
 
-<h3 id="其他API"><a href="#其他API" class="headerlink" title="其他API"></a>其他API</h3><h3 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h3><h2 id="组件"><a href="#组件" class="headerlink" title="组件"></a>组件</h2><p>react会将以小写字母开头的组件视为原生DOM标签，而组件名称必须以大写字母开口</p>
+<p><code>IndexRedirect</code>组件用于访问根路由的时候，将用户重定向到某个子组件。</p>
+<h3 id="其他API"><a href="#其他API" class="headerlink" title="其他API"></a>其他API</h3><p>RouteComponentProps</p>
+<p>withRouter</p>
+<p>默认情况下必须是经过路由匹配渲染的组件才存在this.props，才拥有路由参数，才能使用编程式导航的写法，执行this.props.history.push(‘/detail’)跳转到对应路由的页面</p>
+<p>然而不是所有组件都直接与路由相连（通过路由跳转到此组件）的，当这些组件需要路由参数时，使用withRouter就可以给此组件传入路由参数，此时就可以使用this.props</p>
+<p>设置withRouter很简单只需要两步：（1）引入 （2）将App组件 withRouter() 一下</p>
+<p>比如app.js这个组件，一般是首页，不是通过路由跳转过来的，而是直接从浏览器中输入地址打开的，如果不使用withRouter此组件的this.props为空，没法执行props中的history、location、match等方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">import React,&#123;Component&#125; from &#39;react&#39;</span><br><span class="line">import &#123;Switch,Route,NavLink,Redirect,withRouter&#125; from &#39;react-router-dom&#39; &#x2F;&#x2F;引入withRouter</span><br><span class="line">import One from &#39;.&#x2F;One&#39;</span><br><span class="line">import NotFound from &#39;.&#x2F;NotFound&#39;</span><br><span class="line">class App extends Component&#123;</span><br><span class="line">    &#x2F;&#x2F;此时才能获取this.props,包含（history, match, location）三个对象</span><br><span class="line">    console.log(this.props);  &#x2F;&#x2F;输出&#123;match: &#123;…&#125;, location: &#123;…&#125;, history: &#123;…&#125;, 等&#125;</span><br><span class="line">    render()&#123;return (&lt;div className&#x3D;&#39;app&#39;&gt;</span><br><span class="line">            &lt;NavLink to&#x3D;&#39;&#x2F;one&#x2F;users&#39;&gt;用户列表&lt;&#x2F;NavLink&gt;</span><br><span class="line">            &lt;NavLink to&#x3D;&#39;&#x2F;one&#x2F;companies&#39;&gt;公司列表&lt;&#x2F;NavLink&gt;</span><br><span class="line">            &lt;Switch&gt;</span><br><span class="line">                &lt;Route path&#x3D;&#39;&#x2F;one&#x2F;:type?&#39; component&#x3D;&#123;One&#125; &#x2F;&gt;</span><br><span class="line">                &lt;Redirect from&#x3D;&#39;&#x2F;&#39; to&#x3D;&#39;&#x2F;one&#39; exact &#x2F;&gt;</span><br><span class="line">                &lt;Route component&#x3D;&#123;NotFound&#125; &#x2F;&gt;</span><br><span class="line">            &lt;&#x2F;Switch&gt;</span><br><span class="line">        &lt;&#x2F;div&gt;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">export default withRouter(App);  &#x2F;&#x2F;这里要执行一下WithRouter</span><br></pre></td></tr></table></figure>
+
+<p>match</p>
+<p>match是一个匹配路径参数的对象，它有一个属性params，里面的内容就是路径参数，除常用的params属性外，它还有url、path、isExact属性。</p>
+<h3 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h3><h2 id="组件"><a href="#组件" class="headerlink" title="组件"></a>组件</h2><p>react会将以小写字母开头的组件视为原生DOM标签，而组件名称必须以大写字母开口</p>
 <p>组件的定义方式</p>
 <p>以函数方式定义组件</p>
 <figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Welcome</span>(<span class="params">props</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>hello,&#123;props.name&#125;<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -273,6 +287,11 @@
 
 <p>通过provider包裹组件传递value值可以使组件共享provider中的state，通过consumer获取props进行渲染</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">import React from &#39;react&#39;;</span><br><span class="line">import &#123;ToggleProvider,ToggleConsumer&#125; from &#39;.&#x2F;ToggleContext&#39;</span><br><span class="line"></span><br><span class="line">function App()&#123;</span><br><span class="line">  return (</span><br><span class="line">    &lt;ToggleProvider&gt;</span><br><span class="line">       &lt;Switcher&gt;&lt;&#x2F;Switcher&gt;</span><br><span class="line">    &lt;&#x2F;ToggleProvider&gt;</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const Switcher &#x3D; () &#x3D;&gt;&#123;</span><br><span class="line">  return &lt;Pannel&#x2F;&gt;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const Pannel &#x3D; () &#x3D;&gt;&#123;</span><br><span class="line">  return (</span><br><span class="line">    &lt;ToggleConsumer&gt;</span><br><span class="line">      &#123;(&#123;toggle.handleToggle&#125;)&#x3D;&gt;</span><br><span class="line">         &lt;div onClick&#x3D;&#123;()&#x3D;&gt;handleToggle()&#125;&gt;</span><br><span class="line">         &#123;toggle?&#39;1&#39;:&#39;0&#39;&#125;</span><br><span class="line">    		&lt;&#x2F;div&gt;</span><br><span class="line">      &#125;</span><br><span class="line">    &lt;&#x2F;ToggleConsumer&gt;</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export default App</span><br></pre></td></tr></table></figure>
+
+<h3 id="OnRef"><a href="#OnRef" class="headerlink" title="OnRef"></a>OnRef</h3><p>Onref通过props将子组件的组件实例当作参数，通过回调传到父组件，然后在父组件就可以拿到子组件的实例了，拿到实例就可以调用它的方法了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">import Son from &#39;.&#x2F;son&#39;</span><br><span class="line"></span><br><span class="line">class Father extends React.Component &#123;</span><br><span class="line">  sonRef &#x3D; (ref) &#x3D;&gt; &#123;</span><br><span class="line">    this.child &#x3D; ref</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  render() &#123;</span><br><span class="line">    return (</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">         &lt;Son onRef&#x3D;&#123;this.sonRef&#125;&#x2F;&gt;</span><br><span class="line">      &lt;&#x2F;div&gt;</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
 
 <h2 id="State与生命周期"><a href="#State与生命周期" class="headerlink" title="State与生命周期"></a>State与生命周期</h2><p>与props不同，state是组件内的私有数据，且完全受控于当前组件。</p>
 <p>对于上述两种组件，function函数式定义的组件不支持state，所以要使用state需要把组件定义为class式组件</p>
@@ -335,6 +354,13 @@
 <p><strong>该生命周期钩子触发的时机</strong> ：被调用于 <code>render</code> 之后、更新 <code>DOM</code> 和 <code>refs</code> 之前</p>
 <p><strong>该生命周期钩子的作用：</strong> 它能让你在组件更新 <code>DOM</code> 和 <code>refs</code> 之前，从 <code>DOM</code> 中捕获一些信息（例如滚动位置）</p>
 <p>配合 <code>componentDidUpdate</code>, 可以覆盖 <code>componentWillUpdate</code> 的所有用法</p>
+<h3 id="异步生命周期"><a href="#异步生命周期" class="headerlink" title="异步生命周期"></a>异步生命周期</h3><p>react的生命周期函数可以写成async的形式，使用async之后函数体中可以使用await</p>
+<p>但是要注意使用，比如</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">async shouldComponentUpdate() &#123;</span><br><span class="line">  return false;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>正常情况下，如果shouldComponentUpdate返回的是false，组件不会被重新渲染。但是指定为async时返回promise.resolve，一个promise被转化为bool类型，绝对是true，因此shouldComponentUpdate返回的永远是true。</p>
+<p>此外，fiber架构中使用异步渲染，render之前的生命周期函数会被调用多次，因此尽量保持render之前的生命周期不要产生副作用</p>
+<p>所以async使用的生命周期一般是componentDIdMound和componentDitUpdate</p>
 <h3 id="旧版生命周期函数被弃用的原因"><a href="#旧版生命周期函数被弃用的原因" class="headerlink" title="旧版生命周期函数被弃用的原因"></a>旧版生命周期函数被弃用的原因</h3><p>ComponentWillReceiveProps(Props):getDerivedStateFromProps与ComponentDidUpdate配合，可以覆盖ComponentWillReceiveProps的所有用法</p>
 <p>ComponentWillUpdate(Props){}:getSnapshotBeforeUpdate与ComponentWillUpdate配合，可以覆盖ComponentWillUpdate的所有用法</p>
 <p>ComponentWillMount(){}:</p>
@@ -358,7 +384,12 @@
 <figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;button onClick=&#123;(e) =&gt; <span class="keyword">this</span>.deleteRow(id,e)&#125;&gt;DeleteRow&lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">&lt;button onClick=&#123;this.deleteRow.bind(this,id)&#125;&gt;DeleteRow&lt;/</span>button&gt;</span><br></pre></td></tr></table></figure>
 
 <p>通过箭头函数和function.prototype.bind实现</p>
-<h2 id="Ref属性"><a href="#Ref属性" class="headerlink" title="Ref属性"></a>Ref属性</h2><h2 id="条件渲染"><a href="#条件渲染" class="headerlink" title="条件渲染"></a>条件渲染</h2><p>React 中的条件渲染和 JavaScript 中的一样，使用 JavaScript 运算符 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/if...else"><code>if</code></a> 或者<a href="https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Operators/Conditional_Operator">条件运算符</a>去创建元素来表现当前的状态，然后让 React 根据它们来更新 UI。</p>
+<h2 id="Ref属性"><a href="#Ref属性" class="headerlink" title="Ref属性"></a>Ref属性</h2><p>ref是react提供的属性，通过它我们可以访问DOM节点或者组件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="条件渲染"><a href="#条件渲染" class="headerlink" title="条件渲染"></a>条件渲染</h2><p>React 中的条件渲染和 JavaScript 中的一样，使用 JavaScript 运算符 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/if...else"><code>if</code></a> 或者<a href="https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Operators/Conditional_Operator">条件运算符</a>去创建元素来表现当前的状态，然后让 React 根据它们来更新 UI。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">class LoginControl extends React.Component &#123;</span><br><span class="line">  constructor(props) &#123;</span><br><span class="line">    super(props);</span><br><span class="line">    this.handleLoginClick &#x3D; this.handleLoginClick.bind(this);</span><br><span class="line">    this.handleLogoutClick &#x3D; this.handleLogoutClick.bind(this);</span><br><span class="line">    this.state &#x3D; &#123;isLoggedIn: false&#125;;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  handleLoginClick() &#123;</span><br><span class="line">    this.setState(&#123;isLoggedIn: true&#125;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  handleLogoutClick() &#123;</span><br><span class="line">    this.setState(&#123;isLoggedIn: false&#125;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    const isLoggedIn &#x3D; this.state.isLoggedIn;</span><br><span class="line">    let button;</span><br><span class="line">    if (isLoggedIn) &#123;</span><br><span class="line">      button &#x3D; &lt;LogoutButton onClick&#x3D;&#123;this.handleLogoutClick&#125; &#x2F;&gt;;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      button &#x3D; &lt;LoginButton onClick&#x3D;&#123;this.handleLoginClick&#125; &#x2F;&gt;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return (</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        &lt;Greeting isLoggedIn&#x3D;&#123;isLoggedIn&#125; &#x2F;&gt;</span><br><span class="line">        &#123;button&#125;</span><br><span class="line">      &lt;&#x2F;div&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ReactDOM.render(</span><br><span class="line">  &lt;LoginControl &#x2F;&gt;,</span><br><span class="line">  document.getElementById(&#39;root&#39;)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
 
 
@@ -418,8 +449,7 @@
 <li>某个 store 的引用不一定非在组件中才能取到，因为是对象，可以直接引用。比如在 constant.js 文件中可以定义一些来自 store 的变量。</li>
 <li>据说效率更高。mobx 会建立虚拟推导图 (virtual derivation graph)，保证最少的推导依赖</li>
 </ul>
-<p>基本概念</p>
-<p>Observable state</p>
+<h3 id="基本概念-1"><a href="#基本概念-1" class="headerlink" title="基本概念"></a>基本概念</h3><p>Observable state</p>
 <p>给数据对象添加可观测的功能，支持任何数据结构。</p>
 <p>Computed values</p>
 <p>某个 state 发生变化时，需要自动计算的值。比如说单价变化，总价的计算</p>
@@ -467,29 +497,6 @@
 <p>但是毕竟是 <code>Facebook</code> 官方推出的状态管理框架，其主打的是高性能以及可以利用 <code>React</code> 内部的调度机制，包括其承诺即将会支持的并发模式，这一点还是非常值得期待的。</p>
 <p>另外，其本身的分散管理原子状态的模式、读写分离、按需渲染、派生缓存等思想还是非常值得一学的</p>
 <p><a href="https://juejin.cn/post/6881493149261250568#heading-2">https://juejin.cn/post/6881493149261250568#heading-2</a></p>
-<h2 id="Next"><a href="#Next" class="headerlink" title="Next"></a>Next</h2><p><a href="Https://juejin.cn/post/6844904017487724557">Https://juejin.cn/post/6844904017487724557</a></p>
-<p><code>Next.js</code>是一个基于<code>React</code>的一个服务端渲染简约框架。它使用<code>React</code>语法，可以很好的实现代码的模块化，有利于代码的开发和维护</p>
-<p>Next的优点：</p>
-<ul>
-<li>默认服务端渲染模式，以文件系统为基础的客户端路由</li>
-<li>代码自动分隔使页面加载更快</li>
-<li>以页面为基础的简洁的客户端路由</li>
-<li>以<code>webpack</code>的热替换为基础的开发环境</li>
-<li>使用<code>React</code>的<code>JSX</code>和<code>ES6</code>的<code>module</code>，模块化和维护更方便</li>
-<li>可以运行在<code>Express</code>和其他<code>Node.js</code>的<code>HTTP</code> 服务器上</li>
-<li>可以定制化专属的<code>babel</code>和<code>webpack</code>配置</li>
-</ul>
-<p>创建next项目</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save react react-dom next</span><br></pre></td></tr></table></figure>
-
-<p><code>Next.js</code>是从服务器生成页面，再返回给前端展示。<code>Next.js</code>默认从 <code>pages</code> 目录下取页面进行渲染返回给前端展示，并默认取 <code>pages/index.js</code> 作为系统的首页进行展示。注意，<code>pages</code> 是默认存放页面的目录，路由的根路径也是<code>pages</code>目录</p>
-<p>在pages目录下创建indexjs</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// next-Link用于引入文件</span></span><br><span class="line"><span class="keyword">import</span> Link <span class="keyword">from</span> <span class="string">'next/link'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> Index = <span class="function"><span class="params">()</span> =&gt;</span> (</span><br><span class="line">  &lt;div&gt;</span><br><span class="line">    &lt;Link href=<span class="string">"/about"</span>&gt;</span><br><span class="line">      &lt;a&gt;About Page&lt;<span class="regexp">/a&gt;</span></span><br><span class="line"><span class="regexp">    &lt;/</span>Link&gt;</span><br><span class="line">    &lt;p&gt;Hello Next.js&lt;<span class="regexp">/p&gt;</span></span><br><span class="line"><span class="regexp">  &lt;/</span>div&gt;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> Index</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="多页面"><a href="#多页面" class="headerlink" title="多页面"></a>多页面</h3><h3 id="使用redux"><a href="#使用redux" class="headerlink" title="使用redux"></a>使用redux</h3><h3 id="路由遮盖"><a href="#路由遮盖" class="headerlink" title="路由遮盖"></a>路由遮盖</h3><p><code>Next.js</code>上提供了一个独特的特性：路由遮盖（Route Masking）。它可以使得在浏览器上显示的是路由<code>A</code>，而<code>App</code>内部真正的路由是<code>B</code>。这个特性可以让我们来设置一些比较简洁的路由显示在页面，而系统背后是使用一个带参数的路由。比如上面的例子中，地址栏中显示的是 <code>http://localhost:3000/post?title=Hello%20Next.js</code> ，这个地址含有一个<code>title</code>参数，看着很不整洁。下面我们就用<code>Next.js</code>来改造路由，使用路由遮盖来创建一个更加简洁的路由地址。比如我们将该地址改造成 `<a href="http://localhost:3000/p/hello-nextjs">http://localhost:3000/p/hello-nextjs</a></p>
-<h3 id="部署next项目"><a href="#部署next项目" class="headerlink" title="部署next项目"></a>部署next项目</h3><p><code>Next.js</code> 项目的部署，需要一个 <code>Node.js</code>的服务器，可以选择 <code>Express</code>, <code>Koa</code>或其他 <code>Nodejs</code> 的Web服务器。本文中以 <code>Express</code> 为例来部署 <code>Next</code> 项目。</p>
 
         </div>
         
@@ -768,6 +775,10 @@
         <a class="is-flex" href="#context-api">
         <span class="has-mr-6">4.2</span>
         <span>context api</span>
+        </a></li><li>
+        <a class="is-flex" href="#OnRef">
+        <span class="has-mr-6">4.3</span>
+        <span>OnRef</span>
         </a></li></ul></li><li>
         <a class="is-flex" href="#State与生命周期">
         <span class="has-mr-6">5</span>
@@ -777,8 +788,12 @@
         <span class="has-mr-6">6</span>
         <span>生命周期</span>
         </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#旧版生命周期函数被弃用的原因">
+        <a class="is-flex" href="#异步生命周期">
         <span class="has-mr-6">6.1</span>
+        <span>异步生命周期</span>
+        </a></li><li>
+        <a class="is-flex" href="#旧版生命周期函数被弃用的原因">
+        <span class="has-mr-6">6.2</span>
         <span>旧版生命周期函数被弃用的原因</span>
         </a></li></ul></li><li>
         <a class="is-flex" href="#事件处理">
@@ -812,31 +827,15 @@
         <a class="is-flex" href="#mobx">
         <span class="has-mr-6">11</span>
         <span>mobx</span>
-        </a></li><li>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#基本概念-1">
+        <span class="has-mr-6">11.1</span>
+        <span>基本概念</span>
+        </a></li></ul></li><li>
         <a class="is-flex" href="#Recoil">
         <span class="has-mr-6">12</span>
         <span>Recoil</span>
-        </a></li><li>
-        <a class="is-flex" href="#Next">
-        <span class="has-mr-6">13</span>
-        <span>Next</span>
-        </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#多页面">
-        <span class="has-mr-6">13.1</span>
-        <span>多页面</span>
-        </a></li><li>
-        <a class="is-flex" href="#使用redux">
-        <span class="has-mr-6">13.2</span>
-        <span>使用redux</span>
-        </a></li><li>
-        <a class="is-flex" href="#路由遮盖">
-        <span class="has-mr-6">13.3</span>
-        <span>路由遮盖</span>
-        </a></li><li>
-        <a class="is-flex" href="#部署next项目">
-        <span class="has-mr-6">13.4</span>
-        <span>部署next项目</span>
-        </a></li></ul></li></ul>
+        </a></li></ul>
             </div>
         </div>
     </div>
