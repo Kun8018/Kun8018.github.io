@@ -62,7 +62,7 @@ export default class
 
 类组件是有状态组件，有自己的state和生命周期函数，函数组件是无状态组件
 
-### jsx return与createelement api
+### jsx return与createElement api
 
 jsx元素就是调用react.createElement的语法糖。一般来说，使用了jsx就不需要使用createElement和createFactory这两个api
 
@@ -198,7 +198,15 @@ React 希望服务端与客户端渲染的内容完全一致。React 可以弥�
 
 - createPortal: ReactDOM.createPortal(child, container)
 
-创建 portal。[Portal](https://zh-hans.reactjs.org/docs/portals.html) 将提供一种将子节点渲染到 DOM 节点中的方式，该节点存在于 DOM 组件的层次结构之外。
+创建 portal。通常来讲，当你从组件的 render 方法返回一个元素时，该元素将被挂载到 DOM 节点中离其最近的父节点。 而[Portal](https://zh-hans.reactjs.org/docs/portals.html) 将提供一种将子节点渲染到 DOM 节点中的方式，该节点存在于 DOM 组件的层次结构之外。
+
+一个 portal 的典型用例是当父组件有 `overflow: hidden` 或 `z-index` 样式时，但你需要子组件能够在视觉上“跳出”其容器。例如，对话框、悬浮卡以及提示框
+
+portal事件冒泡
+
+尽管 portal 可以被放置在 DOM 树中的任何地方，但在任何其他方面，其行为和普通的 React 子节点行为一致。由于 portal 仍存在于 *React 树*， 且与 *DOM 树* 中的位置无关，那么无论其子节点是否是 portal，像 context 这样的功能特性都是不变的。
+
+这包含事件冒泡。一个从 portal 内部触发的事件会一直冒泡至包含 *React 树*的祖先，即便这些元素并不是 *DOM 树* 中的祖先。
 
 ### React-dom-server
 

@@ -1,5 +1,5 @@
 ---
-title: Javascript开发（四）
+title: Javascript开发（三）
 date: 2021-01-18 21:40:33
 categories: IT
 tags:
@@ -8,2145 +8,911 @@ toc: true
 thumbnail: http://cdn.kunkunzhang.top/javascript.png
 ---
 
-​     第四篇主要讲常用的js库.主要偏向于JavaScript的库和前端库，Nodejs的库在第十篇
+​     第三篇主要讲原生js的方法
 
 <!--more-->
 
-## jquery
+## DOM方法
 
-jquery是目前使用最广泛的js函数库，在使用JavaScript的网站中，93%使用了jquery，成为了开发者必学的技能
+### Mutation Observer
 
-jquery的优势有两个，首先它基本是一个DOM操作工具，可以使操作DOM对象变得异常简单，其次它统一 了不同浏览器的api接口，使得代码能够在所有现代浏览器运行，开发者不用担心浏览器之间的差异了
+Mutation Observer APi用来监听DOM变动。DOM的任何变动，比如节点的增减、属性的变动、文本的变动，这个api都可以得到通知
 
-加载jquery可以使用CDN或者本地获取
+DOM变动就会触发Mutation Observer，与事件的区别是事件是同步触发，也就是DOM的变动立刻会触发相应的事件，Mutation Observer是异步触发，需要等当前所有的DOM操作都结束才会触发
 
-```html
-<script type = "text/javascript"
-        src= "//code.jquery.com/jquery-1.11.0.min.js">
-</script>
-<script>
-   window.jQuery || 
-   document.write(
-     '<script src="js/jquery-1.11.0.min.js" type="text/javascript"></script>'
-   );
-</script>
-```
+Mutation Observer有以下特点：
 
-jquery的基本思想是“先选中某些网页元素，在对其进行某种处理(find something,do something)”
+- 它等所有脚本任务完成后才会运行(异步触发)
+- 它把DOM变动记录封装成一个数组进行处理，而不是一条条个别处理
+- 既可以观察DOM的所有类型变动，也可以只观察某一类变动
 
-### 与DOM属性相关的方法
+实例方法
 
-addClass、removeClass、toggleClass
+`observe()`方法用来监听，接受两个参数：所要观察的DOM节点，以及配置对象，也就是观察的特定变动
 
-addClass用于添加一个类，removeClass用于移除一个类，toggleClass用于折叠一个类，也就是无就添加，有就移除
+`disconnect()`方法用来停止观察，调用该方法后DOM再变动也不会触发
 
-```javascript
-$('li').addClass('special')
-$('li').removeClass('special')
-$('li').toggleClass('special')
-```
+`takeRecords()`方法用来
 
-css方法
+### Document
 
-css方法用于获取或者改变css的属性
+实例属性
 
-```javascript
-$("h1").css('fontSize')
-$("h1").css({
-  'padding-left','20px'
-})
-```
+**document.body，document.head**：`document.body`属性指向`<body>`节点，`document.head`属性指向`<head>`节点。这两个属性总是存在的，如果网页源码里面省略了`<head>`或`<body>`，浏览器会自动创建。另外，这两个属性是可写的，如果改写它们的值，相当于移除所有子节点。
 
-prop、attr、removeProp、removeAttr方法
+**document.activeElement**：`document.activeElement`属性返回获得当前焦点（focus）的 DOM 元素。通常，这个属性返回的是`<input>`、`<textarea>`、`<select>`等表单元素，如果当前没有焦点元素，返回`<body>`元素或`null`
 
-attr方法读写网页元素的属性，如a元素的href属性，img的src属性
+**document.fullscreenElement**：`document.fullscreenElement`属性返回当前以全屏状态展示的 DOM 元素。如果不是全屏状态，该属性返回`null`
 
-prop方法读写DOM元素的属性，如nodeName，nodeType、tagName
+`document.hidden`属性返回一个布尔值，表示当前页面是否可见。如果窗口最小化、浏览器切换了 Tab，都会导致导致页面不可见，使得`document.hidden`返回`true`.这个属性是 Page Visibility API 引入的，一般都是配合这个 API 使用
 
-removeProp方法移除某个DOM属性
+`document.visibilityState`返回文档的可见状态。它的值有四种
 
-removeAttr方法移除某个HTML属性
+- `visible`：页面可见。注意，页面可能是部分可见，即不是焦点窗口，前面被其他窗口部分挡住了。
+- `hidden`：页面不可见，有可能窗口最小化，或者浏览器切换到了另一个 Tab。
+- `prerender`：页面处于正在渲染状态，对于用户来说，该页面不可见。
+- `unloaded`：页面从内存里面卸载了。
 
-```javascript
-$("a").prop("oldValue",1234).removeProp('oldValue')
-$("a").removeAttr("title")
-```
+`document.readyState`属性返回当前文档的状态，共有三种可能的值。
 
-data方法
+- `loading`：加载 HTML 代码阶段（尚未完成解析）
+- `interactive`：加载外部资源阶段
+- `complete`：加载完成
 
-用于在一个DOM对象上存储数据
+实例方法
 
-```javascript
-$("body").data("foo",52);
-$("body").data("foo")
-```
+`document.open()`方法清除当前文档内的所有内容，使得文档处于可写状态
 
-### 与DOM相关的方法
+`document.close()` 方法关闭document.open打开的文档
 
-Append、appendTo方法
+`document.elementFromPoint()`方法返回位于页面指定位置最上层的元素节点
 
-用于将参数插入当前元素的尾部
+`document.write`方法用于向当前文档写入内容。在网页的首次渲染阶段，只要页面没有关闭写入（即没有执行`document.close()`），`document.write`写入的内容就会追加在已有内容的后面
 
-用法
+`document.writeln`方法与`write`方法完全一致，除了会在输出内容的尾部添加换行符
 
-```javascript
-$('div').append("<p>World</p>")
-("<p>World</p>").appendTo("div")
-//两种效果相同，<div>hello</div>变为<div>hello <p>World</p></div>
-```
+`document.querySelector`方法接受一个 CSS 选择器作为参数，返回匹配该选择器的元素节点。如果有多个节点满足匹配条件，则返回第一个匹配的节点。如果没有发现匹配的节点，则返回`null`。
 
-prepend、prependTo方法
+`document.querySelectorAll`方法与`querySelector`用法类似，区别是返回一个`NodeList`对象，包含所有匹配给定选择器的节点.如果`querySelectorAll`方法的参数是字符串`*`，则会返回文档中的所有元素节点。另外，`querySelectorAll`的返回结果不是动态集合，不会实时反映元素节点的变化。
 
-将参数中的元素变成当前元素的第一个子元素
+`document.getElementsByTagName()`方法搜索 HTML 标签名，返回符合条件的元素。它的返回值是一个类似数组对象（`HTMLCollection`实例），可以实时反映 HTML 文档的变化。如果没有任何匹配的元素，就返回一个空集。
 
-```javascript
-$("p").prepend("hello")
-$("<p></p>").prependTo("div")
-//<p></p>变为<p>hello</p>
-```
+`document.getElementsByClassName()`方法返回一个类似数组的对象（`HTMLCollection`实例），包括了所有`class`名字符合指定条件的元素，元素的变化实时反映在返回结果中
 
-After、insertAfter方法
+`document.getElementsByName()`方法用于选择拥有`name`属性的 HTML 元素（比如`<form>`、`<radio>`、`<img>`、`<frame>`、`<embed>`和`<object>`等），返回一个类似数组的的对象（`NodeList`实例），因为`name`属性相同的元素可能不止一个
 
-将参数中的元素插在当前元素的后面
+`document.getElementById()`方法返回匹配指定`id`属性的元素节点。如果没有发现匹配的节点，则返回`null`
 
-```javascript
-$("div").after("<p></p>")
-$("<p></p>").insertAfter("div")
-//两种效果相同，<div></div>变成<div></div><p></p>
-```
+`document.createElement`方法用来生成元素节点，并返回该节点
 
-before、insertBefore方法
+`document.createTextNode`方法用来生成文本节点（`Text`实例），并返回该节点。它的参数是文本节点的内容
 
-将参数中的元素插入到当前元素的前面
+`document.createAttribute`方法生成一个新的属性节点（`Attr`实例），并返回它
 
-```javascript
-$("div").before("<p></p>")
-$("<p></p>").insertbefore("div")
-//两种效果相同，<div></div>变成<p></p><div></div>
-```
+`document.createComment`方法生成一个新的注释节点，并返回该节点
 
-wrap、wrapAll、unwrap、wrapInner方法
+`document.createDocumentFragment()`方法生成一个DocumentFragment实例
 
-wrap方法将参数中的元素变成当前元素的父元素
+`document.createEvent`方法生成一个事件对象（`Event`实例），该对象可以被`element.dispatchEvent`方法使用，触发指定事件
 
-unwrap方法移除当前元素的父元素
+`document.hasFocus`方法返回一个布尔值，表示当前文档之中是否有元素被激活或获得焦点
 
-wrapAll方法为结果集的所有元素，添加一个共同的父元素
+`document.adoptNode`方法将某个节点及其子节点，从原来所在的文档或`DocumentFragment`里面移除，归属当前`document`对象，返回插入后的新节点。插入的节点对象的`ownerDocument`属性，会变成当前的`document`对象，而`parentNode`属性是`null`
 
-wrapInner方法为当前元素的所有子元素添加一个父元素
+`document.createNodeIterator`方法返回一个子节点遍历器
 
-```javascript
-$("p").wrap("<div></div>") //<p></p>变为<div><p></p></div>
-$("p").unwrap()   //<div><p></p></div>变为<div></div>
-$("p").wrapAll("<div></div>")  // <p></p><p></p>变为<div><p></p><p></p></div>
-$("p").wrapInner('<strong></strong>')   //<p>hello</p>变为<p><strong>hello</strong></p>
-```
+`document.createTreeWalker`方法返回一个 DOM 的子树遍历器。它与`document.createNodeIterator`方法基本是类似的，区别在于它返回的是`TreeWalker`实例，后者返回的是`NodeIterator`实例。另外，它的第一个节点不是根节点
 
-clone方法
+`document.queryCommandEnabled()`方法返回一个布尔值，表示当前是否可用`document.execCommand()`的某个命令。比如，`bold`（加粗）命令只有存在文本选中时才可用，如果没有选中文本，就不可用
 
-clone方法克隆当前元素
+### Element
 
-```javascript
-var clones = $('li').clone();
-```
+实例属性
 
-remove、detach、replaceWith方法
+`element.id`:属性直接返回指定元素的id属性
 
-remove方法移除并返回一个元素，取消该元素上所有事件的绑定
+`element.tagname`属性直接返回指定元素的大写标签名，与nodeName属性的值相等
 
-detach方法移除并返回一个元素，但不取消该元素上所有事件的绑定
+`element.dir`属性用于读写当前元素的文字方向，从左到右为ltr，从右到左为rtl
 
-replaceWith用参数中的元素替换并返回当前元素，取消当前元素的所有事件的绑定
+`element.draggable`属性返回一个布尔值，表示当前元素是否可拖动
 
-```javascript
-$('p').remove()
-$('p').detach()
-$('p').replaceWith('<div></div>')
-```
+`element.lang`属性返回当前元素的语言设置
 
-### 遍历方法
+`element.hidden`属性返回一个布尔值，表示当前元素的hidden属性，用来控制当前的元素是否可见
 
-first方法返回结果集的第一个成员，last方法返回结果集的最后一个成员
+`element.className`属性用来读写当前元素节点的class属性
 
-```javascript
-//返回div元素内部第一个p元素和最后一个p元素
-$("div p").first();
-$("div p").last();
-```
+`element.classList`属性返回一个类似数组的对象，当前节点的每一个class就算这个对象的一个成员
 
-next方法紧邻的下一个同级元素，prev方法紧邻的上一个同级元素
+`element.innerHTML`属性返回一个字符串，等同于该元素包含的所有html代码
 
-```javascript
-$("h2").next();
-$("h2").prev();
-```
+`element.outerHTML`属性返回一个字符串，表示当前元素节点的所有HTML代码，包括该元素自身和所有子元素
 
-siblings方法返回当前元素的所有同级元素，也可以设置参数来过滤对同胞元素的搜索，nextAll方法返回当前元素其后的所有同级元素，prevAll返回当前元素前面的所有同级元素
+`element.clientHeight`属性返回一个整数值，表示元素节点的css高度
 
-```javascript
-//返回h2所有同胞元素下的所有p元素
-$("h2").siblings("p")
-$("h2").nextAll("p")
-$("h2").prevAll("p")
-```
+`element.clientwidth`属性返回元素节点的CSS宽度
 
-parent方法返回当前元素的父元素，parents方法返回当前元素的所有上级元素，也可以指定元素类型进行筛选，parentsUntil方法返回介于两个给定元素之间的所有祖先元素
+`element.clientLeft`属性等于元素节点左边框的宽度
 
-```javascript
-$("span").parent()
-$("span").parents("ul")
-$("span").parentsUntil("div")
-```
+`element.clientTop`属性等于元素顶部边框的宽度
 
-closest方法返回当前元素、以及当前元素的所有上级元素之中第一个符合条件的元素
+`element.scrollHeight`属性返回一个整数值，表示当前元素的总高度，包括溢出容器不可见的高度、padding、伪元素的高度，不包括border、margin、以及水平滚动条的高度
 
-find方法返回当前元素的所有符合条件的下级元素
+`element.scrollWidth`属性返回当前元素的总宽度
+
+`element.offsetHeight`属性返回一个整数，表示元素的CSS垂直高度，包括元素自身的高度、padding、border、以及水平滚动条的高度
+
+`element.offsetWidth`属性返回一个CSS水平宽度。
+
+`element.scrollLeft`属性表示当前元素的水平滚动条向右侧滚动的像素数量，如果没有滚动条值为0 
+
+`element.scrollTop`属性表示当前元素的垂直滚动条向下滚动的像素数量，如果没有滚动条值为0 
+
+`element.offsetLeft`属性表示当前元素左上角相对于element.offsetParent节点的水平位移
+
+`element.offsetTop`属性表示当前元素左上角相对于element.offsetParent节点的垂直位移
+
+`element.firstElementChild`属性返回当前元素的第一个元素子节点
+
+`element.lastElementChild`返回当前元素的最后一个元素子节点
+
+`element.offsetParent`属性返回最靠近当前元素的、并且CSS的position属性不等于static的上层元素
+
+`element.children`属性返回一个类似数组的对象，包含当前元素节点的所有子元素。如果当前元素没有子元素，则返回的对象包含零个成员
+
+实例方法
+
+`element.querySelector()`方法接受CSS选择器作为参数，返回父元素的第一个匹配的子元素，如果没有找到匹配的子元素，返回null
+
+`element.querySelectorAll()`方法接受CSS选择器作为参数，返回一个NodeList实例，包含所有匹配的子元素
+
+`element.getElementsByClassName`方法返回一个HTMLCollection实例，成员是当前元素的子元素节点。与document.getElementByClassName类似，只是搜索范围不是整个文档是当前元素element
+
+`element.scrolltoView`方法滚动当前元素，进入浏览器的可见区域，类似于设置window.location.hash的效果
+
+`element.getBoundingClientRect()`方法返回一个对象，提供当前元素节点的大小、位置等信息，基本上是CSS盒状模型的所有信息
+
+`element.getClientRects()`方法返回一个类似数组的对象，里面是元素当前在页面上形成的矩形
+
+`element.insertAdjacentHTML()`方法用于将一个HTML字符串解析成DOM结构插入相对于当前节点的指定位置
+
+`element.remove()`方法用于将当前元素节点从它的父节点移除
+
+`element.focus()`方法用于将当前页面的焦点转移到指定元素上
+
+`element.blur()`方法用于将焦点从当前元素上移除
+
+`element.click()`方法用于在当前元素上模拟一次鼠标点击，相当于触发了click事件
+
+
+
+### Htmlcollection、NodeList
+
+document和element都是单个dom对象，可以使用htmlcollection和nodelist多节点对象
+
+NodeList包含各种类型的节点，HTMLCollection只是HTML元素节点
+
+NodeList实例很像数组，但是不是数组，不可以使用pop或者push等数组的方法，可以使用length属性和forEach方法，也可以使用for遍历
+
+如果NodeList要使用数组的方法，可以将其转为真正的数组，使用array.slice.call(nodelist)进行转换
+
+遍历时可以选择NodeList.keys、NodeList.values、NodeList.entries三个对象进行遍历。NodeList.keys返回键名的遍历器，NodeList.values返回键值的遍历器，NodeList.entries返回的遍历器同时包含键名和键值
 
 ```javascript
-$("span").closest("ul").css({"color":"red"})
-
-```
-
-filter方法用于过滤结果集，他可以接受多种类型的参数，只返回与参数一致的结果，
-
-not方法返回,与filter方法相反
-
-```javascript
-$("p").filter(".url")
-$("p").not(".url")
-```
-
-has方法与filter方法作用相同，但是只过滤出子元素符号条件的元素
-
-is方法判断当前jquery对象是否符合指定的表达式
-
-hasClass方法判断当前对象所匹配的元素是否含有指定的css类名
-
-```javascript
-$('.object').is("expression")
-$('.object').hasClass("className")
-```
-
-获取子元素是父元素的第几个子元素
-
-```javascript
-$(function(){
-  $(".demo ul li").click(function(){
-    var index=$(".demo ul li").index(this);
-    console.log(index);
-  })
-})
-```
-
-获取第几个子元素
-
-children方法获取该元素下的直接子集元素
-
-find方法获取该元素下的所有子集元素
-
-```javascript
-//使用eq()方法找到
-$('#test').children().eq(1).css({'display':'inline-block'})
-$('#test').find('select').eq(2).val();
-```
-
-each方法用于遍历指定的对象和数组，并以对象的每个属性或者数组的每个成员作为上下文来遍历执行指定的函数，上下文是指通过this指针引用该元素
-
-map方法用于处理当前的Jquery对象匹配的所有元素，并将结果封装为新的数组。
-
-```javascript
-$("li").each(function(){
-  alert($(this))
-})
-```
-
-### 网络请求
-
-$.ajax()方法：执行异步AJAX请求，该方法常用于其他方法不能完成的请求
-
-$.get()方法：使用AJAX的HTTP GET请求从服务器加载数据
-
-$.getJSON()方法：使用HTTP GET请求从服务器加载JSON编码数据
-
-$.getScript()方法：
-
-$.load方法：从服务器加载数据，并把返回的数据放入被选元素中
-
-$.post()方法：使用AJAX的HTTP POST请求从服务器加载数据
-
-```javascript
-$.ajax({url:"demo_test.txt",success:function(result){
-  	$("#div1").html(result);
-}})
-```
-
-
-
-### 使用this
-
-
-
-
-
-### 动画
-
-jquery提供简单的动画效果，但整体不如css强大
-
-jquery提供以下动画效果：
-
-show：显示当前元素
-
-hide：隐藏当前元素
-
-toggle：显示或隐藏当前元素
-
-fadeIn：将当前元素的不透明度逐渐提升到100%
-
-fadeOut：将当前元素的不透明度逐渐降为0%
-
-fadeToggle：以逐渐透明或逐渐不透明的方式折叠显示当前元素
-
-slideDown：以从上向下滑入的方式显示当前元素
-
-slideDown只能显示被jquery隐藏的元素或者css设置为display：none的元素，使用overflow:hidden隐藏的元素不能被展示
-
-slideUp：以从下向上滑出的方式隐藏当前元素
-
-sildeToggle：以垂直滑入或滑出的方式折叠显示当前元素
-
-这些方法可以不带参数使用，也可以使用毫秒或者预定义的关键字或自定义的关键字。预定义的关键字也可以进行修改。
-
-```javascript
-$('.hidden').show();
-$('.hidden').show(300);
-$('.hidden').show('slow');
-
-//修改预定义关键字
-jQuery.fx.speeds.fast = 50;
-jQuery.fx.speeds.slow = 3000;
-jQuery.fx.speeds.normal = 1000;
-
-//使用自定义关键字
-jQuery.fx.speeds.blazing = 30;
-
-$('.hidden').show('blazing');
-```
-
-stop、delay方法
-
-stop方法表示立即停止执行当前的动画，delay方法接受一个时间参数，表示暂停多少秒之后执行
-
-```javascript
-$('#stop').click(function(){
-  $(".block").stop();
-})
-$("#foo").slideUp(300).delay(800).fadeIn(400)
-```
-
-animate
-
-除了上面这些，jquery可以使用animate自己写动画效果。
-
-animate接受三个参数，第一个参数是一个对象，表示动画结束时的css属性的值，第二个参数是动画持续的毫秒数。写css属性时，如果带有连字号，则需要使用骆驼拼写法改写；第三个参数表示动画结束时的回调函数
-
-```javascript
-$('div').animate({
- 		left:'+=50';
-  	opacity:0.25;
-  	fontSize:'12px'
-	},
-  300,
-  function(){
-     console.log('done!');
-	}
-)
-```
-
-### 事件处理
-
-on方法
-
-on方法是jquery事件绑定的统一接口，事件绑定的那些简便方法都是on方法的简写形式，
-
-on方法接受两个参数，第一个是事件名称，第二个是回调函数
-
-```javascript
-$('li').on('click',function(e){
-    console.log($(this),text());
-})
-```
-
-为li元素绑定click事件的回调函数
-
-trigger方法
-
-trigger方法用于触发回调函数，它的参数就是事件的名称
-
-```javascript
-$('li').trigger('click')
-```
-
-off方法
-
-off方法用来移除事件的回调函数
-
-```javascript
-$('li').off()
-```
-
-### 插件
-
-
-
-
-
-### jquery的其他应用
-
-获取浏览器语言
-
-```javascript
-var type= navigator.appName;
-if (type == "Netscape"){
-  var lang = navigator.language;
-}else{
-  var lang = navigator.userlanguage;
-};
-var lang = lang.substr(0,2);
-if(lang == "zh"){
-   window.location.replace('url')
-}else if(lang == "en"){
-   window.location.replace('url')
-}else{
-   window.location.replace('url')
+for (var key of children.keys()) {
+   console.log(key)
+}
+for (var value of children.values()) {
+   console.log(value)
+}
+for (var entry of children.entries()) {
+   console.log(entry)
 }
 ```
 
-获取浏览器类型
+HTMLCollection是节点对象的集合，但只能包含元素节点(element)，不能包含其他类型的节点。HTMLCollection与NodeList接口不同，HTMLCollection没有forEach方法，只能用for循环遍历
 
+HTMLCollection.length属性：返回HTMLCollection实例包含的成员数量
 
+HTMLCollection.Item()方法:接收一个整数值作为参数，返回该位置上的成员
 
-## loash.js
+HTMLCollection.namedItem()方法：通过id或者name属性返回对应的元素节点，如果没有对应的节点返回null
 
-### Array
 
-_.chunk：将一个数组拆分成多个size长度的区块，并用这些区块组成一个新数组
 
-_.compact：去掉原数组中所有的假值元素，创建一个新数组
+### text、documentFragment
 
-_.concat：将所有参数组合，创建一个新数组，
+Text节点表示元素节点和属性节点的文本内容。如果一个节点只包含一段文本，那么它就有一个文本字节点，代表该节点的文本内容。
 
-_.difference：返回过滤后的新数组，去除重复值
+属性
 
-_.differenceBy：
+text.data属性等同于NodeValue属性，用来设置或读取文本节点的内容
 
-_.drop：去除数组中的前n个元素
+text.wholeText属性将当前文本节点和毗邻的文本节点作为一个整体返回
 
-_.dropRight：去除数组尾部的n个元素
+text.length属性返回当前文本节点的文本长度
 
-_.dropRightWhile：
+方法
 
-_.union: 创建一个按顺序排列的唯一值的数组, 可以合并数组。
+text.appendData方法用于在Text节点尾部追加字符串
 
-_.unionWith: 这个方法类似[`_.union`](https://www.lodashjs.com/docs/lodash.unionWith#union)， 除了它接受一个 `comparator` 调用比较`arrays`数组的每一个元素。
+text.deleteData方法用于删除Text节点内部的子字符串，第一个参数为子字符串开始的位置，第二个参数是子字符串长度
 
-_.unionBy: 这个方法类似[`_.union`](https://www.lodashjs.com/docs/lodash.unionBy#union) ，除了它接受一个 `iteratee` （迭代函数），调用每一个数组（`array`）的每个元素以产生唯一性计算的标准。
+text.insertData方法用于在text节点插入字符串，第一个参数为插入位置，第二个参数是插入的子字符串
 
-_.uniq(array)：创建一个去重之后的数组副本
+text.replaceData方法用于获取子字符串，第一个参数为子字符串在Text节点中的开始位置，第二个参数为子字符串长度
 
-_.uniqBy(array)：创建一个去重之后的数组副本
+text.remove方法用于移除当前Text节点
 
-_.uniqWith(array)：创建一个去重之后的数组副本
+text.splitText方法将Text节点一分为二，变成两个毗邻的text节点，它的参数是从0开始。如果位置不存在，将报错
 
-_.zip()：创建一个分组元素的数组，数组的第一个元素包含所有给定数组的第一个元素，数组的第二个元素包含所有给定数组的第二个元素，以此类推。
+DocumentFragment节点代表一个文档的片段，本身就是一个完整的DOM树形结构，它没有父节点，parentNode返回Null，但是可以插入任意数量的子节点，它不属于当前节点，所以操作DocumentFragment节点比直接操作DOM树快的多
 
-_.zipWith()：这个方法类似于[`_.zip`](https://www.lodashjs.com/docs/lodash.zipWith#zip)，不同之处在于它接受一个 `iteratee`（迭代函数），来 指定分组的值应该如何被组合。 该iteratee调用每个组的元素
+DocumentFragment节点本身不能被插入当前文档，当他作为appendChild、insertBefore等方法的参数时，是它的所有子节点插入当前文档，而不是它自身。一旦DocumentFragment节点被插入，它自身就变成空节点，可以再次被使用。如果想要保留DocumentFragment节点的内容，可以使用cloneNode方法。
 
-_.zipObject():
+DocumentFragment节点不是单独的一种节点对象，它具有的属性和方法全部继承自Node节点和ParentNode接口。
 
-_.zipObjectDeep():
 
-_.unzip()：这个方法类似于[`_.zip`](https://www.lodashjs.com/docs/lodash.unzip#zip)，除了它接收分组元素的数组，并且创建一个数组，分组元素到打包前的结构。
 
-_.unzipWith()：此方法类似于[`_.unzip`](https://www.lodashjs.com/docs/lodash.unzipWith#unzip)，除了它接受一个`iteratee`指定重组值应该如何被组合。iteratee 调用时会传入每个分组的值
+## 浏览器缓存storage方法
 
-_.fromPairs()：接受数组，返回一个由键值对构成的对象
+storage 接口用于脚本在浏览器保存数据。两个对象部署了这个接口：`window.sessionStorage`和`window.localStorage`。
 
-_.tail()：返回数组中去除第一个元素之后的数组
+属性：
 
-_.pull()：移除数组`array`中所有和给定值相等的元素
+`Storage.length`：返回保存的数据项个数。
 
-_.pullAll()：与pull方法功能相同，只是这个方法接收一个数组
+方法：
 
-_.pullAllBy(): 与pull方法功能相同，区别是这个方法接受一个 `iteratee`（迭代函数） 调用 `array` 和 `values`的每个值以产生一个值，通过产生的值进行了比较。
+`Storage.setItem()`方法用于存入数据。它接受两个参数，第一个是键名，第二个是保存的数据。如果键名已经存在，该方法会更新已有的键值。
 
-_.pullAllWith():这个方法类似于[`_.pullAll`](https://www.lodashjs.com/docs/lodash.pullAllWith#pullAll)，区别是这个方法接受 `comparator` 调用`array`中的元素和`values`比较。
+`Storage.getItem()`方法用于读取数据。它只有一个参数，就是键名。如果键名不存在，该方法返回`null`。
 
-_.pullAt():根据索引 `indexes`，移除`array`中对应的元素，并返回被移除元素的数组。
+`Storage.removeItem()`方法用于清除某个键名对应的键值。它接受键名作为参数，如果键名不存在，该方法不会做任何事情。
 
-_.intersection():创建唯一值的数组，这个数组包含所有给定数组都包含的元素
+`Storage.clear()`方法用于清除所有保存的数据。该方法的返回值是undefined
 
-_.intersectionBy(): 类似于intersection, 区别是它接受一个 `iteratee` 调用每一个`arrays`的每个值以产生一个值，通过产生的值进行了比较
-
-_.intersectionWith():类似于intersection, 区别是它接受一个 `comparator` 调用比较`arrays`中的元素。结果值是从第一数组中选择
-
-_.take(): 创建一个数组切片，从`array`数组的起始元素开始提取`n`个元素
-
-_.takeRight(): 创建一个数组切片，从`array`数组的最后一个元素开始提取`n`个元素
-
-_.takeRightWhile(): 从`array`数组的最后一个元素开始提取元素，直到 `predicate` 返回假值
-
-_.takeWhile():  从`array`数组的起始元素开始提取元素，，直到 `predicate` 返回假值
-
-_.xor(): 创建一个给定数组唯一值的数组
-
-_.xorBy(): 除了它接受 `iteratee`（迭代器），这个迭代器 调用每一个 `arrays`（数组）的每一个值，以生成比较的新值
-
-_.xorWith(): 该方法是像[`_.xor`](https://www.lodashjs.com/docs/lodash.xorWith#xor)，除了它接受一个 `comparator` ，以调用比较数组的元素
-
-### Object
-
-_.assign:返回一个对象
-
-_.at:返回所选中对象属性组成的数组
-
-_.findKey:返回满足value条件的key
-
-_.findLastKey:
-
-_.pick：返回一个从object中选中的属性的对象
-
-_.pickBy：返回一个从object中判断为真的属性的对象
-
-_.omit:与pick返回结果相反
-
-_.omitBy：与pickBy返回结果相反
-
-_.invert：返回一个原对象key-value倒置的对象
-
-_.invertBy：返回一个原对象key-value倒置的对象，与invert不同的是value是一个数组
-
-_.values：返回一个object可枚举属性组成的数组
-
-_.valuesln：返回一个object自身和继承的可枚举属性组成的数组
-
-_.toPairs: 创建一个`object`对象自身可枚举属性的键值对数组
-
-_.toPairsIn: 创建一个`object`对象自身和继承的可枚举属性的键值对数组。
-
-_.mapKeys: 创建一个对象，这个对象的value与`object`对象相同, 只修改对象中的key
-
-_.mapValues: 创建一个对象，这个对象的key与`object`对象相同，值是通过 `iteratee` 运行 `object` 中每个自身可枚举属性名字符串产生的
-
-_.merge: 返回对象的浅拷贝对象，对象自身和继承的可枚举属性到 `object` 目标对象。
-
-_.mergeWith: 与merge函数功能相同，并且它接受一个 `customizer`，调用以产生目标对象和来源对象属性的合并值。如果`customizer` 返回 `undefined`，将会由合并处理方法代替
-
-### String
-
-_.camelCase：转换字符串为下驼峰写法
-
-_.capitalize：返回首字母为大写、其他字母为小写的字符串
-
-_.upperCase(): 转换字符串`string`为 空格 分隔的大写单词
-
-_.upperFirst(): 转换字符串string的首字母为大写
-
-_.lowerCase(): 转换字符串`string`以空格分开单词，并转换为小写
-
-_.lowerFirst(): 转换字符串string的首字母为小写
-
-_.snakeCase()：转换字符串为snakecase
-
-_.startCase(): 转换字符串为start case
-
-_.startWith: 返回布尔值，是否以该首字母开头
-
-_.toLower：转换整个字符串的字符为小写
-
-_.toUpper：转换整个字符串的字符为大写
-
-_.trim:从字符串中移除前面和后面的空格或指定的字符串
-
-_.trimEnd:移除字符串后面的空格或者指定字符串
-
-_.trimStart: 移除字符串前面的空格或者指定字符串
-
-_.pad(): 如果`string`字符串长度小于 `length` 则从左侧和右侧填充字符。 如果没法平均分配，则截断超出的长度
-
-_.padEnd(): 如果`string`字符串长度小于 `length` 则在右侧填充字符。 如果超出`length`长度则截断超出的部分
-
-_.padStart():如果`string`字符串长度小于 `length` 则在左侧填充字符。 如果超出`length`长度则截断超出的部分
-
-_.truncate(): 截断`string`字符串，如果字符串超出了限定的最大值。 被截断的字符串后面会以 omission 代替，omission 默认是 "..."
-
-### 常用函数
-
-
-
-### Math
-
-_.ceil：向上取整数
-
-_.floor：向下取整数
-
-_.max：取数组中的最大值
-
-_.maxBy：
-
-_.min：取数组中的最小值
-
-_.minBy
-
-_.mean：计算数组中的平均值
-
-_.meanBy
-
-_.divide：除
-
-
-
-### Number
-
-_.clamp：返回限制在上下限之间的值
-
-_.inRange：返回布尔值，判断是否在上下限之间
-
-_.random：产生一个上下限之间的数，可以指定是否为浮点数
-
-```javascript
-_.clamp(-10,-5,5) //5
-_.inRange(3,2,4) //true
-_.random(0,5)
-```
-
-
-
-## fullpage.js
-
-安装
-
-```shell
-npm install fullpage.js
-```
-
-
-
-## Velocity.js
-
-
-
-
-
-
-
-## Momentjs
-
-momentjs是js日期处理类库，js原生对date对象处理比较好，但是对时间戳处理不友好，所以moment在这方面比原生的时间处理函数更强大。
-
-安装
-
-```shell
-npm install moment --save
-```
-
-引入
-
-```javascript
-import moment from 'moment'
-```
-
-日期格式化
-
-```javascript
-moment().format('MMMM Do YYYY, h:mm:ss a'); // 九月 19日 2020, 2:53:10 下午
-moment().format('dddd');                    // 星期六
-moment().format("MMM Do YY");               // 9月 19日 20
-moment().format('YYYY [escaped] YYYY');     // 2020 escaped 2020
-moment().format();                          // 2020-09-19T14:53:10+08:00
-```
-
-获取时间
-
-```javascript
-//获取以秒为单位的时间戳
-moment().format('X')          // 返回值为字符串类型
-moment().unix()               // 返回值为数值型
-//获取以毫秒为单位的时间戳
-moment().format('x')          // 返回值为字符串类型
-moment().valueOf()            // 返回值为数值型
-moment().get('year')          //获取年份
-moment().get('11')            //获取月份
-moment().get('25')            //获取某一天
-moment().day() (0~6, 0: 周日, 6: 周六)
-moment().weekday() (0~6, 0: 周日, 6: 周六)
-moment().isoWeekday() (1~7, 1: 周一, 7: 周日)
-moment().get('day')
-mment().get('weekday')
-moment().get('isoWeekday')
-moment().toArray() // [years, months, date, hours, minutes, seconds, milliseconds] //获取当前年月日时分秒
-moment().toObject() // {years: xxxx, months: x, date: xx ...} //获取当前年月日时分秒
-moment().seconds()
-moment().get('seconds')         //获取秒数
-moment().minutes()
-moment().get('minutes')         //获取分钟
-moment().hours()
-moment().get('hours')           //获取小时
-```
-
-获取相对时间
-
-```javascript
-//2020年9月19号15点为例
-moment("20111031", "YYYYMMDD").fromNow(); // 9 年前
-moment("20120620", "YYYYMMDD").fromNow(); // 8 年前
-moment().startOf('day').fromNow();        // 15 小时前
-moment().startOf('day')                   //获取今天0时0分0秒
-moment().startOf('week')                  //获取本周第一天（周日）0时0分0秒
-moment().startOf('isoWeek')               //获取本周周一0时0分0秒
-moment().startOf('month')                 //获取当前月第一天0时0分0秒
-moment().endOf('day').fromNow();          // 9 小时内
-moment().endOf('day')                     //获取今天23小时59分59秒
-moment().startOf('hour').fromNow(); 
-```
-
-日历时间
-
-```javascript
-//2020年9月19号15点为例
-moment().subtract(10, 'days').calendar(); // 2020/09/09
-moment().subtract(6, 'days').calendar();  // 上星期日14:36
-moment().subtract(3, 'days').calendar();  // 上星期三14:36
-moment().subtract(1, 'days').calendar();  // 昨天14:36
-moment().calendar();                      // 今天14:36
-//添加时间
-moment().add(1, 'days').calendar();       // 明天14:36
-moment().add(3, 'days').calendar();       // 下星期二14:36
-moment().add(10, 'days').calendar();      // 2020/09/29
-```
-
-获取当前月总天数
-
-```javascript
-moment().daysInMonth()
-```
-
-比较时间
-
-```javascript
-let start_date = moment().subtract(1, 'weeks')
-let end_date = moment()
-
-end_date.diff(start_date) // 返回毫秒数
-
-end_date.diff(start_date, 'months') // 0
-end_date.diff(start_date, 'weeks') // 1
-end_date.diff(start_date, 'days') // 7
-start_date.diff(end_date, 'days') // -7
-end_date.isBefore(start_date);  // 是否在某日期之前
-end_date.isAfter(start_date); // 是否在日期之后
-end_date.isSame(start_date);  // 日期是否相同
-end_date.isSameOrBefore(start_date);  //是否在某日期之前或者相同
-end_date.isSameOrAfter(start_date);  //是否在某日期之后或者相同
-moment().isBetween(moment-like, moment-like); //是否在两个时间之间
-moment().isLeapYear(); //是否是闰年
-moment.isMoment(end_date); //是否是moment对象
-moment.isDate(end_date);  //是否是原生date对象
-```
-
-转为js原生时间对象
-
-```javascript
-let m = moment()
-let nativeDate1 = m.toDate()
-```
-
-设置时间
-
-```javascript
-moment().set('year', 2019)            //设置年份
-moment().set('month', 11)             //设置月份
-moment().set('date', 15)              //设置某个月中的某一天
-moment().set('weekday', 0)            //设置日期为本周第一天（周日）
-moment().set('isoWeekday', 1)         // 设置日期为本周周一
-moment().set('hours', 12)             //设置小时
-moment().set('minutes', 30)           //设置分钟
-moment().set('seconds', 30)           //设置秒
-```
-
-
-
-https://segmentfault.com/a/1190000015240911
-
-## date-fns
-
-像lodash一样的操作日期
-
-安装
-
-```shell
-npm install date-fns --save
-# or with yarn
-yarn add date-fns
-```
-
-使用
-
-```javascript
-import { compareAsc, format } from 'date-fns'
-
-format(new Date(2014, 1, 11), 'yyyy-MM-dd')
-//=> '2014-02-11'
-
-const dates = [
-  new Date(1995, 6, 2),
-  new Date(1987, 1, 11),
-  new Date(1989, 6, 10),
-]
-dates.sort(compareAsc)
-//=> [
-//   Wed Feb 11 1987 00:00:00,
-//   Mon Jul 10 1989 00:00:00,
-//   Sun Jul 02 1995 00:00:00
-// ]
-```
-
-
-
-## dayjs
-
-由于momentjs不再维护，因此寻找别的js时间库进行时间操作。
-
-dayjs对时间的操作
-
-
-
-## bigNumberjs
-
-bignumber.js是一个用于数学计算的库，支持任意精度
-
-clone()
-
-config()
-
-maximum()、minimum()
-
-random([])
-
-实例方法：
-
-plus():加法。minus():减法
-
-.times():乘法    div():除法。.idiv():除法，只返回整数
-
-.mod():取模/取余。.pow():指数运算  .sqrt():开平方
-
-.comparedTo():比较大小
-
-.dp() 精度调整
-
-.integerValue()：取整
-
-.sd()：有效数字
-
-.toFixed()：返回字符串，截取小数点后位数
-
-.toFormat()：数字格式化
-
-.toNumber()：转换为js基础数值类型
-
-
-
-## slidev
-
-在线ppt制作
-
-
-
-## shell.js
-
-Shelljs是Node.js下的脚本语言解析器，具有丰富且强大的底层操作(Windows/Linux/OS X)权限。Shelljs本质就是基于node的一层命令封装插件，让前端开发者可以不依赖linux也不依赖类似于cmder的转换工具，而是直接在我们最熟悉不过的javascript代码中编写shell命令实现功能。
-
-使用
-
-```javascript
-//局部模式
-var shell = require('shelljs');
-//全局模式下，就不需要用shell开头了。
-//require('shelljs/global');
-
-if (shell.exec('npm run build').code !== 0) {//执行npm run build 命令
-  shell.echo('Error: Git commit failed');
-  shell.exit(1);
-}
-
-//由于我的用另外一个仓库存放dist目录，所以这里要将文件增量复制到目标目录。并切换到对应目录。
-shell.cp ('-r', './dist/*', '../../Rychou');
-shell.cd('../../Rychou');
-
-shell.exec('git add .');
-shell.exec("git commit -m 'autocommit'")
-shell.exec('git push')
-```
-
-
-
-## Robotjs自动化库
-
-控制鼠标移动
-
-```javascript
-// Move the mouse across the screen as a sine wave.
-var robot = require("robotjs");
-
-// Speed up the mouse.
-robot.setMouseDelay(2);
-
-var twoPI = Math.PI * 2.0;
-var screenSize = robot.getScreenSize();
-var height = (screenSize.height / 2) - 10;
-var width = screenSize.width;
-
-for (var x = 0; x < width; x++)
-{
-	y = height * Math.sin((twoPI * x) / width) + height;
-	robot.moveMouse(x, y);
-}
-```
-
-控制键盘输入
-
-```javascript
-// Type "Hello World" then press enter.
-var robot = require("robotjs");
-
-// Type "Hello World".
-robot.typeString("Hello World");
-
-// Press enter.
-robot.keyTap("enter");
-```
-
-获取屏幕数据
-
-```javascript
-// Get pixel color under the mouse.
-var robot = require("robotjs");
-
-// Get mouse position.
-var mouse = robot.getMousePos();
-
-// Get pixel color in hex format.
-var hex = robot.getPixelColor(mouse.x, mouse.y);
-console.log("#" + hex + " at x:" + mouse.x + " y:" + mouse.y);
-```
-
-## js-导出读取xlsx包
-
-sheetjs
-
-https://github.com/SheetJS/sheetjs
-
-安装
-
-```shell
-npm install xlsx
-```
-
-读取本地文件
-
-```javascript
-// 读取本地excel文件
-function readWorkbookFromLocalFile(file, callback) {
-	var reader = new FileReader();
-	reader.onload = function(e) {
-		var data = e.target.result;
-		var workbook = XLSX.read(data, {type: 'binary'});
-		if(callback) callback(workbook);
-	};
-	reader.readAsBinaryString(file);
-}
-```
-
-读取网络文件
-
-```javascript
-// 从网络上读取某个excel文件，url必须同域，否则报错
-function readWorkbookFromRemoteFile(url, callback) {
-	var xhr = new XMLHttpRequest();
-	xhr.open('get', url, true);
-	xhr.responseType = 'arraybuffer';
-	xhr.onload = function(e) {
-		if(xhr.status == 200) {
-			var data = new Uint8Array(xhr.response)
-			var workbook = XLSX.read(data, {type: 'array'});
-			if(callback) callback(workbook);
-		}
-	};
-	xhr.send();
-}
-```
-
-通过上述代码获取到workbook对象
-
-workbook对象中的`SheetNames`里面保存了所有的sheet名字，然后`Sheets`则保存了每个sheet的具体内容（我们称之为`Sheet Object`）。每一个`sheet`是通过类似`A1`这样的键值保存每个单元格的内容，我们称之为单元格对象（`Cell Object`）
-
-`Sheet Object`表示一张表格，只要不是`!`开头的都表示普通`cell`，否则，表示一些特殊含义，具体如下：
-
- !ref：表示此sheet所有单元格的范围，如A1到F8
-
-`[!merges]`：存放一些单元格合并信息，是一个数组，每个数组由包含`s`和`e`构成的对象组成，`s`表示开始，`e`表示结束，`r`表示行，`c`表示列；
-
-每一个单元格是一个对象（`Cell Object`），主要有`t`、`v`、`r`、`h`、`w`等字段
-
-- t：表示内容类型，`s`表示string类型，`n`表示number类型，`b`表示boolean类型，`d`表示date类型，等等
-- v：表示原始值；
-- f：表示公式，如`B2+B3`；
-- h：HTML内容
-- w：格式化后的内容
-- r：富文本内容`rich text`
-
-读取workbook对象
-
-```javascript
-// 读取 excel文件
-function outputWorkbook(workbook) {
-	var sheetNames = workbook.SheetNames; // 工作表名称集合
-	sheetNames.forEach(name => {
-		var worksheet = workbook.Sheets[name]; // 只能通过工作表名称来获取指定工作表
-		for(var key in worksheet) {
-			// v是读取单元格的原始值
-			console.log(key, key[0] === '!' ? worksheet[key] : worksheet[key].v);
-		}
-	});
-}
-```
-
-- `XLSX.utils.sheet_to_csv`：生成CSV格式
-- `XLSX.utils.sheet_to_txt`：生成纯文本格式
-- `XLSX.utils.sheet_to_html`：生成HTML格式
-- `XLSX.utils.sheet_to_json`：输出JSON格式
-
-导出xlsx文件
-
-使用插件官方提供的工具类
-
-- `aoa_to_sheet`: 这个工具类最强大也最实用了，将一个二维数组转成sheet，会自动处理number、string、boolean、date等类型数据；
-- `table_to_sheet`: 将一个`table dom`直接转成sheet，会自动识别`colspan`和`rowspan`并将其转成对应的单元格合并；
-- `json_to_sheet`: 将一个由对象组成的数组转成sheet；
-
-
-
-处理单元格合并
-
-```javascript
-var aoa = [
-	['主要信息', null, null, '其它信息'], // 特别注意合并的地方后面预留2个null
-	['姓名', '性别', '年龄', '注册时间'],
-	['张三', '男', 18, new Date()],
-	['李四', '女', 22, new Date()]
-];
-var sheet = XLSX.utils.aoa_to_sheet(aoa);
-sheet['!merges'] = [
-	// 设置A1-C1的单元格合并
-	{s: {r: 0, c: 0}, e: {r: 0, c: 2}}
-];
-openDownloadDialog(sheet2blob(sheet), '单元格合并示例.xlsx');
-```
-
-http://blog.haoji.me/js-excel.html#dao-chu-excel
-
-
-
-## marked.js
-
-marked.js可以将md解析为html
-
-```html
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-```
-
-使用
-
-```javascript
-let md = `### h3`
-let table = marked(md);
-```
-
-
-
-## Showdown.js
-
-Markdown转 html
-
-```html
-<script src="/showdown-1.9.0/dist/showdown.min.js"></script>
-<script type="text/javascript">
-  var content = $('#text').text();
-  var converter = new showdown.Converter();
-  var htmlcontent = converter.makeHtml(content);
-  $("#article").html(htmlcontent);
-</script>
-<body>
-  <p id="text"></p>
-  <p id="article"></p>
-</body>
-```
-
-
-
-## docsearchjs
-
-首先在Algolia申请一个api。
-
-在Vue中可以使用docsearchjs，配合Algolia使用
-
-```shell
-yarn add -D docsearch.js
-```
-
-在组件中使用
-
-```Vue
-<template>
-	<input
-    type="text"
-    class="search-input"
-   	id="search_input"
-    placeholder=""
-   />
-</template>
-<script>
-import 'docsearch.js/dist/cdn/docsearch.min.css'
-import docsearch from 'docsearch.js'
-  
-export default {
-  mounted () {
-    docsearch({
-      apiKey: 'feb33c2506cdece7f0267859a856767a'
-      IndexName: '',
-      inputSelector: '#search_input',
-      algoliaOptions: { 'fetchFilters': ['version: v2_0'] },
-      debug: false
-    })
-  }
-}
-</script>
-```
-
-还有组件we-vue可以使用
-
-## hedron.js
-
-
-
-## format.js
-
-FormatJS 是一个模块化的 JavaScript 国际化库。可用于格式化数值、日期等显示，使用 i18n 工业标准，提供一些常用的模板和组件库。
-
-已经有很多包内置formatjs，比如react-intl
-
-react-intl npm 包文件可以通过设置package.json 文件的main的方式可以为commnjs, ES6, UMD dev, UMD prod这几个版本，但无论是使用那个版本的React Intl, 它们都提供相同的命名导出如下:
-
-- [`injectIntl`](https://link.juejin.cn?target=API.md%23injectintl)
-- [`defineMessages`](https://link.juejin.cn?target=API.md%23definemessages)
-- [`IntlProvider`](https://link.juejin.cn?target=Components.md%23intlprovider)
-- [`FormattedDate`](https://link.juejin.cn?target=Components.md%23formatteddate)
-- [`FormattedTime`](https://link.juejin.cn?target=Components.md%23formattedtime)
-- [`FormattedRelativeTime`](https://link.juejin.cn?target=Components.md%23formattedrelativetime)
-- [`FormattedNumber`](https://link.juejin.cn?target=Components.md%23formattednumber)
-- [`FormattedPlural`](https://link.juejin.cn?target=Components.md%23formattedplural)
-- [`FormattedMessage`](https://link.juejin.cn?target=Components.md%23formattedmessage)
-- [`FormattedHTMLMessage`](https://link.juejin.cn?target=Components.md%23formattedhtmlmessage)
-
-## shepherd.js
-
-引导用户进行网站教程
-
-安装
-
-```html
-<link rel="stylesheet" href="shepherd.js/dist/css/shepherd.css"/>
-<script src="shepherd.js/dist/js/shepherd.min.js"></script>
-```
-
-使用
-
-```javascript
-const tour = new Shepherd.Tour({
-  defaultStepOptions: {
-    cancelIcon: {
-      enabled: true
-    },
-    classes: 'class-1 class-2',
-    scrollTo: { behavior: 'smooth', block: 'center' }
-  }
-});
-
-tour.addStep({
-  title: 'Creating a Shepherd Tour',
-  text: `Creating a Shepherd tour is easy. too!\
-  Just create a \`Tour\` instance, and add as many steps as you want.`,
-  attachTo: {
-    element: '.hero-example',
-    on: 'bottom'
-  },
-  buttons: [
-    {
-      action() {
-        return this.back();
-      },
-      classes: 'shepherd-button-secondary',
-      text: 'Back'
-    },
-    {
-      action() {
-        return this.next();
-      },
-      text: 'Next'
-    }
-  ],
-  id: 'creating'
-});
-
-tour.start();
-```
-
-### react-shepherd
-
-安装
-
-```shell
-npm install --save react-shepherd
-```
-
-使用
-
-```react
-import React, { Component, useContext } from 'react'
-import { ShepherdTour, ShepherdTourContext } from 'react-shepherd'
-import newSteps from './steps'
-
-const tourOptions = {
-  defaultStepOptions: {
-    cancelIcon: {
-      enabled: true
-    }
-  },
-  useModalOverlay: true
-};
-
-function Button() {
-  const tour = useContext(ShepherdTourContext);
-
-  return (
-    <button className="button dark" onClick={tour.start}>
-      Start Tour
-    </button>
-  );
-}
-
-class App extends Component {
-  render() {
-    return (
-      <div>
-        <ShepherdTour steps={newSteps} tourOptions={tourOptions}>
-          <Button />
-        </ShepherdTour>
-      </div>
-    );
-  }
-}
-```
-
-
-
-## peer.js
-
-简化使用WebRTC
-
-https://www.cnblogs.com/yjmyzz/p/peerjs-tutorial.html
-
-这是mozilla开发者官网上的一张图, 大致描述了webrtc的处理过程：
-
-- A通过STUN服务器，收集自己的网络信息
-- A创建Offer SDP，通过Signal Channel(信令服务器)给到B
-- B做出回应生成Answer SDP，通过Signal Channel给到A
-- B通过STUN收集自己的网络信息，通过Signal Channel给到A
-
-注：如果A,B之间无法直接穿透（即：无法建立点对点的P2P直连），将通过TURN服务器中转。
-
-要创建一个真正的webrtc应用还是有些小复杂的，特别是SDP交换（createOffer及createAnswer）、网络候选信息收集(ICE candidate)，这些都需要开发人员对webrtc的机制有足够的了解，对webrtc初学者来讲有一定的开发门槛。
-
-而peerjs开源项目简化了webrtc的开发过程，把SDP交换、ICE candidate这些偏底层的细节都做了封装，开发人员只需要关注应用本身就行了。
-peerjs的核心对象Peer，它有几个常用方法：
-
-- peer.connect 创建点对点的连接
-- peer.call 向另1个peer端发起音视频实时通信
-- peer.on 对各种事件的监控回调
-- peer.disconnect 断开连接
-- peer.reconnect 重新连接
-- peer.destroy 销毁对象
-
-另外还有二个重要对象DataConnection、MediaConnection，其中：
-
-- DataConnection用于收发数据(对应于webrtc中的DataChannel)，它的所有方法中有一个重要的send方法，用于向另一个peer端发送数据；
-- MediaConnection用于处理媒体流，它有一个重要的stream属性，表示关联的媒体流。
-
-更多细节可查阅peerjs的api在线文档 (注：peerjs的所有api只有一页，估计15分钟左右就全部看一圈)
-
-peerjs的服务端(即信令服务器)很简单，只需要下面这段nodejs代码即可
-
-```javascript
-var fs = require('fs');
-var PeerServer = require('peer').PeerServer;
- 
-var options = {
-  //webrtc要求SSL安全传输,所以要设置证书
-  key: fs.readFileSync('key/server.key'),
-  cert: fs.readFileSync('key/server.crt')
-}
- 
-var server = PeerServer({
-  port: 9000,
-  ssl: options,
-  path:"/"
-});
-```
-
-文本聊天
-
-主要流程：
-
-- Jack和Rose先连接到PeerJs服务器
-- Rose指定要建立p2p连接的对方名称（即：Jack)，然后发送消息
-- Jack在自己的页面上，可以实时收到Rose发送过来的文字，并回复
-
-```javascript
-var txtSelfId = document.querySelector("input#txtSelfId");
-var txtTargetId = document.querySelector("input#txtTargetId");
-var txtMsg = document.querySelector("input#txtMsg");
-var tdBox = document.querySelector("td#tdBox");
-var btnRegister = document.querySelector("button#btnRegister");
-var btnSend = document.querySelector("button#btnSend");
- 
-let peer = null;
-let conn = null;
- 
-//peer连接时，id不允许有中文，所以转换成hashcode数字
-hashCode = function (str) {
-    var hash = 0;
-    if (str.length == 0) return hash;
-    for (i = 0; i < str.length; i++) {
-        char = str.charCodeAt(i);
-        hash = ((hash << 5) - hash) + char;
-        hash = hash & hash;
-    }
-    return hash;
-}
- 
-sendMessage = function (message) {
-    conn.send(JSON.stringify(message));
-    console.log(message);
-    tdBox.innerHTML = tdBox.innerHTML += "<div class='align_left'>" + message.from + " : " + message.body + "</div>";
-}
- 
-window.onload = function () {
- 
-    //peerserver的连接选项(debug:3表示打开调试，将在浏览器的console输出详细日志)
-    let connOption = { host: 'localhost', port: 9000, path: '/', debug: 3 };
- 
-    //register处理
-    btnRegister.onclick = function () {
-        if (!peer) {
-            if (txtSelfId.value.length == 0) {
-                alert("please input your name");
-                txtSelfId.focus();
-                return;
-            }
-            //创建peer实例
-            peer = new Peer(hashCode(txtSelfId.value), connOption);
- 
-            //register成功的回调
-            peer.on('open', function (id) {
-                tdBox.innerHTML = tdBox.innerHTML += "<div class='align_right'>system : register success " + id + "</div>";
-            });
- 
-            peer.on('connection', (conn) => {
-                //收到对方消息的回调
-                conn.on('data', (data) => {
-                    var msg = JSON.parse(data);
-                    tdBox.innerHTML = tdBox.innerHTML += "<div class='align_right'>" + msg.from + " : " + msg.body + "</div>";
-                    if (txtTargetId.value.length == 0) {
-                        txtTargetId.value = msg.from;
-                    }
-                });
-            });
-        }
-    }
- 
-    //发送消息处理
-    btnSend.onclick = function () {
-        //消息体
-        var message = { "from": txtSelfId.value, "to": txtTargetId.value, "body": txtMsg.value };
-        if (!conn) {
-            if (txtTargetId.value.length == 0) {
-                alert("please input target name");
-                txtTargetId.focus();
-                return;
-            }
-            if (txtMsg.value.length == 0) {
-                alert("please input message");
-                txtMsg.focus();
-                return;
-            }
- 
-            //创建到对方的连接
-            conn = peer.connect(hashCode(txtTargetId.value));
-            conn.on('open', () => {
-                //首次发送消息
-                sendMessage(message);
-            });
-        }
- 
-        //发送消息
-        if (conn.open) {
-            sendMessage(message);
-        }
-    }
-}
-```
-
-如果两端的浏览器如果不在一个网段，需要配置stun或turn服务器，参考下面的配置
-
-```javascript
-var peer = new Peer({
-  config: {'iceServers': [
-    { url: 'stun:stun.l.google.com:19302' },
-    { url: 'turn:homeo@turn.bistri.com:80', credential: 'homeo' }
-  ]} /* Sample servers, please use appropriate ones */
-});
-```
-
-视频通话
-
-在1个页面上输入”张三“并点击register，同时允许使用摄像头，然后在另1个页面输入”李四“，也点击register，并允许使用摄像头，然后把摄像头切换到另1个，这样2个页面看到的本地视频就不一样了（相当于2个端各自的视频流)。然后在"李四"的页面上，target name这里输入"张三"，并点击call按钮发起视频通话，此时"张三"的页面上会马上收到邀请确认
-
-”张三“选择Accept同意后，二端就相互建立连接，开始实时视频通话
-
-注：首次运行时，浏览器会弹出类似下图的提示框询问是否同意启用摄像头/麦克风（出于安全隐私考虑)，如果手一抖选择了不允许，就算刷新页面，也不会再弹出提示框。
-
-```javascript
-btnCall.onclick = function () {
-    if (txtTargetId.value.length == 0) {
-        alert("please input target name");
-        txtTargetId.focus();
-        return;
-    }
-    sendMessage(txtSelfId.value, txtTargetId.value, "call");
-}
-
-function sendMessage(from, to, action) {
-    var message = { "from": from, "to": to, "action": action };
-    if (!localConn) {
-        localConn = peer.connect(hashCode(to));
-        localConn.on('open', () => {
-            localConn.send(JSON.stringify(message));
-            console.log(message);
-        });
-    }
-    if (localConn.open){
-        localConn.send(JSON.stringify(message));
-        console.log(message);
-    }
-}
-
-//register处理
-btnRegister.onclick = function () {
-    if (!peer) {
-        if (txtSelfId.value.length == 0) {
-            alert("please input your name");
-            txtSelfId.focus();
-            return;
-        }
-        peer = new Peer(hashCode(txtSelfId.value), connOption);
-        peer.on('open', function (id) {
-            console.log("register success. " + id);
-        });
-        peer.on('call', function (call) {
-            call.answer(localStream);
-        });
-        peer.on('connection', (conn) => {
-            conn.on('data', (data) => {
-                var msg = JSON.parse(data);
-                console.log(msg);
-                //“接收方“收到邀请时，弹出询问对话框
-                if (msg.action === "call") {
-                    lblFrom.innerText = msg.from;
-                    txtTargetId.value = msg.from;
-                    $("#dialog-confirm").dialog({
-                        resizable: false,
-                        height: "auto",
-                        width: 400,
-                        modal: true,
-                        buttons: {
-                            "Accept": function () {
-                                $(this).dialog("close");
-                                sendMessage(msg.to, msg.from, "accept");
-                            },
-                            Cancel: function () {
-                                $(this).dialog("close");
-                            }
-                        }
-                    });
-                }
-                  
-                //“发起方“发起视频call，并绑定媒体流
-                if (msg.action === "accept") {
-                    console.log("accept call => " + JSON.stringify(msg));
-                    var call = peer.call(hashCode(msg.from), localStream);
-                    call.on('stream', function (stream) {
-                        console.log('received remote stream');
-                        remoteVideo.srcObject = stream;
-                        sendMessage(msg.to, msg.from, "accept-ok");
-                    });
-                }
-  
-                //"接收方"发起视频call，并绑定媒体流  
-                if (msg.action === "accept-ok") {
-                    console.log("accept-ok call => " + JSON.stringify(msg));
-                    var call = peer.call(hashCode(msg.from), localStream);
-                    call.on('stream', function (stream) {
-                        console.log('received remote stream');
-                        remoteVideo.srcObject = stream;                          
-                    });
-                }
-            });
-        });
-    }
-}
-```
-
-白板共享
-
-send方法不仅仅可以用来发送文字消息，同样也可以发送其它内容，每次在canvas上的的涂鸦，本质上就是调用canvas的api在一系列的坐标点上连续画线。只要把1个页面上画线经过的坐标点发送到另1个页面上，再还原出来就可以了。
-
-```javascript
-window.onload = function () {
-    if (!navigator.mediaDevices ||
-        !navigator.mediaDevices.getUserMedia) {
-        console.log('webrtc is not supported!');
-        alert("webrtc is not supported!");
-        return;
-    }
-  
-    let connOption = { host: 'localhost', port: 9000, path: '/', debug: 3 };
-  
-    context = demoCanvas.getContext('2d');
-  
-    //canvas鼠标按下的处理
-    demoCanvas.onmousedown = function (e) {
-        e.preventDefault();
-        context.strokeStyle='#00f';
-        context.beginPath();
-        started = true;
-        buffer.push({ "x": e.offsetX, "y": e.offsetY });
-    }
-  
-     //canvas鼠标移动的处理
-    demoCanvas.onmousemove = function (e) {
-        if (started) {
-            context.lineTo(e.offsetX, e.offsetY);
-            context.stroke();
-            buffer.push({ "x": e.offsetX, "y": e.offsetY });
-        }
-    }
-  
-     //canvas鼠标抬起的处理
-    demoCanvas.onmouseup = function (e) {
-        if (started) {
-            started = false;
-            //鼠标抬起时，发送坐标数据
-            sendData(txtSelfId.value, txtTargetId.value, buffer);
-            buffer = [];
-        }
-    }
-  
-    //register按钮处理
-    btnRegister.onclick = function () {
-        if (!peer) {
-            if (txtSelfId.value.length == 0) {
-                alert("please input your name");
-                txtSelfId.focus();
-                return;
-            }
-            peer = new Peer(hashCode(txtSelfId.value), connOption);
-            peer.on('open', function (id) {
-                console.log("register success. " + id);
-            });
-            peer.on('connection', (conn) => {
-                conn.on('data', (data) => {
-                    let msg = JSON.parse(data);
-                    console.log(msg);
-                    txtTargetId.value = msg.from;
-                    //还原canvas
-                    context.strokeStyle='#f00';
-                    context.beginPath();
-                    context.moveTo(msg.data[0].x,msg.data[0].y);
-                    for (const pos in msg.data) {
-                        context.lineTo(msg.data[pos].x,msg.data[pos].y);
-                    }
-                    context.stroke();
-                });
-            });
-        }
-    }
-  
-    //share按钮处理
-    btnShare.onclick = function () {
-        if (txtTargetId.value.length == 0) {
-            alert("please input target name");
-            txtTargetId.focus();
-            return;
-        }
-    }
-    start();
-}
-
-function sendData(from, to, data) {
-    if (from.length == 0 || to.length == 0 || data.length == 0) {
-        return;
-    }
-    let message = { "from": from, "to": to, "data": data };
-    if (!localConn) {
-        localConn = peer.connect(hashCode(to));
-        localConn.on('open', () => {
-            localConn.send(JSON.stringify(message));
-            console.log(message);
-        });
-    }
-    if (localConn.open) {
-        localConn.send(JSON.stringify(message));
-        console.log(message);
-    }
-}
-```
-
-发送文件
-
-在2个浏览器页面上，分别register2个用户，然后在其中1个页面上，输入对方的名字，然后选择一张图片，另1个页面将会收到传过来的图片。
-
-核心仍然利用的是DataConnection的send方法，只不过发送的内容里包含了图片对应的blob对象
-
-```javascript
-btnRegister.onclick = function () {
-    if (!peer) {
-        if (txtSelfId.value.length == 0) {
-            alert("please input your name");
-            txtSelfId.focus();
-            return;
-        }
-        peer = new Peer(hashCode(txtSelfId.value), connOption);
-        peer.on('open', function (id) {
-            console.log("register success. " + id);
-            lblStatus.innerHTML = "scoket open"
-        });
-  
-        peer.on('connection', (conn) => {
-            conn.on('data', (data) => {
-                console.log("receive remote data");
-                lblStatus.innerHTML = "receive data from " + data.from;
-                txtTargetId.value = data.from
-                if (data.filetype.includes('image')) {
-                    lblStatus.innerHTML = data.filename + "(" + data.filetype + ") from:" + data.from
-                    const bytes = new Uint8Array(data.file)
-                    //用base64编码，还原图片
-                    img.src = 'data:image/png;base64,' + encode(bytes)
-                }
-            });
-        });
-    }
-}
-  
-//文件变化时，触发sendFile
-inputFile.onchange = function (event) {
-    if (txtTargetId.value.length == 0) {
-        alert("please input target name");
-        txtTargetId.focus();
-        return;
-    }
-    const file = event.target.files[0] 
-    //构造图片对应的blob对象   
-    const blob = new Blob(event.target.files, { type: file.type });
-    img.src = window.URL.createObjectURL(file);
-    sendFile(txtSelfId.value, txtTargetId.value, blob, file.name, file.type);
-}
-
-function sendFile(from, to, blob, fileName, fileType) {
-    var message = { "from": from, "to": to, "file": blob, "filename": fileName, "filetype": fileType };
-    if (!localConn) {
-        localConn = peer.connect(hashCode(to));
-        localConn.on('open', () => {
-            localConn.send(message);
-            console.log('onopen sendfile');
-        });
-    }
-    localConn.send(message);
-    console.log('send file');
-}
-```
-
-## video.js
-
-**HTTP stream**是各家自己定义的http流，应用于国内点播视频网站。
-
-**HLS**是苹果公司实现的基于 HTTP 的流媒体传输协议，全称 HTTP Live Streaming，可支持流媒体的直播和点播，主要应用在 iOS 系统，为 iOS 设备（如 iPhone、iPad）提供音视频直播和点播方案。
-
-**RTMP**是实时消息传输协议，Real Time Messaging Protocol，是 Adobe Systems 公司为 Flash 播放器和服务器之间音频、视频和数据传输开发的开放协议。协议基于 TCP，是一个协议族，包括 RTMP 基本协议及 RTMPT/RTMPS/RTMPE 等多种变种。RTMP 是一种设计用来进行实时数据通信的网络协议，主要用来在 Flash/AIR 平台和支持RTMP协议的流媒体/交互服务器之间进行音视频和数据通信。
-
-HTTP用于点播，本质上还是文件分发，实时性差。
-
-HLS支持**点播和直播** ，HLS的延迟在10秒以上。
-
-RTMP本质上是流协议，主要的优势是：实时性高(实时性一般在3秒之内)、稳定性高。主要用于**直播**应用，对实时性有一定要求。
-
-RTMP协议一般传输的是flv，f4v格式流，RTSP协议一般传输的是ts,mp4格式的流。HTTP没有特定的流。
-
-video.js有两种初始化方式，一种是在video的html标签之中，一种是使用js来进行初始化。两种都需先引入video.js和video-js.css
-
-在html标签中初始化
-
-```html
-<link href="//vjs.zencdn.net/7.3.0/video-js.min.css" rel="stylesheet">
-<script src="//vjs.zencdn.net/7.3.0/video.min.js"></script>
-
-<video
-    id="my-player"
-    class="video-js"
-    controls
-    preload="auto"
-    poster="//vjs.zencdn.net/v/oceans.png"
-    width="600"
-    height="400"
-    data-setup='{}'>
-  <source src="//vjs.zencdn.net/v/oceans.mp4" type="video/mp4"></source>
-  <source src="//vjs.zencdn.net/v/oceans.webm" type="video/webm"></source>
-  <source src="//vjs.zencdn.net/v/oceans.ogv" type="video/ogg"></source>
-  <p class="vjs-no-js">
-    To view this video please enable JavaScript, and consider upgrading to a
-    web browser that
-    <a href="https://videojs.com/html5-video-support/" target="_blank">
-      supports HTML5 video
-    </a>
-  </p>
-</video>
-```
-
-在js中初始化
-
-```html
-<!-- vjs-big-play-centered可使大的播放按钮居住，vjs-fluid可使视频占满容器 -->
-<video id="myVideo" class="video-js vjs-big-play-centered vjs-fluid">
-  <p class="vjs-no-js">
-    To view this video please enable JavaScript, and consider upgrading to a
-    web browser that
-    <a href="https://videojs.com/html5-video-support/" target="_blank">
-      supports HTML5 video
-    </a>
-  </p>
-</video>
-
-<script>
-var player = videojs(document.getElementById('myVideo'), {
-  controls: true, // 是否显示控制条
-  poster: 'xxx', // 视频封面图地址
-  preload: 'auto',
-  autoplay: false,
-  fluid: true, // 自适应宽高
-  language: 'zh-CN', // 设置语言
-  muted: false, // 是否静音
-  inactivityTimeout: false,
-  controlBar: { // 设置控制条组件
-    /* 设置控制条里面组件的相关属性及显示与否
-    'currentTimeDisplay':true,
-    'timeDivider':true,
-    'durationDisplay':true,
-    'remainingTimeDisplay':false,
-    volumePanel: {
-      inline: false,
-    }
-    */
-    /* 使用children的形式可以控制每一个控件的位置，以及显示与否 */
-    children: [
-      {name: 'playToggle'}, // 播放按钮
-      {name: 'currentTimeDisplay'}, // 当前已播放时间
-      {name: 'progressControl'}, // 播放进度条
-      {name: 'durationDisplay'}, // 总时间
-      { // 倍数播放
-        name: 'playbackRateMenuButton',
-        'playbackRates': [0.5, 1, 1.5, 2, 2.5]
-      },
-      {
-        name: 'volumePanel', // 音量控制
-        inline: false, // 不使用水平方式
-      },
-      {name: 'FullscreenToggle'} // 全屏
-    ]
-  },
-  sources:[ // 视频源
-      {
-          src: '//vjs.zencdn.net/v/oceans.mp4',
-          type: 'video/mp4',
-          poster: '//vjs.zencdn.net/v/oceans.png'
-      }
-  ]
-}, function (){
-  console.log('视频可以播放了',this);
-});
-</script>
-```
-
-controlBar组件说明
-
-- `playToggle`, //播放暂停按钮
-- `volumeMenuButton`,//音量控制
-- `currentTimeDisplay`,//当前播放时间
-- `timeDivider`, // '/' 分隔符
-- `durationDisplay`, //总时间
-- `progressControl`, //点播流时，播放进度条，seek控制
-- `liveDisplay`, //直播流时，显示LIVE
-- `remainingTimeDisplay`, //当前播放时间
-- `playbackRateMenuButton`, //播放速率，当前只有html5模式下才支持设置播放速率
-- `fullscreenToggle` //全屏控制
-
-> `currentTimeDisplay`,`timeDivider`,`durationDisplay`是相对于 `remainingTimeDisplay`的另一套组件，后者只显示当前播放时间，前者还显示总时间。若要显示成前者这种模式，即 '当前时间/总时间'，可以在初始化播放器选项中配置
-
-动态切换视频
-
-```html
-<script>
-  var data = {
-    src: 'xxx.mp4',
-    type: 'video/mp4'
-  };
-  var player = videojs('myVideo', {...});
-  player.pause();
-  player.src(data);
-  player.load(data);
-  // 动态切换poster
-  player.posterImage.setSrc('xxx.jpg');
-  player.play();
-
-  // 销毁videojs
-  //player.dispose();
-</script>
-```
-
-设置语言
-
-```html
-<script src="//example.com/path/to/lang/es.js"></script>
-<script src="//example.com/path/to/lang/zh-CN.js"></script>
-<script src="//example.com/path/to/lang/zh-TW.js"></script>
-
-<script>
-var player = videojs('myVideo', {
-    language: 'zh-CN' // 初始化时设置语言，立即生效
-});
-
-/* 动态切换语言
-  使用这种方式进行动态切换不会立即生效，必须有所操作后才会生效。如播放按钮，必须点击一次播放按钮后播放按钮的提示文字才会改变  
- */
-//player.language('zh-TW');
-</script>
-```
-
-vue开发
-
-```vue
-import Video from 'video.js'
-/* 不能直接引入js，否则会报错：videojs is not defined 
-import 'video.js/dist/lang/zh-CN.js' */
-import video_zhCN from 'video.js/dist/lang/zh-CN.json'
-import video_en from  'video.js/dist/lang/en.json'
-import 'video.js/dist/video-js.css'
-
-Video.addLanguage('zh-CN', video_zhCN);
-Video.addLanguage('en', video_en);
-```
-
-
-
-## plyr.js
-
-视频播放组件，基于h5增强
-
-```html
-<script src="path/to/plyr.js"></script>
-<script>
-  const player = new Plyr('#player');
-</script>
-```
-
-
-
-## pace.js
-
-
-
-## PDF.js
-
-
-
-## wiki.js
-
-
-
-## axios
-
-Axios 是一个基于 promise 的 HTTP 库，可以用在浏览器和 node.js 中。
-
-其基本的特性是
-
-- 从浏览器中创建 XMLHttpRequests
-- 从 node.js 创建 http 请求
-- 支持 Promise API
-- 拦截请求和响应
-- 转换请求数据和响应数据
-- 取消请求
-- 自动转换 JSON 数据
-- 客户端支持防御 XSRF
-
-
-
-responseType： 设置表示服务器响应的数据类型，可以是 'arraybuffer', 'blob', 'document', 'json', 'text', 'stream'， 默认是json
-
-
-
-拦截器
-
-```javascript
-// 添加请求拦截器
-axios.interceptors.request.use(function (config) {
-    // 在发送请求之前做些什么
-    return config;
-  }, function (error) {
-    // 对请求错误做些什么
-    return Promise.reject(error);
-  });
-
-// 添加响应拦截器
-axios.interceptors.response.use(function (response) {
-    // 对响应数据做点什么
-    return response;
-  }, function (error) {
-    // 对响应错误做点什么
-    return Promise.reject(error);
-  });
-
-const myInterceptor = axios.interceptors.request.use(function () {/*...*/});
-axios.interceptors.request.eject(myInterceptor);
-```
-
-
-
-全局配置
-
-```javascript
-axios.defaults.baseURL = 'https://api.example.com';
-axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
-axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
-```
-
-
-
-错误处理
-
-```javascript
-axios.get('/user/12345', {
-  validateStatus: function (status) {
-    return status < 500; // Reject only if the status code is greater than or equal to 500
-  }
-})
-```
-
-
-
-取消请求
-
-```javascript
-const CancelToken = axios.CancelToken;
-const source = CancelToken.source();
-
-axios.get('/user/12345', {
-  cancelToken: source.token
-}).catch(function(thrown) {
-  if (axios.isCancel(thrown)) {
-    console.log('Request canceled', thrown.message);
-  } else {
-     // 处理错误
-  }
-});
-
-axios.post('/user/12345', {
-  name: 'new name'
-}, {
-  cancelToken: source.token
-})
-
-// 取消请求（message 参数是可选的）
-source.cancel('Operation canceled by the user.');
-```
-
-
-
-### moxios
-
-基于axios的mock包
-
-安装
-
-```shell
-npm install moxios --save-dev
-```
-
-使用
-
-```javascript
-import axios from 'axios'
-import moxios from 'moxios'
-import sinon from 'sinon'
-import { equal } from 'assert'
-
-describe('mocking axios requests', function () {
-
-  describe('across entire suite', function () {
-
-    beforeEach(function () {
-      // import and pass your custom axios instance to this method
-      moxios.install()
-    })
-
-    afterEach(function () {
-      // import and pass your custom axios instance to this method
-      moxios.uninstall()
-    })
-
-    it('specify response for a specific request', function (done) {
-      let input = document.querySelector('.UserList__Filter__Input')
-      let button = document.querySelector('.UserList__Filter__Button')
-
-      input.value = 'flintstone'
-      button.click()
-
-      // Elsewhere in your code axios.get('/users/search', { params: { q: 'flintstone' } }) is called
-
-      moxios.wait(function () {
-        let request = moxios.requests.mostRecent()
-        request.respondWith({
-          status: 200,
-          response: [
-            { id: 1, firstName: 'Fred', lastName: 'Flintstone' },
-            { id: 2, firstName: 'Wilma', lastName: 'Flintstone' }
-          ]
-        })
-          .then(function () {
-            let list = document.querySelector('.UserList__Data')
-            equal(list.rows.length, 2)
-            equal(list.rows[0].cells[0].innerHTML, 'Fred')
-            equal(list.rows[1].cells[0].innerHTML, 'Wilma')
-            done()
-          })
-      })
-    })
-
-    it('stub response for any matching request URL', function (done) {
-      // Match against an exact URL value
-      moxios.stubRequest('/say/hello', {
-        status: 200,
-        responseText: 'hello'
-      })
-
-      // Alternatively URL can be a RegExp
-      moxios.stubRequest(/say.*/, {/* … */})
-
-      let onFulfilled = sinon.spy()
-      axios.get('/say/hello').then(onFulfilled)
-
-      moxios.wait(function () {
-        equal(onFulfilled.getCall(0).args[0].data, 'hello')
-        done()
-      })
-    })
-
-  })
-
-  it('just for a single spec', function (done) {
-    moxios.withMock(function () {
-      let onFulfilled = sinon.spy()
-      axios.get('/users/12345').then(onFulfilled)
-
-      moxios.wait(function () {
-        let request = moxios.requests.mostRecent()
-        request.respondWith({
-          status: 200,
-          response: {
-            id: 12345, firstName: 'Fred', lastName: 'Flintstone'
-          }
-        })
-          .then(function () {
-            equal(onFulfilled.called, true)
-            done()
-          })
-      })
-    })
-  })
-
-  it('Should reject the request', function (done) {
-    const errorResp = {
-      status: 400,
-      response: { message: 'invalid data' }
-    }
-
-    moxios.wait(function () {
-      let request = moxios.requests.mostRecent()
-      request.reject(errorResp)
-    })
-      .catch(function (err) {
-        equal(err.status, errorResp.status)
-        equal(err.response.message, errorResp.response.message)
-        done()
-      })
-  })
-})
-```
-
-
-
-https://blog.csdn.net/yellow757/article/details/107484717
-
-
-
-## collect.js
-
-处理数组和对象的函数库，类似于lodash，但是比lodash处理数组的函数更多
-
-安装
-
-```shell
-npm install collect.js --save
-```
-
-使用
+`Storage.key()`接受一个整数作为参数（从零开始），返回该位置对应的键值
 
 ```js
-import collect from 'collect.js';
+window.localStorage.setItem('baz', 'c');
+window.sessionStorage.setItem('key', 'value');
+window.localStorage.setItem('key', 'value');
+window.sessionStorage.getItem('key')
+window.localStorage.getItem('key')
+sessionStorage.removeItem('key');
+localStorage.removeItem('key');
+window.sessionStorage.clear()
+window.localStorage.clear()
+window.sessionStorage.key(0)
+//遍历所有键
+for (var i = 0; i < window.localStorage.length; i++) {
+  console.log(localStorage.key(i));
+}
+window.addEventListener('storage', onStorageChange);
+```
 
-collect([1, 2, 3])
-  .where('price', '>', 299)
-  .sortBy('brand');
+异步方法
+
+
+
+## 函数、函数作用域和闭包
+
+JavaScript 语言将函数看作一种值，与其它值（数值、字符串、布尔值等等）地位相同。凡是可以使用值的地方，就能使用函数。比如，可以把函数赋值给变量和对象的属性，也可以当作参数传入其他函数，或者作为函数的结果返回。函数只是一个可以执行的值，此外并无特殊之处。
+
+由于函数与其他数据类型地位平等，所以在 JavaScript 语言中又称函数为第一等公民。
+
+return语句
+
+函数体内的return语句表示返回，JavaScript引擎遇到return语句就会直接返回return语句后面那个表达式的值，后面即使还有语句也不会得到执行，也就是说，return语句所带的那个表达式就是函数的返回值。return语句不是必须的，如果没有的话该函数就不返回任何值，或者说返回undefined
+
+通过return语句调用自己，就是递归，比如计算斐波那契数列
+
+```javascript
+function fib(num) {
+  if(num == 0) return 0;
+  if(num == 1) return 1;
+  return fib(num-1) + fib(num-2)
+}
+```
+
+### 函数的属性和方法
+
+属性
+
+name属性
+
+函数的`name`属性返回函数的名字。如果变量的值是一个具名函数，那么`name`属性返回`function`关键字之后的那个函数名。如果是通过变量赋值定义的函数，那么`name`属性返回变量名。
+
+```javascript
+function f1() {}
+f1.name // "f1"
+
+var f2 = function () {};
+f2.name // "f2"
+
+var f3 = function myName() {};
+f3.name // 'myName'
+```
+
+length属性
+
+函数的`length`属性返回函数预期传入的参数个数，即函数定义之中的参数个数
+
+```javascript
+function f(a, b) {}
+f.length // 2
+```
+
+toString方法
+
+```javascript
+function f() {
+  a();
+  b();
+  c();
+}
+
+f.toString()
+// function f() {
+//  a();
+//  b();
+//  c();
+// }
+```
+
+arguements对象
+
+由于 JavaScript 允许函数有不定数目的参数，所以需要一种机制，可以在函数体内部读取所有参数。这就是`arguments`对象的由来。
+
+`arguments`对象包含了函数运行时的所有参数，`arguments[0]`就是第一个参数，`arguments[1]`就是第二个参数，以此类推。这个对象只有在函数体内部，才可以使用。
+
+arguments可以在函数内部进行修改，非严格模式下会和函数参数具有联动关系，即改变arguments会改变参数的值。严格模式下，`arguments`对象与函数参数不具有联动关系。也就是说，修改`arguments`对象不会影响到实际的函数参数
+
+```javascript
+var f = function(a, b) {
+  arguments[0] = 3;
+  arguments[1] = 2;
+  return a + b;
+}
+
+f(1, 1) // 5
+
+var f = function(a, b) {
+  'use strict'; // 开启严格模式
+  arguments[0] = 3;
+  arguments[1] = 2;
+  return a + b;
+}
+
+f(1, 1) // 2
+```
+
+通过`arguments`对象的`length`属性，可以判断函数调用时到底带几个参数
+
+虽然`arguments`很像数组，但它是一个对象。数组专有的方法（比如`slice`和`forEach`），不能在`arguments`对象上直接使用。
+
+如果要让`arguments`对象使用数组方法，真正的解决方法是将`arguments`转为真正的数组。下面是两种常用的转换方法：`slice`方法和逐一填入新数组。
+
+### 函数提升与变量提升
+
+JavaScript 引擎的工作方式是，先解析代码，获取所有被声明的变量，然后再一行一行地运行。这造成的结果，就是所有的变量的声明语句，都会被提升到代码的头部，这就叫做变量提升（hoisting）。
+
+```javascript
+console.log(a)   //undefined
+var a='我是谁'
+console.log(a)   //'我是谁'
+```
+
+例：变量提升常常会导致的错误，在for循环中添加异步事件时会导致var直接变成最后一个，因为for循环是同步循环，先完成循环再执行异步任务，使用let变量即使是异步事件由于局部作用域不会发生这种事
+
+```javascript
+for (var i=0;i<5;i++) {
+    console.log(i);
+}
+// 输出：0,1,2,3,4
+
+for (var i=0;i<5;i++) {
+  setTimeout(()=>{
+    console.log(i);
+  },0)
+}
+//当事件是异步时输出都是4，set
+
+//使用立即执行函数或者let变量可以输出0，1，2，3，4
+for (let i=0;i<5;i++) {
+  setTimeout(()=>{
+    console.log(i);
+  },0)
+}
+
+for (var i=0;i<5;i++) {
+  (function(i){
+    setTimeout(()=>{
+    	console.log(i);
+  	},0)
+  })(i)
+}
+```
+
+变量提升的其他例子
+
+```javascript
+var foo = 3;
+
+// 预编译之后
+function hoistVariable() {
+    var foo;
+    foo = foo || 5;
+    console.log(foo); // 5
+}
+
+hoistVariable();
+```
+
+JavaScript 引擎将函数名视同变量名，所以采用`function`命令声明函数时，整个函数会像变量声明一样，被提升到代码头部。所以，下面的代码不会报错。
+
+表面上，上面代码好像在声明之前就调用了函数`f`。但是实际上，由于“变量提升”，函数`f`被提升到了代码头部，也就是在调用之前已经声明了。但是，如果采用赋值语句定义函数，JavaScript 就会报错。
+
+**函数提升只针对具名函数，而对于赋值的匿名函数，并不会存在函数提升。**
+
+```javascript
+function hoistFunction() {
+    foo(); // output: I am hoisted
+
+    function foo() {
+        console.log('I am hoisted');
+    }
+}
+
+hoistFunction();
+// 预编译之后
+function hoistFunction() {
+    function foo() {
+        console.log('I am hoisted');
+    }
+
+    foo(); // output: I am hoisted
+}
+
+hoistFunction();
+```
+
+**函数提升优先级高于变量提升，且不会被同名变量声明覆盖，但是会被变量赋值后覆盖。而且存在同名函数与同名变量时，优先执行函数。**
+
+函数声明被提升时，声明和赋值两个步骤都会被提升，而普通变量却只能提升声明步骤，而不能提升赋值步骤。变量被提升过后，先对提升上来的所有对象统一执行一遍声明步骤，然后再对变量执行一次赋值步骤。而执行赋值步骤时，会优先执行函数变量的赋值步骤，再执行普通变量的赋值步骤。
+
+```javascript
+console.log(a);      //f a() 此时a是函数
+console.log(a());      //1  
+var a=1;
+function a(){
+    console.log(1);
+}
+console.log(a);       //1   
+a=3
+console.log(a())      //a not a function,被覆盖
+```
+
+变量提升和函数提升的原因：
+
+函数提升是为了解决函数相互递归调用的目的
+
+也就是说，变量提升是人为实现的问题，而函数提升在当初设计时是有目的的。
+
+其他：
+
+ES6中的class声明也存在提升，不过它和let、const一样，被约束和限制了，其规定，如果再声明位置之前引用，则是不合法的，会抛出一个异常。
+
+所以，无论是早期的代码，还是ES6中的代码，我们都需要遵循一点，先声明，后使用。
+
+### 作用域与作用域链
+
+JS执行环境在JS机制内部`就是用一个对象来表示的`，称作`执行环境对象`，简称`环境对象`。执行环境分为`全局执行环境`和`局部执行环境`两种，每个执行环境都有一个属于自己的环境对象。在web浏览器中，全局环境对象为window对象
+
+作用域
+
+作用域是变量或者函数可以被访问的代码范围，或者说是变量和函数所起作用的范围。
+
+作用域分为`全局作用域`、`局部作用域`两种。
+
+在页面中的脚本开始执行时，就会产生一个“全局作用域”。它是最外围（范围最大，或者说层级最高）的一个作用域。全局作用域的变量、函数
+可以在代码的任何地方访问到。
+
+当一个函数被创建的时候，会创建一个“局部作用域”。局部作用域中的函数、变量只能在某些局部代码中可以访问到。
+
+作用域链
+
+当前作⽤域没有定义的变量，就是⾃由变量 。为了得到⾃由变量，js程序内部将向⽗级作⽤域寻找。如果上一级父级作用域也没有，就一层一层向上找，直到找到全局作⽤域还是没找到，就宣布放弃。这种⼀层⼀ 层的关系，就是 **作⽤域链** 。
+
+
+
+### 闭包
+
+闭包就是有权访问另一个函数作用域中的变量的函数。
+
+由于函数作用域的影响，正常情况下，函数外部无法读取函数内部声明的变量，只有函数内部可以读取全局变量和父作用域变量。
+
+如果出于种种原因，需要得到函数内的局部变量。正常情况下，这是办不到的，只有通过变通方法才能实现。
+
+**在函数内部定义子函数，将子函数作为返回值，就可以在外部读取函数内部的变量，作为返回值的子函数称为闭包**
+
+```javascript
+function f1() {
+  var n = 999;
+  function f2() {
+    console.log(n);
+  }
+  return f2;
+}
+
+var result = f1();
+result(); // 999
+```
+
+闭包的最大用处有两个，一个是可以读取外层函数内部的变量，另一个就是让这些变量始终保持在内存中，即闭包可以使得它诞生环境一直存在。原因是闭包（上例的`inc`）用到了外层变量（`start`），导致外层函数（`createIncrementor`）不能从内存释放。只要闭包没有被垃圾回收机制清除，外层函数提供的运行环境也不会被清除，它的内部变量就始终保存着当前值，供闭包读取。
+
+此外，闭包的另一个用处，是封装对象的私有属性和私有方法。
+
+```javascript
+function Person(name) {
+  var _age;
+  function setAge(n) {
+    _age = n;
+  }
+  function getAge() {
+    return _age;
+  }
+
+  return {
+    name: name,
+    getAge: getAge,
+    setAge: setAge
+  };
+}
+
+var p1 = Person('张三');
+p1.setAge(25);
+p1.getAge() // 25
+```
+
+闭包的使用场景
+
+需要值长期保存又需要隐藏的场景
+
+闭包的问题
+
+一般情况下，一个函数执行完内部的代码，函数调用时所创建的执行环境、环境对象（包括变量对象、[[scope]]等）都会被销毁，它们的生命周期就只有函数调用到函数执行结束这一段时间。
+
+闭包形成后，会在函数执行完仍将他的变量对象保存在内存中，当引用时间过长或者引用对象很多的时候，会占用大量内存，严重影响性能。
+
+闭包的清除
+
+将闭包的值手动置空即可。
+
+eval命令
+
+`eval`命令接受一个字符串作为参数，并将这个字符串当作语句执行。
+
+
+
+### 立即执行函数
+
+立即执行函数就是声明一个匿名函数，并且马上调用这个匿名函数
+
+```javascript
+//函数最后的括号是调用的意思
+(function() {alert('匿名函数')})()
+```
+
+立即执行函数的作用只有一个：创建独立的作用域
+
+在这个作用域里面的变量，外面访问不到，即避免变量污染
+
+```javascript
+var liList = ul.getElementsByTagName('li')
+for(var i=0;i<6;i++){
+  liList[i].onclick = function(){
+    alert(i) //输出都是6，i贯穿整个作用域，而不是给每个li一个i
+  }
+}
+
+//使用立即执行函数创建独立作用域
+var liList = ul.getElementsByTagName('li')
+for(var i=0;i<6;i++){
+  !function(ii){
+    liList[ii].onclick = function(){
+    	alert(ii) //输出都是6，i贯穿整个作用域，而不是给每个li一个i
+  	}
+  }
+}
 ```
 
 
 
+### 函数调用与栈溢出
 
+调用
+
+```javascript
+function foo() {
+ foo() // 是否存在堆栈溢出错误?
+}
+foo()
+
+function foo() {
+  setTimeout(foo, 0); // 是否存在堆栈溢出错误?
+};
+
+function foo() {
+  return Promise.resolve().then(foo);
+};
+```
+
+第一种调用方式，自己调用自己，堆栈会溢出
+
+第二场调用方式，堆栈不会溢出。JavaScript并发模型基于“事件循环”。浏览器的主要组件包括**调用堆栈**，**事件循环**，任务队列**和**Web API。 像`setTimeout`，`setInterval`和`Promise`这样的全局函数不是JavaScript的一部分，而是 Web API 的一部分
+
+JS调用栈是后进先出(LIFO)的。引擎每次从堆栈中取出一个函数，然后从上到下依次运行代码。每当它遇到一些异步代码，如`setTimeout`，它就把它交给`Web API`(箭头1)。因此，每当事件被触发时，`callback` 都会被发送到任务队列（箭头2）
+
+**事件循环(Event loop)\**不断地监视任务队列(Task Queue)，并按它们排队的顺序一次处理一个回调。每当\**调用堆栈(call stack)\**为空时，\*\*Event loop\*\*获取回调并将其放入\**堆栈(stack )**(箭头3)中进行处理。请记住，如果调用堆栈不是空的，**则事件循环不会将任何回调推入堆栈**
+
+因此第二种调用方式执行过程：
+
+1.调用 `foo()`会将`foo`函数放入**调用堆栈(call stack)**。
+
+2.在处理内部代码时，JS引擎遇到`setTimeout`。
+
+3.然后将`foo`回调函数传递给**WebAPIs**(箭头1)并从函数返回，调用堆栈再次为空
+
+4.计时器被设置为0，因此`foo`将被发送到**任务队列**(箭头2)。
+
+5.由于调用堆栈是空的，事件循环将选择`foo`回调并将其推入调用堆栈进行处理。
+
+6.进程再次重复，堆栈不会溢出。
+
+第三种调用方式，渲染进程会被堵塞，无法响应UI
+
+大多数时候，开发人员假设在**事件循环\**图中只有一个任务队列。但事实并非如此，我们可以有多个任务队列。由浏览器选择其中的一个队列并在该队列中\**处理回调**
+
+在底层来看，JavaScript中有宏任务和微任务。`setTimeout`回调是**宏任务**，而`Promise`回调是**微任务**。
+
+主要的区别在于他们的执行方式。宏任务在单个循环周期中一次一个地推入堆栈，但是微任务队列总是在执行后返回到事件循环之前清空。因此，如果你以处理条目的速度向这个队列添加条目，那么你就永远在处理微任务。只有当微任务队列为空时，事件循环才会重新渲染页面
+
+每次调用'`foo`'都会继续在微任务队列上添加另一个'`foo`'回调，因此事件循环无法继续处理其他事件（滚动，单击等），直到该队列完全清空为止。 因此，它会阻止渲染。
+
+### 函数的rest参数与占位符
+
+无法只省略该参数，而不省略它后面的参数，除非显式输入`undefined`。如果传入`undefined`，将触发该参数等于默认值，`null`则没有这个效果。
+
+```javascript
+function f(x, y = 5, z) {
+  return [x, y, z];
+}
+
+f() // [undefined, 5, undefined]
+f(1) // [1, 5, undefined]
+f(1, ,2) // 报错
+f(1, undefined, 2) // [1, 5, 2]
+```
+
+数组的Map方法函数的占位符为下滑线
+
+```javascript
+ Array.from({ length: 31 }).map((_, i) => i + 1),
+```
+
+
+
+## 严格模式
+
+早期的 JavaScript 语言有很多设计不合理的地方，但是为了兼容以前的代码，又不能改变老的语法，只能不断添加新的语法，引导程序员使用新语法。
+
+严格模式是从 ES5 进入标准的，主要目的有以下几个。
+
+- 明确禁止一些不合理、不严谨的语法，减少 JavaScript 语言的一些怪异行为。
+- 增加更多报错的场合，消除代码运行的一些不安全之处，保证代码运行的安全。
+- 提高编译器效率，增加运行速度。
+- 为未来新版本的 JavaScript 语法做好铺垫。
+
+严格模式可以用于整个脚本，也可以只用于单个函数。`use strict`放在脚本文件的第一行，整个脚本都将以严格模式运行。如果这行语句不在第一行就无效，整个脚本会以正常模式运行。`use strict`放在函数体的第一行，则整个函数以严格模式运行。
+
+进入严格模式的标志，是一行字符串`use strict`。老版本的引擎会把它当作一行普通字符串，加以忽略。新版本的引擎就会进入严格模式。
+
+严格模式不允许的语法：
+
+严格模式下，设置字符串的`length`属性，会报错。长度只可读，不可写；
+
+严格模式下，对一个只有取值器（getter）、没有存值器（setter）的属性赋值，会报错。
+
+严格模式下，对禁止扩展的对象添加新属性，会报错。
+
+正常模式下，函数内部的`this`可能会指向全局对象，严格模式禁止这种用法，避免无意间创造全局变量。
+
+函数内部不得使用`fn.caller`、`fn.arguments`，否则会报错。这意味着不能在函数内部得到调用栈了。
+
+严格模式下无法删除变量，如果使用`delete`命令删除一个变量，会报错。只有对象的属性，且属性的描述对象的`configurable`属性设置为`true`，才能被`delete`命令删除。
+
+
+
+## this关键字
+
+`this`指向属性或方法“当前”所在的对象。
+
+`this`的动态切换，固然为 JavaScript 创造了巨大的灵活性，但也使得编程变得困难和模糊。有时，需要把`this`固定下来，避免出现意想不到的情况。JavaScript 提供了`call`、`apply`、`bind`这三个方法，来切换/固定`this`的指向。
+
+`call`方法的参数是一个对象。如果参数为空、`null`和`undefined`，则默认传入全局对象。
+
+```javascript
+var n = 123;
+var obj = { n: 456 };
+
+function a() {
+  console.log(this.n);
+}
+
+a.call() // 123
+a.call(null) // 123
+a.call(undefined) // 123
+a.call(window) // 123
+a.call(obj) // 456
+```
+
+`apply`方法的作用与`call`方法类似，也是改变`this`指向，然后再调用该函数。唯一的区别就是，它接收一个数组作为函数执行时的参数
+
+`bind()`方法用于将函数体内的`this`绑定到某个对象，然后返回一个新函数。
+
+```javascript
+var counter = {
+  count: 0,
+  inc: function () {
+    this.count++;
+  }
+};
+
+var func = counter.inc.bind(counter);
+func();
+counter.count // 1
+```
+
+### 为什么有this
+
+JavaScript 语言之所以有 this 的设计，跟内存里面的数据结构有关系。
+
+将一个对象赋值给变量`obj`。JavaScript 引擎会先在内存里面，生成一个对象`{ foo: 5 }`，然后把这个对象的内存地址赋值给变量`obj`。也就是说，变量`obj`是一个地址（reference）。后面如果要读取`obj.foo`，引擎先从`obj`拿到内存地址，然后再从该地址读出原始的对象，返回它的`foo`属性。
+
+原始的对象以字典结构保存，每一个属性名都对应一个属性描述对象。
+
+这样的结构是很清晰的，问题在于属性的值可能是一个函数。
+
+引擎会将函数单独保存在内存中，然后再将函数的地址赋值给`foo`属性的`value`属性。
+
+由于函数是一个单独的值，所以它可以在不同的环境（上下文）执行。JavaScript 允许在函数体内部，引用当前环境的其他变量。
+
+现在问题就来了，由于函数可以在不同的运行环境执行，所以需要有一种机制，能够在函数体内部获得当前的运行环境（context）。所以，`this`就出现了，它的设计目的就是在函数体内部，指代函数当前的运行环境。
+
+### 绑定方法
+
+**new绑定**： new方式是优先级最高的一种调用方式，只要是使用new方式来调用一个构造函数，this一定会指向new调用函数新创建的对象
+
+**显示绑定**：显示绑定指的是通过call()和apply()方法，强制指定某些对象对函数进行调用，this则强制指向调用函数的对象
+
+**隐式绑定**：隐式绑定是指通过为对象添加属性，该属性的值即为要调用的函数，进而使用该对象调用函数
+
+**默认绑定**：默认绑定是指当上面这三条绑定规则都不符合时，默认绑定会把this指向全局对象window
+
+```javascript
+function thisTo(){
+   console.log(this.a);
+}
+var a=2; //a是全局对象的一个同名属性
+thisTo(); //2
+```
+
+### this通常的调用方式
+
+全局环境
+
+全局环境使用`this`，它指的就是顶层对象`window`。
+
+```javascript
+this === window // true
+
+function f() {
+  console.log(this === window);
+}
+f() // true
+```
+
+构造函数
+
+```javascript
+// 定义了一个构造函数Obj。由于this指向实例对象，所以在构造函数内部定义this.p，就相当于定义实例对象有一个p属性。
+var Obj = function (p) {
+  this.p = p;
+};
+
+var o = new Obj('Hello World!');
+o.p // "Hello World!"
+```
+
+对象的方法
+
+如果对象的方法里面包含`this`，`this`的指向就是方法运行时所在的对象。该方法赋值给另一个对象，就会改变`this`的指向。
+
+```javascript
+var obj ={
+  foo: function () {
+    console.log(this);
+  }
+};
+
+obj.foo() // obj
+// 情况一
+(obj.foo = obj.foo)() // window
+// 情况二
+(false || obj.foo)() // window
+// 情况三
+(1, obj.foo)() // window
+```
+
+
+
+### this指向丢失的情况
+
+引用赋值丢失：
+
+当进行**隐式绑定**时，如果进行一次引用赋值或者传参操作，会造成this的丢失，使this绑定到全局对象中去。
+
+```javascript
+function thisTo(){
+   console.log(this.a);
+}
+var data={
+    a:2,
+    foo:thisTo //通过属性引用this所在函数 
+};
+var a=3;//全局属性
+ 
+var newData = data.foo; //这里进行了一次引用赋值 
+newData(); // 3，因为newData实际上引用的是foo函数本身，这就相当于：var newData = thisTo;data对象只是一个中间桥梁，data.foo只起到传递函数的作用，所以newData跟data对象没有任何关系。而newData本身又不带a属性，最后a只能指向window。
+```
+
+回调函数传参丢失
+
+传参丢失，就是在将包含this的函数作为参数在函数中传递时，this指向改变。setTimeout函数的本来写法应该是setTimeout(function(){......},100)；100ms后执行的函数都在“......”中，可以将要执行函数定义成var fun = function(){......},即:setTimeout(fun,100)，100ms后就有：fun()；所以此时此刻是data.foo作为一个参数，是这样的：setTimeout(thisTo,100);100ms过后执行thisTo()
+
+```javascript
+function thisTo(){
+   console.log(this.a);
+}
+var data={
+    a:2,
+    foo:thisTo //通过属性引用this所在函数 
+};
+var a=3;//全局属性
+ 
+setTimeout(data.foo,100);// 3
+```
+
+数组的foreach和map方法
+
+`foreach`方法的回调函数中的`this`，其实是指向`window`对象，因此取不到`o.v`的值。原因跟上一段的多层`this`是一样的，就是内层的`this`不指向外部，而指向顶层对象。
+
+解决this丢失的问题：
+
+1.使用bind 方法返回一个新对象。它会把参数设置为this的上下文并调用原始函数。
+
+2.间接引用：间接引用是指一个定义对象的方法引用另一个对象存在的方法，这种情况下会使得this指向window：
+
+3.使用箭头函数：箭头函数在this这块是一个特殊的改进，箭头函数使用了词法作用域取代了传统的this机制，所以箭头函数无法使用上面所说的这些this优先级的原则，注意的是在箭头函数中，是根据外层父亲作用域来决定this的指向问题。
+
+### call apply bind区别
+
+call方法第一个参数是this指向，第二个参数可以传入参数列表，call方法临时改变一次this指向，并立即执行
+
+Apply方法可以传入参数数组，使用apply方法改变this指向后原函数会立即执行，且此方法只是临时改变this指向一次。
+
+bind方法和apply方法类似，第一个参数是this指向，第二个参数可以传入参数列表，但是bind改变this指向后不会立即执行，而是返回一个永久改变this指向的函数
 

@@ -1,5 +1,5 @@
 ---
-title: 前端进阶（七）-CI/CD工具
+title: 前端工程化（八）-CI/CD工具
 date: 2020-12-15 21:40:33
 categories: IT
 tags:
@@ -423,6 +423,18 @@ npm install @sentry/browser @sentry/integrations
 ```javascript
 import * as Sentry from '@sentry/browser'import * as Intergrations from '@sentry/integrations'process.env.NODE_ENV === "production" && Sentry.init ({  dsn: 'https://e028cb7b8dd645978cf5d84a@sentry.io/18726',  integrations: [new Integrations.Vue{}],})
 ```
+
+
+
+## CD平台
+
+### render.com
+
+
+
+### Nitro
+
+
 
 
 

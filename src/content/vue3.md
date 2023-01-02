@@ -14,9 +14,15 @@ thumbnail: https://cdn.kunkunzhang.top/vue3.png
 
 ## 其他组件
 
-
-
 clipboard-polyfill xgplayer qrcode
+
+### 拖动组件
+
+vue-draggable-resizable-gorkys
+
+vue-draggable-resizable
+
+
 
 ### vue-echarts
 
@@ -567,6 +573,45 @@ npm install -S vue-amap // 可在package.json查看是否安装
 </style>
 ```
 
+百度地图
+
+安装
+
+```node
+npm i --save vue-baidu-map
+```
+
+初始化
+
+```js
+import Vue from 'vue'
+import BaiduMap from 'vue-baidu-map'
+
+Vue.use(BaiduMap, {
+  /* Visit http://lbsyun.baidu.com/apiconsole/key for details about app key. */
+  ak: 'YOUR_APP_KEY'
+})
+```
+
+
+
+```vue
+<template>
+  <baidu-map class="map">
+  </baidu-map>
+</template>
+
+<style>
+/* The container of BaiduMap must be set width & height. */
+.map {
+  width: 100%;
+  height: 300px;
+}
+</style>
+```
+
+
+
 ### 导航
 
 使用ip定位，需要在head标签里面引入js
@@ -832,545 +877,112 @@ npm install -S vue-amap // 可在package.json查看是否安装
 </script>
 ```
 
+### vue-tour
 
+网站导航包
 
+使用
 
-
-
-
-## 与vue2相比重大变化
-
-### 全局变量
-
-Vue 2.x 有许多全局 API 和配置，这些 API 和配置可以全局改变 Vue 的行为，比如说创建全局组件、声明全局指令。
-
-虽然这种声明方式很方便，但它也会导致一些问题。从技术上讲，Vue 2 没有“app”的概念，我们定义的应用只是通过 `new Vue()` 创建的根 Vue 实例。从同一个 Vue 构造函数**创建的每个根实例共享相同的全局配置**，
-
-Vue3中新的api
-
-createapp
-
-调用 `createApp` 返回一个应用实例，进行挂载
-
-```javascript
-import { createApp } from 'vue'
-import MyApp from './MyApp.vue'
-
-const app = createApp(MyApp)
-app.mount('#app')
+```shell
+npm install vue-tour
 ```
 
-其他全局api变化
-
-| 2.x 全局 API               | 3.x 实例 API (`app`)                                         |
-| -------------------------- | ------------------------------------------------------------ |
-| Vue.config                 | app.config                                                   |
-| Vue.config.productionTip   | *removed* ([见下方](https://vue3js.cn/docs/zh/guide/migration/global-api.html#config-productiontip-removed)) |
-| Vue.config.ignoredElements | app.config.isCustomElement ([见下方](https://vue3js.cn/docs/zh/guide/migration/global-api.html#config-ignoredelements-is-now-config-iscustomelement)) |
-| Vue.component              | app.component                                                |
-| Vue.directive              | app.directive                                                |
-| Vue.mixin                  | app.mixin                                                    |
-| Vue.use                    | app.use ([见下方](https://vue3js.cn/docs/zh/guide/migration/global-api.html#a-note-for-plugin-authors)) |
-
-利用这种方式，可以在应用之间共享全局组件和指令
+全局导入
 
 ```javascript
-import { createApp } from 'vue'
-import Foo from './Foo.vue'
-import Bar from './Bar.vue'
+import Vue from 'vue'
+import App from './App.vue'
+import VueTour from 'vue-tour'
 
-const createMyApp = options => {
-  const app = createApp(options)
-  app.directive('focus' /* ... */)
+require('vue-tour/dist/vue-tour.css')
 
-  return app
-}
+Vue.use(VueTour)
 
-createMyApp(Foo).mount('#foo')
-createMyApp(Bar).mount('#bar')
+new Vue({
+  render: h => h(App)
+}).$mount('#app')
 ```
 
-上面代码中，createMyApp(Bar).mount('#bar')Foo 和 Bar 实例及其后代中都可以使用 focus 指令
-
-### 模版语法变化(Fragment片段)
-
-在 2.x 中，不支持多根组件，当用户意外创建多根组件时会发出警告，因此，为了修复此错误，许多组件被包装在一个 `<div>` 中。
-
-在 3.x 中，组件现在可以有多个根节点！但是，这确实要求开发者明确定义属性应该分布在哪里。
+使用
 
 ```vue
-//vue2
 <template>
   <div>
-    <header>...</header>
-    <main>...</main>
-    <footer>...</footer>
+    <div id="v-step-0">A DOM element on your page. The first step will pop on this element because its ID is 'v-step-0'.</div>
+    <div class="v-step-1">A DOM element on your page. The second step will pop on this element because its ID is 'v-step-1'.</div>
+    <div data-v-step="2">A DOM element on your page. The third and final step will pop on this element because its ID is 'v-step-2'.</div>
+
+    <v-tour name="myTour" :steps="steps"></v-tour>
   </div>
-</template>
-//vue3
-<template>
-  <header>...</header>
-  <main v-bind="$attrs">...</main>
-  <footer>...</footer>
-</template>
-```
-
-
-
-### 生命周期函数变化
-
-filter将不再被继续允许使用，鼓励使用computed或mothod替代filter功能
-
-其他生命周期函数：
-
-被弃用/替换：
-
-1. beforeCreate -> setup()
-2. created -> setup()
-
-重命名的生命周期：
-
-beforeMount -> onBeforeMount
-
-mounted -> onMounted
-
-beforeUpdate -> onBeforeUpdate
-
-updated -> onUpdated
-
-beforeDestroy -> onBeforeUnmount
-
-destroyed -> onUnmounted
-
-errorCaptured -> onErrorCaptured
-
-
-
-### 组合式API/composition
-
-组合式API是vue中类似于react hook类似的功能，尤雨溪在关于此部分功能的考虑和征求意见稿的全文如下
-
-https://vue3js.cn/vue-composition/
-
-简言之，vue在两种情况下不太友好：
-
-1.随着功能的增长，复杂组件的代码变得越来越难以阅读和理解。这种情况在开发人员阅读他人编写的代码时尤为常见。根本原因是 Vue 现有的 API 迫使我们通过**选项组织代码**，但是有的时候通过**逻辑关系**组织代码更有意义。
-
-目前vue缺少一种简洁且低成本的机制来提取和重用多个组件之间的逻辑。
-
-2.来自大型项目开发者的常见需求是更好的 TypeScript 支持，不支持typescript意味着意味推断不够好。Vue 当前的 API 在集成 TypeScript 时遇到了不小的麻烦，其主要原因是 Vue 依靠一个简单的 `this` 上下文来暴露 property，我们现在使用 `this` 的方式是比较微妙的。
-
-3.缺少一种比较「干净」的在多个组件之间提取和复用逻辑的机制。
-
-Vue 现有的 API 在设计之初没有照顾到类型推导，这使适配 TypeScript 变得复杂。
-
-**composition核心函数：**
-
-1.setup函数
-
-- `setup` 就是将 Vue2.x 中的 `beforeCreate` 和 `created` 代替了，以一个 `setup` 函数的形式，可以灵活组织代码了。
-- `setup` 还可以 return 数据或者 template，相当于把 `data` 和 `render` 也一并代替了！
-
-实例：
-
-```vue
-<template>
-  <div>{{ count }} {{ object.foo }}</div>
 </template>
 
 <script>
-import { ref, reactive } from 'vue'
-
-export default {
-  setup() {
-    const count = ref(0)
-    const object = reactive({ foo: 'bar' })
-
-    // expose to template
-    return {
-      count,
-      object
+  export default {
+    name: 'my-tour',
+    data () {
+      return {
+        steps: [
+          {
+            target: '#v-step-0',  // We're using document.querySelector() under the hood
+            header: {
+              title: 'Get Started',
+            },
+            content: `Discover <strong>Vue Tour</strong>!`
+          },
+          {
+            target: '.v-step-1',
+            content: 'An awesome plugin made with Vue.js!'
+          },
+          {
+            target: '[data-v-step="2"]',
+            content: 'Try it, you\'ll love it!<br>You can put HTML in the steps and completely customize the DOM to suit your needs.',
+            params: {
+              placement: 'top' // Any valid Popper.js placement. See https://popper.js.org/popper-documentation.html#Popper.placements
+            }
+          }
+        ]
+      }
+    },
+    mounted: function () {
+      this.$tours['myTour'].start()
     }
   }
-}
 </script>
 ```
 
-需要注意的是，setup函数中取消this，取消了 `this`，取而代之的是 `setup` 增加了2个参数：props，组件参数和context，上下文信息
-
-2.Reactive方法：
-
-被 `reactive` 方法包裹后的 `对象` 就变成了一个代理对象，相当于 Vue2.x 中的 `Vue.observable()`。也就可以实现页面和数据之间的双向绑定了。
-
-这个包裹的方法是 `deep` 的， [vue3.md](vue3.md) 对所有嵌套的属性都生效。
-
-3.ref方法
-
-被 `ref` 方法包裹后的 `元素` 就变成了一个代理对象。一般而言，这里的元素参数指 `基本元素` 或者称之为 `inner value`，如：number, string, boolean,null,undefined 等，object 一般不使用 `ref`，而是使用上文的 `reactive`。
-
-也就是说 `ref` 一般适用于某个元素的；而 `reactive` 适用于一个对象。
-
-4.isRef方法
-
-判断一个对象是否 `ref` 代理对象。
-
-```
-const unwrapped = isRef(foo) ? foo.value : foo
-```
-
-5.toRefs 方法
-
-将一个 `reactive` 代理对象打平，转换为 `ref` 代理对象，使得对象的属性可以直接在 `template` 上使用。
-
-6.computed函数
-
-与 Vue2.x 中的作用类似，获取一个计算结果。当然功能有所增强，不仅支持取值 `get`（默认），还支持赋值 `set`。
-
-结果是一个 `ref` 代理对象，js中取值需要 `.value`。
-
-当 computed 参数使用 object 对象书写时，使用 get 和 set 属性。set 属性可以将这个对象编程一个可写的对象。
-
-也就是说 `computed` 不仅可以获取一个计算结果，它还可以反过来处理 `ref` 或者 `reactive` 对象
-
-7.readonly函数
-
-使用 `readonly` 函数，可以把 `普通 object 对象`、`reactive 对象`、`ref 对象` 返回一个只读对象。
-
-返回的 readonly 对象，一旦修改就会在 console 有 warning 警告。程序还是会照常运行，不会报错。
-
-8.watch函数
-
-watch 函数用来侦听特定的数据源，并在回调函数中执行副作用。默认情况是惰性的，也就是说仅在侦听的源数据变更时才执行回调。
-
-监听不同的数据
-
-```javascript
-//侦听reactive的数据
-import { defineComponent, ref, reactive, toRefs, watch } from "vue";
-export default defineComponent({
-  setup() {
-    const state = reactive({ nickname: "xiaofan", age: 20 });
-
-    setTimeout(() => {
-      state.age++;
-    }, 1000);
-
-    // 修改age值时会触发 watch的回调
-    watch(
-      () => state.age,
-      (curAge, preAge) => {
-        console.log("新值:", curAge, "老值:", preAge);
-      }
-    );
-
-    return {
-      ...toRefs(state),
-    };
-  },
-});
-
-//侦听ref定义的数据
-const year = ref(0);
-
-setTimeout(() => {
-  year.value++;
-}, 1000);
-
-watch(year, (newVal, oldVal) => {
-  console.log("新值:", newVal, "老值:", oldVal);
-});
 
 
-//侦听多个数据时进行合并监听
-watch([() => state.age, year], ([curAge, newVal], [preAge, oldVal]) => {
-console.log("新值:", curAge, "老值:", preAge); console.log("新值:", newVal,
-"老值:", oldVal); });
-
-//侦听复杂数据
-const state = reactive({
-  room: {
-    id: 100,
-    attrs: {
-      size: "140平方米",
-      type: "三室两厅",
-    },
-  },
-});
-watch(
-  () => state.room,
-  (newType, oldType) => {
-    console.log("新值:", newType, "老值:", oldType);
-  },
-  { deep: true }
-);
-```
+### Element-plus
 
 
 
-停止监听
+### petite-vue
 
-```javascript
-const stopWatchRoom = watch(() => state.room, (newType, oldType) => {
-    console.log("新值:", newType, "老值:", oldType);
-}, {deep:true});
-
-setTimeout(()=>{
-    // 停止监听
-    stopWatchRoom()
-}, 3000)
-```
-
-9.watcheffect函数
-
-watcheffect与watch的区别：
-
-1. watchEffect 不需要手动传入依赖
-2. watchEffect 会先执行一次用来自动收集依赖
-3. watchEffect 无法获取到变化前的值， 只能获取变化后的值
-
-```javascript
-import { reactive, watchEffect } from 'vue'
-
-const state = reactive({
-  count: 0,
-})
-
-function increment() {
-  state.count++
-}
-
-const renderContext = {
-  state,
-  increment,
-}
-
-watchEffect(() => {
-  // 假设的方法，并不是真实的 API
-  renderTemplate(
-    `<button @click="increment">{{ state.count }}</button>`,
-    renderContext
-  )
-})
-```
-
-#### 自定义hook
-
-约定这些「自定义 Hook」以 use 作为前缀，和普通的函数加以区分
-
-```javascript
-import { ref, Ref, computed } from "vue";
-
-type CountResultProps = {
-  count: Ref<number>;
-  multiple: Ref<number>;
-  increase: (delta?: number) => void;
-  decrease: (delta?: number) => void;
-};
-
-export default function useCount(initValue = 1): CountResultProps {
-  const count = ref(initValue);
-
-  const increase = (delta?: number): void => {
-    if (typeof delta !== "undefined") {
-      count.value += delta;
-    } else {
-      count.value += 1;
-    }
-  };
-  const multiple = computed(() => count.value * 2);
-
-  const decrease = (delta?: number): void => {
-    if (typeof delta !== "undefined") {
-      count.value -= delta;
-    } else {
-      count.value -= 1;
-    }
-  };
-
-  return {
-    count,
-    multiple,
-    increase,
-    decrease,
-  };
-}
-
-```
-
-使用useCount这个hook
+轻量级的vue
 
 ```vue
-<template>
-  <p>count: {{ count }}</p>
-  <p>倍数： {{ multiple }}</p>
-  <div>
-    <button @click="increase()">加1</button>
-    <button @click="decrease()">减一</button>
-  </div>
-</template>
+<script type="module">
+  import { createApp } from 'https://unpkg.com/petite-vue?module'
 
-<script lang="ts">
-import useCount from "../hooks/useCount";
- setup() {
-    const { count, multiple, increase, decrease } = useCount(10);
-        return {
-            count,
-            multiple,
-            increase,
-            decrease,
-        };
+  createApp({
+    // exposed to all expressions
+    count: 0,
+    // getters
+    get plusOne() {
+      return this.count + 1
     },
+    // methods
+    increment() {
+      this.count++
+    }
+  }).mount()
 </script>
-```
 
-Vue2.x 实现，分散在`data`,`method`,`computed`等， 如果刚接手项目，实在无法快速将`data`字段和`method`关联起来，而 Vue3 的方式可以很明确的看出，将 count 相关的逻辑聚合在一起， 看起来舒服多了， 而且`useCount`还可以扩展更多的功能。 项目开发完之后，后续还会写一篇总结项目中使用到的「自定义 Hooks 的文章」，帮助大家更高效的开发，
-
-### teleport
-
-在子组件`Header`中使用到`Dialog`组件，我们实际开发中经常会在类似的情形下使用到 `Dialog` ，此时`Dialog`就被渲染到一层层子组件内部，处理嵌套组件的定位、`z-index`和样式都变得困难。 `Dialog`从用户感知的层面，应该是一个独立的组件，从 dom 结构应该完全剥离 Vue 顶层组件挂载的 DOM；同时还可以使用到 Vue 组件内的状态（`data`或者`props`）的值。简单来说就是,**即希望继续在组件内部使用`Dialog`, 又希望渲染的 DOM 结构不嵌套在组件的 DOM 中**。 此时就需要 Teleport 上场，我们可以用`<Teleport>`包裹`Dialog`, 此时就建立了一个传送门，可以将`Dialog`渲染的内容传送到任何指定的地方。
-
-### Suspense
-
-在前后端交互获取数据时， 是一个异步过程，一般我们都会提供一个加载中的动画，当数据返回时配合`v-if`来控制数据显示。 如果你使用过`vue-async-manager`这个插件来完成上面的需求， 你对`Suspense`可能不会陌生
-
-Vue3.x 新出的内置组件`Suspense`, 它提供两个`template` slot, 刚开始会渲染一个 fallback 状态下的内容， 直到到达某个条件后才会渲染 default 状态的正式内容， 通过使用`Suspense`组件进行展示异步渲染就更加的简单。:::warning 如果使用 `Suspense`, 要返回一个 promise :::`Suspense` 组件的使用
-
-```vue
-  <Suspense>
-        <template #default>
-            <async-component></async-component>
-        </template>
-        <template #fallback>
-            <div>
-                Loading...
-            </div>
-        </template>
-  </Suspense>
-
-<<template>
-<div>
-    <h4>这个是一个异步加载数据</h4>
-    <p>用户名：{{user.nickname}}</p>
-    <p>年龄：{{user.age}}</p>
+<!-- v-scope value can be omitted -->
+<div v-scope>
+  <p>{{ count }}</p>
+  <p>{{ plusOne }}</p>
+  <button @click="increment">increment</button>
 </div>
-</template>
-
-<script>
-import { defineComponent } from "vue"
-import axios from "axios"
-export default defineComponent({
-    setup(){
-        const rawData = await axios.get("http://xxx.xinp.cn/user")
-        return {
-            user: rawData.data
-        }
-    }
-})
-</script>
 ```
-
-
-
-### slot变化
-
-vue2中使用slot插槽
-
-```vue
-<!-- 父组件中使用 -->
-<template slot="content" slot-scope="scoped">
-    <div v-for="item in scoped.data">{{item}}</div>
-<template>
-  
-  // 子组件
-<slot name="content" :data="data"></slot>
-export default {
-    data(){
-        return{
-            data:["走过来人来人往","不喜欢也得欣赏","陪伴是最长情的告白"]
-        }
-    }
-}
-```
-
-Vue3将`slot`和`slot-scope`进行了合并同意使用。 Vue3.0 中`v-slot`：
-
-```vue
-<!-- 父组件中使用 -->
- <template v-slot:content="scoped">
-   <div v-for="item in scoped.data">{{item}}</div>
-</template>
-
-<!-- 也可以简写成： -->
-<template #content="{data}">
-    <div v-for="item in data">{{item}}</div>
-</template>
-```
-
-### 异步组件
-
-Vue3 中 使用 `defineAsyncComponent` 定义异步组件，配置选项 `component` 替换为 `loader` ,Loader 函数本身不再接收 resolve 和 reject 参数，且必须返回一个 Promise，
-
-```vue
-<template>
-  <!-- 异步组件的使用 -->
-  <AsyncPage />
-</tempate>
-
-<script>
-import { defineAsyncComponent } from "vue";
-
-export default {
-  components: {
-    // 无配置项异步组件
-    AsyncPage: defineAsyncComponent(() => import("./NextPage.vue")),
-
-    // 有配置项异步组件
-    AsyncPageWithOptions: defineAsyncComponent({
-   loader: () => import(".NextPage.vue"),
-   delay: 200,
-   timeout: 3000,
-   errorComponent: () => import("./ErrorComponent.vue"),
-   loadingComponent: () => import("./LoadingComponent.vue"),
- })
-  },
-}
-</script>
-
-```
-
-### tree-shaking
-
-Vue3.x 在考虑到 `tree-shaking`的基础上重构了全局和内部 API, 表现结果就是现在的全局 API 需要通过 `ES Module`的引用方式进行具名引用
-
-如vue中使用nextTick()
-
-```javascript
-// vue2.x
-import Vue from "vue"
-
-Vue.nextTick(()=>{
-    ...
-})
-
-import { nextTick } from "vue"
-
-nextTick(() =>{
-    ...
-})
-```
-
-类似的api变化
-
-- `Vue.nextTick`
-- `Vue.observable`（用 `Vue.reactive` 替换）
-- `Vue.version`
-- `Vue.compile`（仅限完整版本时可用）
-- `Vue.set`（仅在 2.x 兼容版本中可用）
-- `Vue.delete`（与上同）
-
-## Element-plus
-
-
-
-
 

@@ -8,7 +8,7 @@ toc: true
 thumbnail: http://cdn.kunkunzhang.top/javascript2.png
 ---
 
-前端：vue写界面、请求数据 数据处理
+前端：写界面、请求数据 数据处理
 
 后端：写Api接口，接收用户数据，处理数据（数据库），返回数据
 
@@ -17,6 +17,121 @@ thumbnail: http://cdn.kunkunzhang.top/javascript2.png
 <!--more-->
 
 ## js基本语法
+
+### 变量
+
+变量是对“值”的具名引用。变量就是为“值”起名，然后引用这个名字，就等同于引用这个值。变量的名字就是变量名
+
+JavaScript 的变量名区分大小写，`A`和`a`是两个不同的变量
+
+变量的声明和赋值，是分开的两个步骤，上面的代码将它们合在了一起，实际的步骤是下面这样
+
+```javascript
+var a;
+a = 1;
+```
+
+如果只是声明变量而没有赋值，则该变量的值是`undefined`。`undefined`是一个特殊的值，表示“无定义”
+
+```javascript
+var a;
+a // undefined
+```
+
+如果变量赋值的时候，忘了写`var`命令，这条语句也是有效的.但是，不写`var`的做法，不利于表达意图，而且容易不知不觉地创建全局变量，所以建议总是使用`var`命令声明变量
+
+```javascript
+var a = 1;
+// 基本等同
+a = 1;
+```
+
+如果一个变量没有声明就直接使用，JavaScript 会报错，告诉你变量未定义
+
+```javascript
+x
+// ReferenceError: x is not defined
+```
+
+上面代码直接使用变量`x`，系统就报错，告诉你变量`x`没有声明
+
+可以在同一条`var`命令中声明多个变量.JavaScript 是一种动态类型语言，也就是说，变量的类型没有限制，变量可以随时更改类型
+
+```javascript
+var a, b;
+```
+
+如果使用`var`重新声明一个已经存在的变量，是无效的.但是，如果第二次声明的时候还进行了赋值，则会覆盖掉前面的值。
+
+```javascript
+var x = 1;
+var x;
+x // 1
+
+var x = 1;
+var x = 2;
+
+// 等同于
+
+var x = 1;
+var x;
+x = 2;
+```
+
+#### 变量提升
+
+JavaScript 引擎的工作方式是，先解析代码，获取所有被声明的变量，然后再一行一行地运行。这造成的结果，就是所有的变量的声明语句，都会被提升到代码的头部，这就叫做变量提升（hoisting）
+
+```javascript
+console.log(a);
+var a = 1;
+
+// 实际执行的代码
+var a;
+console.log(a);
+a = 1;
+```
+
+#### let、const、var区别
+
+主要是let和const、let和var区别
+
+let只在声明的代码块里有效，let不允许重复声明，let声明的全局变量不会作为window对象的一个属性
+
+只要使用`let`声明了一个变量，那这个变量就“绑定”到了这个作用域（全局/局部/块级），该变量就不再受外层作用域的影响。如果区块中存在`let`和`const`命令，这个区块对这些命令声明的变量从一开始就形成了封闭作用域。凡是在声明之前就使用这些变量，就会报错。这在语法上称为暂时性死区。
+
+var允许重复定义变量，使用`var`声明的全局变量，会被JS自动添加在全局对象`window`上，作为该对象的一个属性。
+
+用`var`声明的变量，会在其作用域中**发生`变量提升`的过程**。变量会被提升到作用域顶部，JS默认给变量一个`undefined`值。在使用`var`声明一个变量前访问它，得到的值永远是`undefined`。
+
+const声明值时必须初始化值且不可修改，为常量，const不允许重复声明
+
+实例
+
+```javascript
+//题1
+function sayHi(){
+  console.log(name);
+  console.log(age);
+  var age = 21;
+  var name = "lila"
+}
+sayHi();
+
+//题2
+for (var i=0;i<3;i++){
+   setTimeout(()=>console.log(i),1);
+}
+
+for (let i=0;i<3;i++){
+   setTimeout(()=>console.log(i),1);
+}
+//题1输出：undefined 和 refence error。var的变量会在创建阶段就被设置好，但是定义语句在console之后，因此为undefined；
+//let和const不会被初始化，因此会出现暂时性死区，因此会抛出一个reference error的错误
+//题2输出：3 3 3 和 0 1 2
+```
+
+
 
 ### 基本变量类型
 
@@ -39,6 +154,19 @@ js中有六种基本的数据类型：
 数组。对象和数组都是引用数据类型。
 
 函数也是变量类型，属于对象的一种
+
+#### string中的特殊字符
+
+如果string中有\n这种特殊字符，输出时会直接换行而不是显示\n，
+
+比如`a\nb`，如果使用match等匹配\n，会出现匹配不到的情况
+
+```javascript
+'a\nb'.search('\n')   // 会显示-1
+
+// 首先使用json序列化表示出来，然后用正则表达式匹配
+JSON.stringify('a\nb').replace(/\\n/g, '<br/>')
+```
 
 
 
@@ -708,6 +836,8 @@ String对象
 
 `String.localeCompare('String1')`比较两个字符串，返回一个整数。如果小于0，表示第一个字符串小于第二个字符串；如果等于0，表示两者相等；如果大于0，表示第一个字符串大于第二个字符串。
 
+**字符串的所有方法都不会改变原字符串**
+
 Number对象
 
 实例方法
@@ -1110,7 +1240,9 @@ const jsonStringTransformer = <ValueType = any>(
 
 那么设置数组长度的意义是什么？
 
-如果设置了数组长度，那么代码在执行时会在初始化的时候就给数据分配一个空间，以后每次给数组赋值就会更快。反之如果没有设置长度，代码在每次执行赋值时会先给数组增加长度，分配空间，降低运行速度。 d
+如果设置了数组长度，那么代码在执行时会在初始化的时候就给数据分配一个空间，以后每次给数组赋值就会更快。反之如果没有设置长度，代码在每次执行赋值时会先给数组增加长度，分配空间，降低运行速度。 
+
+
 
 #### 各方法返回值汇总
 
@@ -1127,6 +1259,8 @@ const jsonStringTransformer = <ValueType = any>(
 不改变原数组：slice()、include()、indexof()、findindex()、、、、
 
 改变原数组：sort()、reverse()、splice()、fill()、map()、filter()、reduce()、push()、pop()、
+
+
 
 #### 数组常见操作
 

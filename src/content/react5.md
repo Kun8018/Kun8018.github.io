@@ -1,5 +1,5 @@
 ---
-title: React（四）
+title: React（五）
 date: 2020-06-02 21:40:33
 categories: IT
 tags:
@@ -367,6 +367,89 @@ componentDidUpdate(prevProps, prevState) {
 }
 ```
 
+#### fiber是如何实现更新过程可控的
+
+从 React 16 开始，React 采用了 Fiber 机制替代了原先基于原生执行栈递归遍历 VDOM 的方案，提高了页面渲染性能和用户体验。
+
+更新过程的可控主要体现在下面几个方面
+
+1. 任务拆分
+2. 任务挂起、恢复、终止
+3. 任务具备优先级
+
+任务拆分
+
+React Fiber 之前是基于原生执行栈，每一次更新操作会一直占用主线程，直到更新完成。这可能会导致事件响应延迟，动画卡顿等现象。
+
+在 React Fiber 机制中，它采用"化整为零"的战术，将调和阶段（Reconciler）递归遍历 VDOM 这个大任务分成若干小任务，每个任务只负责一个节点的处理。
+
+比如
+
+```react
+import React from "react";
+import ReactDom from "react-dom"
+const jsx = (
+    <div id="A1">
+    A1
+    <div id="B1">
+      B1
+      <div id="C1">C1</div>
+      <div id="C2">C2</div>
+    </div>
+    <div id="B2">B2</div>
+  </div>
+)
+ReactDom.render(jsx,document.getElementById("root"))
+```
+
+这个组件在渲染的时候会被分成八个小任务，每个任务用来分别处理 A1(div)、A1(text)、B1(div)、B1(text)、C1(div)、C1(text)、C2(div)、C2(text)、B2(div)、B2(text)。再通过时间分片，在一个时间片中执行一个或者多个任务。这里提一下，所有的小任务并不是一次性被切分完成，而是处理当前任务的时候生成下一个任务，如果没有下一个任务生成了，就代表本次渲染的 Diff 操作完成
+
+挂起、恢复、终止
+
+再说挂起、恢复、终止之前，不得不提两棵 Fiber 树，workInProgress tree 和 currentFiber tree。
+
+workInProgress 代表当前正在执行更新的 Fiber 树。在 render 或者 setState 后，会构建一颗 Fiber 树，也就是 workInProgress tree，这棵树在构建每一个节点的时候会收集当前节点的副作用，整棵树构建完成后，会形成一条完整的副作用链。
+
+currentFiber 表示上次渲染构建的 Filber 树。在每一次更新完成后 workInProgress 会赋值给  currentFiber。在新一轮更新时 workInProgress tree 再重新构建，新 workInProgress 的节点通过 alternate 属性和 currentFiber 的节点建立联系。
+
+在新 workInProgress tree 的创建过程中，会同 currentFiber 的对应节点进行 Diff 比较，收集副作用。同时也会复用和 currentFiber 对应的节点对象，减少新创建对象带来的开销。也就是说无论是创建还是更新，挂起、恢复以及终止操作都是发生在 workInProgress tree 创建过程中。workInProgress tree  构建过程其实就是循环的执行任务和创建下一个任务，
+
+当没有下一个任务需要执行的时候，workInProgress tree 构建完成，开始进入提交阶段，完成真实 DOM 更新。
+
+在构建 workInProgressFiber tree 过程中可以通过挂起、恢复和终止任务，实现对更新过程的管控
+
+挂起
+
+当第一个小任务完成后，先判断这一帧是否还有空闲时间，没有就挂起下一个任务的执行，记住当前挂起的节点，让出控制权给浏览器执行更高优先级的任务。
+
+恢复
+
+在浏览器渲染完一帧后，判断当前帧是否有剩余时间，如果有就恢复执行之前挂起的任务。如果没有任务需要处理，代表调和阶段完成，可以开始进入渲染阶段。这样完美的解决了调和过程一直占用主线程的问题。
+
+那么问题来了他是如何判断一帧是否有空闲时间的呢？答案就是我们前面提到的 RIC (RequestIdleCallback) 浏览器原生 API，React 源码中为了兼容低版本的浏览器，对该方法进行了 Polyfill。
+
+当恢复执行的时候又是如何知道下一个任务是什么呢？答案在前面提到的链表。在 React Fiber 中每个任务其实就是在处理一个 FiberNode 对象，然后又生成下一个任务需要处理的 FiberNode。顺便提一嘴，这里提到的FiberNode 是一种数据格式，
+
+在一次任务结束后返回该处理节点的子节点或兄弟节点或父节点。只要有节点返回，说明还有下一个任务，下一个任务的处理对象就是返回的节点。通过一个全局变量记住当前任务节点，当浏览器再次空闲的时候，通过这个全局变量，找到它的下一个任务需要处理的节点恢复执行。就这样一直循环下去，直到没有需要处理的节点返回，代表所有任务执行完成。最后大家手拉手，就形成了一颗 Fiber 树
+
+终止
+
+其实并不是每次更新都会走到提交阶段。当在调和过程中触发了新的更新，在执行下一个任务的时候，判断是否有优先级更高的执行任务，如果有就终止原来将要执行的任务，开始新的 workInProgressFiber 树构建过程，开始新的更新流程。这样可以避免重复更新操作。这也是在 React 16 以后生命周期函数 componentWillMount 有可能会执行多次的原因。
+
+其他：
+
+能否使用generator函数代替链表
+
+在 Fiber 机制中，最重要的一点就是需要实现挂起和恢复，从实现角度来说 generator 也可以实现。那么为什么官方没有使用 generator 呢？猜测应该是是性能方面的原因。生成器不仅让您在堆栈的中间让步，还必须把每个函数包装在一个生成器中。一方面增加了许多语法方面的开销，另外还增加了任何现有实现的运行时开销。性能上远没有链表的方式好，而且链表不需要考虑浏览器兼容性
+
+Vue是否会采用类似fiber的机制优化复杂页面的更新
+
+这个问题其实有点搞事情，如果 Vue 真这么做了是不是就是变相承认 Vue 是在"集成" Angular 和 React 的优点呢？React 有 Fiber，Vue 就一定要有？
+
+两者虽然都依赖 DOM Diff，但是实现上且有区别，DOM Diff 的目的都是收集副作用。Vue 通过 Watcher 实现了依赖收集，本身就是一种很好的优化。所以 Vue 没有采用 Fiber 机制，也无伤大雅。
+
+https://juejin.cn/post/6911681589558640654#heading-3
+
 ### props与state的区别
 
 props和state都是普通的JavaScript对象，它们都是用来保存信息的，这些信息可以控制组件的渲染输出。不同点：
@@ -725,7 +808,7 @@ Layout effect —— `UnmountMutation | MountLayout`.
 
 `useReducer` 和 `useState` 本质上是一个原理，虽然我们平时会使用 `useState` 更多，但事实上 `useState` 是 `useReducer` 的封装；
 
-
+useState是useReducer传递一个内部写好的dispatch
 
 ### Hook系统原理
 

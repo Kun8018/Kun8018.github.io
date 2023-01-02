@@ -64,7 +64,7 @@ windows在cmd窗口输入命令，mac在终端输入。
 
 方式一：直接设置自己的用户名和邮箱
 
-```git
+```shell
 $ git config --global user.name "coliyin@163.com"
 $ git config --global user.email "coliyin@163.com"
 ```
@@ -75,7 +75,7 @@ $ git config --global user.email "coliyin@163.com"
 
 在终端输入
 
-```
+```shell
 git config --global --edit
 ```
 
@@ -83,7 +83,7 @@ git config --global --edit
 
 修改完后渐入命令使配置生效
 
-```git
+```shell
 git commit --amend --reset-author
 ```
 
@@ -155,7 +155,7 @@ ssh-keygen -t rsa -b 4096 -C "1027690173@qq.com"
 
 在.ssh下查看文件，有id_rsa或id_dsa命名的文件即是，后缀为.pub的是公钥，没有的是私钥
 
-```git
+```shell
 cd ~/.ssh
 ls
 ```
@@ -164,13 +164,13 @@ ls
 
 运行ssh-agent
 
-```git
+```shell
 eval "$(ssh-agent -s)"
 ```
 
 
 
-```git
+```shell
 Host * IdentityFile ~/.ssh/id_rsa
 ```
 
@@ -180,7 +180,7 @@ Host * IdentityFile ~/.ssh/id_rsa
 
 复制公钥
 
-```git
+```shell
 pbcopy < ~/.ssh/id_rsa.pub
 ```
 
@@ -188,13 +188,13 @@ pbcopy < ~/.ssh/id_rsa.pub
 
 首次下载项目
 
-```git
+```shell
 git clone 
 ```
 
 获取远程修改到本地
 
-```git
+```shell
 git  git@github.com:anyangxaut/LearnGit.git
 ```
 
@@ -260,7 +260,7 @@ git reflog
 reflog可以显示所有分支的操作记录，包括已经删除的commit，要回复已经删除的commit使用cherry-pick
 
 ```shell
-git cherru-pick 4c97ff3
+git cherry-pick 4c97ff3
 ```
 
 ## 远程操作
@@ -560,6 +560,52 @@ git push origin master
 
 ## 其他操作
 
+### 标签
+
+`git tag -a <your_tag_name>`创建一个标签
+
+`git tag -d <your_tag_name> `删除一个标签
+
+`git tag --list ` 列出所有的标签
+
+`git ls-remote --tags origin`查看所有的远程标签及commit ID
+
+`git push origin <your_tag_name>` 推送一个标签到远程
+
+`git push --delete origin <your_tag_name> `删除远程仓库的标签
+
+### 回退
+
+`git reset`：回退到指定的版本。
+
+`git revert`：撤回提交信息。
+
+ git reset的作用是修改HEAD的位置，即将HEAD指向的位置改变为之前存在的某个版本
+
+git revert是用于“反做”某一个版本，以达到撤销该版本的修改的目的。比如，我们commit了三个版本（版本一、版本二、 版本三），突然发现版本二不行（如：有bug），想要撤销版本二，但又不想影响撤销版本三的提交，就可以用 git revert 命令来反做版本二，生成新的版本四，这个版本四里会保留版本三的东西，但撤销了版本二的东西
+如果我们想撤销之前的某一版本，但是又想保留该目标版本后面的版本，记录下这整个版本变动流程，就可以用这种方法。
+
+`git reset --hard HASH` 返回到某个节点，不保留修改，已有的改动会丢失。 
+
+`git reset --soft HASH` 返回到某个节点, 保留修改，已有的改动会保留，在未提交中，git status或git diff可看。
+
+`git clean -df` #返回到某个节点，（未跟踪文件的删除）
+`git clean` 参数
+   ` -n` 不实际删除，只是进行演练，展示将要进行的操作，有哪些文件将要被删除。（可先使用该命令参数，然后再决定是否执行）
+    `-f` 删除文件
+    `-i `显示将要删除的文件
+    `-d` 递归删除目录及文件（未跟踪的）
+    `-q` 仅显示错误，成功删除的文件不显示
+
+`git reset` 删除的是已跟踪的文件，将已commit的回退。
+`git clean` 删除的是未跟踪的文件
+
+`git clean -nxdf`（查看要删除的文件及目录，确认无误后再使用下面的命令进行删除） 
+
+`git checkout . && git clean -xdf`
+
+
+
 `git fetch`：下载远程仓库的所有变动，可以将远程仓库下载到一个临时分支，然后再根据需要进行合并操作，`git fetch`命令和`git merge`命令可以看作是之前讲的`git pull`命令的分解动作。
 
 ```shell
@@ -571,9 +617,9 @@ git merge temp
 
 `git rebase dev`：解决合并冲突。rebase之后如果有冲突，会进入临时变基分支，手动消除冲突之后在rebase
 
-`git checkou branch`: 切换分支
+`git checkout branch`: 切换分支
 
-`git checkou -b｜B branch`: 创建新分支并切换到该分支
+`git checkout -b｜B branch`: 创建新分支并切换到该分支
 
 `git checkout -- a.txt` ： 将文件迁出修改到上一次提交的内容
 
@@ -605,9 +651,7 @@ git stash drop [stash_id] ## 删除一个存储的进度，如果不执行stash_
 git stash clear ## 删除所有存储进度
 ```
 
-`git reset`：回退到指定的版本。
 
-`git revert`：撤回提交信息。
 
 `git cherry-pick`：挑选某个分支的提交并作为一个新的提交引入到你当前分支上。
 
@@ -618,8 +662,6 @@ git stash clear ## 删除所有存储进度
 Cherry-pick的过程中如果有冲突，需要先修改冲突文件，再git add .，然后继续执行git cherry-pick --continue
 
 在任何阶段都可以执行`git cherry-pick --abort`放弃本次cherry-pick
-
-`git tag`：经常用于查看或新增一个标签。
 
 `git rebase`：分支变基，多用于合并commit和重新合并master分支的代码
 
@@ -735,56 +777,56 @@ GitHub pr
 
 执行指令进行初始化，会在原始文件夹中生成一个隐藏的文件夹.git
 
-```node
+```shell
 rm -rf .git//删掉原来的.git目录
 $ git init
 ```
 
 将文件添加到本地仓库,运行命令：
 
-```node
+```shell
 $ git add . 
 ```
 
 输入本次提交说明
 
-```node
+```shell
 $ git commit -m "layout"
 ```
 
 将本地仓库与远程仓库相关联，
 
-```git
+```shell
 $ git remote add origin https://github.com/CongliYin/CSS.git
 ```
 
 如果出现错误：fatal: remote origin already exists，则执行以下语句：
 
-```git
+```shell
 $ git remote rm origin
 ```
 
 执行上传命令
 
-```node
+```shell
 git push origin master
 ```
 
 新建远程仓库需要添加-u参数
 
-```git
+```shell
 git push -u origin master
 ```
 
 如果出现错误failed to push som refs to…….，则执行以下语句，先把远程服务器github上面的文件拉先来，再push 上去。：
 
-```node
+```shell
 $ git pull origin master
 ```
 
 如果出现错误fatal: refusing to merge unrelated histories，后面加上--allow-unrelated-histories
 
-```node
+```shell
 git pull origin master --allow-unrelated-histories
 ```
 
@@ -822,39 +864,39 @@ git merge --quit
 
 先创建新分支
 
-```git
+```shell
 git branch newbranch
 ```
 
 检查分支创建是否成功
 
-```git
+```shell
 git branch
 ```
 
 此时输出
 
-```
+```shell
 * master
   newbranch
 ```
 
 切换到新创建的分支
 
-```git
+```shell
 git checkout newbranch
 ```
 
 将改动提交到新分支
 
-```git
+```shell
 git add .
 git commit -a
 ```
 
 回到主分支
 
-```git
+```shell
 git checkout master
 ```
 
@@ -862,7 +904,7 @@ git checkout master
 
 将新分支与原分支合并
 
-```git
+```shell
 git merge newbranch 
 ```
 
@@ -880,7 +922,7 @@ git push -u origin master
 
 删除分支
 
-```git
+```shell
 git branch -d newbranch
 ```
 
@@ -890,13 +932,13 @@ git branch -d newbranch
 
 查看远程仓库信息
 
-```git
+```shell
 git remote -v
 ```
 
 
 
-```git
+```shell
 git status
 ```
 
@@ -910,44 +952,44 @@ git add file
 
 文件只在工作区
 
-```git
+```shell
 git checkout -- <file>
 ```
 
 拉取暂存区文件为工作区文件
 
-```git
+```shell
 git log
 ```
 
 git log 会按提交时间列出所有的更新，最近的更新排在最上面
 
-```git
+```shell
 git open
 ```
 
 在git目录输入git open就能打开github对于的页面
 
-```node
+```shell
 npm install -g git-open
 ```
 
 将本地仓库文件撤回至工作区
 
-```git
+```shell
 git reset --hard
-git reser --mixed
+git reset --mixed
 ```
 
 
 
-```git
+```shell
 git revert HEAD
 ```
 
 
 
-```git
+```shell
 git fetch origin
 ```
 
@@ -955,13 +997,13 @@ git fetch origin
 
 git pull可以认为是git fetch和git merge的组合体
 
-```git
+```shell
 git rebase origin/master
 ```
 
 
 
-```git
+```shell
 git diff
 ```
 
@@ -969,7 +1011,7 @@ git-diff能在命令行显示当前代码与上次提交时代码的修改，可
 
 ## 代码检查
 
-### js
+### husky
 
 使用husky
 
@@ -999,8 +1041,192 @@ git add ./husky/pre-commit
 
 ```shell
 git commit -m '' --no-verify
+## git commit -n -m ''
+```
+
+如果husky报错，可以使用husky-init
+
+```shell
+npx husky-init
 ```
 
 
 
-### 
+### commitizen
+
+[commitizen/cz-cli](https://link.juejin.cn/?target=https%3A%2F%2Fgithub.com%2Fcommitizen%2Fcz-cli)是一个可以实现规范的**提交说明**的工具
+
+提供选择的提交信息类别，快速生成**提交说明**。安装cz工具
+
+```shell
+npm install -g commitizen
+```
+
+如果需要在项目中使用**commitizen**生成符合AngularJS规范的**提交说明**，初始化**cz-conventional-changelog**适配器
+
+```shell
+commitizen init cz-conventional-changelog --save --save-exact
+```
+
+初始化命令主要进行了3件事情
+
+1. 在项目中安装**cz-conventional-changelog** 适配器依赖
+2. 将适配器依赖保存到`package.json`的`devDependencies`字段信息
+3. 在`package.json`中新增`config.commitizen`字段信息，主要用于配置cz工具的适配器路径：
+
+```json
+"devDependencies": {
+ "cz-conventional-changelog": "^2.1.0"
+},
+"config": {
+  "commitizen": {
+    "path": "./node_modules/cz-conventional-changelog"
+  }
+}
+```
+
+如果想定制项目的**提交说明**，可以使用[cz-customizable](https://link.juejin.cn/?target=https%3A%2F%2Fgithub.com%2Fleonardoanalista%2Fcz-customizable)适配器
+
+```shell
+npm install cz-customizable --save-dev
+```
+
+将之前符合Angular规范的**cz-conventional-changelog**适配器路径改成**cz-customizable**适配器路径
+
+```json
+"devDependencies": {
+  "cz-customizable": "^5.3.0"
+},
+"config": {
+  "commitizen": {
+    "path": "node_modules/cz-customizable"
+  }
+}
+```
+
+官方提供了一个`.cz-config.js`示例文件[cz-config-EXAMPLE.js](https://link.juejin.cn/?target=https%3A%2F%2Fgithub.com%2Fleonardoanalista%2Fcz-customizable%2Fblob%2Fmaster%2Fcz-config-EXAMPLE.js)
+
+```javascript
+'use strict';
+
+module.exports = {
+
+  types: [
+    {value: '特性',     name: '特性:    一个新的特性'},
+    {value: '修复',      name: '修复:    修复一个Bug'},
+    {value: '文档',     name: '文档:    变更的只有文档'},
+    {value: '格式',    name: '格式:    空格, 分号等格式修复'},
+    {value: '重构', name: '重构:    代码重构，注意和特性、修复区分开'},
+    {value: '性能',     name: '性能:    提升性能'},
+    {value: '测试',     name: '测试:    添加一个测试'},
+    {value: '工具',    name: '工具:    开发工具变动(构建、脚手架工具等)'},
+    {value: '回滚',   name: '回滚:    代码回退'}
+  ],
+
+  scopes: [
+    {name: '模块1'},
+    {name: '模块2'},
+    {name: '模块3'},
+    {name: '模块4'}
+  ],
+
+  // it needs to match the value for field type. Eg.: 'fix'
+  /*
+  scopeOverrides: {
+    fix: [
+      {name: 'merge'},
+      {name: 'style'},
+      {name: 'e2eTest'},
+      {name: 'unitTest'}
+    ]
+  },
+  */
+  // override the messages, defaults are as follows
+  messages: {
+    type: '选择一种你的提交类型:',
+    scope: '选择一个scope (可选):',
+    // used if allowCustomScopes is true
+    customScope: 'Denote the SCOPE of this change:',
+    subject: '短说明:\n',
+    body: '长说明，使用"|"换行(可选)：\n',
+    breaking: '非兼容性说明 (可选):\n',
+    footer: '关联关闭的issue，例如：#31, #34(可选):\n',
+    confirmCommit: '确定提交说明?'
+  },
+
+  allowCustomScopes: true,
+  allowBreakingChanges: ['特性', '修复'],
+
+  // limit subject length
+  subjectLimit: 100
+
+};
+```
+
+### commitLint
+
+校验提交说明是否符合规范，安装校验工具[commitlint](https://link.juejin.cn/?target=https%3A%2F%2Fgithub.com%2Fmarionebl%2Fcommitlint)：
+
+```shell
+npm install --save-dev @commitlint/cli
+```
+
+安装符合Angular风格的校验规则
+
+```shell
+npm install --save-dev @commitlint/config-conventional 
+```
+
+在项目中新建`commitlint.config.js`文件并设置校验规则
+
+```javascript
+module.exports = {
+  extends: ['@commitlint/config-conventional']
+};
+```
+
+如果是使用**cz-customizable**适配器做了破坏Angular风格的提交说明配置，那么不能使用**@commitlint/config-conventional**规则进行提交说明校验，可以使用[commitlint-config-cz](https://link.juejin.cn?target=https%3A%2F%2Fgithub.com%2Fwhizark%2Fcommitlint-config-cz)对定制化提交说明进行校验
+
+```shell
+npm install commitlint-config-cz --save-dev
+```
+
+然后加入commitlint校验规则配置：
+
+```javascript
+module.exports = {
+  extends: [
+    'cz'
+  ]
+};
+```
+
+Validate-commit-msg
+
+除了使用**commitlint**校验工具，也可以使用[validate-commit-msg](https://link.juejin.cn/?target=https%3A%2F%2Fgithub.com%2FFrikki%2Fvalidate-commit-message)校验工具对cz提交说明是否符合Angular规范进行校验。
+
+commitizen日志
+
+如果使用了[cz](https://link.juejin.cn/?target=https%3A%2F%2Fgithub.com%2Fcommitizen%2Fcz-cli)工具集，配套[conventional-changelog](https://link.juejin.cn/?target=https%3A%2F%2Fgithub.com%2Fconventional-changelog%2Fconventional-changelog%2Ftree%2Fmaster%2Fpackages%2Fconventional-changelog)可以快速生成开发日志
+
+```shell
+npm install conventional-changelog -D
+```
+
+在`pacage.json`中加入生成日志命令
+
+```json
+"version": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0 && git add CHANGELOG.md"
+```
+
+执行`npm run version`后可查看生产的日志[CHANGELOG.md](https://link.juejin.cn/?target=https%3A%2F%2Fgithub.com%2Fziyi2%2Fcz-example%2Fblob%2Fmaster%2FCHANGELOG.md)。
+
+## 查看commit时间分布
+
+在项目目录下执行
+
+```shell
+curl -fsSL https://fastly.jsdelivr.net/gh/hellodigua/code996/bin/code996.sh | bash
+```
+
+就能查看项目

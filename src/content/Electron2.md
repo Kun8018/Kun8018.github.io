@@ -597,3 +597,48 @@ sudo apt-get install libimagequant-dev
 
 ## React Native Desktop
 
+
+
+## Nativefier
+
+Nativefier可以将web生成桌面端app，使用electron 技术
+
+全局安装
+
+```shell
+npm install -g nativefier
+```
+
+生成app
+
+```shell
+nativefier 'web.whatsapp.com'
+```
+
+指定名字
+
+```shell
+nativefier --name 'My Medium App' 'medium.com'
+```
+
+其他api
+
+https://github.com/nativefier/nativefier/blob/master/API.md
+
+
+
+## Pake
+
+pake和Nativefier类似，也是将web打包成mac app的技术，使用rust和tauri
+
+需要先在本地安装好tauri的环境
+
+然后clone repo：https://github.com/tw93/Pake
+
+按以下步骤
+
+1. 修改 `src-tauri` 目录下的 `tauri.conf.json` 中的 `productName、icon、title、identifier` 这 4 个字段，其中 icon 可以从 icons 目录选择一个，也可以去 [macOSicons](https://macosicons.com/#/) 下载符合产品名称的
+2. 修改 `src-tauri/src` 目录下的 `main.rs` 中的 with_url 字段为你需要打包网页的地址
+3. `npm run dev` 本地调试看看效果，此外可以打开 `main.rs` 中 devtools 两处注释（搜索 `_devtools`）进行容器调试，假如你不好适配沉浸式头部，可以将 `.with_titlebar_transparent(true)` 注释掉就好
+4. `npm run build` 运行即可打包，假如有打开 devtools 模式，记得注释掉
+

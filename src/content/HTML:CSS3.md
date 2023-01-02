@@ -506,6 +506,56 @@ html
 </html>
 ```
 
+### 文字闪烁
+
+
+
+### 文字抖动
+
+
+
+### 条纹背景
+
+
+
+### 打字效果
+
+```html
+<style>
+  main {
+    width: 100%; height: 229px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  span {
+    display: inline-block;
+    width: 21ch;
+    font: bold 200% Consolas, Monaco, monospace;   /*等宽字体*/
+    overflow: hidden;
+    white-space: nowrap;
+    font-weight: 500;
+    border-right: 1px solid transparent;
+    animation: typing 10s steps(21), caret .5s steps(1) infinite;
+  }
+  @keyframes typing{
+    from {
+        width: 0;
+    }
+  }
+  @keyframes caret{
+    50% { border-right-color: currentColor}
+  }
+</style>
+<template>
+  <main class="main">
+    <span>You-need-to-know-css!</span>
+  </main>
+</template>
+```
+
+
+
 ## 常见图形
 
 使用css绘制斜线、椭圆、三角形、圆形、扇形、梯形
@@ -914,6 +964,12 @@ div{
 }
 ```
 
+### 环形文字
+
+
+
+
+
 ## 滚动条样式
 
 webkit下滚动条主要有7个属性：
@@ -1013,3 +1069,7 @@ font-family:"PingFang SC",
 ```
 
 字体族大体上分为两类：`sans-serif（无衬线体）`和`serif（衬线体）`，一般非衬线字体在显示器中的显示效果会比较好，一般非衬线字体在显示器中的显示效果会比较好，
+
+## CSS资源
+
+css奇技淫巧：https://github.com/chokcoco/iCSS

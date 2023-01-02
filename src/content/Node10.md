@@ -1,813 +1,1472 @@
 ---
-title: NodeJs开发（一）
-date: 2021-01-20 21:40:33
+title: JavaScript开发（七）-TS开发（二）
+date: 2021-01-21 21:40:33
 categories: IT
 tags:
-    - IT，Web,Node
+    - IT，Web
 toc: true
-thumbnail: http://cdn.kunkunzhang.top/nodejs.png
+thumbnail: http://cdn.kunkunzhang.top/typescript.jpg
 ---
 
-Javascript第七篇，NodeJs第一篇，注重Node后端开发。
+万万没想到会来到第七篇，第七篇主要对TypeScript的应用作一些说明和示例，算进阶篇。
 
 <!--more-->
 
-## 初始化Node文件夹
+## 工具泛型
 
-初始化文件夹
+### Key/Keyof
 
-```node
-npm init -y
-```
+`keyof` 可以用来取得一个对象接口的所有 `key` 值.in 则可以遍历枚举类型
 
-初始化文件夹后生成pacakge.json文件
-
-*nodemon*用来监视node.js应用程序中的任何更改并自动重启服务,非常适合用在开发环境中。
-
-安装nodemon
-
-```node
-npm i -g nodemon
-npm run serve  //运行服务器
-```
-
-package.json中dependency是全局使用的依赖
-
- dev_dependcy只在开发时用的依赖，打包后不会上传，使用npm install -D 安装
-
-
-
-## http创建服务器与客户端
-
-创建服务器
-
-```javascript
-var http = require('http');
-
-http.createServer(function (request, response) {
-    // 发送 HTTP 头部 
-    // HTTP 状态值: 200 : OK
-    // 内容类型: text/plain
-    response.writeHead(200, {'Content-Type': 'text/plain'});
-
-    // 发送响应数据 "Hello World"
-    response.end('Hello World\n');
-}).listen(8888);
-
-// 终端打印如下信息
-console.log('Server running at http://127.0.0.1:8888/');
-```
-
-创建客户端
-
-```javascript
-var http = require('http');
- 
-// 用于请求的选项
-var options = {
-   host: 'localhost',
-   port: '8080',
-   path: '/index.html'  
-};
- 
-// 处理响应的回调函数
-var callback = function(response){
-   // 不断更新数据
-   var body = '';
-   response.on('data', function(data) {
-      body += data;
-   });
-   
-   response.on('end', function() {
-      // 数据接收完成
-      console.log(body);
-   });
+```typescript
+interface Foo {
+  name: string;
+  age: number
 }
-// 向服务端发送请求
-var req = http.request(options, callback);
-req.end();
+type T = keyof Foo // -> "name" | "age"
+
+type Keys = "a" | "b"
+type Obj =  {
+  [p in Keys]: any
+} // -> { a: any, b: any }
 ```
 
-服务端处理get、post请求
+`keyof` 产生联合类型, `in` 则可以遍历枚举类型, 所以他们经常一起使用
 
-```javascript
+keyof配合泛型使用
 
-```
-
-服务端安全退出：
-
-api: Server.close()
-
-
-
-## Fs读取文件夹、文件
-
-Node由fs模块提供读写文件服务。基本上是POSIX文件操作命令的简单包装
-
-基本上所有的与文件相关的操作都与fs核心模块有关
-
-导入fs模块
-
-```javascript
-var fs = require('fs')
-```
-
-fs模块常用的方法：读文件、写文件、追加写入文件、文件拷贝、创建目录
-
-读写文件
-
-```javascript
-//读、写文件
-var readme = fs.readFileSync("readme.txt","utf8");//同步读文件
-
-var readme = fs.readFile("readme.txt","utf8",function(err,data){
-    if(!err){
-      console.log(data);
-    }
-});
-
-fs.writeFileSync("writeme.txt","readme")
-fs.writeFile('writeme.txt',data,function(){
-
-})
-```
-
-追加写入文件
-
-```javascript
-
-```
-
-拷贝文件、删除文件
-
-```javascript
-
-fs.copyFileSync("3.txt","4.txt")  //同步拷贝
-//异步拷贝，带回调函数
-fs.copyFile("3.txt","4.txt",()=>{
-  console.log(2)
-})
-
-//删除文件
-fs.unlink('input.txt', function(err) {
-   if (err) {
-       return console.error(err);
-   }
-});
-```
-
-创建目录
-
-```javascript
-//创建、读取、移除目录
-fs.mkdir('',function(){
-
-})
-fs.readdir('',function(){
-
-})
-fs.rmdir('')
-```
-
-识别文件、目录类型
-
-```javascript
-//识别文件、目录类型
-fs.stat('',function(){
-stats.isFile()
-stats.isDirectory()
-})
-```
-
-### Stream
-
-stream（流）是一种抽象的数据结构。流可以把文件资源拆分成小块，一块一块的运输，资源就像水流一样进行传输，减轻服务器压力。
-
-stream可以分为四类：
-
-可读 Readable，有两个状态：paused、flowing。
-
-可写 Writable，两个重要事件：drain、finish。
-
-可读可写（双向）Duplex
-
-可读可写（变化）Transform
-
-可读流有两个状态 paused 和 flowing。
-
-可读流默认处于 paused 态，一旦添加 data 事件监听，它就变为 flowing 态。删掉 data 事件监听，paused 态。
-
-```js
-// 默认处于 paused 态
-const stream = fs.createReadStream('./big_file.txt')
-stream.pipe(response)
-stream.pause(); // 暂停
-setTimeout(() => {
-  // 恢复
-  stream.resume()
-}, 3000)
-```
-
-用管道pipe连接两个不同的流，管道可以分为两个事件，监听data，stream1一有数据就传给stream2，监听 end 事件，当 stream1 停了，就停掉 stream2
-
-```js
-stream1.on('data', (chunk) => {
-	stream2.write(chunk)
-})
-
-stream1.on('end', () => {
-	stream2.end()
-})
-```
-
-https://juejin.im/post/5f1c508ff265da22ff546dca#heading-25
-
-### Buffer
-
-JavaScript 语言自身只有字符串数据类型，没有二进制数据类型。
-
-但在处理像TCP流或文件流时，必须使用到二进制数据。因此在 Node.js中，定义了一个 Buffer 类，该类用来创建一个专门存放二进制数据的缓存区。
-
-在 Node.js 中，Buffer 类是随 Node 内核一起发布的核心库。Buffer 库为 Node.js 带来了一种存储原始数据的方法，可以让 Node.js 处理二进制数据，每当需要在 Node.js 中处理I/O操作中移动的数据时，就有可能使用 Buffer 库。原始数据存储在 Buffer 类的实例中。一个 Buffer 类似于一个整数数组，但它对应于 V8 堆内存之外的一块原始内存。
-
-stream转buffer
-
-```javascript
-function streamToBuffer(stream) {
-  return new Promise((resolve, reject) => {
-    let buffers = []
-    stream.on('error', reject);
-    stream.on('data',(data)=> buffers.push(data));
-    stream.on('end', () => resolve(Buffer.concat(buffers)))
-  })
+```typescript
+interface IProps<T> {
+    tableProps: Pick<TableProps<T>, keyof TableProps<T>>;
 }
 ```
 
-buffer转stream
+keyof配合typeof使用
 
-```javascript
-let Duplex = require('stream').Duplex;
+```typescript
+const defaultProps = {
+    name: '张三',
+    age: 18
+}
 
-function bufferToStream(buffer) {
-  let stream = new Duplex();
-  stream.push(buffer);
-  stream.push(null);
-  return stream
+const selfKey: keyof typeof defaultProps = 'name'; // right
+const selfKey: keyof typeof defaultProps = 'age'; // right
+const selfKey: keyof typeof defaultProps = 'other'; // error
+```
+
+### partial
+
+Partial 作用是将传入的属性变为可选项.
+首先我们需要理解两个关键字 `keyof` 和 `in`, `keyof` 可以用来取得一个对象接口的所有 `key` 值.
+
+```typescript
+type Partial<T> = { [P in keyof T]?: T[P] };
+```
+
+### required
+
+Required 的作用是将传入的属性变为必选项, 源码如下
+
+```typescript
+type Required<T> = { [P in keyof T]-?: T[P] };
+```
+
+### readonly(只读)
+
+typescript类型系统允许在一个接口中使用readonly来标记属性，也就是只读的方式，不可预期的改变是很糟糕的。
+
+可以在接口、类中用此方法定义
+
+```typescript
+type Readonly<T> = { readonly [P in keyof T]: T[P] };
+```
+
+### Mutable
+
+将 T 的所有属性的 readonly 移除,
+
+```typescript
+type Mutable<T> = {
+  -readonly [P in keyof T]: T[P]
 }
 ```
 
+### record
+
+将 K 中所有的属性的值转化为 T 类型
+
+```typescript
+type Record<K extends keyof any, T> = { [P in K]: T };
+```
+
+### pick
+
+从 T 中取出 一系列 K 的属性
+
+```typescript
+type Pick<T, K extends keyof T> = { [P in K]: T[P] };
+```
+
+### omit
+
+用之前的 Pick 和 Exclude 进行组合, 实现忽略对象某些属性功能, 
+
+```typescript
+type Omit<T, K> = Pick<T, Exclude<keyof T, K>>
+
+// 使用
+type Foo = Omit<{name: string, age: number}, 'name'> // -> { age: number }
+```
+
+### exclude
+
+Exclude 的作用是从 T 中找出 U 中没有的元素, 换种更加贴近语义的说法其实就是从T 中排除 U
+
+```typescript
+type T = Exclude<1 | 2, 1 | 3> // -> 2
+```
+
+### extract
+
+Extract 的作用是提取出 T 包含在 U 中的元素, 换种更加贴近语义的说法就是从 T 中提取出 U
+
+```typescript
+type Extract<T, U> = T extends U ? T : never;
+```
+
+### NonNullable<T>
+
+排除T为null或者undefined的情况
+
+```typescript
+type T = NonNullable<string | string[] | null | undefined>; //string | string[] 
+```
 
 
-https://juejin.im/post/6845166891401478158
 
-## OS操作
+### infer关键字与Returntype
+
+官方类型库中提供了ReturnType可以获取方法的返回类型，实例
+
+```typescript
+type stringPromiseReturnType = ReturnType<typeof stringPromise>;
+```
+
+Returntype的定义如下
+
+```typescript
+type ReturnType<T extends (...args:any) => any >= T extends(...args:any)=> infer R?R:any;
+```
+
+利用infer反解promise中的泛型
+
+```typescript 
+type PromiseType<T> = (args:any[]) => Promise<T>;
+type UnPromisify<T> = T extends PromiseType<infer U>? U:never
+```
+
+也可以解析函数入参的类型
+
+```typescript
+type VariadicFn<A extends 
+```
+
+
+
+```typescript
+type FunctionReturnType<T> = T extends (...args: any[]) => infer R ? R : T;
+
+type Foo = FunctionReturnType<() => void>;  // void
+type Bar = FunctionReturnType<(name: string) => string>; // string
+type Buz = FunctionReturnType<(name: string, other: string) => boolean>; // boolean
+```
+
+
+
+## 函数重载与方法重载
+
+js 因为是动态类型，本身不需要支持重载，直接对参数进行类型判断即可，但是ts为了保证类型安全，支持了函数签名的类型重载
+
+如在JavaScript中：
 
 ```javascript
-os.tmpdir()//返回操作系统的默认临时文件夹
-os.hostname()//返回操作系统的主机名
-os.release()//返回操作系统的发行版本,字符串
-os.type()//返回操作系统名，
-os.uptime()//返回上次重新启动之后操作系统的运行时间，单位为秒
-os.totalmem()//返回系统总内存量，单位字节
-os.freemem()//返回系统空闲内存量，单位字节
-os.arch()//返回操作系统的CPU架构
-os.cpus()//返回数组对象，包含每个CPU的信息
-os.networkInterfaces()//返回系统上可用的网络接口的详细信息
-os.userInfo() //返回包含当前username、uid、gid、shell和homedir的对象
-os.platform() //返回Nodejs的编译平台，如darwin、freebsd、linux、openbsd、win32等
+function add(x, y) {
+  return x + y;
+}
+
+add(1, 2); // 3
+add("1", "2"); //"12"
 ```
 
+由于 TypeScript 是 JavaScript 的超集，因此以上的代码可以直接在 TypeScript 中使用，但当 TypeScript 编译器开启 `noImplicitAny` 的配置项时，以上代码会提示以下错误信息：
 
-
-## Path
-
-```javascript
-var path = require("path");
-
-//获取文件夹路径
-path.dirname(p)
-//获取文件名
-path.basename(p[, ext])
-//获取文件后缀名
-path.extname(p)
-//将路径转化为数组
-path.parse(filepath)
-//绝对路径相对路径转化
-path.resolve([from ...], to)//转化为绝对路径
-path.relative(from, to)//转化为相对路径
+```typescript
+Parameter 'x' implicitly has an 'any' type.
+Parameter 'y' implicitly has an 'any' type.
 ```
 
-node中的几个文件变量的含义
+该信息告诉我们参数 x 和参数 y 隐式具有 `any` 类型。为了解决这个问题，我们可以为参数设置一个类型。因为我们希望 `add` 函数同时支持 string 和 number 类型，因此我们可以定义一个 `string | number` 联合类型，然后在函数中使用
 
-```javascript
-__dirname // 获取当前执行文件所在目录的完整目录名
-__filename // 获取当前执行文件的带有完整绝对路径的文件名
-process.cwd()  //获取当前执行node命令时的文件夹目录名
-./    //文件所在目录
-```
+```typescript
+type Combinable = string | number;
 
-
-
-## 核心工具函数util 
-
-util 是一个Node.js 核心模块，提供常用函数的集合，用于弥补核心 JavaScript 的功能 过于精简的不足。
-
-```javascript
-const util = require('util');
-```
-
-**util.inherits(constructor, superConstructor)** 是一个实现对象间原型继承的函数。JavaScript 的面向对象特性是基于原型的，与常见的基于类的不同。JavaScript 没有提供对象继承的语言级别特性，而是通过原型复制来实现的。
-
-**util.inspect(object,[showHidden],[depth],[colors])** 是一个将任意对象转换 为字符串的方法，通常用于调试和错误输出。它至少接受一个参数 object，即要转换的对象。
-
-util.isArray(object)判断给定的参数 "object" 是一个数组则返回 true，否则返回 false。
-
-util.isRegExp(object)判断给定的参数 "object" 是一个正则表达式返回true，否则返回false。
-
-util.isDate(object)判断给定的参数 "object" 是一个data对象则返回true，否则返回false。
-
-## Node模块化加载方法
-
-JavaScript 现在有两种模块。一种是 ES6 模块，简称 ESM；另一种是 CommonJS 模块，简称 CJS。
-
-CommonJS 模块是 Node.js 专用的，与 ES6 模块不兼容。它们采用不同的加载方案。从 Node.js v13.2 版本开始，Node.js 已经默认打开了 ES6 模块支持。
-
-Node.js 要求 ES6 模块采用`.mjs`后缀文件名。也就是说，只要脚本文件里面使用`import`或者`export`命令，那么就必须采用`.mjs`后缀名。Node.js 遇到`.mjs`文件，就认为它是 ES6 模块，默认启用严格模式，不必在每个模块文件顶部指定`"use strict"`。
-
-如果不希望将后缀名改成`.mjs`，可以在项目的`package.json`文件中，指定`type`字段为`module`。
-
-ES6 模块与 CommonJS 模块尽量不要混用。`require`命令不能加载`.mjs`文件，会报错，只有`import`命令才可以加载`.mjs`文件。反过来，`.mjs`文件里面也不能使用`require`命令，必须使用`import`。
-
-`package.json`文件有两个字段可以指定模块的入口文件：`main`和`exports`。比较简单的模块，可以只使用`main`字段，指定模块加载的入口文件。
-
-
-
-## Crypto
-
-
-
-
-
-## Node全局变量
-
-node程序内部自带一些变量和函数，可以在node程序全局使用
-
-### 当前目录与当前文件
-
-```node
-_filename//输出当前脚本文件的绝对路径
-_dirname//输出当前脚本文件的目录
-```
-
-### 定时器函数
-
-```javascript
-var t= setTimeout(cb, ms);//设定ms后执行函数cb
-clearTimeout(t)
-setInterval(cb, ms)//每个ms后执行函数cb
-clearTimeout(t)//停止一个之前创建的定时器
-```
-
-Node独有的定时器函数：
-
-setImmediate/clearImmediate
-
-
-
-### 控制台输出函数
-
-```javascript
-console.log()
-```
-
-### Process
-
-`process`对象是 Node 的一个全局对象，提供当前 Node 进程的信息。它可以在脚本的任意位置使用，不必通过`require`命令加载。该对象部署了`EventEmitter`接口。
-
-基本属性：
-
-- `process.argv`：返回一个数组，成员是当前进程的所有命令行参数。一般第一个参数是node路径，第二个参数是文件路径，第三个参数
-- `process.env`：返回一个对象，成员为当前Shell的环境变量，比如`process.env.HOME`。
-- `process.installPrefix`：返回一个字符串，表示 Node 安装路径的前缀，比如`/usr/local`。相应地，Node 的执行文件目录为`/usr/local/bin/node`。
-- `process.pid`：返回一个数字，表示当前进程的进程号。
-- `process.platform`：返回一个字符串，表示当前的操作系统，比如`Linux`。
-- `process.title`：返回一个字符串，默认值为`node`，可以自定义该值。
-- `process.version`：返回一个字符串，表示当前使用的 Node 版本，比如`v7.10.0`。
-
-针对shell的属性：
-
-`process.env`属性返回一个对象，包含了当前Shell的所有环境变量。比如，`process.env.HOME`返回用户的主目录。
-
-通常的做法是，新建一个环境变量`NODE_ENV`，用它确定当前所处的开发阶段，生产阶段设为`production`，开发阶段设为`develop`或`staging`，然后在脚本中读取`process.env.NODE_ENV`即可。
-
-方法：
-
-- `process.chdir()`：切换工作目录到指定目录。
-- `process.cwd()`：返回运行当前脚本的工作目录的路径。`process.cwd()`与`__dirname`的区别。前者进程发起时的位置，后者是脚本的位置，两者可能是不一致的。
-- `process.exit()`：退出当前进程。
-- `process.getgid()`：返回当前进程的组ID（数值）。
-- `process.getuid()`：返回当前进程的用户ID（数值）。
-- `process.nextTick()`：指定回调函数在当前执行栈的尾部、下一次Event Loop之前执行。
-- `process.on()`：监听事件。
-- `process.setgid()`：指定当前进程的组，可以使用数字ID，也可以使用字符串ID。
-- `process.setuid()`：指定当前进程的用户，可以使用数字ID，也可以使用字符串ID。
-
-
-
-## eventEmitter
-
-Node.js 所有的异步 I/O 操作在完成时都会发送一个事件到事件队列。
-
-Node.js 里面的许多对象都会分发事件：一个 net.Server 对象会在每次有新连接时触发一个事件， 一个 fs.readStream 对象会在文件被打开的时候触发一个事件。 所有这些产生事件的对象都是 events.EventEmitter 的实例。
-
-events 模块只提供了一个对象： events.EventEmitter。EventEmitter 的核心就是事件触发与事件监听器功能的封装。
-
-实例
-
-```javascript
-//event.js 文件
-var EventEmitter = require('events').EventEmitter; 
-var event = new EventEmitter(); 
-event.on('some_event', function() { 
-    console.log('some_event 事件触发'); 
-}); 
-setTimeout(function() { 
-    event.emit('some_event'); 
-}, 1000); 
-```
-
-常用场景：
-
-1) 模块间传递消息 
-
-2) 回调函数内外传递消息 
-
-3) 处理流数据，因为流是在EventEmitter基础上实现的. 4) 观察者模式发射触发机制相关应用
-
-### 同步问题
-
-event-emitter是同步触发
-
-## 多进程
-
-child_process模块开启多个子进程来执行node文件，执行开启的进程是主进程，被开启的进程是子进程。
-
-child_process模块用于新建子进程。子进程的运行结果储存在系统缓存之中（最大200KB），等到子进程运行结束以后，主进程再用回调函数读取子进程的运行结果。
-
-node有三种创建子进程的接口，每种方法有特定的使用场景。
-
-exec/execFile: 用于执行bash命令，它的参数是一个命令字符串。用操作系统原生的方式执行各种命令，适用于输出轻量数据，执行的结果会存储在Buffer中，不同的是前者创建shell进行来执行命令，后者直接创建进程执行可执行文件，
-
-spawn:是流式和操作系统进行交互，它属于异步执行，适用于子进程长时间运行的情况，适用于进程输入、输出数据量比较大的情况，支持stream的形式输入输出，可以用于任何命令，可以创建常驻后台进程。
-
-fork: fork是spawn的特例，fork是两个node程序(javascript)之间时行交互，fork会在父子进程之间创建IPC通道，通过监听message事件和调用send方法，就可以在父子进程间通信了。
-
-进程通信
-
-使用 child_process.fork() 生成新进程之后，就可以用 child.send(message, [sendHandle]) 向新进程发送消息。新进程中通过监听message事件，来获取消息。
-
-Node.js默认单进程运行，对于32位系统最高可以使用512MB内存，对于64位最高可以使用1GB内存。对于多核CPU的计算机来说，这样做效率很低，因为只有一个核在运行，其他核都在闲置。Node中提供了cluster模块，cluster实现了对child_process的封装，通过fork方法创建子进程的方式实现多进程模型。通过该模块简化多进程服务器程序的开发，统一通过主进程监听接口和分发请求。
-
-cluster模块允许设立一个主进程和若干个worker进程，由主进程监控和协调worker进程的运行。worker之间采用进程间通信交换消息，cluster模块内置一个负载均衡器，采用Round-robin算法协调各个worker进程之间的负载。运行时，所有新建立的链接都由主进程完成，然后主进程再把TCP连接分配给指定的worker进程。
-
-```js
-//导入cluster
-var cluster = require('cluster');
-//判断是否是主进程，是主进程就按cpu数新建若干worker进程，是worker进程就在该进程启动一个服务器程序
-if(cluster.isMaster) {
-  var numWorkers = require('os').cpus().length;
-  console.log('Master cluster setting up ' + numWorkers + ' workers...');
-
-  for(var i = 0; i < numWorkers; i++) {
-    cluster.fork();
+function add(a: Combinable, b: Combinable) {
+  if (typeof a === 'string' || typeof b === 'string') {
+    return a.toString() + b.toString();
   }
-
-  //监听子进程状态，主进程一旦监听到worker进程的exit事件，就会重启一个worker进程。worker进程一旦启动成功，可以正常运行了，就会发出online事件。
-  cluster.on('online', function(worker) {
-    console.log('Worker ' + worker.process.pid + ' is online');
-  });
-
-  cluster.on('exit', function(worker, code, signal) {
-    console.log('Worker ' + worker.process.pid + ' died with code: ' + code + ', and signal: ' + signal);
-    console.log('Starting a new worker');
-    cluster.fork();
-  });
-}else {
-  http.createServer(function(req, res) {
-    res.writeHead(200);
-    res.end("hello world\n");
-  }).listen(8000);
+  return a + b;
 }
 ```
 
-cluster代表整个集群，也就是工作进程和主进程，随着当前执行进程的变化，cluster的属性也在变化。在cluster上绑定的事件对每个进程都起作用，cluster的某些api只对主进程起作用，如fork、cluster.workers，有一些只对工作进程有用，如cluter.worker
+但是此时如果在结果中使用字符串函数会报错
 
-worker对象：
+```typescript
+const result = add('semlinker', ' kakuqo');
+result.split(' ');
 
+// Property 'split' does not exist on type 'Combinable'.
+// Property 'split' does not exist on type 'number'.
+```
 
+`Combinable` 和 `number` 类型的对象上并不存在 `split` 属性。这时我们就可以利用 TypeScript 提供的函数重载。
 
-### 孤儿进程与僵尸进程
+函数重载或方法重载是使用相同名称和不同参数数量或类型创建多个方法的一种能力。
 
-孤儿进程是指父进程先退出，子进程由 pid 为 1 的 init 进程托管。
-
-僵尸进程是指子进程先退出，但是父进程没有获取子进程的状态信息，导致子进程的进程描述符仍然保存在系统中。僵尸进程是有危害的，处理方法是退出主进程，init 进程会以父进程的身份对僵尸进程状态进行处理。
-
-守护进程是在「后台运行」不受「终端控制」的进程（如输入、输出等）。在 nodejs 中，开启守护进程需要满足三个条件：
-
-- 使子进程成为进程组的头
-- 中断父子进程的 i/o
-- 去除父进程的事件循环中对子进程的引用
-
-## 多线程
-
-Nodejs中有三种线程
-
-- Event loop的主线程
-
-- libuv的异步I/O线程池
-
-- Node10.5之后，Node提供了worker_threads给node提供了真正的多线程
-
-worker_thread模块中有四个对象两个类
-
-- isMainThread:是否是主线程
-
-- MessagePort:用于线程间的通信，继承自EventEmitter
-
-- MessageChannel:用于创建异步、双向通信的通道实例
-
-- threadId:线程ID
-
-Worker：用于在主线程中创建子线程，第一个参数为filename，表示子线程的执行入口
-
-parentPort:在worker线程中表示父进程的MessagePort类型的对象，在主线程中为null
-
-workData:用于在主进程中向子进程传递数据
-
-```javascript
-const {
-    Worker,
-    MessageChannel,
-    MessagePort,
-    isMainThread,
-    parentPort
-} = require('worker_threads');
-if(isMainThread) {
-    const worker = new Workd(_filename);
-    const subChannel = new MessageChannel();
-    worker.postMessage({hereIsYourPort:subChannel.port1},[subChannel.port1]);
-    subChannel.port2.on('message',(value)=>{
-        console.log('received:',value)
-    })
-} else {
-    subChannel.once('message',(value)=>{
-        assert(value.hereIsYourPort instanceof MessagePort);
-        value.hereIsYourPort.postMessage('the worker is sending this');
-        value.hereIsYourPort.close();
-    })
+```typescript
+function add(a: number, b: number): number;
+function add(a: string, b: string): string;
+function add(a: string, b: number): string;
+function add(a: number, b: string): string;
+function add(a: Combinable, b: Combinable) {
+  // type Combinable = string | number;
+  if (typeof a === 'string' || typeof b === 'string') {
+    return a.toString() + b.toString();
+  }
+  return a + b;
 }
 ```
 
-### 线程间通信
+方法重载是指在同一个类中方法同名，参数不同（参数类型不同、参数个数不同或参数个数相同时参数的先后顺序不同），调用时根据实参的形式，选择与它匹配的方法执行操作的一种技术。所以类中成员方法满足重载的条件是：在同一个类中，方法名相同且参数列表不同。
 
-worker_thread线程之间可以共享内存。使用ArrayBuffer或SharedArrayBuffer
+```typescript
+class Calculator {
+  add(a: number, b: number): number;
+  add(a: string, b: string): string;
+  add(a: string, b: number): string;
+  add(a: number, b: string): string;
+  add(a: Combinable, b: Combinable) {
+  if (typeof a === 'string' || typeof b === 'string') {
+    return a.toString() + b.toString();
+  }
+    return a + b;
+  }
+}
 
-**parentPort**
+const calculator = new Calculator();
+const result = calculator.add('Semlinker', ' Kakuqo');
+```
 
-主要用于主子线程通信，通过经典的 on('message'), postMessage形式
+当 TypeScript 编译器处理函数重载时，它会查找重载列表，尝试使用第一个重载定义。 如果匹配的话就使用这个。 因此，在定义重载的时候，一定要把最精确的定义放在最前面。另外在 Calculator 类中，`add(a: Combinable, b: Combinable){ }` 并不是重载列表的一部分，因此对于 add 成员方法来说，我们只定义了四个重载方法。
 
-**MessageChannel**
+## 声明语句与声明文件、声明合并
 
-可以通过线程间的消息传递来实现双向通信。 在内部，一个 Worker 具有一对内置的 MessagePort，在创建该 Worker 时它们已经相互关联。 虽然父端的 MessagePort 对象没有直接公开，但其功能是通过父线程的 Worker 对象上的 worker.postMessage() 和 worker.on('message') 事件公开的。
-要创建自定义的消息传递通道（建议使用默认的全局通道，因为这样可以促进关联点的分离），用户可以在任一线程上创建一个 MessageChannel 对象，并将该 MessageChannel 上的 MessagePort 中的一个通过预先存在的通道传给另一个线程，
+假如我们想使用第三方库 jQuery，一种常见的方式是在 html 中通过 `<script>` 标签引入 jQuery，然后就可以使用全局变量 `$` 或 `jQuery` 了。
 
-https://www.cnblogs.com/mengff/p/12815198.html
+但是在 ts 中，编译器并不知道 `$` 或 `jQuery` 是什么东西[1](https://github.com/xcatliu/typescript-tutorial/tree/master/examples/declaration-files/01-jquery)：
 
-通常node的单线程是由于JavaScript的执行默认是单线程的，但是JavaScript的宿主环境，无论是node还是浏览器都是多线程的
+这时，我们需要使用 `declare var` 来定义它的类型
 
-node的单线程带来了一些问题，比如对cpu 的利用不足，某个未捕获的异常可能会导致整个程序的退出等。node的事件驱动和无阻塞特性使得在I/O密集型的业务场景（如限时抢购）等体现出巨大的优势。但是遇到加密、解密等CPU密集型复杂运算。当一个CPU占用率高的任务执行迟迟未完成时，后续队列中的延时、监听回调、nextTick等函数都会因被阻塞而无法执行，造成严重的延迟。更严重的情况。如果某个请求抛出错误，将有可能导致整个服务瘫痪。
+通常我们会把声明语句放到一个单独的文件（`jQuery.d.ts`）中，这就是声明文件。声明文件必需以 `.d.ts` 为后缀。一般来说，ts 会解析项目中所有的 `*.ts` 文件，当然也包含以 `.d.ts` 结尾的文件。所以当我们将 `jQuery.d.ts` 放到项目中时，其他所有 `*.ts` 文件就都可以获得 `jQuery` 的类型定义了。
 
-## Node调用C++包
+假如仍然无法解析，那么可以检查下 `tsconfig.json` 中的 `files`、`include` 和 `exclude` 配置，确保其包含了 `jQuery.d.ts` 文件。
 
-有一些场景下，用 C++扩展来实现尤为合适：
+TS可以在编译时自动生成.d.ts文件，只需要在tsconfig.json配置文件中开启即可
 
-- 计算密集型模块，C++的执行性能一般要高于 JS
-- 将现有的 C++类库低成本地封装成 Node.js 扩展，供 Node 生态使用
-- Node.js 提供的原生能力无法满足需要，比如[fsevents](https://www.npmjs.com/package/fsevents)
-- JS 语言在一些方面存在先天不足（例如数值精度、位运算等），可以通过 C++来补足
-
-### node-gyp
-
-node-gyp 是基于 GYP( 全称 Generate Your Projects，是谷歌开发的一套构建系统) 的。它会识别包或者项目中的 binding.gyp文件，这个里面是JSON的文件对工程依赖的各种文件进行了描述（可以理解为一个node版的CMakeList），然后根据该配置文件生成各系统下能进行编译的项目，如 Windows 下生成 Visual Studio 项目文件（*.sln 等），Unix 下生成 Makefile。在生成这些项目文件之后，node-gyp 还能调用各系统的编译工具（如 GCC）来将项目进行编译，得到最后的动态链接库 *.node 文件
-
-在项目的顶层创建名为 `binding.gyp` 的文件，使用类似 JSON 的格式描述模块的构建配置。 该文件由 [node-gyp](http://url.nodejs.cn/kLHA2r) 使用，这是一个专门为编译 Node.js 插件而编写的工具。
-
-创建 `binding.gyp` 文件后，使用 `node-gyp configure` 为当前平台生成适当的项目构建文件。 这将在 `build/` 目录中生成 `Makefile`（在 Unix 平台上）或 `vcxproj` 文件（在 Windows 上）。
-
-```gyp
+```json
 {
-    'targets': [
-        {
-            'target_name': 'addon', // 编译后为addon.node文件
-            'sources': ['./addon.cc'] // 需要编译的源码
-        }
-    ]
+  "compilerOptions": {
+    "declaration": true
+  }
 }
 ```
 
-接下来，调用 `node-gyp build` 命令生成编译后的 `addon.node` 文件。 这将被放入 `build/Release/` 目录。
+一般只有三种情况需要手动定义声明文件：
 
-当使用 `npm install` 安装 Node.js 插件时，npm 使用它自己的 `node-gyp` 捆绑版本来执行相同的一组操作，按需为用户平台生成插件的编译版本。
+1.通过script标签引入第三方库
 
-在进行编译得到.node二进制文件
+2.使用的第三方npm包没有提供声明文件
 
-```shell
-node-gyp build
+3.自己团队内比较优秀的js库或者插件，为了提升开发体验
+
+声明文件只是对类型的定义，不能赋值
+
+声明文件有全局的类型声明和局部的类型声明两种。
+
+`.d.ts` 里面，没有使用 `import`、`export`，默认是全局的。全局的类型声明在项目的任何地方都可以直接使用，无需引入。但是要特别注意类型命名冲突。在 `.d.ts` 文件中，只要有一个类型定义使用了 `export`，那这个声明文件就会变成模块化的。想要使用里面的类型定义，需要先通过 `import` 的方式将其引入才行。
+
+以react的ts声明文件为例
+
+```typescript
+// @types/react/index.d.ts
+ 
+export = React;
+export as namespace React;
+
+declare namespace React {
+    type ReactType<P = any> = ElementType<P>;
+    ...
+}
 ```
 
-编译得到文件`Release/hoho.node`，在index.js中引入该文件
+导出的都是以一个以原库同名的命名空间。引用库时相当于也把它的类型声明也引进来了，当然在使用的时候，会自动提示
+
+对于没有提供声明文件的npm包，可以创建一个types目录，来管理自己写的声明文件，同时在配置文件tsconfig.json中的paths和baseUrl配置
+
+```json
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "baseUrl": "./",
+    "paths": {"*":["types/*"]}
+  }
+}
+```
+
+npm包的声明文件主要有以下几种语法
+
+```typescript
+export const/let
+export namespace
+export default
+export = 
+```
+
+### 复用公共的接口/类型
+
+对于那些同一个类型，可能会在项目中的其它地方用到的，复用类型是一个不错的选择
+
+全局的类型：直接放在最外层的 `global.d.ts` 或者 `typing.d.ts`中，不使用 `export` 导出
+
+模块级的类型。在每个功能模块下，定义一个 `index.d.ts` 文件。在这个文件中写需要复用的类型定义。再通过 `export` 的方式将其导出。在需要使用类型的地方，再通过 `import` 导入使用。
+
+- `antd` 在每个独立的模块文件夹下面多了一个`index.d.ts`，见 `node_modules/antd/lib` 下面
+- `react-bulma-components 1.1k` 在每个独立的模块文件夹下面多了一个`index.d.ts`
+- `swiper` - `27.6k star`，公共的单独放于 `types` 文件夹里面，其它的和文件同级，添加 `文件名.d.ts` 文件
+
+```typescript
+// typing.d.ts 全局的
+
+interface IObject {
+    [name: string]: any;
+}
+
+declare type IResponse = {
+    total: number;
+    list: IObject[];
+}
+
+// index.d.ts 局部的
+export type IRecord = {
+    id: number;
+    name: string;
+    hasBrother: boolean;
+}
+
+export type INewRecord = IRecord & {
+    num: number;
+}
+
+// person.tsx
+// IRecord, INewRecord 需要引入才能使用
+import { IRecord, INewRecord } from 'index.d';
+
+// IResponse 直接使用
+const res: IResponse = await api.get('****');
+
+const newList: INewRecord = IResponse.list.map((item: IRecord) => ({ ...item, num: Math.random() }))
+```
+
+
+
+## 类型声明空间与变量声明空间
+
+ts从「类型声明空间」到「变量声明空间」，最基础的，我们可以通过类型注解，为变量提供类型约束
+
+https://zhuanlan.zhihu.com/p/401138248
+
+## 命名空间
+
+在 JavaScript 使用命名空间时， 这有一个常用的、方便的语法：
 
 ```javascript
-// index.js
-// 省略后缀名，自动找到hoho.node并加载、初始化
-const hoho = require('./build/Release/hoho.node');
+(function(something) {
+  something.foo = 123;
+})(something || (something = {}));
 
-console.log(hoho.hoho());
+console.log(something);
+// { foo: 123 }
+
+(function(something) {
+  something.bar = 456;
+})(something || (something = {}));
+
+console.log(something); // { foo: 123, bar: 456 }
 ```
 
-运行该js文件，就可以运行hoho.node文件
+在确保创建的变量不会泄漏至全局命名空间时，这种方式在 JavaScript 中很常见。当基于文件模块使用时，你无须担心这点，但是该模式仍然适用于一组函数的逻辑分组。因此 TypeScript 提供了 `namespace` 关键字来描述这种分组，
+
+```typescript
+namespace Utility {
+  export function log(msg) {
+    console.log(msg);
+  }
+  export function error(msg) {
+    console.log(msg);
+  }
+}
+
+// usage
+Utility.log('Call me');
+Utility.error('maybe');
+```
+
+值得注意的一点是，命名空间是支持嵌套的。因此，你可以做一些类似于在 `Utility` 命名空间下嵌套一个命名空间 `Messaging` 的事情。
+
+
+
+## 一些特殊用法
+
+### typeof与类型别名混用
+
+```typescript
+const defaultProps = {
+    name: '张三',
+    age: 18,
+    score: 722,
+}
+
+type IProps = typeof defaultProps & {
+    favorite: [string];
+}
+
+等价于：
+
+type IProps = {
+    name: string;
+    age: number;
+    score: number;
+    favorite: [string];
+}
+```
+
+### promise类型
+
+在异步操作时常常会使用async函数，函数调用时会return一个promise对象，可以使用then方法添加回调函数
+
+```typescript
+interface IResponse<T> {
+  message: string,
+  result: T,
+  success: boolean,
+}
+  
+async function getResult (): Promise<IResponse<number[]>> {
+  return {
+    message: 'success',
+    result: [1,2,3],
+    success: true
+  }
+}
+
+getResult()
+	.then(result => {
+		console.log(result.result)
+	})
+```
+
+
+
+### 动态分配属性
+
+在 JavaScript 中，我们可以很容易地为对象动态分配属性，但是在typescript中直接给对象添加属性会报错，这个时候需要使用一种宽松的属性对象
+
+```typescript
+let developer = {};
+developer.name = "semlinker";
+
+//Property 'name' does not exist on type '{}'.(2339) 
+interface LooseObject {
+  [key: string]: any
+}
+
+let developer: LooseObject = {};
+developer.name = "semlinker";
+```
+
+
+
+### 索引签名
+
+JavaScript 在一个对象类型的索引签名上会隐式调用 `toString` 方法，而在 TypeScript 中，为防止初学者砸伤自己的脚（我总是看到 stackoverflow 上有很多 JavaScript 使用者都会这样。），它将会抛出一个错误。
+
+```typescript
+const obj = {
+  toString() {
+    return 'Hello';
+  }
+};
+
+const foo: any = {};
+
+// ERROR: 索引签名必须为 string, number....
+foo[obj] = 'World';
+
+// FIX: TypeScript 强制你必须明确这么做：
+foo[obj.toString()] = 'World';
+```
+
+声明索引签名
+
+```typescript
+const foo: {
+  [index: string]: { message: string };
+} = {};
+
+// 储存的东西必须符合结构
+// ok
+foo['a'] = { message: 'some message' };
+
+// Error, 必须包含 `message`
+foo['a'] = { messages: 'some message' };
+
+// 读取时，也会有类型检查
+// ok
+foo['a'].message;
+
+// Error: messages 不存在
+foo['a'].messages;
+```
+
+当你声明一个索引签名时，所有明确的成员都必须符合索引签名
+
+这可以给你提供安全性，任何以字符串的访问都能得到相同结果。
+
+```typescript
+// ok
+interface Foo {
+  [key: string]: number;
+  x: number;
+  y: number;
+}
+
+// Error
+interface Bar {
+  [key: string]: number;
+  x: number;
+  y: string; // Error: y 属性必须为 number 类型
+}
+
+type Index = 'a' | 'b' | 'c';
+type FromIndex = { [k in Index]?: number };
+```
+
+在 JavaScript 社区你将会见到很多滥用索引签名的 API。如 JavaScript 库中使用 CSS 的常见模式
+
+```typescript
+interface NestedCSS {
+  color?: string; // strictNullChecks=false 时索引签名可为 undefined
+  [selector: string]: string | NestedCSS;
+}
+
+const example: NestedCSS = {
+  color: 'red',
+  '.subclass': {
+    color: 'blue'
+  }
+};
+
+// 尽量不要使用这种把字符串索引签名与有效变量混合使用。如果属性名称中有拼写错误，这个错误不会被捕获到,比如下面这样
+
+const failsSilently: NestedCSS = {
+  colour: 'red' // 'colour' 不会被捕捉到错误
+};
+```
+
+可以用索引签名的嵌套避免这种滥用，我们把索引签名分离到自己的属性里，如命名为 `nest`（或者 `children`、`subnodes` 等）
+
+```typescript
+interface NestedCSS {
+  color?: string;
+  nest?: {
+    [selector: string]: NestedCSS;
+  };
+}
+
+const example: NestedCSS = {
+  color: 'red',
+  nest: {
+    '.subclass': {
+      color: 'blue'
+    }
+  }
+}
+
+const failsSliently: NestedCSS {
+  colour: 'red'  // TS Error: 未知属性 'colour'
+}
+```
+
+你需要把属性合并至索引签名，可以使用交叉类型
+
+```typescript
+type FieldState = {
+  value: string;
+};
+
+type FormState = { isValid: boolean } & { [fieldName: string]: FieldState };
+```
+
+
+
+### 空值合并运算符
+
+??
+
+### 非空断言操作符
+
+非空断言操作符会从变量中移除 undefined 和 null，在变量后面添加一个 ! 就会忽略 undefined 和 null
+
+```typescript
+function simpleExample(a: number | undefined) {
+   const b: number = a; // 报错，COMPILATION ERROR: undefined is not assignable to number.
+   const c: number = a!; // OK
+}
+```
+
+这种操作符在传递可选props、后端加载数据或者ref取dom时会使用比较频繁，因为这三种情况需要等浏览器加载dom或者组件，值可能为空，如果不使用非空断言操作符，这些情况需要手动添加undefined｜null类型或者使用if/三目运算符进行判断，比较麻烦
+
+```typescript
+const ScrolledInput = () => {
+   const ref = React.createRef<HTMLInputElement>();
+
+   // const goToInput = () => ref.current.scrollIntoView(); //compilation error: ref.current is possibly null
+   const goToInput = () => ref.current!.scrollIntoView();
+   return (
+       <div>
+           <input ref={ref}/>
+           <button onClick={goToInput}>Go to Input</button>
+       </div>
+   );
+};
+```
+
+
+
+## 代码检查
+
+### Es-lint
+
+安装es-lint
 
 ```shell
-$ node index.js
-hoho, there.
+npm install --save-dev eslint
 ```
 
-命令功能 
+由于 ESLint 默认使用 [Espree](https://github.com/eslint/espree) 进行语法解析，无法识别 TypeScript 的一些语法，故我们需要安装 [`@typescript-eslint/parser`](https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/parser)，替代掉默认的解析器，别忘了同时安装 `typescript`：
 
-install安装开发文件，针对特定版本的node
+```shell
+npm install --save-dev typescript @typescript-eslint/parser
+```
 
-list当前安装的工具列表
+接下来需要安装对应的插件 [@typescript-eslint/eslint-plugin](https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/eslint-plugin) 它作为 eslint 默认规则的补充，提供了一些额外的适用于 ts 语法的规则。
 
-remove移除node特定版本的开发者文件
+```shell
+npm install --save-dev @typescript-eslint/eslint-plugin
+```
 
-clean移除所有用configure和build命令生成的文件
+创建自己的规则
 
-configure为当前模块生成编译配置信息等
+ESLint 需要一个配置文件来决定对哪些规则进行检查，配置文件的名称一般是 `.eslintrc.js` 或 `.eslintrc.json`。
 
-build编译当前模块
+当运行 ESLint 的时候检查一个文件的时候，它会首先尝试读取该文件的目录下的配置文件，然后再一级一级往上查找，将所找到的配置合并起来，作为当前被检查文件的配置。
 
-rebuild重新配置编译当前模块 相当于 clean ，configure， build的组合
+```javascript
+module.exports = {
+    parser: '@typescript-eslint/parser',
+    plugins: ['@typescript-eslint'],
+    rules: {
+        // 禁止使用 var
+        'no-var': "error",
+        // 优先使用 interface 而不是 type
+        '@typescript-eslint/consistent-type-definitions': [
+            "error",
+            "interface"
+        ]
+    }
+}
+```
 
-### node-ffi
+执行检查
 
-`node-ffi`提供了一组强大的工具，用于在`Node.js`环境中使用纯`JavaScript`调用动态链接库接口。它可以用来为库构建接口绑定，而不需要使用任何`C++`代码。
+我们的项目源文件一般是放在 `src` 目录下，所以需要将 `package.json` 中的 `eslint` 脚本改为对一个目录进行检查。由于 `eslint` 默认不会检查 `.ts` 后缀的文件，所以需要加上参数 `--ext .ts`：
 
-`node-ffi`并不能直接调用`C++`代码，你需要将`C++`代码编译为动态链接库：在 `Windows`下是 `Dll` ，在 `Mac OS`下是 `dylib` `，Linux` 是 `so` 。
+```javascript
+{
+    "scripts": {
+        "eslint": "eslint src --ext .ts"
+    }
+}
+```
 
-`node-ffi` 加载 `Library`是有限制的，只能处理 `C`风格的 `Library`。
+此时执行 `npm run eslint` 即会检查 `src` 目录下的所有 `.ts` 后缀的文件。
 
-node-ffi: 这个模块可以直接引入C++的库，实现不用操作任何C++代码的C++库文件引入
+在 VSCode 中集成 ESLint 检查[§](https://ts.xcatliu.com/engineering/lint.html#在-vscode-中集成-eslint-检查)
 
+在编辑器中集成 ESLint 检查，可以在开发过程中就发现错误，甚至可以在保存时自动修复错误，极大的增加了开发效率。
 
+要在 VSCode 中集成 ESLint 检查，我们需要先安装 ESLint 插件，点击「扩展」按钮，搜索 ESLint，然后安装即可。
 
-编辑tsconfig.json
+VSCode 中的 ESLint 插件默认是不会检查 `.ts` 后缀的，需要在「文件 => 首选项 => 设置 => 工作区」中（也可以在项目根目录下创建一个配置文件 `.vscode/settings.json`），添加以下配置：
+
+```json
+{
+    "eslint.validate": [
+        "javascript",
+        "javascriptreact",
+        "typescript"
+    ],
+    "typescript.tsdk": "node_modules/typescript/lib"
+}
+```
+
+此时打开ts文件，在错误处就会有提示
+
+### Prettier 
+
+ESLint 包含了一些代码格式的检查，比如空格、分号等。但前端社区中有一个更先进的工具可以用来格式化代码，那就是 [Prettier](https://prettier.io/)。
+
+Prettier 聚焦于代码的格式化，通过语法分析，重新整理代码的格式，让所有人的代码都保持同样的风格。
+
+安装Prettier
+
+```shell
+npm install --save-dev prettier
+```
+
+然后创建一个 `prettier.config.js` 文件，里面包含 Prettier 的配置项。Prettier 的配置项很少，这里我推荐大家一个配置规则，作为参考：
 
 ```js
-
-```
-
-
-
-ts由于有较严的格式规范，往往会报一些不必要的格式警告，干扰编译
-
-解决方法：
-
-在vscode中下载插件prettier，然后在代码中全选，右键菜单选择格式化文档即可
-
-## RPC
-
-RPC（Remote Procedure Call）中文名「远程过程调用」，又是一个很蹩脚的翻译。我们拆开理解下，「过程」也叫方法或函数，「远程」就是说方法不在当前进程里，而是在其他进程或机器上面，合起来 RPC 就是调用其他进程或机器上面的函数
-
-在没有网络的时代，程序都是单机版的，所有逻辑都必须在同一个进程里。进程之间就像高楼大厦里面陌生的邻居，大家无法共享，遇到同样的功能只能重复实现一次。显然进程的障碍是逆天的，不符合先进生产力的发展方向，这个时候「进程间通信」的需求出现了，大家要求进程之间能够相互交流，相互共享和调用。这样再写程序，就可以利用进程间通信机制来调用和共享已经存在的功能了。随着网络的出现，进程的隔阂进一步消除，不光同一栋楼里的邻居可以共享资源，其他小区、甚至其他城市的居民都可以通过互联网互相调用，这就是 RPC。概念很容易理解，但是远程和本地的实现原理有很大区别，架构设计者的职责就是设计一个机制让远程调用服务就像调本地服务一样简单，这就是 RPC 框架
-
-RPC 首要解决的是通讯的问题，主流的 RPC 框架分为基于 HTTP 和基于 TCP 的两种。基于 HTTP 的 RPC 调用很简单，就和我们访问网页一样，只是它的返回结果更单一（JSON 或 XML）。它的优点在于实现简单，标准化和跨语言，比较适合对外提供 OpenAPI 的场景，而它的缺点是 HTTP 协议传输效率较低、短连接开销较大（HTTP 2.0 后有很大改进）。而基于 TCP 的 RPC 调用，由于 TCP 协议处于协议栈的下层，能够更加灵活地对协议字段进行定制，减少网络开销，提高性能，实现更大的吞吐量和并发数。但是需要更多地关注底层复杂的细节，跨语言和跨平台难度大，实现的代价更高，它比较适合内部系统之间追求极致性能的场景。
-
-TCP是目前业界主流 RPC 框架支持的方式，也是阿里的 HSF，蚂蚁的 Bolt 采用的方式。
-
-RPC的调用过程如下：
-
-1. 调用方（Client）通过本地的 RPC 代理（Proxy）调用相应的接口
-2. 本地代理将 RPC 的服务名，方法名和参数等等信息转换成一个标准的 RPC Request 对象交给 RPC 框架
-3. RPC 框架采用 RPC 协议（RPC Protocol）将 RPC Request 对象序列化成二进制形式，然后通过 TCP 通道传递给服务提供方 （Server）
-4. 服务端（Server）收到二进制数据后，将它反序列化成 RPC Request 对象
-5. 服务端（Server）根据 RPC Request 中的信息找到本地对应的方法，传入参数执行，得到结果，并将结果封装成 RPC Response 交给 RPC 框架
-6. RPC 框架通过 RPC 协议（RPC Protocol）将 RPC Response 对象序列化成二进制形式，然后通过 TCP 通道传递给服务调用方（Client）
-7. 调用方（Client）收到二进制数据后，将它反序列化成 RPC Response 对象，并且将结果通过本地代理（Proxy）返回给业务代码
-
-通讯层协议设计
-
-在 TCP 通道里传输的数据只能是二进制形式的，所以我们必须将数据结构或对象转换成二进制串传递给对方，这个过程就叫「序列化」。而相反，我们收到对方的二进制串后把它转换成数据结构或对象的过程叫「反序列化」。而序列化和反序列化的规则就叫「协议」
-
-我把 RPC 的协议分成两大类，一类是通讯层协议，另一类是应用层协议。通讯层协议一般是和业务无关的，它的职责是将业务数据打包后，安全、完整的传输给接受方，HSF、Dubbo、gRPC 这些都是属于通讯层协议。而应用层协议是约定业务数据和二进制串的转换规则，常见的应用层协议有 Hessian，Protobuf，JSON。这两种协议的关注点是不太一样的，对于一个 RPC 框架来说，通讯层协议一旦确定就很少变化，这要求它具备足够好的通用性和扩展性；而应用层协议理论上可以由业务自由选择，它更多的是关注编码的效率和跨语言等特性。在我看来 RPC 框架的核心是通讯层协议的设计，换句话说你理解了通讯层协议各个字段的含义，基本上也理解了 RPC 原理。
-
-一个 RPC 通讯协议。通常它由一个 Header 和一个 Payload（类似于 HTTP 的 Body）组成，合起来叫一个包（Packet）。之所有要有包，是因为二进制只完成 Stream 的传输，并不知道一次数据请求和响应的起始和结束，我们需要预先定义好包结构才能做解析。
-
-协议设计就像把一个数据包按顺序切分成若干个单位长度的「小格子」，然后约定每个「小格子」里存储什么样的信息，一个「小格子」就是一个 Byte，它是协议设计的最小单位，1 Byte 是 8 Bit，可以描述 0 ~ 2^8 个字节数，具体使用多少个字节要看实际存储的信息。我们在收到一个数据包的时候首先确定它是请求还是响应，所以我们需要用一个 Byte 来标记包的类型，比如：0 表示请求，1 表示响应。知道包类型后，我们还需要将请求和它对应的响应关联起来，通常的做法是在请求前生成一个「唯一」的 ID，放到 Header 里传递给服务端，服务端在返回的响应头里也要包含同样的 ID，这个 ID 我们选择用一个 Int32 类型（4 Bytes）自增的数字表示。要能实现包的准确切割，我们需要明确包的长度，Header 长度通常是固定的，而 Payload 长度是变化的，所以要在 Header 留 4 个 Bytes（Int32） 记录 Payload 部分的长度。确定包长度后，我们就可以切分出一个个独立的包。Payload 部分编码规则由应用层协决定，不同的场景采用的协议可能是不一样的，那么接收端如何知道用什么协议去解码 Payload 部分呢？所以，在 Header 里面还需要一个 Byte 标记应用层协议的类型，我们称之为 Codec。
-
-这已经是可以工作的 RPC 通讯协议了，但随着 RPC 功能的增加我们可能需要记录更多的信息，比如：在请求头里存放超时的时长，告诉服务端如果响应时间超过某个值了就不用再返回了；在响应头里存放响应的状态是成功还是失败等等。另外，虽然通讯层协议很少会变化，但是考虑到后期的平滑升级、向下兼容等问题，一般第一个 Byte 我们都会记录协议的版本信息
-
-然后实现编码与解码. 编解码的核心是对buffer进行操作
-
-```javascript
-// 编码
-const payload = {
-  service: 'com.alipay.nodejs.HelloService:1.0',
-  methodName: 'plus',
-  args: [ 1, 2 ],
+// prettier.config.js or .prettierrc.js
+module.exports = {
+    printWidth: 100,  		   // 一行最多 100 字符
+    tabWidth: 4,      			 // 使用 4 个空格缩进
+    useTabs: false,  				 // 不使用缩进符，而使用空格
+    semi: true,      			   // 行尾需要有分号
+    singleQuote: true,			 // 使用单引号
+    quoteProps: 'as-needed', // 对象的 key 仅在必要时用引号
+    jsxSingleQuote: false,   // jsx 不使用单引号，而使用双引号
+    trailingComma: 'none',   // 末尾不需要逗号
+    bracketSpacing: true,    // 大括号内的首尾需要空格
+    jsxBracketSameLine: false,// jsx 标签的反尖括号需要换行
+    arrowParens: 'always',   // 箭头函数，只有一个参数的时候，也需要括号
+    rangeStart: 0,           // 每个文件格式化的范围是文件的全部内容
+    rangeEnd: Infinity,
+    requirePragma: false,    // 不需要写文件开头的 @prettier
+    insertPragma: false,     // 不需要自动在文件开头插入 @prettier
+    proseWrap: 'preserve',   // 使用默认的折行标准
+    htmlWhitespaceSensitivity: 'css',// 根据显示样式决定 html 要不要折行
+    endOfLine: 'lf'          // 换行符使用 lf
 };
-const body = new Buffer(JSON.stringify(payload));
-
-const header = new Buffer(10);
-header[0] = 0;
-header.writeInt32BE(1000, 1);
-header[5] = 1; // codec => 1 代表是 JSON 序列化
-header.writeInt32BE(body.length, 6);
-
-const packet = Buffer.concat([ header, body ], 10 + body.length);
 ```
 
-解码
+### Es-lint支持tsx
+
+如果需要同时支持对 tsx 文件的检查，则需要对以上步骤做一些调整：
+
+安装 eslint-plugin-react
+
+```shell
+npm install --save-dev eslint-plugin-react
+```
+
+在package.json和vscode的插件中添加配置
+
+```json
+{
+    "scripts": {
+        "eslint": "eslint src --ext .ts,.tsx"
+    }
+}
+```
 
 ```javascript
-// 解码
-const type = buf[0]; // => 0 (request)
-const requestId = buf.readInt32BE(1); // => 1000
-const codec = buf[5];
-const bodyLength = buf.readInt32BE(6);
-
-const body = buf.slice(10, 10 + bodyLength);
-const payload = JSON.parse(body);
+{
+    "files.eol": "\n",
+    "editor.tabSize": 4,
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "eslint.autoFixOnSave": true,
+    "eslint.validate": [
+        "javascript",
+        "javascriptreact",
+        {
+            "language": "typescript",
+            "autoFix": true
+        },
+        {
+            "language": "typescriptreact",
+            "autoFix": true
+        }
+    ],
+    "typescript.tsdk": "node_modules/typescript/lib"
+}
 ```
 
-大端序和小端序
-
-Int8 只需要一个字节就可以表示，而 Short，Int32，Double 这些类型一个字节放不下，我们就要用多个字节表示，这就要引入「字节序」的概念，也就是字节存储的顺序。对于某一个要表示的值，是把它的低位存到低地址，还是把它的高位存到低地址，前者叫小端字节序（Little Endian），后者叫大端字节序（Big Endian）。大端和小端各有优缺点，不同的CPU厂商并没有达成一致，但是当网络通讯的时候大家必须统一标准，不然无法通讯了。为了统一网络传输时候的字节的顺序，TCP/IP 协议 RFC1700 里规定使用「大端」字节序作为网络字节序，所以，我们在开发网络通讯协议的时候操作 Buffer 都应该用大端序的 API，也就是 `BE` 结尾的
-
-https://zhuanlan.zhihu.com/p/38012481
-
-## WebSocket
+### style-lint
 
 
 
 
 
-## Webassembly
+## 对Node的支持
 
-wasi WebAssembly系统接口
+想用typescript写nodejs，需要引入第三方声明文件
+
+```shell
+npm install @type/node --save
+```
+
+https://ts.xcatliu.com/basics/type-of-function.html
+
+
+
+## TS包
+
+### DefinitelyTyped
+
+
+
+### typeDoc
+
+安装
+
+```shell
+yarn add -D typedoc
+```
+
+TypeDoc将TypeScript源代码中的注释转换为呈现的HTML文档或JSON模型；TypeScript项目的文档生成器。
+
+使用TypeDoc的前提是使用typescript开发
+
+在package.json中编写执行脚本命令
+
+```json
+  "scripts": {
+    "doc": "npx typedoc --tsconfig typedoc.json"
+  }
+```
+
+编写typedoc.json
+
+```json
+{
+  // 输入选项 - 入口文件/文件夹
+  "entryPoints": [
+    "src/modules"
+  ],
+  // 输入选项 - 排除文件/文件夹
+  "exclude": [
+    "node_moudles",
+    "src/modules/WebViewer/**/*.ts"
+  ],
+  // 输出选项 - 将软件包package.json中的版本version添加到项目名称中
+  "includeVersion": true,
+  // 输出选项 - 设置将在模板标题中使用的项目的名称。默认为package.json中的name
+  "name": "测试title",
+  // 输出选项 - 不在页面末尾打印TypeDoc链接
+  "hideGenerator": true,
+  // 输出选项 - 禁用描述代码位置
+  "disableSources": true
+}
+```
+
+运行命令npm run doc，在输出docs文件夹查看
+
+### typebox
+
+typebox让json的schema具有像ts一样的类型规范
+
+```shell
+npm install @sinclair/typebox --save
+```
 
 使用
 
 ```javascript
-import { readFile } from 'fs/promises';
-import { WASI } from 'wasi';
-import { argv, env } from 'process';
+import { Static, Type } from '@sinclair/typebox'
 
-const wasi = new WASI({
-  args: argv,
-  env,
-  preopens: {
-    '/sandbox': '/some/real/path/that/wasm/can/access'
-  }
-});
+const T = Type.Object({                              // const T = {
+  x: Type.Number(),                                  //   type: 'object',
+  y: Type.Number(),                                  //   required: ['x', 'y', 'z'],
+  z: Type.Number()                                   //   properties: {
+})                                                   //     x: { type: 'number' },
+                                                     //     y: { type: 'number' },
+                                                     //     z: { type: 'number' }
+                                                     //   }
+                                                     // }
 
-// Some WASI binaries require:
-//   const importObject = { wasi_unstable: wasi.wasiImport };
-const importObject = { wasi_snapshot_preview1: wasi.wasiImport };
-
-const wasm = await WebAssembly.compile(
-  await readFile(new URL('./demo.wasm', import.meta.url))
-);
-const instance = await WebAssembly.instantiate(wasm, importObject);
-
-wasi.start(instance);
+type T = Static<typeof T>                            // type T = {
+                                                     //   x: number,
+                                                     //   y: number,
+                                                     //   z: number
+                                                     // }
 ```
 
+### tsup
 
-
-## 设置npm镜像源
-
-　
+编译ts为js
 
 ```shell
-npm config get registry  // 查看npm当前镜像源
-
-https://registry.npm.taobao.org/  // 设置npm镜像源为淘宝镜像
-
-yarn config get registry  // 查看yarn当前镜像源
-
-https://registry.npm.taobao.org/  // 设置yarn镜像源为淘宝镜像
+npm i tsup -D
 ```
 
-新建npmrc文件
+直接使用
 
-在npmrc文件中粘贴npm地址
+```shell
+tsup src/index.ts src/cli.ts
+```
+
+
+
+## ts简单辨析
+
+### never与void、any、unknown的区别：
+
+任意未明确声明类型并切无法推导出类型的值都默认为any类型，any是检测弱，兼容性问题解决方案。
+
+当一个函数返回空值时，它的返回值为 void 类型，但是，当一个函数永不返回时（或者总是抛出错误），它的返回值为 never 类型。
+
+void 类型可以被赋值（在 strictNullChecking 为 false 时），但是除了 never 本身以外，其他任何类型不能赋值给 never。
+
+unknown相对于any，任意类型都可以赋值给unknow，但是不可对其进行任何访问操作（仅仅为类型安全，any操作访问也安全）
+
+```typescript
+let val:any
+
+let val_void:void = val;
+
+let val_undefined:undefined = val;
+let val_null:null = val;
+let val_number:number = val;
+
+let val: unknown;
+let val__unknown:unknown = val;
+// 报错:不能将类型“unknown”分配给类型“string”
+let val_string:string = val;
+// 报错:不能将类型“unknown”分配给类型“number”
+let val_number:number = val;
+// 报错:不能将类型“unknown”分配给类型“boolean”
+```
+
+但是unkown可以通过别的方式来缩小类型
+
+```typescript
+declare const maybe: unknown;
+
+if (maybe === true) {
+  // TypeScript knows that maybe is a boolean now
+  const aBoolean: boolean = maybe;
+  // So, it cannot be a string
+  const aString: string = maybe;
+Type 'boolean' is not assignable to type 'string'.
+}
+ 
+if (typeof maybe === "string") {
+  // TypeScript knows that maybe is a string
+  const aString: string = maybe;
+  // So, it cannot be a boolean
+  const aBoolean: boolean = maybe;
+Type 'string' is not assignable to type 'boolean'.
+}
+```
+
+
+
+### 数字枚举与字符串枚举的区别
+
+我们可以使用字符串枚举或者数值枚举，
+
+```typescript
+enum NoYes {
+  No,
+  Yes,
+}
+
+enum NoYes {
+  No = 0,
+  Yes = 1,
+}
+
+enum NoYes {
+  No = 'No',
+  Yes = 'Yes',
+}
+```
+
+
+
+### type与interface的区别
+
+type与interface都用于描述一个对象或函数, 两者都可以实现继承
+
+interface 可以 extends， 但 type 是不允许 extends 和 implement 的，但是 type 可以通过交叉类型 实现 interface 的 extend 行为，并且两者并不是相互独立的，也就是说 interface 可以 extends type, type 也可以 与 interface 类型交叉 。
+
+```typescript
+//interface使用extends继承，type可以通过交叉类型继承
+interface Name { 
+  name: string; 
+}
+interface User extends Name { 
+  age: number; 
+}
+
+type Name = { 
+  name: string; 
+}
+type User = Name & { age: number  };
+//interface与type混合extends与交叉
+type Name = { 
+  name: string; 
+}
+interface User extends Name { 
+  age: number; 
+}
+
+interface Name { 
+  name: string; 
+}
+type User = Name & { 
+  age: number; 
+}
+```
+
+不同点：
+
+interface可以声明合并，type不行
+
+```typescript
+interface User {
+  name: string
+  age: number
+}
+
+interface User {
+  sex: string
+}
+
+/*
+User 接口为 {
+  name: string
+  age: number
+  sex: string 
+}
+*/
+```
+
+对象、函数两者都适用，type可以声明基本类型别名，联合类型，元组等类型，还可以使用 typeof 获取实例的类型进行赋值，interface不行
+
+```typescript
+// 基本类型别名
+type Name = string
+
+// 联合类型
+interface Dog {
+    wong();
+}
+interface Cat {
+    miao();
+}
+
+type Pet = Dog | Cat
+
+// 具体定义数组每个位置的类型
+type PetList = [Dog, Pet]
+
+// 获取类型进行赋值
+let div = document.createElement('div');
+type B = typeof div
+```
+
+type 支持计算属性，生成映射类型,；interface 不支持。
+
+type 能使用 in 关键字生成映射类型, 内部使用了 for .. in。 具有三个部分：类型变量 K，它会依次绑定到每个属性。
+字符串字面量联合的 Keys，它包含了要迭代的属性名的集合。
+属性的结果类型。
+
+```typescript
+type Keys = "firstname" | "surname"
+
+type DudeType = {
+  [key in Keys]: string
+}
+
+const test: DudeType = {
+  firstname: "Pawel",
+  surname: "Grzybek"
+}
+
+// 报错
+//interface DudeType2 {
+//  [key in keys]: string
+//}
+```
+
+一般来说，如果不清楚什么时候用interface/type，能用 interface 实现，就用 interface , 如果不能就用 type 。
+
+### 元组与数组的区别
+
+数组的类型在[]前面, 元组的类型在[]内部。数组的类型规定数组全部的类型，而元组内部的类型是逐个指定的，也就是元组需要规定元素数量
+
+```typescript
+let arr:(number | string)[] = ['s',3,'a'];
+let arr:any[] = ['a',2,true];
+
+// let arr:[number] = [2,3,4];
+ let arr:[number] = [2]; // 这个时候才是对的！
+ let arr:[string,number] = ['a',1];
+// 报错:不能将类型“string”分配给类型“number”
+// let arr:[string,number] = [1,'d'];
+// any元组也需要规定元素数量
+let arr:[any,any,any] = ['s',2,true];
+```
+
+### 索引签名和工具类型Record的区别
+
+其实Record工具类型的本质就是索引签名，不同之处只是用法，仅仅需要继承就可以了，不需要再写一遍
+
+```typescript
+interface inf{
+    name:string;
+    age:number;
+    [k:string]:any;
+}
+
+interface inf extends Record<string,any>{
+    name:string;
+    age:number;
+}
+
+let obj:inf = {
+    name:'yiye',
+    age:33,
+    city:'foshan'
+}
+```
+
+
+
+## 编译 
+
+### npm run tsc
+
+如果一个目录下存在一个`tsconfig.json`文件，那么它意味着这个目录是TypeScript项目的根目录。 `tsconfig.json`文件中指定了用来编译这个项目的根文件和编译选项。 一个项目可以通过以下方式之一来编译
+
+使用tsconfig.json
+
+- 不带任何输入文件的情况下调用`tsc`，编译器会从当前目录开始去查找`tsconfig.json`文件，逐级向上搜索父目录。
+- 不带任何输入文件的情况下调用`tsc`，且使用命令行参数`--project`（或`-p`）指定一个包含`tsconfig.json`文件的目录。
+
+当命令行上指定了输入文件时，`tsconfig.json`文件会被忽略。
+
+配置关键字
+
+`"compilerOptions"`可以被忽略，这时编译器会使用默认值。
+
+`"files"`指定一个包含相对或绝对文件路径的列表。 `"include"`和`"exclude"`属性指定一个文件glob匹配模式列表。 支持的glob通配符有：
+
+- `*` 匹配0或多个字符（不包括目录分隔符）
+- `?` 匹配一个任意字符（不包括目录分隔符）
+- `**/` 递归匹配任意子目录
+
+如果一个glob模式里的某部分只包含`*`或`.*`，那么仅有支持的文件扩展名类型被包含在内（比如默认`.ts`，`.tsx`，和`.d.ts`， 如果 `allowJs`设置能`true`还包含`.js`和`.jsx`）。
+
+如果`"files"`和`"include"`都没有被指定，编译器默认包含当前目录和子目录下所有的TypeScript文件（`.ts`, `.d.ts` 和 `.tsx`），排除在`"exclude"`里指定的文件。JS文件（`.js`和`.jsx`）也被包含进来如果`allowJs`被设置成`true`。 如果指定了 `"files"`或`"include"`，编译器会将它们结合一并包含进来。 使用 `"outDir"`指定的目录下的文件永远会被编译器排除，除非你明确地使用`"files"`将其包含进来（这时就算用`exclude`指定也没用）。
+
+使用`"include"`引入的文件可以使用`"exclude"`属性过滤。 然而，通过 `"files"`属性明确指定的文件却总是会被包含在内，不管`"exclude"`如何设置。 如果没有特殊指定， `"exclude"`默认情况下会排除`node_modules`，`bower_components`，`jspm_packages`和`<outDir>`目录。
+
+任何被`"files"`或`"include"`指定的文件所引用的文件也会被包含进来。 `A.ts`引用了`B.ts`，因此`B.ts`不能被排除，除非引用它的`A.ts`在`"exclude"`列表中。
+
+需要注意编译器不会去引入那些可能做为输出的文件；比如，假设我们包含了`index.ts`，那么`index.d.ts`和`index.js`会被排除在外。 通常来讲，不推荐只有扩展名的不同来区分同目录下的文件。
+
+`tsconfig.json`文件可以是个空文件，那么所有默认的文件（如上面所述）都会以默认配置选项编译。
+
+在命令行上指定的编译选项会覆盖在`tsconfig.json`文件里的相应选项。
+
+`@types`，`typeRoots`和`types`
+
+默认所有*可见的*"`@types`"包会在编译过程中被包含进来。 `node_modules/@types`文件夹下以及它们子文件夹下的所有包都是*可见的*； 也就是说， `./node_modules/@types/`，`../node_modules/@types/`和`../../node_modules/@types/`等等。
+
+如果指定了`typeRoots`，*只有*`typeRoots`下面的包才会被包含进来
+
+```json
+{
+   "compilerOptions": {
+       "typeRoots" : ["./typings"]
+   }
+}
+```
+
+这个配置文件会包含*所有*`./typings`下面的包，而不包含`./node_modules/@types`里面的包。
+
+如果指定了`types`，只有被列出来的包才会被包含进来。
+
+```json
+{
+   "compilerOptions": {
+        "types" : ["node", "lodash", "express"]
+   }
+}
+```
+
+这个`tsconfig.json`文件将*仅会*包含 `./node_modules/@types/node`，`./node_modules/@types/lodash`和`./node_modules/@types/express`。/@types/。 `node_modules/@types/*`里面的其它包不会被引入进来。
+
+指定`"types": []`来禁用自动引入`@types`包。
+
+extends
+
+`tsconfig.json`文件可以利用`extends`属性从另一个配置文件里继承配置。
+
+`extends`是`tsconfig.json`文件里的顶级属性（与`compilerOptions`，`files`，`include`，和`exclude`一样）。 `extends`的值是一个字符串，包含指向另一个要继承文件的路径。
+
+在原文件里的配置先被加载，然后被来至继承文件里的配置重写。 如果发现循环引用，则会报错。
+
+来至所继承配置文件的`files`，`include`和`exclude`*覆盖*源配置文件的属性。
+
+
+
+### babel编译
+
+最开始 typescript 代码只有自带的 tyepscript compiler（tsc）能编译，编译不同版本的 typescript 代码需要用不同版本的 tsc，通过配置 tsconfig.json 来指定如何编译。
+
+但是 tsc 编译 ts 代码为 js 是有问题的：
+
+tsc 不支持很多还在草案阶段的语法，这些语法都是通过 babel 插件来支持的，所以很多项目的工具链是用 tsc 编译一遍 ts 代码，之后再由 babel 编译一遍。这样编译链路长，而且生成的代码也不够精简。
+
+所以，typescript 找 babel 团队合作，在 babel7 中支持了 typescript 的编译，可以通过插件来指定 ts 语法的编译。比如 api 中是这样用：
+
+```javascript
+const parser = require('@babel/parser');
+
+parser.parse(sourceCode, {
+    plugins: ['typescript']
+});
+```
+
+babel编译ts的流程：
+
+- parser: 把源码 parse 成 ast
+- traverse：遍历 ast，生成作用域信息和 path，调用各种插件来对 ast 进行转换
+- generator：把转换以后的 ast 打印成目标代码，并生成 sourcemap
+
+ typescript compiler 的编译流程是这样的：
+
+- scanner + parser： 分词和组装 ast，从源码到 ast 的过程
+
+- binder + checker： 生成作用域信息，进行类型推导和检查
+
+- transform：对经过类型检查之后的 ast 进行转换
+
+- emitter： 打印 ast 成目标代码，生成 sourcemap 和类型声明文件（根据配置）
+
+能不能基于 babel 的插件在 traverse 的时候实现 checker 呢？
+
+答案是不可以。
+
+因为 tsc 的类型检查是需要拿到整个工程的类型信息，需要做类型的引入、多个文件的 namespace、enum、interface 等的合并，而 babel 是单个文件编译的，不会解析其他文件的信息。所以做不到和 tsc 一样的类型检查。
+
+**一个是在编译过程中解析多个文件，一个是编译过程只针对单个文件，流程上的不同，导致 babel 无法做 tsc 的类型检查。**
+
+其实 babel 只是能够 parse ts 代码成 ast，不会做类型检查，会直接把类型信息去掉，然后打印成目标代码。
+
+这导致了有一些 ts 语法是 babel 所不支持的：
+
+- const enum 不支持。const enum 是在编译期间把 enum 的引用替换成具体的值，需要解析类型信息，而 babel 并不会解析，所以不支持。可以用相应的插件把 const enum 转成 enum。
+- namespace 部分支持。不支持 namespace 的跨文件合并，不支持导出非 const 的值。这也是因为 babel 不会解析类型信息且是单文件编译。
+
+上面两种两个是因为编译方式的不同导致的不支持。
+
+- export = import = 这种 ts 特有语法不支持，可以通过插件转为 esm
+- 如果开启了 jsx 编译，那么 <string> aa 这种类型断言不支持，通过 aa as string 来替代。这是因为这两种语法有冲突，在两个语法插件(jsx、typescript)里，解决冲突的方式就是用 as 代替。
+
+这四种就是 babel 不支持的 ts 语法，其实影响并不大，这几个特性不用就好了。
+
+**结论：babel 不能编译所有 typescript 代码，但是除了 namespace 的两个特性外，其余的都可以做编译。**
+
+Babel编译的优势：
+
+1.产物体积更小
+
+这与配置编译目标有关
+
+在tsc中配置编译目标如下：
+
+在 compilerOptions 里面配置 target，target 设置目标语言版本
+
+```javascript
+{
+    compilerOptions: {
+        target: "es5" // es3、es2015
+    }
+}
+```
+
+在入口文件里面引入 core-js.
+
+```javascript
+import 'core-js';
+```
+
+而在babel7中，
+
+配置编译目标：
+
+在 preset-env 里面指定 targets，直接指定目标运行环境（浏览器、node）版本，或者指定 query 字符串，由 browserslist 查出具体的版本。
+
+引入polyfill也是在preset-env 中配置，指定 polyfill 用哪个（corejs2 还是 corejs3），如何引入（entry 在入口引入 ，usage 每个模块单独引入用到的）
+
+```javascript
+{
+    presets: [
+        [
+            "@babel/preset-env",
+            {
+                // targets: {
+                //    chrome: 45
+                // }
+                targets: "last 1 version,> 1%,not dead",
+                corejs: 3,
+                useBuiltIns: 'usage'
+            }
+        ]
+    ]
+}
+```
+
+**先根据 targets 查出支持的目标环境的版本，再根据目标环境的版本来从所有特性中过滤支持的，剩下的就是不支持的特性。只对这些特性做转换和 polyfill 即可**
+
+而且 babel 还可以通过 @babel/plugin-transform-runtime 来把全局的 corejs 的 import 转成模块化引入的方式。
+
+显然，用 babel 编译 typescript 从产物上看有两个优点：
+
+- 能够做更精准的按需编译和 polyfill，产物体积更小
+- 能够通过插件来把 polyfill 变成模块化的引入，不污染全局环境
+
+2.支持的语言特性：
+
+typescript 默认支持很多 es 的特性，但是不支持还在草案阶段的特性，babel 的 preset-env 支持所有标准特性，还可以通过 proposal 来支持更多还未进入标准的特性。
+
+```javascript
+{
+    plugins: ['@babel/proposal-xxx'],
+    presets: ['@babel/presets-env', {...}]
+}
+```
+
+3.编译速度
+
+tsc 会在编译过程中进行类型检查，类型检查需要综合多个文件的类型信息，要对 AST 做类型推导，比较耗时，而 babel 不做类型检查，所以编译速度会快很多。
+
+从编译速度来看， babel 胜。
+
+总之，从编译产物大小（主要）、支持的语言特性、编译速度来看，babel 完胜。
+
+### 结合
+
+babel 可以编译生成更小的产物，有更快的编译速度和更多的特性支持，所以我们选择用 babel 编译 typescript 代码。但是类型检查也是需要的，可以在 npm scripts 中配一个命令：
+
+```javascript
+{
+    "scripts": {
+        "typeCheck": "tsc --noEmit"
+    }
+}
+```
+
+这样在需要进行类型检查的时候单独执行一下 npm run typeCheck 就行了，但最好在 git commit 的 hook 里（通过 husky 配置）再执行一次强制的类型检查。
+
+
+
+## WebAssembly-AssemblyScript
+
+AssemblyScript定义了一个TypeScript的子集，意在帮助TS背景的同学，通过标准的JavaScript API来完成到wasm的编译，从而消除语言的差异，让程序猿可以快乐的编码。
+
+AssemblyScript项目主要分为三个子项目：
+
+- [AssemblyScript](https://link.juejin.cn?target=https%3A%2F%2Fgithub.com%2FAssemblyScript%2Fassemblyscript)：将TypeScript转化为wasm的主程序
+- [binaryen.js](https://link.juejin.cn?target=https%3A%2F%2Fgithub.com%2FAssemblyScript%2Fbinaryen.js)：AssemblyScript主程序转化为wasm的底层实现，依托于[binaryen](https://link.juejin.cn?target=http%3A%2F%2Fgithub.com%2FWebAssembly%2Fbinaryen)库，是对binaryen的TypeScript封装。
+- [wast.js](https://link.juejin.cn?target=https%3A%2F%2Fgithub.com%2FAssemblyScript%2Fwabt.js)：AssemblyScript主程序转化为wasm的底层实现，依托于[wast](https://link.juejin.cn?target=https%3A%2F%2Fgithub.com%2FWebAssembly%2Fwabt)库，是对wast的TypeScript封装。
+
+首先安装assemblyScript
+
+```shell
+git clone https://github.com/AssemblyScript/assemblyscript.git
+cd assemblyscript
+npm install
+npm link
+```
+
+在node的项目中添加wasm命令
+
+```json
+ "scripts": {
+    "build": "npm run build:untouched && npm run build:optimized",
+    "build:untouched": "asc assembly/module.ts -t dist/module.untouched.wat -b dist/module.untouched.wasm --validate --sourceMap --measure",
+    "build:optimized": "asc assembly/module.ts -t dist/module.optimized.wat -b dist/module.optimized.wasm --validate --sourceMap --measure --optimize"
+ }
+```
+
+
+
+```sh
+npm install --save @assemblyscript/loader
+npm install --save-dev assemblyscript
+```
+
+初始化node-modules
+
+```shell
+npx asinit .
+```
+
+构建
+
+```shell
+npm run asbuild
+```
+
+
+
+
+
+## js调用wasm
+
+对于JavaScript调用wasm，一般采用如下步骤：
+
+1. 加载wasm的字节码。
+2. 将获取到字节码后转换成 ArrayBuffer，只有这种结构才能被正确编译。编译时会对上述ArrayBuffer进行验证。验证通过方可编译。编译后会通过Promise resolve一个 WebAssembly.Module。
+3. 在获取到 module 后需要通过 WebAssembly.Instance API 去同步的实例化 module。
+4. 上述第2、3步骤可以用instaniate 异步API等价代替。
+5. 之后就可以和像使用JavaScript模块一样调用了。
+
+
+
+## 学习资源
+
+typescript手册：https://www.typescriptlang.org/docs/handbook/
+
+深入理解typescript：https://jkchao.github.io/typescript-book-chinese/
+
+typescript入门教程：https://ts.xcatliu.com/basics/type-of-function.html
+
+ts中文手册：https://typescript.bootcss.com/
+

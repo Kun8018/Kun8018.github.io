@@ -22,6 +22,11 @@ thumbnail: https://s1.ax1x.com/2020/03/28/GAF779.jpg
 
 <p align="right">--兰度</p>
 
+<p align="center">你才25岁，你可以成为任何你想要成为的人</p>
+<p align="right">--《步履不停》</p>
+
+
+
 <p align="center">西班牙的球员完全不用为此感到抱歉，</p>
 <p align="center">因为他们已经到过很多人无法企及的高度</p>
 <p align="center">作为他们的球迷当然是得到了满足，还想要到更多的满足</p>
@@ -208,7 +213,6 @@ thumbnail: https://s1.ax1x.com/2020/03/28/GAF779.jpg
 <p align="center">他们单纯固执，容易体会到成就感</p>
 <p align="center">面对压力，能够挑灯夜战不眠休</p>
 <p align="center">面对困难，能够迎难而上挑战自我</p>
-<p align="center">第一个是女孩，第二个是男孩</p>
 <p align="center">但每个程序员心中都有一个比尔盖茨或是乔布斯的梦想</p>
 <p align="center">用智慧开创属于自己的事业</p>
 <p align="center">我想说的是，</p>
@@ -250,11 +254,8 @@ thumbnail: https://s1.ax1x.com/2020/03/28/GAF779.jpg
 <p align="center">人不可有傲气，但不可无傲骨</p>
 <p align="right">--徐悲鸿</p>
 
-
-
-学习的本质是模仿，创造的精髓在洞察。
-
-  ---程一初
+<p align="center">学习的本质是模仿，创造的精髓在洞察。</p>
+<p align="right">--程一初</p>
 
 
 

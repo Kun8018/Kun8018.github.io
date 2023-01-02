@@ -736,9 +736,15 @@ Vuex是一个专为Vue服务，用于管理页面数据状态、提供统一数�
 
 统一的页面状态管理以及操作处理，可以让复杂的组件交互变得简单清晰，同时可在调试模式下进行时光机般的倒退前进操作，查看数据改变过程，使code debug更加方便。
 
+Vuex的设计思想，借鉴了Flux、Redux，将数据存放到全局的store，再将store挂载到每个vue实例组件中，利用Vue.js的细粒度数据响应机制来进行高效的状态更新
+
+vue的store挂载到组件
+
 利用vue的[插件机制](https://link.zhihu.com/?target=https%3A//cn.vuejs.org/v2/guide/plugins.html)，使用Vue.use(vuex)时，会调用vuex的install方法，装载vuex
 
 vuex是利用vue的mixin混入机制，在beforeCreate钩子前混入vuexInit方法，vuexInit方法实现了store注入vue组件实例，并注册了vuex store的引用属性$store。applyMixin方法使用vue[混入机制](https://link.zhihu.com/?target=https%3A//cn.vuejs.org/v2/guide/mixins.html)，vue的生命周期beforeCreate钩子函数前混入vuexInit方法，
+
+vuex的state和getters映射到组件实例中响应式更新
 
 Vuex的state状态是响应式，是借助vue的data是响应式，将state存入vue实例组件的data中；Vuex的getters则是借助vue的计算属性computed实现数据实时监听。
 
@@ -759,12 +765,6 @@ Vuex的state状态是响应式，是借助vue的data是响应式，将state存�
 打开开发者工具，在最后一栏为vue，打开就能显示页面的组件和动画，以及组件所用到的props、data、computed。
 
 非常方便。
-
-
-
-## 阿里巴巴图标库
-
-在线上选择对应的图标，然后完整地下载css文件和js文件
 
 
 

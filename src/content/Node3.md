@@ -1,745 +1,752 @@
 ---
-title: Javascript开发（三）
-date: 2021-01-18 21:40:33
+title: Javascript开发（二）
+date: 2021-01-15 21:40:33
 categories: IT
 tags:
     - IT，Web,Node
 toc: true
-thumbnail: http://cdn.kunkunzhang.top/javascript.png
+thumbnail: http://cdn.kunkunzhang.top/jsEvent.jpg
 ---
 
-​     第三篇主要讲原生js的方法
+​     第二篇主要讲原生js语言的原生方法，如继承、闭包和原型链等
 
 <!--more-->
 
-## DOM方法
+### 事件
 
-### Mutation Observer
+#### 事件级别
 
-Mutation Observer APi用来监听DOM变动。DOM的任何变动，比如节点的增减、属性的变动、文本的变动，这个api都可以得到通知
+事件级别分为Dom0级、Dom2级和Dom3级
 
-DOM变动就会触发Mutation Observer，与事件的区别是事件是同步触发，也就是DOM的变动立刻会触发相应的事件，Mutation Observer是异步触发，需要等当前所有的DOM操作都结束才会触发
+Dom0级指在JavaScript中指定对象，最后通过事件处理属性赋值null来解绑事件
 
-Mutation Observer有以下特点：
+```html
+<body>
+  <button value="按钮"></button>
+  <script>
+    var button = document.querySelector("button");
+    btn.click = function(){ alert("0")}
+  </script>
+</body>
+```
 
-- 它等所有脚本任务完成后才会运行(异步触发)
-- 它把DOM变动记录封装成一个数组进行处理，而不是一条条个别处理
-- 既可以观察DOM的所有类型变动，也可以只观察某一类变动
+缺点：
 
-实例方法
+1.不能给同一元素添加多个事件，如果添加多个事件会互相覆盖
 
-`observe()`方法用来监听，接受两个参数：所要观察的DOM节点，以及配置对象，也就是观察的特定变动
+2.不能控制事件流
 
-`disconnect()`方法用来停止观察，调用该方法后DOM再变动也不会触发
+Dom2级事件是对指定对象添加事件处理函数，可以是多个，如
 
-`takeRecords()`方法用来
+```html
+<body>
+  <div id="demo"></div>
+  <script>
+     demo.addEventListener("onclick",clickfn,false);
+     demo.addEventListener("mouseover",showfn,false);
+    function clickfn(){
+      alert('1')
+    }
+    function showfn(){
+      alert('2')
+    }
+  </script>
+</body>
+```
 
-### Document
+特别地，IE8版本以下的IE浏览器下不支持addEventListener和removeEventListener，使用attachEvent和detachEvent
 
-实例方法
+Dom2与Dom0之间不会互相覆盖
 
-`document.open()`方法清除当前文档内的所有内容，使得文档处于可写状态
+Dom3级是在Dom2级的基础上添加更多事件类型，
 
-`document.close()` 方法关闭document.open打开的文档
+UI事件，主要包括load,unload,abort,error,select,resize,scroll事件。
 
-`document.elementFromPoint()`方法返回位于页面指定位置最上层的元素节点
+焦点事件，当用户获得或失去焦点时触发，如focus、blur
 
-`document.createDocumentFragment()`方法生成一个DocumentFragment实例
+鼠标事件，当用户在鼠标上操作时触发事件，如dbclick、mouseup
 
+键盘事件、当用户在键盘上操作时触发事件，如keydown，keypress
 
+文本事件：当在文档中输入文本时触发，如textInput
 
-### Element
+滚轮事件，当用户使用鼠标滚轮或者类似设备时触发事件，如mousewheel
+
+合成事件：当为IME(输入法编辑器)输出字符时触发，如compositionstart
+
+变动事件：当底层Dom结构发生变化时触发，如DomsubtreeModified
+
+html5事件、设备事件
+
+Dom3也允许自定义事件
+
+事件模型是指分为三个阶段：
+
+- 捕获阶段：在事件冒泡的模型中，捕获阶段不会响应任何事件；
+- 目标阶段：目标阶段就是指事件响应到触发事件的最底层元素上；
+- 冒泡阶段：冒泡阶段就是事件的触发响应会从最底层目标一层层地向外到最外层（根节点），事件代理即是利用事件冒泡的机制把里层所需要响应的事件绑定到外层；
+
+#### EventTarget对象
+
+DOM 的事件操作（监听和触发），都定义在`EventTarget`接口。所有节点对象都部署了这个接口，其他一些需要事件通信的浏览器内置对象（比如，`XMLHttpRequest`、`AudioNode`、`AudioContext`）也部署了这个接口。
+
+`EventTarget.addEventListener()`用于在当前节点或对象上，定义一个特定事件的监听函数。一旦这个事件发生，就会执行监听函数。该方法没有返回值。
+
+addEventListener()有三个参数：
+
+type：表示监听事件类型的字符串，比如click等
+
+listener：监听函数
+
+options：指定有关listener属性等可选参数对象。在旧版的DOM规定中addEventListener的第三个参数是布尔值表示是否在捕获阶段调用事件处理程序。随着时间的推移，很明显需要更多的选项。与其在后面添加更多的参数，不如将第三个参数改为一个包含各种属性的对象
+
+​				capture：布尔值，表示listener会在该类型的事件捕获阶段传播到该EventTarget时触发
+
+​				once：布尔值，表示listener在添加之后最多只被调用一次，如果是true，listener会在其被调用之后自动移除
+
+​				passive：设置为true时，表示listener永远不会调用preventDefault。如果listener仍然调用了这个函数，客户端将会忽略它并抛出一个警告
+
+​				
+
+`EventTarget.removeEventListener`方法用来移除`addEventListener`方法添加的事件监听函数。
+
+`EventTarget.dispatchEvent`方法在当前节点上触发指定事件，从而触发监听函数的执行。该方法返回一个布尔值，只要有一个监听函数调用了`Event.preventDefault()`，则返回值为`false`，否则为`true`。
+
+#### Event对象
+
+事件发生以后，会产生一个事件对象，作为参数传给监听函数。浏览器原生提供一个`Event`对象，所有的事件都是这个对象的实例，或者说继承了`Event.prototype`对象。
 
 实例属性
 
-`element.id`:属性直接返回指定元素的id属性
+`Event.bubbles`属性返回一个布尔值，表示当前事件是否会冒泡。该属性为只读属性，一般用来了解 Event 实例是否可以冒泡。前面说过，除非显式声明，`Event`构造函数生成的事件，默认是不冒泡的。
 
-`element.tagname`属性直接返回指定元素的大写标签名，与nodeName属性的值相等
+`Event.eventPhase`属性返回一个整数常量，表示事件目前所处的阶段。该属性只读。
 
-`element.dir`属性用于读写当前元素的文字方向，从左到右为ltr，从右到左为rtl
+- 0，事件目前没有发生。
+- 1，事件目前处于捕获阶段，即处于从祖先节点向目标节点的传播过程中。
+- 2，事件到达目标节点，即`Event.target`属性指向的那个节点。
+- 3，事件处于冒泡阶段，即处于从目标节点向祖先节点的反向传播过程中。
 
-`element.draggable`属性返回一个布尔值，表示当前元素是否可拖动
+`Event.cancelable`属性返回一个布尔值，表示事件是否可以取消。该属性为只读属性，一般用来了解 Event 实例的特性。
 
-`element.lang`属性返回当前元素的语言设置
+事件发生以后，会经过捕获和冒泡两个阶段，依次通过多个 DOM 节点。因此，任意事件都有两个与事件相关的节点，一个是事件的原始触发节点（`Event.target`），另一个是事件当前正在通过的节点（`Event.currentTarget`）。前者通常是后者的后代节点。
 
-`element.hidden`属性返回一个布尔值，表示当前元素的hidden属性，用来控制当前的元素是否可见
+`Event.currentTarget`属性返回事件当前所在的节点，即事件当前正在通过的节点，也就是当前正在执行的监听函数所在的那个节点。随着事件的传播，这个属性的值会变。
 
-`element.className`属性用来读写当前元素节点的class属性
+`Event.target`属性返回原始触发事件的那个节点，即事件最初发生的节点。这个属性不会随着事件的传播而改变。
 
-`element.classList`属性返回一个类似数组的对象，当前节点的每一个class就算这个对象的一个成员
+`Event.type`属性返回一个字符串，表示事件类型。事件的类型是在生成事件的时候指定的。该属性只读。
 
-`element.innerHTML`属性返回一个字符串，等同于该元素包含的所有html代码
+`Event.timeStamp`属性返回一个毫秒时间戳，表示事件发生的时间。它是相对于网页加载成功开始计算的。
 
-`element.outerHTML`属性返回一个字符串，表示当前元素节点的所有HTML代码，包括该元素自身和所有子元素
+`Event.isTrusted`属性返回一个布尔值，表示该事件是否由真实的用户行为产生。比如，用户点击链接会产生一个`click`事件，该事件是用户产生的；`Event`构造函数生成的事件，则是脚本产生的。
 
-`element.clientHeight`属性返回一个整数值，表示元素节点的css高度
-
-`element.clientwidth`属性返回元素节点的CSS宽度
-
-`element.clientLeft`属性等于元素节点左边框的宽度
-
-`element.clientTop`属性等于元素顶部边框的宽度
-
-`element.scrollHeight`属性返回一个整数值，表示当前元素的总高度，包括溢出容器不可见的高度、padding、伪元素的高度，不包括border、margin、以及水平滚动条的高度
-
-`element.scrollWidth`属性返回当前元素的总宽度
-
-`element.offsetHeight`属性返回一个整数，表示元素的CSS垂直高度，包括元素自身的高度、padding、border、以及水平滚动条的高度
-
-`element.offsetWidth`属性返回一个CSS水平宽度。
-
-`element.scrollLeft`属性表示当前元素的水平滚动条向右侧滚动的像素数量，如果没有滚动条值为0 
-
-`element.scrollTop`属性表示当前元素的垂直滚动条向下滚动的像素数量，如果没有滚动条值为0 
-
-`element.offsetLeft`属性表示当前元素左上角相对于element.offsetParent节点的水平位移
-
-`element.offsetTop`属性表示当前元素左上角相对于element.offsetParent节点的垂直位移
-
-`element.firstElementChild`属性返回当前元素的第一个元素子节点
-
-`element.lastElementChild`返回当前元素的最后一个元素子节点
-
-`element.offsetParent`属性返回最靠近当前元素的、并且CSS的position属性不等于static的上层元素
-
-`element.children`属性返回一个类似数组的对象，包含当前元素节点的所有子元素。如果当前元素没有子元素，则返回的对象包含零个成员
+`Event.detail`属性只有浏览器的 UI （用户界面）事件才具有。该属性返回一个数值，表示事件的某种信息。具体含义与事件类型相关。比如，对于`click`和`dblclick`事件，`Event.detail`是鼠标按下的次数（`1`表示单击，`2`表示双击，`3`表示三击）；对于鼠标滚轮事件，`Event.detail`是滚轮正向滚动的距离，负值就是负向滚动的距离，返回值总是3的倍数。
 
 实例方法
 
-`element.querySelector()`方法接受CSS选择器作为参数，返回父元素的第一个匹配的子元素，如果没有找到匹配的子元素，返回null
+`Event.preventDefault`方法取消浏览器对当前事件的默认行为。比如点击链接后，浏览器默认会跳转到另一个页面，使用这个方法以后，就不会跳转了；再比如，按一下空格键，页面向下滚动一段距离，使用这个方法以后也不会滚动了。该方法生效的前提是，事件对象的`cancelable`属性为`true`，如果为`false`，调用该方法没有任何效果。**该方法只是取消事件对当前元素的默认影响，不会阻止事件的传播。如果要阻止传播，可以使用`stopPropagation()`或`stopImmediatePropagation()`方法。**
 
-`element.querySelectorAll()`方法接受CSS选择器作为参数，返回一个NodeList实例，包含所有匹配的子元素
+`Event.stopPropagation`方法阻止事件在 DOM 中继续传播，防止再触发定义在别的节点上的监听函数，但是不包括在当前节点上其他的事件监听函数。
 
-`element.getElementsByClassName`方法返回一个HTMLCollection实例，成员是当前元素的子元素节点。与document.getElementByClassName类似，只是搜索范围不是整个文档是当前元素element
+`Event.stopImmediatePropagation`方法阻止同一个事件的其他监听函数被调用，不管监听函数定义在当前节点还是其他节点。也就是说，该方法阻止事件的传播，比`Event.stopPropagation()`更彻底。
 
-`element.scrolltoView`方法滚动当前元素，进入浏览器的可见区域，类似于设置window.location.hash的效果
+`Event.composedPath()`返回一个数组，成员是事件的最底层节点和依次冒泡经过的所有上层节点。
 
-`element.getBoundingClientRect()`方法返回一个对象，提供当前元素节点的大小、位置等信息，基本上是CSS盒状模型的所有信息
+#### 事件模型
 
-`element.getClientRects()`方法返回一个类似数组的对象，里面是元素当前在页面上形成的矩形
+##### 事件传播（事件冒泡与事件捕获）
 
-`element.insertAdjacentHTML()`方法用于将一个HTML字符串解析成DOM结构插入相对于当前节点的指定位置
+一个事件发生后，会在子元素和父元素之间传播，这个传播分为3个阶段：
 
-`element.remove()`方法用于将当前元素节点从它的父节点移除
+- **第一阶段**：从`window`对象传导到目标节点（上层传到底层），称为“捕获阶段”（capture phase）。
+- **第二阶段**：在目标节点上触发，称为“目标阶段”（target phase）。
+- **第三阶段**：从目标节点传导回`window`对象（从底层传回上层），称为“冒泡阶段”（bubbling phase）。
 
-`element.focus()`方法用于将当前页面的焦点转移到指定元素上
+事件冒泡可以形象地比喻为把一颗石头投入水中，泡泡会一直从水底冒出水面。也就是说，事件会从最内层的元素开始发生，一直向上传播，直到document对象。
 
-`element.blur()`方法用于将焦点从当前元素上移除
+网景提出另一种事件流名为**事件捕获**(event capturing)。与事件冒泡相反，事件会从最外层开始发生，直到最具体的元素。
 
-`element.click()`方法用于在当前元素上模拟一次鼠标点击，相当于触发了click事件
+最后采用w3c的折中方案：先捕获后冒泡，形成了事件传播的3个阶段
 
+简单来说，如果父dom和子dom都定义了相同的事件（如点击事件），那么触发子dom的事件时会同时触发父dom上的事件
 
+举例
 
-### Htmlcollection、NodeList
-
-document和element都是单个dom对象，可以使用htmlcollection和nodelist多节点对象
-
-NodeList包含各种类型的节点，HTMLCollection只是HTML元素节点
-
-NodeList实例很像数组，但是不是数组，不可以使用pop或者push等数组的方法，可以使用length属性和forEach方法，也可以使用for遍历
-
-如果NodeList要使用数组的方法，可以将其转为真正的数组，使用array.slice.call(nodelist)进行转换
-
-遍历时可以选择NodeList.keys、NodeList.values、NodeList.entries三个对象进行遍历。NodeList.keys返回键名的遍历器，NodeList.values返回键值的遍历器，NodeList.entries返回的遍历器同时包含键名和键值
-
-```javascript
-for (var key of children.keys()) {
-   console.log(key)
-}
-for (var value of children.values()) {
-   console.log(value)
-}
-for (var entry of children.entries()) {
-   console.log(entry)
-}
-```
-
-HTMLCollection是节点对象的集合，但只能包含元素节点(element)，不能包含其他类型的节点。HTMLCollection与NodeList接口不同，HTMLCollection没有forEach方法，只能用for循环遍历
-
-HTMLCollection.length属性：返回HTMLCollection实例包含的成员数量
-
-HTMLCollection.Item()方法:接收一个整数值作为参数，返回该位置上的成员
-
-HTMLCollection.namedItem()方法：通过id或者name属性返回对应的元素节点，如果没有对应的节点返回null
-
-
-
-### text、documentFragment
-
-Text节点表示元素节点和属性节点的文本内容。如果一个节点只包含一段文本，那么它就有一个文本字节点，代表该节点的文本内容。
-
-属性
-
-text.data属性等同于NodeValue属性，用来设置或读取文本节点的内容
-
-text.wholeText属性将当前文本节点和毗邻的文本节点作为一个整体返回
-
-text.length属性返回当前文本节点的文本长度
-
-方法
-
-text.appendData方法用于在Text节点尾部追加字符串
-
-text.deleteData方法用于删除Text节点内部的子字符串，第一个参数为子字符串开始的位置，第二个参数是子字符串长度
-
-text.insertData方法用于在text节点插入字符串，第一个参数为插入位置，第二个参数是插入的子字符串
-
-text.replaceData方法用于获取子字符串，第一个参数为子字符串在Text节点中的开始位置，第二个参数为子字符串长度
-
-text.remove方法用于移除当前Text节点
-
-text.splitText方法将Text节点一分为二，变成两个毗邻的text节点，它的参数是从0开始。如果位置不存在，将报错
-
-DocumentFragment节点代表一个文档的片段，本身就是一个完整的DOM树形结构，它没有父节点，parentNode返回Null，但是可以插入任意数量的子节点，它不属于当前节点，所以操作DocumentFragment节点比直接操作DOM树快的多
-
-DocumentFragment节点本身不能被插入当前文档，当他作为appendChild、insertBefore等方法的参数时，是它的所有子节点插入当前文档，而不是它自身。一旦DocumentFragment节点被插入，它自身就变成空节点，可以再次被使用。如果想要保留DocumentFragment节点的内容，可以使用cloneNode方法。
-
-DocumentFragment节点不是单独的一种节点对象，它具有的属性和方法全部继承自Node节点和ParentNode接口。
-
-
-
-## 浏览器缓存storage方法
-
-storage 接口用于脚本在浏览器保存数据。两个对象部署了这个接口：`window.sessionStorage`和`window.localStorage`。
-
-属性：
-
-`Storage.length`：返回保存的数据项个数。
-
-方法：
-
-`Storage.setItem()`方法用于存入数据。它接受两个参数，第一个是键名，第二个是保存的数据。如果键名已经存在，该方法会更新已有的键值。
-
-`Storage.getItem()`方法用于读取数据。它只有一个参数，就是键名。如果键名不存在，该方法返回`null`。
-
-`Storage.removeItem()`方法用于清除某个键名对应的键值。它接受键名作为参数，如果键名不存在，该方法不会做任何事情。
-
-`Storage.clear()`方法用于清除所有保存的数据。该方法的返回值是undefined
-
-`Storage.key()`接受一个整数作为参数（从零开始），返回该位置对应的键值
+##### 阻止事件冒泡
 
 ```js
-window.localStorage.setItem('baz', 'c');
-window.sessionStorage.setItem('key', 'value');
-window.localStorage.setItem('key', 'value');
-window.sessionStorage.getItem('key')
-window.localStorage.getItem('key')
-sessionStorage.removeItem('key');
-localStorage.removeItem('key');
-window.sessionStorage.clear()
-window.localStorage.clear()
-window.sessionStorage.key(0)
-//遍历所有键
-for (var i = 0; i < window.localStorage.length; i++) {
-  console.log(localStorage.key(i));
-}
-window.addEventListener('storage', onStorageChange);
+$("#div1").mousedown(function(e){
+    var e=event||window.event;
+    event.stopPropagation();
+});
 ```
 
-异步方法
+不支持冒泡的事件类型：
 
+mouseenter、mouseleave、blur、focus、load、unload、resize
 
+不支持冒泡的事件，可以在捕获阶段实现事件代理
 
-## 函数、函数作用域和闭包
+##### 事件委托/事件代理
 
-JavaScript 语言将函数看作一种值，与其它值（数值、字符串、布尔值等等）地位相同。凡是可以使用值的地方，就能使用函数。比如，可以把函数赋值给变量和对象的属性，也可以当作参数传入其他函数，或者作为函数的结果返回。函数只是一个可以执行的值，此外并无特殊之处。
+由于事件传播的存在，事件会在冒泡阶段向上传播到父节点。因此可以把
 
-由于函数与其他数据类型地位平等，所以在 JavaScript 语言中又称函数为第一等公民。
+事件委托，通俗地来讲，就是把一个元素响应事件（click、keydown......）的函数委托到另一个元素；
 
-return语句
+事件委托会把一个或者一组元素的事件委托到它的父层或者更外层元素上，真正绑定事件的是外层元素，当事件响应到需要绑定的元素上时，会通过事件冒泡机制从而触发它的外层元素的绑定事件上，然后在外层元素上去执行函数。
 
-函数体内的return语句表示返回，JavaScript引擎遇到return语句就会直接返回return语句后面那个表达式的值，后面即使还有语句也不会得到执行，也就是说，return语句所带的那个表达式就是函数的返回值。return语句不是必须的，如果没有的话该函数就不返回任何值，或者说返回undefined
+实例
 
-通过return语句调用自己，就是递归，比如计算斐波那契数列
-
-```javascript
-function fib(num) {
-  if(num == 0) return 0;
-  if(num == 1) return 1;
-  return fib(num-1) + fib(num-2)
-}
-```
-
-arguements对象
-
-由于 JavaScript 允许函数有不定数目的参数，所以需要一种机制，可以在函数体内部读取所有参数。这就是`arguments`对象的由来。
-
-`arguments`对象包含了函数运行时的所有参数，`arguments[0]`就是第一个参数，`arguments[1]`就是第二个参数，以此类推。这个对象只有在函数体内部，才可以使用。
-
-虽然`arguments`很像数组，但它是一个对象。数组专有的方法（比如`slice`和`forEach`），不能在`arguments`对象上直接使用。
-
-如果要让`arguments`对象使用数组方法，真正的解决方法是将`arguments`转为真正的数组。下面是两种常用的转换方法：`slice`方法和逐一填入新数组。
-
-### 函数提升与变量提升
-
-JavaScript 引擎的工作方式是，先解析代码，获取所有被声明的变量，然后再一行一行地运行。这造成的结果，就是所有的变量的声明语句，都会被提升到代码的头部，这就叫做变量提升（hoisting）。
-
-```javascript
-console.log(a)   //undefined
-var a='我是谁'
-console.log(a)   //'我是谁'
-```
-
-例：变量提升常常会导致的错误，在for循环中添加异步事件时会导致var直接变成最后一个，因为for循环是同步循环，先完成循环再执行异步任务，使用let变量即使是异步事件由于局部作用域不会发生这种事
-
-```javascript
-for (var i=0;i<5;i++) {
-    console.log(i);
-}
-// 输出：0,1,2,3,4
-
-for (var i=0;i<5;i++) {
-  setTimeout(()=>{
-    console.log(i);
-  },0)
-}
-//当事件是异步时输出都是4，set
-
-//使用立即执行函数或者let变量可以输出0，1，2，3，4
-for (let i=0;i<5;i++) {
-  setTimeout(()=>{
-    console.log(i);
-  },0)
-}
-
-for (var i=0;i<5;i++) {
-  (function(i){
-    setTimeout(()=>{
-    	console.log(i);
-  	},0)
-  })(i)
-}
-```
-
-变量提升的其他例子
-
-```javascript
-var foo = 3;
-
-// 预编译之后
-function hoistVariable() {
-    var foo;
-    foo = foo || 5;
-    console.log(foo); // 5
-}
-
-hoistVariable();
-```
-
-JavaScript 引擎将函数名视同变量名，所以采用`function`命令声明函数时，整个函数会像变量声明一样，被提升到代码头部。所以，下面的代码不会报错。
-
-表面上，上面代码好像在声明之前就调用了函数`f`。但是实际上，由于“变量提升”，函数`f`被提升到了代码头部，也就是在调用之前已经声明了。但是，如果采用赋值语句定义函数，JavaScript 就会报错。
-
-**函数提升只针对具名函数，而对于赋值的匿名函数，并不会存在函数提升。**
-
-```javascript
-function hoistFunction() {
-    foo(); // output: I am hoisted
-
-    function foo() {
-        console.log('I am hoisted');
-    }
-}
-
-hoistFunction();
-// 预编译之后
-function hoistFunction() {
-    function foo() {
-        console.log('I am hoisted');
-    }
-
-    foo(); // output: I am hoisted
-}
-
-hoistFunction();
-```
-
-**函数提升优先级高于变量提升，且不会被同名变量声明覆盖，但是会被变量赋值后覆盖。而且存在同名函数与同名变量时，优先执行函数。**
-
-函数声明被提升时，声明和赋值两个步骤都会被提升，而普通变量却只能提升声明步骤，而不能提升赋值步骤。变量被提升过后，先对提升上来的所有对象统一执行一遍声明步骤，然后再对变量执行一次赋值步骤。而执行赋值步骤时，会优先执行函数变量的赋值步骤，再执行普通变量的赋值步骤。
-
-```javascript
-console.log(a);      //f a() 此时a是函数
-console.log(a());      //1  
-var a=1;
-function a(){
-    console.log(1);
-}
-console.log(a);       //1   
-a=3
-console.log(a())      //a not a function,被覆盖
-```
-
-变量提升和函数提升的原因：
-
-函数提升是为了解决函数相互递归调用的目的
-
-也就是说，变量提升是人为实现的问题，而函数提升在当初设计时是有目的的。
-
-其他：
-
-ES6中的class声明也存在提升，不过它和let、const一样，被约束和限制了，其规定，如果再声明位置之前引用，则是不合法的，会抛出一个异常。
-
-所以，无论是早期的代码，还是ES6中的代码，我们都需要遵循一点，先声明，后使用。
-
-### 作用域与作用域链
-
-JS执行环境在JS机制内部`就是用一个对象来表示的`，称作`执行环境对象`，简称`环境对象`。执行环境分为`全局执行环境`和`局部执行环境`两种，每个执行环境都有一个属于自己的环境对象。在web浏览器中，全局环境对象为window对象
-
-作用域
-
-作用域是变量或者函数可以被访问的代码范围，或者说是变量和函数所起作用的范围。
-
-作用域分为`全局作用域`、`局部作用域`两种。
-
-在页面中的脚本开始执行时，就会产生一个“全局作用域”。它是最外围（范围最大，或者说层级最高）的一个作用域。全局作用域的变量、函数
-可以在代码的任何地方访问到。
-
-当一个函数被创建的时候，会创建一个“局部作用域”。局部作用域中的函数、变量只能在某些局部代码中可以访问到。
-
-作用域链
-
-当前作⽤域没有定义的变量，就是⾃由变量 。为了得到⾃由变量，js程序内部将向⽗级作⽤域寻找。如果上一级父级作用域也没有，就一层一层向上找，直到找到全局作⽤域还是没找到，就宣布放弃。这种⼀层⼀ 层的关系，就是 **作⽤域链** 。
-
-
-
-### 闭包
-
-闭包就是有权访问另一个函数作用域中的变量的函数。
-
-由于函数作用域的影响，正常情况下，函数外部无法读取函数内部声明的变量，只有函数内部可以读取全局变量和父作用域变量。
-
-如果出于种种原因，需要得到函数内的局部变量。正常情况下，这是办不到的，只有通过变通方法才能实现。
-
-**在函数内部定义子函数，将子函数作为返回值，就可以在外部读取函数内部的变量，作为返回值的子函数称为闭包**
-
-```javascript
-function f1() {
-  var n = 999;
-  function f2() {
-    console.log(n);
+```html
+<ul id="list">
+  <li>item 1</li>
+  <li>item 2</li>
+  <li>item 3</li>
+  ......
+  <li>item n</li>
+</ul>
+<script>
+// 给父层元素绑定事件
+document.getElementById('list').addEventListener('click', function (e) {
+  // 兼容性处理
+  var event = e || window.event;
+  var target = event.target || event.srcElement;
+  // 判断是否匹配目标元素
+  if (target.nodeName.toLocaleLowerCase === 'li') {
+    console.log('the content is: ', target.innerHTML);
   }
-  return f2;
-}
-
-var result = f1();
-result(); // 999
+});
+</script>
 ```
 
-闭包的最大用处有两个，一个是可以读取外层函数内部的变量，另一个就是让这些变量始终保持在内存中，即闭包可以使得它诞生环境一直存在。原因是闭包（上例的`inc`）用到了外层变量（`start`），导致外层函数（`createIncrementor`）不能从内存释放。只要闭包没有被垃圾回收机制清除，外层函数提供的运行环境也不会被清除，它的内部变量就始终保存着当前值，供闭包读取。
+事件委托的优点：
 
-此外，闭包的另一个用处，是封装对象的私有属性和私有方法。
+1.减少内存消耗
+
+正常来说，如果我们有一个列表，列表之中有大量的列表项，我们需要在点击列表项的时候响应一个事件；
+
+比较好的方法就是把这个点击事件绑定到他的父层，也就是 `ul` 上，然后在执行事件的时候再去匹配判断目标元素；
+
+所以事件委托可以减少大量的内存消耗，节约效率。
+
+2.可以动态绑定事件
+
+例子中列表项就几个，我们给每个列表项都绑定了事件；
+
+在很多时候，我们需要通过 AJAX 或者用户操作动态的增加或者去除列表项元素，那么在每一次改变的时候都需要重新给新增的元素绑定事件，给即将删去的元素解绑事件；
+
+如果用了事件委托就没有这种麻烦了，因为事件是绑定在父层的，和目标元素的增减是没有关系的，执行到目标元素是在真正响应执行事件函数的过程中去匹配的；
+
+事件委托也是有一定局限性的；
+
+比如 focus、blur 之类的事件本身没有事件冒泡机制，所以无法委托；
+
+mousemove、mouseout 这样的事件，虽然有事件冒泡，但是只能不断通过位置去计算定位，对性能消耗高，因此也是不适合于事件委托的；
+
+对于事件代理(事件委托）来说，在事件捕获或者事件冒泡阶段处理并没有明显的优劣之分，但是由于事件冒泡的事件流模型被所有主流的浏览器兼容，从兼容性角度来说还是建议大家使用事件冒泡模型。
+
+#### 表单事件
+
+input事件
+
+`input`事件当`<input>`、`<select>`、`<textarea>`的值发生变化时触发。对于复选框（`<input type=checkbox>`）或单选框（`<input type=radio>`），用户改变选项时，也会触发这个事件。另外，对于打开`contenteditable`属性的元素，只要值发生变化，也会触发`input`事件。
+
+`input`事件的一个特点，就是会连续触发，比如用户每按下一次按键，就会触发一次`input`事件
+
+该事件跟`change`事件很像，不同之处在于`input`事件在元素的值发生变化后立即发生，而`change`在元素失去焦点时发生，而内容此时可能已经变化多次。也就是说，如果有连续变化，`input`事件会触发多次，而`change`事件只在失去焦点时触发一次
+
+change事件
+
+`change`事件当`<input>`、`<select>`、`<textarea>`的值发生变化时触发。它与`input`事件的最大不同，就是不会连续触发，只有当全部修改完成时才会触发，另一方面`input`事件必然伴随`change`事件。具体来说，分成以下几种情况。
+
+- 激活单选框（radio）或复选框（checkbox）时触发。
+- 用户提交时触发。比如，从下列列表（select）完成选择，在日期或文件输入框完成选择。
+- 当文本框或`<textarea>`元素的值发生改变，并且丧失焦点时触发。
+
+`select`事件
+
+当在`<input>`、`<textarea>`里面选中文本时触发
+
+选中的文本可以通过`event.target`元素的`selectionDirection`、`selectionEnd`、`selectionStart`和`value`属性拿到。
+
+valid事件
+
+用户提交表单时，如果表单元素的值不满足校验条件，就会触发`invalid`事件
+
+reset、submit事件
+
+这两个事件发生在表单对象`<form>`上，而不是发生在表单的成员上。
+
+`reset`事件当表单重置（所有表单成员变回默认值）时触发。
+
+`submit`事件当表单数据向服务器提交时触发。注意，`submit`事件的发生对象是`<form>`元素，而不是`<button>`元素，因为提交的是表单，而不是按钮
+
+##### 中文输入法输入事件composition
+
+如果一个 INPUT 中，用户使用中文输入法，那么原生的键盘事件就会发生变化，无法获取正确的 keycode 及对应的输入内容。从前端的能力，只能操作浏览器相关的 [API](https://so.csdn.net/so/search?q=API&spm=1001.2101.3001.7020)，不能获取中文输入法的内置 API。查阅资料后，可以使用 composition 事件来监听相关的事件
+
+不同中文输入法的情况可能大同小异（例如搜狗输入法，中文输入时，keycode 就是225，这样无法检测到点击的键）
+
+composition 事件组合分成三个事件：compositionstart、compositionupdate、compositionend，分别对应中文输入法下，开始输入、更新输入、结束输入的事件。
 
 ```javascript
-function Person(name) {
-  var _age;
-  function setAge(n) {
-    _age = n;
-  }
-  function getAge() {
-    return _age;
-  }
+// 首先获取INPUT元素，或者全局document元素
+const inputElement = document.querySelector('input[type="text"]');
 
-  return {
-    name: name,
-    getAge: getAge,
-    setAge: setAge
+// 当输入区域获取焦点后，点击键盘，会触发 composition 事件组合，通过 event.data 可以获取输入的字符
+inputElement.addEventListener('compositionstart', (event) => {
+  console.log(`generated characters were: ${event.data}`);
+});
+
+```
+
+开始输入首先触发一次 compositionstart 
+
+然后触发一次 compositionupdate，如果继续点击键盘，那么继续触发这个事件
+
+最后，点击空格键输入中文时，触发 compositionend 事件
+
+```javascript
+const inputElement = document.querySelector('input[type="text"]');
+const log = document.querySelector('.event-log-contents');
+const clearLog = document.querySelector('.clear-log');
+
+clearLog.addEventListener('click', () => {
+    log.textContent = '';
+});
+
+function handleEvent(event) {
+    log.textContent = log.textContent + `${event.type}: ${event.data}\n`;
+}
+
+inputElement.addEventListener('compositionstart', handleEvent);
+inputElement.addEventListener('compositionupdate', handleEvent);
+inputElement.addEventListener('compositionend', handleEvent);
+```
+
+
+
+#### 鼠标事件
+
+鼠标点击事件
+
+- `click`：按下鼠标（通常是按下主按钮）时触发。
+- `dblclick`：在同一个元素上双击鼠标时触发。
+- `mousedown`：按下鼠标键时触发。
+- `mouseup`：释放按下的鼠标键时触发。
+
+鼠标移动事件
+
+`mousemove`：当鼠标在一个节点内部移动时触发。当鼠标持续移动时，该事件会连续触发。为了避免性能问题，建议对该事件的监听函数做一些限定，比如限定一段时间内只能运行一次
+
+`mouseover`事件和`mouseenter`事件，都是鼠标进入一个节点时触发。两者的区别是，`mouseenter`事件只触发一次，而只要鼠标在节点内部移动，`mouseover`事件会在子节点上触发多次
+
+`mouseout`事件和`mouseleave`事件，都是鼠标离开一个节点时触发。两者的区别是，在父元素内部离开一个子元素时，`mouseleave`事件不会触发，而`mouseout`事件会触发
+
+
+
+
+
+#### 键盘事件
+
+键盘事件由用户击打键盘触发，主要有`keydown`、`keypress`、`keyup`三个事件，它们都继承了`KeyboardEvent`接口。
+
+- `keydown`：按下键盘时触发。
+- `keypress`：按下有值的键时触发，即按下 Ctrl、Alt、Shift、Meta 这样无值的键，这个事件不会触发。对于有值的键，按下时先触发`keydown`事件，再触发这个事件。
+- `keyup`：松开键盘时触发该事件。
+
+如果用户一直按键不松开，就会连续触发键盘事件，触发的顺序如下。
+
+1. keydown
+2. keypress
+3. keydown
+4. keypress
+5. ...（重复以上过程）
+6. keyup
+
+`KeyboardEvent`接口用来描述用户与键盘的互动。这个接口继承了`Event`接口，并且定义了自己的实例属性和实例方法
+
+- `KeyboardEvent.altKey`：是否按下 Alt 键
+- `KeyboardEvent.ctrlKey`：是否按下 Ctrl 键
+- `KeyboardEvent.metaKey`：是否按下 meta 键（Mac 系统是一个四瓣的小花，Windows 系统是 windows 键）
+- `KeyboardEvent.shiftKey`：是否按下 Shift 键
+
+#### 进度事件
+
+进度事件用来描述资源加载的进度，主要由 AJAX 请求、`<img>`、`<audio>`、`<video>`、`<style>`、`<link>`等外部资源的加载触发，继承了`ProgressEvent`接口。它主要包含以下几种事件。
+
+- `abort`：外部资源中止加载时（比如用户取消）触发。如果发生错误导致中止，不会触发该事件。
+- `error`：由于错误导致外部资源无法加载时触发。
+- `load`：外部资源加载成功时触发。
+- `loadstart`：外部资源开始加载时触发。
+- `loadend`：外部资源停止加载时触发，发生顺序排在`error`、`abort`、`load`等事件的后面。
+- `progress`：外部资源加载过程中不断触发。
+- `timeout`：加载超时时触发。
+
+`ProgressEvent`接口主要用来描述外部资源加载的进度，比如 AJAX 加载、`<img>`、`<video>`、`<style>`、`<link>`等外部资源加载。进度相关的事件都继承了这个接口
+
+`ProgressEvent()`构造函数接受两个参数。第一个参数是字符串，表示事件的类型，这个参数是必须的。第二个参数是一个配置对象，表示事件的属性，该参数可选。配置对象除了可以使用`Event`接口的配置属性，还可以使用下面的属性，所有这些属性都是可选的。
+
+- `lengthComputable`：布尔值，表示加载的总量是否可以计算，默认是`false`。
+- `loaded`：整数，表示已经加载的量，默认是`0`。
+- `total`：整数，表示需要加载的总量，默认是`0`。
+
+`ProgressEvent`具有对应的实例属性。
+
+- `ProgressEvent.lengthComputable`
+- `ProgressEvent.loaded`
+- `ProgressEvent.total`
+
+#### 拖动事件
+
+拖拉（drag）指的是，用户在某个对象上按下鼠标键不放，拖动它到另一个位置，然后释放鼠标键，将该对象放在那里。
+
+拖拉的对象有好几种，包括元素节点、图片、链接、选中的文字等等。在网页中，除了元素节点默认不可以拖拉，其他（图片、链接、选中的文字）都可以直接拖拉。为了让元素节点可拖拉，可以将该节点的`draggable`属性设为`true`。
+
+`draggable`属性可用于任何元素节点，但是图片（`<img>`）和链接（`<a>`）不加这个属性，就可以拖拉。对于它们，用到这个属性的时候，往往是将其设为`false`，防止拖拉这两种元素。
+
+当元素节点或选中的文本被拖拉时，就会持续触发拖拉事件，包括以下一些事件。
+
+- `drag`：拖拉过程中，在被拖拉的节点上持续触发（相隔几百毫秒）。
+- `dragstart`：用户开始拖拉时，在被拖拉的节点上触发，该事件的`target`属性是被拖拉的节点。通常应该在这个事件的监听函数中，指定拖拉的数据。
+- `dragend`：拖拉结束时（释放鼠标键或按下 ESC 键）在被拖拉的节点上触发，该事件的`target`属性是被拖拉的节点。它与`dragstart`事件，在同一个节点上触发。不管拖拉是否跨窗口，或者中途被取消，`dragend`事件总是会触发的。
+- `dragenter`：拖拉进入当前节点时，在当前节点上触发一次，该事件的`target`属性是当前节点。通常应该在这个事件的监听函数中，指定是否允许在当前节点放下（drop）拖拉的数据。如果当前节点没有该事件的监听函数，或者监听函数不执行任何操作，就意味着不允许在当前节点放下数据。在视觉上显示拖拉进入当前节点，也是在这个事件的监听函数中设置。
+- `dragover`：拖拉到当前节点上方时，在当前节点上持续触发（相隔几百毫秒），该事件的`target`属性是当前节点。该事件与`dragenter`事件的区别是，`dragenter`事件在进入该节点时触发，然后只要没有离开这个节点，`dragover`事件会持续触发。
+- `dragleave`：拖拉操作离开当前节点范围时，在当前节点上触发，该事件的`target`属性是当前节点。如果要在视觉上显示拖拉离开操作当前节点，就在这个事件的监听函数中设置。
+- `drop`：被拖拉的节点或选中的文本，释放到目标节点时，在目标节点上触发。注意，如果当前节点不允许`drop`，即使在该节点上方松开鼠标键，也不会触发该事件。如果用户按下 ESC 键，取消这个操作，也不会触发该事件。该事件的监听函数负责取出拖拉数据，并进行相关处理。
+
+
+
+
+
+`DataTransfer.setData()`方法用来设置拖拉事件所带有的数据。该方法没有返回值。
+
+`DataTransfer.getData()`方法接受一个字符串（表示数据类型）作为参数，返回事件所带的指定类型的数据（通常是用`setData`方法添加的数据）。如果指定类型的数据不存在，则返回空字符串。通常只有`drop`事件触发后，才能取出数据。
+
+`DataTransfer.clearData()`方法接受一个字符串（表示数据类型）作为参数，删除事件所带的指定类型的数据。如果没有指定类型，则删除所有数据。如果指定类型不存在，则调用该方法不会产生任何效果。
+
+`DataTransfer.setDragImage()`拖动过程中（`dragstart`事件触发后），浏览器会显示一张图片跟随鼠标一起移动，表示被拖动的节点。这张图片是自动创造的，通常显示为被拖动节点的外观，不需要自己动手设置。
+
+`DataTransfer.setDragImage()`方法可以自定义这张图片。它接受三个参数。第一个是`<img>`节点或者`<canvas>`节点，如果省略或为`null`，则使用被拖动的节点的外观；第二个和第三个参数为鼠标相对于该图片左上角的横坐标和纵坐标。
+
+#### 其他事件
+
+##### 资源事件
+
+beforeunload事件
+
+`beforeunload`事件在窗口、文档、各种资源将要卸载前触发。它可以用来防止用户不小心卸载资源。
+
+如果该事件对象的`returnValue`属性是一个非空字符串，那么浏览器就会弹出一个对话框，询问用户是否要卸载该资源。但是，用户指定的字符串可能无法显示，浏览器会展示预定义的字符串。如果用户点击“取消”按钮，资源就不会卸载。
+
+```javascript
+window.addEventListener('beforeunload', function (event) {
+  event.returnValue = '你确定离开吗？';
+});
+```
+
+unload事件
+
+`unload`事件在窗口关闭或者`document`对象将要卸载时触发。它的触发顺序排在`beforeunload`、`pagehide`事件后面。
+
+`unload`事件发生时，文档处于一个特殊状态。所有资源依然存在，但是对用户来说都不可见，UI 互动全部无效。这个事件是无法取消的，即使在监听函数里面抛出错误，也不能停止文档的卸载。
+
+```javascript
+window.addEventListener('unload', function(event) {
+  console.log('文档将要卸载');
+});
+```
+
+手机上，浏览器或系统可能会直接丢弃网页，这时该事件根本不会发生。而且跟`beforeunload`事件一样，一旦使用了`unload`事件，浏览器就不会缓存当前网页，理由同上。因此，任何情况下都不应该依赖这个事件，指定网页卸载时要执行的代码，可以考虑完全不使用这个事件。
+
+该事件可以用`pagehide`代替。
+
+Load  Error事件
+
+`load`事件在页面或某个资源加载成功时触发。注意，页面或资源从浏览器缓存加载，并不会触发`load`事件。
+
+`error`事件是在页面或资源加载失败时触发。`abort`事件在用户取消加载时触发。
+
+```javascript
+window.addEventListener('load', function(event) {
+  console.log('所有资源都加载完成');
+});
+```
+
+这三个事件实际上属于进度事件，不仅发生在`document`对象，还发生在各种外部资源上面。浏览网页就是一个加载各种资源的过程，图像（image）、样式表（style sheet）、脚本（script）、视频（video）、音频（audio）、Ajax请求（XMLHttpRequest）等等。这些资源和`document`对象、`window`对象、XMLHttpRequestUpload 对象，都会触发`load`事件和`error`事件。
+
+最后，页面的`load`事件也可以用`pageshow`事件代替。
+
+##### 会话历史事件
+
+pageshow 事件，pagehide 事件
+
+默认情况下，浏览器会在当前会话（session）缓存页面，当用户点击“前进/后退”按钮时，浏览器就会从缓存中加载页面。
+
+`pageshow`事件在页面加载时触发，包括第一次加载和从缓存加载两种情况。如果要指定页面每次加载（不管是不是从浏览器缓存）时都运行的代码，可以放在这个事件的监听函数。
+
+第一次加载时，它的触发顺序排在`load`事件后面。从缓存加载时，`load`事件不会触发，因为网页在缓存中的样子通常是`load`事件的监听函数运行后的样子，所以不必重复执行。同理，如果是从缓存中加载页面，网页内初始化的 JavaScript 脚本（比如 DOMContentLoaded 事件的监听函数）也不会执行。
+
+`pageshow`事件有一个`persisted`属性，返回一个布尔值。页面第一次加载时，这个属性是`false`；当页面从缓存加载时，这个属性是`true`。
+
+```javascript
+window.addEventListener('pageshow', function(event) {
+  console.log('pageshow: ', event);
+});
+
+window.addEventListener('pageshow', function(event){
+  if (event.persisted) {
+    // ...
+  }
+});
+```
+
+`pagehide`事件与`pageshow`事件类似，当用户通过“前进/后退”按钮，离开当前页面时触发。它与 unload 事件的区别在于，如果在 window 对象上定义`unload`事件的监听函数之后，页面不会保存在缓存中，而使用`pagehide`事件，页面会保存在缓存中。
+
+`pagehide`事件实例也有一个`persisted`属性，将这个属性设为`true`，就表示页面要保存在缓存中；设为`false`，表示网页不保存在缓存中，这时如果设置了unload 事件的监听函数，该函数将在 pagehide 事件后立即运行。
+
+如果页面包含`<frame>`或`<iframe>`元素，则`<frame>`页面的`pageshow`事件和`pagehide`事件，都会在主页面之前触发。
+
+注意，这两个事件只在浏览器的`history`对象发生变化时触发，跟网页是否可见没有关系。
+
+popState事件
+
+`popstate`事件在浏览器的`history`对象的当前记录发生显式切换时触发。注意，调用`history.pushState()`或`history.replaceState()`，并不会触发`popstate`事件。该事件只在用户在`history`记录之间显式切换时触发，比如鼠标点击“后退/前进”按钮，或者在脚本中调用`history.back()`、`history.forward()`、`history.go()`时触发。
+
+该事件对象有一个`state`属性，保存`history.pushState`方法和`history.replaceState`方法为当前记录添加的`state`对象
+
+```javascript
+window.onpopstate = function (event) {
+  console.log('state: ' + event.state);
+};
+history.pushState({page: 1}, 'title 1', '?page=1');
+history.pushState({page: 2}, 'title 2', '?page=2');
+history.replaceState({page: 3}, 'title 3', '?page=3');
+history.back(); // state: {"page":1}
+history.back(); // state: null
+history.go(2);  // state: {"page":3}
+```
+
+上面代码中，`pushState`方法向`history`添加了两条记录，然后`replaceState`方法替换掉当前记录。因此，连续两次`back`方法，会让当前条目退回到原始网址，它没有附带`state`对象，所以事件的`state`属性为`null`，然后前进两条记录，又回到`replaceState`方法添加的记录。
+
+浏览器对于页面首次加载，是否触发`popstate`事件，处理不一样，Firefox 不触发该事件。
+
+hashchange事件
+
+`hashchange`事件在 URL 的 hash 部分（即`#`号后面的部分，包括`#`号）发生变化时触发。该事件一般在`window`对象上监听。
+
+`hashchange`的事件实例具有两个特有属性：`oldURL`属性和`newURL`属性，分别表示变化前后的完整 URL。
+
+```javascript
+// URL 是 http://www.example.com/
+window.addEventListener('hashchange', myFunction);
+
+function myFunction(e) {
+  console.log(e.oldURL);
+  console.log(e.newURL);
+}
+
+location.hash = 'part2';
+// http://www.example.com/
+// http://www.example.com/#part2
+```
+
+##### 网页状态事件
+
+DOMContentLoaded 事件
+
+网页下载并解析完成以后，浏览器就会在`document`对象上触发 DOMContentLoaded 事件。这时，仅仅完成了网页的解析（整张页面的 DOM 生成了），所有外部资源（样式表、脚本、iframe 等等）可能还没有下载结束。也就是说，这个事件比`load`事件，发生时间早得多。
+
+注意，网页的 JavaScript 脚本是同步执行的，脚本一旦发生堵塞，将推迟触发`DOMContentLoaded`事件。
+
+```javascript
+document.addEventListener('DOMContentLoaded', function (event) {
+  console.log('DOM生成');
+});
+
+// 这段代码会推迟触发 DOMContentLoaded 事件
+for(var i = 0; i < 1000000000; i++) {
+  // ...
+}
+```
+
+readystatechange事件
+
+`readystatechange`事件当 Document 对象和 XMLHttpRequest 对象的`readyState`属性发生变化时触发。`document.readyState`有三个可能的值：`loading`（网页正在加载）、`interactive`（网页已经解析完成，但是外部资源仍然处在加载状态）和`complete`（网页和所有外部资源已经结束加载，`load`事件即将触发）
+
+```javascript
+document.onreadystatechange = function () {
+  if (document.readyState === 'interactive') {
+    // ...
+  }
+}
+```
+
+这个事件可以看作`DOMContentLoaded`事件的另一种实现方法
+
+##### 窗口事件
+
+scroll事件
+
+`scroll`事件在文档或文档元素滚动时触发，主要出现在用户拖动滚动条。
+
+该事件会连续地大量触发，所以它的监听函数之中不应该有非常耗费计算的操作。推荐的做法是使用`requestAnimationFrame`或`setTimeout`控制该事件的触发频率，然后可以结合`customEvent`抛出一个新事件
+
+```javascript
+(function () {
+  var throttle = function (type, name, obj) {
+    var obj = obj || window;
+    var running = false;
+    var func = function () {
+      if (running) { return; }
+      running = true;
+      requestAnimationFrame(function() {
+        obj.dispatchEvent(new CustomEvent(name));
+        running = false;
+      });
+    };
+    obj.addEventListener(type, func);
   };
-}
 
-var p1 = Person('张三');
-p1.setAge(25);
-p1.getAge() // 25
-```
+  // 将 scroll 事件转为 optimizedScroll 事件
+  throttle('scroll', 'optimizedScroll');
+})();
 
-闭包的使用场景
+window.addEventListener('optimizedScroll', function() {
+  console.log('Resource conscious scroll callback!');
+});
 
-需要值长期保存又需要隐藏的场景
-
-闭包的问题
-
-一般情况下，一个函数执行完内部的代码，函数调用时所创建的执行环境、环境对象（包括变量对象、[[scope]]等）都会被销毁，它们的生命周期就只有函数调用到函数执行结束这一段时间。
-
-闭包形成后，会在函数执行完仍将他的变量对象保存在内存中，当引用时间过长或者引用对象很多的时候，会占用大量内存，严重影响性能。
-
-闭包的清除
-
-将闭包的值手动置空即可。
-
-eval命令
-
-`eval`命令接受一个字符串作为参数，并将这个字符串当作语句执行。
-
-
-
-### 立即执行函数
-
-立即执行函数就是声明一个匿名函数，并且马上调用这个匿名函数
-
-```javascript
-//函数最后的括号是调用的意思
-(function() {alert('匿名函数')})()
-```
-
-立即执行函数的作用只有一个：创建独立的作用域
-
-在这个作用域里面的变量，外面访问不到，即避免变量污染
-
-```javascript
-var liList = ul.getElementsByTagName('li')
-for(var i=0;i<6;i++){
-  liList[i].onclick = function(){
-    alert(i) //输出都是6，i贯穿整个作用域，而不是给每个li一个i
+function throttle(fn, wait) {
+  var time = Date.now();
+  return function() {
+    if ((time + wait - Date.now()) < 0) {
+      fn();
+      time = Date.now();
+    }
   }
 }
 
-//使用立即执行函数创建独立作用域
-var liList = ul.getElementsByTagName('li')
-for(var i=0;i<6;i++){
-  !function(ii){
-    liList[ii].onclick = function(){
-    	alert(ii) //输出都是6，i贯穿整个作用域，而不是给每个li一个i
-  	}
-  }
-}
+window.addEventListener('scroll', throttle(callback, 1000));
 ```
 
+`throttle`与它区别在于，`throttle`是“节流”，确保一段时间内只执行一次，而`debounce`是“防抖”，要连续操作结束后再执行。以网页滚动为例，`debounce`要等到用户停止滚动后才执行，`throttle`则是如果用户一直在滚动网页，那么在滚动过程中还是会执行
 
+resize事件
 
-### 函数的rest参数与占位符
+`resize`事件在改变浏览器窗口大小时触发，主要发生在`window`对象上面
 
-无法只省略该参数，而不省略它后面的参数，除非显式输入`undefined`。如果传入`undefined`，将触发该参数等于默认值，`null`则没有这个效果。
-
-```javascript
-function f(x, y = 5, z) {
-  return [x, y, z];
-}
-
-f() // [undefined, 5, undefined]
-f(1) // [1, 5, undefined]
-f(1, ,2) // 报错
-f(1, undefined, 2) // [1, 5, 2]
-```
-
-数组的Map方法函数的占位符为下滑线
+该事件也会连续地大量触发，所以最好像上面的`scroll`事件一样，通过`throttle`函数控制事件触发频率。
 
 ```javascript
- Array.from({ length: 31 }).map((_, i) => i + 1),
-```
-
-
-
- 
-
-## 严格模式
-
-早期的 JavaScript 语言有很多设计不合理的地方，但是为了兼容以前的代码，又不能改变老的语法，只能不断添加新的语法，引导程序员使用新语法。
-
-严格模式是从 ES5 进入标准的，主要目的有以下几个。
-
-- 明确禁止一些不合理、不严谨的语法，减少 JavaScript 语言的一些怪异行为。
-- 增加更多报错的场合，消除代码运行的一些不安全之处，保证代码运行的安全。
-- 提高编译器效率，增加运行速度。
-- 为未来新版本的 JavaScript 语法做好铺垫。
-
-严格模式可以用于整个脚本，也可以只用于单个函数。`use strict`放在脚本文件的第一行，整个脚本都将以严格模式运行。如果这行语句不在第一行就无效，整个脚本会以正常模式运行。`use strict`放在函数体的第一行，则整个函数以严格模式运行。
-
-进入严格模式的标志，是一行字符串`use strict`。老版本的引擎会把它当作一行普通字符串，加以忽略。新版本的引擎就会进入严格模式。
-
-严格模式不允许的语法：
-
-严格模式下，设置字符串的`length`属性，会报错。长度只可读，不可写；
-
-严格模式下，对一个只有取值器（getter）、没有存值器（setter）的属性赋值，会报错。
-
-严格模式下，对禁止扩展的对象添加新属性，会报错。
-
-正常模式下，函数内部的`this`可能会指向全局对象，严格模式禁止这种用法，避免无意间创造全局变量。
-
-函数内部不得使用`fn.caller`、`fn.arguments`，否则会报错。这意味着不能在函数内部得到调用栈了。
-
-严格模式下无法删除变量，如果使用`delete`命令删除一个变量，会报错。只有对象的属性，且属性的描述对象的`configurable`属性设置为`true`，才能被`delete`命令删除。
-
-
-
-## this关键字
-
-`this`指向属性或方法“当前”所在的对象。
-
-`this`的动态切换，固然为 JavaScript 创造了巨大的灵活性，但也使得编程变得困难和模糊。有时，需要把`this`固定下来，避免出现意想不到的情况。JavaScript 提供了`call`、`apply`、`bind`这三个方法，来切换/固定`this`的指向。
-
-`call`方法的参数是一个对象。如果参数为空、`null`和`undefined`，则默认传入全局对象。
-
-```javascript
-var n = 123;
-var obj = { n: 456 };
-
-function a() {
-  console.log(this.n);
-}
-
-a.call() // 123
-a.call(null) // 123
-a.call(undefined) // 123
-a.call(window) // 123
-a.call(obj) // 456
-```
-
-`apply`方法的作用与`call`方法类似，也是改变`this`指向，然后再调用该函数。唯一的区别就是，它接收一个数组作为函数执行时的参数
-
-`bind()`方法用于将函数体内的`this`绑定到某个对象，然后返回一个新函数。
-
-```javascript
-var counter = {
-  count: 0,
-  inc: function () {
-    this.count++;
+var resizeMethod = function () {
+  if (document.body.clientWidth < 768) {
+    console.log('移动设备的视口');
   }
 };
 
-var func = counter.inc.bind(counter);
-func();
-counter.count // 1
+window.addEventListener('resize', resizeMethod, true);
 ```
 
-### 为什么有this
+fullscreenchange 事件，fullscreenerror 事件
 
-JavaScript 语言之所以有 this 的设计，跟内存里面的数据结构有关系。
+`fullscreenchange`事件在进入或退出全屏状态时触发，该事件发生在`document`对象上面
 
-将一个对象赋值给变量`obj`。JavaScript 引擎会先在内存里面，生成一个对象`{ foo: 5 }`，然后把这个对象的内存地址赋值给变量`obj`。也就是说，变量`obj`是一个地址（reference）。后面如果要读取`obj.foo`，引擎先从`obj`拿到内存地址，然后再从该地址读出原始的对象，返回它的`foo`属性。
-
-原始的对象以字典结构保存，每一个属性名都对应一个属性描述对象。
-
-这样的结构是很清晰的，问题在于属性的值可能是一个函数。
-
-引擎会将函数单独保存在内存中，然后再将函数的地址赋值给`foo`属性的`value`属性。
-
-由于函数是一个单独的值，所以它可以在不同的环境（上下文）执行。JavaScript 允许在函数体内部，引用当前环境的其他变量。
-
-现在问题就来了，由于函数可以在不同的运行环境执行，所以需要有一种机制，能够在函数体内部获得当前的运行环境（context）。所以，`this`就出现了，它的设计目的就是在函数体内部，指代函数当前的运行环境。
-
-### 绑定方法
-
-**new绑定**： new方式是优先级最高的一种调用方式，只要是使用new方式来调用一个构造函数，this一定会指向new调用函数新创建的对象
-
-**显示绑定**：显示绑定指的是通过call()和apply()方法，强制指定某些对象对函数进行调用，this则强制指向调用函数的对象
-
-**隐式绑定**：隐式绑定是指通过为对象添加属性，该属性的值即为要调用的函数，进而使用该对象调用函数
-
-**默认绑定**：默认绑定是指当上面这三条绑定规则都不符合时，默认绑定会把this指向全局对象window
+`fullscreenerror`事件在浏览器无法切换到全屏状态时触发。
 
 ```javascript
-function thisTo(){
-   console.log(this.a);
+document.addEventListener('fullscreenchange', function (event) {
+  console.log(document.fullscreenElement);
+});
+```
+
+##### 剪贴板事件
+
+以下三个事件属于剪贴板操作的相关事件。
+
+- `cut`：将选中的内容从文档中移除，加入剪贴板时触发。
+- `copy`：进行复制动作时触发。
+- `paste`：剪贴板内容粘贴到文档后触发。
+
+如果希望禁止输入框的粘贴事件，可以使用下面的代码。
+
+```javascript
+inputElement.addEventListener('paste', e => e.preventDefault());
+```
+
+上面的代码使得用户无法在`<input>`输入框里面粘贴内容。
+
+`cut`、`copy`、`paste`这三个事件的事件对象都是`ClipboardEvent`接口的实例。`ClipboardEvent`有一个实例属性`clipboardData`，是一个 DataTransfer 对象，存放剪贴的数据。
+
+```javascript
+document.addEventListener('copy', function (e) {
+  e.clipboardData.setData('text/plain', 'Hello, world!');
+  e.clipboardData.setData('text/html', '<b>Hello, world!</b>');
+  e.preventDefault();
+});
+```
+
+##### 焦点事件
+
+焦点事件发生在元素节点和`document`对象上面，与获得或失去焦点相关。它主要包括以下四个事件。
+
+- `focus`：元素节点获得焦点后触发，该事件不会冒泡。
+- `blur`：元素节点失去焦点后触发，该事件不会冒泡。
+- `focusin`：元素节点将要获得焦点时触发，发生在`focus`事件之前。该事件会冒泡。
+- `focusout`：元素节点将要失去焦点时触发，发生在`blur`事件之前。该事件会冒泡。
+
+这四个事件的事件对象都继承了`FocusEvent`接口。`FocusEvent`实例具有以下属性。
+
+- `FocusEvent.target`：事件的目标节点。
+- `FocusEvent.relatedTarget`：对于`focusin`事件，返回失去焦点的节点；对于`focusout`事件，返回将要接受焦点的节点；对于`focus`和`blur`事件，返回`null`。
+
+由于`focus`和`blur`事件不会冒泡，只能在捕获阶段触发，所以`addEventListener`方法的第三个参数需要设为`true`。
+
+```javascript
+form.addEventListener('focus', function (event) {
+  event.target.style.background = 'pink';
+}, true);
+
+form.addEventListener('blur', function (event) {
+  event.target.style.background = '';
+}, true);
+```
+
+customEvent接口
+
+CustomEvent 接口用于生成自定义的事件实例。那些浏览器预定义的事件，虽然可以手动生成，但是往往不能在事件上绑定数据。如果需要在触发事件的同时，传入指定的数据，就可以使用 CustomEvent 接口生成的自定义事件对象。
+
+浏览器原生提供`CustomEvent()`构造函数，用来生成 CustomEvent 事件实例。
+
+`CustomEvent()`构造函数接受两个参数。第一个参数是字符串，表示事件的名字，这是必须的。第二个参数是事件的配置对象，这个参数是可选的。`CustomEvent`的配置对象除了接受 Event 事件的配置属性，只有一个自己的属性。
+
+- `detail`：表示事件的附带数据，默认为`null`。
+
+```javascript
+var event = new CustomEvent('build', { 'detail': 'hello' });
+
+function eventHandler(e) {
+  console.log(e.detail);
 }
-var a=2; //a是全局对象的一个同名属性
-thisTo(); //2
+
+document.body.addEventListener('build', function (e) {
+  console.log(e.detail);
+});
+
+document.body.dispatchEvent(event);
 ```
 
-### this通常的调用方式
+上面的代码中，我们手动定义了`build`事件。该事件触发后，会被监听到，从而输出该事件实例的`detail`属性（即字符串`hello`）
 
-全局环境
+### 全局事件
 
-全局环境使用`this`，它指的就是顶层对象`window`。
+指定事件的回调函数，推荐使用的方法是元素的`addEventListener`方法。
 
-```javascript
-this === window // true
+除了之外，还有一种方法可以直接指定事件的回调函数。
 
-function f() {
-  console.log(this === window);
-}
-f() // true
-```
+这个接口是由`GlobalEventHandlers`接口提供的。它的优点是使用比较方便，缺点是只能为每个事件指定一个回调函数，并且无法指定事件触发的阶段（捕获阶段还是冒泡阶段）。
 
-构造函数
-
-```javascript
-// 定义了一个构造函数Obj。由于this指向实例对象，所以在构造函数内部定义this.p，就相当于定义实例对象有一个p属性。
-var Obj = function (p) {
-  this.p = p;
-};
-
-var o = new Obj('Hello World!');
-o.p // "Hello World!"
-```
-
-对象的方法
-
-如果对象的方法里面包含`this`，`this`的指向就是方法运行时所在的对象。该方法赋值给另一个对象，就会改变`this`的指向。
-
-```javascript
-var obj ={
-  foo: function () {
-    console.log(this);
-  }
-};
-
-obj.foo() // obj
-// 情况一
-(obj.foo = obj.foo)() // window
-// 情况二
-(false || obj.foo)() // window
-// 情况三
-(1, obj.foo)() // window
-```
+`HTMLElement`、`Document`和`Window`都继承了这个接口，也就是说，各种 HTML 元素、`document`对象、`window`对象上面都可以使用`GlobalEventHandlers`接口提供的属性。
 
 
 
-### this指向丢失的情况
-
-引用赋值丢失：
-
-当进行**隐式绑定**时，如果进行一次引用赋值或者传参操作，会造成this的丢失，使this绑定到全局对象中去。
-
-```javascript
-function thisTo(){
-   console.log(this.a);
-}
-var data={
-    a:2,
-    foo:thisTo //通过属性引用this所在函数 
-};
-var a=3;//全局属性
- 
-var newData = data.foo; //这里进行了一次引用赋值 
-newData(); // 3，因为newData实际上引用的是foo函数本身，这就相当于：var newData = thisTo;data对象只是一个中间桥梁，data.foo只起到传递函数的作用，所以newData跟data对象没有任何关系。而newData本身又不带a属性，最后a只能指向window。
-```
-
-回调函数传参丢失
-
-传参丢失，就是在将包含this的函数作为参数在函数中传递时，this指向改变。setTimeout函数的本来写法应该是setTimeout(function(){......},100)；100ms后执行的函数都在“......”中，可以将要执行函数定义成var fun = function(){......},即:setTimeout(fun,100)，100ms后就有：fun()；所以此时此刻是data.foo作为一个参数，是这样的：setTimeout(thisTo,100);100ms过后执行thisTo()
-
-```javascript
-function thisTo(){
-   console.log(this.a);
-}
-var data={
-    a:2,
-    foo:thisTo //通过属性引用this所在函数 
-};
-var a=3;//全局属性
- 
-setTimeout(data.foo,100);// 3
-```
-
-数组的foreach和map方法
-
-`foreach`方法的回调函数中的`this`，其实是指向`window`对象，因此取不到`o.v`的值。原因跟上一段的多层`this`是一样的，就是内层的`this`不指向外部，而指向顶层对象。
-
-解决this丢失的问题：
-
-1.使用bind 方法返回一个新对象。它会把参数设置为this的上下文并调用原始函数。
-
-2.间接引用：间接引用是指一个定义对象的方法引用另一个对象存在的方法，这种情况下会使得this指向window：
-
-3.使用箭头函数：箭头函数在this这块是一个特殊的改进，箭头函数使用了词法作用域取代了传统的this机制，所以箭头函数无法使用上面所说的这些this优先级的原则，注意的是在箭头函数中，是根据外层父亲作用域来决定this的指向问题。
-
-### call apply bind区别
-
-call方法第一个参数是this指向，第二个参数可以传入参数列表，call方法临时改变一次this指向，并立即执行
-
-Apply方法可以传入参数数组，使用apply方法改变this指向后原函数会立即执行，且此方法只是临时改变this指向一次。
-
-bind方法和apply方法类似，第一个参数是this指向，第二个参数可以传入参数列表，但是bind改变this指向后不会立即执行，而是返回一个永久改变this指向的函数
-
-- 

@@ -1483,9 +1483,7 @@ https://cn.vuejs.org/v2/cookbook/client-side-storage.html
 npm install vue vue-server-renderer --save
 ```
 
-Nust
 
-Nust是基于vue生态的
 
 ## vue.config.js
 

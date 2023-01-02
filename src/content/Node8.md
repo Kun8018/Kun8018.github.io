@@ -1,1169 +1,785 @@
 ---
-title: JavaScript开发（六）-TS开发（一）
-date: 2021-01-21 21:40:33
+title: JavaScript开发（五）
+date: 2021-01-19 21:40:33
 categories: IT
 tags:
-    - IT，Web
+    - IT，Web,Node
 toc: true
-thumbnail: http://cdn.kunkunzhang.top/typescript.jpg
+thumbnail: http://cdn.kunkunzhang.top/es6.png
 ---
 
-万万没想到会来到第六篇，第六篇写TypeScript。
+第五篇注重ES6
 
 <!--more-->
 
-## Typescript
+## ES6
 
-Typescript是JavaScript的超集，主要提供了**类型系统**和**对 ES6 的支持**，它由 Microsoft 开发，代码[开源于 GitHub](https://github.com/Microsoft/TypeScript) 上。
+### 遍历器Iterator
 
-Typescript的优势：
+JavaScript 原有的表示“集合”的数据结构，主要是数组（`Array`）和对象（`Object`），ES6 又添加了`Map`和`Set`。这样就有了四种数据集合，用户还可以组合使用它们，定义自己的数据结构，比如数组的成员是`Map`，`Map`的成员是对象。这样就需要一种统一的接口机制，来处理所有不同的数据结构。
 
-Typescript增加了代码的可读性。
+遍历器（Iterator）就是这样一种机制。它是一种接口，为各种不同的数据结构提供统一的访问机制。任何数据结构只要部署 Iterator 接口，就可以完成遍历操作（即依次处理该数据结构的所有成员）。
 
-- 类型系统实际上是最好的文档，大部分的函数看看类型的定义就可以知道如何使用了
-- 可以在编译阶段就发现大部分错误，这总比在运行时候出错好
-- 增强了编辑器和 IDE 的功能，包括代码补全、接口提示、跳转到定义、重构等
+Iterator 的遍历过程是这样的。
 
-TypeScript 非常包容
+（1）创建一个指针对象，指向当前数据结构的起始位置。也就是说，遍历器对象本质上，就是一个指针对象。
 
-- TypeScript 是 JavaScript 的超集，`.js` 文件可以直接重命名为 `.ts` 即可
-- 即使不显式的定义类型，也能够自动做出[类型推论](https://ts.xcatliu.com/basics/type-inference.html)
-- 可以定义从简单到复杂的几乎一切类型
-- 即使 TypeScript 编译报错，也可以生成 JavaScript 文件
-- 兼容第三方库，即使第三方库不是用 TypeScript 写的，也可以编写单独的类型文件供 TypeScript 读取
+（2）第一次调用指针对象的`next`方法，可以将指针指向数据结构的第一个成员。
 
-Typescript的劣势：
+（3）第二次调用指针对象的`next`方法，指针就指向数据结构的第二个成员。
 
-- 有一定的学习成本，需要理解接口（Interfaces）、泛型（Generics）、类（Classes）、枚举类型（Enums）等前端工程师可能不是很熟悉的概念
-- 短期可能会增加一些开发成本，毕竟要多写一些类型的定义，不过对于一个需要长期维护的项目，TypeScript 能够减少其维护成本
-- 集成到构建流程需要一些工作量
-- 可能和一些库结合的不是很完美
+（4）不断调用指针对象的`next`方法，直到它指向数据结构的结束位置。
 
-### 安装和使用
+#### for...of
 
-使用typescript编写的文件以ts为文件后缀，用typescript编写react时以tsx为文件后缀。
+ES6 借鉴 C++、Java、C# 和 Python 语言，引入了`for...of`循环，作为遍历所有数据结构的统一的方法。
 
-安装typescript的命令行工具
+一个数据结构只要部署了`Symbol.iterator`属性，就被视为具有 iterator 接口，就可以用`for...of`循环遍历它的成员。也就是说，`for...of`循环内部调用的是数据结构的`Symbol.iterator`方法。
 
-```shell
-npm install -g typescript
-```
+`for...of`循环可以使用的范围包括数组、Set 和 Map 结构、某些类似数组的对象（比如`arguments`对象、DOM NodeList 对象）、后文的 Generator 对象，以及字符串。
 
-以上命令会在全局环境下安装tsc命令，安装完成后可以在任何地方执行tsc命令
+JavaScript 原有的`for...in`循环，只能获得对象的键名，不能直接获取键值。ES6 提供`for...of`循环，允许遍历获得键值。
 
-编译typescript文件
-
-```shell
-tsc hello.ts
-```
-
-如果想要用typescript写node文件，则需要引入第三方声明文件：
-
-```shell
-npm install @types/node --save-dev
-```
-
-简单的编译示例：
-
-hello.ts
-
-```typescript
-function sayHello(person: string) {
-    return 'Hello, ' + person;
-}
-
-let user = 'Tom';
-console.log(sayHello(user));
-```
-
-执行
-
-```shell
-tsc hello.ts
-```
-
-编译生成的hello.js文件
+对于普通的对象，`for...of`结构不能直接使用，会报错，必须部署了 Iterator 接口后才能使用。但是，这样情况下，`for...in`循环依然可以用来遍历键名。
 
 ```javascript
-function sayHello(person) {
-    return 'Hello, ' + person;
+for (let e in es6) {
+  console.log(e);
 }
-var user = 'Tom';
-console.log(sayHello(user));
+// edition
+// committee
+// standard
+
+for (let e of es6) {
+  console.log(e);
+}
+// TypeError: es6[Symbol.iterator] is not a function
+
+var arr = ['a', 'b', 'c', 'd'];
+
+for (let a in arr) {
+  console.log(a); // 0 1 2 3
+}
+
+for (let a of arr) {
+  console.log(a); // a b c d
+}
 ```
 
-typeScript 中，使用 `:` 指定变量的类型，`:` 的前后有没有空格都可以。
+`for...in`循环有几个缺点。
 
-### 模块@types
+- 数组的键名是数字，但是`for...in`循环是以字符串作为键名“0”、“1”、“2”等等。
+- `for...in`循环不仅遍历数字键名，还会遍历手动添加的其他键，甚至包括原型链上的键。
+- 某些情况下，`for...in`循环会以任意顺序遍历键名。
 
-[DefinitelyTyped](https://github.com/borisyankov/DefinitelyTyped) 是 TypeScript 最大的优势之一，社区已经记录了 90% 的顶级 JavaScript 库。你可以非常高效地使用这些库，而无须在单独的窗口打开相应文档以确保输入的正确性。
+总之，`for...in`循环主要是为遍历对象而设计的，不适用于遍历数组。
 
-你可以通过 `npm` 来安装使用 `@types`，例如为 `jquery` 添加声明文件：
+`for...of`循环相比上面几种做法，有一些显著的优点。
 
-```shell
-npm install @types/jquery --save-dev
-```
+- 有着同`for...in`一样的简洁语法，但是没有`for...in`那些缺点。
+- 不同于`forEach`方法，它可以与`break`、`continue`和`return`配合使用。
+- 提供了遍历所有数据结构的统一操作接口。
 
-安装完之后，不需要特别的配置，你就可以像使用模块一样使用它：
+### 装饰器
 
-```ts
-import * as $ from 'jquery';
+装饰器不能用于函数，因为会存在函数提升
 
-// 现在你可以此模块中任意使用$了 :)
-```
 
-### 编译上下文tsconfig.json
 
-编译上下文算是一个比较花哨的术语，可以用它来给文件分组，告诉 TypeScript 哪些文件是有效的，哪些是无效的。除了有效文件所携带信息外，编译上下文还包含有正在被使用的编译选项的信息。定义这种逻辑分组，一个比较好的方式是使用 `tsconfig.json` 文件。
+### Reflect
 
-在项目的根目录下创建一个空 JSON 文件。通过这种方式，TypeScript 将 会把此目录和子目录下的所有 .ts 文件作为编译上下文的一部分，它还会包含一部分默认的编译选项。
+`Reflect`对象与`Proxy`对象一样，也是 ES6 为了操作对象而提供的新 API。`Reflect`对象的设计目的有这样几个。
 
-你可以通过 `compilerOptions` 来定制你的编译选项：
+将`Object`对象的一些明显属于语言内部的方法（比如`Object.defineProperty`），放到`Reflect`对象上。现阶段，某些方法同时在`Object`和`Reflect`对象上部署，未来的新方法将只部署在`Reflect`对象上。也就是说，从`Reflect`对象上可以拿到语言内部的方法。
+
+修改某些`Object`方法的返回结果，让其变得更合理。比如，`Object.defineProperty(obj, name, desc)`在无法定义属性时，会抛出一个错误，而`Reflect.defineProperty(obj, name, desc)`则会返回`false`。
+
+让`Object`操作都变成函数行为。某些`Object`操作是命令式，比如`name in obj`和`delete obj[name]`，而`Reflect.has(obj, name)`和`Reflect.deleteProperty(obj, name)`让它们变成了函数行为。
+
+`Reflect`对象的方法与`Proxy`对象的方法一一对应，只要是`Proxy`对象的方法，就能在`Reflect`对象上找到对应的方法。这就让`Proxy`对象可以方便地调用对应的`Reflect`方法，完成默认行为，作为修改行为的基础。也就是说，不管`Proxy`怎么修改默认行为，你总可以在`Reflect`上获取默认行为。
+
+`Reflect`对象一共有 13 个静态方法。
+
+`Reflect.get`方法查找并返回`target`对象的`name`属性，如果没有该属性，则返回`undefined`。
+
+`Reflect.set`方法设置`target`对象的`name`属性等于`value`。
+
+`Reflect.has`方法对应`name in obj`里面的`in`运算符。
+
+`Reflect.deleteProperty`方法等同于`delete obj[name]`，用于删除对象的属性。
+
+`Reflect.construct`方法等同于`new target(...args)`，这提供了一种不使用`new`，来调用构造函数的方法。
+
+`Reflect.getPrototypeOf`方法用于读取对象的`__proto__`属性，对应`Object.getPrototypeOf(obj)`。
+`Reflect.setPrototypeOf`方法用于设置目标对象的原型（prototype），对应`Object.setPrototypeOf(obj, newProto)`方法。它返回一个布尔值，表示是否设置成功。
+
+`Reflect.apply`方法等同于`Function.prototype.apply.call(func, thisArg, args)`，用于绑定`this`对象后执行给定函数。
+
+
+
+### 对象扩展
+
+#### Object对象的扩展
+
+`Object.assign()`方法用于对象的合并，将源对象（source）的所有可枚举属性，复制到目标对象（target）
+
+`Object.assign()`方法实行的是浅拷贝，而不是深拷贝。也就是说，如果源对象某个属性的值是对象，那么目标对象拷贝得到的是这个对象的引用。
+
+super关键字
+
+`this`关键字总是指向函数所在的当前对象，ES6 又新增了另一个类似的关键字`super`，指向当前对象的原型对象。
+
+
+
+#### math对象的扩展
+
+
+
+#### Number对象的扩展
+
+
+
+#### 数组对象的扩展
+
+`Array.from`方法用于将两类对象转为真正的数组：类似数组的对象（array-like object）和可遍历（iterable）的对象（包括 ES6 新增的数据结构 Set 和 Map）。
+
+`Array.of`方法用于将一组值，转换为数组。
+
+数组实例的`find`方法，用于找出第一个符合条件的数组成员。它的参数是一个回调函数，所有数组成员依次执行该回调函数，直到找出第一个返回值为`true`的成员，然后返回该成员。如果没有符合条件的成员，则返回`undefined`。
+
+数组实例的`findIndex`方法的用法与`find`方法非常类似，返回第一个符合条件的数组成员的位置，如果所有成员都不符合条件，则返回`-1`。
+
+`fill`方法使用给定值，填充一个数组。
+
+`Array.prototype.includes`方法返回一个布尔值，表示某个数组是否包含给定的值，与字符串的`includes`方法类似。
+
+`Array.prototype.flat()`用于将嵌套的数组“拉平”，变成一维的数组。该方法返回一个新数组，对原数据没有影响。数组的成员有时还是数组。`flat()`默认只会“拉平”一层，如果想要“拉平”多层的嵌套数组，可以将`flat()`方法的参数写成一个整数，表示想要拉平的层数，默认为1。
+
+如果不管有多少层嵌套，都要转成一维数组，可以用`Infinity`关键字作为参数。
+
+如果原数组有空位，`flat()`方法会去掉空位。
+
+`flatMap()`方法对原数组的每个成员执行一个函数（相当于执行`Array.prototype.map()`），然后对返回值组成的数组执行`flat()`方法。该方法返回一个新数组，不改变原数组。
+
+`copyWithin`方法 在当前数组内部，将指定位置的成员复制到其他位置（会覆盖原有成员），然后返回当前数组。也就是说，使用这个方法，会修改当前数组。
+
+
+
+#### 字符串对象的扩展
+
+`String.raw()`方法。该方法返回一个斜杠都被转义（即斜杠前面再加一个斜杠）的字符串，往往用于模板字符串的处理方法。
+
+`String.includes()`：返回布尔值，表示是否找到了参数字符串。
+
+`String.startsWith()`：返回布尔值，表示参数字符串是否在原字符串的头部。
+
+`String.endsWith()`：返回布尔值，表示参数字符串是否在原字符串的尾部。
+
+`String.repeat()`方法返回一个新字符串，表示将原字符串重复`n`次。
+
+如果某个字符串不够指定长度，会在头部或尾部补全。`padStart()`用于头部补全，`padEnd()`用于尾部补全。
+
+`trimStart()`和`trimEnd()`这两个方法。它们的行为与`trim()`一致，`trimStart()`消除字符串头部的空格，`trimEnd()`消除尾部的空格。它们返回的都是新字符串，不会修改原始字符串。
+
+##### 模版字符串
+
+传统的 JavaScript 语言，输出模板使用jquery通常是这样写的
 
 ```javascript
-{
-  "compilerOptions": {
+$('#result').append(
+  'There are <b>' + basket.count + '</b> ' +
+  'items in your basket, ' +
+  '<em>' + basket.onSale +
+  '</em> are on sale!'
+);
+```
 
-    /* 基本选项 */
-    "target": "es5",                       // 指定 ECMAScript 目标版本: 'ES3' (default), 'ES5', 'ES6'/'ES2015', 'ES2016', 'ES2017', or 'ESNEXT'
-    "module": "commonjs",                  // 指定使用模块: 'commonjs', 'amd', 'system', 'umd' or 'es2015'
-    "lib": [],                             // 指定要包含在编译中的库文件
-    "allowJs": true,                       // 允许编译 javascript 文件
-    "checkJs": true,                       // 报告 javascript 文件中的错误
-    "jsx": "preserve",                     // 指定 jsx 代码的生成: 'preserve', 'react-native', or 'react'
-    "declaration": true,                   // 生成相应的 '.d.ts' 文件
-    "sourceMap": true,                     // 生成相应的 '.map' 文件
-    "outFile": "./",                       // 将输出文件合并为一个文件
-    "outDir": "./",                        // 指定输出目录
-    "rootDir": "./",                       // 用来控制输出目录结构 --outDir.
-    "removeComments": true,                // 删除编译后的所有的注释
-    "noEmit": true,                        // 不生成输出文件
-    "importHelpers": true,                 // 从 tslib 导入辅助工具函数
-    "isolatedModules": true,               // 将每个文件作为单独的模块 （与 'ts.transpileModule' 类似）.
+ES6引入了模板字符串简化了写法
 
-    /* 严格的类型检查选项 */
-    "strict": true,                // 启用所有严格类型检查选项
-    "noImplicitAny": true,         // 在表达式和声明上有隐含的 any类型时报错
-    "strictNullChecks": true,      // 启用严格的 null 检查
-    "noImplicitThis": true,        // 当 this 表达式值为 any 类型的时候，生成一个错误
-    "alwaysStrict": true,                  // 以严格模式检查每个模块，并在每个文件里加入 'use strict'
+```javascript
+$('#result').append(`
+  There are <b>${basket.count}</b> items
+   in your basket, <em>${basket.onSale}</em>
+  are on sale!
+`);
+```
 
-    /* 额外的检查 */
-    "noUnusedLocals": true,            // 有未使用的变量时，抛出错误
-    "noUnusedParameters": true,        // 有未使用的参数时，抛出错误
-    "noImplicitReturns": true,         // 并不是所有函数里的代码都有返回值时，抛出错误
-    "noFallthroughCasesInSwitch": true,// 报告 switch 语句的 fallthrough 错误。（即，不允许 switch 的 case 语句贯穿）
+标签模版
 
-    /* 模块解析选项 */
-    "moduleResolution": "node",            // 选择模块解析策略： 'node' (Node.js) or 'classic' (TypeScript pre-1.6)
-    "baseUrl": "./",                       // 用于解析非相对模块名称的基目录
-    "paths": {},                           // 模块名到基于 baseUrl 的路径映射的列表
-    "rootDirs": [],                        // 根文件夹列表，其组合内容表示项目运行时的结构内容
-    "typeRoots": [],                       // 包含类型声明的文件列表
-    "types": [],                           // 需要包含的类型声明文件名列表
-    "allowSyntheticDefaultImports": true,  // 允许从没有设置默认导出的模块中默认导入。
+模板字符串的功能，不仅仅是上面这些。它可以紧跟在一个函数名后面，该函数将被调用来处理这个模板字符串。这被称为“标签模板”功能
 
-    /* Source Map Options */
-    "sourceRoot": "./",               // 指定调试器应该找到 TypeScript 文件而不是源文件的位置
-    "mapRoot": "./",                  // 指定调试器应该找到映射文件而不是生成文件的位置
-    "inlineSourceMap": true,          // 生成单个 soucemaps 文件，而不是将 sourcemaps 生成不同的文件
-    "inlineSources": true,            // 将代码与 sourcemaps 生成到一个文件中，要求同时设置了 --inlineSourceMap 或 --sourceMap 属性
+```javascript
+alert`hello`
+// 等同于
+alert(['hello'])
+```
 
-    /* 其他选项 */
-    "experimentalDecorators": true,        // 启用装饰器
-    "emitDecoratorMetadata": true          // 为装饰器提供元数据的支持
+标签模板其实不是模板，而是函数调用的一种特殊形式。“标签”指的就是函数，紧跟在后面的模板字符串就是它的参数。
+
+但是，如果模板字符里面有变量，就不是简单的调用了，而是会将模板字符串先处理成多个参数，再调用函数。
+
+函数的第一个参数是一个数组，该数组的成员是模板字符串中那些没有变量替换的部分，也就是说，变量替换只发生在数组的第一个成员与第二个成员之间、第二个成员与第三个成员之间，以此类推。
+
+函数的其他参数，都是模板字符串各个变量被替换后的值。
+
+```javascript
+let a = 5;
+let b = 10;
+
+tag`Hello ${ a + b } world ${ a * b }`;
+// 等同于
+tag(['Hello ', ' world ', ''], 15, 50);
+```
+
+“标签模板”的一个重要应用，就是过滤 HTML 字符串，防止用户输入恶意内容。
+
+```javascript
+let message =
+  SaferHTML`<p>${sender} has sent you a message.</p>`;
+
+function SaferHTML(templateData) {
+  let s = templateData[0];
+  for (let i = 1; i < arguments.length; i++) {
+    let arg = String(arguments[i]);
+
+    // Escape special characters in the substitution.
+    s += arg.replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;");
+
+    // Don't escape special characters in the template.
+    s += templateData[i];
   }
+  return s;
 }
 ```
 
-### 数据类型与对象类型
+react的jsx语法与html之间的转换就是利用标签模版实现的
 
-typescript包含javascript的五种基本数据类型和ES6中声明的symbol，唯一的区别是在声明变量时需指明变量类型。
+#### 函数对象扩展
 
-除此之外，typescript有新添加的类型
+ES6允许使用箭头定义函数
 
-#### 字符串字面量类型
+箭头函数的存在是为了方便在很多地方执行小函数的情况。比如foreach、settimeout等，这种情况下我们并不想离开当前上下文，这时就使用箭头函数。
 
-字符串字面量类型用来约束取值只能是某几个字符串中的一个。
-
-```typescript
-type EventNames = 'click' | 'scroll' | 'mousemove';
-function handleEvent(ele: Element, event: EventNames) {
-    // do something
-}
-
-handleEvent(document.getElementById('hello'), 'scroll');  // 没问题
-handleEvent(document.getElementById('world'), 'dblclick'); // 报错，event 不能为 'dblclick'
-
-// index.ts(7,47): error TS2345: Argument of type '"dblclick"' is not assignable to parameter of type 'EventNames'.
+```js
+// 箭头函数,包含一个name参数
+let fun = (name) => {
+    // 函数体
+    return `Hello ${name} !`;
+};
+// 等同于
+let fun = function (name) {
+    // 函数体
+    return `Hello ${name} !`;
+};
 ```
 
-#### 任意类型
+没有参数时使用空括号，有多个参数时用逗号隔开
 
-任意值（Any）用来表示允许赋值为任意类型。如果是 `any` 类型，则允许被赋值为任意类型。
+箭头函数没有this、`arguments`、`super`、`new.target`，全部指向外层函数的对应变量，所以也就不能用`call()`、`apply()`、`bind()`这些方法去改变`this`的指向。
 
-```typescript
-let myFavoriteNumber: any = 'seven';
-myFavoriteNumber = 7;
-```
+不可以当作构造函数，也就是说，不可以使用`new`命令，否则会抛出一个错误。
 
-在任意值上访问任何属性都是允许的.如果变量在声明时未指定其类型，则被识别为任意类型。
+（3）不可以使用`arguments`对象，该对象在函数体内不存在。如果要用，可以用 rest 参数代替。
 
-#### 联合类型
+（4）不可以使用`yield`命令，因此箭头函数不能用作 Generator 函数。
 
-联合类型（Union Types）表示取值可以为多种类型中的一种。
+ES6 引入 rest 参数（形式为`...变量名`），用于获取函数的多余参数，
 
-```typescript
-let myFavoriteNumber: string | number;
-myFavoriteNumber = 'seven';
-myFavoriteNumber = 7;
-```
+##### 箭头函数与普通函数的区别
 
-上面的代码将myFavoriteNumber定义为字符串或者数值型，在不同的语句可以切换不同的类型，但不允许是定义以外的类型。
+1.语法更加简洁清晰
 
-联合类型使用 `|` 分隔每个类型。当 TypeScript 不确定一个联合类型的变量到底是哪个类型的时候，我们只能访问此联合类型的所有类型里共有的属性或方法。
+2.箭头函数不会创建自己的this。箭头函数没有自己的`this`，它会捕获自己在**定义时**（注意，是定义时，不是调用时）所处的**外层执行环境的`this`**，并继承这个`this`值。所以，箭头函数中`this`的指向在它被定义的时候就已经确定了，之后永远不会改变。.call()/.apply()/.bind()也无法改变箭头函数中this的指向
 
-联合类型的变量在被赋值的时候，会根据类型推论的规则推断出一个类型,并使用该类型
-
-```typescript
-let myFavoriteNumber: string | number;
-myFavoriteNumber = 'seven';
-console.log(myFavoriteNumber.length); // 5
-myFavoriteNumber = 7;
-console.log(myFavoriteNumber.length); // 编译时报错
-
-// index.ts(5,30): error TS2339: Property 'length' does not exist on type 'number'.
-```
-
-#### 交叉类型
-
-交叉类型可以把现有的类型组合起来得到新的类型，从而拥有全部的属性，表示为A & B
+3.箭头函数没有原型prototype，没有自己的arguments，在箭头函数中访问`arguments`实际上获得的是外层局部（函数）执行环境中的值。
 
 实例
 
-```typescript
-interface IPerson {
-  name: string;
-  age:number;
+```js
+function outer(val1, val2) {
+    let argOut = arguments;
+    console.log(argOut);    // ①
+    let fun = () => {
+        let argIn = arguments;
+        console.log(argIn);     // ②
+        console.log(argOut === argIn);  // ③
+    };
+    fun();
+}
+outer(111, 222);
+//1、2处的输出相同，为111，222，3处输出为true
+```
+
+4.箭头函数不能作为构造函数使用，不能用作Generator函数，不能使用yeild关键字、new关键字
+
+箭头函数表达式更适用于那些本来需要匿名函数的地方，并且它不能用作构造函数。
+
+##### 箭头函数vsbind
+
+箭头函数没有创建任何绑定，箭头函数只是没有this，this的查找与常规变量的搜索方式完全相同：在外部词法环境中查找
+
+。bind创建了一个函数参数的绑定版本
+
+##### 尾调用与尾递归(非常重要)
+
+尾调用时函数式编程的一个重要概念，本身非常简单，就是某个函数在最后一步调用另一个函数
+
+```javascript
+
+```
+
+函数调用时会在内存中形成一个调用记录，又称调用帧，保存调用位置和内部变量等信息。如果在函数A的内部调用函数B，那么在A的调用帧上方还会形成一个B的调用帧，等到B运行结束之后，将结果返回到A，B的调用帧才会消失。如果函数B内部还调用函数C，那就还有一个C的调用帧，以此类推，所有的调用帧就形成一个调用栈
+
+尾调用由于是函数的最后一步操作，所以不需要保留外层函数的调用帧，因为调用位置、内部变量信息等不会被再用到，只有直接用内层函数的调用帧，取代外层函数的调用帧就可以
+
+这个就叫做尾调用优化，只保留内层函数的调用帧。如果所有的函数都是尾调用，那么完全可以做到每次调用时调用帧只有一项，这将大大节省内存，这就是尾调用的意义
+
+函数调用自身的过程，称为递归。递归非常耗费内存，因为需要同时保存成千上百个调用帧，很容易发生栈溢出错误。但是对于尾递归来说，由于只存在一个调用帧，所以永远也不会发生栈溢出错误。
+
+比如常见的斐波那契数列的非尾递归写法
+
+```javascript
+function Fibonacci(n) {
+  if (n<=1) {
+    return n
+  }
+  return Fibonacci(n-1) + Fibonacci(n-2)
 }
 
-interface IStudent {
-  grade:number;
+Fibonacci(10) //89
+Fibonacci(100) // 超时
+Fibonacci(1000) // 超时
+```
+
+尾递归优化之后的代码
+
+```javascript
+function Fibonacci2(n,ac=1,ac2=1) {
+  if (n<=1) {
+    return ac2
+  }
+  return Fibonacci(n-1,ac2,ac1+ac2)
+}
+Fibonacci2(100) //89
+Fibonacci2(1000) //89
+Fibonacci2(10000) //infinite
+```
+
+尾调用的意义非常重大，因此ES6规定所有ECMA的实现都必须采用尾调用优化
+
+递归本质上是一种循环操作，但是纯粹的函数式编程没有循环操作命令，所有的循环都通过递归实现，这就是尾递归对这些语言的重要意义
+
+尾递归调用要注意的问题
+
+尾递归调用不能使用函数中的其他变量，因此写的时候要注意写法
+
+通常是在另一个函数中调用递归函数，这样去实现避免中间变量
+
+```javascript
+//阶乘函数，用普通递归函数实现
+function factorial(n) {
+  if (n == 1){
+    return 1
+  }
+  return n * factorial(n-1);
 }
 
-const getBio = (user:IPerson & IStudent) =>{
-  return `His name is ${user.name},i am ${user.age} and Grade ${user.grade}` 
+factorial(5)
+//用尾调用实现
+function factorial(n,total) {
+  if(n == 1) return total;
+  return factorial(n-1,n*total);
 }
 
-getBio({name:'joi',age:12,grade:6})
-```
-
-交叉类型是两个类型的并集
-
-#### 条件类型
-
-条件类型是在Typescrip在2.8版本加入的一个新featrue，用来表达非均匀类型，即基于某个条件下表示推断给定的可能的两种类型之一。
-
-```typescript
-type StringOnly<T> = T extends string ? never : T;
-type A = StringOnly<string >; // string
-type B = StringOnly<number >; // never
-```
-
-
-
-#### 模版类型
-
-模版类型使用模版字符串的方式，将别的字面量类型作为type引入
-
-```typescript
-type World = "world";
- 
-type Greeting = `hello ${World}`; // type Greeting = "hello world"
-
-type EmailLocaleIDs = "welcome_email" | "email_heading";
-type FooterLocaleIDs = "footer_title" | "footer_sendoff";
- 
-type AllLocaleIDs = `${EmailLocaleIDs | FooterLocaleIDs}_id`; // type AllLocaleIDs = "welcome_email_id" | "email_heading_id" | "footer_title_id" | "footer_sendoff_id"
-
-type AllLocaleIDs = `${EmailLocaleIDs | FooterLocaleIDs}_id`;
-type Lang = "en" | "ja" | "pt";
- 
-type LocaleMessageIDs = `${Lang}_${AllLocaleIDs}`;
-// type LocaleMessageIDs = "en_welcome_email_id" | "en_email_heading_id" | "en_footer_title_id" | "en_footer_sendoff_id" | "ja_welcome_email_id" | "ja_email_heading_id" | "ja_footer_title_id" | "ja_footer_sendoff_id" | "pt_welcome_email_id" | "pt_email_heading_id" | "pt_footer_title_id" | "pt_footer_sendoff_id"
-```
-
-typescript内置了一些模版类型，方便使用 大写、小写、首字母大写、首字母小写
-
-```typescript
-type Greeting = "Hello, world"
-type ShoutyGreeting = Uppercase<Greeting> //type ShoutyGreeting = "HELLO, WORLD"
-
-type QuietGreeting = Lowercase<Greeting> //type QuietGreeting = "hello, world"
-
-type Greeting = Capitalize<LowercaseGreeting>; // type Greeting = "Hello, world"
-
-type UncomfortableGreeting = Uncapitalize<UppercaseGreeting>; //type UncomfortableGreeting = "hELLO wORLD"
-```
-
-
-
-#### 类型别名
-
-类型别名用来给一个类型起个新名字，常用于联合类型
-
-```typescript
-type Name = string;
-type NameResolver = () => string;
-type NameOrResolver = Name | NameResolver;
-function getName(n: NameOrResolver): Name {
-    if (typeof n === 'string') {
-        return n;
-    } else {
-        return n();
-    }
-}
-```
-
-#### 类型断言
-
-类型断言可以
-
-- 联合类型可以被断言为其中一个类型
-- 父类可以被断言为子类
-- 任何类型都可以被断言为 any
-- any 可以被断言为任何类型
-
-要使得 `A` 能够被断言为 `B`，只需要 `A` 兼容 `B` 或 `B` 兼容 `A` 即可
-
-类型断言好比其他语言里的类型转换，但是不进行特殊的数据检查和解构。
-
-断言类型有两种形式，其一是尖括号语法
-
-```typescript
-let someValue:any = 'this is a string';
-let strlength:number = (<string>someValue).length
-```
-
-另一种是as语法
-
-```typescript
-let someValue:any = 'this is a string';
-let strlength:number = (someValue as string).length
-```
-
-类型断言在枚举值中的应用
-
-如果写两个枚举值，在调用时通常需要使用类型断言来调用
-
-```typescript
-export enum PLAN_STATUS {
-  DRAFT = 5,
-  NO_START = 10,
-  READY = 15,
-  READY_END = 17,
-  EXECUTION = 20,
-  ENDED = 25,
-  PAUSE = 30,
-  ABNORMAL = 35,
-  PUBLISHED = 100,
+factorial(5,1)
+//用嵌套尾调用实现，参数更简单
+function tailFactorial(n,total) {
+  if(n == 1) return total;
+  return tailFactorial(n-1,n*total);
 }
 
-export const PLAN_STATUS_COLOR_MAP: {
-  [key in PLAN_STATUS]: string;
-} = {
-  [PLAN_STATUS.DRAFT]: '#FFB800',
-  [PLAN_STATUS.NO_START]: '#BDE8DB',
-  [PLAN_STATUS.READY_END]: '#599CFF',
-  [PLAN_STATUS.READY]: '#599CFF',
-  [PLAN_STATUS.EXECUTION]: '#34B991',
-  [PLAN_STATUS.ENDED]: STYLES_VARIABLES.textPromptColor,
-  [PLAN_STATUS.PAUSE]: '#FF7A00',
-  [PLAN_STATUS.ABNORMAL]: '#F82D00',
-  [PLAN_STATUS.PUBLISHED]: '#599CFF',
-};
-
-PLAN_STATUS_COLOR_MAP?.[status as PLAN_STATUS]
-```
-
-
-
-#### 类型推论
-
-如果定义的时候有赋值，typescript会自动推测出一个类型；
-
-如果定义的时候没有赋值，不管之后有没有赋值，都会被推断成 `any` 类型而完全不被类型检查;
-
-```typescript
-//定义时有赋值，自动推测出类型，之后赋值为别的类型会报错
-let myFavoriteNumber = 'seven';
-myFavoriteNumber = 7;
-
-// index.ts(2,1): error TS2322: Type 'number' is not assignable to type 'string'.
-//定义时无赋值，类型为any，不会报错
-let myFavoriteNumber;
-myFavoriteNumber = 'seven';
-myFavoriteNumber = 7;
-```
-
-### 泛型
-
-泛型（Generics）是指在定义函数、接口或类的时候，不预先指定具体的类型，而在使用的时候再指定类型的一种特性。
-
-```typescript
-function createArray<T>(length: number, value: T): Array<T> {
-    let result: T[] = [];
-    for (let i = 0; i < length; i++) {
-        result[i] = value;
-    }
-    return result;
+function factorial(n) {
+  return tailFactorial(n,1);
 }
-
-createArray<string>(3, 'x'); // ['x', 'x', 'x']
+factorial(5)
 ```
 
-在函数名后添加 `<T>`，其中 `T` 用来指代任意输入的类型，然后在后面的输入 `value: T` 和输出 `Array<T>` 中即可使用了。
+也可以用函数科里化实现
 
-接着在调用的时候，可以指定它具体的类型为 `string`。或者也可以不手动指定，而让类型推论自动推算出来
+#### 解构赋值与扩展运算符
 
-也可以指定泛型的默认类型，这样如果调用时没用指定类型，则使用默认类型
+ES6允许按照一定模式从对象和数组中提取值，对变量进行赋值，称为解构
 
-```typescript
-//在function中指定默认类型，在调用时没有指定的话即为默认类型
-function createArray<T = string>(length: number, value: T): Array<T> {
-    let result: T[] = [];
-    for (let i = 0; i < length; i++) {
-        result[i] = value;
-    }
-    return result;
-}
-createArray(3, 'x'); // ['x', 'x', 'x']
+数组解构
+
+```javascript
+// 解构不成功时为undefined
+let [a,b,c] = [1,2,3] //a:1,b:2,c:3
+let [,,third] = ["foo","bar","baz"] //third: baz
+let [x,,y] = [1,2,3] //x:1,y:3
+let [head,...tail] = [1,2,3,4] //head:1,tail:[2,3,4]
+let [x,y,...z] = ['a'] //x:'a',y:undefined,z:[]
+
+// 不完全解构
+let [x,y] = [1,2,3] //x:1,y:2
+let [a,[b],d] = [1,[2,3],4] //a:1,b:2,d:4
+
 ```
 
-定义泛型时，也可以一次定义多个泛型类型参数，
+对象解构
 
-```typescript
-function swap<T, U>(tuple: [T, U]): [U, T] {
-    return [tuple[1], tuple[0]];
+```javascript
+//对象与数组的不同是，数组的元素是按次序排列的，变量的取值由位置决定，而对象的属性没有次序，必须同名才能取到正确的值
+let { foo, bar } = {foo:'aaa',bar:'bbb'}; //foo “aaa”，bar “bbb”
+let { baz } = {foo:'aaa',bar:'bbb'} // undefined
+
+//将现有对象的方法赋值到某个变量上去
+let { log,sin,cos } = Math;
+
+// 先找同名的属性值，再赋给对应的变量，所以真正被赋值的是后者而不是前者
+let { foo:baz } = {foo:'aaa',bar:'bbb'}, //baz:'aaa',foo:error,not defined
+
+//嵌套解构
+let obj = {
+  p: ['hello',{y: 'world'}]
 }
-
-swap([7, 'seven']); // ['seven', 7]
+let {p:[x,{y}]} = obj; //x：hello y：world p：undefined
+let {p,p:[x,{y}]} = obj; // x：helle y：world p “helle ，y world
 ```
 
-虽然泛型没有指定数据结构，但是可以通过接口规定泛型的属性和方法，传入参数时进行属性校验，在内部操作时也可以直接操作属性而不会出现没有属性或者方法报错的情况。此外参数之间也可以互相继承。
+字符串解构
 
-```typescript
-interface Lengthwise {
-    length: number;
-}
-
-function loggingIdentity<T extends Lengthwise>(arg: T): T {
-    console.log(arg.length);
-    return arg;
-}
+```javascript
+const [a,b,c,d,e] = 'hello',
 ```
 
-箭头函数使用泛型
+数值和布尔值的解构赋值
 
-```typescript
-const foo = <T>(x: T) => T; // Error: T 标签没有关闭
-const foo = <T extends {}>(x: T) => x;
+```javascript
+let {toString: s} = 123;
+
+let {toString: s} = true;
 ```
 
+函数参数的解构赋值
 
-
-泛型接口与泛型类
-
-泛型还可以用于定义接口和类
-
-```typescript
-interface CreateArrayFunc<T> {
-    (length: number, value: T): Array<T>;
+```javascript
+function add([x,y]){
+  return x+y
 }
+add([1,2])
 
-let createArray: CreateArrayFunc<any>;
-createArray = function<T>(length: number, value: T): Array<T> {
-    let result: T[] = [];
-    for (let i = 0; i < length; i++) {
-        result[i] = value;
-    }
-    return result;
-}
-
-createArray(3, 'x'); // ['x', 'x', 'x']
-
-class GenericNumber<T> {
-    zeroValue: T;
-    add: (x: T, y: T) => T;
-}
-
-let myGenericNumber = new GenericNumber<number>();
-myGenericNumber.zeroValue = 0;
-myGenericNumber.add = function(x, y) { return x + y; };
+[[1,2],[3,4]].map(([a,b])=> a + b) //[3,7]
 ```
 
-`T` 代表 **Type**，在定义泛型时通常用作第一个类型变量名称。但实际上 `T` 可以用任何有效名称代替。除了 `T` 之外，以下是常见泛型变量代表的意思：
+解构赋值的应用
 
-- K（Key）：表示对象中的键类型；
-- V（Value）：表示对象中的值类型；
-- E（Element）：表示元素类型。
+1.变量交换
 
-
-
-### 新增基本类型
-
-#### 元组
-
-数组合并了相同类型的对象，而元组（Tuple）合并了不同类型的对象。
-
-```typescript
-let tom: [string, number] = ['Tom', 25];
+```javascript
+let x=1;let y=2;
+[x,y] = [y,x]
 ```
 
-当直接对元组类型的变量进行初始化或者赋值的时候，需要提供所有元组类型中指定的项。
+2.从函数返回多个值
 
-```typescript
-let tom: [string, number];
-tom = ['Tom']; //// Property '1' is missing in type '[string]' but required in type '[string, number]'.
-
-tom = ['Tom', 25];
-```
-
-当添加越界的元素时，它的类型会被限制为元组中每个类型的联合类型
-
-```typescript
-let tom: [string, number];
-tom = ['Tom', 25];
-tom.push('male');
-tom.push(true); // Argument of type 'true' is not assignable to parameter of type 'string | number'.
-```
-
-
-
-#### 枚举
-
-TypeScript 的枚举类型的概念来源于C#
-
-枚举（Enum）类型用于取值被限定在一定范围内的场景，比如一周只能有七天，颜色限定为红绿蓝等。
-
-```typescript
-export enum Days {Sun, Mon, Tue, Wed, Thu, Fri, Sat};
-```
-
-默认情况下，枚举成员会被赋值为从 `0` 开始递增的数字，同时也会对枚举值到枚举名进行反向映射
-
-```typescript
-enum Days {Sun, Mon, Tue, Wed, Thu, Fri, Sat};
-
-console.log(Days["Sun"] === 0); // true
-console.log(Days["Mon"] === 1); // true
-console.log(Days["Tue"] === 2); // true
-console.log(Days["Sat"] === 6); // true
-
-console.log(Days[0] === "Sun"); // true
-console.log(Days[1] === "Mon"); // true
-console.log(Days[2] === "Tue"); // true
-console.log(Days[6] === "Sat"); // true
-```
-
-外部枚举（Ambient Enums）是使用 `declare enum` 定义的枚举类型：
-
-```typescript
-declare enum Directions {
-    Up,
-    Down,
-    Left,
-    Right
-}
-```
-
-`declare` 定义的类型只会用于编译时的检查，编译结果中会被删除。
-
-外部枚举和非外部枚举之间有一个重要的区别，在正常的枚举里，没有初始化方法的成员被当成常数成员。 对于非常数的外部枚举而言，没有初始化方法时被当做需要经过计算的。
-
-enum和const enum
-
-enum可以进行反向查找，所以遍历得到的长度是预计长度的两倍, const enum不可以进行反向查找，所以得到的是预计长度
-
-```typescript
-enum REVERSE{
-    OK,
-    NO 
-}
-
-console.log(REVERSE.OK)
-// OK
-console.log(REVERSE[0])
-// OK
-
-// of不可以，警告需要有[Symbol.iterator]方法
-for(let item in REVERSE){
-    // 0 1 OK NO
-    console.log(item);
-}
-
-const enum ONE{
-    OK,
-    NO 
-}
-console.log(ONE.OK)
-// 报错:只有使用字符串文本才能访问常数枚举成员。
-// console.log(ONE[0]);
-
-// 遍历
-// 报错:"const" 枚举仅可在属性、索引访问表达式、导入声明的右侧、导出分配或类型查询中使用。
-/* for(let item in ONE){
-
-} */
-```
-
-##### 异构枚举
-
-从技术的角度来说，枚举可以混合字符串和数字成员
-
-```typescript
-enum BooleanLikeHeterogeneousEnum {
-    No = 0,
-    Yes = "YES",
-}
-```
-
-##### 反向映射
-
-除了创建一个以属性名做为对象成员的对象之外，数字枚举成员还具有了 *反向映射*，从枚举值到枚举名字。
-
-```typescript
-enum Enum {
-    A
-}
-let a = Enum.A;
-let nameOfA = Enum[a]; // "A"
-```
-
-生成的代码中，枚举类型被编译成一个对象，它包含了正向映射（ `name` -> `value`）和反向映射（ `value` -> `name`）。 引用枚举成员总会生成为对属性访问并且永远也不会内联代码。
-
-要注意的是 *不会*为字符串枚举成员生成反向映射。
-
-
-
-#### never
-
-never是typescript的底层类型，他常用于
-
-1.不会有返回值的函数
-
-2.总是抛出错误的函数
-
-never准确来说是不应该出现的类型
-
-never可以用来收缩类型
-
-比如有一个联合类型，而在 switch 当中判断 该类型的type，TS 是可以收窄类型的 (discriminated union)
-
-```typescript
-interface Foo {
-  type: 'foo'
-}
-
-interface Bar {
-  type: 'bar'
-}
-
-type All = Foo | Bar
-
-function handleValue(val: All) {
-  switch (val.type) {
-    case 'foo':
-      // 这里 val 被收窄为 Foo
-      break
-    case 'bar':
-      // val 在这里是 Bar
-      break
-    default:
-      // val 在这里是 never
-      const exhaustiveCheck: never = val
-      break
+```javascript
+function example(){
+  return {
+    foo: 1,
+    bar: 2
   }
 }
+let { foo,bar } = example();
 ```
 
-如果有一天有人修改 All 的类型，比如加了一种类型
+3.函数参数定义
 
-```typescript
-type All = Foo | Bar | Baz
+```javascript
+//
+function f({x,y,z}) {...}
+f({z:3,y:2,x:1})
+// 
+function f([x,y,z]) {...}
+f([1,2,3])
 ```
 
-然而他忘记了在 switch中 加上针对新加类型 Baz 的处理逻辑，这个时候在 default branch 里面 val 会被收窄为 Baz，导致无法赋值给 never，产生一个编译错误。所以通过这个办法，你可以确保 handleValue 总是穷尽 (exhaust) 了所有 All 的可能类型。
+4.提取JSON数据
 
-详见yyx的知乎回答：https://www.zhihu.com/search?type=content&q=ts%20never
-
-#### unkown
-
-
-
-### interface
-
-在面向对象语言中，接口（Interfaces）是一个很重要的概念，它是对行为的抽象，而具体如何行动需要由类或者对象去实现（implement）。
-
-#### 可配置属性
-
-接口中可以包含确定属性、可选属性、任意属性、只读属性四种属性
-
-确定属性是指变量由接口生成时，接口中的确定属性不能多，也不能少；
-
-可选属性在接口中规定后，在变量中可以写可以不写；
-
-任意属性是指在接口定义时允许变量自定义属性，这时要在接口中定义任意属性；任意属性的类型必须是确定属性和可选属性的母集，且一个接口只能使用一个任意属性，如果接口中有多个类型的属性，则可以在任意属性中使用联合类型：
-
-只读属性是指对象中的一些字段只能在创建的时候被赋值，那么可以用 `readonly` 定义只读属性。
-
-typescript使用接口（Interfaces）来定义对象的类型。接口是对行为的抽象，而具体如何行动需要由类（classes）去实现（implement）。
-
-```typescript
-interface Person {
-    name: string;
-    age: number;
+```javascript
+let jsonData = {
+  id:42;
+  status: "OK",
+  data: [867, 5309]
 }
 
-let tom: Person = {
-    name: 'Tom',
-    age: 25
-};
+let { id,status, data:number} = jsonData //id,status,number
 ```
 
-上面的代码中，我们定义了一个接口 `Person`，接着定义了一个变量 `tom`，它的类型是 `Person`。这样，我们就约束了 `tom` 的形状必须和接口 `Person` 一致。
+5.输入模块的指定方法。解构赋值能使输入语句变得十分清晰
 
-一般情况下，定义的变量比接口少了一些属性是不允许的，多一些属性也是不允许的，会报错：
-
-```typescript
-let tom: Person = {
-    name: 'Tom'
-};
-// index.ts(6,5): error TS2322: Type '{ name: string; }' is not assignable to type 'Person'.
-let tom: Person = {
-    name: 'Tom',
-    age: 25,
-    gender: 'male'
-};
-// index.ts(9,5): error TS2322: Type '{ name: string; age: number; gender: string; }' is not assignable to type 'Person'.
+```javascript
+const { SourceMapConsumer, SourceNode } = require("source-map")
 ```
 
-可以设置可选属性、任意属性、只读属性。
+其他：函数参数默认值、遍历Map结构
 
-可选属性为接口定义而对象可以不引用，
+解构赋值和扩展运算符都是浅拷贝
 
-任意属性是接口不指定而对象可以添加，
+扩展运算符使用object
 
-只读属性是接口定义后在对象第一次初始化时添加，其后不能更改。
+扩展运算符（spread）是三个点（`...`）。它好比 rest 参数的逆运算，将一个数组转为用逗号分隔的参数序列。
 
-利用可选属性可以进行部分继承
+ 该运算符主要用于函数调用时使用，用于将数组的每个元素转化为逐个参数。
 
-```typescript
-interface Person {
-    readonly id: number;
-    name: string;
-    age?: number;  // age为可选属性
-    [propName: string]: any;
-}
+扩展运算符与正常的函数参数可以结合使用，非常灵活。
 
-let tom: Person = {
-    id: 89757,
-    name: 'Tom',
-    gender: 'male'
-};
+##### 扩展运算符使用错误
+
+```javascript
+var obj = { x: 1, y: 2, z: 3 };
+[...obj]; // TypeError 
 ```
 
-#### 可实现接口类型
+把对象展开为数组会报typeError的错误。因为`Array` 或`Map` 是具有默认迭代行为的内置迭代器。对象不是可迭代的。
 
-接口可以定义对象，设置需要存在的普通属性
+在**Mozilla**文档中，如果一个对象实现了`@@iterator`方法，那么它就是可迭代的，这意味着这个对象(或者它原型链上的一个对象)必须有一个带有`@@iterator`键的属性，这个键可以通过常量`Symbol.iterator`获得
 
-```typescript
-interface Person {
-    name: string
-    bool?: boolean
-    readonly timestamp: number
-    readonly arr: ReadonlyArray<number> // 此外还有 ReadonlyMap/ReadonlySet
-}
+```javascript
+var obj = { x: 1, y: 2, z: 3 };
+obj[Symbol.iterator] = function() {
+  
+  // iterator 是一个具有 next 方法的对象，
+  // 它的返回至少有一个对象
+  // 两个属性：value＆done。
 
-let p1: Person = {
-    name: 'oliver',
-    bool: true, // ✔️️ 可以设置可选属性 并非必要的 可写可不写
-    timestamp: + new Date(), // ✔️ 设置只读属性
-    arr: [1, 2, 3] // ✔️ 设置只读数组
-}
-
-```
-
-Interface 还可以用来规范函数的形状。Interface 里面需要列出参数列表返回值类型的函数定义。
-
-```typescript
-interface Func {
-    // ✔️ 定于这个函数接收两个必选参数都是 number 类型，以及一个可选的字符串参数 desc，这个函数不返回任何值
-    (x: number, y: number, desc?: string): void
-}
-
-const sum: Func = function (x, y, desc = '') {
-    
-    // ts类型系统默认推论可以不必书写上述类型定义
-    console.log(desc, x + y)
-}
-
-// 上述函数等于：const sum: Func = function (x: number, y: number, desc: string): void {}
-```
-
-interface 还可以用来定义可索引类型的接口,比如数组或者对象。需要注意的是 index 只能为 number 类型或 string 类型
-
-```typescript
-interface StringSet {
-    readonly [index: number]: string // ❗ 需要注意的是 index 只能为 number 类型或 string 类型
-    length: number // ✔️ 还可以指定属性
-}
-
-let arr1: StringSet = ['hello', 'world']
-arr1[1] = '' // ✔️ 可以设置为只读防止给索引赋值
-let arr: StringSet = [23,12,3,21] // ❌ 数组应为 string 类型
-```
-
-接口除了定义变量，还可以在类中使用，用来实现类的共性接口。由类继承时一般同时定义静态属性接口和实例属性接口进行检查
-
-```typescript
-// PersonConstructor 是用来检查静态部分的
-interface PersonConstructor {
-    new (name: string, age: number)   // 用来检查 constructor 的
-    typename: string                  // 用来检查静态属性 typename 的
-    logname(): void                   // 用来检查静态方法 logname 的
-}
-// PersonInterface 则是用来检查实例部分的
-interface PersonInterface {
-    // new (name: string, age: number) // ❌ 静态方法的检查也不能写在这里 这样写是错误的
-    log(): void // : 这里定义了实例方法 log
-}
-
-// class Person implements PersonInterface, PersonInterface { ❌ 这样写是错误的
-const Person: PersonConstructor = class Person implements PersonInterface {
-    name: string
-    age: number
-    static typename = 'Person type'    // 这里定义 typename 的静态属性
-    static logname() {                 // 这里定义 logname 的静态方法
-        console.log(this.typename)
-    }
-    constructor(name: string, age: number) { // constructor 也是静态方法
-        this.name = name
-        this.age = age
-    }
-    log() { // log 是实例方法
-        console.log(this.name, this.age)
-    }
-}
-```
-
-在同一个接口中可以同时定义多种类型，比如函数或者属性，继承该接口时所有的属性一起继承
-
-```typescript
-interface Counter {
-    (start: number): void // 1️⃣ 如果只有这一个那么这个接口是函数接口
-    add(): void // 2️⃣ 这里还有一个方法，那么这个接口就是混合接口
-    log(): number // 3️⃣ 这里还有另一个方法
-}
-
-function getCounter(): Counter { // ⚠️ 它返回的函数必须符合接口的三点
-    let count = 0
-    function counter (start: number) { count = start } // counter 方法函数
-    counter.add = function() { count++ } // add 方法增加 count
-    counter.log = function() { return count } // log 方法打印 count
-    return counter
-}
-
-const c = getCounter()
-c(10) // count 默认为 10
-c.add()
-console.log(c.log())
-```
-
-接口可以继承接口，可以继承父接口的所有方法
-
-```typescript
-interface PersonInfoInterface { // 第一个接口
-    name: string
-    age: number
-    log?(): void
-}
-
-interface Student extends PersonInfoInterface { //  这里继承了一个接口
-    doHomework(): boolean    //  新增一个方法
-}
-interface Teacher extends PersonInfoInterface { //  这里继承了同一个接口
-    dispatchHomework(): void // 新增了一个方法
-}
-
-interface Emmm extends Student, Teacher // 也可以继承多个接口
-
-let Alice: Teacher = {
-    name: 'Alice',
-    age: 34,
-    dispatchHomework() { // ✔️ 必须满足继承的接口规范
-        console.log('dispatched')
-    }
-}
-
-let oliver: Student = {
-    name: 'oliver',
-    age: 12,
-    log() {
-        console.log(this.name, this.age)
+  // 返回一个 iterator 对象
+  return {
+    next: function() {
+      if (this._countDown === 3) {
+        const lastValue = this._countDown;
+        return { value: this._countDown, done: true };
+      }
+      this._countDown = this._countDown + 1;
+      return { value: this._countDown, done: false };
     },
-    doHomework() { // ✔️ 必须满足继承的接口规范
-        return true
-    }
-}
-```
-
-接口还可以继承类，再由新类继承接口时同时也继承了接口所继承的类
-
-```typescript
-class Person {
-    type: string // ❗️这里是类的描述
-}
-// Child 接口继承了 Person 对 type 的描述，还定义了 Child 接口本身 log 的描述
-interface Child extends Person { // ❗️Child 接口继承自 Person 类，因此规范了 type 属性
-    log(): void
-    // 这里其实有一个 type: string
-}
-
-// 🥇 第一种写法
-class Girl implements Child {
-    type: 'child' // 接口继承自 Person 的
-    log() {} // 接口本身规范的
-}
-
-// 🥈 第二种写法
-class Boy extends Person implements Child { // 首先 extends 了 Person 类，然后还需满足 Child 接口的描述
-    type: 'child'
-    log() {}
-}
-```
-
-
-
-#### 接口注意事项
-
-接口(interface)定义了“公共(public)”契约(Contract)，因此在接口(interface)上具有`protected`或`private`访问修饰符没有任何意义，更多的是实现细节
-
-使用read-only访问修饰符
-
-```typescript
-interface IModuleMenuItem {
-     readonly name : string;
-}
-
-class ModuleMenuItem implements IModuleMenuItem {
-    public readonly name : string;
-
-    constructor() {
-        name = "name";
-    }
-}
-```
-
-#### 接口和类的区别
-
-接口只规定类的形状，也就是类具有哪些属性和方法，不具体实现这些属性和方法
-
-实例
-
-```typescript
-interface ContentInterface{
-  //定义方法名称和返回类型
-  getContent():String;
-}
-//可以使用不同的方式实现
-class Article implements ContentInterface{
-   public function getContent():String{
-     return 'i am a article'
-   }
-}
-
-class Passage implements ContentInterface{
-   public function getContent():String{
-     return 'i am a passage'
-   }
-}
-
-class News implements ContentInterface{
-  //没有实现getContent方法会报错
-}
-
-let a = new Article();
-let p = new Passage();
-
-print(a)
-print(p)
-```
-
-### 类class
-
-TypeScript 除了实现了所有 ES6 中的类的功能以外，还添加了一些新的用法。
-
-类的相关概念
-
-- 类（Class）：定义了一件事物的抽象特点，包含它的属性和方法
-- 对象（Object）：类的实例，通过 `new` 生成
-- 面向对象（OOP）的三大特性：封装、继承、多态
-- 封装（Encapsulation）：将对数据的操作细节隐藏起来，只暴露对外的接口。外界调用端不需要（也不可能）知道细节，就能通过对外提供的接口来访问该对象，同时也保证了外界无法任意更改对象内部的数据
-- 继承（Inheritance）：子类继承父类，子类除了拥有父类的所有特性外，还有一些更具体的特性
-- 多态（Polymorphism）：由继承而产生了相关的不同的类，对同一个方法可以有不同的响应。比如 `Cat` 和 `Dog` 都继承自 `Animal`，但是分别实现了自己的 `eat` 方法。此时针对某一个实例，我们无需了解它是 `Cat` 还是 `Dog`，就可以直接调用 `eat` 方法，程序会自动判断出来应该如何执行 `eat`
-- 存取器（getter & setter）：用以改变属性的读取和赋值行为
-- 修饰符（Modifiers）：修饰符是一些关键字，用于限定成员或类型的性质。比如 `public` 表示公有属性或方法
-- 抽象类（Abstract Class）：抽象类是供其他类继承的基类，抽象类不允许被实例化。抽象类中的抽象方法必须在子类中被实现
-- 接口（Interfaces）：不同类之间公有的属性或方法，可以抽象成一个接口。接口可以被类实现（implements）。一个类只能继承自另一个类，但是可以实现多个接口
-
-类的属性和方法
-
-
-
-类的继承
-
-
-
-TypeScript 可以使用三种访问修饰符（Access Modifiers），分别是 `public`、`private` 和 `protected`。
-
-- `public` 修饰的属性或方法是公有的，可以在任何地方被访问到，默认所有的属性和方法都是 `public` 的
-- `private` 修饰的属性或方法是私有的，不能在声明它的类的外部访问，在子类中也是不允许访问的。该类不允许被继承或者实例化：
-- `protected` 修饰的属性或方法是受保护的，它和 `private` 类似，区别是它在子类中也是允许被访问的，且该类只允许被继承，不能被实例化
-
-`abstract` 用于定义抽象类和其中的抽象方法。抽象类是不允许被实例化的，抽象类中的抽象方法必须被子类实现：
-
-
-
-### 声明语句与声明文件、声明合并
-
-假如我们想使用第三方库 jQuery，一种常见的方式是在 html 中通过 `<script>` 标签引入 jQuery，然后就可以使用全局变量 `$` 或 `jQuery` 了。
-
-但是在 ts 中，编译器并不知道 `$` 或 `jQuery` 是什么东西[1](https://github.com/xcatliu/typescript-tutorial/tree/master/examples/declaration-files/01-jquery)：
-
-这时，我们需要使用 `declare var` 来定义它的类型
-
-通常我们会把声明语句放到一个单独的文件（`jQuery.d.ts`）中，这就是声明文件。声明文件必需以 `.d.ts` 为后缀。一般来说，ts 会解析项目中所有的 `*.ts` 文件，当然也包含以 `.d.ts` 结尾的文件。所以当我们将 `jQuery.d.ts` 放到项目中时，其他所有 `*.ts` 文件就都可以获得 `jQuery` 的类型定义了。
-
-假如仍然无法解析，那么可以检查下 `tsconfig.json` 中的 `files`、`include` 和 `exclude` 配置，确保其包含了 `jQuery.d.ts` 文件。
-
-TS可以在编译时自动生成.d.ts文件，只需要在tsconfig.json配置文件中开启即可
-
-```json
-{
-  "compilerOptions": {
-    "declaration": true
-  }
-}
-```
-
-一般只有三种情况需要手动定义声明文件：
-
-1.通过script标签引入第三方库
-
-2.使用的第三方npm包没有提供声明文件
-
-3.自己团队内比较优秀的js库或者插件，为了提升开发体验
-
-声明文件只是对类型的定义，不能赋值
-
-如果定义了同名的函数、类、接口，typescript会自动合并。接口的属性和方法都支持合并
-
-```typescript
-interface Alarm{
-  price: number;
-  alert(s:string):string;
+    _countDown: 0
+  };
 };
-interface Alarm{
-  weight: number;
-  alert(s:string,n:number):string;
-}
-//相当于
-interface Alarm{
-  price: number;
-  alert(s:string):string;
-  weight: number;
-  alert(s:string,n:number):string;
-}
+[...obj]; // 打印 [1, 2, 3]
 ```
 
-合并时属性可以重复，但是不能有冲突，否则会报错。
+### 可选链式操作符与空值合并操作符
 
-```typescript
-interface Alarm{
-  price: number;
-};
-interface Alarm{
-  price: number;//可以
-  weight: number;
-};
-interface Alarm{
-  price: string;//报错
-}
-```
-
-类的合并和接口的合并类似
-
-对于没有提供声明文件的npm包，可以创建一个types目录，来管理自己写的声明文件，同时在配置文件tsconfig.json中的paths和baseUrl配置
-
-```json
-{
-  "compilerOptions": {
-    "module": "commonjs",
-    "baseUrl": "./",
-    "paths": {"*":["types/*"]}
-  }
-}
-```
-
-npm包的声明文件主要有以下几种语法
-
-```typescript
-export const/let
-export namespace
-export default
-export = 
-```
-
-
-
-### 命名空间
-
-在 JavaScript 使用命名空间时， 这有一个常用的、方便的语法：
+**可选链**操作符 ( **`?.`** ) 允许读取位于连接对象链深处的属性的值，而不必明确验证链中的每个引用是否有效。`?.` 操作符的功能类似于 `.` 链式操作符，不同之处在于，在引用为空 ([nullish](https://developer.mozilla.org/zh-CN/docs/Glossary/Nullish) ) ([`null`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/null) 或者 [`undefined`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/undefined)) 的情况下不会引起错误，该表达式短路返回值是 `undefined`。与函数调用一起使用时，如果给定的函数不存在，则返回 `undefined`
 
 ```javascript
-(function(something) {
-  something.foo = 123;
-})(something || (something = {}));
+const adventurer = {
+  name: 'Alice',
+  cat: {
+    name: 'Dinah'
+  }
+};
 
-console.log(something);
-// { foo: 123 }
+const dogName = adventurer.dog?.name;
+console.log(dogName);
+// expected output: undefined
 
-(function(something) {
-  something.bar = 456;
-})(something || (something = {}));
-
-console.log(something); // { foo: 123, bar: 456 }
+console.log(adventurer.someNonExistentMethod?.());
+// expected output: undefined
 ```
 
-在确保创建的变量不会泄漏至全局命名空间时，这种方式在 JavaScript 中很常见。当基于文件模块使用时，你无须担心这点，但是该模式仍然适用于一组函数的逻辑分组。因此 TypeScript 提供了 `namespace` 关键字来描述这种分组，
+**空值合并操作符**（**`??`**）是一个逻辑操作符，当左侧的操作变量为 [`null`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/null) 或者 [`undefined`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/undefined) 时，返回其右侧操作数，否则返回左侧操作变量。
 
-```typescript
-namespace Utility {
-  export function log(msg) {
-    console.log(msg);
-  }
-  export function error(msg) {
-    console.log(msg);
-  }
+与[逻辑或操作符（`||`）](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/Logical_OR)不同，逻辑或操作符会在左侧操作数为[假值](https://developer.mozilla.org/zh-CN/docs/Glossary/Falsy)时返回右侧操作数。也就是说，如果使用 `||` 来为某些变量设置默认值，可能会遇到意料之外的行为。比如为假值（例如，`''` 或 `0`）时。
+
+```javascript
+const foo = null ?? 'default string';
+console.log(foo);
+// expected output: "default string"
+
+const baz = 0 ?? 42;
+console.log(baz);
+// expected output: 0
+```
+
+需要注意的是，可选链式操作符通过bable polyfill编译之后会比较丑
+
+```javascript
+const obj = {};
+const a = obj?.a?.b
+
+// 编译后
+var _obj$a;
+
+const obj = {};
+const a = obj === null || obj === void 0 ? void 0 : (_obj$a = obj.a) === null || _obj$a === void 0 ? void 0 : _obj$a.b;
+```
+
+
+
+### ES6与ES5转码
+
+[Babel](https://babeljs.io/) 是一个广泛使用的 ES6 转码器，可以将 ES6 代码转为 ES5 代码，从而在老版本的浏览器执行。这意味着，你可以用 ES6 的方式编写程序，又不用担心现有环境是否支持。
+
+安装Babel
+
+```shell
+npm install --save-dev @babel/core
+```
+
+配置文件babelrc
+
+Babel 的配置文件是`.babelrc`，存放在项目的根目录下。使用 Babel 的第一步，就是配置这个文件。
+
+该文件用来设置转码规则和插件，基本格式如下。
+
+```babelrc
+{
+  "presets": [],
+  "plugins": []
 }
-
-// usage
-Utility.log('Call me');
-Utility.error('maybe');
 ```
 
-值得注意的一点是，命名空间是支持嵌套的。因此，你可以做一些类似于在 `Utility` 命名空间下嵌套一个命名空间 `Messaging` 的事情。
+`presets`字段设定转码规则，官方提供以下的规则集，你可以根据需要安装。
+
+```shell
+# 最新转码规则
+$ npm install --save-dev @babel/preset-env
+
+# react 转码规则
+$ npm install --save-dev @babel/preset-react
+```
+
+然后，将这些规则加入`.babelrc`。
+
+```
+{
+    "presets": [
+      "@babel/env",
+      "@babel/preset-react"
+    ],
+    "plugins": []
+ }
+```
+
+Babel 默认只转换新的 JavaScript 句法（syntax），而不转换新的 API，比如`Iterator`、`Generator`、`Set`、`Map`、`Proxy`、`Reflect`、`Symbol`、`Promise`等全局对象，以及一些定义在全局对象上的方法（比如`Object.assign`）都不会转码。
+
+举例来说，ES6 在`Array`对象上新增了`Array.from`方法。Babel 就不会转码这个方法。如果想让这个方法运行，可以使用`core-js`和`regenerator-runtime`(后者提供generator函数的转码)，为当前环境提供一个垫片。
+
+安装
+
+```shell
+npm install --save-dev core-js regenerator-runtime
+```
+
+然后在脚本头部加入如下代码
+
+```javascript
+import 'core-js';
+import 'regenerator-runtime/runtime';
+// 或者
+require('core-js');
+require('regenerator-runtime/runtime);
+```
+
+`@babel/node`模块的`babel-node`命令，提供一个支持 ES6 的 REPL 环境。它支持 Node 的 REPL 环境的所有功能，而且可以直接运行 ES6 代码。
+
+安装
+
+```shell
+npm install --save-dev @babel/node
+```
+
+执行`babel-node`就进入 REPL 环境。
+
+`@babel/register`模块改写`require`命令，为它加上一个钩子。此后，每当使用`require`加载`.js`、`.jsx`、`.es`和`.es6`后缀名的文件，就会先用 Babel 进行转码。
+
+```shell
+npm install --save-dev @babel/register
+```
+
+使用时，必须首先加载`@babel/register`。
+
+Babel 提供一个[REPL 在线编译器](https://babeljs.io/repl/)，可以在线将 ES6 代码转为 ES5 代码。转换后的代码，可以直接作为 ES5 代码插入网页运行。
+
+### 最新提案
+
+#### do表达式
+
+在之前的提案中，块级作用域是一个语句，将多个操作封装在一起，没有返回值。
+
+```javascript
+{
+  let t = f();
+  t = t * t + 1;
+}
+```
+
+块级作用域将两个语句封装在一起。但是，在块级作用域以外，没有办法得到`t`的值，因为块级作用域不返回值，除非`t`是全局变量。
+
+这个提案使得块级作用域可以变为表达式，也就是说可以返回值，办法就是在块级作用域之前加上`do`，使它变为`do`表达式，然后就会返回内部最后执行的表达式的值
+
+```javascript
+let x = do {
+  let t = f();
+  t * t + 1;
+};
+```
+
+上面代码中，变量`x`会得到整个块级作用域的返回值（`t * t + 1`）。
+
+#### throw表达式
+
+JavaScript 语法规定`throw`是一个命令，用来抛出错误，不能用于表达式之中。
+
+语法上，`throw`表达式里面的`throw`不再是一个命令，而是一个运算符。为了避免与`throw`命令混淆，规定`throw`出现在行首，一律解释为`throw`语句，而不是`throw`表达式。
 
 
 
+#### 管道操作符
+
+Unix 操作系统有一个管道机制（pipeline），可以把前一个操作的值传给后一个操作。这个机制非常有用，使得简单的操作可以组合成为复杂的操作。
+
+JavaScript 的管道是一个运算符，写作`|>`。它的左边是一个表达式，右边是一个函数。管道运算符把左边表达式的值，传入右边的函数进行求值。
+
+管道运算符最大的好处，就是可以把嵌套的函数，写成从左到右的链式表达式。
+
+管道运算符只能传递一个值，这意味着它右边的函数必须是一个单参数函数。如果是多参数函数，就必须进行柯里化，改成单参数的版本。
+
+```javascript
+x |> f
+// 等同于
+f(x)
+```
+
+#### 双冒号运算符
+
+箭头函数可以绑定`this`对象，大大减少了显式绑定`this`对象的写法（`call`、`apply`、`bind`）。但是，箭头函数并不适用于所有场合。提案提出了“函数绑定”（function bind）运算符，用来取代`call`、`apply`、`bind`调用。
+
+函数绑定运算符是并排的两个冒号（`::`），双冒号左边是一个对象，右边是一个函数。该运算符会自动将左边的对象，作为上下文环境（即`this`对象），绑定到右边的函数上面。
+
+```javascript
+foo::bar;
+// 等同于
+bar.bind(foo);
+
+foo::bar(...arguments);
+// 等同于
+bar.apply(foo, arguments);
+
+const hasOwnProperty = Object.prototype.hasOwnProperty;
+function hasOwn(obj, key) {
+  return obj::hasOwnProperty(key);
+}
+```
+
+如果双冒号左边为空，右边是一个对象的方法，则等于将该方法绑定在该对象上面。
+
+#### 更多提案
+
+ECMA 39组委会官网： https://tc39.es/
+
+ECMA 39组委会github：https://github.com/tc39

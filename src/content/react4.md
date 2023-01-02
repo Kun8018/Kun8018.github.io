@@ -1,5 +1,5 @@
 ---
-title: React（三）
+title: React（四）
 date: 2020-06-02 21:40:33
 categories: IT
 tags:
@@ -13,6 +13,105 @@ thumbnail: https://cdn.kunkunzhang.top/hooks.jpeg
 <!--more-->
 
 ## Hooks 原理
+
+### hooks与闭包
+
+**闭包是一个特殊的对象**
+
+**它由两部分组成，执行上下文A以及在A中创建的函数B**。
+
+**当B执行时，如果访问了A中的变量对象，那么闭包就会产生。**
+
+**本质上，JavaScript中并没有自己的模块概念，我们只能使用函数/自执行函数来模拟模块。**
+
+现在的前端工程中（ES6的模块语法规范），使用的模块，本质上都是函数或者自执行函数。
+
+webpack等打包工具会帮助我们将其打包成为函数
+
+在react中，一个函数组件调用另一个函数组件，就必然产生闭包
+
+比如说
+
+```react
+// Counter.jsx
+export default function Counter() {}
+
+
+// App.jsx
+import Counter from './Counter';
+export default function App() {
+ // todo
+   return (
+    <Counter />
+  )
+}
+```
+
+转换成伪代码
+
+```javascript
+
+const CounterModule = (function() {
+  return function Counter() {}
+})()
+
+const AppModule = (function() {
+  const Counter = CounterModule;
+  return function App() {
+    return Counter();
+  }
+})()
+```
+
+**每一个JS模块都可以认为是一个独立的作用域，当代码执行时，该词法作用域创建执行上下文，如果在模块内部，创建了可供外部引用访问的函数时，就为闭包的产生提供了条件，只要该函数在外部执行访问了模块内部的其他变量，闭包就会产生。**
+
+那hooks呢？
+
+useState的简单代码如下
+
+```javascript
+// state.js
+let state = null;
+
+export const useState = (value: number) => {
+  // 第一次调用时没有初始值，因此使用传入的初始值赋值
+  state = state || value;
+
+  function dispatch(newValue) {
+    state = newValue;
+    // 假设此方法能触发页面渲染
+    render();
+  }
+
+  return [state, dispatch];
+}
+```
+
+在其他模块中引入时
+
+```react
+import React from 'react';
+import {useState} from './state';
+
+function Demo() {
+  // 使用数组解构的方式，定义变量
+  const [counter, setCounter] = useState(0);
+
+  return (
+    <div onClick={() => setCounter(counter + 1)}>hello world, {counter}</div>
+  )
+}
+
+export default Demo();
+```
+
+**当useState在Demo中执行时，访问了state中的变量对象，那么闭包就会产生**。
+
+根据闭包的特性，state模块中的state变量，会持久存在。因此当Demo函数再次执行时，我们也能获取到上一次Demo函数执行结束时state的值。
+
+
+
+https://mp.weixin.qq.com/s/IMgHzeDXIbxMsVomnqx7AQ
 
 ### hook的使用规则
 
@@ -1025,6 +1124,10 @@ useFullscreen
 
 管理 DOM 全屏的 Hook。
 
+useLockFn
+
+给异步函数加并发锁。如果当前异步函数正在执行中没有返回，那么不能执行，上一次异步函数有返回后才能再次执行
+
 #### 开发者hook
 
 useWhyDidYouUpdate
@@ -1089,6 +1192,32 @@ function HomeButton() {
     strict: true,
     sensitive: true
   })
+}
+```
+
+useRoutes
+
+```react
+import * as React from "react";
+import { useRoutes } from "react-router-dom";
+
+function App() {
+  let element = useRoutes([
+    {
+      path: "/",
+      element: <Dashboard />,
+      children: [
+        {
+          path: "messages",
+          element: <DashboardMessages />,
+        },
+        { path: "tasks", element: <DashboardTasks /> },
+      ],
+    },
+    { path: "team", element: <AboutPage /> },
+  ]);
+
+  return element;
 }
 ```
 

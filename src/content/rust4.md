@@ -1,5 +1,5 @@
 ---
-title: rust（三）
+title: rust（四）
 date: 2020-03-11 21:40:33
 categories: IT
 tags:
@@ -72,6 +72,105 @@ mini-redis = "0.4"
 ## Rust Web框架
 
 Rust 拥有多个非常快速的 web 框架：Rocket、Actix web 和 Yew。
+
+### trunk
+
+
+
+
+
+### leptos
+
+rust全栈框架
+
+安装
+
+```shell
+cargo install cargo-leptos
+cargo leptos new --git https://github.com/leptos-rs/start
+cd [your project name]
+cargo leptos watch
+```
+
+使用
+
+```rust
+use leptos::*;
+
+#[component]
+pub fn SimpleCounter(cx: Scope, initial_value: i32) -> Element {
+    // create a reactive signal with the initial value
+    let (value, set_value) = create_signal(cx, initial_value);
+
+    // create event handlers for our buttons
+    // note that `value` and `set_value` are `Copy`, so it's super easy to move them into closures
+    let clear = move |_| set_value.set(0);
+    let decrement = move |_| set_value.update(|value| *value -= 1);
+    let increment = move |_| set_value.update(|value| *value += 1);
+
+    // this JSX is compiled to an HTML template string for performance
+    view! {
+        cx,
+        <div>
+            <button on:click=clear>"Clear"</button>
+            <button on:click=decrement>"-1"</button>
+            <span>"Value: " {move || value().to_string()} "!"</span>
+            <button on:click=increment>"+1"</button>
+        </div>
+    }
+}
+```
+
+
+
+### Dioxus
+
+需要安装trunk获取资源包
+
+```shell
+cargo install trunk
+```
+
+然后还需要安装wasm32-unknown-unknown
+
+```shell
+rustup target add wasm32-unknown-unknown
+```
+
+然后在空文件夹里创建项目
+
+```shell
+cargo new --bin demo
+cd demo
+
+cargo add dioxus --features web
+```
+
+添加一个html和main.rs文件
+
+```rust
+// main.rs
+
+use dioxus::prelude::*;
+
+fn main() {
+    dioxus::web::launch(app);
+}
+
+fn app(cx: Scope) -> Element {
+    cx.render(rsx!{
+        div { "hello, wasm!" }
+    })
+}
+```
+
+运行
+
+```shell
+trunk serve
+```
+
+
 
 ### web 前端框架
 

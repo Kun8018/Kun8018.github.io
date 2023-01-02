@@ -1,1051 +1,1718 @@
 ---
-title: NodeJs开发（四） 
-date: 2021-1-22 22:41:33
+title: NodeJs开发（二）
+date: 2021-01-20 21:40:33
 categories: IT
 tags:
-    - IT，Web
+    - IT，Web,Node
 toc: true
-thumbnail: http://cdn.kunkunzhang.top/koajs.jpeg
+thumbnail: http://cdn.kunkunzhang.top/nodejs.png
 ---
 
-万万万万万万没想到会来到js第十篇，Node Js第四篇，第十篇写Koa框架及Eggjs
+Javascript第八篇，NodeJs第二篇，注重Node后端开发。
 
 <!--more-->
 
-## koa
+## cli工具
 
-### 简介/安装
+### 创建一个cli工具
 
-Koa是一个类似于Express的Web开发框架，创始人也是同一个人。它的主要特点是，使用了ES6的Generator函数，进行了架构的重新设计。也就是说，Koa的原理和内部结构很像Express，但是语法和内部结构进行了升级。
-
-官方[faq](https://github.com/koajs/koa/blob/master/docs/faq.md#why-isnt-koa-just-express-40)有这样一个问题：”为什么koa不是Express 4.0？“，回答是这样的：”Koa与Express有很大差异，整个设计都是不同的，所以如果将Express 3.0按照这种写法升级到4.0，就意味着重写整个程序。所以，我们觉得创造一个新的库，是更合适的做法。“
-
-一个Koa应用就是一个对象，包含了一个middleware数组，这个数组由一组Generator函数组成。这些函数负责对HTTP请求进行各种加工，比如生成缓存、指定代理、请求重定向等等。
-
-初始化文件夹
-
-```javascript
-npm init
-```
-
-安装koa
+进入文件夹，初始化node项目
 
 ```shell
-npm install koa
+ npm init -y
 ```
 
-最简单的demo
-
-```javascript
-const Koa = require('koa')
-const app = new Koa()
-
-app.ues(async (ctx,next)=>{
-   ctx.response.body = "我是吴彦祖"
-})
-
-app.listen(3333,()=>{
-   console.log('server is running')
-})
-```
-
-### 核心概念
-
-ctx：koa将node的request和response对象封装进ctx，得到ctx.request、cox.response。特别的，ctx将常用的属性做了进一步简化，可以由ctx直接访问，如ctx.request,url可以简化为ctx.request
-
-next：next参数将处理的控制权转交下一个中间件，响应结束时再由中间件逐层传递回来，也是著名的洋葱模型
-
-request对象：表示HTTP请求。
-
-response对象：表示HTTP回应。
-
-ctx对象的属性：
-
-- request：指向Request对象
-- response：指向Response对象
-- req：指向Node的request对象
-- res：指向Node的response对象
-- app：指向App对象
-- state：用于在中间件传递信息。
-
-
-
-request对象的属性：
-
-(1) this.request.header：返回一个对象，包含所有HTTP请求的头信息。也可以写成`this.request.headers`。
-
-(2) this.request.method：返回HTTP请求的方法，该属性可读写。
-
-(3)this.request.length:返回HTTP请求的Content-Length属性，取不到值，则返回undefined。
-
-(4)this.request.path:返回HTTP请求的路径，该属性可读写。
-
-(5)this.request.href:返回HTTP请求的完整路径，包括协议、端口和url。
-
-(6)this.request.querystring:返回HTTP请求的查询字符串，不含问号。该属性可读写。
-
-(7)this.request.ip:返回发出HTTP请求的IP地址。
-
-(8)this.request.fresh:返回一个布尔值，表示缓存是否代表了最新内容。通常与If-None-Match、ETag、If-Modified-Since、Last-Modified等缓存头，配合使用。
-
-(9)this.request.query:返回一个对象，包含了HTTP请求的查询字符串。如果没有查询字符串，则返回一个空对象。该属性可读写。
-
-(10)this.request.host:返回HTTP请求的主机（含端口号）。
-
-(11)this.request.hostname:返回HTTP的主机名（不含端口号）。
-
-(12)this.request.search:返回HTTP请求的查询字符串，含问号。该属性可读写。
-
-(13)this.request.type:返回HTTP请求的Content-Type属性。
-
-(14)this.request.charset:返回HTTP请求的字符集。
-
-(15)this.request.protocol:返回HTTP请求的协议，https或者http。
-
-(16)this.request.secure:返回一个布尔值，表示当前协议是否为https。
-
-(17)this.request.is(types…):返回指定的类型字符串，表示HTTP请求的Content-Type属性是否为指定类型。
-
-(18)this.request.accepts(types):检查HTTP请求的Accept属性是否可接受，如果可接受，则返回指定的媒体类型，否则返回false。
-
-(19)this.request.acceptsEncodings(encodings):该方法根据HTTP请求的Accept-Encoding字段，返回最佳匹配，如果没有合适的匹配，则返回false。
-
-(20)this.request.acceptsCharsets(charsets):该方法根据HTTP请求的Accept-Charset字段，返回最佳匹配，如果没有合适的匹配，则返回false。
-
-(21)this.request.acceptsLanguages(langs):该方法根据HTTP请求的Accept-Language字段，返回最佳匹配，如果没有合适的匹配，则返回false。
-
-(22)this.request.socket:返回HTTP请求的socket。
-
-(23)this.request.get(field):返回HTTP请求指定的字段。
-
-response对象的属性：
-
-(1)this.response.header：返回HTTP回应的头信息。
-
-(2)this.response.socket：返回HTTP回应的socket。
-
-(3)this.response.status:返回HTTP回应的状态码。默认情况下，该属性没有值。该属性可读写，设置时等于一个整数。
-
-(4)this.response.message：返回HTTP回应的状态信息。该属性与`this.response.message`是配对的。该属性可读写。
-
-(5)this.response.length:返回HTTP回应的Content-Length字段。该属性可读写，如果没有设置它的值，koa会自动从this.request.body推断。
-
-(6)this.response.body: 返回HTTP回应的信息体。该属性可读写，它的值可能有以下几种类型。
-
- 字符串：Content-Type字段默认为text/html或text/plain，字符集默认为utf-8，Content-Length字段同时设定。
-二进制Buffer：Content-Type字段默认为application/octet-stream，Content-Length字段同时设定。
-Stream：Content-Type字段默认为application/octet-stream。
-JSON对象：Content-Type字段默认为application/json。
-null（表示没有信息体）
-
-(7)this.response.get(field):返回HTTP回应的指定字段。
-
-(8)this.response.set():设置HTTP回应的指定字段。
-
-(9)this.response.remove(field):移除HTTP回应的指定字段。
-
-(10)this.response.is(types…):该方法类似于`this.request.is()`，用于检查HTTP回应的类型是否为支持的类型。
-
-它可以在中间件中起到处理不同格式内容的作用。
-
-(11)this.response.redirect(url, [alt]):该方法执行302跳转到指定网址。如果redirect方法的第一个参数是back，将重定向到HTTP请求的Referrer字段指定的网址，如果没有该字段，则重定向到第二个参数或“/”网址。
-
-(12)this.response.attachment([filename]):该方法将HTTP回应的Content-Disposition字段，设为“attachment”，提示浏览器下载指定文件。
-
-(13)this.response.headerSent：该方法返回一个布尔值，检查是否HTTP回应已经发出。
-
-(14)this.response.lastModified：该属性以Date对象的形式，返回HTTP回应的Last-Modified字段（如果该字段存在）。该属性可写。
-
-(15)this.response.etag:该属性设置HTTP回应的ETag字段。
-
-(16)this.response.vary(field):该方法将参数添加到HTTP回应的Vary字段。
-
-### 中间件
-
-Koa的中间件很像Express的中间件，也是对HTTP请求进行处理的函数，但是必须是一个Generator函数。而且，Koa的中间件是一个级联式（Cascading）的结构，也就是说，属于是层层调用，第一个中间件调用第二个中间件，第二个调用第三个，以此类推。上游的中间件必须等到下游的中间件返回结果，才会继续执行，这点很像递归。
-
-中间件通过当前应用的use方法注册。
-
-`app.use`方法的参数就是中间件，它是一个Generator函数，最大的特征就是function命令与参数之间，必须有一个星号。Generator函数的参数next，表示下一个中间件。
-
-
-
-
-
-### 洋葱模型
-
-实例
-
-```javascript
-//打印时间戳
-module.exports = function() {
-    return async function(ctx, next) {
-        console.log("next前，打印时间戳:", new Date().getTime())
-        await next()
-        console.log("next后，打印时间戳:", new Date().getTime())
-    }
-}
-
-//打印路由
-module.exports = function() {
-    return async function(ctx, next) {
-        console.log("next前，打印url:", ctx.url)
-        await next()
-        console.log("next后，打印url:", ctx.url)
-    }
-}
-
-//使用中间件
-const Koa = require('koa')
-const app = new Koa()
-
-const logTime = require('./middleware/logTime')
-const logUrl = require('./middleware/logUrl')
-
-// logTime
-app.use(logTime())
-
-// logUrl
-app.use(logUrl())
-
-// response
-app.use(async ctx => {
-  ctx.body = 'Hello World'
-})
-
-app.listen(3000)
-```
-
-#### 源码koa-compose
-
-koa中比较重要的点：
-
-1. context的保存和传递
-2. 中间件的管理和next的实现
-
-1.app.listen使用了this.callback()来生成node的httpServer的回调函数。
-
-```javascript
-listen(...args) {
-    debug('listen');
-    const server = http.createServer(this.callback());
-    return server.listen(...args);
-}
-```
-
-中间件引擎
-
-```javascript
-callback() {
-    const fn = compose(this.middleware); // 核心：中间件的管理和next的实现
-    
-    if (!this.listeners('error').length) this.on('error', this.onerror);
-    
-    const handleRequest = (req, res) => {
-      const ctx = this.createContext(req, res); // 创建ctx
-      return this.handleRequest(ctx, fn);
-    };
-    
-    return handleRequest;
-}
-```
-
-使用compose函数处理中间件。compose中有`dispatch`函数，它将遍历整个`middleware`，然后将`context`和`dispatch(i + 1)`传给`middleware`中的方法。
-
-```javascript
-function compose (middleware) {
-  return function (context, next) {
-    // last called middleware #
-    let index = -1
-    return dispatch(0)
-    
-    function dispatch (i) {
-      if (i <= index) return Promise.reject(new Error('next() called multiple times'))
-      index = i
-      let fn = middleware[i]
-      if (i === middleware.length) fn = next
-      if (!fn) return Promise.resolve()
-      try {
-        return Promise.resolve(fn(context, function next () {
-          return dispatch(i + 1)
-        }))
-      } catch (err) {
-        return Promise.reject(err)
-      }
-    }
+在package.json中添加bin配置，并添加对应的js文件
+
+```json
+{
+  'name': 'mycli-demo',
+  'version': '1.0.0',
+  'main': 'index.js',
+  'bin': {
+    'mycli': './bin/cli.js'
+  },
+  'scripts': {
+    'test': 'echo \"Error: no test" && exit 1'
   }
 }
 ```
 
-
-
-### 路由
-
-使用koa-router处理URL
-
-安装
-
-```shell
-npm i koa-router --save 
-```
-
-实例
+在项目中创建bin/cli.js
 
 ```javascript
-const Koa = require('koa');
-const app = new Koa();
-const Router = require('koa-router')
-
-//写法1，一个路由对象
-const router = new Router();
-
-router.get('/',async (ctx,next)=>{
-  ctx.body = 'index页'
-})
-
-router.get('/',async (ctx,next)=>{
-  ctx.body = 'index页'
-})
-
-app.use(router.routes())
-app.listen(3333,()=>{
-  console.log("server is running")
-})
-//写法2，建立不同路由对象然后一起装载,嵌套路由
-let oneRouter = new Router();
-let twoRouter = new Router();
-
-oneRouter.get('/',async(ctx,next)=>{
-   ctx.body = "onerouter 页"
-})
-
-twoRouter.get('/',async(ctx,next)=>{
-   ctx.body = 'tworouter页'
-}).get('/home',async(ctx,next)=>{
-   ctx.body = 'home页'
-})
-
-let indexRouter = new Router();
-indexRouter.use('/one',oneRouter.routes(),oneRouter.allowedMethods())
-indexRouter.use('/two',twoRouter.routes(),twoRouter.allowedMethods())
-
-app
-  .use(indexRouter.routes())
-  .use(indexRouter.allowedMethods())
-
-app.listen(3333,()=>{
-   console.log('server')
-})
+#!/usr/bin/env node 
+// 第一行指明运行环境 很重要
+console.log('cli log')
 ```
 
-### 处理请求
-
-使用koa-router处理请求，如get、post
-
-post请求使用koa-bodyparser处理body中的数据
+然后在本地使用npm link或者yarn link安装工具
 
 ```shell
-npm i koa-bodyparser --save
+npm link
+## yarn link
+```
+
+使用unlink可以删除掉
+
+```shell
+npm unlink mycli
+```
+
+发布在npm上
+
+在项目根目录下新建publish.sh
+
+```shell
+#!/usr/bin/env bash
+set -e
+# 修改npm源地址
+npm config get registry
+npm config set registry=http://registry.npmjs.org
+# 登陆输入自己的npm账号和密码，还有邮箱
+echo '登录'
+npm login
+echo "发布中..."
+npm publish
+# 改回npm源地址
+npm config set registry=https://registry.npm.taobao.org
+echo -e "\n发布成功\n"
+exit
+```
+
+发布完成后测试
+
+```shell
+npm i -g mycli
+```
+
+发布后取消或者删除包
+
+强制取消，仅允许最近 72 小时内发布的版本取消发布
+
+```shell
+## 强制取消
+npm unpublish --force
+## 删除
+npx force-unpublish package-name '原因描述'
 ```
 
 
 
+https://l-x-f.github.io/2019/12/28/node/cli/
+
+https://segmentfault.com/a/1190000022721056
+
+https://juejin.cn/post/6844904153030852621#heading-4
+
+
+
+### oclif cli工具
+
+oclif是用来构建基于node的cli工具框架
+
+利用oclif创建cli
+
+```shell
+$ npx oclif generate mynewcli
+? npm package name (mynewcli): mynewcli
+$ cd mynewcli
+$ ./bin/dev hello world
+hello world! (./src/commands/hello/world.ts)
+```
+
+使用
+
+```typescript
+import {Command} from '@oclif/core'
+
+export class MyCommand extends Command {
+  static description = 'description of this example command'
+
+  async run() {
+    console.log('running my command')
+  }
+}
+```
+
+https://openbase.com/js/oclif#-examples
+
+文档：https://oclif.io/docs/introduction
+
+### 创建一个init cli
+
+/bin/vea-cli
+
 ```javascript
-const Koa = require('koa');
-const app = new Koa()
-const Router.= require ('koa-router')
-const router = new Router()
+// 告诉执行环境用node来执行
+#!/usr/bin/env node
+// 添加命令的库
+const program = require('commander')
+// 拿到package.json 里的版本号
+const packageJson = require('../package.json')
+const init = require('../lib/init')
+//  执行  vea-cli -V 会输出版本号
+program.version(packageJson.version)
+// 添加init命令，简写是i， <name> 是参数  action回调里可以拿到
+program
+  .command('init <name>')
+  .alias('i')
+  .description('vue admin 项目初始化工具')
+  .action(name => {
+    init(name)
+  })
+// 解析命令行参数
+program.parse(process.argv)
+```
 
-//get请求
-router.get('/data',async(ctx,next)=>{
-  let url = ctx.url;
-  
-  let data = ctx.request.query;//查询的的对象
-  let dataQuery = ctx.request.querystring; // 查询的字符串
-})
+/lib/init.js
 
-//restful风格api，get请求
-router.get('data/:id',async(ctx,next)=>{
-   let data = ctx.params;
-})
-
-//post请求
-router.post('/post/result',async (ctx,next)=>{
-    let {name,num} = ctx.request.body
-    
-    if(name && num ){
-     ctx.body = "${name} ${num}"
+```javascript
+const chalk = require("chalk");
+// 用户与命令行交互的工具
+const Prompt = require("inquirer");
+const clone = require("./clone");
+// 对应github仓库地址https://github.com/l-x-f/admin-template
+// #dev 是dev分支，不写默认master分支
+const remote = "github:l-x-f/admin-template#dev";
+const initQuestions = name => [
+  {
+    type: "confirm",
+    name: "isInit",
+    message: `确定要在${chalk.green(name)}文件夹下创建项目?`,
+    prefix: "?"
+  }
+];
+const init = async name => {
+  try {
+    const { isInit } = await Prompt.prompt(initQuestions(name));
+    if (isInit) {
+      await clone(remote, name);
+    } else {
+      console.log(chalk.red("程序提前结束"));
     }
-})
+  } catch (error) {
+    console.log(chalk.red(error));
+  }
+};
+module.exports = init;
 ```
 
-### 日志
-
-### koa-logger
-
-这个库比较简单，记录请求的基本信息，比如请求的方法、URl、用时等。作为中间件中使用，注意：推荐放在所有的中间件之前，这个跟 koa 的洋葱模型有关。假如不是第一个，计算时间会不准确。
+/lib/clone.js
 
 ```javascript
-var logger = require('koa-logger');
-app.use(logger());
+// node的 util 模块 promisify可以把回调promise化
+const { promisify } = require("util");
+// 进度显示工具
+const ora = require("ora");
+// 颜色显示工具
+const chalk = require("chalk");
+// 下载git 仓库代码工具
+const download = promisify(require("download-git-repo"));
+/**
+ *
+ * @param {string} repo 仓库地址
+ * @param {string}  dir 文件夹
+ * @param {object}  opotions 配置项
+ */
+const clone = async function(repo, dir, opotions = {}) {
+  const process = ora(`开始下载 ${chalk.blue(repo)}`);
+  process.start();
+  process.color = "yellow";
+  process.text = `正在下载..... ${chalk.yellow(repo)} `;
+  try {
+    await download(repo, dir, opotions);
+    process.color = "green";
+    process.text = `下载成功 ${chalk.green(repo)} `;
+    process.succeed();
+  } catch (error) {
+    process.color = "red";
+    process.text = "下载失败";
+    process.fail();
+  }
+};
+module.exports = clone;
 ```
 
-默认情况下，日志是通过 `console` 的方式直接输出到控制台中，假如我们需要对日志做自定义的操作，比如写入到日志文件中等。可以通过类似完成
 
-### koa-log4js
 
-`koa-logger` 比较轻量，也暴露了相对灵活的接口。但在实际业务中使用，我个人推荐使用 `koa-log4js`。主要理由如下：
+## 功能模块
 
-- `koa-logger` 看起来只支持中间件的使用方式，而不支持上报特定日志的功能。
-- 内置的功能比较少。比如日志的分类和落盘等。
+### semver
 
-**koa-log4js**[2] 对 **log4js-node**[3] 做了一层包装，从而支持 `Koa` 日志的中间件。它的配置和 `log4js-node` 是保持一致的。所以假如你用 `log4js-node` 的话，使用上应该是一致的。
+语义化控制版本包
+
+```shell
+npm install semver
+```
+
+用法
+
+```javascript
+const semver = require('semver')
+ 
+semver.clean(' =v1.1.1 ')；// 1.1.1，解析版本号，忽略版本号前面的符号
+ 
+semver.valid('1.1.1'); // true，版本号是否合法
+semver.valid('a.b.c'); // false
+ 
+semver.satisfies('1.2.4', '1.2.3 - 1.2.5'); // true, 判断版本是否在某个范围
+
+semver.gt('1.2.3', '9.8.7') // false
+semver.lt('1.2.3', '9.8.7') // true
+semver.minVersion('>=1.0.0') // '1.0.0'
+```
+
+
+
+### graceful-fs
+
+
+
+### commander.js
+
+前端开发node cli 必备技能。
 
 安装
 
 ```shell
-npm i --save koa-log4
+npm install commander
 ```
 
-在根目录新建一个文件夹 `log`。并且新建一个文件夹 `utils`，在其中新建文件 `logger.js`
+api
 
 ```javascript
-const path = require('path');
-const log4js = require('koa-log4');
-const RUNTIME_PATH = path.resolve(__dirname, '../');
-const LOG_PATH = path.join(RUNTIME_PATH, 'log');
+var program = require('commander');
+ 
+program
+    .name("intl helper");
+    .version('0.0.1')
+    .parse(process.argv);
+    
+//执行结果：
+node index.js -V
+ 
+0.0.1
+//如果希望程序响应-v选项而不是-V选项，
+//只需使用与option方法相同的语法将自定义标志传递给version方法
+program
+  .version('0.0.1', '-v, --version')
+```
 
-log4js.configure({
-  // 日志的输出
-  appenders: {
-    access: {
-      type: 'dateFile',
-      pattern: '-yyyy-MM-dd.log', //生成文件的规则
-      alwaysIncludePattern: true, // 文件名始终以日期区分
-      encoding: 'utf-8',
-      filename: path.join(LOG_PATH, 'access.log') //生成文件名
-    },
-    application: {
-      type: 'dateFile',
-      pattern: '-yyyy-MM-dd.log',
-      alwaysIncludePattern: true,
-      encoding: 'utf-8',
-      filename: path.join(LOG_PATH, 'application.log')
-    },
-    out: {
-      type: 'console'
+commander.js中命令行有两种可变性，一个叫做`option`，意为选项。一个叫做`command`，意为命令。
+
+常用api
+
+`version`
+
+用法： `.version('x.y.z')`
+
+用于设置命令程序的版本号，
+
+`option`
+
+用户：`.option('-n, --name <name>', 'your name', 'GK')`
+
+- 第一个参数是选项定义，分为短定义和长定义。用|，,， 连接。
+  - 参数可以用`<>`或者`[]`修饰，前者意为必须参数，后者意为可选参数。
+- 第二个参数为选项描述
+- 第三个参数为选项参数默认值，可选。
+
+`command`
+
+用法：`.command('init <path>', 'description')`
+
+- `command`的用法稍微复杂，原则上他可以接受三个参数，第一个为命令定义，第二个命令描述，第三个为命令辅助修饰对象。
+- 第一个参数中可以使用`<>`或者`[]`修饰命令参数
+- 第二个参数可选。
+  - 当没有第二个参数时，commander.js将返回`Command`对象，若有第二个参数，将返回原型对象。
+  - 当带有第二个参数，并且没有显示调用`action(fn)`时，则将会使用子命令模式。
+  - 所谓子命令模式即，`./pm`，`./pm-install`，`./pm-search`等。这些子命令跟主命令在不同的文件中。
+- 第三个参数一般不用，它可以设置是否显示的使用子命令模式。
+
+`description`
+
+用法：`.description('command description')`
+
+用于设置命令的描述
+
+用法：`.action(fn)`
+
+用于设置命令执行的相关回调。`fn`可以接受命令的参数为函数形参，顺序与`command()`中定义的顺序一致。
+
+`parse`
+
+用法：`program.parse(process.argv)`
+
+此api一般是最后调用，用于解析`process.argv`。
+
+`outputHelp`
+
+用法：`program.outputHelp()`
+
+一般用于未录入参数时自动打印帮助信息。
+
+### inquire
+
+`Inquirer.js`可以理解成就是给输入命令行的用户提供一个好看的界面，提供一下功能：
+
+- 有错误反馈；
+- 向用户提问；
+- 解析输入；
+- 校验回答；
+- 能在用户输入的时候提供友好的提示。
+
+安装
+
+```shell
+yarn add inquirer --save-dev
+```
+
+Inquirer 提供`prompt`对象，该对象中提供配置项，`then`会在用户回答完所有问题后执行，`catch`则是报出异常：
+
+prompt是一个对象数组，对象主要包含以下几种配置：
+
+type： 类型，主要类型有input、number、confirm、list、rawlist、expand、checkbox、password、editor；
+
+name：可以理解成当前回答的变量名；
+
+message：问题描述；
+
+default：问题的默认值；
+
+choice：问题选项；
+
+validate：回答的校验器；
+
+filter：回答的过滤器；
+
+transformer：接收用户输入，回答散列和选项标志，并返回一个转换后的值显示给用户。
+
+when：是否应该问这个问题
+
+PageSize：控制选项显示的个数，就是是否当前最多显示多少个选项，如果超过则需要向下才能显示更多；
+
+prefix：更改默认的前缀消息。
+
+suffix：更改默认后缀消息。
+
+askAnswered：如果答案已经存在，就必须提出问题。
+
+loop：是否启用列表循环。
+
+```javascript
+var inquirer = require('inquirer');
+inquirer.prompt([
+  {
+    type: 'list',
+    name: 'preset',
+    message: 'Please pick a preset:',
+    choices: ['default(babel, eslint)', 'Manually select feature'],
+    filter: function(val){
+      return val.toLowerCase();
     }
   },
-  categories: {
-    default: { appenders: [ 'out' ], level: 'info' },
-    access: { appenders: [ 'access' ], level: 'info' },
-    application: { appenders: [ 'application' ], level: 'all'}
-  }
-});
-
-// getLogger 传参指定的是类型
-exports.accessLogger = () => log4js.koaLogger(log4js.getLogger('access')); // 记录所有访问级别的日志
-exports.logger = log4js.getLogger('application');
-```
-
-categories配置日志类别。必须配置默认日志类别，用于没有命中的情况下的兜底行为。该配置为一个对象，`key` 值为分类名称。其中每个类别都有两个配置 `appenders` 是一个字符串数组，是输出配置（后文中会详解），可以指定多个，至少要有一个。`level` 是上文日志级别。
-
- `appenders`配置输出日志，该配置的 `key` 值为自定义的名称（可以给 `categories` 中的 `appenders` 使用），属性值为一个对象，配置输出类型。`out` 指的是通过 `console` 输出，这个可以作为我们的一个兜底。`access` 中 `type` 为 `dataFile`，指的是输出文件，然后配置文件的命名和输出路径。
-
-在 `app.js` 以及`routes/index.js` 中加入：
-
-```javascript
-// app.js
-const { accessLogger, logger } = require('./utils/logger');
-app.use(accessLogger())
-
-// routes/index.js
-const { logger } = require('../utils/logger')
-
-router.get('/', async (ctx, next) => {
-  logger.info('我是首页');
-  await ctx.render('index', {
-    title: 'Hello Koa 2!'
-  })
-})
-```
-
-可以看到在 `log` 文件夹中输出两个文件：access-log和application-log两个日志文件
-
-日志的分级，主要作用是更好的展示日志（不同颜色）、有选择的落盘日志，比如在生产中避免一些 `debug` 的敏感日志被泄露。`log4js-node` 默认有九个分级（你可以通过 `levels` 进行修改）
-
-```javascript
-{
-  ALL: new Level(Number.MIN_VALUE, "ALL"),
-  TRACE: new Level(5000, "TRACE"),
-  DEBUG: new Level(10000, "DEBUG"),
-  INFO: new Level(20000, "INFO"),
-  WARN: new Level(30000, "WARN"),
-  ERROR: new Level(40000, "ERROR"),
-  FATAL: new Level(50000, "FATAL"),
-  MARK: new Level(9007199254740992, "MARK"), // 2^53
-  OFF: new Level(Number.MAX_VALUE, "OFF")
-}
-```
-
-默认只会输出级别相等或者级别高的日志。比如你配置了 `WARN`，就不会输出 `INFO` 的日志。可以在下面配置的 `categories` 中配置不同的类型日志的日志级别。
-
-### cookie、session操作koa-session
-
-koa可以直接操作cookie
-
-```javascript
-router.post('/post/result',async(ctx,next)=>{
-		let {name,num} = ctx.request.body
-    
-    if(name && num ){
-      ctx.body = "${name} ${num}"
-      ctx.cookies.set(
-        'xunleiCode',num,
-        {
-          domain:'localhost',  //写cookie所在的域名
-          path:'/post/result',  //写cookie所在的路径
-          maxAge: 10 * 60 * 1000; //cookie有效时长
-          expires: new Date('2018-09-17'); //cookie失效时间
-          httpOnly:false, //是否只用于http请求中获取
-          overwrite： false， //是否允许重写
-        }
-      )
+  {
+    type: 'input',
+    name: 'key',
+    message: "input the text key:",
+  },
+  {
+  type: 'checkbox',
+  name: 'features',
+  message: 'Checkout the feature needed for you project:',
+  choices: [{
+    name: 'Babel',
+  }, {
+    name: 'TypeScript',
+  },{
+    name: 'Progressive Web App (PWA) Support',
+  }, {
+    name: 'Router',
+  },{
+    name: 'Vuex',
+  }, {
+    name: 'CSS Pre-processors',
+  }, {
+    name: 'Linter / Formatter',
+  }, {
+    name: 'Unit Testing',
+  }, {
+    name: 'E2E Testing',
+  }],
+  pageSize: 9,
+  validate: function(answer){
+    if(answer.length < 1){
+      return 'You must choose at least one topping.';
     }
+
+    return true;
+  }
+}]).then(answers => {
+  console.log(JSON.stringify(answers, null, '  '));
+}).catch(error => {
+  console.log(error);
 })
 ```
 
-安装koa-session
+### chalk
+
+`chalk` 包的作用是修改控制台中字符串的样式，包括：
+
+1. 字体样式(加粗、隐藏等)
+2. 字体颜色
+3. 背景颜色
+
+使用
 
 ```javascript
-npm i koa-session
-```
-
-实例
-
-```javascript
-const session = require('koa-session')
-
-app.keys = ['some secret hurr'];
-const CONFIG = {
-  key:"koa:sess",  //默认cookie为koa：sess
-  maxAge: 86400000,// 过期时间，默认为1天
-  overwrite: true, // 是否可以重写
-  httpOnly: true,  //cookie是否只有服务端可以访问
-  signed:true,     //签名默认为true
-  rolling:false,   //在每次请求时重新设置cookie，重置cookie过期时间
-  renew:false,     //刷新session当session接近失效
-}
-app.use(session(CONFIG,app));
+const chalk = require('chalk');
+console.log(chalk.red.bold.bgWhite('Hello World'));
 ```
 
 
 
-### CSRF攻击koa-csrf
+### process
 
-CSRF攻击是指用户的session被劫持，用来冒充用户的攻击。
-
-koa-csrf插件用来防止CSRF攻击。原理是在session之中写入一个秘密的token，用户每次使用POST方法提交数据的时候，必须含有这个token，否则就会抛出错误。
-
-```javascript
-var koa = require('koa');
-var session = require('koa-session');
-var csrf = require('koa-csrf');
-var route = require('koa-route');
-
-var app = module.exports = koa();
-
-app.keys = ['session key', 'csrf example'];
-app.use(session(app));
-
-app.use(csrf());
-
-app.use(route.get('/token', token));
-app.use(route.post('/post', post));
-
-function* token () {
-  this.body = this.csrf;
-}
-
-function* post() {
-  this.body = {ok: true};
-}
-
-app.listen(3000);
-```
-
-POST请求含有token，可以是以下几种方式之一，koa-csrf插件就能获得token。
-
-- 表单的_csrf字段
-- 查询字符串的_csrf字段
-- HTTP请求头信息的x-csrf-token字段
-- HTTP请求头信息的x-xsrf-token字段
-
-### 数据压缩koa-compress
-
-koa-compress模块可以实现数据压缩。
-
-```javascript
-app.use(require('koa-compress')())
-app.use(function* () {
-  this.type = 'text/plain'
-  this.body = fs.createReadStream('filename.txt')
-})
-```
-
-### koa-connect
-
-安装
+[progress ](https://www.npmjs.com/package/progress)是现在最常用的 `npm` 包用来渲染进度条。
 
 ```shell
-npm install koa-connect
+npm install --save progress
 ```
 
 使用
 
 ```javascript
-import k2c from 'koa2-connect'
-import httpProxy from 'http-proxy-middleware'
+var ProgressBar = require('progress');
 
-async function proxyHandler(ctx:Context,next:any){
-  const nebulaProxy = k2c(
-    httpProxy({
-      target: 'http://localhost:8000',
-      pathRewrite:{
-        '/api-nebula':'/api'
-      }
-      changeOrigin: True,
-    }) 
-  )
-}
+var bar = new ProgressBar(':bar', { total: 10 });
+var timer = setInterval(function () {
+  bar.tick();
+  if (bar.complete) {
+    console.log('\ncomplete\n');
+    clearInterval(timer);
+  }
+}, 100);
 ```
 
 
 
-### 源码
+### ora
 
-koa2有四个核心文件：application.js、context.js、request.js、response.js。
+控制命令行loading样式
 
-application.js：application.js是koa的入口文件，它向外导出了创建class实例的构造函数，它继承了events，这样就会赋予框架事件监听和事件触发的能力。application还暴露了一些常用的api，比如toJSON、listen、use等等。
+安装ora
 
-Context.js：这部分就是koa的应用上下文ctx,其实就一个简单的对象暴露，里面的重点在delegate，这个就是代理，这个就是为了开发者方便而设计的，比如我们要访问ctx.repsponse.status但是我们通过delegate，可以直接访问ctx.status访问到它。
-
-Request.js、Response.js ： 这两部分就是对原生的res、req的一些操作了，大量使用es6的get和set的一些语法，去取headers或者设置headers、还有设置body等等
-
-基于此，如果要实现koa框架需要四个模块：
-
-- 封装node http server、创建Koa类构造函数
-- 构造request、response、context对象
-- 中间件机制和剥洋葱模型的实现
-- 错误捕获和错误处理
-
-
-
-### 资源
-
-koa资源库：https://github.com/huaize2020/awesome-koa
-
-
-
-https://github.com/airuikun/blog/issues/2
-
-## eggjs
-
-web应用离不开session、视图模版、路由、文件上传、日志管理，这些koa都不提供，需要自行去官方的中间件网站去找，100个人可能有100种搭配
-
-而eggjs是基于koajs，解决了上述问题，将社区最佳实践整合进koajs，并且将多进程启动、开发时的热更新等问题一并解决，对开发者很友好，开箱即是最佳/较佳配置
-
-### 目录结构
-
-`app/router.js`:用于配置URL路由规则
-
-`app/controller/**`:用于解析用户的输入，处理返回相应的结果
-
-`app/service/**`:用于编写业务逻辑层，可选
-
-`app/middleware/**`:用于编写中间件，
-
-`app/public/**`:用于放置静态资源
-
-`app/extend/**`:用于框架的扩展
-
-`config/config.{env}.js`:用于编写配置文件
-
-`config/plugin.js`:用于配置需要加载的文件
-
-`test/**`:用于单元测试
-
-`app.js`和`agent.js`:用于自定义的初始化工作
-
-### 内置对象
-
-eggjs继承了koa的application、context、request、response对象，并且扩展了一些新的全局对象，controller、service、logger、config、helper
-
-每个controller下面都有以下属性：
-
-ctx：当前请求的context实例
-
-app：应用的application实例
-
-config：应用的配置
-
-service：应用所有的service
-
-logger：为当前controller封装的logger对象
-
-推荐从egg对象上获取controller基类，也可以从app实例上获取
-
-```javascript
-//从egg上获取
-const Controller = require('egg').Controller
-class USerController extends Controller {
-
-}
-module.exports = UserController;
-//从app上获取
-module.exports = app => {
-  return class UserController extends app.controller{
-    
-  };
-}
+```shell
+npm install ora
 ```
 
-Service基类与controller基类基本相同，获取方式也相同
-
-
-
-### 路由Router
-
-Router的请求用来描述URL与具体承担执行动作的controller的关系，框架约定了`app/router.js`文件用于统一所有路由规则
-
-路由定义时需指定：
-
-1.请求方法/请求动作，包括head、options、get、post、delete、put、patch、redirect等
-
-2.路由名称，给路由设定一个别名
-
-3.中间件，在router里可以配置多个中间件，**串联执行**
-
-4.控制器，指定路由映射到具体到控制器上
-
-特别地，Restful风格的CRUD的路由配置如下
+使用
 
 ```javascript
-module.exports = app =>{
-   const { router,controller} = app;
-   router.resources('posts','/api/posts',controller.posts);
-   router.resources('users','/api/v1/users',controller.v1.users)
-}
+import ora from 'ora';
+
+const spinner = ora('Loading unicorns').start();
+
+setTimeout(() => {
+	spinner.color = 'yellow';
+	spinner.text = 'Loading rainbows';
+}, 1000);
+```
+
+### execa
+
+execa是可以调用shell和本地外部程序的javascript封装。会启动子进程执行。支持多操作系统，包括windows。如果父进程退出，则生成的全部子进程都被杀死
+
+安装
+
+```shell
+npm i execa --save
+```
+
+使用
+
+```javascript
+execa = require("execa")
+execa("echo",["hello world"]).then(result => {
+    console.log(result.stdout);
+    //=> 'hello world'
+});
+execa("grep",["hello","index.js"]).then(result => {
+    console.log(result.stdout);
+}).catch(err => console.log(err));
+
+execa.shell("ls",["a","l"]).then(r=>console.log(r.stdout));
+
+(async () => {
+	const {stdout} = await execa('echo', ['你好！']);
+	console.log(stdout);
+	//=> 'unicorns'
+})();
+```
+
+### rimraf
+
+nodejs中执行rm -rf命令
+
+
+
+### npm-run-all
+
+Npm-run-all这个工具是为了解决官方的 `npm run` 命令无法同时运行多个脚本的问题，它可以把诸如 `npm run clean && npm run build:css && npm run build:js && npm run build:html` 的一长串的命令通过 glob 语法简化成 `npm-run-all clean build:*` 这样精致小巧的模样
+
+安装
+
+```shell
+npm install npm-run-all --save-dev
+```
+
+使用
+
+```shell
+## 顺序执行
+## 依次执行三个任务，注意如果某个脚本退出时返回值为空值，那么后续脚本默认是不会执行的，你可以使用参数 --continue-on-error 来规避这种行为
+$ npm-run-all clean lint build
+
+## 并行执行
+$ npm-run-all --parallel lint build
+
+## 混合执行
+## 首先按顺序执行 clean lint 两个脚本，然后同时执行 watch:html 和 watch:js 的任务
+$ npm-run-all clean lint --parallel watch:html watch:js
 ```
 
 
 
-### 控制器controller
+### http(s)-proxy-agent
 
-控制器与路由对应，实现控制器的服务
+代理转发http终端
+
+```shell
+npm install http-proxy-agent
+```
+
+使用
 
 ```javascript
-//router.js
-module.exports = app =>{
-  const {router,controller} = app;
-  router.get('/user/:id',controller.user.info);
+var url = require('url');
+var http = require('http');
+var HttpProxyAgent = require('http-proxy-agent');
+
+// HTTP/HTTPS proxy to connect to
+var proxy = process.env.http_proxy || 'http://168.63.76.32:3128';
+console.log('using proxy server %j', proxy);
+
+// HTTP endpoint for the proxy to connect to
+var endpoint = process.argv[2] || 'http://nodejs.org/api/';
+console.log('attempting to GET %j', endpoint);
+var opts = url.parse(endpoint);
+
+// create an instance of the `HttpProxyAgent` class with the proxy server information
+var agent = new HttpProxyAgent(proxy);
+opts.agent = agent;
+
+http.get(opts, function (res) {
+  console.log('"response" event!', res.headers);
+  res.pipe(process.stdout);
+});
+```
+
+
+
+### http-proxy-middleware包
+
+http-proxy-middleware用于把请求转发到其他服务器的中间件
+
+安装
+
+```shell
+npm install --save-dev http-proxy-middleware
+```
+
+使用
+
+```javascript
+import express from 'express'
+import { createProxyMiddleware } from 'http-proxy-middleware';
+
+app.use(
+	'/api-metrics/*',
+  createProxyMiddleware({
+    target: '192.168.8.8:9090',
+    pathRewrite: {
+			'api-metrics': '/api/v1',
+    },
+    changeOrigin: true,
+  })
+)
+```
+
+
+
+### history fallback包
+
+
+
+```javascript
+import history from 'connect-history-api-fallback'
+import express from 'express'
+
+const app = express()
+
+app.use(history())
+```
+
+
+
+### node-fetch
+
+安装
+
+```shell
+npm install node-fetch@2
+```
+
+使用
+
+```javascript
+import fetch from 'node-fetch';
+
+const response = await fetch('https://api.github.com/users/github');
+const data = await response.json();
+
+const body = {a: 1};
+
+const response = await fetch('https://httpbin.org/post', {
+	method: 'post',
+	body: JSON.stringify(body),
+	headers: {'Content-Type': 'application/json'}
+});
+
+console.log(data);
+```
+
+
+
+### unfetch
+
+node的fetch包
+
+安装
+
+```shell
+$ npm i isomorphic-unfetch
+
+$ npm i unfetch
+```
+
+使用
+
+```javascript
+// using JS Modules:
+import fetch from 'unfetch'
+
+// or using CommonJS:
+const fetch = require('unfetch')
+
+// usage:
+fetch('/foo.json')
+  .then( r => r.json() )
+  .then( data => console.log(data) )
+
+// complex POST request with JSON, headers:
+fetch('/bear', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({ hungry: true })
+}).then( r => {
+  open(r.headers.get('location'));
+  return r.json();
+})
+```
+
+### prisma
+
+数据库orm
+
+安装
+
+```shell
+npm install prisma -D
+```
+
+Schema.prisma是prisma主要的配置文件，配置主要分为：
+
+1.DB连接的配置
+
+2.Prisma Client的配置
+
+3.data model的定义
+
+```javascript
+datasource db {
+  provider = "sqlite"
+  url = "file:dev.db"
 }
-//controller,user.js
-class UserController extends Controller {
-  async info(){
-    const { ctx } = this;
-    ctx.body = {
-      name:`hello ${ctx.params.id}`,
+
+generator client {
+	provider = "prisma-client-js"
+}
+
+model User {
+  id     Int
+  email  String
+  name   String
+}
+```
+
+生成数据表
+
+```shell
+prisma generate
+```
+
+引入
+
+```javascript
+import { PrismaClient } from '@prisma/client'
+
+const prisma = new PrismaClient()
+```
+
+
+
+### 文件包fs-extra
+
+fs-extra继承了fs，所以不需要再使用原生fs模块
+
+安装
+
+```shell
+npm install fs-extra
+```
+
+文件包可以替代原生的node fs模块，实现更强大的文件处理功能。
+
+导入
+
+```javascript
+const fse = require('fs-extra')
+```
+
+异步拷贝文件
+
+```javascript
+// Async with promises:
+fs.copy('/tmp/myfile', '/tmp/mynewfile')
+  .then(() => console.log('success!'))
+  .catch(err => console.error(err))
+
+// Sync:
+try {
+  fs.copySync('/tmp/myfile', '/tmp/mynewfile')
+  console.log('success!')
+} catch (err) {
+  console.error(err)
+}
+```
+
+https://juejin.cn/post/6844903641594216455#heading-14
+
+### portfinder
+
+如果你使用 [vue-cli](https://link.zhihu.com/?target=https%3A//cli.vuejs.org/zh/) 创建过项目，一定会发现一个现象：同时启多个项目，并不会遇到端口占用的情况。理论上来说使用 **vue-cli** 创建的项目在使用 **npm run serve** 启动后会默认跑在 **8080** 端口。但在不停止第一个项目的情况下，同时启动多个项目，它们占用的端口会“自动”变成 8081、8082
+
+这种功能是通过portfinder实现的
+
+安装
+
+```shell
+$ npm install portfinder
+```
+
+使用
+
+```javascript
+var portfinder = require('portfinder');
+
+portfinder.getPort(function (err, port) {
+  //
+  // `port` is guaranteed to be a free port
+  // in this scope.
+  //
+});
+
+portfinder.setBasePort(3000);    // default: 8000
+portfinder.setHighestPort(3333); // default: 65535
+```
+
+
+
+### chokidar
+
+node包，监听当前文件夹/文件变化
+
+chokidar依赖node的fs包，但是相比于fs.watch和fs.watchFile功能更强，
+
+安装
+
+```shell
+npm install chokidar
+```
+
+使用
+
+```typescript
+const watcher = chokidar.watch('file, dir, glob, or array', {
+  ignored: /(^|[\/\\])\../, // ignore dotfiles
+  persistent: true
+});
+
+watcher
+  .on('add', path => log(`File ${path} has been added`))
+  .on('change', path => log(`File ${path} has been changed`))
+  .on('unlink', path => log(`File ${path} has been removed`));
+
+// More possible events.
+watcher
+  .on('addDir', path => log(`Directory ${path} has been added`))
+  .on('unlinkDir', path => log(`Directory ${path} has been removed`))
+  .on('error', error => log(`Watcher error: ${error}`))
+  .on('ready', () => log('Initial scan complete. Ready for changes'))
+  .on('raw', (event, path, details) => { // internal
+    log('Raw event info:', event, path, details);
+  });
+
+// 'add', 'addDir' and 'change' events also receive stat() results as second
+// argument when available: https://nodejs.org/api/fs.html#fs_class_fs_stats
+watcher.on('change', (path, stats) => {
+  if (stats) console.log(`File ${path} changed size to ${stats.size}`);
+});
+
+// Watch new files.
+watcher.add('new-file');
+watcher.add(['new-file-2', 'new-file-3', '**/other-file*']);
+
+// Get list of actual paths being watched on the filesystem
+var watchedPaths = watcher.getWatched();
+
+// Un-watch some files.
+await watcher.unwatch('new-file*');
+
+// Stop watching.
+// The method is async!
+watcher.close().then(() => console.log('closed'));
+```
+
+
+
+### youdao-node
+
+使用有道云api进行翻译
+
+
+
+### pino
+
+安装
+
+```shell
+npm install pino
+```
+
+使用
+
+```javascript
+const logger = require('pino')()
+
+logger.info('hello world')
+
+const child = logger.child({ a: 'property' })
+child.info('hello child!')
+```
+
+
+
+### Sequelize
+
+安装
+
+```shell
+npm i sequelize
+```
+
+手动为所选数据库安装驱动程序
+
+```shell
+# 使用 npm
+npm i pg pg-hstore # PostgreSQL
+npm i mysql2 # MySQL
+npm i mariadb # MariaDB
+npm i sqlite3 # SQLite
+npm i tedious # Microsoft SQL Server
+npm i ibm_db # DB2
+# 使用 yarn
+yarn add pg pg-hstore # PostgreSQL
+yarn add mysql2 # MySQL
+yarn add mariadb # MariaDB
+yarn add sqlite3 # SQLite
+yarn add tedious # Microsoft SQL Server
+yarn add ibm_db # DB2
+```
+
+要连接到数据库,必须创建一个 Sequelize 实例. 这可以通过将连接参数分别传递到 Sequelize 构造函数或通过传递一个连接 URI 来完成
+
+```javascript
+const { Sequelize } = require('sequelize');
+
+// 方法 1: 传递一个连接 URI
+const sequelize = new Sequelize('sqlite::memory:') // Sqlite 示例
+const sequelize = new Sequelize('postgres://user:pass@example.com:5432/dbname') // Postgres 示例
+
+// 方法 2: 分别传递参数 (sqlite)
+const sequelize = new Sequelize({
+  dialect: 'sqlite',
+  storage: 'path/to/database.sqlite'
+});
+
+// 方法 3: 分别传递参数 (其它数据库)
+const sequelize = new Sequelize('database', 'username', 'password', {
+  host: 'localhost',
+  dialect: /* 选择 'mysql' | 'mariadb' | 'postgres' | 'mssql' 其一 */
+});
+```
+
+测试连接
+
+```javascript
+try {
+  await sequelize.authenticate();
+  console.log('Connection has been established successfully.');
+} catch (error) {
+  console.error('Unable to connect to the database:', error);
+}
+```
+
+默认情况下,Sequelize 将保持连接打开状态,并对所有查询使用相同的连接. 如果你需要关闭连接,请调用 `sequelize.close()`(这是异步的并返回一个 Promise)
+
+
+
+### 转码包
+
+node默认支持utf8、base64、binary，如果要请求或处理GBK或者Gb2312页面或文件就需要转码
+
+安装iconv-lite
+
+```shell
+npm install iconv-lite --save 
+```
+
+引入
+
+```javascript
+const iconv = require('iconv-lite')
+```
+
+在原来的输出语句中加入解码函数就可以
+
+```javascript
+console.log('stdout'+iconv.decode(data,'GBK'))
+```
+
+
+
+### Dotenv
+
+dotenv可以使用env文件给node precess中添加变量
+
+安装
+
+```shell
+npm install dotenv --save
+```
+
+创建一个env文件
+
+```env
+S3_BUCKET="YOURS3BUCKET"
+SECRET_KEY="YOURSECRETKEYGOESHERE"
+```
+
+在js中使用环境变量
+
+```javascript
+import * as dotenv from 'dotenv' // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
+dotenv.config()
+```
+
+
+
+### 加解密包
+
+#### node-rsa
+
+在node中使用rsa算法
+
+安装
+
+```shell
+npm install node-rsa
+```
+
+使用
+
+```javascript
+const NodeRSA = require("node-rsa")
+
+const key = new NodeRSA({ b:2048 }) //2048 密钥长度
+ket.setOptions({ encryptionSchema: 'pkcs1' }); //指定加密格式，不改格式的话可能会报错
+
+
+```
+
+#### node-forge
+
+https://juejin.cn/post/7153205571385032712#heading-1
+
+加解密
+
+```javascript
+import forge from 'node-forge'
+
+const message = '要加密我了' // 原文长度有限制，而且中文还要url编码，所以不能加密太长的字符串。一般也只用来加密密码。
+const publicKey = '-----BEGIN PUBLIC KEY-----\nMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCqM+l9ZWy1Frt6felFFLmfZNls\nVbU1dKpF8Rx83FtKCsztO5k/iV5N9BbfHFUg9Y40b/EK2j/BPc1xlLYAHMXn6563\nXCwZ4IuCxvfOwz9qT9gkKBxkI5b0rnikkSWTGlJEk2PdZ7Plc73Fa+bx3PvuKvMd\ncKWvd80+vt9+b/7hrwIDAQAB\n-----END PUBLIC KEY-----'
+const publicK = forge.pki.publicKeyFromPem(publicKey)
+const encrypted = publicK.encrypt(encodeURIComponent(message), 'RSA-OAEP') // 经过url编码，后端解密后需要url解码
+console.log('密文：', encrypted) // 虽然乱码，但可以直接发给后端解密
+const base64 = window.btoa(unescape(encodeURIComponent(encrypted)))
+console.log('密文base64：', base64) // 一般会把它转为base64传给后端
+```
+
+node
+
+```javascript
+const forge = require('node-forge')
+const privateKey = '-----BEGIN PRIVATE KEY-----\nMIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAKoz6X1lbLUWu3p9\n6UUUuZ9k2WxVtTV0qkXxHHzcW0oKzO07mT+JXk30Ft8cVSD1jjRv8QraP8E9zXGU\ntgAcxefrnrdcLBngi4LG987DP2pP2CQoHGQjlvSueKSRJZMaUkSTY91ns+VzvcVr\n5vHc++4q8x1wpa93zT6+335v/uGvAgMBAAECgYArxUnou6qnL39rUvIol9ncyfy4\nRZpicuxPLGCdI7Y+ZmSpJciVdGhSN9Gh8xFZdozpo1gj6Fi5A4HQEeR0RvIF9Rgh\nERblj1rRWqxPcsIddOO9VaknQPICWKqEW9+E1bEcyNUblCHA4LGyQwmuEFUb/Tkj\nxAghIHuEBCe0GFiVwQJBAN5i5QSoOIpdFHA0c981E4VhHc/muXwjx1HfE1pcuuFb\nTy3OwEoZdFp3LIjBnBkPRneLTNjo5WTIwrmfsy6VDF8CQQDD7c6d/nKiJwIESlr+\n/idqXAPNR/iS1YX3Nqtk9jgrgf5zULHr2nbk7MDas5S9Z9XPdUmxtnP44dhoGvDk\nzyyxAkB7XBxyQuZqSkvGGjKUhJq5iC/DXddSd35fegEARSQdUktPu7qK4Cfc7vKz\nQcLXW9PZCFqukDJ/f6YU1fPNSTy9AkADQ78hms/GK+g4shR6EzoM56OYlA5sQ+qL\nh/mrIP8mmm/m8/1C9MzuW5OLEVr1HPnPDyE/OM8N4pV8hpZk+Z7BAkEAzaFstazA\nxLzZOBWhvOzzo722glZ7HVezhMocLu7Y3EOXP/nbx09JpU3U7Egp5UVp0aiknh/Q\nez4Cc4ksMedxdA==\n-----END PRIVATE KEY-----\n'
+const privateK = forge.pki.privateKeyFromPem(privateKey)
+const encrypted = Buffer.from(base64, 'base64').toString() // base64 为前端传过来的密文base64
+const decrypted = privateK.decrypt(encrypted, 'RSA-OAEP')
+console.log('原文：', decodeURIComponent(decrypted)) // decrypted 为原文
+```
+
+
+
+#### crypto-js
+
+
+
+#### crypto-browserify
+
+使用
+
+```javascript
+import crypto from 'crypto-browserify';
+
+// 将对象、数组等数据结构序列化json.stringfy
+const aesEncode = function (
+	string: string,
+  key: string,
+) {
+  const cipher = crypto.createCipher('aes192', key);
+  const crypted = cipher.update(string, 'utf-8', 'hex');
+  crypted += cipher.final('hex');
+  return crypted;
+};
+```
+
+
+
+#### ursa
+
+
+
+其他有crypt和cryptico
+
+https://npmtrends.com/crypt-vs-cryptico-vs-crypto-browserify-vs-crypto-js-vs-node-forge-vs-node-rsa-vs-ursa
+
+### node-redis
+
+
+
+### Graphql
+
+安装依赖
+
+```js
+npm install apollo-server@2.13.1 graphql@14.6.0  type-graphql@0.17.6
+```
+
+引入
+
+```js
+import "reflect-metadata"
+import {buildSchema,ObjectType,Field,ID,Resolver,Query} from "type-graphql";
+import {ApolloServer} from "apollo-server";
+```
+
+后端定义schema和resolver
+
+```js
+@ObjectType()
+class Post{
+    @Field(type => ID)
+    id: string;
+
+    @Field()
+    created: Data;
+
+    @Field()
+    content: String;
+}
+
+@Resolver(Post)
+class PostResolver {
+    @Query(returns => [Post])
+    async posts(): Promise<Post[]>{
+        return [
+           {
+              id:"0",
+              created: new Date(),
+              content:'aaa'
+            },
+            {
+              id:"1",
+              created: new Date(),
+              content:'bbb'
+            },
+            {
+              id:"2",
+              created: new Date(),
+              content:'ccc'
+            },
+        ]
     }
-  }
 }
 ```
 
+运行项目，在localhost:4444打开graphql的playground进行测试
 
+#### grapnel-yoga
 
-### 服务(service)
+基于graphql的后端框架
 
-service是复杂场景下用于做业务逻辑封装的一个抽象层，有利于：
-
-1.保持controller的逻辑更加简洁
-
-2.保持业务逻辑的独立性，抽象出来的service可以被多个controller重复调用
-
-3.将逻辑与展现分离，更容易编写测试用例
-
-使用场景：
-
-复杂数据的处理，如需要查数据库、按一定规则计算或者计算完成之后更新到数据库
-
-调用第三方的服务时
-
-定义service
-
-```javascript
-//app/service/user.js
-const Service = require('egg').Service
-
-Class UserService extends Service{
-   async find(uid){
-     const user = await this.ctx.db.query('select * from user where uid = ?',uid);
-     return user;
-   }
-}
-
-module.exports = UserService
-```
-
-在controller中调用对应的service
-
-```javascript
-const Controller = require('egg').Controller;
-class UserController extends Controller {
-  async info(){
-    const { ctx } = this;
-    const userId = ctx.params.id;
-    const userInfo = await ctx.service.user.find(userId)
-  }
-}
-module.exports = UserController;
-```
-
-### 中间件
-
-我们约定中间件是一个放置在`app/middleware`目录下的单独文件，它接受两个参数，
-
-Options:中间件的配置，框架会将config传递进来
-
-app:当前应用application的实例
-
-中间件实例
-
-```javascript
-//app/middleware/gzip.js
-const isJSON = require('koa-js-json');
-const zli = require('zlib')
-
-module.exports = options =>{
-  return async function gzip(ctx,next){
-    await next();
-    
-    let body = ctx.body;
-    if(!body) return;
-    
-    const stream = zlib.createGzip();
-    ctx.body = stream;
-    ctx.set('Content-Encoding','gzip')
-  }
-}
-```
-
-在单个router中或者全局实例化和挂载
-
-```javascript
-//单个路由加载
-module.exports = app =>{
-  const gzip = app.middleware.gzip({ threshold:1024 });
-  app.router.get('/needgzip',gzip,app.controller.handler);
-}
-```
-
-全局加载
-
-```javascript
-//config.default.js
-module.exports = {
-  middleware:[gzip],
-  gzip:{
-    threshold:1024,
-  }
-}
-```
-
-### 插件
-
-koa的中间件系统有其固有的缺点：
-
-1.中间件的顺序不可固定，使用先后顺序的不同，结果可能有天壤之别
-
-2.有些功能是与请求无关的，如定时任务、消息订阅，中间件处理起来麻烦
-
-3.初始化逻辑复杂，需要在应用启动的时候完成
-
-一个插件就像一个mini的应用，有service，中间件，配置等，没有路由和controller，没有plugin
-
-插件一般提供npm的方式安装
+安装
 
 ```shell
-npm i egg-mysql --save
+pnpm add graphql-yoga graphql
 ```
 
-在package.json中引入依赖
-
-```json
-{
-  "dependencies":{
-    "egg-mysql":"^3.0.0"
-  }
-}
-```
-
-在plugin.js中声明
+使用
 
 ```javascript
-exports.mysql = {
-  enable:true;
-  package:'egg-dev',
-}
+import { createSchema, createYoga } from 'graphql-yoga'
+import { createServer } from 'node:http'
+
+const yoga = createYoga({
+  schema: createSchema({
+    typeDefs: /* GraphQL */ `
+      type Query {
+        hello: String
+      }
+    `,
+    resolvers: {
+      Query: {
+        hello: () => 'Hello from Yoga!'
+      }
+    }
+  })
+})
+
+const server = createServer(yoga)
+
+server.listen(4000, () => {
+  console.info('Server is running on http://localhost:4000/graphql')
+})
 ```
 
-### 上传文件
-
-config
-
-```javascript
-config.multipart = {
-  fileSize: '50mb',
-  mode: 'stream',
-  fileExtensions: ['xls','.txt']
-}
-```
 
 
+#### nexus
+
+类型安全的graph schema
+
+安装
 
 ```shell
-npm install await-stream-ready stream-wormhole dayjs
+npm install nexus graphql
+```
+
+使用
+
+```javascript
+import { queryType, stringArg, makeSchema } from 'nexus'
+import { GraphQLServer } from 'graphql-yoga'
+
+const Query = queryType({
+  definition(t) {
+    t.string('hello', {
+      args: { name: stringArg() },
+      resolve: (parent, { name }) => `Hello ${name || 'World'}!`,
+    })
+  },
+})
+
+const schema = makeSchema({
+  types: [Query],
+  outputs: {
+    schema: __dirname + '/generated/schema.graphql',
+    typegen: __dirname + '/generated/typings.ts',
+  },
+})
+
+const server = new GraphQLServer({
+  schema,
+})
+
+server.start(() => `Server is running on http://localhost:4000`)
+```
+
+Nexus-prisma
+
+
+
+#### graphql-code-generator
+
+安装
+
+```shell
+yarn add -D @graphql-codegen/cli
+```
+
+使用
+
+```shell
+yarn graphql-codegen init
 ```
 
 
 
+### winston
+
+node日志工具
+
+使用
+
 ```javascript
-const fs = require('fs');
-const path = requrie('path');
+const winston = require('winston');
 
-const awaitWriteStream = require('await-stream-ready').write;
+const logger = winston.createLogger({
+  level: 'info',
+  format: winston.format.json(),
+  defaultMeta: { service: 'user-service' },
+  transports: [
+    //
+    // - Write all logs with importance level of `error` or less to `error.log`
+    // - Write all logs with importance level of `info` or less to `combined.log`
+    //
+    new winston.transports.File({ filename: 'error.log', level: 'error' }),
+    new winston.transports.File({ filename: 'combined.log' }),
+  ],
+});
 
+//
+// If we're not in production then log to the `console` with the format:
+// `${info.level}: ${info.message} JSON.stringify({ ...rest }) `
+//
+if (process.env.NODE_ENV !== 'production') {
+  logger.add(new winston.transports.Console({
+    format: winston.format.simple(),
+  }));
+}
+```
 
+### @kubernetes/client-node
+
+node调用k8s客户端信息
+
+```shell
+npm install @kubernetes/client-node
+```
+
+列出所有的pods
+
+```javascript
+const k8s = require('@kubernetes/client-node');
+
+const kc = new k8s.KubeConfig();
+kc.loadFromDefault();
+
+const k8sApi = kc.makeApiClient(k8s.CoreV1Api);
+
+k8sApi.listNamespacedPod('default').then((res) => {
+    console.log(res.body);
+});
+
+// 创建一个新的命名空间
+var namespace = {
+    metadata: {
+        name: 'test',
+    },
+};
+
+k8sApi.createNamespace(namespace).then(
+    (response) => {
+        console.log('Created namespace');
+        console.log(response);
+        k8sApi.readNamespace(namespace.metadata.name).then((response) => {
+            console.log(response);
+            k8sApi.deleteNamespace(namespace.metadata.name, {} /* delete options */);
+        });
+    },
+    (err) => {
+        console.log('Error!: ' + err);
+    },
+);
 ```
 
 
 
-### 定时任务
+### 剪贴板的使用
 
-有一些任务是需要定时运行的，比如
+使用第三方包，安装
 
-1.定时上报任务状态
+```js
+npm install clipboard-polyfill
+```
 
-2.定时从远程接口更新本地缓存
+引用
 
-3.定时进行文件切割、文件删除等
+```js
+import clipboard from "clipboard-polyfill"
+```
 
-所有的定时任务放在`app/schedule`目录下，每一个文件都是独立的定时任务，可以配置定时任务的属性和要执行的方法
+实例
 
-比如，定义一个更新远程数据到内存缓存的定时任务
+```js
+clipboard.writeText("this");
+clipboard.readText().then(console.log,console.error);
+```
+
+### 终端二维码
+
+qrcode-terminal
+
+安装
+
+```shell
+npm install -D qrcode-terminal
+```
+
+使用
 
 ```javascript
-//app/schedule/update_cache.js
-const Subscription = require('egg').Subscription
+const qrcode = require('qrcode-terminal')
 
-class UpdayeCache extends Subscription {
-  static get schedule(){
-    return {
-      interval:'1m',
-      type:'all',
-    };
-  }
-  
-  async subscribe(){
-    const res = await this.ctx.curl('http://www.api.com/cache',{
-      dataType: 'json'
-    });
-    this.ctx.app.cache = res.data;
+const url = 'https:www.baidu.com'
+
+qrcode.generate(url,{small:true},(qrcode)=> {
+  console.log(qrcode)
+})
+```
+
+### depcheck
+
+检查项目中的依赖哪些是没有用的。哪些是使用的
+
+```shell
+npm install -g depcheck
+```
+
+或者直接npx命令
+
+```shell
+npx depcheck
+```
+
+
+
+### 判断设备信息
+
+使用navigator对象
+
+```js
+export function checkdevice() {
+  var browser = {
+    versions: (function() {
+      var u = navigator.userAgent,
+        app = navigator.appVersion;
+      return {
+        //移动终端浏览器版本信息
+        trident: u.indexOf("Trident") > -1, //IE内核
+        presto: u.indexOf("Presto") > -1, //opera内核
+        webKit: u.indexOf("AppleWebKit") > -1, //苹果、谷歌内核
+        gecko: u.indexOf("Gecko") > -1 && u.indexOf("KHTML") == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf("Android") > -1 || u.indexOf("Linux") > -1, //android终端或uc浏览器
+        iPhone: u.indexOf("iPhone") > -1, //是否为iPhone或者QQHD浏览器
+        iPad: u.indexOf("iPad") > -1, //是否iPad
+        webApp: u.indexOf("Safari") == -1, //是否web应该程序，没有头部与底部
+      };
+    })(),
+    language: (navigator.browserLanguage || navigator.language).toLowerCase(),
+  };
+
+  if (browser.versions.mobile) {
+    //判断是否是移动设备打开。browser代码在下面
+    // 此时为移动端打开.跳转到移动站
+    // if(window.location.href.indexOf("ooo0o.com/mobile") != -1){
+    //     return;
+    // }else {
+    //     window.location.href = "https://www.ooo0o.com/mobile"
+    // }
+
+    var ua = navigator.userAgent.toLowerCase(); //获取判断用的对象
+    if (ua.match(/MicroMessenger/i) == "micromessenger") {
+      //在微信中打开
+      if (browser.versions.ios) {
+        return "weixinios";
+      } else {
+        return "weixin";
+      }
+    } else if (browser.versions.android) {
+      //是否在安卓浏览器打开
+
+      // alert('安卓手机中打开的');
+      /*window.location.href="https://jushizhibo.com/android/app-release.apk";*/
+      // window.open('https://jushizhibo.com/android/app-release.apk','_self')
+      return "anzhuo";
+    } else if (browser.versions.ios) {
+      //是否在IOS浏览器打开
+      // alert('IOS中打开的');
+      /*window.location.href="https://www.baidu.com";*/
+      // window.open('transparentfactory://xiangqingye','_self')
+      return "ios";
+    }
+  } else {
+    //此时是非移动端,则跳转PC站
+    // alert('PC中打开的');
+    // if(window.location.href.indexOf("ooo0o.com/mobile") != -1){
+    //     window.location.href = "https://www.ooo0o.com"
+    // }
+    return "pc";
   }
 }
+```
 
-module.exports = UpdateCache;
+使用时导入
+
+```js
+import {checkdevice}  from 'checkdevice.js'
+```
+
+### 七牛云的使用
+
+安装七牛包
+
+```node
+npm install qiniu
+```
+
+新建文件，设置七牛云参数
+
+```js
+var bucket='',
+var imageUrl='',
+var accessKey = '',
+var secretKey = '',
+var mac = new qiniu.auth.digest.Mac(accessKey,secretKey);
+
+var option={
+    scope:bucket,
+}
+var putPolicy= new qiniu.rs.PutPolicy(option)
+var uploadToken = putPolicy.uploadToken(mac);
+```
+
+上传代码
+
+```js
+var config = new qiniu.conf.Config()
+
+config.zone= qiniu.zone.Zone_z0;//选择七牛云的机房
+//是否使用https、是否使用cdn加速
+config.usehttpsDomain=true;
+config.useCdnDomain = true;
+
+var formUploader = new qiniu.form_up.FormUploader(config);
+var putExtra = new qiniu.form_up.PutExtra();
+var key = '';
+
+formUploader.putFile(uploadToken,key,path.resolve(pathName),putExtra,function(respErr,respBody,respInfo){
+       if(resqErr){
+         throw respErr;
+       }
+       if(respInfo.statusCode == 200){
+       console.log(respBody);
+       }else{
+           console.log(respInfo.statusCode);
+           console.log(respBody)
+       }                                                   });
+
+```
+
+https://segmentfault.com/a/1190000017064729
+
+### 发邮件
+
+导入模块Nodemailer
+
+```node
+npm install nodemailer
+```
+
+使用方法(包官网https://nodemailer.com/)
+
+```js
+//引入包
+const nodemailer = require("nodemailer");
+
+//创建邮件请求对象（qq邮箱、163邮箱或其他）
+  let transporter = nodemailer.createTransport({
+    host: "smtp.ethereal.email",//邮箱服务器
+    port: 587,（端口号）
+    secure: false, // true for 465, false for other ports
+    auth: {
+      user: testAccount.user, // 账号
+      pass: testAccount.pass // 你的邮箱服务器请求密码
+    }
+  });
+  //所发送的邮件信息
+  let mailobj={
+    from: '"Fred Foo 👻" <foo@example.com>', // sender address
+    to: "bar@example.com, baz@example.com", // list of receivers
+    subject: "Hello ✔", // Subject line
+    text: "Hello world?", // plain text body
+    html: "<b>Hello world?</b>" // html body
+  }
+  //发送邮件
+  transporter.sendMail(mailobj);
+
+
+```
+
+### MD5加密包
+
+Js-md5
+
+
+
+### http爬虫
+
+
+
+
+
+### node应用打包可执行文件
+
+pkg可以将node项目打包为一个单独的可执行文件，在未安装nodejs的机器上运行。支持win、linux等多系统
+
+```shell
+npm install pkg --save-dev
 ```
 
 
 
-### 多进程模型与进程间通信
 
-Node官方提供了cluster模块，用于多核计算
 
-原生的Node-cluster特点：
+### Node应用部署Docker 
 
-在服务器上同时启动多个进程；
+Docker允许你以应用程序所有的依赖打包成一个标准化的单元，这被称为一个容器，对于应用开发而言，一个容器就是一个蜕化到最基础的linux操作系统，一个镜像是你加载到容器中的软件
 
-每个进程都跑同一份源代码，
+在node app应用的目录下新建一个Dockerfile，编辑这个文件
 
-更神奇的是，这些进程可以同时监听同一个端口，
+```dockerfile
+#从Docker站点获取相关镜像
+From node:12
+#在镜像中创建一个文件夹存放应用程序代码，这将是应用程序工作的目录
+WORKDIR /usr/src/app
+#安装应用程序的所有依赖
+COPY package*.json ./
 
-其中，负责启动其他进程的叫做Master进程，他好比是包工头，不做具体的工作，只负责启动其他进程
-
-其他被启动的叫Worker进程，就是干活的工人，它们接收请求，对外提供服务
-
-Worker进程的数量一般由服务器的CPU核数决定，这样可以完美利用多核资源
-
-egg在此基础上进行了别的考虑：
-
-进程崩溃
-
-work异常退出时如何处理？多个worker进程之间如何共享资源和调度？
-
-Nodejs进程退出可以分为两类：
-
-1是代码抛出了异常但未被捕获，进程将会退出。当一个worker进程遇到未捕获的异常时，它已经处于一个不确定状态，我们应该让这个进程优雅退出：
-
-关闭异常worker进程的所有tcp server。断开和Master的IPC通道，不再接受新的用户请求
-
-Master立刻fork一个进行中的worker进程，保证在线的工人总数不变
-
-异常worker等待一段时间，处理完已经接受的请求之后退出
-
-2是进程崩溃或者系统异常，不像未捕获异常时，当前进程直接退出，Master直接fork一个新的worker
-
-进程守护
-
-有些工作不需要每个worker都去做，如果都做，一来是浪费资源，更重要的是可能会导致多进程间资源访问冲突。
-
-对于这一类后台运行逻辑，全部放到一个单独的进程去执行，这个进程就叫做Agent Worker。Agent就好比Master给其他Worker请的一个秘书，它不对外提供服务，只给App Worker打工，专门处理一些公共事务。
-
-所以框架启动时进程的启动顺序就会变成：
-
-1.master启动后先fork Agent进程
-
-2.Agent初始化成功之后，通过IPC通道通知Master
-
-3.Master再fork多个App worker
-
-4.App Worker初始化成功，通知Master
-
-5.所有进程初始化成功后，Master通知Agent和Worker启动成功
-
-进程通信
-
-虽然每个Worker进程是相对独立的，但是它们之间始终还是需要通讯的，称为IPC通讯。
-
-Node cluster提供的IPC通道只存在于Master和Worker/Agent之间，Worker之间、Worker与Agent之间是没有的，要想相互通信只能通过master转发，这是不太方便的
-
-Egg封装了messenger对象挂载在app/agent上，能够相互通信
-
-方法
-
-```javascript
-app.messenger.broadcast(action,data)
-app.messenger.sendToApp(action,data)
-app.messenger.sendToAgent(action,data)
-agent.messenger.sendRandom(action,data)
-agent.messenger.sendTo(pid,action,data)
+RUN npm install 
+#在Docker镜像中使用COPY命令绑定你的应用程序
+COPY . .
+#定义映射端口，如应用程序的端口为8080，则与docker的镜像做映射
+EXPOSE 8080
+#最后要定义运行时的CMD命令来运行应用程序，这里使用node serverjs启动服务器
+CMD ["node","server.js"]
 ```
 
-### 日志
+在dockerfile的同一个文件夹下创建.dockerignore文件，带有以下内容
+
+```dockerfile
+node_modules
+npm-debug.log
+```
+
+这将避免本地模块和调试日志被拷贝进入你的Docker镜像中，不会把镜像中安装的模块覆盖
+
+准备好之后就可以使用命令行构建和运行镜像
+
+进入dockerfile所在的目录，运行命令构建镜像
+
+```shell
+docker build -t <username>/node-web-app
+```
+
+构建之后就可以显示或者运行镜像
+
+```dockerfile
+docker images
+```
+
+使用-d模式以分离模式运行docker容器，使得容器在后台自助运行
+
+开关符-p在容器中把一个公共端口导向到私有的端口
+
+```shell
+docker run -p 49160:8080 -d <username>/node-web-app
+```
+
+## Node常见问题汇总
 
 
 
+### npm ERR! Maximum call stack size exceeded
 
+解决方法：全局更新npm
 
-## midwayjs
+```node
+npm install npm -g
+```
 
+### core-js
 
+warning react-native > create-react-class > fbjs > core-js@1.2.7: core-js@<2.6.8 is no longer maintained. Please, upgrade to core-js@3 or at least to actual version of core-js@2
+
+旧包不在维护，安装新包，自动卸载旧版本
+
+```node
+npm install --save core-js@^3
+```
+
+注意：警告可能是由于你所安装的新包在使用旧版本的依赖所导致的警告，但是如果不是你自己开发的，你不能更改包的源码和依赖项，所以这种情况忽略警告吧
+
+## 学习资源
+
+node问答：https://github.com/jimuyouyou/node-interview-questions
+
+https://javascript.ruanyifeng.com/
+
+https://markpop.github.io/2014/10/29/NodeJs%E6%95%99%E7%A8%8B/
+
+node包讲解：https://github.com/chyingp/nodejs-learning-guide
 

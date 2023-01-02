@@ -1,903 +1,941 @@
 ---
-title: NodeJs开发（三） 
-date: 2021-1-22 22:40:33
+title: NodeJs开发（二）
+date: 2021-01-20 21:40:33
 categories: IT
 tags:
-    - IT，Web
+    - IT，Web,Node
 toc: true
-thumbnail: https://cdn.kunkunzhang.top/express.jpg
+thumbnail: http://cdn.kunkunzhang.top/nodejs.png
 ---
 
-Javascript第九篇，Nodejs第三篇，第三篇写Node的性能和Express框架
+Javascript第八篇，NodeJs第二篇，注重Node后端开发。
 
 <!--more-->
 
-## Node性能
+## npm
 
-### chromev8引擎内存管理
+`npm` 是 Node.js 标准的软件包管理器。
 
-Nodejs内存管理问题：
+在 2017 年 1 月时，npm 仓库中就已有超过 350000 个软件包，这使其成为世界上最大的单一语言代码仓库，并且可以确定几乎有可用于一切的软件包。
 
-在浏览器中，Chrome V8引擎实例的生命周期不会很长（谁没事一个页面开着几天几个月不关），而且运行在用户的机器上。如果不幸发生内存泄露等问题，仅仅会 影响到一个终端用户。且无论这个V8实例占用了多少内存，最终在关闭页面时内存都会被释放，几乎没有太多管理的必要（当然并不代表一些大型Web应用不需 要管理内存）。但如果使用Node作为服务器，就需要关注内存问题了，一旦内存发生泄漏，久而久之整个服务将会瘫痪（服务器不会频繁的重启）。
+它起初是作为下载和管理 Node.js 包依赖的方式，但其现在也已成为前端 JavaScript 中使用的工具。
 
-chromev8垃圾回收机制：
+`npm` 可以管理项目依赖的下载。
 
-JavaScript使用垃圾回收机制来自动管理内存。垃圾回收是一把双刃剑，其好处是可以大幅简化程序的内存管理代码，降低程序员的负担，减少因 长时间运转而带来的内存泄露问题。
+如果项目具有 `package.json` 文件，则通过运行npm install 安装
 
-但使用了垃圾回收即意味着程序员将无法掌控内存。ECMAScript没有暴露任何垃圾回收器的接口。我们无法强迫其进 行垃圾回收，更无法干预内存管理
+它会在 `node_modules` 文件夹（如果尚不存在则会创建）中安装项目所需的所有东西。
 
-chromev8内存限制：
+也可以通过运行以下命令安装特定的软件包
 
-Chrome限制了所能使用的**内存极限**（64位为1.4GB，32位为1.0GB），这也就意味着将无法直接操作一些大内存对象。
+npm install package-name
 
-Chrome之所以限制了内存的大小，表面上的原因是V8最初是作为浏览器的JavaScript引擎而设计，不太可能遇到大量内存的场景，而深层次的原因 则是由于V8的垃圾回收机制的限制。由于V8需要保证JavaScript应用逻辑与垃圾回收器所看到的不一样，V8在执行垃圾回收时会阻塞 JavaScript应用逻辑，直到垃圾回收结束再重新执行JavaScript应用逻辑，这种行为被称为“全停顿”（stop-the-world）。 若V8的堆内存为1.5GB，V8做一次小的垃圾回收需要50ms以上，做一次非增量式的垃圾回收甚至要1秒以上。这样浏览器将在1s内失去对用户的响 应，造成假死现象。如果有动画效果的话，动画的展现也将显著受到影响
+通常会在此命令中看到更多标志：
 
-chromev8的堆构成
+- `--save` 安装并添加条目到 `package.json` 文件的 dependencies。
+- `--save-dev` 安装并添加条目到 `package.json` 文件的 devDependencies。
 
-V8的堆其实并不只是由老生代和新生代两部分构成，可以将堆分为几个不同的区域：
+区别主要是，`devDependencies` 通常是开发的工具（例如测试的库），而 `dependencies` 则是与生产环境中的应用程序相关
 
-1、新生代内存区：大多数的对象被分配在这里，这个区域很小但是垃圾回特别频繁；
-
-2、老生代指针区：属于老生代，这里包含了大多数可能存在指向其他对象的指针的对象，大多数从新生代晋升的对象会被移动到这里；
-
-3、老生代数据区：属于老生代，这里只保存原始数据对象，这些对象没有指向其他对象的指针；
-
-4、大对象区：这里存放体积超越其他区大小的对象，每个对象有自己的内存，垃圾回收其不会移动大对象；
-
-5、代码区：代码对象，也就是包含JIT之后指令的对象，会被分配在这里。唯一拥有执行权限的内存区；
-
-6、Cell区、属性Cell区、Map区：存放Cell、属性Cell和Map，每个区域都是存放相同大小的元素，结构简单。
-
-每个区域都是由一组内存页构成，内存页是V8申请内存的最小单位，除了大对象区的内存页较大以外，其他区的内存页都是1MB大小，而且按照1MB对 齐。内存页除了存储的对象，还有一个包含元数据和标识信息的页头，以及一个用于标记哪些对象是活跃对象的位图区。另外每个内存页还有一个单独分配在另外内 存区的槽缓冲区，里面放着一组对象，这些对象可能指向其他存储在该页的对象。**垃圾回收器只会针对新生代内存区、老生代指针区以及老生代数据区进行垃圾回收。**
-
-内存泄漏
-
- 内存泄露是指程序中**已分配的堆内存**由于某种原因**未释放或者无法释放**，造成系统内存的浪费，导致程序运行速度减慢甚至系统奔溃等后果。
-
-常见的内存泄漏场景
-
-1.缓存：开发时候喜欢用**对象的键值来缓存函数的计算结果**，但是缓存中存储的键越多，长期存活的对象就越多，导致垃圾回收在进行扫描和整理时，对这些对象做了很多无用功。
-
-2.作用域未释放(闭包)
-
-3.没有必要的全局变量：声明过多的全局变量，会导致变量常驻内存，要直到进程结束才能够释放内存。
-
-4.无效的DOM引用。
-
-5.定时器未清除：vue 或 react 的页面生命周期初始化时，定义了定时器，但是在离开页面后，未清除定时器，就会导致内存泄漏。
-
-6.事件监听为空白：在页面生命周期初始化时，绑定了事件监听器，但在离开页面后，未清除事件监听器，同样也会导致内存泄漏。
-
-内存优化做法：
-
-1.解除引用。确保占用最少的内存可以让页面获得更好的性能。而优化内存占用的最佳方式，就是为执行中的代码只保存必要的数据。一旦数据不再有用，最好通过将其值设置为 null 来释放其引用——这个做法叫做解除引用
-
-2.避免过多使用闭包。
-
-3.注意清除定时器和事件监听器。
-
-4提供手动清除变量的功能
-
-5.使用redis等外部工具来缓存数据。
-
-6.nodejs中使用stream或buffer来操作大文件，不会受nodejs内存限制。
-
-垃圾回收机制：
-
-新生代算法：
-
-新生代的对象为存活时间较短的对象，老生代中的对象为存活时间较长或常驻内存的对象。分别对新生代和老生代使用 不同的垃圾回收算法来提升垃圾回收的效率。对象起初都会被分配到新生代，当新生代中的对象满足某些条件时，会被移动到老生代（晋升）。
-
-新生代中的对象一般存活时间较短，使用 Scavenge GC 算法。在Scavenge的具体实现中，主要是采用一种复制的方式的方法--cheney算法。
-
-在新生代空间中，内存空间分为两部分，分别为 From 空间和 To 空间。在这两个空间中，必定有一个空间是使用的，另一个空间是空闲的。新分配的对象会被放入 From 空间中，当 From 空间被占满时，新生代 GC 就会启动了。算法会检查 From 空间中存活的对象并复制到 To 空间中，如果有失活的对象就会销毁。当复制完成后将 From 空间和 To 空间互换，这样 GC 就结束了。
-
-老生代算法：
-
-老生代中的对象一般存活时间较长且数量也多，使用了两个算法，分别是**标记清除算法**和**标记压缩算法**。
-
-在讲算法前，先来说下什么情况下对象会出现在老生代空间中：
-
-1、新生代中的对象是否已经经历过一次 Scavenge 算法，如果经历过的话，会将对象从新生代空间移到老生代空间中。
-
-2、To 空间的对象占比大小超过 25 %。在这种情况下，为了不影响到内存分配，会将对象从新生代空间移到老生代空间中。
-
-在老生代中，以下情况会先启动标记清除算法：
-
-1、某一个空间没有分块的时候
-
-2、空间中被对象超过一定限制
-
-3、空间不能保证新生代中的对象移动到老生代中
-
-Mark Sweep 是将需要被回收的对象进行标记，在垃圾回收运行时直接释放相应的地址空间，如下图所示(红色的内存区域表示需要被回收的区域)：
-
-Mark Compact 的思想有点像新生代垃圾回收时采取的 Cheney 算法：将存活的对象移动到一边，将需要被回收的对象移动到另一边，然后对需要被回收的对象区域进行整体的垃圾回收。
-
-在这个阶段中，会遍历堆中所有的对象，然后标记活的对象，在标记完成后，销毁所有没有被标记的对象。在标记大型对内存时，可能需要几百毫秒才能完成一次标记。这就会导致一些性能上的问题。为了解决这个问题，2011 年，V8 从 stop-the-world 标记切换到增量标志。在增量标记期间，GC 将标记工作分解为更小的模块，可以让 JS 应用逻辑在模块间隙执行一会，从而不至于让应用出现停顿情况。但在 2018 年，GC 技术又有了一个重大突破，这项技术名为并发标记。该技术可以让 GC 扫描和标记对象时，同时允许 JS 运行。
-
-清除对象后会造成堆内存出现碎片的情况，当碎片超过一定限制后会启动压缩算法。在压缩过程中，将活的对象像一端移动，直到所有对象都移动完成然后清理掉不需要的内存。
-
-### js变量内存何时释放
-
-JavaScript中的类型分为值类型和引用类型
-
-引用类型是在没有引用之后，通过v8的GC自动回收，值类型如果处于闭包的情况下，要等闭包没有引用才会被GC回收，非闭包的情况下，等待V8的新生代切换的时候会回收
-
-
-
-
-
-### js内存泄漏/爆掉的情况
-
-内存崩掉的情况
-
-```javascript
-let arr = [];
-while(true) {
-	arr.push\(1\);
-}
-```
-
-上面的代码内存会崩溃，超出了数组最大长度，会自动结束异常。
-
-```javascript
-let arr = []
-while(true) {
-	arr.push\(\)
-}
-```
-
-不会爆掉，会陷入死循环。
-
-```javascript
-let arr = [];
-while(true) {
-	arr.push(new Buffer(1000));
-}
-```
-
-这个情况比直接push number类型的慢很多，因为ES定义的Number类型遵循IEEE-2008的64位存储，也就是说Number类型的1相比buffer类型的1，前者在编译器中是63个0+1，占了64位，而后者只占了一位
-
-push buffer不会崩溃，当内存顶到爆时，也就是即将到达100%的状态，会自动垃圾回收，就是会瞬间降低内存，push工作继续，很神奇。
-
-
-
-泄漏
-
-**1.意外的全局变量**
-
-全局变量的生命周期最长，直到页面关闭前，它都存活着，所以全局变量上的内存一直都不会被回收
-
-当全局变量使用不当，没有及时回收（手动赋值 null），或者拼写错误等将某个变量挂载到全局变量时，也就发生内存泄漏了
-
-**2.遗忘的定时器**
-
-setTimeout 和 setInterval 是由浏览器专门线程来维护它的生命周期，所以当在某个页面使用了定时器，当该页面销毁时，没有手动去释放清理这些定时器的话，那么这些定时器还是存活着的
-
-也就是说，定时器的生命周期并不挂靠在页面上，所以当在当前页面的 js 里通过定时器注册了某个回调函数，而该回调函数内又持有当前页面某个变量或某些 DOM 元素时，就会导致即使页面销毁了，由于定时器持有该页面部分引用而造成页面无法正常被回收，从而导致内存泄漏了
-
-如果此时再次打开同个页面，内存中其实是有双份页面数据的，如果多次关闭、打开，那么内存泄漏会越来越严重
-
-而且这种场景很容易出现，因为使用定时器的人很容易遗忘清除
-
-**3.使用不当的闭包**
-
-函数本身会持有它定义时所在的词法环境的引用，但通常情况下，使用完函数后，该函数所申请的内存都会被回收了
-
-但当函数内再返回一个函数时，由于返回的函数持有外部函数的词法环境，而返回的函数又被其他生命周期东西所持有，导致外部函数虽然执行完了，但内存却无法被回收
-
-所以，返回的函数，它的生命周期应尽量不宜过长，方便该闭包能够及时被回收
-
-**4.遗漏的DOM元素**
-
-DOM 元素的生命周期正常是取决于是否挂载在 DOM 树上，当从 DOM 树上移除时，也就可以被销毁回收了
-
-但如果某个 DOM 元素，在 js 中也持有它的引用时，那么它的生命周期就由 js 和是否在 DOM 树上两者决定了，记得移除时，两个地方都需要去清理才能正常回收它
-
-**5.网络回调**
-
-某些场景中，在某个页面发起网络请求，并注册一个回调，且回调函数内持有该页面某些内容，那么，当该页面销毁时，应该注销网络的回调，否则，因为网络持有页面部分内容，也会导致页面部分内容无法被回收
-
-
-
-#### 监控内存泄漏
-
-内存泄漏的问题是可以分成两类的，一种是比较严重的，泄漏的就一直回收不回来了，另一种严重程度稍微轻点，就是没有及时清理导致的内存泄漏，一段时间后还是可以被清理掉
-
-不管哪一种，利用开发者工具抓到的内存图，应该都会看到一段时间内，内存占用不断的直线式下降，这是因为不断发生 GC，也就是垃圾回收导致的
-
-针对第一种比较严重的，会发现，内存图里即使不断发生 GC 后，所使用的内存总量仍旧在不断增长
-
-另外，内存不足会造成不断 GC，而 GC 时是会阻塞主线程的，所以会影响到页面性能，造成卡顿，所以内存泄漏问题还是需要关注的
-
-可以使用 performance monitor 工具，在开发者工具里找到更多的按钮，在里面打开此功能面板，这是一个可以实时监控 cpu，内存等使用情况的工具，
-
-### chrome浏览器调试
-
-以chrome为例
-
-在chrome菜单中选择更多工具->开发者工具或者右键点击网页元素，选择检查打开调试面板。
-
-调试面板中有设备模式、元素面板、控制台面板、源代码面板、网络面板、性能面板、内存面板、应用面板、安全面板。
-
-设备模式面板可以选择web、ios、安卓等设备模式检查响应式布局
-
-元素面板(element)可以检查页面DOM和CSS，还可以自由操作DOM和CSS更改布局和设计页面。
-
-点击箭头图标，点击网页的任意位置，就可以出现该位置的元素html代码和css样式
-
-控制台面板(console)可以在开发期间记录输出信息，或者作为shell与javascript交互
-
-error和waring就是网页运行中产生的错误和警告，info用作输出的显示
-
-源代码面板(source)可以设置断点调试JavaScript，或者通过workspace连接本地文件来使用开发者工具的实时编辑器。
-
-网络面板(network)查看当前网页的请求和下载的资源文件。
-
-点击network就能看到各个接口请求的先后顺序和耗时。想要查看具体的接口参数，在name中找到具体的接口，header为请求头参数，preview和response为返回值。
-
-内存面板(memory)可以跟踪内存泄漏等功能
-
-性能面板(performance)可以记录和查看网站生命周期内发生的各种事件，通过修改对应事件来提高页面的运行性能。
-
-应用面板(application)中可以检查加载的所有资源，包括indexedDB、WebSQL数据库、本地和会话存储、cookie、应用程序缓存、图像、字体、样式表等。
-
-安全面板(security)检查证书问题等。
-
-
-
-### js常用设计模式
-
-设计模式是可重用的用于解决软件设计中一般问题的方案。设计模式如此让人着迷，以至在任何编程语言中都有对其进行的探索。
-
-其中一个原因是它可以让我们站在巨人的肩膀上，获得前人所有的经验，保证我们以优雅的方式组织我们的代码，满足我们解决问题所需要的条件。
-
-设计模式同样也为我们描述问题提供了通用的词汇。这比我们通过代码来向别人传达语法和语义性的描述更为方便。
-
-12种设计模式：
-
-单例模式、工厂模式、代理模式、装饰模式、观察者模式、适配器模式
-
-外观模式、命令模式、原型模式、中介者模式、模块化模式、策略模式
-
-Mixin(织入目标类)、享元模式
-
-```javascript
-//单例：　任意对象都是单例，无须特别处理
-var obj = {name: 'michaelqin', age: 30};
-
-//工厂: 就是同样形式参数返回不同的实例
-function Person() { this.name = 'Person1'; }
-	function Animal() { this.name = 'Animal1'; }
-
-	function Factory() {}
-	Factory.prototype.getInstance = function(className) {
-		return eval('new ' + className + '()');
-	}
-
-	var factory = new Factory();
-	var obj1 = factory.getInstance('Person');
-	var obj2 = factory.getInstance('Animal');
-	console.log(obj1.name); // Person1
-	console.log(obj2.name); // Animal1
-
-//代理: 就是新建个类调用老类的接口,包一下
-	function Person() { }
-	Person.prototype.sayName = function() { console.log('michaelqin'); }
-	Person.prototype.sayAge = function() { console.log(30); }
-
-	function PersonProxy() {
-		this.person = new Person();
-		var that = this;
-		this.callMethod = function(functionName) {
-			console.log('before proxy:', functionName);
-			that.person[functionName](); // 代理
-			console.log('after proxy:', functionName);
-		}
-	}
-
-	var pp = new PersonProxy();
-	pp.callMethod('sayName'); // 代理调用Person的方法sayName()
-	pp.callMethod('sayAge'); // 代理调用Person的方法sayAge()
-
-4) 观察者: 就是事件模式，比如按钮的onclick这样的应用.
-	function Publisher() {
-		this.listeners = [];
-	}
-	Publisher.prototype = {
-		'addListener': function(listener) {
-			this.listeners.push(listener);
-		},
-
-		'removeListener': function(listener) {
-			delete this.listeners[this.listeners.indexOf(listener)];
-		},
-
-		'notify': function(obj) {
-			for(var i = 0; i < this.listeners.length; i++) {
-				var listener = this.listeners[i];
-				if (typeof listener !== 'undefined') {
-					listener.process(obj);
-				}
-			}
-		}
-	}; // 发布者
-
-	function Subscriber() {
-
-	}
-	Subscriber.prototype = {
-		'process': function(obj) {
-			console.log(obj);
-		}
-	};　// 订阅者
-
-
-	var publisher = new Publisher();
-	publisher.addListener(new Subscriber());
-	publisher.addListener(new Subscriber());
-	publisher.notify({name: 'michaelqin', ageo: 30}); // 发布一个对象到所有订阅者
-  publisher.notify('2 subscribers will both perform process'); // 发布一个字符串到所有订阅者
-
-```
-
-观察者模式与发布/订阅模式的区别
-
-观察者模式要求想要接受相关通知的观察者必须到发起这个事件的被观察者上注册这个事件。
-
-发布/订阅模式使用一个主题/事件频道，这个频道处于想要获取通知的订阅者和发起事件的发布者之间。
-
-这个事件系统允许代码定义应用相关的事件，这个事件可以传递特殊的参数，参数中包含有订阅者所需要的值。这种想法是为了避免订阅者和发布者之间的依赖性。
-
-这种和观察者模式之间的不同，使订阅者可以实现一个合适的事件处理函数，用于注册和接受由发布者广播的相关通知。
-
-适配者模式
-
-当两种数据/函数都能实现相同的功能，但是参数、调用不兼容，这是要在某一方使用适配器抹平这种差异
-
-
-
-https://mp.weixin.qq.com/s/o0MRn-wy1_7a13xzstaJnQ
-
-## Express框架
-
-安装Express
-
-```node
-npm i express@next
-```
-
-运行Express，启动服务器
-
-```js
-const express= require('express')
-const app = express()
-
-app.listen(3000,()=>{
-   console.log('')
-})
-```
-
-### 路由
-
-```js
-const express = require('express')
-const router = express.Router()
-
-router.get('/add',(req,res)=>{
-res.send('user add')
-}) 
-
-router.get('/del',(req,res)=>{
-res.send('del add')
-})
-
-module.exports = router
-```
-
-写接口
-
-```node
-app.get
-```
-
-
-
-```node
-npm i cors
-```
-
-
-
-### 中间件
-
-中间件可以终止 HTTP 请求，也可以用 next 将其传递给另一个中间件函数,下一个中间件函数通常由名为 `next` 的变量来表示。
-
-- 路由器级中间件，例如：router.use
-- 内置中间件，例如：express.static，express.json，express.urlencoded
-- 错误处理中间件，例如：app.use（err，req，res，next）
-- 第三方中间件，例如：bodyparser、cookieparser
-
-如果当前中间件函数没有结束请求/响应循环，那么它必须调用 `next()`，以将控制权传递给下一个中间件函数。否则，请求将保持挂起状态。
-
-#### express中间件模型
-
-express的中间件的原理就是一层层函数的嵌套，虽然最内部的函数调用res.send结束的请求，但是程序依然在运行。并且这个运行的结果也类似koa的洋葱。这里面有一点需要注意，express结束请求是在最内部函数。
-
-express和koa中间件执行逻辑没有什么特别的不同，都是依赖函数调用栈的执行顺序，抬杠一点讲都可以叫做洋葱模型。Koa 依靠 async/await（generator + co）让异步操作可以变成同步写法，更好理解。最关键的不是这些中间的执行顺序，而是响应的时机，Express 使用 res.end() 是立即返回，这样想要做出些响应前的操作变得比较麻烦；而 Koa 是在所有中间件中使用 ctx.body 设置响应数据，但是并不立即响应，而是在所有中间件执行结束后，再调用 res.end(ctx.body) 进行响应，这样就为响应前的操作预留了空间，所以是请求与响应都在最外层，中间件处理是一层层进行，所以被理解成洋葱模型
-
-#### 应用层中间件
-
-使用 `app.use()` 和 `app.METHOD()` 函数将应用层中间件绑定到[应用程序对象](https://expressjs.com/zh-cn/4x/api.html#app)的实例， `METHOD` 是中间件函数处理的请求的小写 HTTP 方法（例如 GET、PUT 或 POST）。
-
-实例
-
-```js
-var app = express();
-
-app.use(function (req, res, next) {
-  console.log('Time:', Date.now());
-  next();
-});
-app.get('/user/:id', function (req, res, next) {
-  res.end(req.params.id);
-});
-```
-
-#### 路由器中间件
-
-路由器层中间件的工作方式与应用层中间件基本相同，差异之处在于它绑定到 `express.Router()` 的实例。
-
-实例
-
-```js
-//引入router
-var router= express.Router();
-//全局路由中间件
-router.use(function (req, res, next) {
-  console.log('Time:', Date.now());
-  next();
-});
-//具体http方法
-router.get('/user/:id', function (req, res, next) {
-  // if the user ID is 0, skip to the next router
-  if (req.params.id == 0) next('route');
-  // otherwise pass control to the next middleware function in this stack
-  else next(); //
-}, function (req, res, next) {
-  // render a regular page
-  res.render('regular');
-});
-//加载中间件
-app.use('/', router);
-```
-
-
-
-#### **内置中间件**
-
-Express 有以下内置的中间件功能：
-
-- `express.static` 提供静态资源，例如 HTML 文件，图像等。
-- `express.json` 负载解析用 JSON 传入的请求。
-- `express.urlencoded` 解析传入的用 URL 编码的有效载荷请求。
-
-#### **错误处理中间件**
-
-错误处理中间件始终采用四个参数**（err，req，res，next）**。
-
-实例
-
-```js
-app.use(function(err,req,res,next){
-    console.log(err.stack);
-    res.status(500).send('somethingbroke');
-})
-```
-
-
-
-#### 第三方中间件
-
-使用第三方中间件为express应用程序添加功能
-
-实例：cookie 解析中间件函数 `cookie-parser`。
-
-安装包
-
-```js
-npm install cookie-parser
-```
-
-引用
-
-```js
-var express = require('express');
-var app = express();
-var cookieParser = require('cookie-parser');
-
-//加载中间件
-app.use(cookieParser)
-```
-
-
-
-### websocket
-
-服务端
-
-安装依赖
+更新软件包与安装类似，只是命令不同
 
 ```shell
-npm install socket.io --save
+npm update
 ```
 
-代码
-
-```javascript
-let io = require("socket.io")(http);
-
-io.on("connection",function(socket){
-  console.log("连接成功")
-  socket.emit("new message",{mess:"初识消息"})
-})
-```
-
-
-
-### 第三方登录
-
- 
-
-### 模版引擎
-
-express可以使用模板引擎，使用前先进行设置
-
-views：指定模版引擎所在目录
-
-view engine：指定使用的模版引擎
-
-首先安装需要使用的模版引擎
-
-```js
-npm install pug --save
-```
-
-指定模版引擎
-
-```js
-app.set('view engine', 'pug');
-```
-
-在 `views` 目录中创建名为 `index.pug` 的 Pug 模板文件，
-
-```pug
-html
-  head
-    title= title
-  body
-    h1= message
-
-```
-
-在node中渲染
-
-```js
-app.get('/', function (req, res) {
-  res.render('index', { title: 'Hey', message: 'Hello there!'});
-});
-```
-
-向主页发出请求时，`index.pug` 文件将呈现为 HTML。
-
-### Cors通信
-
-通过使用 Node 的[cors](https://github.com/expressjs/cors) 中间件来允许来自其他源的请求。
-
-使用命令安装*cors*
+package.json 文件支持一种用于指定命令行任务（可通过使用以下方式运行）的格式
 
 ```shell
-npm install cors
+npm run <task-name>
 ```
 
-使用中间件并允许来自所有来源的请求:
+例如
+
+```shell
+{
+  "scripts": {
+    "start-dev": "node lib/server-development",
+    "start": "node lib/server-production"
+  },
+}
+
+{
+  "scripts": {
+    "watch": "webpack --watch --progress --colors --config webpack.conf.js",
+    "dev": "webpack --progress --colors --config webpack.conf.js",
+    "prod": "NODE_ENV=production webpack -p --config webpack.conf.js",
+  },
+}
+```
+
+### npm包版本
+
+如果 Node.js 软件包中有一件很棒的事情，那就是它们都同意使用语义版本控制作为版本编号
+
+语义版本控制的概念很简单：所有的版本都有 3 个数字：`x.y.z`。
+
+- 第一个数字是主版本。
+- 第二个数字是次版本。
+- 第三个数字是补丁版本。
+
+当发布新的版本时，不仅仅是随心所欲地增加数字，还要遵循以下规则：
+
+- 当进行不兼容的 API 更改时，则升级主版本。
+- 当以向后兼容的方式添加功能时，则升级次版本。
+- 当进行向后兼容的缺陷修复时，则升级补丁版本。
+
+该约定在所有编程语言中均被采用，每个 `npm` 软件包都必须遵守该约定，这一点非常重要，因为整个系统都依赖于此
+
+`npm` 设置了一些规则，可用于在 `package.json` 文件中选择要将软件包更新到的版本（当运行 `npm update` 时
+
+规则使用了这些符号及详情如下：
+
+- `^`: 只会执行不更改最左边非零数字的更新。 如果写入的是 `^0.13.0`，则当运行 `npm update` 时，可以更新到 `0.13.1`、`0.13.2` 等，但不能更新到 `0.14.0` 或更高版本。 如果写入的是 `^1.13.0`，则当运行 `npm update` 时，可以更新到 `1.13.1`、`1.14.0` 等，但不能更新到 `2.0.0` 或更高版本。
+- `~`: 如果写入的是 `〜0.13.0`，则当运行 `npm update` 时，会更新到补丁版本：即 `0.13.1` 可以，但 `0.14.0` 不可以。
+- `>`: 接受高于指定版本的任何版本。
+- `>=`: 接受等于或高于指定版本的任何版本。
+- `<=`: 接受等于或低于指定版本的任何版本。
+- `<`: 接受低于指定版本的任何版本。
+- `=`: 接受确切的版本。
+- `-`: 接受一定范围的版本。例如：`2.1.0 - 2.6.2`。
+- `||`: 组合集合。例如 `< 2.1 || > 2.6`
+
+可以合并其中的一些符号，例如 `1.0.0 || >=1.1.0 <1.2.0`，即使用 1.0.0 或从 1.1.0 开始但低于 1.2.0 的版本。
+
+还有其他的规则：
+
+- 无符号: 仅接受指定的特定版本（例如 `1.2.1`）。
+- `latest`: 使用可用的最新版本
+
+### npx
+
+`npx` 可以运行使用 Node.js 构建并通过 npm 仓库发布的代码
+
+`npx` 是一个非常强大的命令，从 **npm** 的 5.2 版本（发布于 2017 年 7 月）开始可用
+
+`npx` 的另一个重要的特性是，无需先安装命令即可运行命令
+
+这非常有用，主要是因为：
+
+1. 不需要安装任何东西。
+2. 可以使用 @version 语法运行同一命令的不同版本。
+
+npx的典型应用场景有
+
+- 运行 `vue` CLI 工具以创建新的应用程序并运行它们：`npx @vue/cli create my-vue-app`。
+- 使用 `create-react-app` 创建新的 `React` 应用：`npx create-react-app my-react-app`。
+
+当被下载完，则下载的代码会被擦除。
+
+### npm命令集
+
+本地npm包相关
+
+npm outdated 检查本地npm包是否有过期包
+
+npm ci: 使用package-lock.json安装本地依赖
+
+npm rebuild: 必须使用新的二进制文件重新编译所有 C++ 插件
+
+npm docs: 
+
+npm包发布相关
+
+npm star/unstar <package-name> : 为一个包加星标（"Starring"）意味着你对这个包感兴趣。 这是一种你表达关注的方式。减星标（"Unstarring"）与加星标相反
+
+npm team:
+
+npm publish：
+
+npm deprecate: 此命令将更新 npm 注册表中指定包所对应的数据条目， 为尝试安装它的所有人提示版本作废的警告信息
+
+其他
+
+npm ping： Ping 已配置的或给定的 npm 注册表地址并进行身份验证。 如果 ping 执行成功，则会输出类似下面的内容
+
+npm config：
+
+npm repo: 此命令尝试猜测指定包的源码仓库的 URL ，然后再使用 `--browser` 配置参数打开它。 如果没有提供包名称，它将在当前文件夹中搜索`package.json` 文件， 并使用其 `name` 属性的值
+
+`--cache-min`参数指定一个时间（单位为分钟），只有超过这个时间的模块，才会从 registry 下载
+
+```shell
+$ npm install --cache-min Infinity <package-name>
+```
+
+#### npm 脚本的原理
+
+npm 脚本的原理非常简单。每当执行`npm run`，就会自动新建一个 Shell，在这个 Shell 里面执行指定的脚本命令。因此，只要是 Shell（一般是 Bash）可以运行的命令，就可以写在 npm 脚本里面
+
+比较特别的是，`npm run`新建的这个 Shell，会将当前目录的`node_modules/.bin`子目录加入`PATH`变量，执行结束后，再将`PATH`变量恢复原样
+
+这意味着，当前目录的`node_modules/.bin`子目录里面的所有脚本，都可以直接用脚本名调用，而不必加上路径。比如，当前项目的依赖里面有 Mocha，只要直接写`mocha test`就可以了
+
+由于 npm 脚本的唯一要求就是可以在 Shell 执行，因此它不一定是 Node 脚本，任何可执行文件都可以写在里面。
+
+npm 脚本的退出码，也遵守 Shell 脚本规则。如果退出码不是`0`，npm 就认为这个脚本执行失败。
+
+通配符
+
+由于 npm 脚本就是 Shell 脚本，因为可以使用 Shell 通配符
+
+```json
+"lint": "jshint *.js"
+"lint": "jshint **/*.js"
+```
+
+`*`表示任意文件名，`**`表示任意一层子目录。
+
+如果要将通配符传入原始命令，防止被 Shell 转义，要将星号转义
+
+```json
+"test": "tap test/\*.js"
+```
+
+
+
+**钩子**
+
+npm 脚本有`pre`和`post`两个钩子。举例来说，`build`脚本命令的钩子就是`prebuild`和`postbuild`
+
+```json
+"prebuild": "echo I run before the build script",
+"build": "cross-env NODE_ENV=production webpack",
+"postbuild": "echo I run after the build script"
+```
+
+用户执行`npm run build`的时候，会自动按照下面的顺序执行。
+
+```shell
+npm run prebuild && npm run build && npm run postbuild
+```
+
+npm默认提供了一些钩子
+
+```
+prepublish，postpublish
+preinstall，postinstall
+preuninstall，postuninstall
+preversion，postversion
+pretest，posttest
+prestop，poststop
+prestart，poststart
+prerestart，postrestart
+```
+
+自定义的脚本命令也可以加上`pre`和`post`钩子。比如，`myscript`这个脚本命令，也有`premyscript`和`postmyscript`钩子。不过，双重的`pre`和`post`无效，比如`prepretest`和`postposttest`是无效的。
+
+npm 提供一个`npm_lifecycle_event`变量，返回当前正在运行的脚本名称，比如`pretest`、`test`、`posttest`等等。所以，可以利用这个变量，在同一个脚本文件里面，为不同的`npm scripts`命令编写代码。
 
 ```javascript
-const cors = require('cors')
+const TARGET = process.env.npm_lifecycle_event;
 
-app.use(cors())
+if (TARGET === 'test') {
+  console.log(`Running the test task!`);
+}
+
+if (TARGET === 'pretest') {
+  console.log(`Running the pretest task!`);
+}
+
+if (TARGET === 'posttest') {
+  console.log(`Running the posttest task!`);
+}
 ```
 
+注意，`prepublish`这个钩子不仅会在`npm publish`命令之前运行，还会在`npm install`（不带任何参数）命令之前运行。这种行为很容易让用户感到困惑，所以 npm 4 引入了一个新的钩子`prepare`，行为等同于`prepublish`，而从 npm 5 开始，`prepublish`将只在`npm publish`命令之前运行
 
+其他变量
 
-### Restful API实例
+npm 脚本有一个非常强大的功能，就是可以使用 npm 的内部变量
 
-REST即表述性状态传递（英文：Representational State Transfer，简称REST）是Roy Fielding博士在2000年他的博士论文中提出来的一种软件架构风格。
-
-Web service是一个平台独立的，低耦合的，自包含的、基于可编程的web的应用程序，可使用开放的XML（标准通用标记语言下的一个子集）标准来描述、发布、发现、协调和配置这些应用程序，用于开发分布式的互操作的应用程序。
-
-基于 REST 架构的 Web Services 即是 RESTful。
-
-由于轻量级以及通过 HTTP 直接传输数据的特性，Web 服务的 RESTful 方法已经成为最常见的替代方法。可以使用各种语言（比如 Java 程序、Perl、Ruby、Python、PHP 和 Javascript[包括 Ajax]）实现客户端。
-
-为了显示数据，首先准备一个json数据文件
+首先，通过`npm_package_`前缀，npm 脚本可以拿到`package.json`里面的字段。比如，下面是一个`package.json`
 
 ```json
 {
-   "user1" : {
-      "name" : "mahesh",
-      "password" : "password1",
-      "profession" : "teacher",
-      "id": 1
-   },
-   "user2" : {
-      "name" : "suresh",
-      "password" : "password2",
-      "profession" : "librarian",
-      "id": 2
-   },
-   "user3" : {
-      "name" : "ramesh",
-      "password" : "password3",
-      "profession" : "clerk",
-      "id": 3
-   }
+  "name": "foo", 
+  "version": "1.2.5",
+  "scripts": {
+    "view": "node view.js"
+  }
 }
 ```
 
-基于以上的数据，做不同的api展示不同的数据
-
-|    URI     | HTTP方法 |  请求内容   |       结果       |
-| :--------: | :------: | :---------: | :--------------: |
-| listUsers  |   GET    |     空      | 显示所有用户列表 |
-|    :id     |   GET    |     空      | 显示用户详细信息 |
-|  addUser   |   POST   | JSON 字符串 |    添加新用户    |
-| deleteUser |  DELETE  | JSON 字符串 |     删除用户     |
-
-实例
+那么，变量`npm_package_name`返回`foo`，变量`npm_package_version`返回`1.2.5`。
 
 ```javascript
-var express = require('express');
-var app = express();
-var fs = require("fs");
+// view.js
+console.log(process.env.npm_package_name); // foo
+console.log(process.env.npm_package_version); // 1.2.5
+```
 
-//获取用户列表
-app.get('/listUsers', function (req, res) {
-   fs.readFile( __dirname + "/" + "user.json", 'utf8', function (err, data) {
-       console.log( data );
-       res.end( data );
-   });
-})
 
- //添加用户
- //添加的新用户数据
- var user = {
-    "user4" : {
-       "name" : "mohit",
-       "password" : "password4",
-       "profession" : "teacher",
-       "id": 4
+
+常用脚本
+
+```json
+// 删除目录
+"clean": "rimraf dist/*",
+
+// 本地搭建一个 HTTP 服务
+"serve": "http-server -p 9090 dist/",
+
+// 打开浏览器
+"open:dev": "opener http://localhost:9090",
+
+// 实时刷新
+ "livereload": "live-reload --port 9091 dist/",
+
+// 构建 HTML 文件
+"build:html": "jade index.jade > dist/index.html",
+
+// 只要 CSS 文件有变动，就重新执行构建
+"watch:css": "watch 'npm run build:css' assets/styles/",
+
+// 只要 HTML 文件有变动，就重新执行构建
+"watch:html": "watch 'npm run build:html' assets/html",
+
+// 部署到 Amazon S3
+"deploy:prod": "s3-cli sync ./dist/ s3://example-com/prod-site/",
+
+// 构建 favicon
+"build:favicon": "node scripts/favicon.js",
+```
+
+
+
+### npm install
+
+过程
+
+1.发出npm install命令
+
+2.查询node_modules目录之中是否已经存在指定模块，若存在，不再重新安装
+
+3.若不存在，npm 向 registry 查询模块压缩包的网址下载压缩包，存放在根目录下的.npm目录里，
+
+4.解压压缩包到当前项目的node_modules目录
+
+npm实现原理：
+
+输入 npm install 命令并敲下回车后，会经历如下几个阶段：
+
+1.执行工程自身preinstall。如果工程定义了preinstall钩子会被执行。
+
+2.确定首层依赖模块。dependencies 和 devDependencies 属性中直接指定的模块，工程本身是整棵依赖树的根节点，每个首层依赖模块都是根节点下面的一棵子树，npm 会开启多进程从每个首层依赖模块开始逐步寻找更深层级的节点。
+
+3.获取模块。
+
+获取模块是一个递归的过程，分为以下几步：
+
+获取模块信息。在下载一个模块之前，首先要确定其版本，这是因为 package.json 中往往是 semantic version（semver，语义化版本）。此时如果版本描述文件（npm-shrinkwrap.json 或 package-lock.json）中有该模块信息直接拿即可，如果没有则从仓库获取。如 packaeg.json 中某个包的版本是 ^1.1.0，npm 就会去仓库中获取符合 1.x.x 形式的最新版本。
+
+获取模块实体。上一步会获取到模块的压缩包地址（resolved 字段），npm 会用此地址检查本地缓存，缓存中有就直接拿，如果没有则从仓库下载
+
+查找该模块依赖，如果有依赖则回到第1步，如果没有则停止。
+
+4.模块扁平化。上一步获取到的是一棵完整的依赖树，其中可能包含大量重复模块。比如 A 模块依赖于 loadsh，B 模块同样依赖于 lodash。
+
+从 npm3 开始默认加入了一个 dedupe 的过程。它会遍历所有节点，逐个将模块放在根节点下面，也就是 node-modules 的第一层。当发现有**重复模块**时，则将其丢弃。
+
+**重复模块**的定义，它指的是**模块名相同**且 **semver 兼容。\**每个 semver 都对应一段版本允许范围，如果两个模块的版本允许范围存在交集，那么就可以得到一个\**兼容**版本，而不必版本号完全一致，这可以使更多冗余模块在 dedupe 过程中被去掉。
+
+5.安装模块。更新工程中的 node_modules，并执行模块中的生命周期函数（按照 preinstall、install、postinstall 的顺序）。
+
+6.执行工程自身生命周期。当前 npm 工程如果定义了钩子此时会被执行（按照 install、postinstall、prepublish、prepare 的顺序）。
+
+7.更新或生成版本描述文件，npm install过程完成
+
+`--legacy-peer-deps` :安装时忽略所有 peerDependencies，采用 npm 版本 4 到版本 6 的样式。
+
+`--strict-peer-deps` :在遇到任何冲突的 peerDependencies 时失败并中止安装过程。默认情况下，npm 只会因根项目直接依赖导致的 peerDependencies 冲突而崩溃。
+
+#### 离线安装方案
+
+社区已经为npm的离线使用，提出了几种解决方案。它们可以大大加快模块安装的速度
+
+第一种是使用代理
+
+- [npm-proxy-cache](https://www.npmjs.com/package/npm-proxy-cache)
+- [local-npm](https://github.com/nolanlawson/local-npm)（[用法](https://addyosmani.com/blog/using-npm-offline/)）
+- [npm-lazy](https://github.com/mixu/npm_lazy)
+
+在本机起一个 Registry 服务，所有`npm install`命令都要通过这个服务代理。有了本机的Registry服务，就能完全实现缓存安装，可以实现离线使用。
+
+第二种是代替npm install
+
+如果能够改变`npm install`的行为，就能实现缓存安装。[`npm-cache`](https://www.npmjs.com/package/npm-cache) 工具就是这个思路。凡是使用`npm install`的地方，都可以使用`npm-cache`替代。
+
+```shell
+$ npm-cache install
+```
+
+第三种 使用node_modules作为缓存目录
+
+这个方案的思路是，不使用`.npm`缓存，而是使用项目的`node_modules`目录作为缓存。
+
+- [Freight](https://github.com/node-freight/freight)
+- [npmbox](https://github.com/arei/npmbox)
+
+上面两个工具，都能将项目的`node_modules`目录打成一个压缩包，以后安装的时候，就从这个压缩包之中取出文件
+
+### pnpm
+
+当使用 npm 或 Yarn 时，如果你有 100 个项目使用了某个依赖（dependency），就会有 100 份该依赖的副本保存在硬盘上。  而在使用 pnpm 时，依赖会被存储在内容可寻址的存储中，所以：
+
+1. 如果你用到了某依赖项的不同版本，只会将不同版本间有差异的文件添加到仓库。 例如，如果某个包有100个文件，而它的新版本只改变了其中1个文件。那么 `pnpm update` 时只会向存储中心额外添加1个新文件，而不会因为仅仅一个文件的改变复制整新版本包的内容。
+2. 所有文件都会存储在硬盘上的某一位置。 当软件包被被安装时，包里的文件会硬链接到这一位置，而不会占用额外的磁盘空间。 这允许你跨项目地共享同一版本的依赖。
+
+pnpm在package.json中的配置
+
+```json
+{
+  "pnpm": {
+    "peerDependencyRules": {
+      "ignoreMissing": ["babel-loader"],
+      "allowedVersions": {
+        "@angular/common": "13"
+      }
     }
- }
-
- app.get('/addUser', function (req, res) {
-    // 读取已存在的数据
-    fs.readFile( __dirname + "/" + "user.json", 'utf8', function (err, data) {
-        data = JSON.parse( data );
-        data["user4"] = user["user4"];
-        console.log( data );
-        res.end( JSON.stringify(data));
-    });
- })
-
- //删除用户
- var id = 3;
-
- app.get('/deleteUser', function (req, res) {
- 
-    // First read existing users.
-    fs.readFile( __dirname + "/" + "user.json", 'utf8', function (err, data) {
-        data = JSON.parse( data );
-        delete data["user" + id];
-        
-        console.log( data );
-        res.end( JSON.stringify(data));
-    });
- })
-
-app.get('/:id', function (req, res) {
-    // 首先我们读取已存在的用户
-    fs.readFile( __dirname + "/" + "user.json", 'utf8', function (err, data) {
-        data = JSON.parse( data );
-        var user = data["user" + req.params.id] 
-        console.log( user );
-        res.end( JSON.stringify(user));
-    });
- })
-
-
-var server = app.listen(8081, function () {
-
-  var host = server.address().address
-  var port = server.address().port
-
-  console.log("应用实例，访问地址为 http://%s:%s", host, port)
-
-})
-```
-
-
-
-### Mysql
-
-安装包
-
-```node
-npm install mysql
-```
-
-建立连接
-
-```javascript
-var mysql = require('mysql')
-var connection = mysql.createConnection({
-  host:'localhost',
-  user:'root',
-  password:'',
-  database:'my_db'
-})
-
-connection.connect();
-
-```
-
-增删改查
-
-
-
-
-
-### 与Mongo数据库交互
-
-MongoDB的安装教程不在赘述，在官网下载即可
-
-在Mongo的安装目录bin目录下打开CMD窗口，运行
-
-
-
-安装Node的Mongo数据库工具Mongoose
-
-```node
-npm i mongoose
-```
-
-连接代码
-
-```javascript
-const mongoose = require('mongoose');
-mongoose.connect(
-  'mongodb://localhost:27017/test', 
-  {
-    useNewUrlParser: true, 
-    useUnifiedTopology: true
   }
-);
-
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function() {
-  // we're connected!
-});
+}
 ```
 
-创建Schema对象
+
+
+### pnpm、yarn、cnpm、npm的区别
+
+pnpm 本质上就是一个包管理器，这一点跟 npm/yarn 没有区别，但它作为杀手锏的两个优势在于:
+
+- 包安装速度极快；
+- 磁盘空间利用非常高效
+
+**速度**
+
+pnpm，在绝多大数场景下，包安装的速度都是明显优于 npm/yarn，速度会比 npm/yarn 快 2-3 倍
+
+yarn 有 `PnP 安装模式`(https://classic.yarnpkg.com/en/docs/pnp/)吗？直接去掉 node_modules，将依赖包内容写在磁盘，节省了 node 文件 I/O 的开销，这样也能提升安装速度
+
+**支持mono repo**
+
+随着前端工程的日益复杂，越来越多的项目开始使用 monorepo。之前对于多个项目的管理，我们一般都是使用多个 git 仓库，但 monorepo 的宗旨就是用一个 git 仓库来管理多个子项目，所有的子项目都存放在根目录的`packages`目录下，那么一个子项目就代表一个`package`。如果你之前没接触过 monorepo 的概念，建议仔细看看这篇文章(https://www.perforce.com/blog/vcs/what-monorepo)以及开源的 monorepo 管理工具`lerna`，项目目录结构可以参考一下 `babel 仓库`(https://github.com/babel/babel)。
+
+pnpm 与 npm/yarn 另外一个很大的不同就是支持了 monorepo，体现在各个子命令的功能上，比如在根目录下 `pnpm add A -r`, 那么所有的 package 中都会被添加 A 这个依赖，当然也支持 `--filter`字段来对 package 进行过滤
+
+**高效利用磁盘空间**
+
+pnpm 内部使用`基于内容寻址`的文件系统来存储磁盘上所有的文件，这个文件系统出色的地方在于
+
+不会重复安装同一个包。用 npm/yarn 的时候，如果 100 个项目都依赖 lodash，那么 lodash 很可能就被安装了 100 次，磁盘中就有 100 个地方写入了这部分代码。但在使用 pnpm 只会安装一次，磁盘中只有一个地方写入，后面再次使用都会直接使用 `hardlink`
+
+即使一个包的不同版本，pnpm 也会极大程度地复用之前版本的代码。举个例子，比如 lodash 有 100 个文件，更新版本之后多了一个文件，那么磁盘当中并不会重新写入 101 个文件，而是保留原来的 100 个文件的 `hardlink`，仅仅写入那`一个新增的文件`
+
+**依赖管理**
+
+npm install 的原理：
+
+主要分为两个部分, 首先，执行 npm/yarn install之后，`包如何到达项目 node_modules 当中`。其次，node_modules `内部如何管理依赖`。
+
+执行命令后，首先会构建依赖树，然后针对每个节点下的包，会经历下面四个步骤:
+
+ \- 1. 将依赖包的版本区间解析为某个具体的版本号
+ \- 2. 下载对应版本依赖的 tar 包到本地离线镜像
+ \- 3. 将依赖从离线镜像解压到本地缓存
+ \- 4. 将依赖从缓存拷贝到当前目录的 node_modules 目录
+
+然后，对应的包就会到达项目的`node_modules`当中。
+
+在 `npm1`、`npm2` 中呈现出的是嵌套结构，如果不同的依赖包有着相同包的不同版本，会出现以下问题：
+
+- 依赖层级太深，会导致文件路径过长的问题，尤其在 window 系统下。
+- 大量重复的包被安装，文件体积超级大。比如跟 foo 同级目录下有一个baz，两者都依赖于同一个版本的lodash，那么 lodash 会分别在两者的 node_modules 中被安装，也就是重复安装。
+- 模块实例不能共享。比如 React 有一些内部变量，在两个不同包引入的 React 不是同一个模块实例，因此无法共享内部变量，导致一些不可预知的 bug。安全性**
+
+从npm3开始，以及yarn中，都着手来通过`扁平化依赖`的方式来解决这个问题
+
+所有的依赖都被拍平到`node_modules`目录下，不再有很深层次的嵌套关系。这样在安装新的包时，根据 node require 机制，会不停往上级的`node_modules`当中去找，如果找到相同版本的包就不会重新安装，解决了大量包重复安装的问题，而且依赖层级也不会太深。
+
+但是铺平的node_modules依然有很多问题：
+
+1. 依赖结构的**不确定性**。
+2. 扁平化算法本身的**复杂性**很高，耗时较长。
+3. 项目中仍然可以**非法访问**没有声明过依赖的包
+
+第一个问题直接导致了 `lock 文件`的诞生，无论是`package-lock.json`(npm 5.x才出现)还是`yarn.lock`，都是为了保证 install 之后都产生确定的`node_modules`结构
+
+不同于npm/yarn，使用pnpm安装包后，会在node_modules下会生成包的软连接，有助于快速找到安装了哪些包
+
+同时，所有的包都放在.pnpm文件夹下，按照<package-name> @version/node_modules <package-name>的嵌套结构在.pnpm下。再看看`.pnpm`，`.pnpm`目录下虽然呈现的是扁平的目录结构，但仔细想想，顺着`软链接`慢慢展开，其实就是嵌套的结构。这样将`包本身`和`依赖`放在同一个`node_module`下面，与原生 Node 完全兼容，又能将 package 与相关的依赖很好地组织到一起，设计十分精妙
+
+**非法访问的问题**
+
+在npm/yarn中，如果 A 依赖 B， B 依赖 C，那么 A 就算没有声明 C 的依赖，由于有依赖提升的存在，C 被装到了 A 的`node_modules`里面，那我在 A 里面是可以用 C的，并且跑起来也没有问题。
+
+但是当包依赖变化时， 如果 B 更新之后，可能不需要 C 了，那么安装依赖的时候，C 都不会装到`node_modules`里面，A 当中引用 C 的代码直接报错。还有一种情况，在 monorepo 项目中，如果 A 依赖 X，B 依赖 X，还有一个 C，它不依赖 X，但它代码里面用到了 X。由于依赖提升的存在，npm/yarn 会把 X 放到根目录的 node_modules 中，这样 C 在本地是能够跑起来的，因为根据 node 的包加载机制，它能够加载到 monorepo 项目根目录下的 node_modules 中的 X。但试想一下，一旦 C 单独发包出去，用户单独安装 C，那么就找不到 X 了，执行到引用 X 的代码时就直接报错了。
+
+这些，都是依赖提升潜在的 bug。如果是自己的业务代码还好，试想一下如果是给很多开发者用的工具包，那危害就非常严重了。
+
+npm 也有想过去解决这个问题，指定`--global-style`参数即可禁止变量提升，但这样做相当于回到了当年嵌套依赖的时代，一夜回到解放前，前面提到的嵌套依赖的缺点仍然暴露无遗。
+
+npm/yarn 本身去解决依赖提升的问题貌似很难完成，不过社区针对这个问题也已经有特定的解决方案: **dependency-check**，地址: https://github.com/dependency-check-team/dependency-check
+
+pnpm 做的更加彻底，独创的一套依赖管理方式不仅解决了依赖提升的安全问题，还大大优化了时间和空间上的性能。
+
+### npm私库的搭建
+
+npm 作为一种包管理工具，无论你是泛前端还是大前端都已经离不开它。它的出现方便了万千少年。让我们跨过了 Ctrl+C、Ctrl+V ，通过 ``npm install x``的方式将别人的优秀代码模块引入到自己的项目中。这些优秀的模块能被共享的原因，一方面是有 npm 这么一个包管理工具，另外就是 npm 仓库。
+
+对于 npm 仓库，如果你还停留在使用 npm 或者 cnpm 这类官方源的情况下。那么你有必要想想如何搭建一个私有的 npm 仓库。
+
+搭建npm私库的原因：
+
+1.稳定性
+
+网络访问稳定性，私有仓库因为是自己公司在维护，有什么问题能第一时间处理，比如服务宕机…其次资源的稳定性，试想一下，如果哪天你依赖的某个很重要的模块突然被作者删了，那是不是完犊子了
+
+2.私密性
+
+每个公司都有和自己业务强相关的模块，或者对某些开源模块进行个性化的改造，改造后的模块只满足本公司的业务场景，这些模块我们并不希望发布到公共的仓库中去，这时就可以发布到自己的私有仓库在公司内部共享
+
+3.安全性
+
+有了私有仓库后，可以在 npm 模块的质量和安全上做文章，能够有效的防治恶意代码攻击。
+
+搭建
+
+选择[cnpmjs.org](https://www.npmjs.com/package/cnpmjs.org)方案，目前国内像淘宝这样的大厂内部也是选择的它，足以证明它的可靠性和稳定性，拓展性强，配置多样化
+
+环境
+
+- Linux 服务器
+- node 环境
+- 数据库( Mysql )
+- nginx
+
+安装
+
+首先安装cnpmjs.org
+
+```shell
+git clone https://github.com/cnpm/cnpmjs.org.git
+```
+
+安装项目依赖
+
+```shell
+npm i
+```
+
+安装完成后找到项目根目录下的配置文件`config/index.js` ，这里配置文件非常多，刚开始可以只关注下面几项即可，[详细配置](https://gitee.com/199253/cnpmjs/blob/master/config/index.js)戳这里。
+
+服务访问端口
+
+```yaml
+registryPort: 7001,         //仓库服务访问端口
+webPort: 7002,              //web站点访问端口
+bindingHost: '',   //监听绑定的 Host，默认127.0.0.1，外网访问注释掉此项即可，一般我们不会把我们内部端口暴露出去，可以在nginx层做一个转发，所以这个配置可以注释掉。如果直接外网访问，配置为 0.0.0.0
+```
+
+数据库配置
+
+```yaml
+database: {
+  db: 'npm',数据库名称
+  username: 'admin',//用户
+  password: 'admin123',//密码
+  // 数据库类型
+  // - 目前支持 'mysql', 'sqlite', 'postgres', 'mariadb'
+  dialect: 'mysql',//默认是sqlite，我选择的mysql
+  host: '127.0.0.1', //数据库服务地址
+  port: 3306,    // 端口
+  // 数据库连接池使用默认配置就好
+  // 目前只支持  mysql 和 postgresql (since v1.5.0)
+  pool: {
+    maxConnections: 10,
+    minConnections: 0,
+    maxIdleTime: 30000
+  },
+  ...//其他的暂时不用关注
+},
+```
+
+是否启用私有模式
+
+```yml
+enablePrivate: false,//默认不启用
+```
+
+私有模式下，只有管理员才能发布模块。非管理员发布模块式命名必须以 scopes 字段开头例如：`@catfly/packagename`
+
+发布前缀
+
+```yaml
+scopes: ['@catfly'],
+```
+
+这个和启用非私有模式配套使用，非私有模式要发布必须配置该项。
+
+管理员配置
+
+```yaml
+admins: {
+      fengmk2: 'fengmk2@gmail.com',
+      admin: 'admin@cnpmjs.org',
+      dead_horse: 'dead_horse@qq.com',
+}
+```
+
+如果启用私有模式，只有该配置项中的用户可以发布私有包。至于其他的配置项暂时不用关注，后面根据需要在逐渐配置起来。
+
+同步模式
+
+```yaml
+// 同步模式选项
+// none: 不进行同步，只管理用户上传的私有模块，公共模块直接从上游获取
+// exist: 只同步已经存在于数据库的模块
+// all: 定时同步所有源registry的模块
+syncModel:'exist'
+```
+
+数据库
+
+我选择的 mysql ，请[戳这里](https://www.runoob.com/mysql/mysql-install.html)。当然你也可以选择其他数据库，目前支持mysql 、 sqlite 、 postgres 、 mariadb ，默认是 sqlite 。
+
+确认数据库启动
+
+```shell
+service mysql status
+```
+
+登陆数据库
+
+```shell
+mysql -u root -p  test123456
+```
+
+创建数据库
+
+```shell
+create database npm
+```
+
+查看数据库列表
+
+```shell
+show database
+```
+
+执行sql文件
+
+cnpmjs.org项目docs目录下已经给我们备好了创建数据库的脚本db.sql.执行
+
+```shell
+source docs/db.sql
+```
+
+然后使用数据库
+
+```shell
+use npm 
+show tables
+```
+
+上面两步完成后，就可以将项目跑起来一睹芳容了。因为我们通过 git 克隆的，所以需要进入到项目目录下执行启动服务的命令
+
+```shell
+npm run start
+```
+
+如果服务器的7002端口访问不了，可能是防火墙的原因，可以关闭防火墙或者开放指定端口
+
+```shell
+iptables -A INPUT -p tcp --drop -j 7002 DROP
+```
+
+访问 web 页面：xxx.xxx.xxx.xx:7002，就可以看见熟悉的部署在本地的 cnpm 页面了
+
+如果配置域名访问则需要使用nginx代理，这里简单贴一下nginx.conf配置
+
+```conf
+server{
+      listen  80;
+       server_name www.mirrors.catfly.vip;
+       #charset koi8-r;
+       #access_log  logs/host.access.log  main;
+       location / { 
+            proxy_pass http://127.0.0.1:7002/; #代理到cnpmjs.org提供的web服务
+            proxy_set_header        X-Real-IP $remote_addr;
+       }
+       location /registry/ {
+           proxy_pass http://127.0.0.1:7001/; # 代理到cnpmjs.org提供的注册服务
+           proxy_set_header X-Real-IP $remote_addr;
+           proxy_set_header Host $host;
+           proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+       }
+       #error_page  404              /404.html;
+       # redirect server error pages to the static page /50x.html
+       # error_page   500 502 503 504  /50x.html;
+       location = /50x.html {
+           root   html;
+       }
+}
+```
+
+验证
+
+在本地安装一个nrm工具，使用比较方便
+
+```shell
+npm i nrm -g
+```
+
+安装成功后新增我们自己的私有源到nrm源列表中。
+
+```shell
+nrm add catfly http://www.mirrors.catfly.vip/registry
+```
+
+切换到私有源
+
+```shell
+nrm use catfly
+```
+
+这个时候本地执行 npm 操作的时候就会去找到我们自己的私有地址
+
+#### 进程管理
+
+推荐使用 pm2 进行进程管理，虽然项目本身提供了`npm run start`和`npm run stop`的能力，但是这对于一个企业级的应用来说还是太弱了，使用 pm2 的好处如下：
+
+1. 随时随地多进程管理
+2. 完善的监控机制，我们可以清晰地看见整个集群的模式、状态，CPU 利用率甚至是内存大小
+3. 负责均衡
+4. 进程守护
+5. ...
+
+全局安装pm2
+
+```shell
+npm i pm2 -g
+```
+
+启动项目
+
+```shell
+pm2 start ./dispatch.js
+```
+
+查看服务进程信息
+
+```shell
+pm2 monit dispatch
+```
+
+#### 私有库上云
+
+cnpmjs.org 项目配置项里面有一个 `nfs`配置，这里定义了一个 npm 文件系统（NFS）。私有仓库在同步和上传的时候，会交给 NFS 对象相应的函数去处理，NFS 对象返回处理结束之后再返回下载链接，所以通过自定义 NFS 模块可以实现 npm 包的各种定制存储。目前官方默认使用`fs-cnpm`，该模块会将上传或者同步的包保存在服务器本地的`/root/.cnpmjs.org/doenloads/`目录下。这种方式比较传统，一方面随着私有包数量的不断增加，存储资源会是一个瓶颈。
+
+这个时候将私有包或者同步的资源放到云上就是一个非常好的方案。cnpmjs.org 官方早就为我们想到了这点，给出了下面几种 NFS 模块：
+
+- [upyun-cnpm](https://link.jianshu.com/?t=https://github.com/cnpm/upyun-cnpm)：又拍云存储插件
+- [fs-cnpm](https://link.jianshu.com/?t=https://github.com/cnpm/fs-cnpm)：本地存储的插件
+- [sfs-client](https://link.jianshu.com/?t=https://github.com/cnpm/sfs-client)： [SFS](https://link.jianshu.com/?t=https://github.com/cnpm/sfs)（Simple FIle Store）存储插件
+- [qn-cnpm](https://link.jianshu.com/?t=https://github.com/cnpm/qn-cnpm)：七牛云存储插件
+- [oss-cnpm](https://link.jianshu.com/?t=https://github.com/cnpm/oss-cnpm)：阿里云 OSS 存储插件
+
+这些模块已经能够满足我们绝大部分的场景，如果你有特殊的需求，可以参看[nfs模块规范](https://www.v2ex.com/t/294255)进行定制化开发。这里拿阿里云 oss 存储作为示例。
+
+首先在 cnpmjs.org 项目目录下安装`oss-cnpm`模块
+
+```shell
+cnpm i oss-cnpm
+```
+
+然后在云服务控制台 oss 管理中新增了一个 bucket 来存储 npm 包，也可以通过上传路径区分来复用其他 bucket，毕竟在公司中 bucket 资源一般还是比较紧张的。然后修改项目配置文件，将默认的`fs-cnpm`模块替换成`oss-cnpm`
 
 ```javascript
-  //将scheme对象实例化并创建
-  var user = mongoose.Schema;
-  //创建对象
-  var userschema = new user({
-  name:
-  age:
-  length:
+var oss = require("oss-cnpm");
+var nfs = oss.create({
+  accessKeyId: 'xxxx',
+  accessKeySecret: 'xxx',
+  endpoint: 'oss-cn-beijing.aliyuncs.com',
+  bucket: 'catfly-xxx',
+  mode: 'private',
 })
-转化为数据模型
-  var blog = mongoose.model('Blog', blogSchema);
+var config = {
+  ...,
+  nfs:nfs,
+  ...
+}
 ```
 
-增删改查,对模型进行操作
+重启项目，这个时候再发布或者同步资源的时候，服务器本地目录不会有新发布或同步的包了，在 oss 对应的 bucket 里面能找到刚刚发布或者同步的资源。
 
-```mongo
-blog.insertMany()
-blog.remove()
-blog.update()
-blog.find({ name: 'john', age: { $gte: 18 }});
+## Node版本管理工具
+
+### n
+
+
+
+### fnm
+
+fnm是居于rust的node版本管理工具
+
+https://github.com/Schniz/fnm
+
+
+
+### nvm
+
+## 常用方法
+
+### sleep函数
+
+阻塞主线程，
+
+```javascript
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(() => resolve(), ms));
+}
+
+await sleep(5000);
+
+function sleep(ms) {
+	var start = Date.now()
+  expire = start + ms;
+  while (Date.now() < expire){
+    return;
+  }
+}
 ```
 
 
 
-### Redis
+## 修改Node_modules源码
 
-安装node驱动包
+如果使用的`npm`包有bug，或者`npm`包只要再修改一点点就能满足自己的需求这样尴尬的情况。如果给包作者提需求，作者一般也不会马上给你修改，这时候就需要使用各种修改npm包源码的骚操作了
 
-```node
-npm install redis
+使用patch-package
+
+`patch-package`是一个用来给其他`npm`包打补丁的包，实际原理也是在本工程保存一份修改的代码，只不过不是用全量代码的形式保存，而是保存了`git diff`的结果，节省了代码体积
+
+安装
+
+```shell
+npm i -S patch-package
 ```
 
-Redis支持多种数据类型，有键值对、哈希表、链表、集合等
+在node_modules下修改需要修改的包源码。修改时引用的是build/dist/源文件，确保修改生效
 
-在node中创建redis客户端，运行redis,
+执行`npx patch-package 包名`, `patch-package`会将当前`node_modules`下的源码与原始源码进行`git diff`，并在项目根目录下生成一个patch补丁文件
 
-```js
-var redis = require('redis')
+后续只要执行`npx patch-package`命令，就会把项目patches目录下的补丁应用到node_modules的对应包中，这个执行时机一般可以设置为`postinstall`这个勾子
 
-var client = redis.createClient(6379,'127.0.0.1')
-client.on('error',function(err){
-    console.log('Error'+error)
-})；
+```json
+"scripts": {
+    "postinstall": "patch-package"
+}
 ```
 
-创建键值对
+单文件修改
 
-```js
-client.set('color','red',redis.print)
-client.get('color',function(err,value){
-    if(err)throw err;
-    console.log('Got:'+value)
-    client.quit();
+原理是先找到要修改的`npm`包的文件，先把这个文件拷贝一份到项目目录下，修改，然后只要想办法让这个文件最终被使用就行了
+
+还是用`postinstall`这个勾子，在这个勾子执行`cp 修改过的文件 ./node_modules/包名/原始文件`拷贝过去，最终`node_modules`下的文件就变成了修改后的文件了
+ 例如：
+ 想修改`lodash`中的array方法，`array-hack.js`是被修改后的js文件，现在想用这个文件替换原始文件，只需在`package.json`加入
+
+```json
+"scripts": {
+    "postinstall": "cp ./array-hack.js ./node_modules/lodash/array.js"
+}
+```
+
+
+
+## Node运行原理
+
+### 运行原理
+
+Node.js 被分为了四层，分别是 `应用层`、`V8引擎层`、`Node API层` 和 `LIBUV层`。
+
+应用层： 即 JavaScript 交互层，常见的就是 Node.js 的模块，比如 http，fs
+
+V8引擎层： 即利用 V8 引擎来解析JavaScript 语法，进而和下层 API 交互
+
+NodeAPI层： 为上层模块提供系统调用，一般是由 C 语言来实现，和操作系统进行交互 。
+
+LIBUV层： 是跨平台的底层封装，实现了 事件循环、文件操作等，是 Node.js 实现异步的核心
+
+### 事件循环
+
+node事件循环与浏览器循环是不同的
+
+当Node.js启动时会初始化`event loop`, 每一个`event loop`都会包含按如下顺序六个循环阶段：
+
+1.**`timers` 阶段**: 这个阶段执行 `setTimeout(callback)` 和 `setInterval(callback)` 预定的 callback, timer指定一个下限时间而不是准确时间，在达到这个下限时间后执行回调。在指定时间过后，timers会尽可能早地执行回调，但系统调度或者其它回调的执行可能会延迟它们。
+
+2.**`I/O callbacks` 阶段**: 此阶段执行某些系统操作的回调，例如TCP错误的类型。 例如，如果TCP套接字在尝试连接时收到 ECONNREFUSED，则某些* nix系统希望等待报告错误。 这将操作将等待在==I/O回调阶段==执行;
+
+3.**`idle, prepare` 阶段**: 仅node内部使用;
+
+4.**`poll` 阶段**: 
+
+获取新的I/O事件, 例如操作读取文件等等，适当的条件下node将阻塞在这里;
+
+如果 poll 队列不空，event loop会遍历队列并同步执行回调，直到队列清空或执行的回调数到达系统上限；
+
+如果 poll 队列为空，则发生以下两件事之一：
+
+如果代码已经被setImmediate()设定了回调, event loop将结束 poll 阶段进入 check 阶段来执行 check 队列（里面的回调 callback）。
+
+如果代码没有被setImmediate()设定回调，event loop将阻塞在该阶段等待回调被加入 poll 队列，并立即执行。setImmediate() 实际上是一个特殊的timer，跑在event loop中一个独立的阶段。它使用`libuv`的API 来设定在 poll 阶段结束后立即执行回调。
+
+5.**`check` 阶段**: 执行 `setImmediate()` 设定的callbacks，check阶段在poll阶段之后;
+
+6.**`close callbacks` 阶段**: 比如 `socket.on(‘close’, callback)` 的callback会在这个阶段执行;如果一个 socket 或 handle 被突然关掉，close事件将在这个阶段被触发，否则将通过process.nextTick()触发
+
+日常开发的绝大部分异步任务都在timers、poll、check这3个阶段处理的
+
+### Node事件循环与浏览器事件循环的区别
+
+在浏览器环境中，microtask任务队列是每个macrotask执行完之后执行，而在Nodejs中microtask在事件循环的各个阶段之间执行
+
+
+
+### setimmediate与settimeout与next tick
+
+两者非常相似，区别在于调用时机不同：
+
+setimmediate设计在poll阶段完成时执行，即check阶段；
+
+setTimeout设计在poll阶段为空闲时，且设定事件达到后执行，但它在timer阶段执行
+
+但当二者在异步i/o callback内部调用时，总是先执行setimmediate，再执行setTimeout
+
+```javascript
+setTimeout(function(){
+  console.log('timeout')
+},0);
+
+setImmediate(function() {
+  console.log('immediate')
 })
+//setTimeout可能先执行也可能后执行
+const fs = require('fs')
+
+fs.readFile(_filename,()=>{
+  setTimeout(function(){
+    console.log('timeout')
+  },0);
+
+	setImmediate(function() {
+    console.log('immediate')
+  })
+})
+//setImmediate总是先于setTimeout
 ```
 
-redis除了键值对，还有散列（哈希）、列表（list）、集合（set)、有序集合（zset）等数据类型，并有对的处理函数
+### process.nextTick
 
-```js
-//对键（key）的操作
-del('key') //删除key
-exists('key') //查询key
-expire/pexpire('key',seconds/milliseconds) //设置key的过期秒数/毫秒数
-persist('key')//移除key的过期时间
-flushdb//清空当前数据库
-
-//对键值对的操作
-set('key','value')//设置键的值
-get('key')//获取键对应的值
-del('key')//删除键对应的值
-增加键对应的值
-incrby('key',increment)
-减去键对应的值
-der('key',increment)
-
-//对列表（队列）的操作
-lrange('key',0,-1)//获取列表内指定范围的值
-lindex('key',1)//获取列表在指定位置的值
-lpop('key')//在列表左边弹出一个值，并返回
-rpop('key')//在列表右边弹出一个值，并返回
-rpush('key','value')//在列表右边推入指定值
-rtrim('key','start','end')//将列表的内容在指定范围裁剪
-
-//对有序集合(zset)的操作
-zadd('zset-key',score,key)//添加元素到集合
-zrange  //获取集合中指定位置的元素
-zrangebyscore  //获取集合中指定范围的元素
-zcard('key')  //获取一个有序集合中成员数量
-zrem //移除有序集合中的成员
-
-//对集合的操作
-smembers('key')//返回集合中包含的所有元素
-scad('key')//返回集合中元素的数量
-sismenber('key','value')//检查元素是否存在于集合中
-smove('source-key','dest-key','item')//一个集合迁移到另一个集合
-srem('key','value')//移除集合中指定元素
-spop('key')//随机删除集合元素，并返回值
-sdiff('key','key2')//返回存在于第一个集合，但不存在于其他集合的元素（差集）
-sdiffstore('dest-key','key','key2')//将存在于第一个集合，但不存在于其他集合的元素存储到指定键
-sinter('key','key2')//返回不同集合的交集部分
-sinterstore('dest-key','key','key2')//将不同集合的交集部分存储到指定键
-sunion('key','key2')//返回不同集合的并集
-sunionstore('dest-key','key','key2')////将不同集合的并集存储到指定键
-
-//对哈希散列的操作
-
-```
-
+这个函数是独立于Event Loop之外的，有自己的队列，当每个阶段完成时，如果存在nextTick队列就清空队列中的所有回调函数，并且优先于其他microtask执行

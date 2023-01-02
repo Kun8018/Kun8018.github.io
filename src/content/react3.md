@@ -53,6 +53,22 @@ const MemoFuncComponent = React.memo(Funcomponent)
 
 React.memo返回英国纯组件MemoFuncComponent，jsx中将标记次组件，每当组件的props和state发生变化时，react会检查上一个props和state与下一个pros和state是否相等，不相等重新渲染，相等则不会重新渲染
 
+React.memo可以传递第二个参数，自定义比较函数，返回false时更新
+
+```react
+function MyComponent(props) {
+  /* render using props */
+}
+function areEqual(prevProps, nextProps) {
+  /*
+  return true if passing nextProps to render would return
+  the same result as passing prevProps to render,
+  otherwise return false
+  */
+}
+export default React.memo(MyComponent, areEqual);
+```
+
 类组件中即成purecomponent实现
 
 ```react
@@ -98,7 +114,7 @@ Class component 劣势
 2. 在生命周期函数中混杂不相干的逻辑（如：在 componentDidMount 中注册事件以及其他的逻辑，在 componentWillUnmount 中卸载事件，这样分散不集中的写法，很容易写出 bug ） 类组件中到处都是对状态的访问和处理，导致组件难以拆分成更小的组件
 3. this 指向问题：父组件给子组件传递函数时，必须绑定 this
 
-Hook不能在class中使用，只能在函数组件中，为函数组件勾入react state及生命周期等函数
+Hooks不能在class中使用，只能在函数组件中，为函数组件勾入react state及生命周期等函数
 
 react内置的hook有以下
 
@@ -297,8 +313,6 @@ setLists([...arr]);
 
 setState会自动合并，不同的useState不会
 
-
-
 #### forceupdate
 
 ```react
@@ -334,15 +348,13 @@ const FC = (initContent) => {
 
 对于class中的生命周期函数，为了能在函数组件中使用类似功能，使用useEffect方法，它相当于componentDidMount、componentDidupdate、componentWillUnmount三个函数的组合
 
-```jsx
-
-```
-
 useEffect默认情况下会在第一次渲染之后和每次更新之后都会执行。
 
 useEffect在全部渲染完毕后才会执行，而useLayoutEffect会在浏览器layout之后，painting之前执行
 
 为了用户体验，一般先使用useEffect
+
+useLayoutEffect与原componentDidMount和componentDidUpdate相同，会堵塞渲染，useEffect不会。
 
 使用步骤：
 
@@ -376,7 +388,7 @@ ReactDOM.render(
 
 为防止内存泄漏，清除函数会在组件卸载前执行。另外，如果组件多次渲染（通常如此），则**在执行下一个 effect 之前，上一个 effect 就已被清除**。
 
-需要注意的是，如果包括多个副作用，应该调用多个useEffect，而不能够合并在一起。
+需要注意的是，**如果包括多个副作用，应该调用多个useEffect，而不能够合并在一起。**
 
 ```react
 //错误
@@ -405,13 +417,49 @@ useEffect(()=>{
 
 
 
-useEffect与useLayoutEffect区别：
+`useLayoutEffect` 和 `useEffect` 的相同点是：
 
-`useEffect` 是异步执行的，而`useLayoutEffect`是同步执行的。
+- 函数签名是一样的；
+- clean up 机制是一样的；
+- 提交 DOM mutation 次数是一样的。
 
-`useEffect` 的执行时机是浏览器完成渲染之后，而 `useLayoutEffect` 的执行时机是浏览器把内容真正渲染到界面之前，和 `componentDidMount` 等价。
+区别：
 
-最好把操作 dom 、动画的相关操作放到 `useLayouteEffect` 中去，避免导致闪烁。
+1.`useEffect` 是异步执行的，而`useLayoutEffect`是同步执行的。`useLayoutEffect`会阻塞paint流程，而`useEffect`不会阻塞paint流程。`useLayoutEffect` callback 里面的「状态更新是批量」， 而 `useLayEffect` callback 里面的「状态更新是非批量的」（也就是说，会分配到不同的渲染帧里面）。
+
+如果`useLayoutEffect`的callback函数里面对状态请求了多次更新，那么这些更新请求会合并成一个 paint 请求，浏览器更新一次 UI 界面；同样的情况如果发生在`useEffect`的callback函数里面，那么更新请求不会被合并，有多少次状态更新请求，就会有多少次 paint 请求， 浏览
+
+2.`useEffect` 的执行时机是浏览器完成渲染之后，而 `useLayoutEffect` 的执行时机是浏览器把内容真正渲染到界面之前，和 `componentDidMount` 等价。也就是，**`useLayoutEffect` 比 `useEffect` 先执行**
+
+也就是说，对于 `useEffect` 来说，执行的时机是完成所有的 DOM 变更并让浏览器渲染页面后，而 `useLayoutEffect` 和 class 组件中 `componentDidMount`, `componentDidUpdate`一致——在 React 完成 DOM 更新后马上同步调用，会阻塞页面渲染。
+
+最好把操作 dom 、动画的相关操作放到 `useLayouteEffect` 中去，避免导致闪烁
+
+比如把useState分别放在useEffect和useLayoutEffect的if语句中，useEffect会闪烁，useLayoutEffect不会
+
+```react
+import React, { useState, useLayoutEffect, useEffect } from "react";
+import ReactDOM from "react-dom";
+import "./styles.css";
+
+const BlinkyRender = () => {
+  const [value, setValue] = useState(0);
+
+  useEffect(() => {
+    if (value === 0) {
+      setValue(10 + Math.random() * 200);
+    }
+  }, [value]);
+
+  console.log("render", value);
+
+  return <div onClick={() => setValue(0)}>value: {value}</div>;
+};
+
+ReactDOM.render(<BlinkyRender />, document.querySelector("#root"));
+```
+
+
 
 ### useReducer
 
@@ -825,11 +873,13 @@ const getData = useRefCallback(() => {
 
 
 
-### useRef、forwardref与useImperativeHandle
+### useRef
 
 useRef
 
 主要作用是创建一个数据的引用，并让这个数据在 render 过程中始终**保持不变**。修改ref对象不会像修改state那样触发重绘。
+
+**Refs为我们提供了一种绕过状态更新和重新渲染访问元素的方法（获取某个元素的实例），但不能作为props 和 state 的替代方法**
 
 基本语法： `const count = useRef(0)`，读取用 `count.current`
 
@@ -870,6 +920,127 @@ useRef使用时报错不能将类型“MutableRefObject<HTMLDivElement | undefin
  1.没赋初值
 
 2. useRef里面没写对类型
+
+#### useRef与createRef的区别
+
+```react
+import React, { useRef, createRef, useState } from "react";
+import ReactDOM from "react-dom";
+
+function App() {
+  const [renderIndex, setRenderIndex] = useState(1);
+
+  const refFromUseRef = useRef();
+  const refFromCreateRef = createRef();
+
+  if (!refFromUseRef.current) {
+    // 赋值操作,赋值给useRef
+    refFromUseRef.current = renderIndex;
+  }
+  if (!refFromCreateRef.current) {
+    // 赋值操作，赋值给createRef
+    refFromCreateRef.current = renderIndex;
+  }
+  return (
+    <div className="App">
+      Current render index: {renderIndex}
+      <br />
+      在refFromUseRef.current中记住的第一个渲染索引：
+      {refFromUseRef.current}
+      <br />
+      在refFromCreateRef.current中未能成功记住第一个渲染索引：
+      {refFromCreateRef.current}
+      <br />
+      <button onClick={() => setRenderIndex(prev => prev + 1)}>
+        数值 + 1
+      </button>
+    </div>
+  );
+}
+
+const rootElement = document.getElementById("root");
+ReactDOM.render(<App />, rootElement);
+```
+
+上面的案例中无论如何点击按钮 `refFromUseRef.current` 将始终为 `1`，而 `renderIndex` 和 `refFromCreateRef.current` 会伴随点击事件改变
+
+当 ref 对象内容发生变化时，useRef 并不会通知你。变更 `.current` 属性不会引发组件重新渲染。如果想要在 React 绑定或解绑 DOM 节点的 ref 时运行某些代码，则需要使用 `callback ref` 来实现
+
+#### ref的使用场景
+
+- 管理焦点，文本选择或处理表单数据
+
+因为非受控组件将真实数据储存在 DOM 节点中，所以再使用非受控组件时，有时候反而更容易同时集成 React 和非 React 代码。如果你不介意代码美观性，并且希望快速编写代码，使用非受控组件往往可以减少你的代码量。否则，你应该使用受控组件 
+
+- 媒体播放。
+
+基于 React 的音乐或视频播放器可以利用 Refs 来管理其当前状态（播放/暂停），或管理播放进度等。这些更新不需要进行状态管理。
+
+- 触发强制动画。
+
+如果要在元素上触发过强制动画时，可以使用 Refs 来执行此操作。
+
+- 集成第三方 DOM 库。
+
+默认情况下，**你不能在函数组件上使用 `ref` 属性**，因为它们没有实例
+
+如果要在函数组件中使用 `ref`，你可以使用 [`forwardRef`](https://zh-hans.reactjs.org/docs/forwarding-refs.html)（可与 [`useImperativeHandle`](https://zh-hans.reactjs.org/docs/hooks-reference.html#useimperativehandle) 结合使用），或者可以将该组件转化为 class 组件。
+
+你可以**在函数组件内部使用 `ref` 属性**，只要它指向一个 DOM 元素或 class 组件
+
+#### 回调ref
+
+React 也支持另一种设置 refs 的方式，称为“回调 refs”。它能助你更精细地控制何时 refs 被设置和解除。
+
+不同于传递 `createRef()` 创建的 `ref` 属性，你会传递一个函数。这个函数中接受 React 组件实例或 HTML DOM 元素作为参数，以使它们能在其他地方被存储和访问。
+
+```react
+class CustomTextInput extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.textInput = null;
+
+    this.setTextInputRef = element => {
+      this.textInput = element;
+    };
+
+    this.focusTextInput = () => {
+      // 使用原生 DOM API 使 text 输入框获得焦点
+      if (this.textInput) this.textInput.focus();
+    };
+  }
+
+  componentDidMount() {
+    // 组件挂载后，让文本框自动获得焦点
+    this.focusTextInput();
+  }
+
+  render() {
+    // 使用 `ref` 的回调函数将 text 输入框 DOM 节点的引用存储到 React
+    // 实例上（比如 this.textInput）
+    return (
+      <div>
+        <input
+          type="text"
+          ref={this.setTextInputRef}
+        />
+        <input
+          type="button"
+          value="Focus the text input"
+          onClick={this.focusTextInput}
+        />
+      </div>
+    );
+  }
+}
+```
+
+React 将在组件挂载时，会调用 `ref` 回调函数并传入 DOM 元素，当卸载时调用它并传入 `null`。在 `componentDidMount` 或 `componentDidUpdate` 触发前，React 会保证 refs 一定是最新的
+
+
+
+### useImperativeHandle与forwardref
 
 useImperativeHandle
 
@@ -954,50 +1125,7 @@ const Setting = React.forwardRef<
 
 
 
-#### useRef与createRef的区别
 
-```react
-import React, { useRef, createRef, useState } from "react";
-import ReactDOM from "react-dom";
-
-function App() {
-  const [renderIndex, setRenderIndex] = useState(1);
-
-  const refFromUseRef = useRef();
-  const refFromCreateRef = createRef();
-
-  if (!refFromUseRef.current) {
-    // 赋值操作,赋值给useRef
-    refFromUseRef.current = renderIndex;
-  }
-  if (!refFromCreateRef.current) {
-    // 赋值操作，赋值给createRef
-    refFromCreateRef.current = renderIndex;
-  }
-  return (
-    <div className="App">
-      Current render index: {renderIndex}
-      <br />
-      在refFromUseRef.current中记住的第一个渲染索引：
-      {refFromUseRef.current}
-      <br />
-      在refFromCreateRef.current中未能成功记住第一个渲染索引：
-      {refFromCreateRef.current}
-      <br />
-      <button onClick={() => setRenderIndex(prev => prev + 1)}>
-        数值 + 1
-      </button>
-    </div>
-  );
-}
-
-const rootElement = document.getElementById("root");
-ReactDOM.render(<App />, rootElement);
-```
-
-上面的案例中无论如何点击按钮 `refFromUseRef.current` 将始终为 `1`，而 `renderIndex` 和 `refFromCreateRef.current` 会伴随点击事件改变
-
-当 ref 对象内容发生变化时，useRef 并不会通知你。变更 `.current` 属性不会引发组件重新渲染。如果想要在 React 绑定或解绑 DOM 节点的 ref 时运行某些代码，则需要使用 `callback ref` 来实现
 
 ### useDebugValue
 
@@ -1129,3 +1257,134 @@ export default function HookDemo() {
 
 
 
+#### 自定义hooks的注意事项
+
+- 定义 Hook 是一个函数，其名称以 “use” 开头，函数内部可以调用其他的 Hook。
+- 只在最顶层使用 Hook
+- 不要在循环，条件或嵌套函数中调用 Hook
+- 只在 React 函数中调用 Hook，不要在普通的 JavaScript 函数中调用 Hook
+
+注意性能优化
+
+
+
+### 最佳实践
+
+#### 惰性初始值
+
+`someExpensiveComputation` 是一个相对耗时的操作。如果我们直接采用
+
+```javascript
+const initialState = someExpensiveComputation(props);
+const [state, setState] = useState(initialState);
+```
+
+注意，虽然 `initialState` 只在初始化时有其存在的价值，但是 `someExpensiveComputation` 在每一帧都被调用了。只有当使用惰性初始化的方法
+
+```react
+const [state, setState] = useState(() => {
+    const initialState = someExpensiveComputation(props);
+    return initialState;
+});
+```
+
+因 `someExpensiveComputation` 运行在一个匿名函数下，该函数当且仅当初始化时被调用，从而优化性能。
+
+
+
+#### useMemo/useCallback
+
+useMemo 的目的其实是尽量使用缓存的值。
+
+对于函数，其作为另外一个 useEffect 的 deps 时，减少函数的重新生成，就能减少该 Effect 的调用，甚至避免一些死循环的产生;
+
+对于对象和数组，如果某个子组件使用了它作为 props，减少它的重新生成，就能避免子组件不必要的重复渲染，提升性能。
+
+```react
+// 未优化代码
+const data = { id };
+
+return <Child data={data}>;
+
+// 优化代码
+const data = useMemo(() => ({ id }), [id]);
+
+return <Child data={data}>;
+```
+
+未优化之前，每当父组件需要 render 时，子组件也会执行 render。如果使用 `useMemo` 对 data 进行优化：
+
+当父组件 render 时，只要满足 id 不变，data 的值也不会发生变化，子组件也将避免 render。
+
+对于组件返回的 React Elements，我们可以选择性地提取其中一部分 elements，通过 useMemo 进行缓存，也能避免这一部分的重复渲染。
+
+但同时，也要避免滥用useMemos
+
+使用 useMemo 当 deps 不变时，直接返回上一次计算的结果，从而使子组件跳过渲染。
+
+但是当返回的是原始数据类型（如字符串、数字、布尔值）。即使参与了计算，只要 deps 依赖的内容不变，返回结果也很可能是不变的。此时就需要权衡这个计算的时间成本和 useMemo 额外带来的空间成本（缓存上一次的结果）了。
+
+此外，如果 useMemo 的 deps 依赖数组为空，这样做说明你只是希望存储一个值，这个值在重新 render 时永远不会变。此时用useMemo不是最佳选择
+
+```react
+// 未优化代码
+const Comp = () => {
+    const data = useMemo(() => ({ type: 'xxx' }), []);
+    return <Child data={data}>;
+}
+    
+// 优化1
+const Comp = () => {
+    const { current: data } = useRef({ type: 'xxx' });
+    return <Child data={data}>;
+}
+        
+// 优化2
+const data = { type: 'xxx' };
+const Comp = () => {
+    return <Child data={data}>;
+}
+```
+
+此外，如果 deps 频繁变动，我们也要思考，使用 useMemo 是否有必要。因为 useMemo 占用了额外的空间，还需要在每次 render 时检查 deps 是否变动，反而比不使用 useMemo 开销更大。
+
+一个函数执行完毕之后，就会从函数调用栈中被弹出，里面的内存也会被回收。因此，即使在函数内部创建了多个函数，执行完毕之后，这些创建的函数也都会被释放掉。**函数式组件的性能是非常快的**。相比class，函数更轻量，也避免了使用高阶组件、renderProps等会造成额外层级的技术。使用合理的情况下，性能几乎不会有什么问题。
+
+而当我们使用`useMemo/useCallback`时，由于新增了对于闭包的使用，新增了对于依赖项的比较逻辑，因此，盲目使用它们，甚至可能会让你的组件变得更慢。
+
+大多数情况下，这样的交换，并不划算，或者赚得不多。你的组件可能并不需要使用useMemo/useCallback来优化。
+
+**记忆函数并非完全没有代价，我们需要创建闭包，占用更多的内存，用以解决计算上的冗余**。
+
+**通常情况下，当函数体或者结果的计算过程非常复杂时，我们才会考虑优先使用useCallback/useMemo。**
+
+
+
+#### 受控与非受控
+
+如果组件中有派生state，可以像这样
+
+```react
+useSomething = (inputCount) => {
+    const [ count, setCount ] = setState(inputCount);
+};
+```
+
+外部传入的 `inputCount` 属性发生了变化时，默认不会更新，因为 useState 参数代表的是初始值，仅在 `useSomething` 初始时赋值给了 `count` state。后续 `count` 的状态将与 `inputCount` 无关。这种外部无法直接控制 state 的方式，我们称为非受控。
+
+如果想被外部传入的 props 始终控制，比如在这个例子中，`useSomething` 内部，`count` 这一 state 的值需要从 `inputCount` 进行同步，
+
+```react
+useSomething = (inputCount) => {
+    const [ count, setCount ] = setState(inputCount);
+    setCount(inputCount);
+};
+```
+
+`setCount`后，React 会立即退出当前的 render 并用更新后的 state 重新运行 render 函数。
+
+在这种的机制下，state 由外界同步的同时，内部又有可能通过 setState 来修改 state，可能引发新的问题。例如 `useSomething` 初始时，count 为 0，后续内部通过 `setCount` 修改了 `count` 为 1。当外部函数组件的 render 函数重新调用，也会再一次调用 `useSomething`，此时传入的 `inputCount` 依然是 0，就会把 `count` 变回 0
+
+遇到这样的问题，建议将 inputCount 的当前值与上一次的值进行比较，只有确定发生变化时执行 setCount(inputCount) 。
+
+https://zhuanlan.zhihu.com/p/142735113

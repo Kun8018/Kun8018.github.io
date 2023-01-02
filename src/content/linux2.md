@@ -84,6 +84,48 @@ server {
 }
 ```
 
+#### root与alias
+
+nginx指定文件路径有两种方式root和alias，指令的使用方法和作用域
+
+[root]
+
+语法：root path
+
+默认值：root html
+
+配置段：http、server、location、if
+
+[alias]
+
+语法：alias path
+
+配置段：location
+
+root的处理结果是：root路径 ＋ location路径
+
+alias的处理结果是：使用alias路径替换location路径
+
+alias是一个目录别名的定义，root则是最上层目录的定义。
+
+还有一个重要的区别是alias后面必须要用“/”结束，否则会找不到文件的，而root则可有可无。
+
+比如访问的URI都是/t/a.html时，
+
+root会返回/www/root/html/t/a.html的文件
+
+alias会返回/www/root/html/new_t/a.html的文件
+
+```nginx
+location ^~ /t/ {
+	root /www/root/html/;
+}
+
+location ^~ /t/ {
+	alias /www/root/html/new_t/;
+}
+```
+
 
 
 ### 反向代理
@@ -226,8 +268,6 @@ server {
 ## Cache-Control: no-cache;
 ```
 
-
-
 设置缓存
 
 ```nginx
@@ -237,8 +277,6 @@ server {
 }
 ## Cache-Control: max-age=315360000
 ```
-
-
 
 根据路径设置不同的缓存策略
 
@@ -257,8 +295,6 @@ server {
   expires $expires_time;
 }
 ```
-
-
 
 
 
@@ -412,8 +448,6 @@ vrrp_instance VI_1 {
 ```shell
 systemctl start keepalived.service
 ```
-
-
 
 
 

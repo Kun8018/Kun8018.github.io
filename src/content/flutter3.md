@@ -647,3 +647,19 @@ MaterialApp(
             },
     )
 ```
+
+## 状态管理
+
+### bloc
+
+https://github.com/felangel/bloc
+
+
+
+### Rx-dart
+
+bloc是一个典型的观察者模式，我们以counter bloc举例，在A,B页面都存在观察者，它们监听的是同一个广播流，当我们pop B页面，回到A页面这个操作不会出现任何问题，而当我们再次进入B页面的时候却发现，它显示了初始值0，而不是我们想要的value，只有等我们再次按下按钮时，它才能刷新获得实际的value。
+
+ReactiveX的dart 实现——**RxDart**，它极大的扩展了Stream的功能,能够让我们在使用bloc的时候更加游刃有余。
+
+https://juejin.cn/post/6844903700733886471

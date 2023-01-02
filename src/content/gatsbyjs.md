@@ -348,9 +348,87 @@ gatsby-ssr的钩子：
 
 onPreRenderHTML、onRenderBody、replaceRenderer
 
+## 迁移到Typescript
 
+安装typescript
 
+```shell
+yarn add -D typescript
+```
 
+添加配置文件tsconfig.json
+
+```json
+// https://www.typescriptlang.org/v2/docs/handbook/tsconfig-json.html
+{
+  "compilerOptions": {
+    "target": "esnext", // 编译生成的目标 es 版本,可以根据需要设置
+    "module": "esnext", // 编译生成的目标模块系统
+    "lib": ["dom", "es2015", "es2017"], // 配置需要包含的运行环境的类型定义
+    "jsx": "react", // 配置 .tsx 文件的输出模式
+    "strict": true, // 开启严格模式
+    "esModuleInterop": true, // 兼容 CommonJS 和 ES Module
+    "moduleResolution": "node", // 配置模块的解析规则,支持 node 模块解析规则
+    "noUnusedLocals": true, // 报告未使用的局部变量的错误
+    "noUnusedParameters": true, // 报告有关函数中未使用参数的错误
+    "experimentalDecorators": true, // 启用装饰器
+    "emitDecoratorMetadata": true, // 支持装饰器上生成元数据,用来进行反射之类的操作
+    "noEmit": true, // 不输出 js,源映射或声明之类的文件,单纯用来检查错误
+    "skipLibCheck": true // 跳过声明文件的类型检查,只会检查已引用的部分
+  },
+  "exclude": ["./node_modules", "./public", "./.cache"], // 解析时,应该跳过的路径
+  "include": ["src"] // 定义包含的路径,定义在其中的声明文件都会被解析进 vscode 的智能提示
+}
+```
+
+将`index.js`改成`index.tsx`,重新启动服务,查看效果.
+
+其实 Gatsby 内置了[支持 TS](https://link.segmentfault.com/?enc=Gbx71URsvDNnVim%2FJKHgnQ%3D%3D.yvfImOuXS%2FHc7UqqlLMk%2B3OWxsZN%2BfScoplkq1EGYUgNW%2FytXyyuBAywfBAM34tx),不用其他配置,只要把`index.js`改成`index.tsx`就可以直接运行.添加 TS 依赖是为了显示管理 TS,而`tsconfig.json`也是这个目的,当我们有需要新的特性以及自定义配置时,可以手动添加
+
+完善GraphQL类型提示
+
+```javascript
+// index.tsx
+import React, { FC } from 'react'
+// ...
+interface PageQuery {
+  data: {
+    allMarkdownRemark: {
+      edges: Array<{
+        node: {
+          frontmatter: {
+            title: string
+          }
+          excerpt: string
+        }
+      }>
+    }
+  }
+}
+
+const Home: FC<PageQuery> = ({ data }) => {
+  // ...
+}
+
+export default Home
+
+export const query = graphql`
+  query HomeQuery {
+    allMarkdownRemark {
+      edges {
+        node {
+          frontmatter {
+            title
+          }
+          excerpt
+        }
+      }
+    }
+  }
+`
+```
+
+https://segmentfault.com/a/1190000022852967
 
 ## 资源
 

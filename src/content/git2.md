@@ -1,5 +1,5 @@
 ---
-title: Git使用技巧
+title: Git使用技巧(二)
 date: 2020-06-18 21:40:33
 categories: 技术博客
 tags:
@@ -936,6 +936,23 @@ stage:
 
 
 https://juejin.cn/post/7073731514386612255
+
+## 代码统计
+
+cloc scc可以统计仓库有多少行代码
+
+```shell
+brew install cloc scc
+```
+
+在项目下运行
+
+```shell
+cloc .
+## scc
+```
+
+
 
 ## Gitbook
 

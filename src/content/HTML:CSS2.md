@@ -24,9 +24,9 @@ thumbnail: http://cdn.kunkunzhang.top/css3.png
 
 **背景图片**
 
-background-img:
+background-img: 指定背景图片
 
-Background-repeat:重复背景图片
+Background-repeat: 重复背景图片
 
 background-size：设定背景图片的尺寸
 
@@ -42,15 +42,175 @@ object-fit：指定可替换元素的内容应该如何适应到其使用的高�
 
 Text-decoration: line-through; 在文本上加横线表示划掉
 
-​								dashed：虚线
+​							  dashed：虚线
 
-​								underline: 下划线
+​							  underline: 下划线
 
-​								wavy： 波浪线
+​							  wavy： 波浪线
 
-​								overline： 上划线
+​							 overline： 上划线
 
+ #### grid布局
 
+网格布局（Grid）是最强大的 CSS 布局方案
+
+Grid 布局与 [Flex 布局](https://www.ruanyifeng.com/blog/2015/07/flex-grammar.html)有一定的相似性，都可以指定容器内部多个项目的位置。但是，它们也存在重大区别
+
+Flex 布局是轴线布局，只能指定"项目"针对轴线的位置，可以看作是**一维布局**。Grid 布局则是将容器划分成"行"和"列"，产生单元格，然后指定"项目所在"的单元格，可以看作是**二维布局**。Grid 布局远比 Flex 布局强大
+
+Grid 布局的属性分成两类。一类定义在容器上面，称为容器属性；另一类定义在项目上面，称为项目属性。
+
+容器属性
+
+`display: grid`指定一个容器采用网格布局。容器元素都是块级元素，
+
+`display: inline-grid`指定一个容器采用网格布局。但也可以设成行内元素
+
+设为网格布局以后，容器子元素（项目）的`float`、`display: inline-block`、`display: table-cell`、`vertical-align`和`column-*`等设置都将失效
+
+`grid-template-columns: 100px 100px 100px;`:`grid-template-columns`属性定义每一列的列宽
+
+`grid-template-rows: 100px 100px 100px;`：`grid-template-rows`属性定义每一行的行高
+
+可以用repeat指定宽高
+
+```css
+.container {
+  display: grid;
+  grid-template-columns: repeat(3, 33.33%);
+  grid-template-rows: repeat(3, 33.33%);
+  
+  // 指定六列
+  grid-template-columns: repeat(2, 100px 20px 80px);
+}
+```
+
+有时，单元格的大小是固定的，但是容器的大小不确定。如果希望每一行（或每一列）容纳尽可能多的单元格，这时可以使用`auto-fill`关键字表示自动填充
+
+```css
+.container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 100px);
+}
+```
+
+为了方便表示比例关系，网格布局提供了`fr`关键字（fraction 的缩写，意为"片段"）。如果两列的宽度分别为`1fr`和`2fr`，就表示后者是前者的两倍
+
+```css
+.container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+```
+
+`minmax()`函数产生一个长度范围，表示长度就在这个范围之中。它接受两个参数，分别为最小值和最大值
+
+```css
+grid-template-columns: 1fr 1fr minmax(100px, 1fr);
+```
+
+`auto`关键字表示由浏览器自己决定长度
+
+```css
+grid-template-columns: 100px auto 100px;
+```
+
+`grid-template-columns`属性和`grid-template-rows`属性里面，还可以使用方括号，指定每一根网格线的名字，方便以后的引用
+
+```css
+.container {
+  display: grid;
+  grid-template-columns: [c1] 100px [c2] 100px [c3] auto [c4];
+  grid-template-rows: [r1] 100px [r2] 100px [r3] auto [r4];
+}
+```
+
+`row-gap`属性设置行与行的间隔（行间距），`column-gap`属性设置列与列的间隔（列间距）
+
+`gap`属性是`column-gap`和`row-gap`的合并简写形式
+
+```css
+.container {
+  gap: 20px 20px;
+}
+```
+
+grid-template-areas 属性
+
+网格布局允许指定"区域"（area），一个区域由单个或多个单元格组成。`grid-template-areas`属性用于定义区域。
+
+```css
+.container {
+  display: grid;
+  grid-template-columns: 100px 100px 100px;
+  grid-template-rows: 100px 100px 100px;
+  grid-template-areas: 'a b c'
+                       'd e f'
+                       'g h i';
+}
+```
+
+多个单元格合并成一个区域的写法如下
+
+```css
+grid-template-areas: 'a a a'
+                     'b b b'
+                     'c c c';
+grid-template-areas: "header header header"
+                     "main main sidebar"
+                     "footer footer footer";
+```
+
+如果某些区域不需要利用，则使用"点"（`.`）表示
+
+```css
+grid-template-areas: 'a . c'
+                     'd . f'
+                     'g . i';
+```
+
+中间一列为点，表示没有用到该单元格，或者该单元格不属于任何区域
+
+划分网格以后，容器的子元素会按照顺序，自动放置在每一个网格。默认的放置顺序是"先行后列"，即先填满第一行，再开始放入第二行
+
+grid-auto-flow: row | column ｜ row dense ｜ column dense 决定填满的顺序。row是先行后列，column是先列后行。后面加dense表示"先行后列"，并且尽可能紧密填满，尽量不出现空格
+
+`justify-items`属性设置单元格内容的水平位置（左中右）
+
+`align-items`属性设置单元格内容的垂直位置（上中下）。
+
+`place-items`属性是`align-items`属性和`justify-items`属性的合并简写形式
+
+`justify-content`属性是整个内容区域在容器里面的水平位置（左中右）
+
+`align-content`属性是整个内容区域的垂直位置（上中下）
+
+`place-content`属性是`align-content`属性和`justify-content`属性的合并简写形式。
+
+`grid-auto-columns`属性和`grid-auto-rows`属性用来设置，浏览器自动创建的多余网格的列宽和行高。它们的写法与`grid-template-columns`和`grid-template-rows`完全相同。如果不指定这两个属性，浏览器完全根据单元格内容的大小，决定新增网格的列宽和行高
+
+`grid-template`属性是`grid-template-columns`、`grid-template-rows`和`grid-template-areas`这三个属性的合并简写形式。
+
+`grid`属性是`grid-template-rows`、`grid-template-columns`、`grid-template-areas`、 `grid-auto-rows`、`grid-auto-columns`、`grid-auto-flow`这六个属性的合并简写形式
+
+容器中子项上的属性
+
+- `grid-column-start`属性：左边框所在的垂直网格线
+- `grid-column-end`属性：右边框所在的垂直网格线
+- `grid-row-start`属性：上边框所在的水平网格线
+- `grid-row-end`属性：下边框所在的水平网格线
+
+没有指定位置，由浏览器自动布局，这时它们的位置由容器的`grid-auto-flow`属性决定，这个属性的默认值是`row`，因此会"先行后列"进行排列。读者可以把这个属性的值分别改成`column`、`row dense`和`column dense`，看看其他项目的位置发生了怎样的变化
+
+`grid-column`属性是`grid-column-start`和`grid-column-end`的合并简写形式，`grid-row`属性是`grid-row-start`属性和`grid-row-end`的合并简写形式
+
+`grid-area`属性指定项目放在哪一个区域
+
+`justify-self`属性设置单元格内容的水平位置（左中右），跟`justify-items`属性的用法完全一致，但只作用于单个项目。
+
+`align-self`属性设置单元格内容的垂直位置（上中下），跟`align-items`属性的用法完全一致，也是只作用于单个项目
+
+`place-self`属性是`align-self`属性和`justify-self`属性的合并简写形式
 
 #### flex布局高度
 
@@ -58,11 +218,11 @@ Text-decoration: line-through; 在文本上加横线表示划掉
 
 **横向滚动**
 
-white-space: nowrap;//不分行
+white-space: nowrap;  //不分行
 
-Overflow-x: scroll//开启横向滚动
+overflow-x: scroll  //开启横向滚动
 
-Overflow-y:hidden//纵向滚动关闭
+overflow-y:hidden  //纵向滚动关闭
 
 filter: grayscale(100%);//适用于一键变灰等功能
 
@@ -76,9 +236,9 @@ filter: grayscale(100%);//适用于一键变灰等功能
 
 ​               Inline-block:行内块元素
 
-​              flex：
+​               flex：弹性布局
 
-​               Table-cell:会作为一个表格单元格显示
+​               table-cell:会作为一个表格单元格显示
 
 其中**flex**是未来布局的首选方案，意为弹性布局，灵活性较大，任何一个容器都可以指定为flex布局。定义为flex之后可以添加其他附带6个属性在该容器上
 
@@ -109,9 +269,11 @@ flex一般是0或1.
 
 默认是内联元素的例子：<span>、<a>、<input>、<img>、
 
-**curser**:css设置光标的类型，在鼠标悬停在元素上时显示相应的样式
+**curser**: css设置光标的类型，在鼠标悬停在元素上时显示相应的样式
 
-​              default：默认指针，通常是箭头。crosshair：十字交叉指针光标   help：带问号的箭头。pointer：手型
+​              default：默认指针，通常是箭头。crosshair：十字交叉指针光标   help：带问号的箭头。、
+
+​			pointer：手型
 
 ​              progress：指针旁带沙漏   wait：没有指针的沙漏  Text:文本      vertical-text：垂直文本    
 
@@ -128,6 +290,17 @@ flex一般是0或1.
 ​              zoom-in：放大显示      zoom-out：缩小显示
 
 **opacity**：不透明度
+
+outline：轮廓
+
+[border](https://developer.mozilla.org/zh-CN/docs/Web/CSS/border) 和 outline 很类似，但有如下区别：
+
+- outline 不占据空间，绘制于元素内容周围。
+- 根据规范，outline 通常是矩形，但也可以是非矩形的
+
+outline: thick double #32a1ce;
+
+outline是三个样式的简写属性：outline-style、outline-width、outline-color
 
 **表格元素**
 
@@ -172,6 +345,18 @@ text-shadow的参数：当阴影大于一个时要用逗号区别开阴影之间
 每个阴影都有两到三个`<length>`参数 ， 以及一个与阴影颜色相关的`<color>`参数 。 前两个`<length>`参数，是以“文字中心”为原点的坐标轴，分别为x轴 `<offset-x>` 和y轴 `<offset-y>` 的值； 如果有第三个`<length>`参数，则第三个数值为形成阴影效果的半径的数值 `<blur-radius>` 
 
 当所给的阴影大于一个时，阴影应用的顺序为从前到后, 第一个指定的阴影在顶部.
+
+Text-rendering: auto | optimizeSpeed | optimizeLegibility | geometricPrecision | inherit
+
+svg属性
+
+auto: 当绘制文本时，浏览器会进行智能识别，何时应该从速度、清晰度和几何精度方 面进行优化
+
+optimizeSpeed：
+当绘制文本时，浏览器会着重渲染速度，而不是清晰度和几何精度。该属性值不 能用于字距调整和连字。
+
+optimizeLegibility：
+当绘制文本时，浏览器会侧重文本的可读性（清晰度），而不是渲染速度和几何 精度。该属性值可以用于字距调整和连字
 
 **blur-radius**： 值越大，模糊半径越大，阴影也就越大越淡
 
@@ -235,6 +420,18 @@ fixed参照位置是浏览器窗口的左上角，即坐标点为(0px, 0px)
 absolute参照位置是离当前元素最近的定位方式为fixed,absolute,relative的祖先原则的左上角，
 
 在有滚动条的情况下，fixed定位不会随滚动条移动而移动，而absolute则会随滚动条移动
+
+##### sticky不生效的情况
+
+有时候设置了元素sticky属性会不生效
+
+可能原因有：
+
+1.包裹的父容器高度与sticky的元素高度一致
+
+2.包裹的父容器设置了overflow hidden。这种情况也会导致 `position: sticky` 的 fixed 定位特性失效。也就是 `.sticky` 元素的祖先容器存在 overflow: hidden。设定为 `position: sticky` 的元素的任意父节点的 overflow 属性必须是 visible，否则 `position:sticky` 不会生效
+
+还有必须指定 top, right, bottom 或 left 四个阈值其中之一（且达到设定的阈值），才可使粘性定位生效
 
 #### 清除float的方法
 
@@ -618,6 +815,89 @@ A B表示以A为祖先元素的B元素
 :right: 必须与[@规则](https://developer.mozilla.org/zh-CN/docs/Web/CSS/At-rule) [`@page`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/@page) 一起配套使用，表示打印文档的所有右页
 
 :first: 描述的是：打印文档的时候，第一页的样式。
+
+
+
+### css变量
+
+目前所有主要浏览器已经都支持了css变量，原生 CSS 从此变得异常强大。
+
+声明变量的时候，变量名前面要加两根连词线（`--`）。
+
+```css
+body {
+  --foo: #7F583F;
+  --bar: #F7EFD2;
+}
+```
+
+上面代码中，`body`选择器里面声明了两个变量：`--foo`和`--bar`
+
+它们与`color`、`font-size`等正式属性没有什么不同，只是没有默认含义。所以 CSS 变量（CSS variable）又叫做**"CSS 自定义属性"**（CSS custom properties）。因为变量与自定义的 CSS 属性其实是一回事。
+
+为什么选择两根连词线（`--`）表示变量？因为`$foo`被 Sass 用掉了，`@foo`被 Less 用掉了。为了不产生冲突，官方的 CSS 变量就改用两根连词线了。
+
+`var()`函数用于读取变量
+
+```css
+a {
+  color: var(--foo);
+  color: var(--foo, #7F583F);
+  text-decoration-color: var(--bar);
+}
+```
+
+`var()`函数还可以使用第二个参数，表示变量的默认值。如果该变量不存在，就会使用这个默认值。
+
+`var()`函数还可以用在变量的声明,注意，但是变量值只能用作属性值，不能用作属性名。
+
+```css
+:root {
+  --primary-color: red;
+  --logo-text: var(--primary-color);
+}
+
+.foo {
+  --side: margin-top;
+  /* 无效 */
+  var(--side): 20px;
+}
+```
+
+同一个 CSS 变量，可以在多个选择器内声明。读取的时候，优先级最高的声明生效。这与 CSS 的"层叠"（cascade）规则是一致的。
+
+```css
+<style>
+  :root { --color: blue; }
+  div { --color: green; }
+  #alert { --color: red; }
+  * { color: var(--color); }
+</style>
+
+<p>蓝色</p>
+<div>绿色</div>
+<div id="alert">红色</div>
+```
+
+上面代码中，三个选择器都声明了`--color`变量。不同元素读取这个变量的时候，会采用优先级最高的规则，因此三段文字的颜色是不一样的。
+
+这就是说，变量的作用域就是它所在的选择器的有效范围。
+
+由于这个原因，全局的变量通常放在根元素`:root`里面，确保任何选择器都可以读取它们
+
+js也支持操作css变量
+
+```javascript
+// 设置变量
+document.body.style.setProperty('--primary', '#7F583F');
+
+// 读取变量
+document.body.style.getPropertyValue('--primary').trim();
+// '#7F583F'
+
+// 删除变量
+document.body.style.removeProperty('--primary');
+```
 
 
 

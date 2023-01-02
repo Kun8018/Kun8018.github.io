@@ -1,5 +1,5 @@
 ---
-title: Golang语言开发 
+title: Golang语言开发（四）
 date: 2020-03-02 21:40:33
 categories: 技术博客
 tags:
@@ -588,6 +588,213 @@ go get -u -v github.com/gogf/gf
 
 
 
+## echo
+
+http服务框架 http://echo.topgoer.com/%E4%B8%AD%E9%97%B4%E4%BB%B6/%E4%BC%9A%E8%AF%9D.html
+
+安装
+
+```shell
+go get github.com/labstack/echo/v4
+```
+
+使用
+
+```go
+package main
+
+import (
+  "github.com/labstack/echo/v4"
+  "github.com/labstack/echo/v4/middleware"
+  "net/http"
+)
+
+func main() {
+  // Echo instance
+  e := echo.New()
+
+  // Middleware
+  e.Use(middleware.Logger())
+  e.Use(middleware.Recover())
+
+  // Routes
+  e.GET("/", hello)
+
+  // Start server
+  e.Logger.Fatal(e.Start(":1323"))
+}
+
+// Handler
+func hello(c echo.Context) error {
+  return c.String(http.StatusOK, "Hello, World!")
+}
+```
+
+### 路由
+
+基于 [radix tree](http://en.wikipedia.org/wiki/Radix_tree) ，Echo 的路由查询速度非常快。路由使用 [sync pool](https://golang.org/pkg/sync/#Pool) 来重用内存，实现无 GC 开销下的零动态内存分配。
+
+通过特定的 HTTP 方法，url 路径和一个匹配的处理程序 (handler) 可以注册一个路由。例如，下面的代码则展示了一个注册路由的例子：它包括 `Get` 的访问方式， `/hello` 的访问路径，以及发送 `Hello World` HTTP 响应的处理程序
+
+```go
+// 业务处理
+func hello(c echo.Context) error {
+      return c.String(http.StatusOK, "Hello, World!")
+}
+
+// 路由
+e.GET("/hello", hello)
+```
+
+你可以用 `Echo.Any(path string, h Handler)` 来为所有的 HTTP 方法发送注册 处理程序(handler)；如果仅需要为某个特定的方法注册路由，可使用 `Echo.Match(methods []string, path string, h Handler)`。
+
+Echo 通过 `func(echo.Context) error` 定义 handler 方法，其中 `echo.Context` 已经内嵌了 HTTP 请求和响应接口
+
+路由匹配的路径会按照固定路径 -参数路径-匹配所有的顺序
+
+```go
+e.GET("/users/:id", func(c echo.Context) error {
+    return c.String(http.StatusOK, "/users/:id")
+})
+
+e.GET("/users/new", func(c echo.Context) error {
+    return c.String(http.StatusOK, "/users/new")
+})
+
+e.GET("/users/1/files/*", func(c echo.Context) error {
+    return c.String(http.StatusOK, "/users/1/files/*")
+})
+```
+
+上面定义的路由将按下面的优先级顺序匹配:
+
+- `/users/new`
+- `/users/:id`
+- `/users/1/files/*`
+
+### 中间件
+
+中间件是一个函数，嵌入在HTTP 的请求和响应之间。它可以获得 `Echo#Context` 对象用来进行一些特殊的操作， 比如记录每个请求或者统计请求数。
+
+Action的处理在所有的中间件运行完成之后
+
+root level
+
+Before router
+
+`Echo#Pre()` 用于注册一个在路由执行之前运行的中间件，可以用来修改请求的一些属性。比如在请求路径结尾添加或者删除一个'/'来使之能与路由匹配
+
+下面的这几个内建中间件被注册在这一级别：
+
+- AddTrailingSlash
+- RemoveTrailingSlash
+- MethodOverride
+
+*注意*: 由于在这个级别路由还没有执行，所以这个级别的中间件不能调用任何 `echo.Context` 的 API
+
+After route
+
+大部分时间你将用到 `Echo#Use()` 在这个级别注册中间件。 这个级别的中间件运行在路由处理完请求之后，可以调用所有的 `echo.Context` API。
+
+下面的这几个内建中间件应该被注册在这一级别：
+
+- BodyLimit
+- Logger
+- Gzip
+- Recover
+- BasicAuth
+- JWTAuth
+- Secure
+- CORS
+- Static
+
+Group Level
+
+当在路由中创建一个组的时候，可以为这个组注册一个中间件。例如，给 admin 这个组注册一个 BasicAuth 中间件
+
+Route level
+
+当你创建了一个新的路由，可以选择性的给这个路由注册一个中间件。
+
+代理中间件
+
+Proxy 提供 HTTP / WebSocket 反向代理中间件。它使用已配置的负载平衡技术将请求转发到上游服务器。
+
+```go
+url1, err := url.Parse("http://localhost:8081")
+if err != nil {
+  e.Logger.Fatal(err)
+}
+url2, err := url.Parse("http://localhost:8082")
+if err != nil {
+  e.Logger.Fatal(err)
+}
+e.Use(middleware.Proxy(&middleware.RoundRobinBalancer{
+  Targets: []*middleware.ProxyTarget{
+    {
+      URL: url1,
+    },
+    {
+      URL: url2,
+    },
+  },
+}))
+```
+
+#### 常用中间件
+
+auth中间件
+
+```go
+e.Use(middleware.BasicAuth(func(username, password string, c echo.Context) (bool, error) {
+    if username == "joe" && password == "secret" {
+        return true, nil
+    }
+    return false, nil
+}))
+```
+
+
+
+重定向中间件
+
+
+
+日志
+
+Logger 中间件记录有关每个 HTTP 请求的信息。
+
+```
+e.Use(middleware.Logger())
+```
+
+Casbin Auth中间件
+
+[Casbin](https://github.com/casbin/casbin) 是 Go 下的强大而高效的开源访问控制库，它为基于各种模型的授权提供支持。到目前为止，Casbin 支持的访问控制模型如下：
+
+- ACL (访问控制列表)
+- 超级用户下的ACL
+- 没有用户的 ACL： 对于没有身份验证或用户登录的系统尤其有用。
+- 没有资源的ACL：过使用 write-article , read-log 等权限，某些方案可以应对一类资源而不是单个资源，它不控制对特定文章或日志的访问。
+- RBAC (基于角色的访问控制)
+- 具有资源角色的 RBAC： 用户和资源可以同时具有角色 (或组)。
+- 具有域 / 租户 (tenants) 的 RBAC ：用户可以针对不同的域 / 租户 (tenants) 具有不同的角色集。
+- ABAC (基于属性的访问控制)
+- RESTful
+- Deny-override：支持允许和拒绝授权，否认覆盖允许。
+
+
+
+
+
+### 错误处理
+
+Echo 提倡通过中间件或处理程序 (handler) 返回 HTTP 错误集中处理。集中式错误处理程序允许我们从统一位置将错误记录到外部服务，并向客户端发送自定义 HTTP 响应。
+
+你可以返回一个标准的 `error` 或者 `echo.*HTTPError`
+
+
+
 ## Webrtc
 
 
@@ -649,6 +856,36 @@ func main() {
 ```
 
 https://github.com/duke-git/lancet
+
+
+
+### gore
+
+Go 语言的 REPL（read-eval-print-loop）工具
+
+gore 是一个命令行工具，需要配合 Go Module 安装
+
+安装
+
+```shell
+go install github.com/x-motemen/gore/cmd/gore@latest
+```
+
+go install 命令会将会在`$GOPATH/bin`目录生成的 gore 可执行文件。强烈推荐大家把`$GOPATH/bin`加入到系统的可执行文件搜索目录（即`$PATH`）中。
+
+执行下面的命令即可进入 Go 的 REPL
+
+```shell
+gore
+```
+
+
+
+## 微服务
+
+### eagle
+
+https://github.com/go-eagle/eagle
 
 
 
