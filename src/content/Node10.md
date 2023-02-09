@@ -922,6 +922,111 @@ type T = Static<typeof T>                            // type T = {
                                                      // }
 ```
 
+### zod
+
+静态类型检查接口
+
+安装
+
+```shell
+npm install zod       # npm
+yarn add zod          # yarn
+bun add zod           # bun
+pnpm add zod          # pnpm
+```
+
+基础类型
+
+```typescript
+import { z } from "zod";
+
+// primitive values
+z.string();
+z.number();
+z.bigint();
+z.boolean();
+z.date();
+z.symbol();
+
+// empty types
+z.undefined();
+z.null();
+z.void(); // accepts undefined
+
+// catch-all types
+// allows any value
+z.any();
+z.unknown();
+
+// never type
+// allows no values
+z.never();
+```
+
+自定义类型错误校验函数和错误提示
+
+```typescript
+z.string().min(5, { message: "Must be 5 or more characters long" });
+z.string().max(5, { message: "Must be 5 or fewer characters long" });
+z.string().length(5, { message: "Must be exactly 5 characters long" });
+z.string().email({ message: "Invalid email address" });
+z.string().url({ message: "Invalid url" });
+z.string().uuid({ message: "Invalid UUID" });
+z.string().startsWith("https://", { message: "Must provide secure URL" });
+z.string().endsWith(".com", { message: "Only .com domains allowed" });
+z.string().datetime({ message: "Invalid datetime string! Must be UTC." });
+```
+
+错误提示
+
+```typescript
+const name = z.string({
+  required_error: "Name is required",
+  invalid_type_error: "Name must be a string",
+});
+```
+
+数字类型自带校验函数
+
+```typescript
+z.number().gt(5);
+z.number().gte(5); // alias .min(5)
+z.number().lt(5);
+z.number().lte(5); // alias .max(5)
+
+z.number().int(); // value must be an integer
+
+z.number().positive(); //     > 0
+z.number().nonnegative(); //  >= 0
+z.number().negative(); //     < 0
+z.number().nonpositive(); //  <= 0
+
+z.number().multipleOf(5); // Evenly divisible by 5. Alias .step(5)
+
+z.number().finite(); // value must be finite, not Infinity or -Infinity
+```
+
+强制类型转换
+
+```typescript
+const schema = z.coerce.string();
+schema.parse("tuna"); // => "tuna"
+schema.parse(12); // => "12"
+schema.parse(true); // => "true"
+
+z.coerce.boolean().parse("tuna"); // => true
+z.coerce.boolean().parse("true"); // => true
+z.coerce.boolean().parse("false"); // => true
+z.coerce.boolean().parse(1); // => true
+z.coerce.boolean().parse([]); // => true
+
+z.coerce.boolean().parse(0); // => false
+z.coerce.boolean().parse(undefined); // => false
+z.coerce.boolean().parse(null); // => false
+```
+
+
+
 ### tsup
 
 编译ts为js
@@ -935,6 +1040,68 @@ npm i tsup -D
 ```shell
 tsup src/index.ts src/cli.ts
 ```
+
+### ts-morgh
+
+
+
+### ts-ast-viewer
+
+查看ts的编译语法树： https://ts-ast-viewer.com/
+
+
+
+### type-challenges
+
+
+
+### ts-boolbelt
+
+ts工具类型
+
+```shell
+npm install ts-toolbelt --save
+```
+
+
+
+使用
+
+```typescript
+import {
+  Any,
+  Boolean,
+  Class,
+  Function,
+  Iteration,
+  List,
+  Number,
+  Object,
+  String,
+  Union,
+} from "ts-toolbelt";
+
+import {Object} from "ts-toolbelt"
+// Check the docs below for more
+
+// Merge two `object` together
+type merge = Object.Merge<{name: string}, {age?: number}>
+// {name: string, age?: number}
+
+// Make a field of an `object` optional
+type optional = Object.Optional<{id: number, name: string}, "name">
+// {id: number, name?: string}
+```
+
+
+
+### simplyTypeds
+
+
+
+### utility-types
+
+一些工具类型
 
 
 

@@ -693,6 +693,28 @@ draggable.onDragStart = function(pointerXY) {
 npm install muuri
 ```
 
+### react-resizable-panels
+
+可拖动布局
+
+```react
+import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
+
+<PanelGroup autoSaveId="example" direction="horizontal">
+  <Panel defaultSize={25}>
+    <SourcesExplorer />
+  </Panel>
+  <PanelResizeHandle />
+  <Panel>
+    <SourceViewer />
+  </Panel>
+  <PanelResizeHandle />
+  <Panel defaultSize={25}>
+    <Console />
+  </Panel>
+</PanelGroup>
+```
+
 
 
 ## markdown
@@ -1459,7 +1481,7 @@ graph-tag 解析查询语句
 graphql 也是解析查询语句
 ```
 
-
+使用apollo-boost
 
 ```react
 import ApolloClient from 'apollo-boost' 
@@ -1473,19 +1495,194 @@ import { Mutation,MutationFunc } from 'react-apollo'
 
 ```
 
+#### @apollo/client
 
+安装@apollo/client
 
 ```shell
 npm install @apollo/client graphql
 ```
 
+使用@apollo/client
 
+```react
+import React, { ReactElement } from 'react';
+import {useQuery, gql } from '@apollo/client';
 
-使用hooks
+const GET_AUTHOR = gql`
+	query Author($id: Int!) {
+		author(id: $id) {
+			id
+			firstName
+			lastName
+			posts {
+				title
+				author
+			}
+		}
+	}
+`
 
+export default function Home({}): ReactElement {
+  const {data, loading, refetch } = useQuery(GET_AUTHOR, { variables: {id: 1}});
+  return (
+  	<div>home</div>
+  )
+}
+```
 
+#### graphql-request
 
+node端可以使用graphql-request请求
 
+```shell
+npm add graphql-request grapghql
+```
+
+使用
+
+```react
+import { request, gql } from 'graphql-request'
+
+const query = gql`
+  {
+    company {
+      ceo
+    }
+    roadster {
+      apoapsis_au
+    }
+  }
+`
+
+request('https://api.spacex.land/graphql/', query).then((data) => console.log(data))
+
+import { request, GraphQLClient } from 'graphql-request'
+
+// Run GraphQL queries/mutations using a static function
+request(endpoint, query, variables).then((data) => console.log(data))
+
+// ... or create a GraphQL client instance to send requests
+const client = new GraphQLClient(endpoint, { headers: {} })
+client.request(query, variables).then((data) => console.log(data))
+```
+
+#### graphql-code-generate
+
+使用graphql-code-generate生成hooks代码
+
+安装graphql-code-generator命令行工具
+
+```shell
+yarn add graphql
+yarn add -D @graphql-codegen/cli
+```
+
+根据实际项目情况安装生成hooks的plugins
+
+```shell
+yarn add @graphql-codegen/typescript-react-apollo
+yarn add @graphql-codegen/typescript
+yarn add @graphql-codegen/typescript-operations
+```
+
+然后首先编写graphql文件
+
+```graphql
+mutation CreateAuthor($author: authorInput) {
+	createAuthor(author: $author)
+}
+
+query Author($id: Int!) {
+	author(id: $id) {
+		id
+		firstName
+		lastName
+		posts {
+			title
+			author
+		}
+	}
+}
+```
+
+再编写codegen的config文件
+
+```yaml
+overwrite: trues
+schema: ./schema.gql
+documents: 'scr/**/*.graphql'
+generates:
+	src/generated/graphql.tsx:
+		plugins:
+			- 'typescript'
+			- 'typescript-operations'
+			- 'typescript-react-apollo'
+		hooks:
+			afterOneFileWrite:
+				- prettier --write
+	schema.graphql:
+		plugins:
+			- 'schema-ast'
+		hooks:
+			 afterOneFileWrite:
+				- prettier --write
+```
+
+**`overwrite`** - 生成代码时覆盖文件的标志（`true`默认情况下）
+
+ **`schema`（必需）** - 指向`GraphQLSchema`，可以通过本地文件路径、url等多种方式
+
+ **`documents`** - 指向你的`GraphQL`文档：`query、 mutation、subscription、fragment` 
+
+**`generates`（必需）** - 一个映射，其中键表示生成代码的输出路径，值表示该特定文件的一组相关选项：
+
+配置package.json
+
+```json
+{
+  "scripts": {
+    "codegen": "graphql-codegen"
+  },
+}
+```
+
+#### apollo-upload-client
+
+graphql上传接口
+
+```shell
+npm install apollo-upload-client
+```
+
+使用
+
+```react
+import { gql, useMutation } from "@apollo/client";
+
+const MUTATION = gql`
+  mutation ($file: Upload!) {
+    uploadFile(file: $file) {
+      success
+    }
+  }
+`;
+
+function UploadFile() {
+  const [mutate] = useMutation(MUTATION);
+
+  function onChange({
+    target: {
+      validity,
+      files: [file],
+    },
+  }) {
+    if (validity.valid) mutate({ variables: { file } });
+  }
+
+  return <input type="file" required onChange={onChange} />;
+}
+```
 
 ### react-hot-loader
 

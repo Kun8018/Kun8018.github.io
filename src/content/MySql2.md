@@ -438,3 +438,19 @@ Redis - cli.exe;
 shutdown;
 exit;
 ```
+
+## NewSQL
+
+
+
+### TiDB
+
+
+
+### CockroachDB
+
+https://github.com/cockroachdb/cockroach
+
+### 对比
+
+https://zhuanlan.zhihu.com/p/571938375

@@ -77,7 +77,47 @@ Go语言号称是互联网时代的C语言。现在的互联网系统已经不�
 3. **管理复杂度**。机器数量到达一定数量级时，如何对他们进行有效监控、收集日志、负载均衡，都是很大挑战。
 4. **延迟**。网络通信延迟要比机器内通信高出几个数量级，而组件越多、网络跳数越多，延迟便会更高，这些最终都会作用于系统对外服务质量上。
 
+### Raft算法
 
+过去, Paxos一直是分布式协议的标准，但是Paxos难于理解，更难以实现，Google的分布式锁系统Chubby作为Paxos实现曾经遭遇到很多坑。
+
+来自Stanford的新的分布式协议研究称为Raft，它是一个为真实世界应用建立的协议，主要注重协议的落地性和可理解性。
+
+在了解Raft之前，我们先了解Consensus一致性这个概念，它是指多个服务器在状态达成一致，但是在一个分布式系统中，因为各种意外可能，有的服务器可能会崩溃或变得不可靠，它就不能和其他服务器达成一致状态。这样就需要一种Consensus协议，一致性协议是为了确保容错性，也就是即使系统中有一两个服务器当机，也不会影响其处理过程。
+
+为了以容错方式达成一致，我们不可能要求所有服务器100%都达成一致状态，只要超过半数的大多数服务器达成一致就可以了，假设有N台服务器，N/2 +1 就超过半数，代表大多数了。
+
+Paxos和Raft都是为了实现Consensus一致性这个目标，这个过程如同选举一样，参选者需要说服大多数选民(服务器)投票给他，一旦选定后就跟随其操作。Paxos和Raft的区别在于选举的具体过程不同。
+
+在Raft中，任何时候一个服务器可以扮演下面角色之一：
+
+1. Leader: 处理所有客户端交互，日志复制等，一般一次只有一个Leader.
+2. Follower: 类似选民，完全被动
+3. Candidate候选人: 类似Proposer律师，可以被选为一个新的领导人。
+
+Raft阶段分为两个，首先是选举过程，然后在选举出来的领导人带领进行正常操作，比如日志复制等。下面用图示展示这个过程：
+
+1. 任何一个服务器都可以成为一个候选者Candidate，它向其他服务器Follower发出要求选举自己的请求
+2. 其他服务器同意了，发出OK。注意如果在这个过程中，有一个Follower当机，没有收到请求选举的要求，因此候选者可以自己选自己，只要达到N/2 + 1 的大多数票，候选人还是可以成为Leader的。
+3. 这样这个候选者就成为了Leader领导人，它可以向选民也就是Follower们发出指令，比如进行日志复制。
+
+以后通过心跳进行日志复制的通知。如果一旦这个Leader当机崩溃了，那么Follower中有一个成为候选者，发出邀票选举。Follower同意后，其成为Leader，继续承担日志复制等指导工作。
+
+值得注意的是，整个选举过程是有一个时间限制的。Splite Vote是因为如果同时有两个候选人向大家邀票，这时通过类似加时赛来解决，两个候选者在一段timeout比如300ms互相不服气的等待以后，因为双方得到的票数是一样的，一半对一半，那么在300ms以后，再由这两个候选者发出邀票，这时同时的概率大大降低，那么首先发出邀票的的候选者得到了大多数同意，成为领导者Leader，而另外一个候选者后来发出邀票时，那些Follower选民已经投票给第一个候选者，不能再投票给它，它就成为落选者了，最后这个落选者也成为普通Follower一员了。
+
+日志复制
+
+下面以日志复制为例子说明Raft算法，假设Leader领导人已经选出，这时客户端发出增加一个日志的要求，比如日志是"sally"
+
+Leader要求Followe遵从他的指令，都将这个新的日志内容追加到他们各自日志中
+
+大多数follower服务器将日志写入磁盘文件后，确认追加成功，发出Commited Ok:
+
+在下一个心跳heartbeat中，Leader会通知所有Follwer更新commited 项目。
+
+对于每个新的日志记录，重复上述过程。
+
+如果在这一过程中，发生了网络分区或者网络通信故障，使得Leader不能访问大多数Follwers了，那么Leader只能正常更新它能访问的那些Follower服务器，而大多数的服务器Follower因为没有了Leader，他们重新选举一个候选者作为Leader，然后这个Leader作为代表于外界打交道，如果外界要求其添加新的日志，这个新的Leader就按上述步骤通知大多数Followers，如果这时网络故障修复了，那么原先的Leader就变成Follower，在失联阶段这个老Leader的任何更新都不能算commit，都回滚，接受新的Leader的新的更新。
 
 ### 分布式id生成器
 
@@ -93,11 +133,7 @@ Twitter的snowflake算法是这种场景下的一个典型解法。
 
 数据中心加上实例id共有10位，可以支持我们每数据中心部署32台机器，所有数据中心共1024台实例。
 
-表示`timestamp`的41位，可以支持我们使用69年。当然，我们的时间毫秒计数不会真的从1970年开始记，那样我们的系统跑到`2039/9/7 23:47`
-
-`
-
-`:35`就不能用了，所以这里的`timestamp`只是相对于某个时间的增量，比如我们的系统上线是2018-08-01，那么我们可以把这个timestamp当作是从`2018-08-01 00:00:00.000`的偏移量。
+表示`timestamp`的41位，可以支持我们使用69年。当然，我们的时间毫秒计数不会真的从1970年开始记，那样我们的系统跑到`2039/9/7 23:47:35`就不能用了，所以这里的`timestamp`只是相对于某个时间的增量，比如我们的系统上线是2018-08-01，那么我们可以把这个timestamp当作是从`2018-08-01 00:00:00.000`的偏移量。
 
 worker_id分配
 
@@ -185,12 +221,17 @@ func main() {
 
 #### ZooKeeper
 
+ZooKeeper是Hadoop Ecosystem中非常重要的组件，它的主要功能是为分布式系统提供一致性协调(Coordination)服务，与之对应的Google的类似服务叫Chubby。 分布式环境中大多数服务是允许部分失败，也允许数据不一致，但有些最基础的服务是需要高可靠性，高一致性的，这些服务是其他分布式服务运转的基础，比如naming service、分布式lock等，这些分布式的基础服务有以下要求：
+
+1. 高可用性
+2. 高一致性
+3. 高性能 对于这种有些挑战CAP原则 的服务该如何设计，是一个挑战，也是一个不错的研究课题，Apache的ZooKeeper也许给了我们一个不错的答案。ZooKeeper是一个分布式的，开放源码的分布式应用程序协调服务， 它暴露了一个简单的原语集，分布式应用程序可以基于它实现同步服务，配置维护和命名服务等。
+
 ```go
 package main
 
 import (
     "time"
-
     "github.com/samuel/go-zookeeper/zk"
 )
 
@@ -220,7 +261,168 @@ func main() {
 
 这种分布式的阻塞锁比较适合分布式任务调度场景，但不适合高频次持锁时间短的抢锁场景。按照Google的Chubby论文里的阐述，基于强一致协议的锁适用于`粗粒度`的加锁操作。这里的粗粒度指锁占用时间较长。我们在使用时也应思考在自己的业务场景中使用是否合适。
 
+#### Zookeeper原理
 
+Zookeeper的保证
+
+l     顺序性，client的updates请求都会根据它发出的顺序被顺序的处理；
+
+l     原子性, 一个update操作要么成功要么失败，没有其他可能的结果；
+
+l     一致的镜像，client不论连接到哪个server，展示给它都是同一个视图；
+
+l     可靠性，一旦一个update被应用就被持久化了，除非另一个update请求更新了当前值
+
+l     实时性，对于每个client它的系统视图都是最新的
+
+Zookeeper中的角色
+
+领导者（Leader) : 领导者不接受client的请求，负责进行投票的发起和决议，最终更新状态。
+
+跟随者（Follower）: Follower用于接收客户请求并返回客户结果。参与Leader发起的投票。
+
+观察者（observer）: Oberserver可以接收客户端连接，将写请求转发给leader节点。但是Observer不参加投票过程，只是同步leader的状态。Observer为系统扩展提供了一种方法。
+
+学习者 ( Learner ) : 和leader进行状态同步的server统称Learner，上述Follower和Observer都是Learner。
+
+ZooKeeper集群
+
+通常Zookeeper由2n+1台servers组成，每个server都知道彼此的存在。每个server都维护的内存状态镜像以及持久化存储的事务日志和快照。对于2n+1台server，只要有n+1台（大多数）server可用，整个系统保持可用。
+
+系统启动时，集群中的server会选举出一台server为Leader，其它的就作为follower（这里先不考虑 observer角色）。接着由follower来服务client的请求，对于不改变系统一致性状态的读操作，由follower的本地内存数据库直接 给client返回结果；对于会改变系统状态的更新操作，则交由Leader进行提议投票，超过半数通过后返回结果给client。
+
+ZooKeeper工作原理
+
+Zookeeper的核心是原子广播，这个机制保证了各个server之间的同步。实现这个机制的协议叫做Zab协议。Zab协议有两 种模式，它们分别是恢复模式和广播模式。当服务启动或者在领导者崩溃后，Zab就进入了恢复模式，当领导者被选举出来，且大多数server的完成了和 leader的状态同步以后，恢复模式就结束了。状态同步保证了leader和server具有相同的系统状态。
+
+一旦leader已经和多数的follower进行了状态同步后，他就可以开始广播消息了，即进入广播状态。这时候当一个server 加入zookeeper服务中，它会在恢复模式下启动，发现leader，并和leader进行状态同步。待到同步结束，它也参与消息广播。 Zookeeper服务一直维持在Broadcast状态，直到leader崩溃了或者leader失去了大部分的followers支持。
+
+Broadcast模式极其类似于分布式事务中的2pc（two-phrase commit 两阶段提交）：即leader提起一个决议，由followers进行投票，leader对投票结果进行计算决定是否通过该决议，如果通过执行该决议（事务），否则什么也不做。
+
+广播模式需要保证proposal被按顺序处理，因此zk采用了递增的事务id号(zxid)来保证。所有的提议(proposal) 都在被提出的时候加上了zxid。实现中zxid是一个64为的数字，它高32位是epoch用来标识leader关系是否改变，每次一个leader被 选出来，它都会有一个新的epoch。低32位是个递增计数。
+
+当leader崩溃或者leader失去大多数的follower，这时候zk进入恢复模式，恢复模式需要重新选举出一个新的leader，让所有的server都恢复到一个正确的状态。
+
+首先看一下选举的过程，zk的实现中用了基于paxos算法（主要是fastpaxos）的实现。具体如下：
+
+1.每个Server启动以后都询问其它的Server它要投票给谁。
+
+2.对于其他server的询问，server每次根据自己的状态都回复自己推荐的leader的id和上一次处理事务的zxid（系统启动时每个server都会推荐自己）
+
+3.收到所有Server回复以后，就计算出zxid最大的哪个Server，并将这个Server相关信息设置成下一次要投票的Server。
+
+4.计算这过程中获得票数最多的的sever为获胜者，如果获胜者的票数超过半数，则改server被选为leader。否则，继续这个过程，直到leader被选举出来。
+
+此外恢复模式下，如果是重新刚从崩溃状态恢复的或者刚启动的的server还会从磁盘快照中恢复数据和会话信息。（zk会记录事务日志并定期进行快照，方便在恢复时进行状态恢复）
+
+选完leader以后，zk就进入状态同步过程。
+
+1.leader就会开始等待server连接
+
+2.Follower连接leader，将最大的zxid发送给leader
+
+3.Leader根据follower的zxid确定同步点
+
+4.完成同步后通知follower 已经成为uptodate状态
+
+5.Follower收到uptodate消息后，又可以重新接受client的请求进行服务了。
+
+Zookeeper工作流程
+
+主线程的工作：
+
+1. 刚开始时各个Server处于一个平等的状态peer
+2. 主线程加载配置后启动。
+3. 主线程启动QuorumPeer线程，该线程负责管理多数协议（Quorum），并根据表决结果进行角色的状态转换。
+4. 然后主线程等待QuorumPeer线程。
+
+QuorumPeer线程
+
+1. 首先会从磁盘恢复zkdatabase（内存数据库），并进行快照回复。
+2. 然后启动server的通信线程，准备接收client的请求。
+3. 紧接着该线程进行选举leader准备，选择选举算法，启动response线程（根据自身状态）向其他server回复推荐的leaer。
+4. 刚开始的时候server都处于looking状态，进行选举根据选举结果设置自己的状态和角色。
+
+QuorumPeer有几种状态
+
+1. Looking: 寻找状态，这个状态不知道谁是leader，会发起leader选举
+2. Observing: 观察状态，这时候observer会观察leader是否有改变，然后同步leader的状态
+3. Following: 跟随状态，接收leader的proposal ，进行投票。并和leader进行状态同步
+4. Leading:  领导状态，对Follower的投票进行决议，将状态和follower进行同步
+
+当一个Server发现选举的结果自己是Leader把自己的状态改成Leading，如果Server推荐了其他人为Server它 将自己的状态改成Following。做Leader的server如果发现拥有的follower少于半数时，它重新进入looking状态，重新进行 leader选举过程。（Observing状态是根据配置设置的）
+
+Leader主线程
+
+1.首先leader开始恢复数据和清除session
+
+启动zk实例，建立请求处理链(Leader的请求处理 链)：PrepRequestProcessor->ProposalRequestProcessor->CommitProcessor->Leader.ToBeAppliedRequestProcessor ->FinalRequestProcessor
+
+2.得到一个新的epoch，标识一个新的leader , 并获得最大zxid（方便进行数据同步）
+
+3.建立一个学习者接受线程（来接受新的followers的连接，follower连接后确定followers的zxvid号，来确定是需要对follower进行什么同步措施，比如是差异同步(diff)，还是截断（truncate）同步，还是快照同步）
+
+4.向follower建立一个握手过程leader->follower NEWLEADER消息，并等待直到多数server发送了ack
+
+5.Leader不断的查看已经同步了的follower数量，如果同步数量少于半数，则回到looking状态重新进行leaderElection过程，否则继续step5.
+
+Follower的工作流程
+
+1.启动zk实例，建立请求处理链:FollowerRequestProcessor->CommitProcessor->FinalProcessor
+
+2.follower首先会连接leader，并将zxid和id发给leader
+
+3.接收NEWLEADER消息，完成握手过程。
+
+4.同leader进行状态同步
+
+5.完成同步后，follower可以接收client的连接
+
+6.接收到client的请求,根据请求类型
+
+l     对于写操作, FollowerRequestProcessor会将该操作作为LEADER.REQEST发给LEADER由LEADER发起投票。
+
+l     对于读操作，则通过请求处理链的最后一环FinalProcessor将结果返回给客户端
+
+对于observer的流程不再赘述，observer流程和Follower的唯一不同的地方就是observer不会参加leader发起的投票。
+
+learnerCnxAcceptor线程
+
+1.该线程监听Learner的连接
+
+2.接受Learner请求，并为每个Learner创建一个LearnerHandler来服务
+
+LearnerHandler线程的服务流程
+
+1.检查server来的第一个包是否为follower.info或者observer.info，如果不是则无法建立握手。
+
+2.得到Learner的zxvid，对比自身的zxvid，确定同步点
+
+3.和Learner建立第二次握手，向Learner发送NEWLEADER消息
+
+4.与server进行数据同步。
+
+5.同步结束，知会server同步已经ok，可以接收client的请求。
+
+6.不断读取follower消息判断消息类型
+
+i.      如果是LEADER.ACK,记录follower的ack消息，超过半数ack，将proposal提交(Commit)
+
+ii.     如果是LEADER.PING，则维持session（延长session失效时间）
+
+iii.    如果是LEADER.REQEST，则将request放入请求链进行处理–Leader写请求发起proposal，然后根据follower回复的结 果来确定是否commit的。最后由FinallRequestProcessor来实际进行持久化，并回复信息给相应的response给server
+
+Zookeeper的拓展
+
+为了提高吞吐量通常我们只要增加服务器到Zookeeper集群中。但是当服务器增加到一定程度，会导致投票的压力增大从而使得吞吐量降低。因此我们引出了一个角色：Observer。
+
+Observers 的需求源于 ZooKeeper  follower服务器在上述工作流程中实际扮演了两个角色。它们从客户端接受连接与操作请求，之后对操作结果进行投票。这两个职能在 ZooKeeper集群扩展的时候彼此制约。如果我们希望增加 ZooKeeper 集群服务的客户数量（我们经常考虑到有上万个客户端的情况），那么我们必须增加服务器的数量，来支持这么多的客户端。然而，从一致性协议的描述可以看到， 增加服务器的数量增加了对协议的投票部分的压力。领导节点必须等待集群中过半数的服务器响应投票。于是，节点的增加使得部分计算机运行较慢，从而拖慢整个 投票过程的可能性也随之提高，投票操作的会随之下降。这正是我们在实际操作中看到的问题——随着 ZooKeeper 集群变大，投票操作的吞吐量会下降。
+
+所以需要增加客户节点数量的期望和我们希望保持较好吞吐性能的期望间进行权衡。要打破这一耦合关系，引入了不参与投票的服务器，称为 Observers。 Observers 可以接受客户端的连接，将写请求转发给领导节点。但是，领导节点不会要求 Observers 参加投票。相反，Observers 不参与投票过程，仅仅和其他服务节点一起得到投票结果。
+
+这个简单的扩展给 ZooKeeper 的可伸缩性带来了全新的镜像。我们现在可以加入很多 Observers 节点，而无须担心严重影响写吞吐量。规模伸缩并非无懈可击——协议中的一歩（通知阶段）仍然与服务器的数量呈线性关系。但是，这里的穿行开销非常低。因此 可以认为在通知服务器阶段的开销无法成为主要瓶颈。
+
+此外Observer还可以成为特定场景下，广域网部署的一种方案。原因有三点：1.为了获得更好的读性能，需要让客户端足够近，但如 果将投票服务器分布在两个数据中心，投票的延迟太大会大幅降低吞吐，是不可取的。因此希望能够不影响投票过程，将投票服务器放在同一个IDC进行部 署，Observer可以跨IDC部署。2. 投票过程中，Observer和leader之间的消息、要远小于投票服务器和server的消息，这样远程部署对带宽要求就较小。3.由于 Observers即使失效也不会影响到投票集群，这样如果数据中心间链路发生故障，不会影响到服务本身的可用性。这种故障的发生概率要远高于一个数据中 心中机架间的连接的故障概率，所以不依赖于这种链路是个优点。
 
 #### etcd
 
@@ -280,584 +482,10 @@ etcd中没有像ZooKeeper那样的Sequence节点。所以其锁实现和基于Zo
 
 在选择具体的方案时，还是需要多加思考，对风险早做预估。
 
-### 延时任务系统
 
-我们在做系统时，很多时候是处理实时的任务，请求来了马上就处理，然后立刻给用户以反馈。但有时也会遇到非实时的任务，比如确定的时间点发布重要公告。或者需要在用户做了一件事情的X分钟/Y小时后，对其特定动作，比如通知、发券等等。
 
-如果业务规模比较小，有时我们也可以通过数据库配合轮询来对这种任务进行简单处理，但上了规模的公司，自然会寻找更为普适的解决方案来解决这一类问题。
+### Hystrix
 
-一般有两种思路来解决这个问题：
+熔断器
 
-1. 实现一套类似crontab的分布式定时任务管理系统。
-2. 实现一个支持定时发送消息的消息队列。
-
-两种思路进而衍生出了一些不同的系统，但其本质是差不多的。都是需要实现一个定时器（timer）。在单机的场景下定时器其实并不少见，例如我们在和网络库打交道的时候经常会调用`SetReadDeadline()`函数，就是在本地创建了一个定时器，在到达指定的时间后，我们会收到定时器的通知，告诉我们时间已到。这时候如果读取还没有完成的话，就可以认为发生了网络问题，从而中断读取。
-
-定时器的实现在工业界已经是有解的问题了。常见的就是时间堆和时间轮。
-
-最常见的时间堆一般用小顶堆实现，小顶堆其实就是一种特殊的二叉树，
-
-小顶堆的好处是什么呢？对于定时器来说，如果堆顶元素比当前的时间还要大，那么说明堆内所有元素都比当前时间大。进而说明这个时刻我们还没有必要对时间堆进行任何处理。定时检查的时间复杂度是`O(1)`。
-
-当我们发现堆顶的元素小于当前时间时，那么说明可能已经有一批事件已经开始过期了，这时进行正常的弹出和堆调整操作就好。每一次堆调整的时间复杂度都是`O(LgN)`。
-
-Go自身的内置定时器就是用时间堆来实现的，不过并没有使用二叉堆，而是使用了扁平一些的四叉堆。
-
-小顶堆的性质，父节点比其4个子节点都小，子节点之间没有特别的大小关系要求。
-
-四叉堆中元素超时和堆调整与二叉堆没有什么本质区别。
-
-用时间轮来实现定时器时，我们需要定义每一个格子的“刻度”，可以将时间轮想像成一个时钟，中心有秒针顺时针转动。每次转动到一个刻度时，我们就需要去查看该刻度挂载的任务列表是否有已经到期的任务。
-
-从结构上来讲，时间轮和哈希表很相似，如果我们把哈希算法定义为：触发时间%时间轮元素大小。那么这就是一个简单的哈希表。在哈希冲突时，采用链表挂载哈希冲突的定时器。
-
-除了这种单层时间轮，业界也有一些时间轮采用多层实现，这里就不再赘述了。
-
-每一个实例每隔一小时，会去数据库里把下一个小时需要处理的定时任务捞出来，捞取的时候只要取那些`task_id % shard_count = shard_id`的那些任务即可。
-
-当这些定时任务被触发之后需要通知用户侧，有两种思路：
-
-1. 将任务被触发的信息封装为一条消息，发往消息队列，由用户侧对消息队列进行监听。
-2. 对用户预先配置的回调函数进行调用。
-
-
-
-### 负载均衡
-
-如果我们不考虑均衡的话，现在有n个服务节点，我们完成业务流程只需要从这n个中挑出其中的一个。有几种思路:
-
-1. 按顺序挑: 例如上次选了第一台，那么这次就选第二台，下次第三台，如果已经到了最后一台，那么下一次从第一台开始。这种情况下我们可以把服务节点信息都存储在数组中，每次请求完成下游之后，将一个索引后移即可。在移到尽头时再移回数组开头处。
-2. 随机挑一个: 每次都随机挑，真随机伪随机均可。假设选择第 x 台机器，那么x可描述为`rand.Intn()%n`。
-3. 根据某种权重，对下游节点进行排序，选择权重最大/小的那一个。
-
-当然了，实际场景我们不可能无脑轮询或者无脑随机，如果对下游请求失败了，我们还需要某种机制来进行重试，如果纯粹的随机算法，存在一定的可能性使你在下一次仍然随机到这次的问题节点。
-
-洗牌算法
-
-考虑到我们需要随机选取每次发送请求的节点，同时在遇到下游返回错误时换其它节点重试。所以我们设计一个大小和节点数组大小一致的索引数组，每次来新的请求，我们对索引数组做洗牌，然后取第一个元素作为选中的服务节点，如果请求失败，那么选择下一个节点重试，以此类推
-
-洗牌算法 有两个隐藏的隐患:
-
-1. 没有随机种子。在没有随机种子的情况下，`rand.Intn()`返回的伪随机数序列是固定的。
-2. 洗牌不均匀，会导致整个数组第一个节点有大概率被选中，并且多个节点的负载分布不均衡。
-
-
-
-### 分布式搜索引擎
-
-数据库系统本身要保证实时和强一致性，所以其功能设计上都是为了满足这种一致性需求。比如write ahead log的设计，基于B+树实现的索引和数据组织，以及基于MVCC实现的事务等等。
-
-关系型数据库一般被用于实现OLTP系统，所谓OLTP，援引wikipedia：
-
-在线交易处理（OLTP, Online transaction processing）是指透过信息系统、电脑网络及数据库，以线上交易的方式处理一般即时性的作业数据，和更早期传统数据库系统大量批量的作业方式并不相同。OLTP通常被运用于自动化的数据处理工作，如订单输入、金融业务…等反复性的日常性交易活动。和其相对的是属于决策分析层次的联机分析处理（OLAP）。
-
-在互联网的业务场景中，也有一些实时性要求不高(可以接受多秒的延迟)，但是查询复杂性却很高的场景。举个例子，在电商的WMS系统中，或者在大多数业务场景丰富的CRM或者客服系统中，可能需要提供几十个字段的随意组合查询功能。这种系统的数据维度天生众多，比如一个电商的WMS中对一件货物的描述，可能有下面这些字段：
-
-> 仓库id，入库时间，库位分区id，储存货架id，入库操作员id，出库操作员id，库存数量，过期时间，SKU类型，产品品牌，产品分类，内件数量
-
-除了上述信息，如果商品在仓库内有流转。可能还有有关联的流程 id，当前的流转状态等等。
-
-想像一下，如果我们所经营的是一个大型电商，每天有千万级别的订单，那么在这个数据库中查询和建立合适的索引都是一件非常难的事情。
-
-在CRM或客服类系统中，常常有根据关键字进行搜索的需求，大型互联网公司每天会接收数以万计的用户投诉。而考虑到事件溯源，用户的投诉至少要存2~3年。又是千万级甚至上亿的数据。根据关键字进行一次like查询，可能整个MySQL就直接挂掉了。
-
-这时候我们就需要搜索引擎来救场了。
-
-
-
-### 分布式配置管理
-
-在分布式系统中，常困扰我们的还有上线问题。虽然目前有一些优雅重启方案，但实际应用中可能受限于我们系统内部的运行情况而没有办法做到真正的“优雅”。比如我们为了对去下游的流量进行限制，在内存中堆积一些数据，并对堆积设定时间或总量的阈值。在任意阈值达到之后将数据统一发送给下游，以避免频繁的请求超出下游的承载能力而将下游打垮。这种情况下重启要做到优雅就比较难了。
-
-所以我们的目标还是尽量避免采用或者绕过上线的方式，对线上程序做一些修改。比较典型的修改内容就是程序的配置项。
-
-我们使用etcd实现一个简单的配置读取和动态更新流程，以此来了解线上的配置更新流程。
-
-配置定义
-
-```json
-etcdctl get /configs/remote_config.json
-{
-    "addr" : "127.0.0.1:1080",
-    "aes_key" : "01B345B7A9ABC00F0123456789ABCDAF",
-    "https" : false,
-    "secret" : "",
-    "private_key_path" : "",
-    "cert_file_path" : ""
-}
-```
-
-新建etcd client
-
-```go
-cfg := client.Config{
-    Endpoints:               []string{"http://127.0.0.1:2379"},
-    Transport:               client.DefaultTransport,
-    HeaderTimeoutPerRequest: time.Second,
-}
-```
-
-获取配置
-
-```go
-resp, err = kapi.Get(context.Background(), "/path/to/your/config", nil)
-if err != nil {
-    log.Fatal(err)
-} else {
-    log.Printf("Get is done. Metadata is %q\n", resp)
-    log.Printf("%q key has %q value\n", resp.Node.Key, resp.Node.Value)
-}
-```
-
-配置膨胀
-
-随着业务的发展，配置系统本身所承载的压力可能也会越来越大，配置文件可能成千上万。客户端同样上万，将配置内容存储在etcd内部便不再合适了。随着配置文件数量的膨胀，除了存储系统本身的吞吐量问题，还有配置信息的管理问题。我们需要对相应的配置进行权限管理，需要根据业务量进行配置存储的集群划分。如果客户端太多，导致了配置存储系统无法承受瞬时大量的QPS，那可能还需要在客户端侧进行缓存优化，等等。
-
-这也就是为什么大公司都会针对自己的业务额外开发一套复杂配置系统的原因。
-
-配置版本管理
-
-在配置管理过程中，难免出现用户误操作的情况，例如在更新配置时，输入了无法解析的配置。这种情况下我们可以通过配置校验来解决。
-
-有时错误的配置可能不是格式上有问题，而是在逻辑上有问题。比如我们写SQL时少select了一个字段，更新配置时，不小心丢掉了json字符串中的一个field而导致程序无法理解新的配置而进入诡异的逻辑。为了快速止损，最快且最有效的办法就是进行版本管理，并支持按版本回滚。
-
-在配置进行更新时，我们要为每份配置的新内容赋予一个版本号，并将修改前的内容和版本号记录下来，当发现新配置出问题时，能够及时地回滚回来。
-
-常见的做法是，使用MySQL来存储配置文件或配置字符串的不同版本内容，在需要回滚时，只要进行简单的查询即可。
-
-
-
-## ElasticSearch
-
-数据库系统本身要保证实时和强一致性，所以其功能设计上都是为了满足这种一致性需求。比如write ahead log的设计，基于B+树实现的索引和数据组织，以及基于MVCC实现的事务等等。
-
-关系型数据库一般被用于实现OLTP系统，所谓OLTP，在线交易处理（OLTP, Online transaction processing）是指透过信息系统、电脑网络及数据库，以线上交易的方式处理一般即时性的作业数据，和更早期传统数据库系统大量批量的作业方式并不相同。OLTP通常被运用于自动化的数据处理工作，如订单输入、金融业务…等反复性的日常性交易活动。和其相对的是属于决策分析层次的联机分析处理（OLAP）。
-
-在互联网的业务场景中，也有一些实时性要求不高(可以接受多秒的延迟)，但是查询复杂性却很高的场景。举个例子，在电商的WMS系统中，或者在大多数业务场景丰富的CRM或者客服系统中，可能需要提供几十个字段的随意组合查询功能。这种系统的数据维度天生众多
-
-想像一下，如果我们所经营的是一个大型电商，每天有千万级别的订单，那么在这个数据库中查询和建立合适的索引都是一件非常难的事情。
-
-在CRM或客服类系统中，常常有根据关键字进行搜索的需求，大型互联网公司每天会接收数以万计的用户投诉。而考虑到事件溯源，用户的投诉至少要存2~3年。又是千万级甚至上亿的数据。根据关键字进行一次like查询，可能整个MySQL就直接挂掉了。
-
-这时候我们就需要搜索引擎来救场了。
-
-[全文搜索](https://baike.baidu.com/item/全文搜索引擎)属于最常见的需求，开源的 [Elasticsearch](https://www.elastic.co/) （以下简称 Elastic）是目前全文搜索引擎的首选。
-
-它可以快速地储存、搜索和分析海量数据。维基百科、Stack Overflow、Github 都采用它。
-
-Elastic 的底层是开源库 [Lucene](https://lucene.apache.org/)。但是，你没法直接用 Lucene，必须自己写代码去调用它的接口。Elastic 是 Lucene 的封装，提供了 REST API 的操作接口，开箱即用。
-
-安装Elastic
-
-```shell
-$ wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.5.1.zip
-$ unzip elasticsearch-5.5.1.zip
-$ cd elasticsearch-5.5.1/ 
-```
-
-接着，进入解压后的目录，运行下面的命令，启动 Elastic。
-
-```shell
-$ ./bin/elasticsearch
-```
-
-如果这时[报错](https://github.com/spujadas/elk-docker/issues/92)"max virtual memory areas vm.max*map*count [65530] is too low"，要运行下面的命令。
-
-```shell
-$ sudo sysctl -w vm.max_map_count=262144
-```
-
-如果一切正常，Elastic 就会在默认的9200端口运行。这时，打开另一个命令行窗口，请求该端口，会得到说明信息。
-
-```shell
-$ curl localhost:9200
-
-{
-  "name" : "atntrTf",
-  "cluster_name" : "elasticsearch",
-  "cluster_uuid" : "tf9250XhQ6ee4h7YI11anA",
-  "version" : {
-    "number" : "5.5.1",
-    "build_hash" : "19c13d0",
-    "build_date" : "2017-07-18T20:44:24.823Z",
-    "build_snapshot" : false,
-    "lucene_version" : "6.6.0"
-  },
-  "tagline" : "You Know, for Search"
-}
-```
-
-上面代码中，请求9200端口，Elastic 返回一个 JSON 对象，包含当前节点、集群、版本等信息。
-
-按下 Ctrl + C，Elastic 就会停止运行。
-
-默认情况下，Elastic 只允许本机访问，如果需要远程访问，可以修改 Elastic 安装目录的`config/elasticsearch.yml`文件，去掉`network.host`的注释，将它的值改成`0.0.0.0`，然后重新启动 Elastic。
-
-```yaml
-network.host: 0.0.0.0
-```
-
-上面代码中，设成`0.0.0.0`让任何人都可以访问。线上服务不要这样设置，要设成具体的 IP。
-
-### 基本概念
-
-Node与Cluster
-
-Elastic 本质上是一个分布式数据库，允许多台服务器协同工作，每台服务器可以运行多个 Elastic 实例。
-
-单个 Elastic 实例称为一个节点（node）。一组节点构成一个集群（cluster）。
-
-Index
-
-Elastic 会索引所有字段，经过处理后写入一个反向索引（Inverted Index）。查找数据的时候，直接查找该索引。
-
-所以，Elastic 数据管理的顶层单位就叫做 Index（索引）。它是单个数据库的同义词。每个 Index （即数据库）的名字必须是小写。
-
-下面的命令可以查看当前节点的所有 Index。
-
-```shell
-$ curl -X GET 'http://localhost:9200/_cat/indices?v'
-```
-
-Document
-
-Index 里面单条的记录称为 Document（文档）。许多条 Document 构成了一个 Index。
-
-Document 使用 JSON 格式表示，下面是一个例子。
-
-```json
-{
-  "user": "张三",
-  "title": "工程师",
-  "desc": "数据库管理"
-}
-```
-
-同一个 Index 里面的 Document，不要求有相同的结构（scheme），但是最好保持相同，这样有利于提高搜索效率。
-
-Type
-
-Document 可以分组，比如`weather`这个 Index 里面，可以按城市分组（北京和上海），也可以按气候分组（晴天和雨天）。这种分组就叫做 Type，它是虚拟的逻辑分组，用来过滤 Document。
-
-不同的 Type 应该有相似的结构（schema），举例来说，`id`字段不能在这个组是字符串，在另一个组是数值。这是与关系型数据库的表的[一个区别](https://www.elastic.co/guide/en/elasticsearch/guide/current/mapping.html)。性质完全不同的数据（比如`products`和`logs`）应该存成两个 Index，而不是一个 Index 里面的两个 Type（虽然可以做到）。
-
-下面的命令可以列出每个 Index 所包含的 Type。
-
-```shell
-$ curl 'localhost:9200/_mapping?pretty=true'
-```
-
-Elastic 6.x 版只允许每个 Index 包含一个 Type，7.x 版将会彻底移除 Type。
-
-### 新建和删除index
-
-新建 Index，可以直接向 Elastic 服务器发出 PUT 请求。下面的例子是新建一个名叫`weather`的 Index
-
-```shell
-$ curl -X PUT 'localhost:9200/weather'
-```
-
-服务器返回一个 JSON 对象，里面的`acknowledged`字段表示操作成功。
-
-```json
-{
-  "acknowledged":true,
-  "shards_acknowledged":true
-}
-```
-
-然后，我们发出 DELETE 请求，删除这个 Index。
-
-```shell
-$ curl -X DELETE 'localhost:9200/weather'
-```
-
-
-
-### 中文分词设置
-
-首先，安装中文分词插件。这里使用的是 [ik](https://github.com/medcl/elasticsearch-analysis-ik/)，也可以考虑其他插件（比如 [smartcn](https://www.elastic.co/guide/en/elasticsearch/plugins/current/analysis-smartcn.html)）。
-
-```shell
-$ ./bin/elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v5.5.1/elasticsearch-analysis-ik-5.5.1.zip
-```
-
-上面代码安装的是5.5.1版的插件，与 Elastic 5.5.1 配合使用。
-
-接着，重新启动 Elastic，就会自动加载这个新安装的插件。
-
-然后，新建一个 Index，指定需要分词的字段。这一步根据数据结构而异，下面的命令只针对本文。基本上，凡是需要搜索的中文字段，都要单独设置一下。
-
-```shell
-$ curl -X PUT 'localhost:9200/accounts' -d '
-{
-  "mappings": {
-    "person": {
-      "properties": {
-        "user": {
-          "type": "text",
-          "analyzer": "ik_max_word",
-          "search_analyzer": "ik_max_word"
-        },
-        "title": {
-          "type": "text",
-          "analyzer": "ik_max_word",
-          "search_analyzer": "ik_max_word"
-        },
-        "desc": {
-          "type": "text",
-          "analyzer": "ik_max_word",
-          "search_analyzer": "ik_max_word"
-        }
-      }
-    }
-  }
-}'
-```
-
-Elastic 的分词器称为 [analyzer](https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis.html)。我们对每个字段指定分词器。
-
-```json
-"user": {
-  "type": "text",
-  "analyzer": "ik_max_word",
-  "search_analyzer": "ik_max_word"
-}
-```
-
-`analyzer`是字段文本的分词器，`search_analyzer`是搜索词的分词器。`ik_max_word`分词器是插件`ik`提供的，可以对文本进行最大数量的分词。
-
-### 数据操作
-
-新增记录
-
-向指定的 /Index/Type 发送 PUT 请求，就可以在 Index 里面新增一条记录。比如，向`/accounts/person`发送请求，就可以新增一条人员记录。
-
-```shell
-$ curl -X PUT 'localhost:9200/accounts/person/1' -d '
-{
-  "user": "张三",
-  "title": "工程师",
-  "desc": "数据库管理"
-}' 
-```
-
-服务器返回的 JSON 对象，会给出 Index、Type、Id、Version 等信息。
-
-```json
-{
-  "_index":"accounts",
-  "_type":"person",
-  "_id":"1",
-  "_version":1,
-  "result":"created",
-  "_shards":{"total":2,"successful":1,"failed":0},
-  "created":true
-}
-```
-
-如果你仔细看，会发现请求路径是`/accounts/person/1`，最后的`1`是该条记录的 Id。它不一定是数字，任意字符串（比如`abc`）都可以。
-
-新增记录的时候，也可以不指定 Id，这时要改成 POST 请求。
-
-```shell
-$ curl -X POST 'localhost:9200/accounts/person' -d '
-{
-  "user": "李四",
-  "title": "工程师",
-  "desc": "系统管理"
-}'
-```
-
-上面代码中，向`/accounts/person`发出一个 POST 请求，添加一个记录。这时，服务器返回的 JSON 对象里面，`_id`字段就是一个随机字符串。
-
-```json
-{
-  "_index":"accounts",
-  "_type":"person",
-  "_id":"AV3qGfrC6jMbsbXb6k1p",
-  "_version":1,
-  "result":"created",
-  "_shards":{"total":2,"successful":1,"failed":0},
-  "created":true
-}
-```
-
-注意，如果没有先创建 Index（这个例子是`accounts`），直接执行上面的命令，Elastic 也不会报错，而是直接生成指定的 Index。所以，打字的时候要小心，不要写错 Index 的名称。
-
-查询记录
-
-向`/Index/Type/Id`发出 GET 请求，就可以查看这条记录。
-
-```shell
-$ curl 'localhost:9200/accounts/person/1?pretty=true'
-```
-
-上面代码请求查看`/accounts/person/1`这条记录，URL 的参数`pretty=true`表示以易读的格式返回。
-
-返回的数据中，`found`字段表示查询成功，`_source`字段返回原始记录。
-
-```json
-{
-  "_index" : "accounts",
-  "_type" : "person",
-  "_id" : "1",
-  "_version" : 1,
-  "found" : true,
-  "_source" : {
-    "user" : "张三",
-    "title" : "工程师",
-    "desc" : "数据库管理"
-  }
-}
-```
-
-如果 Id 不正确，就查不到数据，`found`字段就是`false`。
-
-```shell
-$ curl 'localhost:9200/weather/beijing/abc?pretty=true'
-
-{
-  "_index" : "accounts",
-  "_type" : "person",
-  "_id" : "abc",
-  "found" : false
-}
-```
-
-删除记录
-
-删除记录就是发出 DELETE 请求。
-
-```shell
-$ curl -X DELETE 'localhost:9200/accounts/person/1'
-```
-
-更新记录
-
-更新记录就是使用 PUT 请求，重新发送一次数据。
-
-```shell
-$ curl -X PUT 'localhost:9200/accounts/person/1' -d '
-{
-    "user" : "张三",
-    "title" : "工程师",
-    "desc" : "数据库管理，软件开发"
-}' 
-
-{
-  "_index":"accounts",
-  "_type":"person",
-  "_id":"1",
-  "_version":2,
-  "result":"updated",
-  "_shards":{"total":2,"successful":1,"failed":0},
-  "created":false
-}
-```
-
-### 数据查询
-
-返回所有记录
-
-使用 GET 方法，直接请求`/Index/Type/_search`，就会返回所有记录。
-
-```shell
-$ curl 'localhost:9200/accounts/person/_search'
-
-{
-  "took":2,
-  "timed_out":false,
-  "_shards":{"total":5,"successful":5,"failed":0},
-  "hits":{
-    "total":2,
-    "max_score":1.0,
-    "hits":[
-      {
-        "_index":"accounts",
-        "_type":"person",
-        "_id":"AV3qGfrC6jMbsbXb6k1p",
-        "_score":1.0,
-        "_source": {
-          "user": "李四",
-          "title": "工程师",
-          "desc": "系统管理"
-        }
-      },
-      {
-        "_index":"accounts",
-        "_type":"person",
-        "_id":"1",
-        "_score":1.0,
-        "_source": {
-          "user" : "张三",
-          "title" : "工程师",
-          "desc" : "数据库管理，软件开发"
-        }
-      }
-    ]
-  }
-}
-```
-
-全文搜索
-
-Elastic 的查询非常特别，使用自己的[查询语法](https://www.elastic.co/guide/en/elasticsearch/reference/5.5/query-dsl.html)，要求 GET 请求带有数据体。
-
-```shell
-$ curl 'localhost:9200/accounts/person/_search'  -d '
-{
-  "query" : { "match" : { "desc" : "软件" }}
-}'
-```
-
-Elastic 默认一次返回10条结果，可以通过`size`字段改变这个设置。
-
-```shell
-$ curl 'localhost:9200/accounts/person/_search'  -d '
-{
-  "query" : { "match" : { "desc" : "管理" }},
-  "size": 1
-}'
-```
-
-还可以通过`from`字段，指定查询位置。
-
-```shell
-$ curl 'localhost:9200/accounts/person/_search'  -d '
-{
-  "query" : { "match" : { "desc" : "管理" }},
-  "from": 1,
-  "size": 1
-}'
-```
-
-上面代码指定，从位置1开始（默认是从位置0开始），只返回一条结果。
-
-逻辑运算
-
-如果有多个搜索关键字， Elastic 认为它们是`or`关系。
-
-```shell
-$ curl 'localhost:9200/accounts/person/_search'  -d '
-{
-  "query" : { "match" : { "desc" : "软件 系统" }}
-}'
-```
-
-如果要执行多个关键词的`and`搜索，必须使用[布尔查询](https://www.elastic.co/guide/en/elasticsearch/reference/5.5/query-dsl-bool-query.html)。
-
-```shell
-$ curl 'localhost:9200/accounts/person/_search'  -d '
-{
-  "query": {
-    "bool": {
-      "must": [
-        { "match": { "desc": "软件" } },
-        { "match": { "desc": "系统" } }
-      ]
-    }
-  }
-}'
-```
-
+https://github.com/Netflix/Hystrix

@@ -483,6 +483,97 @@ if __name__ == '__main__':
 
 
 
+## Lint工具
+
+安装
+
+```shell
+pip install ruff
+```
+
+运行单个lint命令格式化文件、文件夹或者监听文件
+
+```shell
+ruff path/to/code/to/lint.py  # Run Ruff over `lint.py`
+ruff path/to/code/            # Run Ruff over all files in `/path/to/code` (and any subdirectories)
+ruff path/to/code/*.py        # Run Ruff over all `.py` files in `/path/to/code`
+
+ruff path/to/code/ --watch
+```
+
+在pre-commit hooks中配置
+
+```toml
+- repo: https://github.com/charliermarsh/ruff-pre-commit
+  # Ruff version.
+  rev: 'v0.0.221'
+  hooks:
+    - id: ruff
+      # Respect `exclude` and `extend-exclude` settings.
+      args: ["--force-exclude"]
+```
+
+配置
+
+```toml
+[tool.ruff]
+line-length = 88
+
+# Enable Pyflakes `E` and `F` codes by default.
+select = ["E", "F"]
+ignore = []
+
+# Exclude a variety of commonly ignored directories.
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".hg",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "venv",
+]
+per-file-ignores = {}
+
+# Allow unused variables when underscore-prefixed.
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+# Assume Python 3.10.
+target-version = "py310"
+
+[tool.ruff.mccabe]
+# Unlike Flake8, default to a complexity level of 10.
+max-complexity = 10
+```
+
+
+
+https://github.com/charliermarsh/ruff#installation-and-usage
+
+## git hooks 工具
+
+安装
+
+```shell
+pip install pre-commit
+```
+
+
+
+https://pre-commit.com/
+
 
 
 ## 定义链表
@@ -505,6 +596,69 @@ class Node(object)
 ```python
 
 ```
+
+
+
+## Poetry
+
+Poetry是一个Python虚拟环境和依赖管理工具，另外它还提供了包管理功能，比如打包和发布。
+可以用来管理python库和python程序
+
+安装
+
+```shell
+pip3 install poetry
+```
+
+验证安装成功
+
+```shell
+poetry --version
+```
+
+使用命令行创建一个pyproject.toml
+
+```shell
+poetry init
+```
+
+pyproject.toml: 使用此文件管理依赖列表和项目的各种meta信息，用来替代 Pipfile、requirements.txt、setup.py、setup.cfg、MANIFEST.in 等等各种配置文件。
+
+然后项目下安装虚拟环境
+
+```shell
+poetry install
+```
+
+这个命令会读取pyproject.toml中的所有依赖并安装（包括开发依赖），如果不想安装开发依赖可以附加：--no-dev 选项。如果项目根目录有 poetry.lock 文件，会安装这个文件中列出的锁定版本的依赖。如果执行 add/remove 命令的时候没有检测到虚拟环境，也会为当前目录自动创建虚拟
+
+其他命令
+
+```shell
+## 激活虚拟环境
+poetry shell
+
+## 查看python版本
+poetry run python -v
+
+## 执行脚本
+poetry run python app.py
+
+## 安装包
+poetry add flask
+
+## 追踪 & 更新包
+poetry show
+poetry show --tree
+
+## 更新所有锁定版本的依赖
+poetry update
+
+## 卸载包
+poetry remove dep_name
+```
+
+其他相关命令行工具：pyenv  pipenv
 
 
 

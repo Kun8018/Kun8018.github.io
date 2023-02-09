@@ -803,6 +803,88 @@ https://github.com/pion/webrtc
 
 
 
+## 测试框架
+
+### ginkgo
+
+使用
+
+```go
+import (
+    . "github.com/onsi/ginkgo/v2"
+    . "github.com/onsi/gomega"
+    ...
+)
+
+Describe("Checking books out of the library", Label("library"), func() {
+    var library *libraries.Library
+    var book *books.Book
+    var valjean *users.User
+    BeforeEach(func() {
+        library = libraries.NewClient()
+        book = &books.Book{
+            Title: "Les Miserables",
+            Author: "Victor Hugo",
+        }
+        valjean = users.NewUser("Jean Valjean")
+    })
+
+    When("the library has the book in question", func() {
+        BeforeEach(func(ctx SpecContext) {
+            Expect(library.Store(ctx, book)).To(Succeed())
+        })
+
+        Context("and the book is available", func() {
+            It("lends it to the reader", func(ctx SpecContext) {
+                Expect(valjean.Checkout(ctx, library, "Les Miserables")).To(Succeed())
+                Expect(valjean.Books()).To(ContainElement(book))
+                Expect(library.UserWithBook(ctx, book)).To(Equal(valjean))
+            }, SpecTimeout(time.Second * 5))
+        })
+
+        Context("but the book has already been checked out", func() {
+            var javert *users.User
+            BeforeEach(func(ctx SpecContext) {
+                javert = users.NewUser("Javert")
+                Expect(javert.Checkout(ctx, library, "Les Miserables")).To(Succeed())
+            })
+
+            It("tells the user", func(ctx SpecContext) {
+                err := valjean.Checkout(ctx, library, "Les Miserables")
+                Expect(error).To(MatchError("Les Miserables is currently checked out"))
+            }, SpecTimeout(time.Second * 5))
+
+            It("lets the user place a hold and get notified later", func(ctx SpecContext) {
+                Expect(valjean.Hold(ctx, library, "Les Miserables")).To(Succeed())
+                Expect(valjean.Holds(ctx)).To(ContainElement(book))
+
+                By("when Javert returns the book")
+                Expect(javert.Return(ctx, library, book)).To(Succeed())
+
+                By("it eventually informs Valjean")
+                notification := "Les Miserables is ready for pick up"
+                Eventually(ctx, valjean.Notifications).Should(ContainElement(notification))
+
+                Expect(valjean.Checkout(ctx, library, "Les Miserables")).To(Succeed())
+                Expect(valjean.Books(ctx)).To(ContainElement(book))
+                Expect(valjean.Holds(ctx)).To(BeEmpty())
+            }, SpecTimeout(time.Second * 10))
+        })  
+    })
+
+    When("the library does not have the book in question", func() {
+        It("tells the reader the book is unavailable", func(ctx SpecContext) {
+            err := valjean.Checkout(ctx, library, "Les Miserables")
+            Expect(error).To(MatchError("Les Miserables is not in the library catalog"))
+        }, SpecTimeout(time.Second * 5))
+    })
+})
+```
+
+
+
+
+
 ## 工具库
 
 ### lo
@@ -879,6 +961,43 @@ go install 命令会将会在`$GOPATH/bin`目录生成的 gore 可执行文件�
 gore
 ```
 
+### expr
+
+计算表达式的值
+
+安装
+
+```shell
+go get -u /github.com/antonmedv/expr
+```
+
+使用
+
+```go
+package main
+
+import (
+	"fmt"
+	"github.com/antonmedv/expr"
+)
+
+func main() {
+	env := map[string]interface{}{
+		"foo": 1,
+		"bar": 2,
+	}
+
+	out, err := expr.Eval("foo + bar", env)
+
+	if err != nil {
+		panic(err)
+	}
+	fmt.Print(out)
+}
+```
+
+https://czyt.tech/post/golang-expr-uncompleted-reference/
+
 
 
 ## 微服务
@@ -888,6 +1007,35 @@ gore
 https://github.com/go-eagle/eagle
 
 
+
+## Monorepo
+
+go的monorepo使用replace替换
+
+```go
+module github.com/earthly/earthly/examples/go-monorepo/services/one
+
+go 1.17
+
+require (
+  github.com/earthly/earthly/examples/go-monorepo/libs/hello v0.0.0
+  github.com/labstack/echo/v4 v4.6.3
+)
+
+replace github.com/earthly/earthly/examples/go-monorepo/libs/hello v0.0.0 => ../../libs/hello
+```
+
+构建工具
+
+earthly
+
+安装
+
+```shell
+brew install earthly/earthly/earthly && earthly bootstrap
+```
+
+https://earthly.dev/
 
 ## go-clean-arch
 

@@ -651,5 +651,8 @@ grant all privileges on database testdb to test
 
 
 
+## sql工具
 
+帮忙生成sql工具：https://www.sqlfather.com/
 
+快速熟悉pg库：https://www.crunchydata.com/developers/tutorials

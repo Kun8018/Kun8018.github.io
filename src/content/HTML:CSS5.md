@@ -716,6 +716,8 @@ Linaria 同时支持 Webpack ， Rollup 和 Sevlte
 },
 ```
 
+### linaria/react
+
 在react中使用
 
 ```react
@@ -744,6 +746,29 @@ function App({ isPlaying }) {
 ```
 
 `cx()` 这个函数看着很像一个流行库 `classnames` ，但还是有点区别的， `cx()` 不处理对象
+
+安装linaria/react库
+
+```shell
+npm i linaria/react --dev
+```
+
+使用
+
+```react
+import { styled } from 'linaria/react';
+
+const Card = styled.div`
+	border: 1px solid #fff;
+  border-radius: 4px;
+`
+
+const App = () => {
+  return <Card className={cs(active && 'active', className)}>1</Card>
+}
+```
+
+
 
 服务端api
 
@@ -835,26 +860,7 @@ Tailwind的优势
 yarn add -D tailwindcss@npm:@tailwindcss/postcss7-compat postcss@^7 autoprefixer@^9
 ```
 
-配置react项目
-
-```shell
-yarn add react-app-rewired customize-cra
-```
-
-修改 `package.json`配置
-
-```json
-"scripts": {
-  "start": "react-app-rewired start",
-  "build": "react-app-rewired build",
-  "test": "react-app-rewired test",
-  "eject": "react-app-rewired eject"
-},
-```
-
-
-
-tailwind.config
+添加配置文件tailwind.config
 
 tailwind.config.js可以改变tailwindcss的基础配置，以做到让开发者的定制化开发，在配置中加入某些类以便可以在全局中使用
 
@@ -988,6 +994,39 @@ export default function Header() {
   </div>
 }
 ```
+
+### typewind
+
+typewind支持类型安全地使用tailwind，并且是零运行时
+
+如果使用monorepo，可以自定义typewind引入tailwind的配置文件路径
+
+```json
+{
+    "typewind": {
+        "configPath": "./path/to/your/tailwind.config.cjs"
+    }
+}
+```
+
+使用
+
+```react
+import { tw } from 'typewind';
+ 
+export default function Button() {
+  return (
+    <button className={tw.bg_blue_500.text_white.rounded.py_3.px_4}>
+      Click Me
+    </button>
+  );
+}
+
+// 输出
+// <button className="bg-blue-500 text-white rounded py-3 px-4">Click Me</button>
+```
+
+
 
 ### windi css
 

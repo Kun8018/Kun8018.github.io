@@ -1441,6 +1441,121 @@ const previousState = paymentMachine.transition(reviewState, {
 // => { method: 'check' }
 ```
 
+## unstated-next
+
+基于context api的状态管理方案，更小更轻
+
+安装
+
+```shell
+npm install --save unstated-next
+```
+
+使用
+
+```react
+import React, { useState } from "react"
+import { createContainer } from "unstated-next"
+import { render } from "react-dom"
+
+function useCounter(initialState = 0) {
+  let [count, setCount] = useState(initialState)
+  let decrement = () => setCount(count - 1)
+  let increment = () => setCount(count + 1)
+  return { count, decrement, increment }
+}
+
+let Counter = createContainer(useCounter)
+
+function CounterDisplay() {
+  let counter = Counter.useContainer()
+  return (
+    <div>
+      <button onClick={counter.decrement}>-</button>
+      <span>{counter.count}</span>
+      <button onClick={counter.increment}>+</button>
+    </div>
+  )
+}
+
+function App() {
+  return (
+    <Counter.Provider>
+      <CounterDisplay />
+      <Counter.Provider initialState={2}>
+        <div>
+          <div>
+            <CounterDisplay />
+          </div>
+        </div>
+      </Counter.Provider>
+    </Counter.Provider>
+  )
+}
+
+render(<App />, document.getElementById("root"))
+```
+
+更多优化使用方式参考：https://github.com/jamiebuilds/unstated-next/blob/master/README-zh-cn.md#%E4%BB%8E-unstated-%E8%BF%81%E7%A7%BB
+
+### unstated
+
+react类组件的状态管理库
+
+安装
+
+```shell
+yarn add unstated
+```
+
+使用
+
+```react
+// @flow
+import React from 'react';
+import { render } from 'react-dom';
+import { Provider, Subscribe, Container } from 'unstated';
+
+type CounterState = {
+  count: number
+};
+
+class CounterContainer extends Container<CounterState> {
+  state = {
+    count: 0
+  };
+
+  increment() {
+    this.setState({ count: this.state.count + 1 });
+  }
+
+  decrement() {
+    this.setState({ count: this.state.count - 1 });
+  }
+}
+
+function Counter() {
+  return (
+    <Subscribe to={[CounterContainer]}>
+      {counter => (
+        <div>
+          <button onClick={() => counter.decrement()}>-</button>
+          <span>{counter.state.count}</span>
+          <button onClick={() => counter.increment()}>+</button>
+        </div>
+      )}
+    </Subscribe>
+  );
+}
+
+render(
+  <Provider>
+    <Counter />
+  </Provider>,
+  document.getElementById('root')
+);
+```
+
 
 
 ## react-query

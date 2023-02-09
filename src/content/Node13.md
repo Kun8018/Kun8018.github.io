@@ -234,9 +234,89 @@ const clone = async function(repo, dir, opotions = {}) {
 module.exports = clone;
 ```
 
+### yalc
+
+管理自己的npm包。比npm link更方便
+
+安装
+
+```shell
+yarn global add yalc
+```
+
+
+
 
 
 ## 功能模块
+
+### tsoa
+
+基于Node生成标准的Open Api接口
+
+安装
+
+```shell
+yarn add tsoa express
+yarn add -D typescript @types/node @types/express
+```
+
+配置tsoa.json
+
+```json
+{
+  "entryFile": "src/app.ts",
+  "noImplicitAdditionalProperties": "throw-on-extras",
+  "controllerPathGlobs": ["src/**/*Controller.ts"],
+  "spec": {
+    "outputDirectory": "build",
+    "specVersion": 3
+  },
+  "routes": {
+    "routesDir": "build"
+  }
+}
+```
+
+定义controller
+
+```typescript
+import {
+  Body,
+  Controller,
+  Get,
+  Path,
+  Post,
+  Query,
+  Route,
+  SuccessResponse,
+} from "tsoa";
+import { User } from "./user";
+import { UsersService, UserCreationParams } from "./usersService";
+
+@Route("users")
+export class UsersController extends Controller {
+  @Get("{userId}")
+  public async getUser(
+    @Path() userId: number,
+    @Query() name?: string
+  ): Promise<User> {
+    return new UsersService().get(userId, name);
+  }
+
+  @SuccessResponse("201", "Created") // Custom success response
+  @Post()
+  public async createUser(
+    @Body() requestBody: UserCreationParams
+  ): Promise<void> {
+    this.setStatus(201); // set return status 201
+    new UsersService().create(requestBody);
+    return;
+  }
+}
+```
+
+
 
 ### semver
 
@@ -285,7 +365,7 @@ api
 var program = require('commander');
  
 program
-    .name("intl helper");
+    .name("intl helper")
     .version('0.0.1')
     .parse(process.argv);
     
@@ -551,6 +631,35 @@ execa.shell("ls",["a","l"]).then(r=>console.log(r.stdout));
 })();
 ```
 
+### tRPC
+
+构建类型安全的接口代码
+
+安装
+
+```shell
+npm install @trpc/server @trpc/client @trpc/react-query @trpc/next @tanstack/react-query
+```
+
+使用
+
+```typescript
+import { initTRPC } from '@trpc/server';
+ 
+const t = initTRPC.create();
+ 
+const router = t.router;
+const publicProcedure = t.procedure;
+ 
+const appRouter = router({});
+ 
+// Export type router type signature,
+// NOT the router itself.
+export type AppRouter = typeof appRouter;
+```
+
+
+
 ### rimraf
 
 nodejs中执行rm -rf命令
@@ -665,73 +774,7 @@ app.use(history())
 
 
 
-### node-fetch
 
-安装
-
-```shell
-npm install node-fetch@2
-```
-
-使用
-
-```javascript
-import fetch from 'node-fetch';
-
-const response = await fetch('https://api.github.com/users/github');
-const data = await response.json();
-
-const body = {a: 1};
-
-const response = await fetch('https://httpbin.org/post', {
-	method: 'post',
-	body: JSON.stringify(body),
-	headers: {'Content-Type': 'application/json'}
-});
-
-console.log(data);
-```
-
-
-
-### unfetch
-
-node的fetch包
-
-安装
-
-```shell
-$ npm i isomorphic-unfetch
-
-$ npm i unfetch
-```
-
-使用
-
-```javascript
-// using JS Modules:
-import fetch from 'unfetch'
-
-// or using CommonJS:
-const fetch = require('unfetch')
-
-// usage:
-fetch('/foo.json')
-  .then( r => r.json() )
-  .then( data => console.log(data) )
-
-// complex POST request with JSON, headers:
-fetch('/bear', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json'
-  },
-  body: JSON.stringify({ hungry: true })
-}).then( r => {
-  open(r.headers.get('location'));
-  return r.json();
-})
-```
 
 ### prisma
 
@@ -915,91 +958,6 @@ watcher.close().then(() => console.log('closed'));
 
 
 
-### pino
-
-安装
-
-```shell
-npm install pino
-```
-
-使用
-
-```javascript
-const logger = require('pino')()
-
-logger.info('hello world')
-
-const child = logger.child({ a: 'property' })
-child.info('hello child!')
-```
-
-
-
-### Sequelize
-
-安装
-
-```shell
-npm i sequelize
-```
-
-手动为所选数据库安装驱动程序
-
-```shell
-# 使用 npm
-npm i pg pg-hstore # PostgreSQL
-npm i mysql2 # MySQL
-npm i mariadb # MariaDB
-npm i sqlite3 # SQLite
-npm i tedious # Microsoft SQL Server
-npm i ibm_db # DB2
-# 使用 yarn
-yarn add pg pg-hstore # PostgreSQL
-yarn add mysql2 # MySQL
-yarn add mariadb # MariaDB
-yarn add sqlite3 # SQLite
-yarn add tedious # Microsoft SQL Server
-yarn add ibm_db # DB2
-```
-
-要连接到数据库,必须创建一个 Sequelize 实例. 这可以通过将连接参数分别传递到 Sequelize 构造函数或通过传递一个连接 URI 来完成
-
-```javascript
-const { Sequelize } = require('sequelize');
-
-// 方法 1: 传递一个连接 URI
-const sequelize = new Sequelize('sqlite::memory:') // Sqlite 示例
-const sequelize = new Sequelize('postgres://user:pass@example.com:5432/dbname') // Postgres 示例
-
-// 方法 2: 分别传递参数 (sqlite)
-const sequelize = new Sequelize({
-  dialect: 'sqlite',
-  storage: 'path/to/database.sqlite'
-});
-
-// 方法 3: 分别传递参数 (其它数据库)
-const sequelize = new Sequelize('database', 'username', 'password', {
-  host: 'localhost',
-  dialect: /* 选择 'mysql' | 'mariadb' | 'postgres' | 'mssql' 其一 */
-});
-```
-
-测试连接
-
-```javascript
-try {
-  await sequelize.authenticate();
-  console.log('Connection has been established successfully.');
-} catch (error) {
-  console.error('Unable to connect to the database:', error);
-}
-```
-
-默认情况下,Sequelize 将保持连接打开状态,并对所有查询使用相同的连接. 如果你需要关闭连接,请调用 `sequelize.close()`(这是异步的并返回一个 Promise)
-
-
-
 ### 转码包
 
 node默认支持utf8、base64、binary，如果要请求或处理GBK或者Gb2312页面或文件就需要转码
@@ -1047,6 +1005,179 @@ SECRET_KEY="YOURSECRETKEYGOESHERE"
 import * as dotenv from 'dotenv' // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
 dotenv.config()
 ```
+
+### ts相关
+
+#### node-dev
+
+监听js文件并rerun node
+
+```shell
+node-dev server.js
+```
+
+#### ts-node
+
+运行node ts文件的命令行工具REPL
+
+```shell
+ts-node script.ts
+```
+
+#### tslib
+
+
+
+#### ts-node-dev
+
+Node-dev的ts版本
+
+安装
+
+```shell
+yarn add typescript ts-node-dev -D
+```
+
+安装完成后配置npm脚本
+
+```json
+{
+  "scripts": {
+    "start": "tsnd -P ./tsconfig.json --respawn ./main.ts"
+  }
+}
+```
+
+tsnd 是 ts-node-dev 命令的缩写。上述命令中，只进行了两个配置，-P 代表着配置 tsconfig 的路径，是 --project 的缩写。--respawn 即为观察文件变更以重新运行脚本。
+
+在生产环境运行tsc就可以
+
+```json
+{
+  "scripts": {
+    "build": "tsc --project ./"
+  }
+}
+```
+
+#### @types/node
+
+node.js 类型声明包，这样才可以对 node.js 提供 API 方法有默认的类型提示和检查
+
+```shell
+yarn add @types/node
+```
+
+
+
+### http库
+
+各个包对比图：https://blog.csdn.net/weixin_42900858/article/details/116065875
+
+#### node-fetch
+
+安装
+
+```shell
+npm install node-fetch@2
+```
+
+使用
+
+```javascript
+import fetch from 'node-fetch';
+
+const response = await fetch('https://api.github.com/users/github');
+const data = await response.json();
+
+const body = {a: 1};
+
+const response = await fetch('https://httpbin.org/post', {
+	method: 'post',
+	body: JSON.stringify(body),
+	headers: {'Content-Type': 'application/json'}
+});
+
+console.log(data);
+```
+
+
+
+#### unfetch
+
+node的fetch包
+
+安装
+
+```shell
+$ npm i isomorphic-unfetch
+
+$ npm i unfetch
+```
+
+使用
+
+```javascript
+// using JS Modules:
+import fetch from 'unfetch'
+
+// or using CommonJS:
+const fetch = require('unfetch')
+
+// usage:
+fetch('/foo.json')
+  .then( r => r.json() )
+  .then( data => console.log(data) )
+
+// complex POST request with JSON, headers:
+fetch('/bear', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({ hungry: true })
+}).then( r => {
+  open(r.headers.get('location'));
+  return r.json();
+})
+```
+
+#### Got
+
+安装
+
+```shell
+npm install got
+```
+
+使用
+
+```javascript
+import got from 'got';
+
+const {data} = await got.post('https://httpbin.org/anything', {
+	json: {
+		hello: 'world'
+	}
+}).json();
+
+console.log(data);
+//=> {"hello": "world"}
+```
+
+
+
+#### request
+
+
+
+#### superagent
+
+
+
+#### ky
+
+
 
 
 
@@ -1142,6 +1273,8 @@ https://npmtrends.com/crypt-vs-cryptico-vs-crypto-browserify-vs-crypto-js-vs-nod
 
 
 ### Graphql
+
+#### apollo-server
 
 安装依赖
 
@@ -1283,23 +1416,199 @@ Nexus-prisma
 
 
 
-#### graphql-code-generator
+#### graphql-upload
+
+在koa和express框架中使用graphql的upload接口
 
 安装
 
 ```shell
-yarn add -D @graphql-codegen/cli
+npm install graphql-upload graphql
 ```
 
 使用
 
+```javascript
+import graphqlUploadKoa from "graphql-upload";
+
+app.use(
+  graphqlUploadKoa({
+    // Limits here should be stricter than config for surrounding infrastructure
+    // such as NGINX so errors can be handled elegantly by `graphql-upload`.
+    maxFileSize: 10000000, // 10 MB
+    maxFiles: 20,
+  })
+);
+```
+
+#### @graphql-tools
+
+graphql的内部包
+
+https://the-guild.dev/graphql/tools/docs/resolvers-composition
+
+### Sequelize
+
+安装
+
 ```shell
-yarn graphql-codegen init
+npm i sequelize
+```
+
+手动为所选数据库安装驱动程序
+
+```shell
+# 使用 npm
+npm i pg pg-hstore # PostgreSQL
+npm i mysql2 # MySQL
+npm i mariadb # MariaDB
+npm i sqlite3 # SQLite
+npm i tedious # Microsoft SQL Server
+npm i ibm_db # DB2
+# 使用 yarn
+yarn add pg pg-hstore # PostgreSQL
+yarn add mysql2 # MySQL
+yarn add mariadb # MariaDB
+yarn add sqlite3 # SQLite
+yarn add tedious # Microsoft SQL Server
+yarn add ibm_db # DB2
+```
+
+要连接到数据库,必须创建一个 Sequelize 实例. 这可以通过将连接参数分别传递到 Sequelize 构造函数或通过传递一个连接 URI 来完成
+
+```javascript
+const { Sequelize } = require('sequelize');
+
+// 方法 1: 传递一个连接 URI
+const sequelize = new Sequelize('sqlite::memory:') // Sqlite 示例
+const sequelize = new Sequelize('postgres://user:pass@example.com:5432/dbname') // Postgres 示例
+
+// 方法 2: 分别传递参数 (sqlite)
+const sequelize = new Sequelize({
+  dialect: 'sqlite',
+  storage: 'path/to/database.sqlite'
+});
+
+// 方法 3: 分别传递参数 (其它数据库)
+const sequelize = new Sequelize('database', 'username', 'password', {
+  host: 'localhost',
+  dialect: /* 选择 'mysql' | 'mariadb' | 'postgres' | 'mssql' 其一 */
+});
+```
+
+测试连接
+
+```javascript
+try {
+  await sequelize.authenticate();
+  console.log('Connection has been established successfully.');
+} catch (error) {
+  console.error('Unable to connect to the database:', error);
+}
+```
+
+默认情况下,Sequelize 将保持连接打开状态,并对所有查询使用相同的连接. 如果你需要关闭连接,请调用 `sequelize.close()`(这是异步的并返回一个 Promise)
+
+### neon
+
+使用rust编写原生的node模块
+
+https://github.com/neon-bindings/neon
+
+### 迁移工具
+
+#### Node-pg-migrate
+
+安装
+
+```shell
+npm install node-pg-migrate pg
+```
+
+在package.json中添加命令
+
+```json
+{
+  "script": {
+		"migrate": "node-pg-migrate"
+  }
+}
+```
+
+然后允许迁移命令，生成迁移文件
+
+```shell
+npm run migrate create my first migration
+```
+
+在`migrations`文件夹下打开`xxx_my-first-migration.js`文件，修改文件
+
+```javascript
+exports.up = (pgm) => {
+  pgm.createTable('users', {
+    id: 'id',
+    name: { type: 'varchar(1000)', notNull: true },
+    createdAt: {
+      type: 'timestamp',
+      notNull: true,
+      default: pgm.func('current_timestamp'),
+    },
+  })
+  pgm.createTable('posts', {
+    id: 'id',
+    userId: {
+      type: 'integer',
+      notNull: true,
+      references: '"users"',
+      onDelete: 'cascade',
+    },
+    body: { type: 'text', notNull: true },
+    createdAt: {
+      type: 'timestamp',
+      notNull: true,
+      default: pgm.func('current_timestamp'),
+    },
+  })
+  pgm.createIndex('posts', 'userId')
+}
+```
+
+配置DATABASE_URL环境变量
+
+`DATABASE_URL=postgres://test:test@localhost:5432/test`
+
+运行迁移命令
+
+```shell
+npm run migrate up
 ```
 
 
 
-### winston
+### 日志工具
+
+#### pino
+
+安装
+
+```shell
+npm install pino
+```
+
+使用
+
+```javascript
+const logger = require('pino')()
+
+logger.info('hello world')
+
+const child = logger.child({ a: 'property' })
+child.info('hello child!')
+```
+
+
+
+#### winston
 
 node日志工具
 
@@ -1614,8 +1923,6 @@ Js-md5
 
 
 
-
-
 ### node应用打包可执行文件
 
 pkg可以将node项目打包为一个单独的可执行文件，在未安装nodejs的机器上运行。支持win、linux等多系统
@@ -1623,8 +1930,6 @@ pkg可以将node项目打包为一个单独的可执行文件，在未安装node
 ```shell
 npm install pkg --save-dev
 ```
-
-
 
 
 
@@ -1682,29 +1987,7 @@ docker images
 docker run -p 49160:8080 -d <username>/node-web-app
 ```
 
-## Node常见问题汇总
 
-
-
-### npm ERR! Maximum call stack size exceeded
-
-解决方法：全局更新npm
-
-```node
-npm install npm -g
-```
-
-### core-js
-
-warning react-native > create-react-class > fbjs > core-js@1.2.7: core-js@<2.6.8 is no longer maintained. Please, upgrade to core-js@3 or at least to actual version of core-js@2
-
-旧包不在维护，安装新包，自动卸载旧版本
-
-```node
-npm install --save core-js@^3
-```
-
-注意：警告可能是由于你所安装的新包在使用旧版本的依赖所导致的警告，但是如果不是你自己开发的，你不能更改包的源码和依赖项，所以这种情况忽略警告吧
 
 ## 学习资源
 

@@ -160,6 +160,39 @@ const fastify = Fastify({
 
 
 
+## feathersjs
+
+创建feathers项目
+
+```shell
+npm create feathers@pre feathers-chat
+```
+
+启动项目
+
+```shell
+npm run compile
+npm run migrate
+npm start
+```
+
+使用
+
+```javascript
+import type { Application, Id, NullableId, Params } from '@feathersjs/feathers'
+
+class MyService {
+  async find(params: Params) {}
+  async get(id: Id, params: Params) {}
+  async create(data: any, params: Params) {}
+  async update(id: NullableId, data: any, params: Params) {}
+  async patch(id: NullableId, data: any, params: Params) {}
+  async remove(id: NullableId, params: Params) {}
+  async setup(path: string, app: Application) {}
+  async teardown(path: string, app: Application) {}
+}
+```
+
 
 
 ## Nestjs

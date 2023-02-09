@@ -1,5 +1,4 @@
 ---
-
 title: C++
 date: 2020-03-06 21:40:33
 categories: 技术博客
@@ -19,7 +18,9 @@ thumbnail:
 
 emacs
 
-　　
+
+
+clion　　
 
 ## 
 
@@ -33,5 +34,29 @@ emacs
 
 　　
 
-## 
+## ccache
+
+
+
+https://github.com/ccache/ccache
+
+### sccache
+
+云端的ccache，编译缓存
+
+安装
+
+```shell
+cargo install sccache
+```
+
+使用
+
+```shell
+sccache gcc -o foo.o -c foo.c
+```
+
+
+
+https://github.com/mozilla/sccache/
 

@@ -68,19 +68,19 @@ brew是mac os和linux包管理工具，是比较方便的
 
 官网默认的安装方式为
 
-```mac
+```shell
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 ```
 
 raw.githubusercontent.com这个网站常常不稳定，如果被拒可以使用中科大镜像
 
-```
+```shell
 /usr/bin/ruby -e "$(curl -fsSL https://cdn.jsdelivr.net/gh/ineo6/homebrew-install/install)"
 ```
 
 如果卡在
 
-```git
+```shell
 ==> Tapping homebrew/core
 Cloning into 
 ```
@@ -95,13 +95,13 @@ git clone git://mirrors.ustc.edu.cn/homebrew-core.git
 
 看到`==> installstion successful`即为安装成功，最后更新源
 
-```git
+```shell
 brew updates
 ```
 
 检查源
 
-```macos
+```shell
 # brew.git镜像源
 git -C "$(brew --repo)" remote -v
 
@@ -114,7 +114,7 @@ git -C "$(brew --repo homebrew/cask)" remote -v
 
 更换源
 
-```mac
+```shell
 cd "$(brew --repo)"
 git remote set-url origin https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/brew.git
 cd "$(brew --repo)/Library/Taps/homebrew/homebrew-core"
@@ -124,7 +124,7 @@ brew update
 
 恢复原有镜像
 
-```Mac os 
+```shell
 git -C "$(brew --repo)" remote set-url origin https://github.com/Homebrew/brew.git
 
 git -C "$(brew --repo homebrew/core)" remote set-url origin https://github.com/Homebrew/homebrew-core.git
@@ -134,7 +134,7 @@ git -C "$(brew --repo homebrew/cask)" remote set-url origin https://github.com/H
 
 如果没有更新尝试以下方法
 
-```mac os
+```shell
 brew doctor
 brew update-reset
 brew update
@@ -254,11 +254,38 @@ proxy_on
 
 
 
+### 设置终端快捷键
 
+打开automator，
+
+双击运行apple script，输入代码
+
+```apl
+on run(input,parameters)
+     tell application "Terminal"
+          reopen
+          activate
+         end tell
+end run 
+```
+
+点击右上角运行，运行成功
+
+关闭界面，保存为“Open Terminal”
+
+　　打开系统偏好设置，选择键盘
+
+选择快捷键--服务--通用--open terminal
+
+设置快捷键为ctrl+alt+t
+
+
+
+## 好用的软件
 
 ### 终端软件
 
-Iterm
+#### Iterm
 
 下载地址：https://iterm2.com/version3.html
 
@@ -294,42 +321,39 @@ Iterm快捷键
 
 
 
-tmux
+#### nushell
+
+
+
+#### tabby
+
+
+
+#### tmux
+
+
+
+#### fishshell
 
 
 
 
 
-### 设置终端快捷键
+### 命令行工具
 
-打开automator，
-
-双击运行apple script，输入代码
-
-```apl
-on run(input,parameters)
-     tell application "Terminal"
-          reopen
-          activate
-         end tell
-end run 
-```
-
-点击右上角运行，运行成功
-
-关闭界面，保存为“Open Terminal”
-
-　　打开系统偏好设置，选择键盘
-
-选择快捷键--服务--通用--open terminal
-
-设置快捷键为ctrl+alt+t
+#### fig
 
 
 
-## 好用的软件
+#### script-kit
 
-### Bob
+
+
+
+
+### 翻译软件
+
+#### Bob
 
 翻译软件
 
@@ -341,17 +365,55 @@ https://github.com/ripperhe/Bob
 
 
 
-### Notion客户端
+### 笔记软件
+
+#### Notion客户端
+
+Notion的笔记操作最小单位为Block，Block种类非常多（Text、Page、database、toggle list。。等等）每一篇笔记页面可使用任意个Block组成，即笔记内容可任由编写并依据个人喜好呈现，就像玩积木一般拼凑出你想要呈现出的方式，并且官方持续优化，功能越来越强
+
+完成的每份笔记可再视内容，整合归类之后利用Table、Board、Timeline、Calendar、list、gallery等六种方式呈现，来达到合适的咨询分享功能
+
+
 
 https://notion-enhancer.github.io/getting-started/installation/
 
-### nushell
+#### Obsidian
+
+Obsidian笔记的最大特色是采用一想法、一笔记的概念，可将每个想法笔记都记为一个节点，并为其设好关键字眼标签，Obsidian就会将有关联性的节点连接起来，形成一个笔记网络
+
+网络中的所有笔记及诶点都是对同一个主题有关联性，当想查一个主题笔记时，就可以拉出一整串关联笔记，不用在茫茫笔记中逐一寻找，有效达到笔记使用效率。
+
+所有灵感发想，学习笔记、思想记事的记录站，当想写文时，相关素材咨讯一律从此规整
+
+扩充功能：Review flashcards的练习应用，针对不是容易理解、记下的内容，透过flashcard方式来提问自己并回想，且可视需要进行补充或者更新
+
+使用方法： https://medium.com/pm%E7%9A%84%E7%94%9F%E7%94%A2%E5%8A%9B%E5%B7%A5%E5%85%B7%E7%AE%B1/obsidian-%E4%BD%BF%E7%94%A8%E6%95%99%E5%AD%B8-%E7%B8%BD%E7%9B%AE%E9%8C%84-%E6%8C%81%E7%BA%8C%E6%9B%B4%E6%96%B0%E4%B8%AD-2d23dce3ef02
+
+介绍： https://vocus.cc/article/623d7411fd8978000174880b
+
+### marta
+
+比原生更好用的文件夹管理软件
 
 
 
-### fig
+### Raycast
+
+全局搜索软件
+
+### Alfred
 
 
+
+
+
+### 1Password
+
+
+
+### 资源
+
+https://wylin.netlify.app/pages/whats-on-my-mac/
 
 
 
@@ -365,25 +427,25 @@ brew install nginx
 
 mac osnginx默认配置目录
 
-```mac
+```shell
 /usr/local/etc/nginx/nginx.conf
 ```
 
 启动nginx
 
-```mac
+```shell
 ngxin
 ```
 
 重启nginx
 
-```mac
+```shell
 nginx -s reload
 ```
 
 关闭nginx
 
-```mac
+```shell
 //先查询nginx对应端口号
 ps -ef | grep nginx
 501 53536 1 0 3:34下午 ?? 0:00.00 nginx: master process nginx

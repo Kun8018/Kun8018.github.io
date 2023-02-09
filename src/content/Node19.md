@@ -1,5 +1,5 @@
 ---
-title: Javascript开发（四）
+title: Javascript开发（十六）
 date: 2021-01-18 21:40:33
 categories: IT
 tags:
@@ -8,7 +8,7 @@ toc: true
 thumbnail: http://cdn.kunkunzhang.top/javascript.png
 ---
 
-​     第四篇主要讲常用的js库.主要偏向于JavaScript的库和前端库，Nodejs的库在第十篇
+​     第十六篇主要讲常用的js库.主要偏向于JavaScript的库和前端库
 
 <!--more-->
 
@@ -571,6 +571,27 @@ function sendFile(from, to, blob, fileName, fileType) {
     console.log('send file');
 }
 ```
+
+## howler.js
+
+web处理音频
+
+```javascript
+import {Howl, Howler} from 'howler';
+
+// Setup the new Howl.
+const sound = new Howl({
+  src: ['sound.webm', 'sound.mp3']
+});
+
+// Play the sound.
+sound.play();
+
+// Change global volume.
+Howler.volume(0.5);
+```
+
+
 
 ## video.js
 

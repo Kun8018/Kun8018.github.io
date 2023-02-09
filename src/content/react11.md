@@ -616,6 +616,25 @@ React-i18next有很多插件可以使用比如检测当前系统语言，从后�
 
 React-intl除文本翻译外还提供日期、时间和金额的国际化支持；
 
+### i18next-browser-languargeDetecter
+
+检测浏览器的语言
+
+安装
+
+```shell
+npm install i18next-browser-languagedetector
+```
+
+使用
+
+```javascript
+import i18next from 'i18next';
+import LanguageDetector from 'i18next-browser-languagedetector';
+
+i18next.use(LanguageDetector).init(i18nextOptions);
+```
+
 
 
 ### uuid
@@ -1342,6 +1361,40 @@ if (!("ResizeObserver" in window)) {
   // Only use it when you have this trouble: https://github.com/wellyshen/react-cool-dimensions/issues/45
   // window.ResizeObserverEntry = ResizeObserverEntry;
 }
+```
+
+### react-wrap-balancer
+
+文本对齐组件
+
+安装
+
+```shell
+npm install react-wrap-balancer
+```
+
+使用
+
+```react
+import Balancer from 'react-wrap-balancer'
+
+// ...
+
+<h1>
+  <Balancer>My Title</Balancer>
+</h1>
+```
+
+也可以使用Provider包裹所有的组建
+
+```react
+import { Provider } from 'react-wrap-balancer'
+
+// ...
+
+<Provider>
+  <App/>
+</Provider>
 ```
 
 

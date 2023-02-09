@@ -1,5 +1,5 @@
 ---
-title: Javascript开发（四）
+title: Javascript开发（十七）
 date: 2021-01-18 21:40:33
 categories: IT
 tags:
@@ -1156,3 +1156,48 @@ export default {
 ```
 
 还有组件we-vue可以使用
+
+## jsxss
+
+`xss`是一个用于对用户输入的内容进行过滤，以避免遭受 XSS 攻击的模块
+
+主要用于论坛、博客、网上商店等等一些可允许用户录入页面排版、格式控制相关的 HTML 的场景，`xss`模块通过白名单来控制允许的标签及相关的标签属性，另外还提供了一系列的接口以便用户扩展，比其他同类模块更为灵活。
+
+特点：
+
+- 白名单控制允许的 HTML 标签及各标签的属性
+- 通过自定义处理函数，可对任意标签及其属性进行处理
+
+安装
+
+```shell
+npm install xss
+```
+
+使用-Node
+
+```javascript
+var xss = require("xss");
+var html = xss('<script>alert("xss");</script>');
+console.log(html);
+```
+
+浏览器端使用
+
+```html
+<script src="https://rawgit.com/leizongmin/js-xss/master/dist/xss.js"></script>
+<script>
+  // 使用函数名 filterXSS，用法一样
+  var html = filterXSS('<script>alert("xss");</scr' + "ipt>");
+  alert(html);
+</script>
+```
+
+也可以使用命令行进行转义
+
+```shell
+xss -i <源文件> -o <目标文件>
+xss -i origin.html -o target.html
+```
+
+https://github.com/leizongmin/js-xss/blob/master/README.zh.md

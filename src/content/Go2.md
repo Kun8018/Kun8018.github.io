@@ -788,3 +788,5 @@ go语言入门指南：https://github.com/unknwon/the-way-to-go_ZH_CN/blob/maste
 effective go
 
 go语言资源库 :https://github.com/Unknwon/go-study-index
+
+Go 优质blog: https://czyt.tech/post/golang-perf-reference/
