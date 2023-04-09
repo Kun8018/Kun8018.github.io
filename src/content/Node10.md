@@ -892,6 +892,106 @@ TypeDoc将TypeScript源代码中的注释转换为呈现的HTML文档或JSON模�
 
 运行命令npm run doc，在输出docs文件夹查看
 
+### tiny-invariant
+
+通过使用`tiny-invariant`，您可以在断言不正确时在运行时抛出异常，并在 `Sentry` 或任何其他提供程序上捕获该异常。这将增加您对代码的信心并检测任何不一致之处。
+
+```typescript
+import invariant from 'tiny-invariant'; 
+interface User {                       
+    name?: string;                           
+    email?: string;                      
+}                                       
+const u: User = { name: 'Joe', email: 'joe@no-reply.com'};  
+invariant(u.name, 'Name should not be null for this scenario')
+// ✅ Compiles without the need of `!`                        
+console.log(u.name.toUpperCase());
+```
+
+代码更有弹性，我们可以清除很多冗余`if`语句。
+
+这个包是最小的，如果你愿意，你可以选择实现你自己的`invariant`功能。
+
+### type-fest
+
+TypeScript 最强大的功能之一是映射类型。
+
+让我们看一个例子。TypeScript 原生的`Optional`方法非常有限。它只是让我们将所有属性标记为可选。它缺乏细节
+
+```typescript
+import { type MarkOptional, type OptionalKeys } from 'ts-essentials';
+
+interface User {
+    name: string;
+    email: string;
+}
+// 原生方法：所有的属性都是可选的
+    type PartialUser = Partial<User>;
+// Result:  
+   // {
+    // name?: string;
+    // email?: string;
+} 
+
+// 💪 仅支持选中的属性是可选的
+type PartialUserEmail = MarkOptional<User, 'email'>;
+
+// Result:
+// {
+    // name: string
+    // email?: string;
+   }
+   
+ // 💪 从类型中获取可选的key
+type PartialKeys = OptionalKeys<PartialUserEmail>; 
+// Result:
+// email   
+```
+
+
+
+### ts-essentials
+
+shell
+
+```shell
+npm install --save-dev ts-essentials
+```
+
+使用
+
+```typescript
+import { type MarkOptional, type OptionalKeys } from 'ts-essentials';
+
+interface User {
+    name: string;
+    email: string;
+}
+// 原生方法：所有的属性都是可选的
+    type PartialUser = Partial<User>;
+// Result:  
+   // {
+    // name?: string;
+    // email?: string;
+} 
+
+// 💪 仅支持选中的属性是可选的
+type PartialUserEmail = MarkOptional<User, 'email'>;
+
+// Result:
+// {
+    // name: string
+    // email?: string;
+   }
+   
+ // 💪 从类型中获取可选的key
+type PartialKeys = OptionalKeys<PartialUserEmail>; 
+// Result:
+// email   
+```
+
+
+
 ### typebox
 
 typebox让json的schema具有像ts一样的类型规范
@@ -1063,8 +1163,6 @@ ts工具类型
 npm install ts-toolbelt --save
 ```
 
-
-
 使用
 
 ```typescript
@@ -1102,6 +1200,105 @@ type optional = Object.Optional<{id: number, name: string}, "name">
 ### utility-types
 
 一些工具类型
+
+### tsconfig-path
+
+安装
+
+```shell
+npm install --save-dev tsconfig-paths
+```
+
+设置tsconfig.json的路径
+
+```javascript
+const tsConfig = require("./tsconfig.json");
+const tsConfigPaths = require("tsconfig-paths");
+
+const baseUrl = "./"; // Either absolute or relative path. If relative it's resolved to current working directory.
+const cleanup = tsConfigPaths.register({
+  baseUrl,
+  paths: tsConfig.compilerOptions.paths,
+});
+
+// When path registration is no longer needed
+cleanup();
+```
+
+### ttypecript
+
+GitHub: ttypescript
+
+安装
+
+```shell
+npm i ttypescript -D
+```
+
+Tsconfig.json
+
+```json
+{
+  "compilerOptions": {
+    "plugins": [
+      { "transform", "transformer-module" },
+    ]
+  }
+}
+```
+
+Parcel
+
+parcel plugin
+
+```shell
+npm i parcel-plugin-ttypescript
+```
+
+webpack
+
+```javascript
+	{
+        test: /\.(ts|tsx)$/,
+        loader: require.resolve('awesome-typescript-loader'),
+        // or
+        loader: require.resolve('ts-loader'),
+        options: {
+            compiler: 'ttypescript'
+        }
+  }
+```
+
+rollup
+
+```javascript
+// rollup.config.js
+import ttypescript from 'ttypescript'
+import tsPlugin from 'rollup-plugin-typescript2'
+
+export default {
+    // ...
+    plugins: [
+        // ...
+        tsPlugin({
+            typescript: ttypescript
+        })
+    ]
+}
+```
+
+Jest ts-jest
+
+```javascript
+module.exports = {
+  // [...]
+  globals: {
+    'ts-jest': {
+      compiler: 'ttypescript'
+    }
+  }
+};
+```
 
 
 

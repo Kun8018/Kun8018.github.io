@@ -402,7 +402,7 @@ Cue是json的超集，可以编译成json或者yaml文件
 
 
 
-## Sentry
+## 前端监控Sentry
 
 sentry是一个开源的错误追踪工具，可以帮助开发人员实时监控和修复系统中的错误。其专注于错误监控以及提取一切事后处理所需的信息，支持几乎所有主流开发语言（JS/Java/Python/php）和平台，并提供了web来展示错误。
 
@@ -418,10 +418,46 @@ sentry是一个开源的错误追踪工具，可以帮助开发人员实时监�
 npm install @sentry/browser @sentry/integrations
 ```
 
-
+初始化
 
 ```javascript
-import * as Sentry from '@sentry/browser'import * as Intergrations from '@sentry/integrations'process.env.NODE_ENV === "production" && Sentry.init ({  dsn: 'https://e028cb7b8dd645978cf5d84a@sentry.io/18726',  integrations: [new Integrations.Vue{}],})
+import * as Sentry from '@sentry/browser'
+import * as Intergrations from '@sentry/integrations'
+process.env.NODE_ENV === "production" && 
+ Sentry.init ({  
+  dsn: 'https://e028cb7b8dd645978cf5d84a@sentry.io/18726',  
+  integrations: [new Integrations.Vue{}],
+ })
+```
+
+使用
+
+```javascript
+import * as Sentry from '@sentry/browser';
+
+// Set user information, as well as tags and further extras
+Sentry.configureScope(scope => {
+  scope.setExtra('battery', 0.7);
+  scope.setTag('user_mode', 'admin');
+  scope.setUser({ id: '4711' });
+  // scope.clear();
+});
+
+// Add a breadcrumb for future events
+Sentry.addBreadcrumb({
+  message: 'My Breadcrumb',
+  // ...
+});
+
+// Capture exceptions, messages or manual events
+Sentry.captureMessage('Hello, world!');
+Sentry.captureException(new Error('Good bye'));
+Sentry.captureEvent({
+  message: 'Manual',
+  stacktrace: [
+    // ...
+  ],
+});
 ```
 
 
@@ -435,6 +471,17 @@ import * as Sentry from '@sentry/browser'import * as Intergrations from '@sentry
 ### Nitro
 
 
+
+### argoCD
+
+面向k8s的CD平台
+
+创建
+
+```shell
+kubectl create namespace argocd
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+```
 
 
 

@@ -187,6 +187,138 @@ Rating Service、Review Service、Inventory Service、Catelog Service这四个�
 
 
 
+### 虚拟化
+
+
+
+#### VNC与noVNC
+
+VNC (Virtual Network Console)是虚拟网络控制台的缩写，分为server端和client端两部分，分别部署完成后在server端简单的配置即可使用，基于TCP的通信。noVNC项目是通过取消VNC Client的安装，直接通过浏览器访问noVNC，然后由noVNC间接访问VNC server来达到client web化。从上面部署方式看到，VNC server仍然保留且没有任何修改，处理的始终是TCP流量，但是浏览器和noVNC之间是在http基础上使用WebSocket交互，由于VNC server 无法处理websocket流量，因此引入了 [websockify](https://link.zhihu.com/?target=https%3A//github.com/novnc/websockify) ，noVNC的姐妹项目，负责把WebSocket流量转换为普通的TCP流，使VNC server正常工作。noVNC其实是一个HTML形式的APP，[websockify](https://link.zhihu.com/?target=https%3A//github.com/novnc/websockify)并充当了一个mini web server的角色，当浏览器访问时，会通过网络加载运行noVNC。
+
+noVNC 作为一个高性能，开源的项目，被集成到众多公司，项目的控制面板功能当中，例如VMware 的VM console, PVE 等，当然你也可以集成到任何个人的web项目中，来增加基于web的远程控制的功能。
+
+安装vnc server
+
+vncserver是用来实现远程桌面连接的，比如说你由两台机器PC1：192.168.1.101和PC2：192.168.1.102，如果你想在PC1上访问PC2的桌面，就需要在PC2上安装vncserver，然后在PC1上通过vncviewer或noVNC访问PC2。下面以tigervnc-server为例来介绍一下vncserver的安装和使用。
+
+安装
+
+```shell
+yum -y install tigervnc-server
+```
+
+安装完后，查看vncserver的配置文件：
+
+```shell
+[root@mycentos liushaolin]# rpm -qc tigervnc-server
+/etc/sysconfig/vncservers
+```
+
+启动vnc server
+
+```shell
+vncserver
+或
+vncserver :n
+```
+
+这里的n就是sessionnumber，不指定的话默认为1，第一次启动时会提示输入密码，以后也可以使用vncpasswd命令修改密码。**VNC的默认端口号是5900，而远程桌面连接端口号则是5900+n**。如果使用“vncserver :1”命令启动VNC Server，那么端口应该是5901。
+
+```shell
+vncserver -list[root@mycentos liushaolin]# vncserver -list
+
+TigerVNC server sessions:
+
+X DISPLAY #	PROCESS ID
+:1		5918
+:3		7726
+```
+
+安装noVNC
+
+```shell
+$git clone https://github.com/kanaka/noVNC
+$cd noVNC
+$./utils/launch.sh --vnc localhost:5901
+```
+
+启动launch脚本，会输出如下信息：
+
+```shell
+WebSocket server settings:
+  - Listen on :6080
+  - Flash security policy server
+  - Web server. Web root: /root/noVNC
+  - No SSL/TLS support (no cert file)
+  - proxying from :6080 to localhost:5901
+
+
+Navigate to this URL:
+
+    http://localhost:6080/vnc.html?host=localhost&port=6080
+```
+
+这时，访问`http://localhost:6080/vnc.html?host=localhost&port=6080`或`http://localhost:6080/vnc.html`，然后输入Host地址，端口号，密码，token，其中密码和token有的话需要输入，然后连接即可。当然你可以从PC1的浏览器中输入PC2的IP地址访问。
+
+https://vosamo.github.io/2016/07/noVNC%E7%9A%84%E4%BD%BF%E7%94%A8%E4%B9%8B%E4%B8%80/
+
+https://github.com/novnc/noVNC
+
+### 服务发现
+
+假设我们写的代码会调用 REST API 或者 Thrift API 的服务。为了完成一次请求，代码需要知道服务实例的网络位置（IP 地址和端口）。
+
+运行在物理硬件上的传统应用中，服务实例的网络位置是相对固定的，代码能从一个偶尔更新的配置文件中读取网络位置。
+
+对于基于云端的、现代化的微服务应用而言，这却是一大难题。将容器应用部署到集群时，其服务地址是由集群系统动态分配的。那么，当我们需要访问这个服务时，如何确定它的地址呢？这时就需要服务发现（Service Discovery）了
+
+服务分**服务提供者**（Service Provider）和**服务消费者**（Service Consumer），如果要提供海量服务能力，单一的服务实例显然是不够的，如果要提供成千上万种服务，则需要有一个地方记录服务名到服务实例列表的映射，所以，有必要引入一个新的角色：**服务中介**，服务中介维护一个**服务注册表**（Service Registry），可以把注册表理解为**服务字典**，key是服务名，value是服务提供实例列表；**服务注册表是联系服务提供者和服务消费者的桥梁**，它维护服务提供者的最新网络位置等信息，也是服务发现最核心的部分。
+
+
+
+服务发现有两大模式：客户端发现模式和服务端发现模式。
+
+客户端发现模式
+
+使用客户端发现模式时，客户端决定相应服务实例的网络位置，并且对请求实现负载均衡。客户端查询服务注册表，后者是一个可用服务实例的数据库；然后使用负载均衡算法从中选择一个实例，并发出请求。
+
+服务实例的网络位置在启动时被记录到服务注册表，等实例终止时被删除。服务实例的注册信息通常使用心跳机制来定期刷新。
+
+客户端发现模式优缺点兼有。
+
+- 这一模式相对直接，除了服务注册外，其它部分无需变动。此外，由于客户端知晓可用的服务实例，能针对特定应用实现智能负载均衡，比如使用哈希一致性。
+- 这种模式的一大缺点就是客户端与服务注册绑定，要针对服务端用到的每个编程语言和框架，实现客户端的服务发现逻辑。
+
+服务端发现模式
+
+客户端通过负载均衡器向某个服务提出请求，负载均衡器查询服务注册表，并将请求转发到可用的服务实例。
+
+Kubernetes 和 Marathon 这样的部署环境会在每个集群上运行一个代理，将代理用作服务端发现的负载均衡器。客户端使用主机 IP 地址和分配的端口通过代理将请求路由出去，向服务发送请求。代理将请求透明地转发到集群中可用的服务实例。
+
+服务端发现模式兼具优缺点。
+
+- 它最大的优点是客户端无需关注发现的细节，只需要简单地向负载均衡器发送请求，这减少了编程语言框架需要完成的发现逻辑。并且如上文所述，某些部署环境免费提供这一功能。
+- 这种模式也有缺点。除非负载均衡器由部署环境提供，否则会成为一个需要配置和管理的高可用系统组件。
+
+对比客户端发现模式，使用服务端发现模式的客户端本地不保存服务实例列表，客户端不做负载均衡，这个负载均衡器既承担了服务发现的角色，又承担了网关的角色，所以经常叫**API网关服务器**。
+
+因为负载均衡器是中心式的，所以它也必须是一个集群，单个实例不足以支撑高并发访问，针对负载均衡器本身的服务发现和负载均衡通常借助DNS。
+
+Http服务器，Nginx、Nginx Plus就是此类服务端发现模式的负载均衡器。
+
+**优点**
+
+- 服务发现对于服务消费者是透明的，服务消费者与注册表解耦，服务发现功能的更新对客户端无感知。
+- 服务消费者只需要向负载均衡器发送请求，不需要为每种服务消费者的编程语言和框架，开发服务发现逻辑SDK。
+
+**缺点**
+
+- 由于所有请求都要经负载均衡器转发，所以负载均衡器有可能成为新的性能瓶颈。
+- 负载均衡器（服务网关）是中心式的，而中心式的架构会有稳定性的隐忧。
+- 因为负载均衡器转发请求，所以**RT**会比客户端直连模式高。
+
+
+
 ## 云端IDE
 
 传统上，[软件开发](https://thenewstack.io/category/development/)是（而且在很大程度上仍然是）在个人机器上使用集成开发环境（IDE）工具，如 VSCode、JetBrains、Eclipse 等完成。虽然这种 “离线” 开发的模式在早期运作得非常好，但人们很快就注意到，这种方法并非完美。
@@ -235,7 +367,13 @@ Rating Service、Review Service、Inventory Service、Catelog Service这四个�
 
 
 
-## 云资源
+## 云工具
+
+腾讯HiFlow：https://hiflow.tencent.com/
+
+
+
+## 云原生资源
 
 国内云原生社区： https://cloudnative.to/
 

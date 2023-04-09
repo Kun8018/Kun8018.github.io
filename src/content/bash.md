@@ -12,6 +12,35 @@ thumbnail:
 
 <!--more-->
 
+## 概念
+
+bash 是一个为GNU计划编写的Unix shell。它的名字是一系列缩写：Bourne-Again SHell — 这是关于Bourne shell（sh）的一个双关语（Bourne again / born again）。Bourne shell是一个早期的重要shell，由史蒂夫·伯恩在1978年前后编写，并同Version 7 Unix一起发布。bash则在1987年由布莱恩·福克斯创造。
+
+bash (GNU Bourne-Again Shell) 是许多**Linux发行版**的默认Shell 。事实上，还有许多传统UNIX上用的Shell，例如`tcsh`、`csh、ash`、`bsh`、`ksh`等等，Shell Script大致都类同。
+由于历史原因，UNIX系统上有很多种Shell：
+
+- `sh`（C Shell）：由Bill Joy开发，随BSD UNIX发布，它的流程控制语句很像C语言，支持很多Bourne Shell所不支持的功能：作业控制，命令历史，命令行编辑。
+- `ksh`（Korn Shell）：由David Korn开发，向后兼容sh的功能，并且添加了csh引入的新功能，是目前很多UNIX系统标准配置的Shell，在这些系统上/bin/sh往往是指向/bin/ksh的符号链接。
+- `tcsh`（TENEX C Shell）：是csh的增强版本，引入了命令补全等功能，在FreeBSD、Mac OS X等系统上替代了csh。
+- `bash`（Bourne Again Shell）：由GNU开发的Shell，主要目标是与POSIX标准保持一致，同时兼顾对sh的兼容，bash从csh和ksh借鉴了很多功能，是各种Linux发行版标准配置的Shell，在Linux系统上/bin/sh往往是指向/bin/bash的符号链接。
+
+可使用`cat /etc/shells` 指令查看自己系统可以使用的shell种类
+
+在shell脚本的开头往往有一句话来定义使用哪种sh解释器来解释脚本。
+目前常见的shell脚本中主要有以下两种方式：
+(1) `#!/bin/sh`
+(2)`#!/bin/bash`
+
+每个脚本开头都使用"`#!`"，#!实际上是一个2字节魔法数字，这是**指定一个文件类型的特殊标记**，在这种情况下，指的就是一个可执行的脚本。在#!之后，接一个路径名，这个路径名指定了一个解释脚本命令的程序，这个程序可以是shell，程序语言或者任意一个通用程序。
+
+sh是bash的一种特殊的模式，也就是`/bin/sh` 相当于`/bin/bash --posix`。说白了sh就是开启了POSIX标准的bash 。
+在一般的linux系统当中（如redhat），使用sh调用执行脚本相当于打开了bash的POSIX标准模式
+sh一般设成bash的软链
+
+**在Mac OS上不是**，/bin/sh和/bin/bash是两个**不同**的文件，尽管它们的大小只相差100字节左右:
+
+但鉴于 bash 过于复杂，有人把 bash 从 NetBSD 移植到 Linux 并更名为 dash（Debian Almquist Shell），并以获得更快的脚本执行速度。Debian Almquist shell，缩写为dash，一种 Unix shell。它比 Bash 小，只需要较少的磁盘空间，但是它的对话性功能也较少。它由 NetBSD版本的Almquist shell (ash)发展而来，于1997年，由赫伯特·许（Herbert Xu）移植到Linux上，于2002年改名为 dash。
+
 ## 基本命令
 
 `echo`命令的作用是在屏幕输出一行文本，可以将该命令的参数原样输出。

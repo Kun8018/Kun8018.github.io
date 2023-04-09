@@ -153,5 +153,49 @@ const bar = { bar: 'yay!' }
 merge.all([ foobar, foobaz, bar ]) // => { foo: { bar: 3, baz: 4 }, bar: 'yay!' }
 ```
 
+## pluralize
+
+安装
+
+```shell
+npm install pluralize --save
+```
+
+将任何单词复数和单数化
+
+```javascript
+pluralize('test') //=> "tests"
+pluralize('test', 0) //=> "tests"
+pluralize('test', 1) //=> "test"
+pluralize('test', 5) //=> "tests"
+pluralize('test', 1, true) //=> "1 test"
+pluralize('test', 5, true) //=> "5 tests"
+pluralize('蘋果', 2, true) //=> "2 蘋果"
+ 
+// Example of new plural rule:
+pluralize.plural('regex') //=> "regexes"
+pluralize.addPluralRule(/gex$/i, 'gexii')
+pluralize.plural('regex') //=> "regexii"
+ 
+// Example of new singular rule:
+pluralize.singular('singles') //=> "single"
+pluralize.addSingularRule(/singles$/i, 'singular')
+pluralize.singular('singles') //=> "singular"
+ 
+// Example of new irregular rule, e.g. "I" -> "we":
+pluralize.plural('irregular') //=> "irregulars"
+pluralize.addIrregularRule('irregular', 'regular')
+pluralize.plural('irregular') //=> "regular"
+ 
+// Example of uncountable rule (rules without singular/plural in context):
+pluralize.plural('paper') //=> "papers"
+pluralize.addUncountableRule('paper')
+pluralize.plural('paper') //=> "paper"
+ 
+// Example of asking whether a word looks singular or plural:
+pluralize.isPlural('test') //=> false
+pluralize.isSingular('test') //=> true
+```
+
 
 

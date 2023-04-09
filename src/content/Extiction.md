@@ -72,8 +72,6 @@ thumbnail: https://s1.ax1x.com/2020/03/28/GAF779.jpg
 <p align="center">有时候，你发现自己咬着牙</p>
 <p align="center">已经走过了很长的路</p>
 
-
-
 <p align="right">--央视足球解说 贺诗人 贺炜</p>
 
 <p align="center">如果世界上有任何成功秘方
@@ -119,6 +117,13 @@ thumbnail: https://s1.ax1x.com/2020/03/28/GAF779.jpg
 <p align="center">为心中的目标不断改变自己的人都值得尊敬</p>
 <p align="right">--2014年巴西世界杯决赛 贺炜</p>
 
+<p align="center">我想因为我值得留下而留下，而不是俱乐部的馈赠</p>
+<p align="center">我这辈子没白得过什么，现在也不会有</p>
+<p align="center">我希望我是因为我的表现而得到续约，而不是因为资历或者成就</p>
+<p align="center">无论发生什么都不会改变我与皇马的关系</p>
+<p align="center">这是我一生所爱的俱乐部</p>
+<p align="center">没人可以破坏这一点</p>
+<p align="right">--莫德里奇</p>
 <p align="center">在山泉水清，出山泉水浊.</p>
 <p align="center">眼明心净志向远，出山泉水也要清</p>
 <p align="right">--中国农业大学毕业典礼演讲</p>
@@ -257,9 +262,18 @@ thumbnail: https://s1.ax1x.com/2020/03/28/GAF779.jpg
 <p align="center">学习的本质是模仿，创造的精髓在洞察。</p>
 <p align="right">--程一初</p>
 
+<p align="center">谋定而后动，知止而有得，万物皆有法，不可乱</p>
+<p align="right">--《孙子兵法》</p>
 
+<p align="center">我喜欢跟大家分享我使用不同摄影器材所拍摄的内容，</p>
+<p align="center">但我也相信，我们最好的照片和视频，都来自我们内心深处的爱。</p>
+<p align="center">我热爱摄影，我也喜欢记录欢笑喜悦与感动，那些无法被复制的美好瞬间。</p>
 
+<p align="center">摄影是一项专业与审美并重的工作</p>
+<p align="center">我很开心自己能有这样的机会，可以为大家展示一些你们看过的作品。</p>
 
+<p align="center">感谢你们对我的喜爱和支持。</p>
+<p align="right">--摄影师顾俊</p>
 
 
 

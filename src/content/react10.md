@@ -1684,6 +1684,45 @@ function UploadFile() {
 }
 ```
 
+@graphql-ws
+
+graphql的websocket客户端
+
+```javascript
+import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
+import { createClient } from 'graphql-ws';
+
+const wsLink = new GraphQLWsLink(createClient({
+  url: 'ws://localhost:4000/subscriptions',
+  connectionParams: {
+    authToken: user.authToken,
+  },
+}));
+```
+
+React-apollo
+
+react中提供graphql上下文的组件
+
+```typescript
+import { ApolloProvider } from 'react-apollo';
+import { ApolloLink } from 'apollo-link';
+import ApolloClient from 'apollo-client';
+
+const App = () => {
+  client = new ApolloClient({
+      link: ApolloLink.from([onError(() => {}), new SchemaLink({ schema })]),
+      cache: cache || globalCache || new InMemoryCache(),
+    });
+  
+	return <ApolloProvider client={client}>
+    {children}
+  </ApolloProvider>;
+}
+```
+
+
+
 ### react-hot-loader
 
 React-Hot-Loader 使用了 Webpack HMR API，针对 React 框架实现了对单个 component 的热替换，并且能够保持组件的 state。

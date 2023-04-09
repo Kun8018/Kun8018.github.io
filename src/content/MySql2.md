@@ -17,7 +17,7 @@ description: 非关系型数据库有关的知识，学习后端必备。
 
 Not Only SQL,
 
-## 关系型数据库与非关系型数据库的区别
+### 关系型数据库与非关系型数据库的区别
 
 关系型数据库以`表格`的形式存在，以`行和列`的形式存取数据，关系型数据库这一系列的行和列被称为表，无数张表组成了`数据库`，
 
@@ -32,6 +32,12 @@ Not Only SQL,
 非关系型数据库不需要经过 SQL 的重重解析，所以性能很高；非关系型数据库的可扩展性比较强，数据之间没有耦合性，遇见需要新加字段的需求，就直接增加一个 key-value 键值对即可。
 
 常见的非关系型数据库主要有 **Hbase、Redis、MongoDB** 等。
+
+### 从SQL到NoSQL
+
+如果您是应用程序开发人员，则可能在使用关系数据库管理系统 (RDBMS) 和结构化查询语言 (SQL) 方面有一些经验。在您开始使用 Amazon DynamoDB 时，您既会遇到许多相似之处，也会遇到许多不同之处。*NoSQL* 是一个术语，用于描述高度可用的、可扩展的并且已针对高性能进行优化的非关系数据库系统。有别于关系模型，NoSQL 数据库（如 DynamoDB）使用替代模型进行数据管理，例如键-值对或文档存储。
+
+Amazon DynamoDB 支持 [PartiQL](https://partiql.org/)，后者一种与 SQL 兼容的开源查询语言，使您可以轻松、高效地查询数据，无论数据存储在何处或以何种格式存储。使用 PartiQL，您可以轻松处理关系数据库中的结构化数据、采用开放数据格式的半结构化和嵌套数据，甚至可以处理允许不同行中使用不同属性的 NoSQL 或文档数据库中的无模式数据。
 
 
 
@@ -451,6 +457,183 @@ exit;
 
 https://github.com/cockroachdb/cockroach
 
+### VictoriaMetrics
+
+VictoriaMetrics（简称 VM），是一个快速高效、经济并且可扩展的监控解决方案和时序[数据库](https://cloud.tencent.com/solution/database?from=10680)。VM 是一个新兴的监控解决方案，可以作为 [Prometheus](https://cloud.tencent.com/product/tmp?from=10680) 的长期远程存储方案，当然 VM 也可以完全取代 Prometheus，因为 VM 基本全兼容 Prometheus 配置文件、PromQL、各类API、数据格式等等。VM 架构简单，安装极其方便，可靠性高，在性能，成本，可扩展性方面表现出色，社区活跃，且与 Prometheus 生态绑定紧密。
+
+简言之，VM 是一个完全兼容 Prometheus 协议且性能比 Prometheus 更好的、面向监控分析的、更方便使用的[时序数据库](https://cloud.tencent.com/product/ctsdb?from=10680)。
+
+VM 提供单机版和集群版。如果对HA要求较低的话，我觉得单机版基本就能够满足中小型企业的监控需求了。如果您的每秒写入数据点数小于100万，官方也是默认推荐使用单机版，这个数量是个什么概念呢，如果只是做机器设备的监控，每个机器差不多采集200个指标，采集频率是10秒的话每台机器每秒采集20个指标左右，100万/20=5万台机器。
+
+使用过后一句话推荐理由：极易配置与运维。
+
+Prometheus 在大数据量和高并发查询下性能是有瓶颈的，为了解决这个问题，官方支持了20多种时序数据库作为其远端存储，最常用的比如：M3DB/Thanos/VM，一句话总结其优势：VM 配置运维更简单，Prometheus 协议兼容更好。
+
+2.2 兼容性 + 增强的 MetricsQL
+
+解决 Prometheus 高并发查询的瓶颈，因为兼容，所以直查 VM 与查询 Promethues 客端毫无差别，唯一的差别就是更快。
+
+VM 可直接替换 Grafana 的 Prometheus 数据源，经测试，线上数据源替换后100%兼容。此外，除了 100% 兼容的PromQL，VM 还提供了增强的 MetricsQL。
+
+2.3 低内存
+
+更低的内存占用，官方对比 Prometheus，可以释放7倍左右内存空间（线上对比大概4倍）。
+
+2.4 高压缩比
+
+提供存储数据高压缩，官方说可以比 Prometheus 减少7倍的存储空间（线上对比大概是4~5倍）。
+
+2.5 高性能
+
+查询性能比 Prometheus 更快。
+
+2.6 支持水平扩容&HA：
+
+VM 集群版支持。
+
+2.7 支持多租户
+
+VM 集群版支持。
+
+2.8 配置运维更简单
+
+单机版安装下载解压后只需要一行命令：
+
+```
+nohup ./victoria-metrics -retentionPeriod=30d -storageDataPath=data &
+```
+
+近两年火热的夜莺监控，官网也默认推荐其作为后端存储库。没听过？一句话推荐语：比 Zabbix 更强！Open-Falcon 二代！Prometheus 企业版！
+
+
+
+### M3 DB
+
+
+
+### prometheus
+
+prometheus监控系统分为四大部分
+
+1.prometheus服务器：
+
+prometheus server是prometheus组件中的核心部分，负责实现对监控数据的获取、存储以及查询
+
+2.NodeExporter业务数据源：
+
+业务数据通过Pull/Push两种方法推送数据到Prometheus Server
+
+3.AlertManager报警管理器：
+
+Prometheus通过设置报警规则，如果符合报警规则，那么就将报警推送到AlertManager，由其进行报警
+
+4.可视化监控界面：
+
+Prometheus收集到数据之后，由WebUI界面进行可视化数据展示。可以通过自定义的API客户端进行调用数据展示，也可以直接使用Grafana解决方案来展示
+
+
+
+配置prometheus监控源
+
+在prometheus.yml的scrape_configs节点下添加内容
+
+```yaml
+scrape_configs:
+	- job_name: 'prometheus'
+		static_configs:
+			- targets: ['localhost:9090']
+	
+	- job_name: 'node'
+	
+```
+
+其他配置信息
+
+```yaml
+--storage.tsdb.path: Prometheus写入数据库的位置，默认为data/
+--storage.tsdb.retention.time: 何时删除旧数据，默认为15d
+--storage.tsdb.retention.size: 要保留的最大存储块字节数。最旧的数据将最先被删除，默认为0或者禁用。
+--storage.tsdb.wal-compression: 启用压缩预写日志
+```
+
+
+
+### Parca
+
+安装
+
+```shell
+curl -sL https://github.com/parca-dev/parca/releases/download/v0.15.0/parca_0.15.0_`uname -s`_`uname -m`.tar.gz | tar xvfz - parca
+```
+
+docker
+
+```shell
+docker pull ghcr.io/parca-dev/parca:v0.15.0
+```
+
+
+
+### Loki
+
+Loki 是 Grafana Labs 团队最新的开源项目，是一个水平可扩展，高可用性，多租户的日志聚合系统。它的设计非常经济高效且易于操作，因为它不会为日志内容编制索引，而是为每个日志流配置一组标签。项目受 Prometheus 启发，官方的介绍就是：`Like Prometheus, but for logs`，类似于 Prometheus 的日志系统
+
+和其他日志系统不同的是，Loki 只会对你的日志元数据标签（就像 Prometheus 的标签一样）进行索引，而不会对原始的日志数据进行全文索引。然后日志数据本身会被压缩，并以 chunks（块）的形式存储在对象存储（比如 S3 或者 GCS）甚至本地文件系统。一个小的索引和高度压缩的 chunks 可以大大简化操作和降低 Loki 的使用成本。
+
+Loki 支持多租户模式，租户之间的数据是完全分开的。多租户是通过一个租户 ID（用数字字母生成的字符串）实现的。当多租户模式被禁用后，所有请求都会在内部生成一个**`假的`**租户 ID
+
+Loki 可以在本地小规模运行也可以横向扩展。Loki 自带单进程模式，可以在一个进程中运行所有需要的微服务。单进程模式非常适合于测试 Loki 或者小规模运行。对于横向扩展来说，Loki 的微服务是可以被分解成单独的进程的，使其能够独立扩展。
+
+https://www.qikqiak.com/post/grafana-loki-usage/
+
+
+
+### node-exporter
+
+要采集目标的监控数据，首先要在被采集目标上安装采集组件，这种采集组件被称为exporter。prometheus官网有很多这种exporter，如RabbitMQ exporter、MySQL_server exporter、Memcached exporter等等。exporter会暴露一个http接口，prometheus通过http协议使用pull方式周期性拉取相应的数据
+
+从https://prometheus.io/download/ 获取最新的Node exporter二进制下载包
+
+
+
+### 删除历史数据
+
+默认情况下，管理时间序列的api是被禁用的，要启用它，我们需要在prometheus的启动参数中添加--web.enable-admin-api这个参数
+
+命令
+
+删除某个标签匹配的数据
+
+```shell
+curl -X POST -g 'http://localhost:9090/api/v1/admin/tsdb/delete_series?match[]={instance=".*"}'
+```
+
+删除某个指标数据
+
+```shell
+curl -X POST -g 'http://localhost:9090/api/v1/admin/tsdb/delete_series?match[]={node_load1=".*"}'
+```
+
+根据时间删除
+
+```shell
+curl -X POST -g 'http://localhost:9090/api/v1/admin/tsdb/delete_series?match[]={node_load1=".*"}&start<2020-02-01T00:00:00Z&end=2020-02-04T00:00:00Z'
+```
+
+
+
 ### 对比
 
 https://zhuanlan.zhihu.com/p/571938375
+
+
+
+
+
+### DynamoDB
+
+Amazon DynamoDB 是一种全托管 NoSQL 数据库服务，提供快速而可预测的性能，能够实现无缝扩展。DynamoDB 可以免除操作和扩展分布式数据库的管理工作负担，因而无需担心硬件预置、设置和配置、复制、软件修补或集群扩展等问题。此外，DynamoDB 提供了加密静态，这可以消除在保护敏感数据时涉及的操作负担和复杂性。有关更多信息
+
+DynamoDB 自动将表的数据和流量分布到足够数量的服务器上，以处理客户指定的请求容量和存储的数据量，同时保持一致且快速的性能。所有数据项目均存储在固态硬盘 (SSD) 中，并自动复制到某个 AWS 区域的多个可用区，以便提供数据自身的高可用性和数据持久性。可以使用全局表保持 DynamoDB 表在 AWS 区域间同步
+
+https://docs.aws.amazon.com/zh_cn/amazondynamodb/latest/developerguide/Introduction.html

@@ -815,6 +815,22 @@ let SomeComponent = props => {
 }
 ```
 
+@emotion/css
+
+```react
+import { css } from '@emotion/css';
+
+const customStyle = css`
+  margin-bottom: 4px;
+`
+
+const App = () => {
+	return <p className={labelStyle}>1</p>;
+}
+```
+
+
+
 https://github.com/emotion-js/emotion
 
 

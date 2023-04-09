@@ -1,5 +1,5 @@
 ---
-title: AMP
+title: HTML/CSS
 date: 2020-03-06 21:40:33
 categories: 技术博客
 tags:
@@ -8,19 +8,17 @@ toc: true
 thumbnail: 
 ---
 
-​	AMP
+​	类似于HTML的语言，AMP和Marko
 
 <!--more-->
 
-## 概念
+## AMP
 
 AMP（加速移动页面）是一个由Google与Twitter合作开发的开源框架，它提供了一种直接的方式来创建轻量级的网页，以便用户即时使用，获得了极大改善的体验：内容更快，更具吸引力，更易于阅读。
 
 从本质上讲，AMP框架允许我们通过简化HTML和简化的CSS规则来为移动设备构建轻量级体验
 
-
-
-## 核心组件
+### 核心组件
 
 **AMP HTML：**
 
@@ -36,7 +34,7 @@ AMP（加速移动页面）是一个由Google与Twitter合作开发的开源框�
 
 通常称为AMP缓存，AMP平台的一个关键组件是其基于代理的内容分发网络（CDN），可提供加速移动页面。
 
-## 优缺点
+### 优缺点
 
 **优点：**
 
@@ -49,4 +47,76 @@ AMP（加速移动页面）是一个由Google与Twitter合作开发的开源框�
 - 1、JavaScript有限制，用户无法自己创建，所以它可能很难编码。
 - 2、没有集成插件，一些效果很难在页面中实现。
 - 3、简化了HTML，css有限制，不能很好的自定义网站样式，大多是Google的默认格式。
+
+
+
+## Marko
+
+声明式的拓展html文件
+
+可以单个marko文件
+
+```html
+class {
+  onCreate() {
+    this.state = { count: 0 };
+  }
+  increment() {
+    this.state.count++;
+  }
+}
+
+style {
+  .count {
+    color: #09c;
+    font-size: 3em;
+  }
+  .press-me {
+    padding: 0.5em;
+  }
+}
+
+<output.count>
+  ${state.count}
+</output>
+<button.press-me on-click('increment')>
+  Press me!
+</button>
+```
+
+也可以拆分，marko、css、js
+
+```html
+<output.count>
+  ${state.count}
+</output>
+<button.press-me on-click('increment')>
+  Press me!
+</button>
+```
+
+css文件
+
+```css
+.count {
+  color: #09c;
+  font-size: 3em;
+}
+.press-me {
+  padding: 0.5em;
+}
+```
+
+js
+
+```javascript
+export default {
+  onCreate() {
+    this.state = { count: 0 };
+  },
+  increment() {
+    this.state.count++;
+  }
+};
+```
 

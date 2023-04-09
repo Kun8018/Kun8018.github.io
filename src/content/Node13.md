@@ -349,6 +349,38 @@ semver.minVersion('>=1.0.0') // '1.0.0'
 
 
 
+### archiver
+
+有时候我们需要将一些文件压缩打包成zip格式或tar格式的压缩包，也有可能需要将目录进行打包。在[Node](https://so.csdn.net/so/search?q=Node&spm=1001.2101.3001.7020).js中就可以用到`archiver`这个第三方包来进行操作。
+
+```shell
+npm install archiver --save
+```
+
+使用
+
+```javascript
+// 第一步，导入必要的模块
+const fs = require('fs');
+const archiver = require('archiver');
+
+// 第二步，创建可写流来写入数据
+const output = fs.createWriteStream(__dirname + "/hello.zip");// 将压缩包保存到当前项目的目录下，并且压缩包名为test.zip
+const archive = archiver('zip', {zlib: {level: 9}});// 设置压缩等级
+
+// 第三步，建立管道连接
+archive.pipe(output);
+
+// 第四步，压缩指定文件
+var stream = fs.createReadStream(__dirname + "/hello.txt");// 读取当前目录下的hello.txt
+archive.append(stream, {name: 'hello.txt'});
+
+// 第五步，完成压缩
+archive.finalize();
+```
+
+
+
 ### commander.js
 
 前端开发node cli 必备技能。
@@ -774,59 +806,6 @@ app.use(history())
 
 
 
-
-
-### prisma
-
-数据库orm
-
-安装
-
-```shell
-npm install prisma -D
-```
-
-Schema.prisma是prisma主要的配置文件，配置主要分为：
-
-1.DB连接的配置
-
-2.Prisma Client的配置
-
-3.data model的定义
-
-```javascript
-datasource db {
-  provider = "sqlite"
-  url = "file:dev.db"
-}
-
-generator client {
-	provider = "prisma-client-js"
-}
-
-model User {
-  id     Int
-  email  String
-  name   String
-}
-```
-
-生成数据表
-
-```shell
-prisma generate
-```
-
-引入
-
-```javascript
-import { PrismaClient } from '@prisma/client'
-
-const prisma = new PrismaClient()
-```
-
-
-
 ### 文件包fs-extra
 
 fs-extra继承了fs，所以不需要再使用原生fs模块
@@ -1002,9 +981,419 @@ SECRET_KEY="YOURSECRETKEYGOESHERE"
 在js中使用环境变量
 
 ```javascript
-import * as dotenv from 'dotenv' // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
+import * as dotenv from 'dotenv' 
+// see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
 dotenv.config()
 ```
+
+### 数据库相关
+
+#### prisma
+
+数据库orm
+
+安装
+
+```shell
+npm install prisma -D
+```
+
+Schema.prisma是prisma主要的配置文件，配置主要分为：
+
+1.DB连接的配置
+
+2.Prisma Client的配置
+
+3.data model的定义
+
+```javascript
+datasource db {
+  provider = "sqlite"
+  url = "file:dev.db"
+}
+
+generator client {
+	provider = "prisma-client-js"
+}
+
+model User {
+  id     Int
+  email  String
+  name   String
+}
+```
+
+生成数据表
+
+```shell
+prisma generate
+```
+
+安装Prisma-client
+
+```shell
+npm install @prisma/client
+```
+
+引入
+
+```javascript
+import { PrismaClient } from '@prisma/client'
+
+const prisma = new PrismaClient()
+
+async function main() {
+  // ... you will write your Prisma Client queries here
+}
+
+main()
+  .then(async () => {
+    await prisma.$disconnect()
+  })
+  .catch(async (e) => {
+    console.error(e)
+    await prisma.$disconnect()
+    process.exit(1)
+  })
+```
+
+增删改查
+
+增加修改upsert
+
+```typescript
+const upsertUser = await prisma.user.upsert({
+  where: {
+    email: 'viola@prisma.io',
+  },
+  update: {
+    name: 'Viola the Magnificent',
+  },
+  create: {
+    email: 'viola@prisma.io',
+    name: 'Viola the Magnificent',
+  },
+})
+```
+
+删
+
+删除单条
+
+```typescript
+const deleteUser = await prisma.user.delete({
+  where: {
+    email: 'bert@prisma.io',
+  },
+})
+```
+
+删除多条
+
+```typescript
+const deleteUsers = await prisma.user.deleteMany({
+  where: {
+    email: {
+      contains: 'prisma.io',
+    },
+  },
+})
+```
+
+删除所有
+
+```typescript
+const deleteUser = await prisma.user.delete({
+  where: {
+    email: 'bert@prisma.io',
+  },
+})
+```
+
+查询单条
+
+```typescript
+const getUser: User | null = await prisma.user.findUnique({
+  where: {
+    id: 22,
+  },
+})
+```
+
+使用select只返回指定字段
+
+```typescript
+// Returns an object or null
+const getUser: object | null = await prisma.user.findUnique({
+  where: {
+    id: 22,
+  },
+  select: {
+    email: true,
+    name: true,
+  },
+})
+```
+
+
+
+#### Sequelize
+
+安装
+
+```shell
+npm i sequelize
+```
+
+手动为所选数据库安装驱动程序
+
+```shell
+# 使用 npm
+npm i pg pg-hstore # PostgreSQL
+npm i mysql2 # MySQL
+npm i mariadb # MariaDB
+npm i sqlite3 # SQLite
+npm i tedious # Microsoft SQL Server
+npm i ibm_db # DB2
+# 使用 yarn
+yarn add pg pg-hstore # PostgreSQL
+yarn add mysql2 # MySQL
+yarn add mariadb # MariaDB
+yarn add sqlite3 # SQLite
+yarn add tedious # Microsoft SQL Server
+yarn add ibm_db # DB2
+```
+
+要连接到数据库,必须创建一个 Sequelize 实例. 这可以通过将连接参数分别传递到 Sequelize 构造函数或通过传递一个连接 URI 来完成
+
+```javascript
+const { Sequelize } = require('sequelize');
+
+// 方法 1: 传递一个连接 URI
+const sequelize = new Sequelize('sqlite::memory:') // Sqlite 示例
+const sequelize = new Sequelize('postgres://user:pass@example.com:5432/dbname') // Postgres 示例
+
+// 方法 2: 分别传递参数 (sqlite)
+const sequelize = new Sequelize({
+  dialect: 'sqlite',
+  storage: 'path/to/database.sqlite'
+});
+
+// 方法 3: 分别传递参数 (其它数据库)
+const sequelize = new Sequelize('database', 'username', 'password', {
+  host: 'localhost',
+  dialect: /* 选择 'mysql' | 'mariadb' | 'postgres' | 'mssql' 其一 */
+});
+```
+
+测试连接
+
+```javascript
+try {
+  await sequelize.authenticate();
+  console.log('Connection has been established successfully.');
+} catch (error) {
+  console.error('Unable to connect to the database:', error);
+}
+```
+
+默认情况下,Sequelize 将保持连接打开状态,并对所有查询使用相同的连接. 如果你需要关闭连接,请调用 `sequelize.close()`(这是异步的并返回一个 Promise)
+
+#### TypeOrm
+
+TypeORM 是一个[ORM](https://en.wikipedia.org/wiki/Object-relational_mapping)框架，它可以运行在 NodeJS、Browser、Cordova、PhoneGap、Ionic、React Native、Expo 和 Electron 平台上，可以与 TypeScript 和 JavaScript (ES5,ES6,ES7,ES8)一起使用。 它的目标是始终支持最新的 JavaScript 特性并提供额外的特性以帮助你开发任何使用数据库的（不管是只有几张表的小型应用还是拥有多数据库的大型企业应用）应用程序。
+
+TypeORM 的一些特性:
+
+- 支持 [DataMapper](https://typeorm.bootcss.com/active-record-data-mapper#what-is-the-data-mapper-pattern) 和 [ActiveRecord](https://typeorm.bootcss.com/active-record-data-mapper#what-is-the-active-record-pattern) (随你选择)
+- 实体和列
+- 数据库特性列类型
+- 实体管理
+- 存储库和自定义存储库
+- 清晰的对象关系模型
+- 关联（关系）
+- 贪婪和延迟关系
+- 单向的，双向的和自引用的关系
+- 支持多重继承模式
+- 级联
+- 索引
+- 事务
+- 迁移和自动迁移
+- 连接池
+- 主从复制
+- 使用多个数据库连接
+- 使用多个数据库类型
+- 跨数据库和跨模式查询
+- 优雅的语法，灵活而强大的 QueryBuilder
+- 左联接和内联接
+- 使用联查查询的适当分页
+- 查询缓存
+- 原始结果流
+- 日志
+- 监听者和订阅者（钩子）
+- 支持闭包表模式
+- 在模型或者分离的配置文件中声明模式
+- json / xml / yml / env 格式的连接配置
+- 支持 MySQL / MariaDB / Postgres / SQLite / Microsoft SQL Server / Oracle / sql.js
+- 支持 MongoDB NoSQL 数据库
+- 可在 NodeJS / 浏览器 / Ionic / Cordova / React Native / Expo / Electron 平台上使用
+- 支持 TypeScript 和 JavaScript
+- 生成高性能、灵活、清晰和可维护的代码
+- 遵循所有可能的最佳实践
+- 命令行工具
+
+安装
+
+```shell
+npm install typeorm reflect-metadata --save
+```
+
+在全局位置导入
+
+```typescript
+import "reflect-metadata";
+```
+
+通过使用 `TypeORM` 你的 `models` 看起来像这样
+
+```typescript
+import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+
+@Entity()
+export class User {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column()
+  firstName: string;
+
+  @Column()
+  lastName: string;
+
+  @Column()
+  age: number;
+}
+```
+
+逻辑操作
+
+```typescript
+const user = new User();
+user.firstName = "Timber";
+user.lastName = "Saw";
+user.age = 25;
+await user.save();
+
+const allUsers = await User.find();
+const firstUser = await User.findOne(1);
+const timber = await User.findOne({ firstName: "Timber", lastName: "Saw" });
+
+await timber.remove();
+```
+
+每个实体都有自己的存储库，可以处理其实体的所有操作。当你经常处理实体时，Repositories 比 EntityManagers 更方便使用
+
+```typescript
+import { createConnection } from "typeorm";
+import { Photo } from "./entity/Photo";
+
+createConnection(/*...*/)
+  .then(async connection => {
+    let photo = new Photo();
+    photo.name = "Me and Bears";
+    photo.description = "I am near polar bears";
+    photo.filename = "photo-with-bears.jpg";
+    photo.views = 1;
+    photo.isPublished = true;
+
+    let photoRepository = connection.getRepository(Photo);
+
+    await photoRepository.save(photo);
+    console.log("Photo has been saved");
+
+    let savedPhotos = await photoRepository.find();
+    console.log("All photos from the db: ", savedPhotos);
+  })
+  .catch(error => console.log(error));
+```
+
+queryBuilder
+
+`QueryBuilder`是 TypeORM 最强大的功能之一 ，它允许你使用优雅便捷的语法构建 SQL 查询，执行并获得自动转换的实体。
+
+```typescript
+const firstUser = await connection
+  .getRepository(User)
+  .createQueryBuilder("user")
+  .where("user.id = :id", { id: 1 })
+  .getOne();
+```
+
+Repository
+
+`Repository`就像`EntityManager`一样，但其操作仅限于具体实体。
+
+你可以通过`getRepository（Entity）`，`Connection＃getRepository`或`EntityManager＃getRepository`访问存储库。
+
+```typescript
+import { getRepository } from "typeorm";
+import { User } from "./entity/User";
+
+const userRepository = getRepository(User); // 你也可以通过getConnection().getRepository()或getManager().getRepository() 获取
+const user = await userRepository.findOne(1);
+user.name = "Umed";
+await userRepository.save(user);
+```
+
+有三种类型的存储库：
+
+- `Repository` - 任何实体的常规存储库。
+- `TreeRepository` - 用于树实体的`Repository`的扩展存储库（比如标有`@ Tree`装饰器的实体）。有特殊的方法来处理树结构。
+- `MongoRepository` - 具有特殊功能的存储库，仅用于 MongoDB。
+
+迁移
+
+
+
+事务
+
+日志
+
+你只需在连接选项中设置`logging：true`即可启用所有查询和错误的记录
+
+```json
+{
+    name: "mysql",
+    type: "mysql",
+    host: "localhost",
+    port: 3306,
+    username: "test",
+    password: "test",
+    database: "test",
+    ...
+    logging: true
+}
+```
+
+TypeORM 附带 4 种不同类型的记录器：
+
+- `advanced-console` - 默认记录器，它将使用颜色和 sql 语法高亮显示所有记录到控制台中的消息（使用[chalk](https://github.com/chalk/chalk)）。
+- `simple-console` - 简单的控制台记录器，与高级记录器完全相同，但它不使用任何颜色突出显示。 如果你不喜欢/或者使用彩色日志有问题，可以使用此记录器。
+- `file` - 这个记录器将所有日志写入项目根文件夹中的`ormlogs.log`（靠近`package.json`和`ormconfig.json`）。
+- `debug` - 此记录器使用[debug package](https://github.com/visionmedia/debug)打开日志记录设置你的 env 变量`DEBUG = typeorm：*`（注意记录选项对此记录器没有影响）。
+
+```json
+{
+    host: "localhost",
+    ...
+    logging: true,
+    logger: "file"
+}
+```
+
+
+
+
 
 ### ts相关
 
@@ -1447,67 +1836,39 @@ graphql的内部包
 
 https://the-guild.dev/graphql/tools/docs/resolvers-composition
 
-### Sequelize
+
+
+#### graphql-subscriptions
+
+node端graphql发布订阅
 
 安装
 
 ```shell
-npm i sequelize
+npm install graphql-subscriptions graphql
 ```
 
-手动为所选数据库安装驱动程序
-
-```shell
-# 使用 npm
-npm i pg pg-hstore # PostgreSQL
-npm i mysql2 # MySQL
-npm i mariadb # MariaDB
-npm i sqlite3 # SQLite
-npm i tedious # Microsoft SQL Server
-npm i ibm_db # DB2
-# 使用 yarn
-yarn add pg pg-hstore # PostgreSQL
-yarn add mysql2 # MySQL
-yarn add mariadb # MariaDB
-yarn add sqlite3 # SQLite
-yarn add tedious # Microsoft SQL Server
-yarn add ibm_db # DB2
-```
-
-要连接到数据库,必须创建一个 Sequelize 实例. 这可以通过将连接参数分别传递到 Sequelize 构造函数或通过传递一个连接 URI 来完成
+使用
 
 ```javascript
-const { Sequelize } = require('sequelize');
+import { PubSub } from 'graphql-subscriptions';
 
-// 方法 1: 传递一个连接 URI
-const sequelize = new Sequelize('sqlite::memory:') // Sqlite 示例
-const sequelize = new Sequelize('postgres://user:pass@example.com:5432/dbname') // Postgres 示例
+export const pubsub = new PubSub();
 
-// 方法 2: 分别传递参数 (sqlite)
-const sequelize = new Sequelize({
-  dialect: 'sqlite',
-  storage: 'path/to/database.sqlite'
-});
+const SOMETHING_CHANGED_TOPIC = 'something_changed';
 
-// 方法 3: 分别传递参数 (其它数据库)
-const sequelize = new Sequelize('database', 'username', 'password', {
-  host: 'localhost',
-  dialect: /* 选择 'mysql' | 'mariadb' | 'postgres' | 'mssql' 其一 */
-});
-```
-
-测试连接
-
-```javascript
-try {
-  await sequelize.authenticate();
-  console.log('Connection has been established successfully.');
-} catch (error) {
-  console.error('Unable to connect to the database:', error);
+export const resolvers = {
+  Subscription: {
+    somethingChanged: {
+      subscribe: () => pubsub.asyncIterator(SOMETHING_CHANGED_TOPIC),
+    },
+  },
 }
+
+pubsub.publish(SOMETHING_CHANGED_TOPIC, { somethingChanged: { id: "123" }});
 ```
 
-默认情况下,Sequelize 将保持连接打开状态,并对所有查询使用相同的连接. 如果你需要关闭连接,请调用 `sequelize.close()`(这是异步的并返回一个 Promise)
+
 
 ### neon
 
