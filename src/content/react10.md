@@ -950,9 +950,80 @@ type User = InferType<typeof userSchema>;
 
 ## 路由相关组件
 
+### wouter
+
+```javascript
+import { Link, Route } from "wouter";
+
+const App = () => (
+  <div>
+    <Link href="/users/1">
+      <a className="link">Profile</a>
+    </Link>
+
+    <Route path="/about">About Us</Route>
+    <Route path="/users/:name">{(params) => <div>Hello, {params.name}!</div>}</Route>
+    <Route path="/inbox" component={InboxPage} />
+  </div>
+);
+```
+
+hooks
+
+```javascript
+import { useRoute } from "wouter";
+import { Transition } from "react-transition-group";
+
+const AnimatedRoute = () => {
+  // `match` is boolean
+  const [match, params] = useRoute("/users/:id");
+
+  return <Transition in={match}>Hi, this is: {params.id}</Transition>;
+};
+```
 
 
 
+```javascript
+import { useLocation } from "wouter";
+
+const CurrentLocation = () => {
+  const [location, setLocation] = useLocation();
+
+  return (
+    <div>
+      {`The current page is: ${location}`}
+      <a onClick={() => setLocation("/somewhere")}>Click to update</a>
+    </div>
+  );
+};
+```
+
+使用
+
+```javascript
+import { useState, useEffect } from "react";
+import { Router, Route } from "wouter";
+import { useLocationProperty, navigate } from "wouter/use-location";
+
+// returns the current hash location in a normalized form
+// (excluding the leading '#' symbol)
+const hashLocation = () => window.location.hash.replace(/^#/, "") || "/";
+
+const hashNavigate = (to) => navigate('#' + to);
+
+const useHashLocation = () => {
+  const location = useLocationProperty(hashLocation);
+  return [location, hashNavigate];
+};
+
+const App = () => (
+  <Router hook={useHashLocation}>
+    <Route path="/about" component={About} />
+    ...
+  </Router>
+);
+```
 
 ## Canvas
 
@@ -1497,15 +1568,27 @@ import { Mutation,MutationFunc } from 'react-apollo'
 
 #### @apollo/client
 
+安装preset包
+
+```shell
+# installing the preset package 
+npm install apollo-boost graphql-tag graphql --save
+```
+
 安装@apollo/client
 
 ```shell
-npm install @apollo/client graphql
+# installing each piece independently 
+npm install apollo-client apollo-cache-inmemory apollo-link-http graphql-tag graphql --save
 ```
 
 使用@apollo/client
 
 ```react
+import ApolloClient from 'apollo-boost';
+ 
+const client = new ApolloClient();
+
 import React, { ReactElement } from 'react';
 import {useQuery, gql } from '@apollo/client';
 
@@ -1720,6 +1803,12 @@ const App = () => {
   </ApolloProvider>;
 }
 ```
+
+
+
+#### graph-tools
+
+
 
 
 

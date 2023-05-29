@@ -405,6 +405,21 @@ Text-overflow:ellipsis 省略号
 
 perspective：指定观察者与z=0平面的距离，使具有三维位置变换的元素具有透视效果。z>0平面的三维元素比正常大，z<0则比正常小，大小程度由该属性的值决定
 
+#### list-style-type
+
+li前缀样式
+
+```css
+list-style-type: space-counter;
+list-style-type: disc;
+list-style-type: circle;
+list-style-type: "👍";
+```
+
+
+
+
+
 #### position各属性的区别
 
 relative与absolute的区别：

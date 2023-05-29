@@ -778,6 +778,178 @@ function hasOwn(obj, key) {
 
 如果双冒号左边为空，右边是一个对象的方法，则等于将该方法绑定在该对象上面。
 
+#### Temporal
+
+在 1995 年，**Brendan**（JavaScript之父） 被网景公司安排了一个巨大而紧急的工作任务，用 10 天的时间来编写 JavaScript 语言。而 `日期处理` 是几乎所有编程语言的基本部分，所以JavaScript 也必须拥有它。这是一个非常复杂的领域，但留给作者编写它的时间却很短。最终 **Brendan** 选择了借鉴当时红极一时的 `java` 语言，从`java.Util.Date`日期实现中复制了 Javascript 的日期对象。坦率地说，这个实现很糟糕。事实上 `Java` 在两年后的 1.1 版本中就弃用和替换这种实现。然而 20 年后，我们仍然在 JavaScript 编程语言中使用这个 API。
+
+Date存在的问题
+
+不支持除用户本地时间以外的时区
+
+不支持开发人员通过 **API** 来切换`时区信息`。
+
+解析器行为不可靠以至于无法使用
+
+```javascript
+new Date(); 
+new Date(value); 
+new Date(dateString); 
+new Date(year, monthIndex [, day [, hours [, minutes [, seconds [, milliseconds]]]]]);
+```
+
+开发人员常常因为`输入的参数格式问题`，引发时间错误，导致程序崩溃。比如输入 `('2022-02-22')` 和 `(2022,02,22)` 得到的结果却不同，
+
+计算API缺失
+
+涉及时间的运算逻辑通常都需要开发人员自己去写，比如`比较两个时间的长短`，`时间之间的加减运算`，没有自己的计算API
+
+不支持非公历
+
+除了全球通用的`公历`外，无法使用各国的自己的历法。比如中国的`农历`
+
+Temporal的诞生
+
+为了弥补 `Date` 的缺陷，很多程序员着手开发一些开源的库来绕过对 `Date` 的直接使用，比较优秀的npm库如 date.js 、moment.js，但 Date 的问题始终困扰着 **Javascript** 这门语言的进一步发展，于是 **TC39** 组织开始了对 `Date` 的升级改造，他们找到了 moment.js 库的作者，Maggie ，由她来担任新特性 `Temporal`的主力设计
+
+`Temporal`是一个全局对象，像 `Math` 、`Promise` 一样位于顶级命名空间中，为 **Javascript** 语言带来了现代化的日期、时间接口。
+
+一个全面的`Temporal`包含三个部分：
+
+绿色区域为 `ISO 8601` 格式的 `日期和时间`；
+
+黄色区域为`时区`（日本东京）；
+
+红色区域为`日历`（日本历法）；
+
+`ISO 8601格式`：国际通用时间格式，T用来分割日期（2020-08-05）和时间（20:06:13），“+”或者“-”分别代表东时区和西时区。+09:00，代表东九区。
+
+`Date` 采用 GMT格式（旧的时间表示格式） 的时间，使用方面不如 ISO 8601 通用，同时不包含 `时区和历法`
+
+Temporal
+
+推翻重新设计的`Temporal`，包含5种主要 `类型`，每个类型负责不同的功能，类型之间还可以相互进行`转换`
+
+ZonedDateTime
+
+最全面的`Temporal`类型，与时区和日历都有关联。表示从地球上`特定区域`的角度来看，在`特定时刻`发生的事
+
+**获得一个`Instant`类型**
+
+```javascript
+new Temporal.Instant(bigint);
+new Temporal.Instant.from('2019-03-30T01:45:00+01:00[Europe/Berlin]');  
+new Temporal.Instant.from('2019-03-30T01:45+01:00');
+new Temporal.Instant.from('2019-03-30T00:45Z');
+```
+
+**获取一个`PlainDateTime`类型**
+
+```javascript
+new Temporal.PlainDateTime（year,month,day...）
+
+Temporal.PlainDateTime.from({ year: 2001, month: 1, day: 1, hour: 25 ,calendar:'chinese'}, { overflow: 'constrain' }).toString()
+//2001-01-24T23:00:00[u-ca=chinese]
+```
+
+**获取一个`TimeZone`类型**
+
+负责`Temporal`时区的相关类型
+
+```javascript
+//东八区，即北京时间
+new Temporal.TimeZone('8:00');
+//直接字符串描述，前提是 Temporal 内部有定义
+new Temporal.TimeZone('Asia/Shanghai');
+//Asia/Shanghai
+```
+
+**获取一个`Calendar`类型**
+
+负责`Temporal`的日历系统
+
+```javascript
+new Calendar(string)
+Temporal.Calendar.from(string)
+```
+
+在 Temporal 里，包含 `日历属性` 的有 `plainXX系列` 和 `ZonedDateTime`
+
+**获取一个`Duration`类型**
+
+```javascript
+new Temporal.Duration(1, 2, 3, 4, 5, 6, 7, 987, 654, 321); 
+
+new Temporal.Duration(0, 0, 0, 40); 
+
+Temporal.Duration.from(undefined, undefined, undefined, 40); 
+
+new Temporal.Duration(); 
+```
+
+调用 `Duration` 原型上的 `compare` 方法。返回值： -1， 0， 1
+
+```javascript
+one = Temporal.Duration.from({ hours: 79, minutes: 10 });//PT1H10M
+two = Temporal.Duration.from({ days: 3, hours: 7, seconds: 630 });//P3DT7H630S
+Temporal.Duration.compare(one,two)
+```
+
+除了 `Timezone` 和 `Calendar` 类型外，所有具备日期和时间属性的类型都可以进行`算术`
+
+Temporal类型之间的转换
+
+Temporal的各种类型，除了完成自身的功能外，还可以 `类型转换`
+
+左侧黄色区域的 **Instant** 类型，用来表达某个瞬间的时间，不包含时区和日历的信息。
+
+右侧黄色区域的 **PlainXX系列**（5个），用来表达日历日期或者钟表时间，包含日历信息，而中间的 **ZonedDateTime** 则横跨左右两个区域，包含时区和日历信息，可以作为一个`通道`，连接左侧的 **Instant** 和右侧的 **Plain系列**，负责类型之间转换的`桥梁`。
+
+中间的 **Timezone** 时区类型 **Calendar** 日历类型，不单独使用，配合上方的 **ZonedDateTime** 类型来辅助转换
+
+```javascript
+Temporal.Instant.from('2020-08-05T20:06:13+0900').toString()
+//2020-08-05T11:06:13Z
+Temporal.Instant.from('2020-08-05T20:06:13+0900').toZonedDateTimeISO('Asia/Tokyo').toString();
+//2020-08-05T20:06:13+09:00[Asia/Tokyo]
+```
+
+ZonedTimeDate => Instant
+
+```javascript
+Temporal.ZonedDateTime.from('2020-11-01T01:45-07:00[America/Los_Angeles]').toString();
+//2020-11-01T01:45:00-07:00[America/Los_Angeles]
+Temporal.ZonedDateTime.from('2020-11-01T01:45-07:00[America/Los_Angeles]').toInstant().toString();
+//2020-11-01T08:45:00Z
+```
+
+ZonedTimeDate => PlainDateTime
+
+```javascript
+Temporal.ZonedDateTime.from('2020-11-01T01:45-07:00[America/Los_Angeles]').toString()
+//2020-11-01T01:45:00-07:00[America/Los_Angeles]
+Temporal.ZonedDateTime.from('2020-11-01T01:45-07:00[America/Los_Angeles]').toPlainDateTime().toString();
+//2020-11-01T01:45:00
+```
+
+PlainDateTime => ZonedTimeDate
+
+```javascript
+Temporal.PlainDateTime.from('2020-08-05T20:06:13').toString()
+//2020-08-05T20:06:13
+Temporal.PlainDateTime.from('2020-08-05T20:06:13').toZonedDateTime('Asia/Tokyo').toString();
+//2020-08-05T20:06:13+09:00[Asia/Tokyo]
+```
+
+`Date`的问题
+
+1.不支持除用户本地时间以外的时区。`Temparal` 支持开发人员通过 `TimeZone` 来设置本地时间以外的时区。
+
+2.计算 API 缺失。除了时区和日历类型外，其他类型都可以进行 `算术运算`,即时间的比较，增加，减少等。
+
+3.不支持非公历，`Calendar` 类型支持 `Temparal` 选择日历。
+
+4.解析器行为不可靠以至于无法使用，在 `Temporal` 里，`new 构造函数（）` 或者`From` 方法，对参数的要求都更加规范，同时`From` 方法支持 `日期溢出` 后的逻辑处理，可以防止系统崩溃。
+
 #### 更多提案
 
 ECMA 39组委会官网： https://tc39.es/

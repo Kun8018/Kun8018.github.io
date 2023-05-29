@@ -3,7 +3,7 @@ title: Golang语言开发（六）
 date: 2020-03-02 21:40:33
 categories: 技术博客
 tags:
-    - Web,IT,Go
+    - IT,Go
 toc: true
 thumbnail: https://s1.ax1x.com/2020/04/20/J1Iu4O.th.jpg
 ---
@@ -17,3 +17,17 @@ thumbnail: https://s1.ax1x.com/2020/04/20/J1Iu4O.th.jpg
 prometheus的go版本
 
 https://github.com/m3db/m3
+
+
+
+## zabbix
+
+https://www.zabbix.com/features
+
+
+
+## datadog-agent
+
+监控指标
+
+https://github.com/DataDog/datadog-agent

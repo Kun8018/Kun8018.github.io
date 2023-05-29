@@ -1080,6 +1080,42 @@ npm install xstate
 - [✅ `@xstate/test`](https://github.com/statelyai/xstate/tree/main/packages/xstate-test) - 基于模型测试的实用工具包（使用 XState）
 - [🔍 `@xstate/inspect`](https://github.com/statelyai/xstate/tree/main/packages/xstate-inspect) - XState 的检查实用工具包
 
+最终状态
+
+大多数带状态的过程，都有最终状态，即过程结束时的最后一个状态。
+
+原子状态
+
+原子状态，是指那些没有子状态的状态。
+
+组合状态
+
+一个组合状态由多个状态构成（这些状态也被称为子状态）。只有当父组合状态发生时，子状态才会发生
+
+在**「** **遛弯中 on a walk」** 状态内部，还有**「行走中 walking」**、**「奔跑中 running」**和**「停下闻点好东西 stopping to sniff good smells」**几个子状态。
+
+平行状态
+
+平行状态是一种组合状态，它的子状态们（也叫区域 regions）会同时发生。
+
+自过渡 **Self-transition**
+
+自过渡，指的是那些返回相同状态的过渡。在自过渡中，过渡箭头总对着相同状态一进一出。
+
+简单说，自过渡就是一种看上去很努力的过程：一直做某事，一直没变化。
+
+延迟过渡
+
+动作Actions
+
+**动作 actions** 更为人所知的名字是 **作用 effects** 或者 **副作用 side-effects**。
+
+虽然 **副作用 side-effects** 听着就不是什么好词，但是别忘了，我们使用状态图的一个主要目的就是发出 **动作 actions**。
+
+**动作 actions** 这样的事件，是不会影响后续流程的。这类事件也就触发触发，实际上，状态流程还是（会按原先设置的那样）去到下一步
+
+动作 actions 可以发生在进入或离开某个状态 (或过渡) 之时。某个状态的相关动作，会被囊括在状态容器内部（根据触发时的实际情况，动作会被标记上 "entry" 或 "exit"）
+
 使用
 
 ```javascript

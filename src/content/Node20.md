@@ -1080,6 +1080,62 @@ let table = marked(md);
 
 
 
+## gray-matter
+
+将对象转换为文件
+
+安装
+
+```shell
+npm install --save gray-matter
+```
+
+可以将字符串或者对象转换为文件
+
+```javascript
+{
+  content: '<h1>Hello world!</h1>',
+  data: { 
+    title: 'Hello', 
+    slug: 'home' 
+  }
+}
+```
+
+转换为
+
+```markdown
+---
+title: Hello
+slug: home
+---
+<h1>Hello world!</h1>
+```
+
+使用
+
+```javascript
+import matter = require('gray-matter');
+
+// matter方法
+const matter = require('gray-matter');
+console.log(matter('---\ntitle: Home\n---\nOther stuff'));
+//=> { data: { title: 'Home'}, content: 'Other stuff' }
+
+// stringify方法
+console.log(matter.stringify('foo bar baz', {title: 'Home'}));
+// results in:
+// ---
+// title: Home
+// ---
+// foo bar baz
+
+// read方法
+const file = matter.read('./content/blog-post.md');
+```
+
+
+
 ## Showdown.js
 
 Markdown转 html

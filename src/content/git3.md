@@ -642,6 +642,16 @@ npx turbo login
 
 
 
+#### turbo-ignore
+
+忽略构建工具
+
+```
+npx turbo-ignore --fallback=HEAD~10
+```
+
+
+
 ### pnpm替换lerna+yarn
 
 1.全局安装pnpm

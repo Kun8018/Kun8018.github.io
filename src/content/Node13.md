@@ -986,6 +986,149 @@ import * as dotenv from 'dotenv'
 dotenv.config()
 ```
 
+### nock
+
+模拟http请求响应，更多地应用于node/前端的单元测试中
+
+比如有一个http请求函数
+
+```javascript
+async function getUser(id) {
+  const response = await fetch(`/api/users/${id}`);
+
+  // User does not exist
+  if (response.status === 404) return null;
+  // Some other error occurred
+  if (response.status > 400) {
+    throw new Error(`Unable to fetch user #${id}`);
+  }
+
+  const { firstName, lastName } = await response.json();
+  return {
+    firstName,
+    lastName,
+    fullName: `${firstName} ${lastName}`
+  };
+}
+
+// 添加对应的测试代码
+it('should properly decorate the fullName', async () => {
+  nock('http://localhost')
+    .get('/api/users/123')
+    .reply(200, { firstName: 'John', lastName: 'Doe });
+
+  const user = await getUser(123);
+  expect(user).toEqual({
+    firstName: 'John',
+    lastName: 'Doe,
+    fullName: 'John Doe'
+  });
+});  
+
+it('should return null if the user does not exist', async () => {
+  nock('http://localhost')
+    .get('/api/users/1337')
+    .reply(404);
+
+  const user = await getUser(1337);
+  expect(user).toBe(null);
+});  
+
+it('should return null when an error occurs', async () => {
+  nock('http://localhost')
+    .get('/api/users/42')
+    .reply(404);
+
+  const userPromise = getUser(42);
+  expect(userPromise).rejects.toThrow('Unable to fetch user #42');
+});
+```
+
+
+
+### jsonwebtoken
+
+安装
+
+```shell
+npm i jsonwebtoken --save
+```
+
+使用
+
+```javascript
+//authorization.js
+const jwt = require("jsonwebtoken");
+
+const secretKey = "secretKey";
+
+// 生成token
+module.exports.generateToken = function (payload) { 
+  const token =
+    "Bearer " +
+    jwt.sign(payload, secretKey, {
+      expiresIn: 60 * 60,
+    });
+  return token;
+};
+
+// 验证token
+module.exports.verifyToken = function (req, res, next) {
+  const token = req.headers.authorization.split(" ")[1];
+  jwt.verify(token, secretKey, function (err, decoded) {
+    if (err) {
+      console.log("verify error", err);
+      return res.json({ code: "404", msg: "token无效" });
+    }
+    console.log("verify decoded", decoded);
+    next();
+  });
+};
+```
+
+在登陆接口生成token返回给前端
+
+```javascript
+// login.js
+const express = require("express");
+const router = express.Router();
+const { generateToken } = require("./authorization");
+
+// 路由
+router.post("/", (req, res) => {
+  const username = req.body.username;
+  const password = req.body.password;
+  const token = generateToken({ username: username });
+  res.json({
+    code: 200,
+    msg: "登录成功",
+    data: { token },
+  });
+});
+
+module.exports = router;
+```
+
+注册中间件
+
+```javascript
+const loginRouter = require("./login");
+const auth = require("./authorization");
+const userRouter = require("./user");
+
+app.use("/api/login", loginRouter);
+app.use("/api/*", auth.verifyToken); // 注册token验证中间件
+app.use("/api/user", userRouter);
+```
+
+
+
+### json-schema-faker
+
+
+
+
+
 ### 数据库相关
 
 #### prisma
@@ -1568,7 +1711,127 @@ console.log(data);
 
 
 
+### 请求数据处理相关
 
+#### form-data
+
+node无法直接像html中使用new [FormData](https://so.csdn.net/so/search?q=FormData&spm=1001.2101.3001.7020)() 创建对象，要使用form-data库
+
+使用
+
+```javascript
+var FormData = require('form-data');
+var fs = require('fs');
+
+var form = new FormData();
+form.append('my_field', 'my value');
+form.append('my_buffer', new Buffer(10));
+form.append('my_file', fs.createReadStream('/foo/bar.jpg'));
+```
+
+y也可以使用流
+
+```javascript
+var FormData = require('form-data');
+var http = require('http');
+
+var form = new FormData();
+
+http.request('http://nodejs.org/images/logo.png', function(response) {
+  form.append('my_field', 'my value');
+  form.append('my_buffer', new Buffer(10));
+  form.append('my_logo', response);
+});
+```
+
+#### body-parser
+
+`body-parser`是非常常用的一个`express`中间件，作用是对post请求的请求体进行解析。使用非常简单
+
+```javascript
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+```
+
+`body-parser`实现的要点如下：
+
+1. 处理不同类型的请求体：比如`text`、`json`、`urlencoded`等，对应的报文主体的格式不同。
+2. 处理不同的编码：比如`utf8`、`gbk`等。
+3. 处理不同的压缩类型：比如`gzip`、`deflare`等。
+4. 其他边界、异常的处理。
+
+此中间件已经被express集成，无需调用安装body-parser，可以直接采用express.json()和express.urlencoded()实现相同功能。
+
+**bodyParser.json([options])**
+
+解析并返回 json格式的数据，这是常用的方法。内部会查看content-type，只有是正确的content-type默认是application/json才进入这个中间件解析处理。
+
+```json
+{
+  // default = true
+  // 是否开启压缩体解析
+  "inflate": true,
+  
+  // default = '100kb'
+  // 最大请求数据，传入数字默认单位是bytes，传入字符串要带上单位
+  "limit": "100kb",
+  
+  // 指导reviver就相当于在JSON.parse()方法传入了第二个参数reviver做数据的预处理。
+  "reviver": (key, value)=> {...},
+    
+   // default = true
+   // 开启严格模式只能接收能被JSON.parse()方法解析的数据 
+   "strict": true,
+     
+   // 接收数据的类型，默认是"application/json"
+   "type": "application/json",
+     
+   // 验证数据，如果无效就可以提前抛出错误信息
+   "verify": (req, res, buf, encoding) => {...}
+}
+```
+
+**bodyParser.urlencoded([options])**
+
+这是常用的方法，常见的前端请求解决方案如表单post提交、axios、fetch等库的post请求都需要这个中间件进行解析，返回json的格式数据。当请求的数据类型是application/x-www-form-urlencoded时才会进入这个中间件进行处理
+
+参数
+
+```json
+{
+    // default = true
+  // 解析URL-encode数据的方法，true的话使用qs库来解析，false的话使用querystring库去解决，qs库文档：https://www.npmjs.com/package/qs#readme
+  "extended": true,
+  
+  // default = true
+  // 是否开启压缩体解析
+  "inflate": true,
+  
+  // default = '100kb'
+  // 最大请求数据，传入数字默认单位是bytes，传入字符串要带上单位
+  "limit": "100kb",
+  
+  // default = 1000
+  // 控制url编码数据中最大参数数量，超过这个数量返回413
+  "parameterLimit": 1000,
+  
+  // 接收数据的类型，默认是"application/x-www-form-urlencoded"
+  "type": "application/x-www-form-urlencoded",
+  
+  // 验证数据，如果无效就可以提前抛出错误信息
+  "verify": (req, res, buf, encoding) => {...}
+}
+```
+
+**bodyParser.text([options])**
+
+当默认数据类型为text/*时候会进入这个中间件处理，用的少，由于json数据更友好，能直接在数据库使用或是保存为json格式的文件，如果你更改下options.type = 'application/json' 也可以处理json的数据。
+
+所以bodyParser.json()相当于在此基础上进行封装优化，既然有更好用的，这个就不太用的上了，完全可以被取代。。options多了一个解码方式的选择，options.defaultCharset = 'utf-8'
+
+**bodyParser.raw([options])**
+
+处理默认数据为application/octet-stream时候的中间件，应用场景是post传入语音、短视频等媒体类型的数据，默认处理小于100kb的数据，以buffer的形式解析
 
 ### 加解密包
 

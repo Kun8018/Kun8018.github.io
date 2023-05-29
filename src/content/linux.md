@@ -306,6 +306,66 @@ free 命令显示系统使用和空闲的内存情况，包括物理内存、交
 
 磁盘的操作有逻辑级（文件系统）和物理级（磁盘块），这两种Cache就是分别缓存逻辑和物理级数据的。
 
+### Wget
+
+[Wget](https://link.juejin.cn?target=https%3A%2F%2Fwww.gnu.org%2Fsoftware%2Fwget%2F)是一个网络命令行工具，可以让你下载文件并与REST APIs互动。它支持`HTTP`,`HTTPS`,`FTP`, 和`FTPS` 互联网协议。Wget可以处理不稳定和缓慢的网络连接。在下载失败的情况下，Wget会继续尝试，直到整个文件被检索出来。Wget还可以让你恢复被中断的文件下载，而不必从头开始。
+
+你还可以使用Wget与REST APIs互动，而不需要安装任何额外的外部程序。你可以在终端中用单个或多个头文件提出`GET` 、`POST` 、`PUT` 、`DELETE` 、`HTTP` 等请求。
+
+Wget可以对Restful API进行请求
+
+```shell
+wget -O- https://jsonplaceholder.typicode.com/posts?_limit=2
+```
+
+输入命令行后显示`HTTP request sent, awaiting response... 200 OK` ，这意味着你已经成功地向JSONPlaceholder发送了一个`GET` 请求。
+
+Wget让你通过运行类似下面的命令来发送`POST`
+
+```shell
+wget --method=post -O- -q --body-data='{"title": "Wget POST","body": "Wget POST example body","userId":1}' --header=Content-Type:application/json https://jsonplaceholder.typicode.com/posts
+```
+
+上面的命令，用`wget` ，向[JSON Placeholder](https://link.juejin.cn?target=https%3A%2F%2Fjsonplaceholder.typicode.com)发送一个`POST` 请求，以创建一个新帖子。你把`method` 设为`post` ，把`Header` 设为`Content-Type:application/json` ，并向其发送以下`request body` ：`{"title": "Wget POST","body": "Wget POST example body","userId":1}` 
+
+输出结果为
+
+```json
+Output{
+  "title": "Wget POST",
+  "body": "Wget POST example body",
+  "userId": 1,
+  "id": 101
+}
+```
+
+Wget让你通过运行类似下面的命令来发送`PUT`
+
+```shell
+wget --method=put -O- -q --body-data='{"title": "Wget PUT", "body": "Wget PUT example body", "userId": 1, "id":1}' --header=Content-Type:application/json https://jsonplaceholder.typicode.com/posts/1 
+```
+
+在上面的命令中，你用`wget` ，向[JSON Placeholder](https://link.juejin.cn?target=https%3A%2F%2Fjsonplaceholder.typicode.com)发送一个`PUT` 请求，以编辑这个REST API中的第一个帖子。你把`method` 设为`put` ，把`Header` 设为`Content-Type:application/json` ，并向其发送以下`request body` ：`{"title": "Wget PUT", "body": "Wget PUT example body", "userId": 1, "id":1}`
+
+```json
+Output{
+  "body": "Wget PUT example body",
+  "title": "Wget PUT",
+  "userId": 1,
+  "id": 1
+}
+```
+
+Wget让你通过运行一个类似下面的命令来发送`DELETE` 请求
+
+```shell
+wget --method=delete -O- -q --header=Content-Type:application/json https://jsonplaceholder.typicode.com/posts/1
+```
+
+用`wget` ，向[JSON Placeholder](https://link.juejin.cn/?target=https%3A%2F%2Fjsonplaceholder.typicode.com)发送一个`DELETE` 请求，删除这个REST API中的第一个帖子。你把`method` 设为`delete` ，并在URL中把你要删除的帖子设为`1` 
+
+
+
 ### 什么命令都不能用了
 
 环境变量配置错误造成的，输入
@@ -319,8 +379,6 @@ export PATH=/usr/local/sbin:usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/root/bi
 
 
 ## 用户
-
-
 
 普通用户可以用sudo
 

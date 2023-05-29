@@ -1283,9 +1283,134 @@ https://blog.51cto.com/wutengfei/2480749
 
 
 
+## devbox
 
+像容器一样使用终端
 
+安装devbox
 
+```shell
+curl -fsSL https://get.jetpack.io/devbox | bash
+```
 
+初始化
 
+```shell
+devbox init
+```
+
+添加Nix Packages
+
+```shell
+devbox 310 python310
+```
+
+可以把devbox的配置写入项目中，或者全局使用
+
+全局添加项目
+
+```shell
+devbox global add ripgrep vim git
+```
+
+查看全局项目
+
+```shell
+devbox global list
+```
+
+可以运行命令，将devbox的环境同步到目前的shell中
+
+```shell
+. <(devbox global shellenv)
+```
+
+也可以添加默认配置，每次打开shell都使用
+
+在`~/.bashrc` 或者`~/.zshrc`中添加
+
+```bash
+eval "$(devbox global shellenv)"
+```
+
+从json文件中加载配置
+
+```shell
+# Load the global config from a file
+
+devbox global pull /path/to/devbox.json
+
+# Load the global config from a github repo
+
+devbox global pull https://raw.githubusercontent.com/org/repo/branch/path/to/devbox.json
+```
+
+在项目中添加devbox.json
+
+```json
+"nixpkgs": {
+    "commit": "89f196fe781c53cb50fef61d3063fa5e8d61b6e5"
+}
+```
+
+在devbox.json中添加脚本
+
+```json
+"shell": {
+    "init_hook": "echo \"Hello \"",
+    "scripts": {
+        "echo_once": "echo \"World\"", 
+        "echo_twice": [
+            "echo \"World\"",
+            "echo \"Again\""
+        ]
+    }
+}
+```
+
+查看项目所有项目
+
+```shell
+devbox services ls
+```
+
+启动项目所有服务
+
+```shell
+devbox services start
+```
+
+### github  action
+
+devbox的action `devbox-install-action`
+
+在github action的yaml中添加
+
+```yaml
+- name: Install devbox
+  uses: jetpack-io/devbox-install-action@v0.2.0
+```
+
+完整的action文件示例
+
+```yaml
+name: Testing with devbox
+
+on: push
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install devbox
+        uses: jetpack-io/devbox-install-action@v0.2.0
+
+      - name: Run arbitrary commands
+        run: devbox shell -- echo "done!"
+
+      - name: Run a script called test
+        run: devbox run test
+```
 

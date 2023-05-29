@@ -678,6 +678,90 @@ module.exports = {
 
 `Next.js` 项目的部署，需要一个 `Node.js`的服务器，可以选择 `Express`, `Koa`或其他 `Nodejs` 的Web服务器。本文中以 `Express` 为例来部署 `Next` 项目。
 
+### Code Hike
+
+在next中使用
+
+```shell
+npm install @next/mdx @mdx-js/loader @code-hike/mdx
+```
+
+在next.config.js中使用
+
+```javascript
+const theme = require("shiki/themes/nord.json")
+const {
+  remarkCodeHike,
+} = require("@code-hike/mdx")
+
+const withMDX = require("@next/mdx")({
+  extension: /\.mdx?$/,
+  options: {
+    remarkPlugins: [
+      [remarkCodeHike, { theme }]
+    ],
+  },
+})
+
+module.exports = withMDX({
+  pageExtensions: [
+    "ts", "tsx", "js", 
+    "jsx", "md", "mdx"
+  ],
+})
+```
+
+在项目的根组件中引入code-hike的样式
+
+```javascript
+import "@code-hike/mdx/dist/index.css"
+```
+
+在项目中mdx中使用
+
+````markdown
+# Hello
+
+Lorem ipsum dolor sit amet.
+
+```python hello.py
+print("Rendered with Code Hike")
+```
+
+Lorem ipsum dolor sit amet.
+````
+
+https://codehike.org/docs/configuration
+#### shiki
+
+语法高亮的npm包
+
+安装
+
+```shell
+npm i shiki
+```
+
+使用
+
+```javascript
+const shiki = require('shiki')
+
+shiki
+  .getHighlighter({
+    theme: 'nord'
+  })
+  .then(highlighter => {
+    console.log(highlighter.codeToHtml(`console.log('shiki');`, { lang: 'js' }))
+  })
+
+// <pre class="shiki nord" style="background-color: #2e3440"><code>
+//   <!-- Highlighted Code -->
+// </code></pre>
+```
+
+https://github.com/shikijs/shiki
+
 ## T3
 
 T3是一个类型安全的全栈nextjs app

@@ -43,3 +43,50 @@ Yay, all your tests passed!
 
 
 https://github.com/casey/just
+
+## Typeshare
+
+支持在其他语言中无缝接入Rust中的类型, 支持语言包括typescript、kotlin、swift、scala、go
+
+在Cargo.toml中加入依赖
+
+```toml
+typeshare = "1.0.0"
+```
+
+rust中的类型
+
+```rust
+// Rust type definitions
+
+#[typeshare]
+struct MyStruct {
+    my_name: String,
+    my_age: u32,
+}
+
+#[typeshare]
+#[serde(tag = "type", content = "content")]
+enum MyEnum {
+    MyVariant(bool),
+    MyOtherVariant,
+    MyNumber(u32),
+}
+```
+
+生成的typescript类型
+
+```typescript
+// Generated Typescript definitions
+
+export interface MyStruct {
+    my_name: string;
+    my_age: number;
+}
+
+export type MyEnum = 
+    | { type: "MyVariant", content: boolean }
+    | { type: "MyOtherVariant", content: undefined }
+    | { type: "MyNumber", content: number };
+```
+

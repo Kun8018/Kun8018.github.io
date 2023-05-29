@@ -112,6 +112,95 @@ Go 语言的系统监控也起到了很重要的作用，它在内部启动了�
 
 
 
+### 实现带TryLock功能的mutex
+
+`mutex`是操作系统提供的一种同步原语，用来保证对于共享资源互斥的访问。各个编程语言通过关键字、数据结构、库等方式提供了类似的功能：**在多线程程序中，并发安全地访问共享变量**。
+
+在golang中，官方提供`sync.Mutex`互斥锁，使用方式也很简单
+
+```go
+var mu sync.Mutex
+mu.Lock()
+// do something
+mu.Unlock()
+```
+
+`Lock`的调用会阻塞当前goroutine，直到成功获取锁。在其他编程语言（比如Java）中，也提供了非阻塞尝试获取锁的方式。无论是否获取成功，都立即返回，成功返回true，失败返回false。官方没有提供这样的包，但是我们可以很容易的使用`channel`实现这个功能。
+
+```go
+type C chan struct{}
+
+func NewC() C {
+	ch := make(chan struct{}, 1)
+	return ch
+}
+
+func (c *C) Lock() {
+	(*c) <- struct{}{}
+}
+
+func (c *C) UnLock() {
+	<-(*c)
+}
+```
+
+注意我们使用的`channel`类型是`struct{}`，因为我们不需要使用`channel`来传递实际数据，只是同步信号。而且我们使用容量为1的`buffered channel`，这样第一个获取锁的`goroutine`不会阻塞。
+
+```go
+func (c *C) TryLock() bool {
+	select {
+	case *c <- struct{}{}:
+		return true
+	default:
+		return false
+	}
+}
+```
+
+为TryLock指定超时时间就很简单了
+
+```go
+func (c *C) TryLockWithTimeOut(d time.Duration) bool {
+	t := time.NewTimer(d)
+	select {
+	case <-t.C:
+		return false
+	case *c <- struct{}{}:
+		t.Stop()
+		return true
+	}
+}
+```
+
+验证代码
+
+```go
+func main() {
+	n1 := int64(0)
+	n2 := int64(0)
+	c := NewC()
+
+	wg := sync.WaitGroup{}
+	for i := 0; i < 10000; i++ {
+		wg.Add(1)
+		go func() {
+			if c.TryLock() {
+				n1++
+				c.UnLock()
+			} else {
+				atomic.AddInt64(&n2, 1)
+			}
+			wg.Done()
+		}()
+	}
+	wg.Wait()
+
+	fmt.Printf("total: %v, success: %v, fail: %v\n", n1+n2, n1, n2)
+}
+```
+
+
+
 ## 内存管理
 
 内存管理一般包含三个不同的组件，分别是用户程序（Mutator）、分配器（Allocator）和收集器（Collector）[1](https://draveness.me/golang/docs/part3-runtime/ch07-memory/golang-memory-allocator/#fn:1)，当用户程序申请内存时，它会通过内存分配器申请新的内存，而分配器会负责从堆中初始化相应的内存区域。

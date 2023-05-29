@@ -883,6 +883,64 @@ Describe("Checking books out of the library", Label("library"), func() {
 
 
 
+## conc
+
+更好地并发编程工具，基于标准库stdlib进行封装
+
+安装
+
+```shell
+go get github.com/sourcegraph/conc
+```
+
+更好地处理panic错误
+
+```go
+// 标准库
+type caughtPanicError struct {
+    val   any
+    stack []byte
+}
+
+func (e *caughtPanicError) Error() string {
+    return fmt.Sprintf(
+        "panic: %q\n%s",
+        e.val,
+        string(e.stack)
+    )
+}
+
+func main() {
+    done := make(chan error)
+    go func() {
+        defer func() {
+            if v := recover(); v != nil {
+                done <- &caughtPanicError{
+                    val: v,
+                    stack: debug.Stack()
+                }
+            } else {
+                done <- nil
+            }
+        }()
+        doSomethingThatMightPanic()
+    }()
+    err := <-done
+    if err != nil {
+        panic(err)
+    }
+}
+// conc编程
+func main() {
+    var wg conc.WaitGroup
+    wg.Go(doSomethingThatMightPanic)
+    // panics with a nice stacktrace
+    wg.Wait()
+}
+```
+
+https://github.com/sourcegraph/conc
+
 
 
 ## 工具库

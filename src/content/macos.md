@@ -337,6 +337,114 @@ Iterm快捷键
 
 
 
+#### devbox
+
+虚拟化终端工具
+
+安装
+
+```shell
+curl -fsSL https://get.jetpack.io/devbox | bash
+```
+
+初始化devbox
+
+```shell
+devbox init
+```
+
+在dev.json添加依赖
+
+```json
+{
+  "packages": ["python310"]
+}
+```
+
+启动新命令行
+
+```shell
+devbox shell
+```
+
+添加/删除全局环境变量
+
+```shell
+devbox global add ripgrep vim git
+devbox global remove ripgreps
+
+## 从文件中导入全局变量
+devbox global pull /path/to/devbox.json
+
+## 从github repo中导入全局配置
+devbox global pull https://raw.githubusercontent.com/org/repo/branch/path/to/devbox.json
+```
+
+查看当前环境变量
+
+```shell
+devbox global list
+```
+
+运行脚本
+
+Dev.json
+
+```json
+"shell": {
+    "init_hook": "echo \"Hello \"",
+    "scripts": {
+        "echo_once": "echo \"World\"", 
+        "echo_twice": [
+            "echo \"World\"",
+            "echo \"Again\""
+        ]
+    }
+}
+```
+
+运行脚本
+
+```shell
+$ devbox run echo_once
+Installing nix packages. This may take a while... done.
+Starting a devbox shell...
+Hello
+World
+
+$ devbox run echo_twice
+Installing nix packages. This may take a while... done.
+Starting a devbox shell...
+Hello
+World
+Again
+```
+
+devbox plugin
+
+devbox 服务
+
+```shell
+devbox services up postgresql
+```
+
+运行你自己的服务
+
+```shell
+# Process compose for starting django
+version: "0.5"
+
+processes:
+  django:
+   command: python todo_project/manage.py runserver
+   availability:
+    restart: "always"
+```
+
+#### 汇总
+
+https://v2ex.com/t/862138#reply123
+
 
 
 ### 命令行工具

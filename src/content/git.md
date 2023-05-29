@@ -408,6 +408,16 @@ squash也可以保持master分支干净，但是master中author都是maintainer�
 
 merge不能保持master分支干净，但是保持了所有的commit history，大多数情况下都是不好的，个别情况好
 
+### rebase onto
+
+有一种情况是，從 fetaureA 開了分支 featureX 做了四次 Commit (Commit-X1 ~ Commit-X4)，原分支在切出去之后新加了feature B。现在想将feature X改为从featurb B切出去的状态
+
+要在分支上完成這種移花接木動作，需要使用 `git rebase --onto <new-commit-id> <orig-commit-id>`
+
+```shell
+git rebase --onto featureB featureA
+```
+
 
 
 ## 子模块submodule
