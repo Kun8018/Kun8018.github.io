@@ -13,6 +13,14 @@ thumbnail: http://cdn.kunkunzhang.top/git-logo.jpg
 
 <!--more-->
 
+## bat
+
+高亮文本
+
+https://github.com/sharkdp/bat?tab=readme-ov-file
+
+
+
 ## GitHub action
 
 持续集成由很多操作组成，比如抓取代码、运行测试、登录远程服务器，发布到第三方服务等等。GitHub 把这些操作就称为 actions。
@@ -265,11 +273,21 @@ Https://github.com/marketplace/actions/execute-javascript-inline
 
 可以在git action里执行js代码，而不只是shell代码
 
+super-linter
 
+https://github.com/super-linter/super-linter
 
 ### 本地跑git action
 
 https://www.github.com/nektos/act
+
+
+
+### Artifact
+
+在action的不同的job间共享存储
+
+https://www.cnblogs.com/kklldog/p/github-actions-artifact.html
 
 
 
@@ -301,8 +319,6 @@ api.github.com/repos/{repo_name}/releases/tags/
 curl -o index.json https:api.github.com/repos/vesoft-inc/nebula-graph/releases/tags/v2.5.0
 https:api.github.com/repos/{repo_name}/releases/latest
 ```
-
-
 
 
 
@@ -415,19 +431,33 @@ GET https://api.github.com/user
 
 https://docs.github.com/cn/developers/apps/building-oauth-apps/authorizing-oauth-apps
 
+## git-it
+
+https://github.com/jlord/git-it
+
+学习git的神器
+
+
+
+## vale
+
+格式化工具
+
+https://vale.sh/
+
 
 
 ## git-open
 
 git-open是一个npm包，可以在git提交后在命令行输入，快速打开gitlab
 
-```js
+```shell
 npm install git-open
 ```
 
 使用时直接输入
 
-```js
+```shell
 git open
 ```
 
@@ -438,6 +468,14 @@ git open
 在审核人确定合并之前，下次提交时不需要再次创建合并请求
 
 确定合并之后下次提交到分支时则需要再次创建
+
+## gitui
+
+https://github.com/extrawurst/gitui
+
+很好用
+
+
 
 ## Gitlab
 
@@ -933,6 +971,12 @@ stage:
 
 https://juejin.cn/post/7073731514386612255
 
+### 其他api
+
+https://docs.gitlab.cn/jh/ci/triggers/#%E5%88%9B%E5%BB%BA%E8%A7%A6%E5%8F%91%E5%99%A8%E4%BB%A4%E7%89%8C
+
+
+
 ## 代码统计
 
 cloc scc可以统计仓库有多少行代码
@@ -947,6 +991,18 @@ brew install cloc scc
 cloc .
 ## scc
 ```
+
+
+
+## gerrit
+
+Gerrit 是一个基于 web 的代码评审工具, 它基于 git 版本控制系统。旨在提供一个轻 量级框架, 用于在代码入库之前对每个提交进行审阅。开‎发人员的修改首先将上载到 Gerrit, 但 实际上并不成为项目的一部分, 直到它们被审阅和接受。它是标准开源过程的一个工具来支持提 交补丁程序, 然后由项目成员在应用到代码库之前进行评审。‎
+
+Gerrit 首先是一个临时区域, 在提交的代码成为代码库的一部分之前, 可以对其修改进行 检查。‎普通开发人员可以随意提交代码，但是需要专家（特定权限）对提交的 代码进行评审 打分，对于不合格的代码，专家有废弃的权利，只有检视通过的代码，才能被专家提交入库
+
+Gerrit相对Git提供了一个特有的命名空间“refs/for/”用来定义我们的提交上传到哪个branch，且可以用来区分我们的commit是提交到Gerrit进行审核还是直接提交到Git仓库，格式如下：
+
+https://www.cnblogs.com/111testing/p/9450530.html
 
 
 

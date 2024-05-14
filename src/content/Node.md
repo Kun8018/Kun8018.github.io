@@ -413,6 +413,18 @@ NaN与任何值不相等，包括它自己。undefined`和`null`只有与自身�
 
 void 运算符通常只用于获取 `undefined`的原始值，一般使用`void(0)`（等同于`void 0`）
 
+### 条件语句
+
+```javascript
+switch(true) {
+	case (表达式)
+}
+```
+
+
+
+
+
 ### 字典
 
 js中定义字典
@@ -1227,6 +1239,12 @@ const jsonStringTransformer = <ValueType = any>(
   }
 };
 ```
+
+### 字符串对象的研究
+
+禁止转义（保留转义符）
+
+支持换行
 
 ### 数组对象的研究
 

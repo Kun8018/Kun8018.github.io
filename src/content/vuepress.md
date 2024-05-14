@@ -228,6 +228,14 @@ facebook的开源文档框架
 
 docusaurus-prince-pdf插件
 
+## Pagefind
+
+支持搜索
+
+https://pagefind.app/
+
+https://github.com/CloudCannon/pagefind
+
 
 
 

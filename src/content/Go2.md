@@ -327,6 +327,14 @@ make和new
 
 
 
+## 路由
+
+### httprouter
+
+https://github.com/julienschmidt/httprouter
+
+
+
 ## 文件读写
 
 在 Go 语言中，文件使用指向 `os.File` 类型的指针来表示的，也叫做文件句柄。我们在前面章节使用到过标准输入 `os.Stdin` 和标准输出 `os.Stdout`，他们的类型都是 `*os.File`
@@ -532,6 +540,72 @@ os/exec:os/exec包执行外部命令
 
 ## 错误处理
 
+Go 语言中，比较常见的错误处理方法是返回 error，由调用者决定后续如何处理。但是如果是无法恢复的错误，可以手动触发 panic，当然如果在程序运行过程中出现了类似于数组越界的错误，panic 也会被触发。panic 会中止当前执行的程序，退出
+
+```go
+// hello.go
+func main() {
+	fmt.Println("before panic")
+	panic("crash")
+	fmt.Println("after panic")
+}
+```
+
+还有像数组越界会触发panic
+
+```go
+// hello.go
+func main() {
+	arr := []int{1, 2, 3}
+	fmt.Println(arr[4])
+}
+```
+
+defer
+
+panic 会导致程序被中止，但是在退出前，会先处理完当前协程上已经 defer 的任务，执行完成后再退出。效果类似于 java 语言的 `try...catch`
+
+```go
+// hello.go
+func main() {
+	defer func() {
+		fmt.Println("defer func")
+	}()
+
+	arr := []int{1, 2, 3}
+	fmt.Println(arr[4])
+}
+```
+
+可以 defer 多个任务，在同一个函数中 defer 多个任务，会逆序执行。即先执行最后 defer 的任务。
+
+recover
+
+Go 语言还提供了 recover 函数，可以避免因为 panic 发生而导致整个程序终止，recover 函数只在 defer 中生效
+
+```go
+// hello.go
+func test_recover() {
+	defer func() {
+		fmt.Println("defer func")
+		if err := recover(); err != nil {
+			fmt.Println("recover success")
+		}
+	}()
+
+	arr := []int{1, 2, 3}
+	fmt.Println(arr[4])
+	fmt.Println("after panic")
+}
+
+func main() {
+	test_recover()
+	fmt.Println("after recover")
+}
+```
+
+
+
 库函数很多时候必须将错误信息返回给函数的调用者，Go允许函数有多个返回值的特性，使得函数的调用者在得到正常返回值的同时，可以获取更为详细的错误信息。
 
 简单的错误类型为内置的简单接口，错误类型为error
@@ -557,19 +631,6 @@ func (e *PathError) Error() string {
 ```
 
 
-
-
-
-## 数据库
-
-数据库几乎是所有 Web 服务不可或缺的一部分，在所有类型的数据库中，关系型数据库是我们在想要持久存储数据时的首要选择，不过因为关系型数据库的种类繁多，所以 Go 语言的标准库 [`database/sql`](https://golang.org/pkg/database/sql/) 就为访问关系型数据提供了通用的接口，这样不同数据库只要实现标准库中的接口，应用程序就可以通过标准库中的方法访问。
-
-结构化查询语言（Structured Query Language、SQL）是在关系型数据库系统中使用的领域特定语言（Domain-Specific Language、DSL），它主要用于处理结构化的数据[1](https://draveness.me/golang/docs/part4-advanced/ch09-stdlib/golang-database-sql/#fn:1)。作为一门领域特定语言，它由更加强大的表达能力，与传统的命令式 API 相比，它能够提供两个优点：
-
-1. 可以使用单个命令在数据库中访问多条数据；
-2. 不需要在查询中指定获取数据的方法；
-
-所有的关系型数据库都会提供 SQL 作为查询语言，应用程序可以使用相同的 SQL 查询在不同数据库中查询数据，
 
 
 
@@ -790,3 +851,5 @@ effective go
 go语言资源库 :https://github.com/Unknwon/go-study-index
 
 Go 优质blog: https://czyt.tech/post/golang-perf-reference/
+
+七天go：https://geektutu.com/post/geecache-day6.html

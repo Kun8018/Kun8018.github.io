@@ -246,9 +246,86 @@ yarn global add yalc
 
 
 
+### qnm
+
+查找当前node_modules中某一模块的使用
+
+安装
+
+```shell
+npm i -global qnm
+```
+
+使用
+
+```shell
+qnm [module]
+```
+
+### cli-table
+
+在cli工具终端生成table
+
+安装
+
+```shell
+npm install cli-table3
+```
+
+使用
+
+```javascript
+var Table = require('cli-table3');
+
+// instantiate
+var table = new Table({
+    head: ['TH 1 label', 'TH 2 label']
+  , colWidths: [100, 200]
+});
+
+// table is an Array, so you can `push`, `unshift`, `splice` and friends
+table.push(
+    ['First value', 'Second value']
+  , ['First value', 'Second value']
+);
+
+console.log(table.toString());
+```
+
+### madge
+
+
+
+### dependency-cruiser
+
+https://github.com/sverweij/dependency-cruiser
+
 
 
 ## 功能模块
+
+### through2
+
+https://github.com/rvagg/through2
+
+基于node的stream流包了一层，避免使用问题
+
+```javascript
+fs.createReadStream('ex.txt')
+  .pipe(through2(function (chunk, enc, callback) {
+    for (let i = 0; i < chunk.length; i++)
+      if (chunk[i] == 97)
+        chunk[i] = 122 // swap 'a' for 'z'
+
+    this.push(chunk)
+
+    callback()
+   }))
+  .pipe(fs.createWriteStream('out.txt'))
+  .on('finish', () => doSomethingSpecial())
+```
+
+
 
 ### tsoa
 
@@ -632,9 +709,56 @@ setTimeout(() => {
 }, 1000);
 ```
 
+### dangerjs
+
+做一些危险操作时进行提示
+
+```shell
+yarn add danger --dev
+```
+
+创建`dangerfile.js`或者`dangerfile.ts`
+
+```javascript
+import {warn, message, danger} from "danger"
+
+const modifiedMD = danger.git.modified_files.join("- ")
+message("Changed Files in this PR: \n - " + modifiedMD)
+
+import { danger } from "danger"
+
+const docs = danger.git.fileMatch("**/*.md")
+const app = danger.git.fileMatch("src/**/*.ts")
+const tests = danger.git.fileMatch("*/__tests__/*")
+
+if (docs.edited) {
+  message("Thanks - We :heart: our [documentarians](http://www.writethedocs.org/)!")
+}
+
+if (app.modified && !tests.modified) {
+  warn("You have app changes without tests.")
+}
+```
+
+
+
 ### execa
 
 execa是可以调用shell和本地外部程序的javascript封装。会启动子进程执行。支持多操作系统，包括windows。如果父进程退出，则生成的全部子进程都被杀死
+
+[`execa`](https://links.jianshu.com/go?to=https%3A%2F%2Fwww.npmjs.com%2Fpackage%2Fexeca) 为 `child_process` 模块提供了一个包装器，以便于使用
+
+`execa` 相对于内置的 Node.js `child_process` 模块有几个好处。
+
+首先，`execa` 公开了一个基于 promise 的 API。这意味着我们可以在代码中使用 `async/await`，而不需要像使用异步 `child_process` 模块方法那样创建回调函数。如果我们需要它，还有一个 `execaSync` 方法可以同步运行命令。
+
+`execa` 还可以方便地转义并引用我们传递给它的任何命令参数。例如，如果我们传递一个带有空格或引号的字符串，`execa` 将为我们处理转义。
+
+程序在输出的末尾添加一行新行是很常见的。这有利于命令行的可读性，但在脚本上下文中没有帮助，因此默认情况下，`execa` 会自动为我们删除这些新行。
+
+如果执行脚本（`node`）的进程因任何原因死掉，我们可能不希望子进程挂起。`execa` 会自动为我们清理子进程，确保我们不会出现 “僵尸” 进程。
+
+使用 `execa` 的另一个好处是，它支持在 Windows 上使用 Node.js 运行子进程。它使用了流行的 [`cross-spawn`](https://links.jianshu.com/go?to=https%3A%2F%2Fwww.npmjs.com%2Fpackage%2Fcross-spawn) 包，该包可以解决 Node.js 的已知问题
 
 安装
 
@@ -787,6 +911,113 @@ app.use(
     changeOrigin: true,
   })
 )
+```
+
+http-proxy-middleware 对于post请求不会转发body，需要写一个处理函数
+
+```javascript
+// restream parsed body before proxying
+var restream = function(proxyReq, req, res, options) {
+    if (req.body) {
+        let bodyData = JSON.stringify(req.body);
+        // incase if content-type is application/x-www-form-urlencoded -> we need to change to application/json
+        proxyReq.setHeader('Content-Type','application/json');
+        proxyReq.setHeader('Content-Length', Buffer.byteLength(bodyData));
+        // stream the content
+        proxyReq.write(bodyData);
+    }
+}
+
+var apiProxy = proxyMiddleware('/api', {
+    target: 'https://xxx.xxx.xxx.xxx',
+    onProxyReq: restream
+});
+
+```
+
+
+
+### http-errors
+
+
+
+### redbird
+
+node反向代理包，支持http2
+
+安装
+
+```shell
+npm install redbird
+```
+
+使用
+
+```javascript
+var proxy = require('redbird')({port: 80});
+
+// OPTIONAL: Setup your proxy but disable the X-Forwarded-For header
+var proxy = require('redbird')({port: 80, xfwd: false});
+
+// Route to any global ip
+proxy.register("optimalbits.com", "http://167.23.42.67:8000");
+
+// Route to any local ip, for example from docker containers.
+proxy.register("example.com", "http://172.17.42.1:8001");
+
+// Route from hostnames as well as paths
+proxy.register("example.com/static", "http://172.17.42.1:8002");
+proxy.register("example.com/media", "http://172.17.42.1:8003");
+
+// Subdomains, paths, everything just works as expected
+proxy.register("abc.example.com", "http://172.17.42.4:8080");
+proxy.register("abc.example.com/media", "http://172.17.42.5:8080");
+
+// Route to any href including a target path
+proxy.register("foobar.example.com", "http://172.17.42.6:8080/foobar");
+
+// You can also enable load balancing by registering the same hostname with different
+// target hosts. The requests will be evenly balanced using a Round-Robin scheme.
+proxy.register("balance.me", "http://172.17.40.6:8080");
+proxy.register("balance.me", "http://172.17.41.6:8080");
+proxy.register("balance.me", "http://172.17.42.6:8080");
+proxy.register("balance.me", "http://172.17.43.6:8080");
+
+// You can unregister routes as well
+proxy.register("temporary.com", "http://172.17.45.1:8004");
+proxy.unregister("temporary.com", "http://172.17.45.1:8004");
+
+// LetsEncrypt support
+// With Redbird you can get zero conf and automatic SSL certificates for your domains
+redbird.register('example.com', 'http://172.60.80.2:8082', {
+  ssl: {
+    letsencrypt: {
+      email: 'john@example.com', // Domain owner/admin email
+      production: true, // WARNING: Only use this flag when the proxy is verified to work correctly to avoid being banned!
+    }
+  }
+});
+
+//
+// LetsEncrypt requires a minimal web server for handling the challenges, this is by default on port 3000
+// it can be configured when initiating the proxy. This web server is only used by Redbird internally so most of the time
+// you  do not need to do anything special other than avoid having other web services in the same host running
+// on the same port.
+
+//
+// HTTP2 Support using LetsEncrypt for the certificates
+//
+var proxy = require('redbird')({
+  port: 80, // http port is needed for LetsEncrypt challenge during request / renewal. Also enables automatic http->https redirection for registered https routes.
+  letsencrypt: {
+    path: __dirname + '/certs',
+    port: 9999 // LetsEncrypt minimal web server port for handling challenges. Routed 80->9999, no need to open 9999 in firewall. Default 3000 if not defined.
+  },
+  ssl: {
+    http2: true,
+    port: 443, // SSL port used to serve registered https routes with LetsEncrypt certificate.
+  }
+});
 ```
 
 
@@ -1046,1580 +1277,134 @@ it('should return null when an error occurs', async () => {
 
 
 
-### jsonwebtoken
+### supertest
+
+
+
+### glob
+
+全局匹配
 
 安装
 
 ```shell
-npm i jsonwebtoken --save
+npm i glob
 ```
 
 使用
 
 ```javascript
-//authorization.js
-const jwt = require("jsonwebtoken");
+// load using import
+import { glob, globSync, globStream, globStreamSync, Glob } from 'glob'
+// or using commonjs, that's fine, too
+const {
+  glob,
+  globSync,
+  globStream,
+  globStreamSync,
+  Glob,
+} = require('glob')
 
-const secretKey = "secretKey";
+// the main glob() and globSync() resolve/return array of filenames
 
-// 生成token
-module.exports.generateToken = function (payload) { 
-  const token =
-    "Bearer " +
-    jwt.sign(payload, secretKey, {
-      expiresIn: 60 * 60,
-    });
-  return token;
-};
+// all js files, but don't look in node_modules
+const jsfiles = await glob('**/*.js', { ignore: 'node_modules/**' })
 
-// 验证token
-module.exports.verifyToken = function (req, res, next) {
-  const token = req.headers.authorization.split(" ")[1];
-  jwt.verify(token, secretKey, function (err, decoded) {
-    if (err) {
-      console.log("verify error", err);
-      return res.json({ code: "404", msg: "token无效" });
-    }
-    console.log("verify decoded", decoded);
-    next();
-  });
-};
-```
+// pass in a signal to cancel the glob walk
+const stopAfter100ms = await glob('**/*.css', {
+  signal: AbortSignal.timeout(100),
+})
 
-在登陆接口生成token返回给前端
+// multiple patterns supported as well
+const images = await glob(['css/*.{png,jpeg}', 'public/*.{png,jpeg}'])
 
-```javascript
-// login.js
-const express = require("express");
-const router = express.Router();
-const { generateToken } = require("./authorization");
+// but of course you can do that with the glob pattern also
+// the sync function is the same, just returns a string[] instead
+// of Promise<string[]>
+const imagesAlt = globSync('{css,public}/*.{png,jpeg}')
 
-// 路由
-router.post("/", (req, res) => {
-  const username = req.body.username;
-  const password = req.body.password;
-  const token = generateToken({ username: username });
-  res.json({
-    code: 200,
-    msg: "登录成功",
-    data: { token },
-  });
-});
+// you can also stream them, this is a Minipass stream
+const filesStream = globStream(['**/*.dat', 'logs/**/*.log'])
 
-module.exports = router;
-```
-
-注册中间件
-
-```javascript
-const loginRouter = require("./login");
-const auth = require("./authorization");
-const userRouter = require("./user");
-
-app.use("/api/login", loginRouter);
-app.use("/api/*", auth.verifyToken); // 注册token验证中间件
-app.use("/api/user", userRouter);
-```
-
-
-
-### json-schema-faker
-
-
-
-
-
-### 数据库相关
-
-#### prisma
-
-数据库orm
-
-安装
-
-```shell
-npm install prisma -D
-```
-
-Schema.prisma是prisma主要的配置文件，配置主要分为：
-
-1.DB连接的配置
-
-2.Prisma Client的配置
-
-3.data model的定义
-
-```javascript
-datasource db {
-  provider = "sqlite"
-  url = "file:dev.db"
+// construct a Glob object if you wanna do it that way, which
+// allows for much faster walks if you have to look in the same
+// folder multiple times.
+const g = new Glob('**/foo')
+// glob objects are async iterators, can also do globIterate() or
+// g.iterate(), same deal
+for await (const file of g) {
+  console.log('found a foo file:', file)
+}
+// pass a glob as the glob options to reuse its settings and caches
+const g2 = new Glob('**/bar', g)
+// sync iteration works as well
+for (const file of g2) {
+  console.log('found a bar file:', file)
 }
 
-generator client {
-	provider = "prisma-client-js"
-}
+// you can also pass withFileTypes: true to get Path objects
+// these are like a Dirent, but with some more added powers
+// check out http://npm.im/path-scurry for more info on their API
+const g3 = new Glob('**/baz/**', { withFileTypes: true })
+g3.stream().on('data', path => {
+  console.log(
+    'got a path object',
+    path.fullpath(),
+    path.isDirectory(),
+    path.readdirSync().map(e => e.name)
+  )
+})
 
-model User {
-  id     Int
-  email  String
-  name   String
-}
-```
+// if you use stat:true and withFileTypes, you can sort results
+// by things like modified time, filter by permission mode, etc.
+// All Stats fields will be available in that case. Slightly
+// slower, though.
+// For example:
+const results = await glob('**', { stat: true, withFileTypes: true })
 
-生成数据表
+const timeSortedFiles = results
+  .sort((a, b) => a.mtimeMS - b.mtimeMS)
+  .map(path => path.fullpath())
 
-```shell
-prisma generate
-```
+const groupReadableFiles = results
+  .filter(path => path.mode & 0o040)
+  .map(path => path.fullpath())
 
-安装Prisma-client
-
-```shell
-npm install @prisma/client
-```
-
-引入
-
-```javascript
-import { PrismaClient } from '@prisma/client'
-
-const prisma = new PrismaClient()
-
-async function main() {
-  // ... you will write your Prisma Client queries here
-}
-
-main()
-  .then(async () => {
-    await prisma.$disconnect()
-  })
-  .catch(async (e) => {
-    console.error(e)
-    await prisma.$disconnect()
-    process.exit(1)
-  })
-```
-
-增删改查
-
-增加修改upsert
-
-```typescript
-const upsertUser = await prisma.user.upsert({
-  where: {
-    email: 'viola@prisma.io',
-  },
-  update: {
-    name: 'Viola the Magnificent',
-  },
-  create: {
-    email: 'viola@prisma.io',
-    name: 'Viola the Magnificent',
+// custom ignores can be done like this, for example by saying
+// you'll ignore all markdown files, and all folders named 'docs'
+const customIgnoreResults = await glob('**', {
+  ignore: {
+    ignored: p => /\.md$/.test(p.name),
+    childrenIgnored: p => p.isNamed('docs'),
   },
 })
-```
 
-删
-
-删除单条
-
-```typescript
-const deleteUser = await prisma.user.delete({
-  where: {
-    email: 'bert@prisma.io',
-  },
-})
-```
-
-删除多条
-
-```typescript
-const deleteUsers = await prisma.user.deleteMany({
-  where: {
-    email: {
-      contains: 'prisma.io',
+// another fun use case, only return files with the same name as
+// their parent folder, plus either `.ts` or `.js`
+const folderNamedModules = await glob('**/*.{ts,js}', {
+  ignore: {
+    ignored: p => {
+      const pp = p.parent
+      return !(p.isNamed(pp.name + '.ts') || p.isNamed(pp.name + '.js'))
     },
   },
 })
-```
 
-删除所有
-
-```typescript
-const deleteUser = await prisma.user.delete({
-  where: {
-    email: 'bert@prisma.io',
-  },
-})
-```
-
-查询单条
-
-```typescript
-const getUser: User | null = await prisma.user.findUnique({
-  where: {
-    id: 22,
-  },
-})
-```
-
-使用select只返回指定字段
-
-```typescript
-// Returns an object or null
-const getUser: object | null = await prisma.user.findUnique({
-  where: {
-    id: 22,
-  },
-  select: {
-    email: true,
-    name: true,
-  },
-})
-```
-
-
-
-#### Sequelize
-
-安装
-
-```shell
-npm i sequelize
-```
-
-手动为所选数据库安装驱动程序
-
-```shell
-# 使用 npm
-npm i pg pg-hstore # PostgreSQL
-npm i mysql2 # MySQL
-npm i mariadb # MariaDB
-npm i sqlite3 # SQLite
-npm i tedious # Microsoft SQL Server
-npm i ibm_db # DB2
-# 使用 yarn
-yarn add pg pg-hstore # PostgreSQL
-yarn add mysql2 # MySQL
-yarn add mariadb # MariaDB
-yarn add sqlite3 # SQLite
-yarn add tedious # Microsoft SQL Server
-yarn add ibm_db # DB2
-```
-
-要连接到数据库,必须创建一个 Sequelize 实例. 这可以通过将连接参数分别传递到 Sequelize 构造函数或通过传递一个连接 URI 来完成
-
-```javascript
-const { Sequelize } = require('sequelize');
-
-// 方法 1: 传递一个连接 URI
-const sequelize = new Sequelize('sqlite::memory:') // Sqlite 示例
-const sequelize = new Sequelize('postgres://user:pass@example.com:5432/dbname') // Postgres 示例
-
-// 方法 2: 分别传递参数 (sqlite)
-const sequelize = new Sequelize({
-  dialect: 'sqlite',
-  storage: 'path/to/database.sqlite'
-});
-
-// 方法 3: 分别传递参数 (其它数据库)
-const sequelize = new Sequelize('database', 'username', 'password', {
-  host: 'localhost',
-  dialect: /* 选择 'mysql' | 'mariadb' | 'postgres' | 'mssql' 其一 */
-});
-```
-
-测试连接
-
-```javascript
-try {
-  await sequelize.authenticate();
-  console.log('Connection has been established successfully.');
-} catch (error) {
-  console.error('Unable to connect to the database:', error);
-}
-```
-
-默认情况下,Sequelize 将保持连接打开状态,并对所有查询使用相同的连接. 如果你需要关闭连接,请调用 `sequelize.close()`(这是异步的并返回一个 Promise)
-
-#### TypeOrm
-
-TypeORM 是一个[ORM](https://en.wikipedia.org/wiki/Object-relational_mapping)框架，它可以运行在 NodeJS、Browser、Cordova、PhoneGap、Ionic、React Native、Expo 和 Electron 平台上，可以与 TypeScript 和 JavaScript (ES5,ES6,ES7,ES8)一起使用。 它的目标是始终支持最新的 JavaScript 特性并提供额外的特性以帮助你开发任何使用数据库的（不管是只有几张表的小型应用还是拥有多数据库的大型企业应用）应用程序。
-
-TypeORM 的一些特性:
-
-- 支持 [DataMapper](https://typeorm.bootcss.com/active-record-data-mapper#what-is-the-data-mapper-pattern) 和 [ActiveRecord](https://typeorm.bootcss.com/active-record-data-mapper#what-is-the-active-record-pattern) (随你选择)
-- 实体和列
-- 数据库特性列类型
-- 实体管理
-- 存储库和自定义存储库
-- 清晰的对象关系模型
-- 关联（关系）
-- 贪婪和延迟关系
-- 单向的，双向的和自引用的关系
-- 支持多重继承模式
-- 级联
-- 索引
-- 事务
-- 迁移和自动迁移
-- 连接池
-- 主从复制
-- 使用多个数据库连接
-- 使用多个数据库类型
-- 跨数据库和跨模式查询
-- 优雅的语法，灵活而强大的 QueryBuilder
-- 左联接和内联接
-- 使用联查查询的适当分页
-- 查询缓存
-- 原始结果流
-- 日志
-- 监听者和订阅者（钩子）
-- 支持闭包表模式
-- 在模型或者分离的配置文件中声明模式
-- json / xml / yml / env 格式的连接配置
-- 支持 MySQL / MariaDB / Postgres / SQLite / Microsoft SQL Server / Oracle / sql.js
-- 支持 MongoDB NoSQL 数据库
-- 可在 NodeJS / 浏览器 / Ionic / Cordova / React Native / Expo / Electron 平台上使用
-- 支持 TypeScript 和 JavaScript
-- 生成高性能、灵活、清晰和可维护的代码
-- 遵循所有可能的最佳实践
-- 命令行工具
-
-安装
-
-```shell
-npm install typeorm reflect-metadata --save
-```
-
-在全局位置导入
-
-```typescript
-import "reflect-metadata";
-```
-
-通过使用 `TypeORM` 你的 `models` 看起来像这样
-
-```typescript
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
-
-@Entity()
-export class User {
-  @PrimaryGeneratedColumn()
-  id: number;
-
-  @Column()
-  firstName: string;
-
-  @Column()
-  lastName: string;
-
-  @Column()
-  age: number;
-}
-```
-
-逻辑操作
-
-```typescript
-const user = new User();
-user.firstName = "Timber";
-user.lastName = "Saw";
-user.age = 25;
-await user.save();
-
-const allUsers = await User.find();
-const firstUser = await User.findOne(1);
-const timber = await User.findOne({ firstName: "Timber", lastName: "Saw" });
-
-await timber.remove();
-```
-
-每个实体都有自己的存储库，可以处理其实体的所有操作。当你经常处理实体时，Repositories 比 EntityManagers 更方便使用
-
-```typescript
-import { createConnection } from "typeorm";
-import { Photo } from "./entity/Photo";
-
-createConnection(/*...*/)
-  .then(async connection => {
-    let photo = new Photo();
-    photo.name = "Me and Bears";
-    photo.description = "I am near polar bears";
-    photo.filename = "photo-with-bears.jpg";
-    photo.views = 1;
-    photo.isPublished = true;
-
-    let photoRepository = connection.getRepository(Photo);
-
-    await photoRepository.save(photo);
-    console.log("Photo has been saved");
-
-    let savedPhotos = await photoRepository.find();
-    console.log("All photos from the db: ", savedPhotos);
-  })
-  .catch(error => console.log(error));
-```
-
-queryBuilder
-
-`QueryBuilder`是 TypeORM 最强大的功能之一 ，它允许你使用优雅便捷的语法构建 SQL 查询，执行并获得自动转换的实体。
-
-```typescript
-const firstUser = await connection
-  .getRepository(User)
-  .createQueryBuilder("user")
-  .where("user.id = :id", { id: 1 })
-  .getOne();
-```
-
-Repository
-
-`Repository`就像`EntityManager`一样，但其操作仅限于具体实体。
-
-你可以通过`getRepository（Entity）`，`Connection＃getRepository`或`EntityManager＃getRepository`访问存储库。
-
-```typescript
-import { getRepository } from "typeorm";
-import { User } from "./entity/User";
-
-const userRepository = getRepository(User); // 你也可以通过getConnection().getRepository()或getManager().getRepository() 获取
-const user = await userRepository.findOne(1);
-user.name = "Umed";
-await userRepository.save(user);
-```
-
-有三种类型的存储库：
-
-- `Repository` - 任何实体的常规存储库。
-- `TreeRepository` - 用于树实体的`Repository`的扩展存储库（比如标有`@ Tree`装饰器的实体）。有特殊的方法来处理树结构。
-- `MongoRepository` - 具有特殊功能的存储库，仅用于 MongoDB。
-
-迁移
-
-
-
-事务
-
-日志
-
-你只需在连接选项中设置`logging：true`即可启用所有查询和错误的记录
-
-```json
-{
-    name: "mysql",
-    type: "mysql",
-    host: "localhost",
-    port: 3306,
-    username: "test",
-    password: "test",
-    database: "test",
-    ...
-    logging: true
-}
-```
-
-TypeORM 附带 4 种不同类型的记录器：
-
-- `advanced-console` - 默认记录器，它将使用颜色和 sql 语法高亮显示所有记录到控制台中的消息（使用[chalk](https://github.com/chalk/chalk)）。
-- `simple-console` - 简单的控制台记录器，与高级记录器完全相同，但它不使用任何颜色突出显示。 如果你不喜欢/或者使用彩色日志有问题，可以使用此记录器。
-- `file` - 这个记录器将所有日志写入项目根文件夹中的`ormlogs.log`（靠近`package.json`和`ormconfig.json`）。
-- `debug` - 此记录器使用[debug package](https://github.com/visionmedia/debug)打开日志记录设置你的 env 变量`DEBUG = typeorm：*`（注意记录选项对此记录器没有影响）。
-
-```json
-{
-    host: "localhost",
-    ...
-    logging: true,
-    logger: "file"
-}
-```
-
-
-
-
-
-### ts相关
-
-#### node-dev
-
-监听js文件并rerun node
-
-```shell
-node-dev server.js
-```
-
-#### ts-node
-
-运行node ts文件的命令行工具REPL
-
-```shell
-ts-node script.ts
-```
-
-#### tslib
-
-
-
-#### ts-node-dev
-
-Node-dev的ts版本
-
-安装
-
-```shell
-yarn add typescript ts-node-dev -D
-```
-
-安装完成后配置npm脚本
-
-```json
-{
-  "scripts": {
-    "start": "tsnd -P ./tsconfig.json --respawn ./main.ts"
-  }
-}
-```
-
-tsnd 是 ts-node-dev 命令的缩写。上述命令中，只进行了两个配置，-P 代表着配置 tsconfig 的路径，是 --project 的缩写。--respawn 即为观察文件变更以重新运行脚本。
-
-在生产环境运行tsc就可以
-
-```json
-{
-  "scripts": {
-    "build": "tsc --project ./"
-  }
-}
-```
-
-#### @types/node
-
-node.js 类型声明包，这样才可以对 node.js 提供 API 方法有默认的类型提示和检查
-
-```shell
-yarn add @types/node
-```
-
-
-
-### http库
-
-各个包对比图：https://blog.csdn.net/weixin_42900858/article/details/116065875
-
-#### node-fetch
-
-安装
-
-```shell
-npm install node-fetch@2
-```
-
-使用
-
-```javascript
-import fetch from 'node-fetch';
-
-const response = await fetch('https://api.github.com/users/github');
-const data = await response.json();
-
-const body = {a: 1};
-
-const response = await fetch('https://httpbin.org/post', {
-	method: 'post',
-	body: JSON.stringify(body),
-	headers: {'Content-Type': 'application/json'}
-});
-
-console.log(data);
-```
-
-
-
-#### unfetch
-
-node的fetch包
-
-安装
-
-```shell
-$ npm i isomorphic-unfetch
-
-$ npm i unfetch
-```
-
-使用
-
-```javascript
-// using JS Modules:
-import fetch from 'unfetch'
-
-// or using CommonJS:
-const fetch = require('unfetch')
-
-// usage:
-fetch('/foo.json')
-  .then( r => r.json() )
-  .then( data => console.log(data) )
-
-// complex POST request with JSON, headers:
-fetch('/bear', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json'
-  },
-  body: JSON.stringify({ hungry: true })
-}).then( r => {
-  open(r.headers.get('location'));
-  return r.json();
-})
-```
-
-#### Got
-
-安装
-
-```shell
-npm install got
-```
-
-使用
-
-```javascript
-import got from 'got';
-
-const {data} = await got.post('https://httpbin.org/anything', {
-	json: {
-		hello: 'world'
-	}
-}).json();
-
-console.log(data);
-//=> {"hello": "world"}
-```
-
-
-
-#### request
-
-
-
-#### superagent
-
-
-
-#### ky
-
-
-
-### 请求数据处理相关
-
-#### form-data
-
-node无法直接像html中使用new [FormData](https://so.csdn.net/so/search?q=FormData&spm=1001.2101.3001.7020)() 创建对象，要使用form-data库
-
-使用
-
-```javascript
-var FormData = require('form-data');
-var fs = require('fs');
-
-var form = new FormData();
-form.append('my_field', 'my value');
-form.append('my_buffer', new Buffer(10));
-form.append('my_file', fs.createReadStream('/foo/bar.jpg'));
-```
-
-y也可以使用流
-
-```javascript
-var FormData = require('form-data');
-var http = require('http');
-
-var form = new FormData();
-
-http.request('http://nodejs.org/images/logo.png', function(response) {
-  form.append('my_field', 'my value');
-  form.append('my_buffer', new Buffer(10));
-  form.append('my_logo', response);
-});
-```
-
-#### body-parser
-
-`body-parser`是非常常用的一个`express`中间件，作用是对post请求的请求体进行解析。使用非常简单
-
-```javascript
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-```
-
-`body-parser`实现的要点如下：
-
-1. 处理不同类型的请求体：比如`text`、`json`、`urlencoded`等，对应的报文主体的格式不同。
-2. 处理不同的编码：比如`utf8`、`gbk`等。
-3. 处理不同的压缩类型：比如`gzip`、`deflare`等。
-4. 其他边界、异常的处理。
-
-此中间件已经被express集成，无需调用安装body-parser，可以直接采用express.json()和express.urlencoded()实现相同功能。
-
-**bodyParser.json([options])**
-
-解析并返回 json格式的数据，这是常用的方法。内部会查看content-type，只有是正确的content-type默认是application/json才进入这个中间件解析处理。
-
-```json
-{
-  // default = true
-  // 是否开启压缩体解析
-  "inflate": true,
-  
-  // default = '100kb'
-  // 最大请求数据，传入数字默认单位是bytes，传入字符串要带上单位
-  "limit": "100kb",
-  
-  // 指导reviver就相当于在JSON.parse()方法传入了第二个参数reviver做数据的预处理。
-  "reviver": (key, value)=> {...},
-    
-   // default = true
-   // 开启严格模式只能接收能被JSON.parse()方法解析的数据 
-   "strict": true,
-     
-   // 接收数据的类型，默认是"application/json"
-   "type": "application/json",
-     
-   // 验证数据，如果无效就可以提前抛出错误信息
-   "verify": (req, res, buf, encoding) => {...}
-}
-```
-
-**bodyParser.urlencoded([options])**
-
-这是常用的方法，常见的前端请求解决方案如表单post提交、axios、fetch等库的post请求都需要这个中间件进行解析，返回json的格式数据。当请求的数据类型是application/x-www-form-urlencoded时才会进入这个中间件进行处理
-
-参数
-
-```json
-{
-    // default = true
-  // 解析URL-encode数据的方法，true的话使用qs库来解析，false的话使用querystring库去解决，qs库文档：https://www.npmjs.com/package/qs#readme
-  "extended": true,
-  
-  // default = true
-  // 是否开启压缩体解析
-  "inflate": true,
-  
-  // default = '100kb'
-  // 最大请求数据，传入数字默认单位是bytes，传入字符串要带上单位
-  "limit": "100kb",
-  
-  // default = 1000
-  // 控制url编码数据中最大参数数量，超过这个数量返回413
-  "parameterLimit": 1000,
-  
-  // 接收数据的类型，默认是"application/x-www-form-urlencoded"
-  "type": "application/x-www-form-urlencoded",
-  
-  // 验证数据，如果无效就可以提前抛出错误信息
-  "verify": (req, res, buf, encoding) => {...}
-}
-```
-
-**bodyParser.text([options])**
-
-当默认数据类型为text/*时候会进入这个中间件处理，用的少，由于json数据更友好，能直接在数据库使用或是保存为json格式的文件，如果你更改下options.type = 'application/json' 也可以处理json的数据。
-
-所以bodyParser.json()相当于在此基础上进行封装优化，既然有更好用的，这个就不太用的上了，完全可以被取代。。options多了一个解码方式的选择，options.defaultCharset = 'utf-8'
-
-**bodyParser.raw([options])**
-
-处理默认数据为application/octet-stream时候的中间件，应用场景是post传入语音、短视频等媒体类型的数据，默认处理小于100kb的数据，以buffer的形式解析
-
-### 加解密包
-
-#### node-rsa
-
-在node中使用rsa算法
-
-安装
-
-```shell
-npm install node-rsa
-```
-
-使用
-
-```javascript
-const NodeRSA = require("node-rsa")
-
-const key = new NodeRSA({ b:2048 }) //2048 密钥长度
-ket.setOptions({ encryptionSchema: 'pkcs1' }); //指定加密格式，不改格式的话可能会报错
-
-
-```
-
-#### node-forge
-
-https://juejin.cn/post/7153205571385032712#heading-1
-
-加解密
-
-```javascript
-import forge from 'node-forge'
-
-const message = '要加密我了' // 原文长度有限制，而且中文还要url编码，所以不能加密太长的字符串。一般也只用来加密密码。
-const publicKey = '-----BEGIN PUBLIC KEY-----\nMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCqM+l9ZWy1Frt6felFFLmfZNls\nVbU1dKpF8Rx83FtKCsztO5k/iV5N9BbfHFUg9Y40b/EK2j/BPc1xlLYAHMXn6563\nXCwZ4IuCxvfOwz9qT9gkKBxkI5b0rnikkSWTGlJEk2PdZ7Plc73Fa+bx3PvuKvMd\ncKWvd80+vt9+b/7hrwIDAQAB\n-----END PUBLIC KEY-----'
-const publicK = forge.pki.publicKeyFromPem(publicKey)
-const encrypted = publicK.encrypt(encodeURIComponent(message), 'RSA-OAEP') // 经过url编码，后端解密后需要url解码
-console.log('密文：', encrypted) // 虽然乱码，但可以直接发给后端解密
-const base64 = window.btoa(unescape(encodeURIComponent(encrypted)))
-console.log('密文base64：', base64) // 一般会把它转为base64传给后端
-```
-
-node
-
-```javascript
-const forge = require('node-forge')
-const privateKey = '-----BEGIN PRIVATE KEY-----\nMIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAKoz6X1lbLUWu3p9\n6UUUuZ9k2WxVtTV0qkXxHHzcW0oKzO07mT+JXk30Ft8cVSD1jjRv8QraP8E9zXGU\ntgAcxefrnrdcLBngi4LG987DP2pP2CQoHGQjlvSueKSRJZMaUkSTY91ns+VzvcVr\n5vHc++4q8x1wpa93zT6+335v/uGvAgMBAAECgYArxUnou6qnL39rUvIol9ncyfy4\nRZpicuxPLGCdI7Y+ZmSpJciVdGhSN9Gh8xFZdozpo1gj6Fi5A4HQEeR0RvIF9Rgh\nERblj1rRWqxPcsIddOO9VaknQPICWKqEW9+E1bEcyNUblCHA4LGyQwmuEFUb/Tkj\nxAghIHuEBCe0GFiVwQJBAN5i5QSoOIpdFHA0c981E4VhHc/muXwjx1HfE1pcuuFb\nTy3OwEoZdFp3LIjBnBkPRneLTNjo5WTIwrmfsy6VDF8CQQDD7c6d/nKiJwIESlr+\n/idqXAPNR/iS1YX3Nqtk9jgrgf5zULHr2nbk7MDas5S9Z9XPdUmxtnP44dhoGvDk\nzyyxAkB7XBxyQuZqSkvGGjKUhJq5iC/DXddSd35fegEARSQdUktPu7qK4Cfc7vKz\nQcLXW9PZCFqukDJ/f6YU1fPNSTy9AkADQ78hms/GK+g4shR6EzoM56OYlA5sQ+qL\nh/mrIP8mmm/m8/1C9MzuW5OLEVr1HPnPDyE/OM8N4pV8hpZk+Z7BAkEAzaFstazA\nxLzZOBWhvOzzo722glZ7HVezhMocLu7Y3EOXP/nbx09JpU3U7Egp5UVp0aiknh/Q\nez4Cc4ksMedxdA==\n-----END PRIVATE KEY-----\n'
-const privateK = forge.pki.privateKeyFromPem(privateKey)
-const encrypted = Buffer.from(base64, 'base64').toString() // base64 为前端传过来的密文base64
-const decrypted = privateK.decrypt(encrypted, 'RSA-OAEP')
-console.log('原文：', decodeURIComponent(decrypted)) // decrypted 为原文
-```
-
-
-
-#### crypto-js
-
-
-
-#### crypto-browserify
-
-使用
-
-```javascript
-import crypto from 'crypto-browserify';
-
-// 将对象、数组等数据结构序列化json.stringfy
-const aesEncode = function (
-	string: string,
-  key: string,
-) {
-  const cipher = crypto.createCipher('aes192', key);
-  const crypted = cipher.update(string, 'utf-8', 'hex');
-  crypted += cipher.final('hex');
-  return crypted;
-};
-```
-
-
-
-#### ursa
-
-
-
-其他有crypt和cryptico
-
-https://npmtrends.com/crypt-vs-cryptico-vs-crypto-browserify-vs-crypto-js-vs-node-forge-vs-node-rsa-vs-ursa
-
-### node-redis
-
-
-
-### Graphql
-
-#### apollo-server
-
-安装依赖
-
-```js
-npm install apollo-server@2.13.1 graphql@14.6.0  type-graphql@0.17.6
-```
-
-引入
-
-```js
-import "reflect-metadata"
-import {buildSchema,ObjectType,Field,ID,Resolver,Query} from "type-graphql";
-import {ApolloServer} from "apollo-server";
-```
-
-后端定义schema和resolver
-
-```js
-@ObjectType()
-class Post{
-    @Field(type => ID)
-    id: string;
-
-    @Field()
-    created: Data;
-
-    @Field()
-    content: String;
-}
-
-@Resolver(Post)
-class PostResolver {
-    @Query(returns => [Post])
-    async posts(): Promise<Post[]>{
-        return [
-           {
-              id:"0",
-              created: new Date(),
-              content:'aaa'
-            },
-            {
-              id:"1",
-              created: new Date(),
-              content:'bbb'
-            },
-            {
-              id:"2",
-              created: new Date(),
-              content:'ccc'
-            },
-        ]
-    }
-}
-```
-
-运行项目，在localhost:4444打开graphql的playground进行测试
-
-#### grapnel-yoga
-
-基于graphql的后端框架
-
-安装
-
-```shell
-pnpm add graphql-yoga graphql
-```
-
-使用
-
-```javascript
-import { createSchema, createYoga } from 'graphql-yoga'
-import { createServer } from 'node:http'
-
-const yoga = createYoga({
-  schema: createSchema({
-    typeDefs: /* GraphQL */ `
-      type Query {
-        hello: String
-      }
-    `,
-    resolvers: {
-      Query: {
-        hello: () => 'Hello from Yoga!'
-      }
-    }
-  })
-})
-
-const server = createServer(yoga)
-
-server.listen(4000, () => {
-  console.info('Server is running on http://localhost:4000/graphql')
-})
-```
-
-
-
-#### nexus
-
-类型安全的graph schema
-
-安装
-
-```shell
-npm install nexus graphql
-```
-
-使用
-
-```javascript
-import { queryType, stringArg, makeSchema } from 'nexus'
-import { GraphQLServer } from 'graphql-yoga'
-
-const Query = queryType({
-  definition(t) {
-    t.string('hello', {
-      args: { name: stringArg() },
-      resolve: (parent, { name }) => `Hello ${name || 'World'}!`,
-    })
-  },
-})
-
-const schema = makeSchema({
-  types: [Query],
-  outputs: {
-    schema: __dirname + '/generated/schema.graphql',
-    typegen: __dirname + '/generated/typings.ts',
-  },
-})
-
-const server = new GraphQLServer({
-  schema,
-})
-
-server.start(() => `Server is running on http://localhost:4000`)
-```
-
-Nexus-prisma
-
-
-
-#### graphql-upload
-
-在koa和express框架中使用graphql的upload接口
-
-安装
-
-```shell
-npm install graphql-upload graphql
-```
-
-使用
-
-```javascript
-import graphqlUploadKoa from "graphql-upload";
-
-app.use(
-  graphqlUploadKoa({
-    // Limits here should be stricter than config for surrounding infrastructure
-    // such as NGINX so errors can be handled elegantly by `graphql-upload`.
-    maxFileSize: 10000000, // 10 MB
-    maxFiles: 20,
-  })
-);
-```
-
-#### @graphql-tools
-
-graphql的内部包
-
-https://the-guild.dev/graphql/tools/docs/resolvers-composition
-
-
-
-#### graphql-subscriptions
-
-node端graphql发布订阅
-
-安装
-
-```shell
-npm install graphql-subscriptions graphql
-```
-
-使用
-
-```javascript
-import { PubSub } from 'graphql-subscriptions';
-
-export const pubsub = new PubSub();
-
-const SOMETHING_CHANGED_TOPIC = 'something_changed';
-
-export const resolvers = {
-  Subscription: {
-    somethingChanged: {
-      subscribe: () => pubsub.asyncIterator(SOMETHING_CHANGED_TOPIC),
+// find all files edited in the last hour, to do this, we ignore
+// all of them that are more than an hour old
+const newFiles = await glob('**', {
+  // need stat so we have mtime
+  stat: true,
+  // only want the files, not the dirs
+  nodir: true,
+  ignore: {
+    ignored: p => {
+      return new Date() - p.mtime > 60 * 60 * 1000
     },
+    // could add similar childrenIgnored here as well, but
+    // directory mtime is inconsistent across platforms, so
+    // probably better not to, unless you know the system
+    // tracks this reliably.
   },
-}
-
-pubsub.publish(SOMETHING_CHANGED_TOPIC, { somethingChanged: { id: "123" }});
-```
-
-
-
-### neon
-
-使用rust编写原生的node模块
-
-https://github.com/neon-bindings/neon
-
-### 迁移工具
-
-#### Node-pg-migrate
-
-安装
-
-```shell
-npm install node-pg-migrate pg
-```
-
-在package.json中添加命令
-
-```json
-{
-  "script": {
-		"migrate": "node-pg-migrate"
-  }
-}
-```
-
-然后允许迁移命令，生成迁移文件
-
-```shell
-npm run migrate create my first migration
-```
-
-在`migrations`文件夹下打开`xxx_my-first-migration.js`文件，修改文件
-
-```javascript
-exports.up = (pgm) => {
-  pgm.createTable('users', {
-    id: 'id',
-    name: { type: 'varchar(1000)', notNull: true },
-    createdAt: {
-      type: 'timestamp',
-      notNull: true,
-      default: pgm.func('current_timestamp'),
-    },
-  })
-  pgm.createTable('posts', {
-    id: 'id',
-    userId: {
-      type: 'integer',
-      notNull: true,
-      references: '"users"',
-      onDelete: 'cascade',
-    },
-    body: { type: 'text', notNull: true },
-    createdAt: {
-      type: 'timestamp',
-      notNull: true,
-      default: pgm.func('current_timestamp'),
-    },
-  })
-  pgm.createIndex('posts', 'userId')
-}
-```
-
-配置DATABASE_URL环境变量
-
-`DATABASE_URL=postgres://test:test@localhost:5432/test`
-
-运行迁移命令
-
-```shell
-npm run migrate up
-```
-
-
-
-### 日志工具
-
-#### pino
-
-安装
-
-```shell
-npm install pino
-```
-
-使用
-
-```javascript
-const logger = require('pino')()
-
-logger.info('hello world')
-
-const child = logger.child({ a: 'property' })
-child.info('hello child!')
-```
-
-
-
-#### winston
-
-node日志工具
-
-使用
-
-```javascript
-const winston = require('winston');
-
-const logger = winston.createLogger({
-  level: 'info',
-  format: winston.format.json(),
-  defaultMeta: { service: 'user-service' },
-  transports: [
-    //
-    // - Write all logs with importance level of `error` or less to `error.log`
-    // - Write all logs with importance level of `info` or less to `combined.log`
-    //
-    new winston.transports.File({ filename: 'error.log', level: 'error' }),
-    new winston.transports.File({ filename: 'combined.log' }),
-  ],
-});
-
-//
-// If we're not in production then log to the `console` with the format:
-// `${info.level}: ${info.message} JSON.stringify({ ...rest }) `
-//
-if (process.env.NODE_ENV !== 'production') {
-  logger.add(new winston.transports.Console({
-    format: winston.format.simple(),
-  }));
-}
-```
-
-### @kubernetes/client-node
-
-node调用k8s客户端信息
-
-```shell
-npm install @kubernetes/client-node
-```
-
-列出所有的pods
-
-```javascript
-const k8s = require('@kubernetes/client-node');
-
-const kc = new k8s.KubeConfig();
-kc.loadFromDefault();
-
-const k8sApi = kc.makeApiClient(k8s.CoreV1Api);
-
-k8sApi.listNamespacedPod('default').then((res) => {
-    console.log(res.body);
-});
-
-// 创建一个新的命名空间
-var namespace = {
-    metadata: {
-        name: 'test',
-    },
-};
-
-k8sApi.createNamespace(namespace).then(
-    (response) => {
-        console.log('Created namespace');
-        console.log(response);
-        k8sApi.readNamespace(namespace.metadata.name).then((response) => {
-            console.log(response);
-            k8sApi.deleteNamespace(namespace.metadata.name, {} /* delete options */);
-        });
-    },
-    (err) => {
-        console.log('Error!: ' + err);
-    },
-);
-```
-
-
-
-### 剪贴板的使用
-
-使用第三方包，安装
-
-```js
-npm install clipboard-polyfill
-```
-
-引用
-
-```js
-import clipboard from "clipboard-polyfill"
-```
-
-实例
-
-```js
-clipboard.writeText("this");
-clipboard.readText().then(console.log,console.error);
-```
-
-### 终端二维码
-
-qrcode-terminal
-
-安装
-
-```shell
-npm install -D qrcode-terminal
-```
-
-使用
-
-```javascript
-const qrcode = require('qrcode-terminal')
-
-const url = 'https:www.baidu.com'
-
-qrcode.generate(url,{small:true},(qrcode)=> {
-  console.log(qrcode)
 })
 ```
-
-### depcheck
-
-检查项目中的依赖哪些是没有用的。哪些是使用的
-
-```shell
-npm install -g depcheck
-```
-
-或者直接npx命令
-
-```shell
-npx depcheck
-```
-
-
-
-### 判断设备信息
-
-使用navigator对象
-
-```js
-export function checkdevice() {
-  var browser = {
-    versions: (function() {
-      var u = navigator.userAgent,
-        app = navigator.appVersion;
-      return {
-        //移动终端浏览器版本信息
-        trident: u.indexOf("Trident") > -1, //IE内核
-        presto: u.indexOf("Presto") > -1, //opera内核
-        webKit: u.indexOf("AppleWebKit") > -1, //苹果、谷歌内核
-        gecko: u.indexOf("Gecko") > -1 && u.indexOf("KHTML") == -1, //火狐内核
-        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
-        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
-        android: u.indexOf("Android") > -1 || u.indexOf("Linux") > -1, //android终端或uc浏览器
-        iPhone: u.indexOf("iPhone") > -1, //是否为iPhone或者QQHD浏览器
-        iPad: u.indexOf("iPad") > -1, //是否iPad
-        webApp: u.indexOf("Safari") == -1, //是否web应该程序，没有头部与底部
-      };
-    })(),
-    language: (navigator.browserLanguage || navigator.language).toLowerCase(),
-  };
-
-  if (browser.versions.mobile) {
-    //判断是否是移动设备打开。browser代码在下面
-    // 此时为移动端打开.跳转到移动站
-    // if(window.location.href.indexOf("ooo0o.com/mobile") != -1){
-    //     return;
-    // }else {
-    //     window.location.href = "https://www.ooo0o.com/mobile"
-    // }
-
-    var ua = navigator.userAgent.toLowerCase(); //获取判断用的对象
-    if (ua.match(/MicroMessenger/i) == "micromessenger") {
-      //在微信中打开
-      if (browser.versions.ios) {
-        return "weixinios";
-      } else {
-        return "weixin";
-      }
-    } else if (browser.versions.android) {
-      //是否在安卓浏览器打开
-
-      // alert('安卓手机中打开的');
-      /*window.location.href="https://jushizhibo.com/android/app-release.apk";*/
-      // window.open('https://jushizhibo.com/android/app-release.apk','_self')
-      return "anzhuo";
-    } else if (browser.versions.ios) {
-      //是否在IOS浏览器打开
-      // alert('IOS中打开的');
-      /*window.location.href="https://www.baidu.com";*/
-      // window.open('transparentfactory://xiangqingye','_self')
-      return "ios";
-    }
-  } else {
-    //此时是非移动端,则跳转PC站
-    // alert('PC中打开的');
-    // if(window.location.href.indexOf("ooo0o.com/mobile") != -1){
-    //     window.location.href = "https://www.ooo0o.com"
-    // }
-    return "pc";
-  }
-}
-```
-
-使用时导入
-
-```js
-import {checkdevice}  from 'checkdevice.js'
-```
-
-### 七牛云的使用
-
-安装七牛包
-
-```node
-npm install qiniu
-```
-
-新建文件，设置七牛云参数
-
-```js
-var bucket='',
-var imageUrl='',
-var accessKey = '',
-var secretKey = '',
-var mac = new qiniu.auth.digest.Mac(accessKey,secretKey);
-
-var option={
-    scope:bucket,
-}
-var putPolicy= new qiniu.rs.PutPolicy(option)
-var uploadToken = putPolicy.uploadToken(mac);
-```
-
-上传代码
-
-```js
-var config = new qiniu.conf.Config()
-
-config.zone= qiniu.zone.Zone_z0;//选择七牛云的机房
-//是否使用https、是否使用cdn加速
-config.usehttpsDomain=true;
-config.useCdnDomain = true;
-
-var formUploader = new qiniu.form_up.FormUploader(config);
-var putExtra = new qiniu.form_up.PutExtra();
-var key = '';
-
-formUploader.putFile(uploadToken,key,path.resolve(pathName),putExtra,function(respErr,respBody,respInfo){
-       if(resqErr){
-         throw respErr;
-       }
-       if(respInfo.statusCode == 200){
-       console.log(respBody);
-       }else{
-           console.log(respInfo.statusCode);
-           console.log(respBody)
-       }                                                   });
-
-```
-
-https://segmentfault.com/a/1190000017064729
-
-### 发邮件
-
-导入模块Nodemailer
-
-```node
-npm install nodemailer
-```
-
-使用方法(包官网https://nodemailer.com/)
-
-```js
-//引入包
-const nodemailer = require("nodemailer");
-
-//创建邮件请求对象（qq邮箱、163邮箱或其他）
-  let transporter = nodemailer.createTransport({
-    host: "smtp.ethereal.email",//邮箱服务器
-    port: 587,（端口号）
-    secure: false, // true for 465, false for other ports
-    auth: {
-      user: testAccount.user, // 账号
-      pass: testAccount.pass // 你的邮箱服务器请求密码
-    }
-  });
-  //所发送的邮件信息
-  let mailobj={
-    from: '"Fred Foo 👻" <foo@example.com>', // sender address
-    to: "bar@example.com, baz@example.com", // list of receivers
-    subject: "Hello ✔", // Subject line
-    text: "Hello world?", // plain text body
-    html: "<b>Hello world?</b>" // html body
-  }
-  //发送邮件
-  transporter.sendMail(mailobj);
-
-
-```
-
-### MD5加密包
-
-Js-md5
-
-
-
-### http爬虫
-
-
-
-### node应用打包可执行文件
-
-pkg可以将node项目打包为一个单独的可执行文件，在未安装nodejs的机器上运行。支持win、linux等多系统
-
-```shell
-npm install pkg --save-dev
-```
-
-
-
-### Node应用部署Docker 
-
-Docker允许你以应用程序所有的依赖打包成一个标准化的单元，这被称为一个容器，对于应用开发而言，一个容器就是一个蜕化到最基础的linux操作系统，一个镜像是你加载到容器中的软件
-
-在node app应用的目录下新建一个Dockerfile，编辑这个文件
-
-```dockerfile
-#从Docker站点获取相关镜像
-From node:12
-#在镜像中创建一个文件夹存放应用程序代码，这将是应用程序工作的目录
-WORKDIR /usr/src/app
-#安装应用程序的所有依赖
-COPY package*.json ./
-
-RUN npm install 
-#在Docker镜像中使用COPY命令绑定你的应用程序
-COPY . .
-#定义映射端口，如应用程序的端口为8080，则与docker的镜像做映射
-EXPOSE 8080
-#最后要定义运行时的CMD命令来运行应用程序，这里使用node serverjs启动服务器
-CMD ["node","server.js"]
-```
-
-在dockerfile的同一个文件夹下创建.dockerignore文件，带有以下内容
-
-```dockerfile
-node_modules
-npm-debug.log
-```
-
-这将避免本地模块和调试日志被拷贝进入你的Docker镜像中，不会把镜像中安装的模块覆盖
-
-准备好之后就可以使用命令行构建和运行镜像
-
-进入dockerfile所在的目录，运行命令构建镜像
-
-```shell
-docker build -t <username>/node-web-app
-```
-
-构建之后就可以显示或者运行镜像
-
-```dockerfile
-docker images
-```
-
-使用-d模式以分离模式运行docker容器，使得容器在后台自助运行
-
-开关符-p在容器中把一个公共端口导向到私有的端口
-
-```shell
-docker run -p 49160:8080 -d <username>/node-web-app
-```
-
-
-
-## 学习资源
-
-node问答：https://github.com/jimuyouyou/node-interview-questions
-
-https://javascript.ruanyifeng.com/
-
-https://markpop.github.io/2014/10/29/NodeJs%E6%95%99%E7%A8%8B/
-
-node包讲解：https://github.com/chyingp/nodejs-learning-guide
-

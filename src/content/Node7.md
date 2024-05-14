@@ -80,6 +80,50 @@ for (let a of arr) {
 - 不同于`forEach`方法，它可以与`break`、`continue`和`return`配合使用。
 - 提供了遍历所有数据结构的统一操作接口。
 
+#### for...in
+
+获得对象的所有可遍历属性（不管是自身的还是继承的），可以使用 `for...in` 循环
+
+```javascript
+var o1 = { p1: 123 };
+
+var o2 = Object.create(o1, {
+  p2: { value: "abc", enumerable: true }
+});
+
+for (p in o2) {
+  console.info(p);
+}
+// p2
+```
+
+为了在 `for...in` 循环中获得对象自身的属性，可以采用 `hasOwnProperty` 方法判断一下
+
+```javascript
+for ( var name in object ) {
+  if ( object.hasOwnProperty(name) ) {
+    /* loop code */
+  }
+}
+```
+
+获得对象的所有属性（不管是自身的还是继承的，也不管是否可枚举），可以使用下面的函数
+
+```javascript
+function inheritedPropertyNames(obj) {
+  var props = {};
+  while(obj) {
+    Object.getOwnPropertyNames(obj).forEach(function(p) {
+      props[p] = true;
+    });
+    obj = Object.getPrototypeOf(obj);
+  }
+  return Object.getOwnPropertyNames(props);
+}
+```
+
+
+
 ### 装饰器
 
 装饰器不能用于函数，因为会存在函数提升

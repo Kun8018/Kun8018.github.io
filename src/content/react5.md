@@ -111,6 +111,8 @@ React事件与DOM原生事件混用时，先执行原生事件，再去执行合
 
 ### Fiber架构
 
+https://www.youtube.com/watch?v=ZCuYPiUIONs
+
 react16相比于react15，经过重构后Reconciliation和Rendering被分为两个不同的阶段。
 
 #### fiber出现的背景
@@ -449,6 +451,48 @@ Vue是否会采用类似fiber的机制优化复杂页面的更新
 两者虽然都依赖 DOM Diff，但是实现上且有区别，DOM Diff 的目的都是收集副作用。Vue 通过 Watcher 实现了依赖收集，本身就是一种很好的优化。所以 Vue 没有采用 Fiber 机制，也无伤大雅。
 
 https://juejin.cn/post/6911681589558640654#heading-3
+
+#### requestIdleCallback 的 polyfill 实现
+
+原生提供的 requestIdleCallback 方法的 timeRemaining () 最大返回是 50ms，也就是 20fps，达不到页面流畅度的要求，并且该 API 兼容性也比较差。react用 setTimeout 模拟了 requestIdleCallback 方法
+
+requestIdleCallback会在DOM 渲染空闲的时候执行任务，所以是一个执行低优先级任务的方法
+
+```javascript
+requestIdleCallback(function(deadline) {
+    console.log(`剩余空闲时间:${ deadline.timeRemaining() }`);
+    console.log(`是否是超时执行:${ deadline.didTimeout }`);
+});
+```
+
+`deadline.timeRemaining()` 输出了每帧剩余的渲染时间，如果没有剩余时间，此回调不会在当前帧中执行，留到下次执行，此时就超时了，`didTimeout` 即为 true
+
+源码
+
+```javascript
+export let requestHostCallback; // requestIdleCallback的polyfill方法
+export let cancelHostCallback;  // 用于取消requestHostCallback
+export let requestHostTimeout;
+export let cancelHostTimeout;   // 用于取消requestHostTimeout
+export let shouldYieldToHost;
+export let requestPaint;
+export let getCurrentTime;      // 获取当前触发事件
+export let forceFrameRate;      // 设置渲染的fps
+```
+
+getCurrentTime 函数则返回当前时间戳减去初始时间戳
+
+requestHostCallback 是基于 setTimeout 实现的，主要调用位于_flushCallback 函数体内，当存在_callback 时，便会触发_callback，传入 true 表示未超时，仍有空闲时间，currentTime 则表示当前触发的时间戳。
+
+requestHostCallback 中，若存在_callback 时，表示先前还有任务未完成，便利用 setTimeout 的第三个参数延后执行任务
+
+cancelHostCallback 函数是用来取消 requestHostCallback 定时的。将函数设置置空，即可。
+
+shouldYieldToHost表示触发是否超时，即当前帧是否过期。非 DOM 环境下一直都是 false
+
+
+
+https://www.zhuyuntao.cn/React%E4%B8%ADrequestIdleCallback%E7%9A%84polyfill%E5%AE%9E%E7%8E%B0
 
 ### props与state的区别
 
@@ -993,8 +1037,6 @@ let str = compose(add1,add2,add3)('x','y')
 console.log(str)
 //输出结果 '12xy'
 ```
-
-
 
 
 

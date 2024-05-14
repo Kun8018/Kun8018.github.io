@@ -8,7 +8,7 @@ toc: true
 thumbnail: https://cdn.kunkunzhang.top/redux.jpeg
 ---
 
-​      前端框架，快速开发页面，函数式编程，与后端api快速搭建
+​      前端框架，快速开发页面，函数式编程
 
 <!--more-->
 
@@ -442,6 +442,87 @@ store.subscribe(render);
 ```
 
 使用过 React 搭配 Redux 开发的读者可能对 store.subscribe() 有些陌生，因为它已经由 react-redux 库进行了封装，这也是 store 数据更新后便可以直接触发相关组件重新渲染的原因。
+
+### connected-react-router
+
+可以与redux绑定的router组件
+
+安装
+
+```shell
+npm install --save connected-react-router
+```
+
+使用
+
+```javascript
+// reducers.js
+import { combineReducers } from 'redux'
+import { connectRouter } from 'connected-react-router'
+
+const createRootReducer = (history) => combineReducers({
+  router: connectRouter(history),
+  ... // rest of your reducers
+})
+export default createRootReducer
+```
+
+配置store
+
+```javascript
+// configureStore.js
+...
+import { createBrowserHistory } from 'history'
+import { applyMiddleware, compose, createStore } from 'redux'
+import { routerMiddleware } from 'connected-react-router'
+import createRootReducer from './reducers'
+...
+export const history = createBrowserHistory()
+
+export default function configureStore(preloadedState) {
+  const store = createStore(
+    createRootReducer(history), // root reducer with router state
+    preloadedState,
+    compose(
+      applyMiddleware(
+        routerMiddleware(history), // for dispatching history actions
+        // ... other middlewares ...
+      ),
+    ),
+  )
+
+  return store
+}
+```
+
+在index.js中使用
+
+```react
+// index.js
+...
+import { Provider } from 'react-redux'
+import { Route, Switch } from 'react-router' // react-router v4/v5
+import { ConnectedRouter } from 'connected-react-router'
+import configureStore, { history } from './configureStore'
+...
+const store = configureStore(/* provide initial state if any */)
+
+ReactDOM.render(
+  <Provider store={store}>
+    <ConnectedRouter history={history}> { /* place ConnectedRouter under Provider */ }
+      <> { /* your usual react-router v4/v5 routing */ }
+        <Switch>
+          <Route exact path="/" render={() => (<div>Match</div>)} />
+          <Route render={() => (<div>Miss</div>)} />
+        </Switch>
+      </>
+    </ConnectedRouter>
+  </Provider>,
+  document.getElementById('react-root')
+)
+```
+
+
 
 ## mobx
 
@@ -1059,6 +1140,35 @@ render(
 )
 ```
 
+
+
+## Zagjs
+
+组合UI的底层状态管理
+
+https://zagjs.com/overview/installation
+
+```react
+import { useMachine, normalizeProps } from "@zag-js/react"
+import * as toggle from "@zag-js/toggle"
+
+export function Toggle() {
+  const [state, send] = useMachine(toggle.machine({
+    id: "1"
+  }))
+  const api = toggle.connect(state, send, normalizeProps)
+  return (
+    <button {...api.buttonProps}>
+      {api.isPressed ? "On" : "Off"}
+    </button>
+  )
+}
+```
+
+
+
+
+
 ## XState
 
 Xstate是用于现代 Web 的 JavaScript 和 TypeScript 的有限状态机和状态图，支持ts、react、vue、svelte
@@ -1592,6 +1702,12 @@ render(
 );
 ```
 
+## helux
+
+https://github.com/heluxjs/helux?tab=readme-ov-file
+
+
+
 
 
 ## react-query
@@ -1670,7 +1786,7 @@ function Todos() {
 render(<App />, document.getElementById('root'))
 ```
 
-
+ 缓存机制
 
 
 

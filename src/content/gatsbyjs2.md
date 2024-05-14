@@ -8,11 +8,13 @@ toc: true
 thumbnail: http://cdn.kunkunzhang.top/gatsbyjs.png
 ---
 
-　　ByteMd
+　　其他静态blog
 
 <!--more-->   
 
-## 安装
+## ByteMd
+
+### 安装
 
 https://github.com/bytedance/bytemd
 
@@ -42,3 +44,8 @@ const App = () => {
 }
 ```
 
+
+
+## Nextra
+
+https://github.com/shuding/nextra

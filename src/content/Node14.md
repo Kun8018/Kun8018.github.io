@@ -1,1020 +1,1415 @@
 ---
-title: NodeJs开发（三） 
-date: 2021-1-22 22:40:33
+title: NodeJs开发（二）
+date: 2021-01-20 21:40:33
 categories: IT
 tags:
-    - IT，Web
+    - IT，Web,Node
 toc: true
-thumbnail: https://cdn.kunkunzhang.top/express.jpg
+thumbnail: http://cdn.kunkunzhang.top/nodejs.png
 ---
 
-Javascript第九篇，Nodejs第三篇，第三篇写Node的性能和Express框架
+Javascript第八篇，NodeJs第二篇，注重Node后端开发。
 
 <!--more-->
 
-## Node性能
+## 功能模块
 
-### chromev8引擎内存管理
+### chrono
 
-Nodejs内存管理问题：
+解析自然语言中的日期
 
-在浏览器中，Chrome V8引擎实例的生命周期不会很长（谁没事一个页面开着几天几个月不关），而且运行在用户的机器上。如果不幸发生内存泄露等问题，仅仅会 影响到一个终端用户。且无论这个V8实例占用了多少内存，最终在关闭页面时内存都会被释放，几乎没有太多管理的必要（当然并不代表一些大型Web应用不需 要管理内存）。但如果使用Node作为服务器，就需要关注内存问题了，一旦内存发生泄漏，久而久之整个服务将会瘫痪（服务器不会频繁的重启）。
-
-chromev8垃圾回收机制：
-
-JavaScript使用垃圾回收机制来自动管理内存。垃圾回收是一把双刃剑，其好处是可以大幅简化程序的内存管理代码，降低程序员的负担，减少因 长时间运转而带来的内存泄露问题。
-
-但使用了垃圾回收即意味着程序员将无法掌控内存。ECMAScript没有暴露任何垃圾回收器的接口。我们无法强迫其进 行垃圾回收，更无法干预内存管理
-
-chromev8内存限制：
-
-Chrome限制了所能使用的**内存极限**（64位为1.4GB，32位为1.0GB），这也就意味着将无法直接操作一些大内存对象。
-
-Chrome之所以限制了内存的大小，表面上的原因是V8最初是作为浏览器的JavaScript引擎而设计，不太可能遇到大量内存的场景，而深层次的原因 则是由于V8的垃圾回收机制的限制。由于V8需要保证JavaScript应用逻辑与垃圾回收器所看到的不一样，V8在执行垃圾回收时会阻塞 JavaScript应用逻辑，直到垃圾回收结束再重新执行JavaScript应用逻辑，这种行为被称为“全停顿”（stop-the-world）。 若V8的堆内存为1.5GB，V8做一次小的垃圾回收需要50ms以上，做一次非增量式的垃圾回收甚至要1秒以上。这样浏览器将在1s内失去对用户的响 应，造成假死现象。如果有动画效果的话，动画的展现也将显著受到影响
-
-chromev8的堆构成
-
-V8的堆其实并不只是由老生代和新生代两部分构成，可以将堆分为几个不同的区域：
-
-1、新生代内存区：大多数的对象被分配在这里，这个区域很小但是垃圾回特别频繁；
-
-2、老生代指针区：属于老生代，这里包含了大多数可能存在指向其他对象的指针的对象，大多数从新生代晋升的对象会被移动到这里；
-
-3、老生代数据区：属于老生代，这里只保存原始数据对象，这些对象没有指向其他对象的指针；
-
-4、大对象区：这里存放体积超越其他区大小的对象，每个对象有自己的内存，垃圾回收其不会移动大对象；
-
-5、代码区：代码对象，也就是包含JIT之后指令的对象，会被分配在这里。唯一拥有执行权限的内存区；
-
-6、Cell区、属性Cell区、Map区：存放Cell、属性Cell和Map，每个区域都是存放相同大小的元素，结构简单。
-
-每个区域都是由一组内存页构成，内存页是V8申请内存的最小单位，除了大对象区的内存页较大以外，其他区的内存页都是1MB大小，而且按照1MB对 齐。内存页除了存储的对象，还有一个包含元数据和标识信息的页头，以及一个用于标记哪些对象是活跃对象的位图区。另外每个内存页还有一个单独分配在另外内 存区的槽缓冲区，里面放着一组对象，这些对象可能指向其他存储在该页的对象。**垃圾回收器只会针对新生代内存区、老生代指针区以及老生代数据区进行垃圾回收。**
-
-内存泄漏
-
- 内存泄露是指程序中**已分配的堆内存**由于某种原因**未释放或者无法释放**，造成系统内存的浪费，导致程序运行速度减慢甚至系统奔溃等后果。
-
-常见的内存泄漏场景
-
-1.缓存：开发时候喜欢用**对象的键值来缓存函数的计算结果**，但是缓存中存储的键越多，长期存活的对象就越多，导致垃圾回收在进行扫描和整理时，对这些对象做了很多无用功。
-
-2.作用域未释放(闭包)
-
-3.没有必要的全局变量：声明过多的全局变量，会导致变量常驻内存，要直到进程结束才能够释放内存。
-
-4.无效的DOM引用。
-
-5.定时器未清除：vue 或 react 的页面生命周期初始化时，定义了定时器，但是在离开页面后，未清除定时器，就会导致内存泄漏。
-
-6.事件监听为空白：在页面生命周期初始化时，绑定了事件监听器，但在离开页面后，未清除事件监听器，同样也会导致内存泄漏。
-
-内存优化做法：
-
-1.解除引用。确保占用最少的内存可以让页面获得更好的性能。而优化内存占用的最佳方式，就是为执行中的代码只保存必要的数据。一旦数据不再有用，最好通过将其值设置为 null 来释放其引用——这个做法叫做解除引用
-
-2.避免过多使用闭包。
-
-3.注意清除定时器和事件监听器。
-
-4提供手动清除变量的功能
-
-5.使用redis等外部工具来缓存数据。
-
-6.nodejs中使用stream或buffer来操作大文件，不会受nodejs内存限制。
-
-垃圾回收机制：
-
-新生代算法：
-
-新生代的对象为存活时间较短的对象，老生代中的对象为存活时间较长或常驻内存的对象。分别对新生代和老生代使用 不同的垃圾回收算法来提升垃圾回收的效率。对象起初都会被分配到新生代，当新生代中的对象满足某些条件时，会被移动到老生代（晋升）。
-
-新生代中的对象一般存活时间较短，使用 Scavenge GC 算法。在Scavenge的具体实现中，主要是采用一种复制的方式的方法--cheney算法。
-
-在新生代空间中，内存空间分为两部分，分别为 From 空间和 To 空间。在这两个空间中，必定有一个空间是使用的，另一个空间是空闲的。新分配的对象会被放入 From 空间中，当 From 空间被占满时，新生代 GC 就会启动了。算法会检查 From 空间中存活的对象并复制到 To 空间中，如果有失活的对象就会销毁。当复制完成后将 From 空间和 To 空间互换，这样 GC 就结束了。
-
-老生代算法：
-
-老生代中的对象一般存活时间较长且数量也多，使用了两个算法，分别是**标记清除算法**和**标记压缩算法**。
-
-在讲算法前，先来说下什么情况下对象会出现在老生代空间中：
-
-1、新生代中的对象是否已经经历过一次 Scavenge 算法，如果经历过的话，会将对象从新生代空间移到老生代空间中。
-
-2、To 空间的对象占比大小超过 25 %。在这种情况下，为了不影响到内存分配，会将对象从新生代空间移到老生代空间中。
-
-在老生代中，以下情况会先启动标记清除算法：
-
-1、某一个空间没有分块的时候
-
-2、空间中被对象超过一定限制
-
-3、空间不能保证新生代中的对象移动到老生代中
-
-Mark Sweep 是将需要被回收的对象进行标记，在垃圾回收运行时直接释放相应的地址空间，如下图所示(红色的内存区域表示需要被回收的区域)：
-
-Mark Compact 的思想有点像新生代垃圾回收时采取的 Cheney 算法：将存活的对象移动到一边，将需要被回收的对象移动到另一边，然后对需要被回收的对象区域进行整体的垃圾回收。
-
-在这个阶段中，会遍历堆中所有的对象，然后标记活的对象，在标记完成后，销毁所有没有被标记的对象。在标记大型对内存时，可能需要几百毫秒才能完成一次标记。这就会导致一些性能上的问题。为了解决这个问题，2011 年，V8 从 stop-the-world 标记切换到增量标志。在增量标记期间，GC 将标记工作分解为更小的模块，可以让 JS 应用逻辑在模块间隙执行一会，从而不至于让应用出现停顿情况。但在 2018 年，GC 技术又有了一个重大突破，这项技术名为并发标记。该技术可以让 GC 扫描和标记对象时，同时允许 JS 运行。
-
-清除对象后会造成堆内存出现碎片的情况，当碎片超过一定限制后会启动压缩算法。在压缩过程中，将活的对象像一端移动，直到所有对象都移动完成然后清理掉不需要的内存。
-
-### js变量内存何时释放
-
-JavaScript中的类型分为值类型和引用类型
-
-引用类型是在没有引用之后，通过v8的GC自动回收，值类型如果处于闭包的情况下，要等闭包没有引用才会被GC回收，非闭包的情况下，等待V8的新生代切换的时候会回收
-
-
-
-### js内存泄漏/爆掉的情况
-
-内存崩掉的情况
-
-```javascript
-let arr = [];
-while(true) {
-	arr.push\(1\);
-}
-```
-
-上面的代码内存会崩溃，超出了数组最大长度，会自动结束异常。
-
-```javascript
-let arr = []
-while(true) {
-	arr.push\(\)
-}
-```
-
-不会爆掉，会陷入死循环。
-
-```javascript
-let arr = [];
-while(true) {
-	arr.push(new Buffer(1000));
-}
-```
-
-这个情况比直接push number类型的慢很多，因为ES定义的Number类型遵循IEEE-2008的64位存储，也就是说Number类型的1相比buffer类型的1，前者在编译器中是63个0+1，占了64位，而后者只占了一位
-
-push buffer不会崩溃，当内存顶到爆时，也就是即将到达100%的状态，会自动垃圾回收，就是会瞬间降低内存，push工作继续，很神奇。
-
-
-
-泄漏
-
-**1.意外的全局变量**
-
-全局变量的生命周期最长，直到页面关闭前，它都存活着，所以全局变量上的内存一直都不会被回收
-
-当全局变量使用不当，没有及时回收（手动赋值 null），或者拼写错误等将某个变量挂载到全局变量时，也就发生内存泄漏了
-
-**2.遗忘的定时器**
-
-setTimeout 和 setInterval 是由浏览器专门线程来维护它的生命周期，所以当在某个页面使用了定时器，当该页面销毁时，没有手动去释放清理这些定时器的话，那么这些定时器还是存活着的
-
-也就是说，定时器的生命周期并不挂靠在页面上，所以当在当前页面的 js 里通过定时器注册了某个回调函数，而该回调函数内又持有当前页面某个变量或某些 DOM 元素时，就会导致即使页面销毁了，由于定时器持有该页面部分引用而造成页面无法正常被回收，从而导致内存泄漏了
-
-如果此时再次打开同个页面，内存中其实是有双份页面数据的，如果多次关闭、打开，那么内存泄漏会越来越严重
-
-而且这种场景很容易出现，因为使用定时器的人很容易遗忘清除
-
-**3.使用不当的闭包**
-
-函数本身会持有它定义时所在的词法环境的引用，但通常情况下，使用完函数后，该函数所申请的内存都会被回收了
-
-但当函数内再返回一个函数时，由于返回的函数持有外部函数的词法环境，而返回的函数又被其他生命周期东西所持有，导致外部函数虽然执行完了，但内存却无法被回收
-
-所以，返回的函数，它的生命周期应尽量不宜过长，方便该闭包能够及时被回收
-
-**4.遗漏的DOM元素**
-
-DOM 元素的生命周期正常是取决于是否挂载在 DOM 树上，当从 DOM 树上移除时，也就可以被销毁回收了
-
-但如果某个 DOM 元素，在 js 中也持有它的引用时，那么它的生命周期就由 js 和是否在 DOM 树上两者决定了，记得移除时，两个地方都需要去清理才能正常回收它
-
-**5.网络回调**
-
-某些场景中，在某个页面发起网络请求，并注册一个回调，且回调函数内持有该页面某些内容，那么，当该页面销毁时，应该注销网络的回调，否则，因为网络持有页面部分内容，也会导致页面部分内容无法被回收
-
-
-
-#### 监控内存泄漏
-
-内存泄漏的问题是可以分成两类的，一种是比较严重的，泄漏的就一直回收不回来了，另一种严重程度稍微轻点，就是没有及时清理导致的内存泄漏，一段时间后还是可以被清理掉
-
-不管哪一种，利用开发者工具抓到的内存图，应该都会看到一段时间内，内存占用不断的直线式下降，这是因为不断发生 GC，也就是垃圾回收导致的
-
-针对第一种比较严重的，会发现，内存图里即使不断发生 GC 后，所使用的内存总量仍旧在不断增长
-
-另外，内存不足会造成不断 GC，而 GC 时是会阻塞主线程的，所以会影响到页面性能，造成卡顿，所以内存泄漏问题还是需要关注的
-
-可以使用 performance monitor 工具，在开发者工具里找到更多的按钮，在里面打开此功能面板，这是一个可以实时监控 cpu，内存等使用情况的工具，
-
-### chrome浏览器调试
-
-以chrome为例
-
-在chrome菜单中选择更多工具->开发者工具或者右键点击网页元素，选择检查打开调试面板。
-
-调试面板中有设备模式、元素面板、控制台面板、源代码面板、网络面板、性能面板、内存面板、应用面板、安全面板。
-
-设备模式面板可以选择web、ios、安卓等设备模式检查响应式布局
-
-元素面板(element)可以检查页面DOM和CSS，还可以自由操作DOM和CSS更改布局和设计页面。
-
-点击箭头图标，点击网页的任意位置，就可以出现该位置的元素html代码和css样式
-
-控制台面板(console)可以在开发期间记录输出信息，或者作为shell与javascript交互
-
-error和waring就是网页运行中产生的错误和警告，info用作输出的显示
-
-源代码面板(source)可以设置断点调试JavaScript，或者通过workspace连接本地文件来使用开发者工具的实时编辑器。
-
-网络面板(network)查看当前网页的请求和下载的资源文件。
-
-点击network就能看到各个接口请求的先后顺序和耗时。想要查看具体的接口参数，在name中找到具体的接口，header为请求头参数，preview和response为返回值。
-
-内存面板(memory)可以跟踪内存泄漏等功能
-
-性能面板(performance)可以记录和查看网站生命周期内发生的各种事件，通过修改对应事件来提高页面的运行性能。
-
-应用面板(application)中可以检查加载的所有资源，包括indexedDB、WebSQL数据库、本地和会话存储、cookie、应用程序缓存、图像、字体、样式表等。
-
-安全面板(security)检查证书问题等。
-
-
-
-### js常用设计模式
-
-设计模式是可重用的用于解决软件设计中一般问题的方案。设计模式如此让人着迷，以至在任何编程语言中都有对其进行的探索。
-
-其中一个原因是它可以让我们站在巨人的肩膀上，获得前人所有的经验，保证我们以优雅的方式组织我们的代码，满足我们解决问题所需要的条件。
-
-设计模式同样也为我们描述问题提供了通用的词汇。这比我们通过代码来向别人传达语法和语义性的描述更为方便。
-
-12种设计模式：
-
-单例模式、工厂模式、代理模式、装饰模式、观察者模式、适配器模式
-
-外观模式、命令模式、原型模式、中介者模式、模块化模式、策略模式
-
-Mixin(织入目标类)、享元模式
-
-```javascript
-//单例：　任意对象都是单例，无须特别处理
-var obj = {name: 'michaelqin', age: 30};
-
-//工厂: 就是同样形式参数返回不同的实例
-function Person() { this.name = 'Person1'; }
-	function Animal() { this.name = 'Animal1'; }
-
-	function Factory() {}
-	Factory.prototype.getInstance = function(className) {
-		return eval('new ' + className + '()');
-	}
-
-	var factory = new Factory();
-	var obj1 = factory.getInstance('Person');
-	var obj2 = factory.getInstance('Animal');
-	console.log(obj1.name); // Person1
-	console.log(obj2.name); // Animal1
-
-//代理: 就是新建个类调用老类的接口,包一下
-	function Person() { }
-	Person.prototype.sayName = function() { console.log('michaelqin'); }
-	Person.prototype.sayAge = function() { console.log(30); }
-
-	function PersonProxy() {
-		this.person = new Person();
-		var that = this;
-		this.callMethod = function(functionName) {
-			console.log('before proxy:', functionName);
-			that.person[functionName](); // 代理
-			console.log('after proxy:', functionName);
-		}
-	}
-
-	var pp = new PersonProxy();
-	pp.callMethod('sayName'); // 代理调用Person的方法sayName()
-	pp.callMethod('sayAge'); // 代理调用Person的方法sayAge()
-
-4) 观察者: 就是事件模式，比如按钮的onclick这样的应用.
-	function Publisher() {
-		this.listeners = [];
-	}
-	Publisher.prototype = {
-		'addListener': function(listener) {
-			this.listeners.push(listener);
-		},
-
-		'removeListener': function(listener) {
-			delete this.listeners[this.listeners.indexOf(listener)];
-		},
-
-		'notify': function(obj) {
-			for(var i = 0; i < this.listeners.length; i++) {
-				var listener = this.listeners[i];
-				if (typeof listener !== 'undefined') {
-					listener.process(obj);
-				}
-			}
-		}
-	}; // 发布者
-
-	function Subscriber() {
-
-	}
-	Subscriber.prototype = {
-		'process': function(obj) {
-			console.log(obj);
-		}
-	};　// 订阅者
-
-
-	var publisher = new Publisher();
-	publisher.addListener(new Subscriber());
-	publisher.addListener(new Subscriber());
-	publisher.notify({name: 'michaelqin', ageo: 30}); // 发布一个对象到所有订阅者
-  publisher.notify('2 subscribers will both perform process'); // 发布一个字符串到所有订阅者
-
-```
-
-观察者模式与发布/订阅模式的区别
-
-观察者模式要求想要接受相关通知的观察者必须到发起这个事件的被观察者上注册这个事件。
-
-发布/订阅模式使用一个主题/事件频道，这个频道处于想要获取通知的订阅者和发起事件的发布者之间。
-
-这个事件系统允许代码定义应用相关的事件，这个事件可以传递特殊的参数，参数中包含有订阅者所需要的值。这种想法是为了避免订阅者和发布者之间的依赖性。
-
-这种和观察者模式之间的不同，使订阅者可以实现一个合适的事件处理函数，用于注册和接受由发布者广播的相关通知。
-
-适配者模式
-
-当两种数据/函数都能实现相同的功能，但是参数、调用不兼容，这是要在某一方使用适配器抹平这种差异
-
-
-
-https://mp.weixin.qq.com/s/o0MRn-wy1_7a13xzstaJnQ
-
-## Express框架
-
-安装Express
+https://github.com/wanasit/chrono
 
 ```shell
-npm i express@next
+npm install --save chrono-node
 ```
 
-运行Express，启动服务器
+使用
 
 ```javascript
-const express= require('express')
-const app = express()
+import * as chrono from 'chrono-node';
 
-app.listen(3000,()=>{
-   console.log('')
-})
-```
-
-### 路由
-
-```javascript
-const express = require('express')
-const router = express.Router()
-
-router.get('/add',(req,res)=>{
-res.send('user add')
-}) 
-
-router.get('/del',(req,res)=>{
-res.send('del add')
-})
-
-module.exports = router
-```
-
-写接口
-
-```node
-app.get
+chrono.parseDate('An appointment on Sep 12-13');
+// Fri Sep 12 2014 12:00:00 GMT-0500 (CDT)
+    
+chrono.parse('An appointment on Sep 12-13');
+/* [{ 
+    index: 18,
+    text: 'Sep 12-13',
+    start: ...
+}] */
 ```
 
 
+
+### p-queue
+
+异步任务队列
+
+安装
 
 ```shell
-npm i cors
+npm install p-queue
+```
+
+使用
+
+```javascript
+import PQueue from 'p-queue';
+import got from 'got';
+
+const queue = new PQueue({concurrency: 1});
+
+(async () => {
+	await queue.add(() => got('https://sindresorhus.com'));
+	console.log('Done: sindresorhus.com');
+})();
+
+(async () => {
+	await queue.add(() => got('https://avajs.dev'));
+	console.log('Done: avajs.dev');
+})();
+
+(async () => {
+	const task = await getUnicornTask();
+	await queue.add(task);
+	console.log('Done: Unicorn task');
+})();
 ```
 
 
 
-### 中间件
+### p-map
 
-中间件可以终止 HTTP 请求，也可以用 next 将其传递给另一个中间件函数,下一个中间件函数通常由名为 `next` 的变量来表示。
+并发池，依次并发
 
-- 路由器级中间件，例如：router.use
-- 内置中间件，例如：express.static，express.json，express.urlencoded
-- 错误处理中间件，例如：app.use（err，req，res，next）
-- 第三方中间件，例如：bodyparser、cookieparser
+```shell
+npm install p-map
+```
 
-如果当前中间件函数没有结束请求/响应循环，那么它必须调用 `next()`，以将控制权传递给下一个中间件函数。否则，请求将保持挂起状态。
+使用
 
-#### express中间件模型
+```javascript
+import pMap from 'p-map';
+import got from 'got';
 
-express的中间件的原理就是一层层函数的嵌套，虽然最内部的函数调用res.send结束的请求，但是程序依然在运行。并且这个运行的结果也类似koa的洋葱。这里面有一点需要注意，express结束请求是在最内部函数。
+const sites = [
+	getWebsiteFromUsername('sindresorhus'), //=> Promise
+	'https://avajs.dev',
+	'https://github.com'
+];
 
-express和koa中间件执行逻辑没有什么特别的不同，都是依赖函数调用栈的执行顺序，抬杠一点讲都可以叫做洋葱模型。Koa 依靠 async/await（generator + co）让异步操作可以变成同步写法，更好理解。最关键的不是这些中间的执行顺序，而是响应的时机，Express 使用 res.end() 是立即返回，这样想要做出些响应前的操作变得比较麻烦；而 Koa 是在所有中间件中使用 ctx.body 设置响应数据，但是并不立即响应，而是在所有中间件执行结束后，再调用 res.end(ctx.body) 进行响应，这样就为响应前的操作预留了空间，所以是请求与响应都在最外层，中间件处理是一层层进行，所以被理解成洋葱模型
+const mapper = async site => {
+	const {requestUrl} = await got.head(site);
+	return requestUrl;
+};
 
-#### 应用层中间件
+const result = await pMap(sites, mapper, {concurrency: 2});
 
-使用 `app.use()` 和 `app.METHOD()` 函数将应用层中间件绑定到[应用程序对象](https://expressjs.com/zh-cn/4x/api.html#app)的实例， `METHOD` 是中间件函数处理的请求的小写 HTTP 方法（例如 GET、PUT 或 POST）。
+console.log(result);
+//=> ['https://sindresorhus.com/', 'https://avajs.dev/', 'https://github.com/']
+```
 
-实例
+更多promise的控制：https://github.com/sindresorhus/promise-fun
 
-```js
-var app = express();
+### globby
 
-app.use(function (req, res, next) {
-  console.log('Time:', Date.now());
-  next();
+相对于 glob，globby有以下增强功能
+
+- Promise 接口
+- 多模式匹配
+- 否定模式匹配
+- 扩展目录: `dir` → `dir/**/*`
+- 支持 `.gitignore`
+
+```javascript
+(async () => {
+  const paths = await globby(['images','photos'],{
+    expandDirectories: true
+  });
+  console.log(paths);
+})();
+```
+
+### cuid2
+
+uuid生成器
+
+安装
+
+```shell
+npm install --save @paralleldrive/cuid2
+
+yarn add @paralleldrive/cuid2
+```
+
+使用
+
+```javascript
+import { createId } from '@paralleldrive/cuid2';
+
+const ids = [
+  createId(), // 'tz4a98xxat96iws9zmbrgj3a'
+  createId(), // 'pfh0haxfpzowht3oi213cqos'
+  createId(), // 'nc6bzmkmd014706rfda898to'
+];
+
+import { createId, isCuid } from '@paralleldrive/cuid2';
+
+
+console.log(
+  isCuid(createId()), // true
+  isCuid('not a cuid'), // false
+);
+```
+
+### uuid
+
+uuid是通用唯一识别码(Universally Unique Identifier)的缩写。是一种软件建构辨准，亦为开发软件基金会组织在分布式计算环境领域的一部分。其目的是让分布式系统中的所有元素具有唯一的辨识信息，而不需要通过中央控制端来做辨识信息的指定。
+
+UUID由一组32位数的16进制数字构成。对于UUID，就算每纳秒产生一百万个UUID，要花100亿年才会将所有UUID用完。
+
+格式
+
+uuid32个16进制数字用连字号分成五组来显示，所以共有36个字符
+
+UUID版本通过M表示，当前规范有5个版本，可选值为1、2、3、4、5，这5个版本使用不同的算法，利用不同的信息产生UUID，各版本有各版本的优势，具体来说：
+
+uuid.v1()：创建版本1(时间戳)UUID
+
+uuid.v3()：创建版本3(md5命名空间)UUID
+
+uuid.v4()：创建版本4(随机)UUID
+
+uuid.v5()：创建版本5(带SHA-1的命名空间)IIOD
+
+安装
+
+```shell
+npm install uuid 
+```
+
+使用
+
+```javascript
+import { v4 as uuidv4} from 'uuid'
+
+uuidv4()
+```
+
+可以使用uuid进行验证登陆,未登陆状态下生产uuid
+
+```javascript
+let uuid = sessionStorage.getItem('uuid')
+if(!uuid){
+  sessionStorage.setItem('uuid')
+}
+
+if(getToken()){
+  sessionStorage.removeItem('uuid');
+}else {
+  let uuid = sessionStorage.getItem('uuid');
+  if(!uuid){
+    sessionStorage.setItem('uuid',uuidv4());
+  }
+}
+```
+
+
+
+### minimatch
+
+正则匹配工具包
+
+```javascript
+// hybrid module, load with require() or import
+import { minimatch } from 'minimatch'
+// or:
+const { minimatch } = require('minimatch')
+
+minimatch('bar.foo', '*.foo') // true!
+minimatch('bar.foo', '*.bar') // false!
+minimatch('bar.foo', '*.+(bar|foo)', { debug: true }) // true, and noisy!
+```
+
+
+
+### jsonwebtoken
+
+安装
+
+```shell
+npm i jsonwebtoken --save
+```
+
+使用
+
+```javascript
+//authorization.js
+const jwt = require("jsonwebtoken");
+
+const secretKey = "secretKey";
+
+// 生成token
+module.exports.generateToken = function (payload) { 
+  const token =
+    "Bearer " +
+    jwt.sign(payload, secretKey, {
+      expiresIn: 60 * 60,
+    });
+  return token;
+};
+
+// 验证token
+module.exports.verifyToken = function (req, res, next) {
+  const token = req.headers.authorization.split(" ")[1];
+  jwt.verify(token, secretKey, function (err, decoded) {
+    if (err) {
+      console.log("verify error", err);
+      return res.json({ code: "404", msg: "token无效" });
+    }
+    console.log("verify decoded", decoded);
+    next();
+  });
+};
+```
+
+在登陆接口生成token返回给前端
+
+```javascript
+// login.js
+const express = require("express");
+const router = express.Router();
+const { generateToken } = require("./authorization");
+
+// 路由
+router.post("/", (req, res) => {
+  const username = req.body.username;
+  const password = req.body.password;
+  const token = generateToken({ username: username });
+  res.json({
+    code: 200,
+    msg: "登录成功",
+    data: { token },
+  });
 });
-app.get('/user/:id', function (req, res, next) {
-  res.end(req.params.id);
+
+module.exports = router;
+```
+
+注册中间件
+
+```javascript
+const loginRouter = require("./login");
+const auth = require("./authorization");
+const userRouter = require("./user");
+
+app.use("/api/login", loginRouter);
+app.use("/api/*", auth.verifyToken); // 注册token验证中间件
+app.use("/api/user", userRouter);
+```
+
+
+
+### json-schema-faker
+
+
+
+### write-good
+
+检查语法
+
+Vscode Atom都使用
+
+```shell
+npm install write-good
+
+## global cli
+npx write-good *.md
+```
+
+使用
+
+```javascript
+write-good *.md
+
+write-good --text="I can't see a problem there that's not been defined yet.Should be defined again."
+
+var writeGood = require('write-good');
+
+var suggestions = writeGood('Never write read-only sentences.');
+// suggestions: [{ index: 17, offset: 4, reason: '"only" can weaken meaning' }]
+
+var filtered = writeGood('Never write read-only sentences.', { whitelist: ['read-only'] });
+// filtered: []
+```
+
+### request-ip
+
+获取发起请求的ip
+
+```shell
+npm install request-ip
+```
+
+使用
+
+```javascript
+// 中间件
+const requestIp = require('request-ip');
+
+// inside middleware handler
+const ipMiddleware = function(req, res, next) {
+    const clientIp = requestIp.getClientIp(req); 
+    next();
+};
+
+// on localhost you'll see 127.0.0.1 if you're using IPv4 
+// or ::1, ::ffff:127.0.0.1 if you're using IPv6
+
+const requestIp = require('request-ip');
+app.use(requestIp.mw())
+
+app.use(function(req, res) {
+    const ip = req.clientIp;
+    res.end(ip);
 });
 ```
 
-#### 路由器中间件
+### ua-parser-js
 
-路由器层中间件的工作方式与应用层中间件基本相同，差异之处在于它绑定到 `express.Router()` 的实例。
+https://github.com/faisalman/ua-parser-js
 
-实例
+解析user-agent这个http header的包
 
-```js
-//引入router
-var router= express.Router();
-//全局路由中间件
-router.use(function (req, res, next) {
-  console.log('Time:', Date.now());
-  next();
+使用
+
+```javascript
+
+
+const request = {
+    headers : {
+        'user-agent' : 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36',
+
+        'sec-ch-ua-mobile' : '?1',
+        'sec-ch-ua-model' : 'Galaxy S3 Marketing',
+        'sec-ch-ua-platform' : 'Android'
+    }
+};
+
+const result1 = UAParser(request.headers);                      // parse only "user-agent" header
+const result2 = UAParser(request.headers).withClientHints();    // update with "sec-ch-ua" headers
+```
+
+### ipaddr
+
+操作ip地址
+
+```shell
+npm install ipaddr.js
+```
+
+使用
+
+```javascript
+const addr  = ipaddr.parse('2001:db8:1234::1');
+const range = ipaddr.parse('2001:db8::');
+
+addr.match(range, 32); // => true
+
+const addr = ipaddr.parse('2001:db8:1234::1');
+
+addr.match(ipaddr.parseCIDR('2001:db8::/32')); // => true
+
+```
+
+### cidr-regex
+
+ip的正则
+
+```shell
+npm i cidr-regex
+```
+
+使用
+
+```javascript
+import cidrRegex from "cidr-regex";
+
+// Contains a CIDR IP address?
+cidrRegex().test("foo 192.168.0.1/24");
+//=> true
+
+// Is a CIDR IP address?
+cidrRegex({exact: true}).test("foo 192.168.0.1/24");
+//=> false
+
+cidrRegex.v6({exact: true}).test("1:2:3:4:5:6:7:8/64");
+//=> true
+
+// Extract CIDRs from string
+"foo 192.168.0.1/24 bar 1:2:3:4:5:6:7:8/64 baz".match(cidrRegex());
+//=> ["192.168.0.1/24", "1:2:3:4:5:6:7:8/64"]
+```
+
+### node-ip
+
+操作ip相关
+
+安装
+
+```shell
+npm install ip
+```
+
+使用
+
+```javascript
+var ip = require('ip');
+
+ip.address() // my ip address
+ip.isEqual('::1', '::0:1'); // true
+ip.toBuffer('127.0.0.1') // Buffer([127, 0, 0, 1])
+ip.toString(new Buffer([127, 0, 0, 1])) // 127.0.0.1
+ip.fromPrefixLen(24) // 255.255.255.0
+ip.mask('192.168.1.134', '255.255.255.0') // 192.168.1.0
+ip.cidr('192.168.1.134/26') // 192.168.1.128
+ip.not('255.255.255.0') // 0.0.0.255
+ip.or('192.168.1.134', '0.0.0.255') // 192.168.1.255
+ip.isPrivate('127.0.0.1') // true
+ip.isV4Format('127.0.0.1'); // true
+ip.isV6Format('::ffff:127.0.0.1'); // true
+
+// operate on buffers in-place
+var buf = new Buffer(128);
+var offset = 64;
+ip.toBuffer('127.0.0.1', buf, offset);  // [127, 0, 0, 1] at offset 64
+ip.toString(buf, offset, 4);            // '127.0.0.1'
+
+// subnet information
+ip.subnet('192.168.1.134', '255.255.255.192')
+// { networkAddress: '192.168.1.128',
+//   firstAddress: '192.168.1.129',
+//   lastAddress: '192.168.1.190',
+//   broadcastAddress: '192.168.1.191',
+//   subnetMask: '255.255.255.192',
+//   subnetMaskLength: 26,
+//   numHosts: 62,
+//   length: 64,
+//   contains: function(addr){...} }
+ip.cidrSubnet('192.168.1.134/26')
+// Same as previous.
+
+// range checking
+ip.cidrSubnet('192.168.1.134/26').contains('192.168.1.190') // true
+
+
+// ipv4 long conversion
+ip.toLong('127.0.0.1'); // 2130706433
+ip.fromLong(2130706433); // '127.0.0.1'
+```
+
+### ip-regex
+
+安装
+
+```shell
+npm install ip-regex
+```
+
+使用
+
+```javascript
+import ipRegex from 'ip-regex';
+
+// Contains an IP address?
+ipRegex().test('unicorn 192.168.0.1');
+//=> true
+
+// Is an IP address?
+ipRegex({exact: true}).test('unicorn 192.168.0.1');
+//=> false
+
+ipRegex.v6({exact: true}).test('1:2:3:4:5:6:7:8');
+//=> true
+
+'unicorn 192.168.0.1 cake 1:2:3:4:5:6:7:8 rainbow'.match(ipRegex());
+//=> ['192.168.0.1', '1:2:3:4:5:6:7:8']
+
+// Contains an IP address?
+ipRegex({includeBoundaries: true}).test('192.168.0.2000000000');
+//=> false
+
+// Matches an IP address?
+'192.168.0.2000000000'.match(ipRegex({includeBoundaries: true}));
+//=> null
+```
+
+### lorem-ipsum
+
+```javascript
+import { LoremIpsum } from "lorem-ipsum";
+// const LoremIpsum = require("lorem-ipsum").LoremIpsum;
+
+const lorem = new LoremIpsum({
+  sentencesPerParagraph: {
+    max: 8,
+    min: 4
+  },
+  wordsPerSentence: {
+    max: 16,
+    min: 4
+  }
 });
-//具体http方法
-router.get('/user/:id', function (req, res, next) {
-  // if the user ID is 0, skip to the next router
-  if (req.params.id == 0) next('route');
-  // otherwise pass control to the next middleware function in this stack
-  else next(); //
-}, function (req, res, next) {
-  // render a regular page
-  res.render('regular');
-});
-//加载中间件
-app.use('/', router);
-```
 
-
-
-#### **内置中间件**
-
-Express 有以下内置的中间件功能：
-
-- `express.static` 提供静态资源，例如 HTML 文件，图像等。
-- `express.json` 负载解析用 JSON 传入的请求。
-- `express.urlencoded` 解析传入的用 URL 编码的有效载荷请求。
-
-#### **错误处理中间件**
-
-错误处理中间件始终采用四个参数**（err，req，res，next）**。
-
-实例
-
-```js
-app.use(function(err,req,res,next){
-    console.log(err.stack);
-    res.status(500).send('somethingbroke');
-})
-```
-
-
-
-#### 第三方中间件
-
-使用第三方中间件为express应用程序添加功能
-
-实例：cookie 解析中间件函数 `cookie-parser`。
-
-安装包
-
-```js
-npm install cookie-parser
-```
-
-引用
-
-```js
-var express = require('express');
-var app = express();
-var cookieParser = require('cookie-parser');
-
-//加载中间件
-app.use(cookieParser)
+lorem.generateWords(1);
+lorem.generateSentences(5);
+lorem.generateParagraphs(7);
 ```
 
 
 
 ### websocket
 
-服务端
+#### WebSocket-Node
 
-安装依赖
+https://github.com/theturtle32/WebSocket-Node
 
-```shell
-npm install socket.io --save
-```
+#### socket.io
 
-代码
+https://github.com/socketio/socket.io?tab=readme-ov-file
 
-```javascript
-let io = require("socket.io")(http);
+#### uWebSockets
 
-io.on("connection",function(socket){
-  console.log("连接成功")
-  socket.emit("new message",{mess:"初识消息"})
-})
-```
+https://github.com/uNetworking/uWebSockets
 
+http://websocketd.com/ websocket 工具
 
+### auth相关
 
-### 第三方登录
+#### basic-auth
 
- 
-
-### 模版引擎
-
-express可以使用模板引擎，使用前先进行设置
-
-views：指定模版引擎所在目录
-
-view engine：指定使用的模版引擎
-
-首先安装需要使用的模版引擎
-
-```js
-npm install pug --save
-```
-
-指定模版引擎
-
-```js
-app.set('view engine', 'pug');
-```
-
-在 `views` 目录中创建名为 `index.pug` 的 Pug 模板文件，
-
-```pug
-html
-  head
-    title= title
-  body
-    h1= message
-
-```
-
-在node中渲染
-
-```js
-app.get('/', function (req, res) {
-  res.render('index', { title: 'Hey', message: 'Hello there!'});
-});
-```
-
-向主页发出请求时，`index.pug` 文件将呈现为 HTML。
-
-### Cors通信
-
-通过使用 Node 的[cors](https://github.com/expressjs/cors) 中间件来允许来自其他源的请求。
-
-使用命令安装*cors*
-
-```shell
-npm install cors
-```
-
-使用中间件并允许来自所有来源的请求:
-
-```javascript
-const cors = require('cors')
-
-app.use(cors())
-```
-
-
-
-### multer
-
-multer是nodejs处理表单的中间件。可以被koa和express使用
+快速验证
 
 安装
 
 ```shell
-$ npm install --save multer
+npm install basic-auth
 ```
 
 使用
 
 ```javascript
-const express = require('express')
-const multer  = require('multer')
-const upload = multer({ dest: 'uploads/' })
+var auth = require('basic-auth')
+var user = auth(req)
+// => { name: 'something', pass: 'whatever' }
 
-const app = express()
+var http = require('http')
+var auth = require('basic-auth')
+var compare = require('tsscmp')
 
-app.post('/profile', upload.single('avatar'), function (req, res, next) {
-  // req.file is the `avatar` file
-  // req.body will hold the text fields, if there were any
-})
+// Create server
+var server = http.createServer(function (req, res) {
+  var credentials = auth(req)
 
-app.post('/photos/upload', upload.array('photos', 12), function (req, res, next) {
-  // req.files is array of `photos` files
-  // req.body will contain the text fields, if there were any
-})
-
-const cpUpload = upload.fields([{ name: 'avatar', maxCount: 1 }, { name: 'gallery', maxCount: 8 }])
-app.post('/cool-profile', cpUpload, function (req, res, next) {
-  // req.files is an object (String -> Array) where fieldname is the key, and the value is array of files
-  //
-  // e.g.
-  //  req.files['avatar'][0] -> File
-  //  req.files['gallery'] -> Array
-  //
-  // req.body will contain the text fields, if there were any
-})
-```
-
-
-
-### Restful API实例
-
-REST即表述性状态传递（英文：Representational State Transfer，简称REST）是Roy Fielding博士在2000年他的博士论文中提出来的一种软件架构风格。
-
-Web service是一个平台独立的，低耦合的，自包含的、基于可编程的web的应用程序，可使用开放的XML（标准通用标记语言下的一个子集）标准来描述、发布、发现、协调和配置这些应用程序，用于开发分布式的互操作的应用程序。
-
-基于 REST 架构的 Web Services 即是 RESTful。
-
-由于轻量级以及通过 HTTP 直接传输数据的特性，Web 服务的 RESTful 方法已经成为最常见的替代方法。可以使用各种语言（比如 Java 程序、Perl、Ruby、Python、PHP 和 Javascript[包括 Ajax]）实现客户端。
-
-为了显示数据，首先准备一个json数据文件
-
-```json
-{
-   "user1" : {
-      "name" : "mahesh",
-      "password" : "password1",
-      "profession" : "teacher",
-      "id": 1
-   },
-   "user2" : {
-      "name" : "suresh",
-      "password" : "password2",
-      "profession" : "librarian",
-      "id": 2
-   },
-   "user3" : {
-      "name" : "ramesh",
-      "password" : "password3",
-      "profession" : "clerk",
-      "id": 3
-   }
-}
-```
-
-基于以上的数据，做不同的api展示不同的数据
-
-|    URI     | HTTP方法 |  请求内容   |       结果       |
-| :--------: | :------: | :---------: | :--------------: |
-| listUsers  |   GET    |     空      | 显示所有用户列表 |
-|    :id     |   GET    |     空      | 显示用户详细信息 |
-|  addUser   |   POST   | JSON 字符串 |    添加新用户    |
-| deleteUser |  DELETE  | JSON 字符串 |     删除用户     |
-
-实例
-
-```javascript
-var express = require('express');
-var app = express();
-var fs = require("fs");
-
-//获取用户列表
-app.get('/listUsers', function (req, res) {
-   fs.readFile( __dirname + "/" + "user.json", 'utf8', function (err, data) {
-       console.log( data );
-       res.end( data );
-   });
-})
-
- //添加用户
- //添加的新用户数据
- var user = {
-    "user4" : {
-       "name" : "mohit",
-       "password" : "password4",
-       "profession" : "teacher",
-       "id": 4
-    }
- }
-
- app.get('/addUser', function (req, res) {
-    // 读取已存在的数据
-    fs.readFile( __dirname + "/" + "user.json", 'utf8', function (err, data) {
-        data = JSON.parse( data );
-        data["user4"] = user["user4"];
-        console.log( data );
-        res.end( JSON.stringify(data));
-    });
- })
-
- //删除用户
- var id = 3;
-
- app.get('/deleteUser', function (req, res) {
- 
-    // First read existing users.
-    fs.readFile( __dirname + "/" + "user.json", 'utf8', function (err, data) {
-        data = JSON.parse( data );
-        delete data["user" + id];
-        
-        console.log( data );
-        res.end( JSON.stringify(data));
-    });
- })
-
-app.get('/:id', function (req, res) {
-    // 首先我们读取已存在的用户
-    fs.readFile( __dirname + "/" + "user.json", 'utf8', function (err, data) {
-        data = JSON.parse( data );
-        var user = data["user" + req.params.id] 
-        console.log( user );
-        res.end( JSON.stringify(user));
-    });
- })
-
-
-var server = app.listen(8081, function () {
-
-  var host = server.address().address
-  var port = server.address().port
-
-  console.log("应用实例，访问地址为 http://%s:%s", host, port)
-
-})
-```
-
-
-
-### Mysql
-
-安装包
-
-```node
-npm install mysql
-```
-
-建立连接
-
-```javascript
-var mysql = require('mysql')
-var connection = mysql.createConnection({
-  host:'localhost',
-  user:'root',
-  password:'',
-  database:'my_db'
-})
-
-connection.connect();
-
-```
-
-增删改查
-
-
-
-
-
-### Mongo数据库
-
-MongoDB的安装教程不在赘述，在官网下载即可
-
-在Mongo的安装目录bin目录下打开CMD窗口，运行
-
-
-
-安装Node的Mongo数据库工具Mongoose
-
-```node
-npm i mongoose
-```
-
-连接代码
-
-```javascript
-const mongoose = require('mongoose');
-mongoose.connect(
-  'mongodb://localhost:27017/test', 
-  {
-    useNewUrlParser: true, 
-    useUnifiedTopology: true
+  // Check credentials
+  // The "check" function will typically be against your user store
+  if (!credentials || !check(credentials.name, credentials.pass)) {
+    res.statusCode = 401
+    res.setHeader('WWW-Authenticate', 'Basic realm="example"')
+    res.end('Access denied')
+  } else {
+    res.end('Access granted')
   }
-);
-
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function() {
-  // we're connected!
-});
-```
-
-创建Schema对象
-
-```javascript
-  //将scheme对象实例化并创建
-  var user = mongoose.Schema;
-  //创建对象
-  var userschema = new user({
-  name:
-  age:
-  length:
 })
-转化为数据模型
-  var blog = mongoose.model('Blog', blogSchema);
+
+// Basic function to validate credentials for example
+function check (name, pass) {
+  var valid = true
+
+  // Simple method to prevent short-circut and use timing-safe compare
+  valid = compare(name, 'john') && valid
+  valid = compare(pass, 'secret') && valid
+
+  return valid
+}
+
+// Listen
+server.listen(3000)
 ```
 
-增删改查,对模型进行操作
-
-```mongo
-blog.insertMany()
-blog.remove()
-blog.update()
-blog.find({ name: 'john', age: { $gte: 18 }});
-```
 
 
-
-### Redis
-
-安装node驱动包
-
-```node
-npm install redis
-```
-
-Redis支持多种数据类型，有键值对、哈希表、链表、集合等
-
-在node中创建redis客户端，运行redis,
-
-```js
-var redis = require('redis')
-
-var client = redis.createClient(6379,'127.0.0.1')
-client.on('error',function(err){
-    console.log('Error'+error)
-})；
-```
-
-创建键值对
-
-```js
-client.set('color','red',redis.print)
-client.get('color',function(err,value){
-    if(err)throw err;
-    console.log('Got:'+value)
-    client.quit();
-})
-```
-
-redis除了键值对，还有散列（哈希）、列表（list）、集合（set)、有序集合（zset）等数据类型，并有对的处理函数
-
-```js
-//对键（key）的操作
-del('key') //删除key
-exists('key') //查询key
-expire/pexpire('key',seconds/milliseconds) //设置key的过期秒数/毫秒数
-persist('key')//移除key的过期时间
-flushdb//清空当前数据库
-
-//对键值对的操作
-set('key','value')//设置键的值
-get('key')//获取键对应的值
-del('key')//删除键对应的值
-增加键对应的值
-incrby('key',increment)
-减去键对应的值
-der('key',increment)
-
-//对列表（队列）的操作
-lrange('key',0,-1)//获取列表内指定范围的值
-lindex('key',1)//获取列表在指定位置的值
-lpop('key')//在列表左边弹出一个值，并返回
-rpop('key')//在列表右边弹出一个值，并返回
-rpush('key','value')//在列表右边推入指定值
-rtrim('key','start','end')//将列表的内容在指定范围裁剪
-
-//对有序集合(zset)的操作
-zadd('zset-key',score,key)//添加元素到集合
-zrange  //获取集合中指定位置的元素
-zrangebyscore  //获取集合中指定范围的元素
-zcard('key')  //获取一个有序集合中成员数量
-zrem //移除有序集合中的成员
-
-//对集合的操作
-smembers('key')//返回集合中包含的所有元素
-scad('key')//返回集合中元素的数量
-sismenber('key','value')//检查元素是否存在于集合中
-smove('source-key','dest-key','item')//一个集合迁移到另一个集合
-srem('key','value')//移除集合中指定元素
-spop('key')//随机删除集合元素，并返回值
-sdiff('key','key2')//返回存在于第一个集合，但不存在于其他集合的元素（差集）
-sdiffstore('dest-key','key','key2')//将存在于第一个集合，但不存在于其他集合的元素存储到指定键
-sinter('key','key2')//返回不同集合的交集部分
-sinterstore('dest-key','key','key2')//将不同集合的交集部分存储到指定键
-sunion('key','key2')//返回不同集合的并集
-sunionstore('dest-key','key','key2')////将不同集合的并集存储到指定键
-
-//对哈希散列的操作
-
-```
-
-### Remult
-
-remult是一个全栈crud框架，可以提供快捷的crud和类型安全。支持express、nestjs、fastify、koa等框架
+#### passportjs
 
 安装
 
 ```shell
-npm install remult
+npm install passport
 ```
 
-remult在服务端以中间件的形式运行
-
-express
+使用
 
 ```javascript
-import express from 'express';
-import { remultExpress } from 'remult/remult-express';
+passport.use(new LocalStrategy(
+  function(username, password, done) {
+    User.findOne({ username: username }, function (err, user) {
+      if (err) { return done(err); }
+      if (!user) { return done(null, false); }
+      if (!user.verifyPassword(password)) { return done(null, false); }
+      return done(null, user);
+    });
+  }
+));
 
-const app = express();
+// session
 
-app.use(remultExpress({ entities: [/* entity types */] }));
-
-app.listen(3000);
-```
-
-fastify
-
-```javascript
-import fastify from 'fastify';
-import { remultFastify } from 'remult/remult-fastify';
-
-(async () => {
-    const server = fastify();
-
-    await server.register(remultFastify({ entities: [/* entity types */] }));
-
-    server.listen({ port: 3000 });
-})();
-```
-
-koa
-
-```javascript
-import * as koa from 'koa';
-import * as bodyParser from 'koa-bodyparser';
-import { createRemultServer } from 'remult/server';
-
-const app = new koa();
-
-app.use(bodyParser());
-
-const api = createRemultServer({ entities: [/* entity types */] });
-
-app.use(async (ctx, next) => {
-    const r = await api.handle(ctx.request);
-    if (r) {
-        ctx.response.body = r.data;
-        ctx.response.status = r.statusCode;
-    } else
-        return await next();
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
 });
 
-app.listen(3000, () => { });
+passport.deserializeUser(function(id, done) {
+  User.findById(id, function (err, user) {
+    done(err, user);
+  });
+});
 ```
 
-客户端使用
+
+
+相关包 https://www.passportjs.org/packages/
+
+passport-ldapauth
+
+安装
+
+```shell
+npm install passport-ldapauth
+```
+
+使用
 
 ```javascript
-import axios from 'axios';
-import { remult } from 'remult';
+var express      = require('express'),
+    passport     = require('passport'),
+    bodyParser   = require('body-parser'),
+    LdapStrategy = require('passport-ldapauth');
 
-remult.apiClient.httpClient = axios;
+var OPTS = {
+  server: {
+    url: 'ldap://localhost:389',
+    bindDN: 'cn=root',
+    bindCredentials: 'secret',
+    searchBase: 'ou=passport-ldapauth',
+    searchFilter: '(uid={{username}})'
+  }
+};
+
+var app = express();
+
+passport.use(new LdapStrategy(OPTS));
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(passport.initialize());
+
+app.post('/login', passport.authenticate('ldapauth', {session: false}), function(req, res) {
+  res.send({status: 'ok'});
+});
+
+app.listen(8080);
 ```
+
+passport-ldapjs
+
+安装
+
+```shell
+npm install passport-ldapjs
+```
+
+使用
+
+```javascript
+var LdapStrategy = require('passport-ldapjs').Strategy;
+
+var opts = {
+  server: {
+    url: 'ldap://0.0.0.0:1389',
+  },
+  base: 'OU=Users,OU=Company,DC=company,DC=com',
+  search: {
+    filter: '(sAMAccountName={{username}})',
+    attributes: ['displayName', 'givenName', 'mail', 'title', 'telephoneNumber', 'physiscalDeliveryOfficeName', 'userPrincipalName', 'sAMAccountName'],
+    scope: 'sub'
+  },
+  uidTag: 'cn',
+  usernameField: 'email',
+  passwordField: 'passwd',
+};
+
+passport.use(new LdapStrategy(opts, function(profile, done) {
+  User.findOne({email: email}, '-salt -password', function(err, user) {
+    if (err) {
+      return done(err);
+    }
+
+    if (user) {
+      return done(null, user);
+    } else {
+      return done('User not found');
+    }
+  });
+}));
+```
+
+
+
+#### ldapjs
+
+node端使用ldap验证
+
+安装
+
+```shell
+npm install ldapjs
+```
+
+使用
+
+```javascript
+var ldap = require('ldapjs');
+
+var server = ldap.createServer();
+
+server.search('dc=example', function(req, res, next) {
+  var obj = {
+    dn: req.dn.toString(),
+    attributes: {
+      objectclass: ['organization', 'top'],
+      o: 'example'
+    }
+  };
+
+  if (req.filter.matches(obj.attributes))
+  res.send(obj);
+
+  res.end();
+});
+
+server.listen(1389, function() {
+  console.log('ldapjs listening at ' + server.url);
+});
+```
+
+### 数据库相关
+
+#### prisma
+
+数据库orm
+
+安装
+
+```shell
+npm install prisma -D
+```
+
+Schema.prisma是prisma主要的配置文件，配置主要分为：
+
+1.DB连接的配置
+
+2.Prisma Client的配置
+
+3.data model的定义
+
+```javascript
+datasource db {
+  provider = "sqlite"
+  url = "file:dev.db"
+}
+
+generator client {
+	provider = "prisma-client-js"
+}
+
+model User {
+  id     Int
+  email  String
+  name   String
+}
+```
+
+生成数据表
+
+```shell
+prisma generate
+```
+
+安装Prisma-client
+
+```shell
+npm install @prisma/client
+```
+
+引入
+
+```javascript
+import { PrismaClient } from '@prisma/client'
+
+const prisma = new PrismaClient()
+
+async function main() {
+  // ... you will write your Prisma Client queries here
+}
+
+main()
+  .then(async () => {
+    await prisma.$disconnect()
+  })
+  .catch(async (e) => {
+    console.error(e)
+    await prisma.$disconnect()
+    process.exit(1)
+  })
+```
+
+增删改查
+
+增加修改upsert
+
+```typescript
+const upsertUser = await prisma.user.upsert({
+  where: {
+    email: 'viola@prisma.io',
+  },
+  update: {
+    name: 'Viola the Magnificent',
+  },
+  create: {
+    email: 'viola@prisma.io',
+    name: 'Viola the Magnificent',
+  },
+})
+```
+
+删
+
+删除单条
+
+```typescript
+const deleteUser = await prisma.user.delete({
+  where: {
+    email: 'bert@prisma.io',
+  },
+})
+```
+
+删除多条
+
+```typescript
+const deleteUsers = await prisma.user.deleteMany({
+  where: {
+    email: {
+      contains: 'prisma.io',
+    },
+  },
+})
+```
+
+删除所有
+
+```typescript
+const deleteUser = await prisma.user.delete({
+  where: {
+    email: 'bert@prisma.io',
+  },
+})
+```
+
+查询单条
+
+```typescript
+const getUser: User | null = await prisma.user.findUnique({
+  where: {
+    id: 22,
+  },
+})
+```
+
+使用select只返回指定字段
+
+```typescript
+// Returns an object or null
+const getUser: object | null = await prisma.user.findUnique({
+  where: {
+    id: 22,
+  },
+  select: {
+    email: true,
+    name: true,
+  },
+})
+```
+
+
+
+##### pulse
+
+类型安全的基于prisma-client的数据流，可以使用发布订阅
+
+https://www.prisma.io/data-platform/pulse
+
+```typescript
+// Subscribe to new events on the `message` table
+const liveQuery = prisma.message.subscribe()
+    
+// Waiting loop that prints new events when something changes in the database
+for await (const event of liveQuery) {
+  console.log(event.action); // 'create', 'update', 'delete'
+}
+
+// Subscribe to new events on the `message` table
+const liveQuery = prisma.message.subscribe({
+  // Return update events where the filter criteria matches the "after" state
+  update: { after: { chatId: 'id'} },
+  // Return all delete change events 
+  delete: { before: {} }
+}); 
+for await (const event of liveQuery) {
+  console.log(event.action); // 'update', 'delete'
+}
+```
+
+##### accelerate
+
+https://www.prisma.io/data-platform/accelerate
+
+#### Sequelize
+
+安装
+
+```shell
+npm i sequelize
+```
+
+手动为所选数据库安装驱动程序
+
+```shell
+# 使用 npm
+npm i pg pg-hstore # PostgreSQL
+npm i mysql2 # MySQL
+npm i mariadb # MariaDB
+npm i sqlite3 # SQLite
+npm i tedious # Microsoft SQL Server
+npm i ibm_db # DB2
+# 使用 yarn
+yarn add pg pg-hstore # PostgreSQL
+yarn add mysql2 # MySQL
+yarn add mariadb # MariaDB
+yarn add sqlite3 # SQLite
+yarn add tedious # Microsoft SQL Server
+yarn add ibm_db # DB2
+```
+
+要连接到数据库,必须创建一个 Sequelize 实例. 这可以通过将连接参数分别传递到 Sequelize 构造函数或通过传递一个连接 URI 来完成
+
+```javascript
+const { Sequelize } = require('sequelize');
+
+// 方法 1: 传递一个连接 URI
+const sequelize = new Sequelize('sqlite::memory:') // Sqlite 示例
+const sequelize = new Sequelize('postgres://user:pass@example.com:5432/dbname') // Postgres 示例
+
+// 方法 2: 分别传递参数 (sqlite)
+const sequelize = new Sequelize({
+  dialect: 'sqlite',
+  storage: 'path/to/database.sqlite'
+});
+
+// 方法 3: 分别传递参数 (其它数据库)
+const sequelize = new Sequelize('database', 'username', 'password', {
+  host: 'localhost',
+  dialect: /* 选择 'mysql' | 'mariadb' | 'postgres' | 'mssql' 其一 */
+});
+```
+
+测试连接
+
+```javascript
+try {
+  await sequelize.authenticate();
+  console.log('Connection has been established successfully.');
+} catch (error) {
+  console.error('Unable to connect to the database:', error);
+}
+```
+
+默认情况下,Sequelize 将保持连接打开状态,并对所有查询使用相同的连接. 如果你需要关闭连接,请调用 `sequelize.close()`(这是异步的并返回一个 Promise)
+
+#### TypeOrm
+
+TypeORM 是一个[ORM](https://en.wikipedia.org/wiki/Object-relational_mapping)框架，它可以运行在 NodeJS、Browser、Cordova、PhoneGap、Ionic、React Native、Expo 和 Electron 平台上，可以与 TypeScript 和 JavaScript (ES5,ES6,ES7,ES8)一起使用。 它的目标是始终支持最新的 JavaScript 特性并提供额外的特性以帮助你开发任何使用数据库的（不管是只有几张表的小型应用还是拥有多数据库的大型企业应用）应用程序。
+
+TypeORM 的一些特性:
+
+- 支持 [DataMapper](https://typeorm.bootcss.com/active-record-data-mapper#what-is-the-data-mapper-pattern) 和 [ActiveRecord](https://typeorm.bootcss.com/active-record-data-mapper#what-is-the-active-record-pattern) (随你选择)
+- 实体和列
+- 数据库特性列类型
+- 实体管理
+- 存储库和自定义存储库
+- 清晰的对象关系模型
+- 关联（关系）
+- 贪婪和延迟关系
+- 单向的，双向的和自引用的关系
+- 支持多重继承模式
+- 级联
+- 索引
+- 事务
+- 迁移和自动迁移
+- 连接池
+- 主从复制
+- 使用多个数据库连接
+- 使用多个数据库类型
+- 跨数据库和跨模式查询
+- 优雅的语法，灵活而强大的 QueryBuilder
+- 左联接和内联接
+- 使用联查查询的适当分页
+- 查询缓存
+- 原始结果流
+- 日志
+- 监听者和订阅者（钩子）
+- 支持闭包表模式
+- 在模型或者分离的配置文件中声明模式
+- json / xml / yml / env 格式的连接配置
+- 支持 MySQL / MariaDB / Postgres / SQLite / Microsoft SQL Server / Oracle / sql.js
+- 支持 MongoDB NoSQL 数据库
+- 可在 NodeJS / 浏览器 / Ionic / Cordova / React Native / Expo / Electron 平台上使用
+- 支持 TypeScript 和 JavaScript
+- 生成高性能、灵活、清晰和可维护的代码
+- 遵循所有可能的最佳实践
+- 命令行工具
+
+安装
+
+```shell
+npm install typeorm reflect-metadata --save
+```
+
+在全局位置导入
+
+```typescript
+import "reflect-metadata";
+```
+
+通过使用 `TypeORM` 你的 `models` 看起来像这样
+
+```typescript
+import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+
+@Entity()
+export class User {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column()
+  firstName: string;
+
+  @Column()
+  lastName: string;
+
+  @Column()
+  age: number;
+}
+```
+
+逻辑操作
+
+```typescript
+const user = new User();
+user.firstName = "Timber";
+user.lastName = "Saw";
+user.age = 25;
+await user.save();
+
+const allUsers = await User.find();
+const firstUser = await User.findOne(1);
+const timber = await User.findOne({ firstName: "Timber", lastName: "Saw" });
+
+await timber.remove();
+```
+
+每个实体都有自己的存储库，可以处理其实体的所有操作。当你经常处理实体时，Repositories 比 EntityManagers 更方便使用
+
+```typescript
+import { createConnection } from "typeorm";
+import { Photo } from "./entity/Photo";
+
+createConnection(/*...*/)
+  .then(async connection => {
+    let photo = new Photo();
+    photo.name = "Me and Bears";
+    photo.description = "I am near polar bears";
+    photo.filename = "photo-with-bears.jpg";
+    photo.views = 1;
+    photo.isPublished = true;
+
+    let photoRepository = connection.getRepository(Photo);
+
+    await photoRepository.save(photo);
+    console.log("Photo has been saved");
+
+    let savedPhotos = await photoRepository.find();
+    console.log("All photos from the db: ", savedPhotos);
+  })
+  .catch(error => console.log(error));
+```
+
+queryBuilder
+
+`QueryBuilder`是 TypeORM 最强大的功能之一 ，它允许你使用优雅便捷的语法构建 SQL 查询，执行并获得自动转换的实体。
+
+```typescript
+const firstUser = await connection
+  .getRepository(User)
+  .createQueryBuilder("user")
+  .where("user.id = :id", { id: 1 })
+  .getOne();
+```
+
+Repository
+
+`Repository`就像`EntityManager`一样，但其操作仅限于具体实体。
+
+你可以通过`getRepository（Entity）`，`Connection＃getRepository`或`EntityManager＃getRepository`访问存储库。
+
+```typescript
+import { getRepository } from "typeorm";
+import { User } from "./entity/User";
+
+const userRepository = getRepository(User); // 你也可以通过getConnection().getRepository()或getManager().getRepository() 获取
+const user = await userRepository.findOne(1);
+user.name = "Umed";
+await userRepository.save(user);
+```
+
+有三种类型的存储库：
+
+- `Repository` - 任何实体的常规存储库。
+- `TreeRepository` - 用于树实体的`Repository`的扩展存储库（比如标有`@ Tree`装饰器的实体）。有特殊的方法来处理树结构。
+- `MongoRepository` - 具有特殊功能的存储库，仅用于 MongoDB。
+
+迁移
+
+
+
+事务
+
+日志
+
+你只需在连接选项中设置`logging：true`即可启用所有查询和错误的记录
+
+```json
+{
+    name: "mysql",
+    type: "mysql",
+    host: "localhost",
+    port: 3306,
+    username: "test",
+    password: "test",
+    database: "test",
+    ...
+    logging: true
+}
+```
+
+TypeORM 附带 4 种不同类型的记录器：
+
+- `advanced-console` - 默认记录器，它将使用颜色和 sql 语法高亮显示所有记录到控制台中的消息（使用[chalk](https://github.com/chalk/chalk)）。
+- `simple-console` - 简单的控制台记录器，与高级记录器完全相同，但它不使用任何颜色突出显示。 如果你不喜欢/或者使用彩色日志有问题，可以使用此记录器。
+- `file` - 这个记录器将所有日志写入项目根文件夹中的`ormlogs.log`（靠近`package.json`和`ormconfig.json`）。
+- `debug` - 此记录器使用[debug package](https://github.com/visionmedia/debug)打开日志记录设置你的 env 变量`DEBUG = typeorm：*`（注意记录选项对此记录器没有影响）。
+
+```json
+{
+    host: "localhost",
+    ...
+    logging: true,
+    logger: "file"
+}
+```
+
+#### Knex
+
+辅助node构建sql语句
+
+安装
+
+```shell
+$ npm install knex --save
+
+# Then add one of the following (adding a --save) flag:
+$ npm install pg
+$ npm install pg-native
+$ npm install sqlite3
+$ npm install better-sqlite3
+$ npm install mysql
+$ npm install mysql2
+$ npm install oracledb
+$ npm install tedious
+```
+
+使用
+
+```javascript
+import { Knex, knex } from 'knex'
+
+knex({ a: 'table', b: 'table' })
+  .select({
+    aTitle: 'a.title',
+    bTitle: 'b.title'
+  })
+  .whereRaw('?? = ??', ['a.column_1', 'b.column_2'])
+
+interface User {
+  id: number;
+  name: string;
+  age: number;
+}
+
+knex('users')
+  .where('id')
+  .first(); // Resolves to any
+
+knex<User>('users') // User is the type of row in database
+  .where('id', 1) // Your IDE will be able to help with the completion of id
+  .first(); // Resolves to User | undefined
+
+
+knex.avg('sum_column1')
+  .from(function() {
+    this.sum('column1 as sum_column1')
+      .from('t1')
+      .groupBy('column1')
+      .as('t1')
+  })
+  .as('ignored_alias')
+```
+
+https://knexjs.org/guide/query-builder.html#select
+
+https://github.com/knex/knex
+
+#### safeql
+
+https://github.com/ts-safeql/safeql
+
+#### kysely
+
+https://github.com/kysely-org/kysely
+
+#### node-postgres
+
+https://github.com/brianc/node-postgres
+
+#### drizzle-orm
+
+https://github.com/drizzle-team/drizzle-orm
+
+
+
+#### slonik
+
+https://github.com/gajus/slonik
+
+stop using knexjs：https://gajus.medium.com/stop-using-knex-js-and-earn-30-bf410349856c
+
+顺便一提，此巨佬有别的文章很好：https://gajus.medium.com/cto-vs-head-of-engineer-8845da32ea67
+
+#### pg-promise
+
+https://github.com/vitaly-t/pg-promise
+
+#### Node-pg-migrate
+
+安装
+
+```shell
+npm install node-pg-migrate pg
+```
+
+在package.json中添加命令
+
+```json
+{
+  "script": {
+		"migrate": "node-pg-migrate"
+  }
+}
+```
+
+然后允许迁移命令，生成迁移文件
+
+```shell
+npm run migrate create my first migration
+```
+
+在`migrations`文件夹下打开`xxx_my-first-migration.js`文件，修改文件
+
+```javascript
+exports.up = (pgm) => {
+  pgm.createTable('users', {
+    id: 'id',
+    name: { type: 'varchar(1000)', notNull: true },
+    createdAt: {
+      type: 'timestamp',
+      notNull: true,
+      default: pgm.func('current_timestamp'),
+    },
+  })
+  pgm.createTable('posts', {
+    id: 'id',
+    userId: {
+      type: 'integer',
+      notNull: true,
+      references: '"users"',
+      onDelete: 'cascade',
+    },
+    body: { type: 'text', notNull: true },
+    createdAt: {
+      type: 'timestamp',
+      notNull: true,
+      default: pgm.func('current_timestamp'),
+    },
+  })
+  pgm.createIndex('posts', 'userId')
+}
+```
+
+配置DATABASE_URL环境变量
+
+`DATABASE_URL=postgres://test:test@localhost:5432/test`
+
+运行迁移命令
+
+```shell
+npm run migrate up
+```
+
+
+
+https://github.com/jawj/zapatos
+
+https://github.com/adelsz/pgtyped
+
+#### stripe
+
+发布订阅
+
+https://github.com/stripe/stripe-node
+
+
+
+
 
 
 

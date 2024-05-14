@@ -883,6 +883,14 @@ props, state 和 context 可以被传递给 render()；
 
 
 
+## million
+
+https://github.com/aidenybai/million 
+
+可以替换react的viturl dom框架
+
+
+
 ## 测试框架
 
 

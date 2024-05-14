@@ -12,11 +12,35 @@ Javascript第七篇，NodeJs第一篇，注重Node后端开发。
 
 <!--more-->
 
+## Node做为后端服务的优点
+
+优点：
+
+1.前后端编程环境统一，开发周期短，成本低，
+
+2.Node 底层异步 IO，性能比较好
+
+3.Node 超强的高并发能力
+
+缺点：
+
+1.不适用于 CPU 密集型工具，比如数据加密、解密，数据压缩和解压。事实上，大部分网站的服务端都不会做太多的计算，他们收到请求后，把请求交给其他服务，比如RPC(用来读取数据库)然后等待结果返回。Nodejs采用单线程模型，他不会为每一个请求分配一个线程，而是用一个主线程请求所有请求，对于I/O操作采用异步处理，因此避开了创建】销毁线程和在线程中切换所需的开销和复杂性。eggjs中有Egg-cluster用来处理多进场，但还是比较麻烦
+
+2.分布式应用基础不完善
+
+3.可靠性低
+
+4.node内存限制
+
+https://blog.csdn.net/lizhou828/article/details/132009214
+
+
+
 ## 初始化Node文件夹
 
 初始化文件夹
 
-```node
+```shell
 npm init -y
 ```
 
@@ -26,7 +50,7 @@ npm init -y
 
 安装nodemon
 
-```node
+```shell
 npm i -g nodemon
 npm run serve  //运行服务器
 ```
@@ -302,6 +326,34 @@ __dirname // 获取当前执行文件所在目录的完整目录名
 __filename // 获取当前执行文件的带有完整绝对路径的文件名
 process.cwd()  //获取当前执行node命令时的文件夹目录名
 ./    //文件所在目录
+```
+
+
+
+## url
+
+node核心包，是 NodeJS 的核心模块之一，用于解析 url 字符串和 url 对象
+
+`url.parse(url_str[,boolean])` 用于将 `url字符串`转为`对象格式`。该方法有两个参数，第一个参数为 url 字符串，第二个为布尔值，可以不写，表示是否也将 `query` 转为对象
+
+url.format () 用于将 url 对象转为字符串
+
+```javascript
+var obj1 = url.parse(url_str,true)
+    console.log(obj1)
+    // Url {
+    //   protocol: 'http:',
+    //   slashes: true,
+    //   auth: null,
+    //   host: 'localhost:3000',
+    //   port: '3000',
+    //   hostname: 'localhost',
+    //   hash: '#aaa',
+    //   search: '?a=1&b=2&c=3',
+    //   query: { a: '1', b: '2', c: '3' },
+    //   pathname: '/html/index.html',
+    //   path: '/html/index.html?a=1&b=2&c=3',
+    //   href: 'http://localhost:3000/html/index.html?a=1&b=2&c=3#aaa' }
 ```
 
 

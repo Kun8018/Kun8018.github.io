@@ -115,6 +115,8 @@ https://mp.weixin.qq.com/s/IMgHzeDXIbxMsVomnqx7AQ
 
 ### hook的使用规则
 
+https://medium.com/@ryardley/react-hooks-not-magic-just-arrays-cd4f1857236e
+
 hook有以下使用规则：
 
 1. 不要在循环，条件或嵌套函数中调用 Hook

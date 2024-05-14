@@ -16,6 +16,14 @@ thumbnail: https://cdn.kunkunzhang.top/vue3.png
 
 clipboard-polyfill xgplayer qrcode
 
+### vue-i18n-next
+
+https://github.com/intlify/vue-i18n-next
+
+Vue i18n解决方案
+
+
+
 ### 拖动组件
 
 vue-draggable-resizable-gorkys
@@ -986,3 +994,8 @@ new Vue({
 </div>
 ```
 
+
+
+### vue-pure-admin
+
+https://github.com/pure-admin/vue-pure-admin

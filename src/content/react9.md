@@ -190,68 +190,7 @@ Linter命令处理由glob模式定义的所有暂存文件的子集
 1. `"./*.js"`将匹配git repo根目录中的所有JS文件，因此`/test.js`但不匹配`/foo/bar/test.js``
 2. ``"foo/**/\*.js"`将匹配`/foo`目录中的所有JS文件，所以`/foo/bar/test.js`但不匹配`/test.js`
 
-## JSdoc
 
-JSDoc 是一个针对 JavaScript 的 API 文档生成器，类似于 Java 中的 Javadoc 或者 PHP 中的 phpDocumentor；在源代码中添加指定格式的注释，JSDoc 工具便会自动扫描你的代码并生成一个 API 文档网站（在指定目录下生成相关的网页文件）
-
-生成 API 文档只是一方面，其更主要的贡献在于对代码注释格式进行了规范化
-
-安装
-
-```shell
-npm install -g jsdoc
-```
-
-在js文件中写入对应的函数和注释
-
-```javascript
-/**
- * Returns the sum of a and b
- * @param {number} a
- * @param {number} b
- * @returns {number}
- */
-function sum(a, b) {
-    return a + b;
-}
-/**
- * Return the diff fo a and b
- * @param {number} a
- * @param {number} b
- * @returns {number}
- */
-function diff(a, b) {
-    return a - b;
-}
-```
-
-然后就是在当前目录执行以下命令
-
-```shell
-jsdoc doc.js
-```
-
-最后就会在当前目录下生成一个名为 `out` 的目录（也可以另外指定），里面有包含接口文档的html页面
-
-常用写法：
-
-@description：也可写作 `@desc`，描述当前注释对象的详细信息
-
-@file：注释写在文件开头，用于描述当前文件的相关信息
-
-@class 描述一个 `class` 类
-
-@returns 或者写作 `@return`，描述函数的返回值的信息；
-
-@param 与 `@arg`, `@argument` 含义相同，描述一个函数的参数信息；
-
-@function 与 `@func`, `@method` 含义相同，描述一个函数；
-
-@todo 描述接下来准备做的事情；
-
-@copyright 描述当前文件的版权相关信息
-
-@file 注释写在文件开头，用于描述当前文件的相关信息
 
 ## react的Ts写法
 
@@ -1364,6 +1303,22 @@ const list = [{
 <Draggable list={list}/>
 ```
 
+#### button disabled之后再button上加tooltip，mouse leave失效
+
+相关issue：https://github.com/react-component/tooltip/issues/18
+
+workaround方式
+
+```react
+<Tooltip title="Tooltip Title">
+  <span style={{ cursor: disabled ? 'not-allowed' : 'pointer' }}>
+    <button disabled={disabled} style={{ pointerEvents: 'none' }}>
+      button text
+    </button>
+  </span>
+</Tooltip>
+```
+
 
 
 ### XRender
@@ -1537,6 +1492,55 @@ function App() {
   )
 }
 ```
+
+### alovajs
+
+请求库，支持vue、react
+
+安装
+
+```shell
+npm install alova --save
+```
+
+使用
+
+```react
+import { createAlova, useRequest } from 'alova';
+import GlobalFetch from 'alova/GlobalFetch';
+import ReactHook from 'alova/react';
+
+// 1. 创建alova实例
+const alovaInstance = createAlova({
+  // ReactHook用于创建ref状态，包括请求状态loading、响应数据data、请求错误对象error等
+  statesHook: ReactHook,
+
+  // 请求适配器，推荐使用fetch请求适配器
+  requestAdapter: GlobalFetch(),
+
+  // 全局的响应拦截器
+  responded: response => response.json()
+});
+
+const App = () => {
+  // 2. 使用alova实例创建method并传给useRequest即可发送请求
+  const { loading, data, error } = useRequest(
+    alovaInstance.Get('https://jsonplaceholder.typicode.com/todos/1')
+  );
+
+  if (loading) {
+    return <div>Loading...</div>;
+  } else if (error) {
+    return <div>{error.message}</div>;
+  }
+  return (
+    <span>responseData: {JSON.stringify(data)}</span>
+  );
+};
+export default App;
+```
+
+
 
 ### h5ds
 

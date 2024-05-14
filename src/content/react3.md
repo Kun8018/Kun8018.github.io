@@ -51,7 +51,7 @@ const Funcomponent = () =>{
 const MemoFuncComponent = React.memo(Funcomponent)
 ```
 
-React.memo返回英国纯组件MemoFuncComponent，jsx中将标记次组件，每当组件的props和state发生变化时，react会检查上一个props和state与下一个pros和state是否相等，不相等重新渲染，相等则不会重新渲染
+React.memo返回纯组件MemoFuncComponent，jsx中将标记次组件，每当组件的props和state发生变化时，react会检查上一个props和state与下一个pros和state是否相等，不相等重新渲染，相等则不会重新渲染
 
 React.memo可以传递第二个参数，自定义比较函数，返回false时更新
 
@@ -106,6 +106,10 @@ Https://juejin.cn/post/6844903985338400782
 
 Hook是react16.8新增的特性，可以在不编写class 的情况下使用state和其他react特性，reactnative从0.59版本开始支持hook。
 
+### react 16
+
+https://juejin.cn/post/6844903498299998222
+
 ### hook出现的原因以及解决的问题
 
 Class component 劣势
@@ -121,6 +125,8 @@ react内置的hook有以下
 基础hook：useState、useEffect、useContext
 
 额外的hook：useReducer、useCallback、useMemo、useRef、useLayoutEffect、useDebugValue、useImperativeHandle
+
+
 
 ### 函数式组件与class组件对比
 
@@ -344,6 +350,40 @@ const FC = (initContent) => {
 
 
 
+#### batchUpdates()
+
+手动批量更新
+
+hook中的useState和this.setState已经做了批量更新了
+
+但是 批量更新在某些情况下会失效，造成多次渲染 ，例如 setTimeout,Promise.then (fn), fetch 回调，xhr 网络回调等，如下例子会渲染 3 次
+
+为了避免此类情况发生，我们需要引入 unstable_batchedUpdates 进行手动合并，如下
+
+```react
+handerClick=()=>{
+    setTimeout(() => {
+        unstable_batchedUpdates(()=>{
+            this.setState({ a:a+1 })
+            this.setState({ b:b+1 })
+            this.setState({ c:c+1 })
+        })
+    }, 0)
+}
+
+ const handerClick = () => {
+    Promise.resolve().then(()=>{
+        unstable_batchedUpdates(()=>{
+            setB( { ...b } ) 
+            setC( c+1 ) 
+            setA( a+1 )
+        })
+    })
+}
+```
+
+
+
 ### useEffect和useLayoutEffect
 
 对于class中的生命周期函数，为了能在函数组件中使用类似功能，使用useEffect方法，它相当于componentDidMount、componentDidupdate、componentWillUnmount三个函数的组合
@@ -425,7 +465,7 @@ useEffect(()=>{
 
 区别：
 
-1.`useEffect` 是异步执行的，而`useLayoutEffect`是同步执行的。`useLayoutEffect`会阻塞paint流程，而`useEffect`不会阻塞paint流程。`useLayoutEffect` callback 里面的「状态更新是批量」， 而 `useLayEffect` callback 里面的「状态更新是非批量的」（也就是说，会分配到不同的渲染帧里面）。
+1.`useEffect` 是异步执行的，而`useLayoutEffect`是同步执行的。`useLayoutEffect`会阻塞paint流程，而`useEffect`不会阻塞paint流程。`useLayoutEffect` callback 里面的「状态更新是批量」， 而 `useLayou tEffect` callback 里面的「状态更新是非批量的」（也就是说，会分配到不同的渲染帧里面）。
 
 如果`useLayoutEffect`的callback函数里面对状态请求了多次更新，那么这些更新请求会合并成一个 paint 请求，浏览器更新一次 UI 界面；同样的情况如果发生在`useEffect`的callback函数里面，那么更新请求不会被合并，有多少次状态更新请求，就会有多少次 paint 请求， 浏览
 
@@ -1366,7 +1406,7 @@ const Comp = () => {
 
 ```react
 useSomething = (inputCount) => {
-    const [ count, setCount ] = setState(inputCount);
+    const [count, setCount] = setState(inputCount);
 };
 ```
 

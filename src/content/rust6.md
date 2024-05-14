@@ -44,6 +44,14 @@ Yay, all your tests passed!
 
 https://github.com/casey/just
 
+## 实现命令行
+
+
+
+https://suibianxiedianer.github.io/rust-cli-book-zh_CN/tutorial/cli-args_zh.html
+
+
+
 ## Typeshare
 
 支持在其他语言中无缝接入Rust中的类型, 支持语言包括typescript、kotlin、swift、scala、go
@@ -90,3 +98,86 @@ export type MyEnum =
     | { type: "MyNumber", content: number };
 ```
 
+## webAssembly
+
+### exitsm
+
+webAssembly构建工具
+
+https://github.com/extism/extism
+
+## firecracker
+
+https://github.com/firecracker-microvm/firecracker
+
+
+
+## trustfall
+
+查询
+
+https://github.com/obi1kenobi/trustfall
+
+
+
+## delta
+
+diff高亮
+
+https://github.com/dandavison/delta
+
+
+
+## ast-grep
+
+https://github.com/ast-grep/ast-grep
+
+## 模版引擎
+
+### lol-html
+
+https://github.com/cloudflare/lol-html
+
+使用
+
+```rust
+use lol_html::{element, HtmlRewriter, Settings};
+
+fn main() -> Result<(), Box<dyn std::error::Error>> {
+    let mut output = vec![];
+
+    let mut rewriter = HtmlRewriter::new(
+        Settings {
+            element_content_handlers: vec![
+                element!("a[href]", |el| {
+                    let href = el
+                        .get_attribute("href")
+                        .expect("href was required")
+                        .replace("http:", "https:");
+
+                    el.set_attribute("href", &href)?;
+
+                    Ok(())
+                })
+            ],
+            ..Settings::default()
+        },
+        |c: &[u8]| output.extend_from_slice(c)
+    );
+
+    rewriter.write(b"<div><a href=")?;
+    rewriter.write(b"http://example.com>")?;
+    rewriter.write(b"</a></div>")?;
+    rewriter.end()?;
+
+    assert_eq!(
+        String::from_utf8(output)?,
+        r#"<div><a href="https://example.com"></a></div>"#
+    );
+    Ok(())
+}
+```
+
+### maud
+
+https://maud.lambda.xyz/getting-started.html

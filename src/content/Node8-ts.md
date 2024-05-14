@@ -1224,3 +1224,6 @@ Utility.error('maybe');
 
 
 
+## playground
+
+https://www.typescriptlang.org/play

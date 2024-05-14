@@ -772,7 +772,27 @@ git ci -m "commit message"
 git log --follow -p 想要查看的文件
 ```
 
+git mv 命令用于移动或重命名一个文件、目录或软连接
 
+```
+git mv [file] [newfile]
+```
+
+如果新文件名已经存在，但还是要重命名它，可以使用 **-f** 参数
+
+```
+git mv -f [file] [newfile]
+```
+
+撤销amend
+
+如果只amend了一次，直接使用`git reset HEAD@{1}`
+
+ amend 多次，就参考 `git reflog` 进行撤销
+
+```shell
+git reset --soft HEAD@{1}
+```
 
 ## worktree
 

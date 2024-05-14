@@ -1802,6 +1802,23 @@ class MyComponent extends React.Component {
 
 
 
+### @loadable/component
+
+[Loadable Components](https://link.juejin.cn/?target=)是一个高阶组件，允许您将代码拆分为较小的块，并按需加载它们，就像React Lazy一样。使用Loadable Components，您可以指定在代码块加载时显示的加载组件
+
+```react
+import React from 'react';
+import loadable from '@loadable/component';
+
+const HomePage = loadable(() => import('./HomePage'), {
+  fallback: <div>Loading...</div>,
+});
+
+const App = () => <HomePage />;
+```
+
+
+
 ### react-imported-component
 
 懒加载组件，相似组件有React.lazy react-loadable @loadable/component
@@ -1873,3 +1890,24 @@ const MyCalendarComponent = () => {
 }
 ```
 
+### 动态导入
+
+动态导入允许将代码分割成较小块并按需加载，而不是一次性加载所有内容。使用动态导入，您可以确保只加载特定功能所需的代码，从而实现较小的初始JavaScript包和更好的性能
+
+```react
+import React, { useState, useEffect } from 'react';
+
+const HomePage = () => {
+  const [module, setModule] = useState(null);
+
+  useEffect(() => {
+    import('./HomePageWidget').then((mod) => setModule(mod.default));
+  }, []);
+
+  return module ? <module /> : <div>Loading...</div>;
+};
+```
+
+### 动态块
+
+https://juejin.cn/post/7246686667749670971

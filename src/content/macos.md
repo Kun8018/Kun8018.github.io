@@ -321,6 +321,18 @@ Iterm快捷键
 
 
 
+#### ZenTermLite
+
+
+
+#### Starship
+
+命令行提示工具
+
+https://github.com/starship/starship
+
+
+
 #### nushell
 
 
@@ -334,6 +346,281 @@ Iterm快捷键
 
 
 #### fishshell
+
+
+
+#### wezterm
+
+[wezterm](https://wezfurlong.org/wezterm/) 是 [@wez](https://github.com/wez/) 利用 [Rust](https://www.rust-lang.org/) 开发的一款终端模拟器。和 [microsoft/terminal](https://github.com/microsoft/terminal) 还有 `ITerm` 类似.
+
+支持的[特性](https://wezfurlong.org/wezterm/features.html)也特别多，比较有特色的是可以通过 `lua` 来配置或者增加一些特性。比方把 `~/.ssh/config` 中的 host 直插入到 `wezterm` 中的 `launch_menu` , 在打开 `launch_menu` 的时候可以通过 `/` 来查找
+
+在快捷键支持这块有一个 `leader key` 的设定类似 `vim` 或者 `emacs` 里面的快捷键配置.
+
+安装
+
+```shell
+brew install --verbose --debug --cask  wez/wezterm/wezterm
+```
+
+下面是鼓捣出来一个配置，如果有兴趣尝试的话可以试试看。把这个配置放到 `~/.config/wezterm/wezterm.lua` 就可以了
+
+```lua
+local function basename(s)
+	return string.gsub(s, "(.*[/\\])(.*)", "%2")
+  end
+local wezterm = require "wezterm"
+local SOLID_LEFT_ARROW = utf8.char(0xe0ba)
+local SOLID_LEFT_MOST = utf8.char(0x2588)
+local SOLID_RIGHT_ARROW = utf8.char(0xe0bc)
+
+local ADMIN_ICON = utf8.char(0xf49c)
+
+local CMD_ICON = utf8.char(0xe62a)
+local NU_ICON = utf8.char(0xe7a8)
+local PS_ICON = utf8.char(0xe70f)
+local ELV_ICON = utf8.char(0xfc6f)
+local WSL_ICON = utf8.char(0xf83c)
+local YORI_ICON = utf8.char(0xf1d4)
+local NYA_ICON = utf8.char(0xf61a)
+
+local VIM_ICON = utf8.char(0xe62b)
+local PAGER_ICON = utf8.char(0xf718)
+local FUZZY_ICON = utf8.char(0xf0b0)
+local HOURGLASS_ICON = utf8.char(0xf252)
+local SUNGLASS_ICON = utf8.char(0xf9df)
+
+local PYTHON_ICON = utf8.char(0xf820)
+local NODE_ICON = utf8.char(0xe74e)
+local DENO_ICON = utf8.char(0xe628)
+local LAMBDA_ICON = utf8.char(0xfb26)
+
+local SUP_IDX = {"¹","²","³","⁴","⁵","⁶","⁷","⁸","⁹","¹⁰",
+				 "¹¹","¹²","¹³","¹⁴","¹⁵","¹⁶","¹⁷","¹⁸","¹⁹","²⁰"}
+local SUB_IDX = {"₁","₂","₃","₄","₅","₆","₇","₈","₉","₁₀",
+				 "₁₁","₁₂","₁₃","₁₄","₁₅","₁₆","₁₇","₁₈","₁₉","₂₀"}
+
+local launch_menu = {}
+
+local ssh_cmd = {"ssh"}
+if wezterm.target_triple == "x86_64-pc-windows-msvc" then
+	ssh_cmd = {"powershell.exe", "ssh"}
+
+	table.insert(
+		launch_menu,
+		{
+			label = "PowerShell Core",
+			args = {"pwsh.exe", "-NoLogo"}
+		}
+	)
+
+	table.insert(
+		launch_menu,
+			{
+				label = "NyaGOS",
+				args = {"nyagos.exe", "--glob"},
+			}
+
+	)
+
+end
+
+local ssh_config_file = wezterm.home_dir .. "/.ssh/config"
+local f = io.open(ssh_config_file)
+if f then
+	local line = f:read("*l")
+	while line do
+		if line:find("Host ") == 1 then
+			local host = line:gsub("Host ", "")
+			table.insert(
+				launch_menu,
+				{
+					label = "SSH " .. host,
+					args = {"ssh", host}
+				}
+			)
+		end
+		line = f:read("*l")
+	end
+	f:close()
+end
+
+local mouse_bindings = {
+	{
+		event = {Down = {streak = 1, button = "Right"}},
+		mods = "NONE",
+		action = wezterm.action {PasteFrom = "Clipboard"}
+	},
+	-- Change the default click behavior so that it only selects
+	-- text and doesn't open hyperlinks
+	{
+		event = {Up = {streak = 1, button = "Left"}},
+		mods = "NONE",
+		action = wezterm.action {CompleteSelection = "PrimarySelection"}
+	},
+	-- and make CTRL-Click open hyperlinks
+	{
+		event = {Up = {streak = 1, button = "Left"}},
+		mods = "CTRL",
+		action = "OpenLinkAtMouseCursor"
+	}
+
+}
+
+
+
+wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
+  local edge_background = "#121212"
+  local background = "#4E4E4E"
+  local foreground = "#1C1B19"
+  local dim_foreground = "#3A3A3A"
+
+  if tab.is_active then
+	background = "#FBB829"
+	foreground = "#1C1B19"
+  elseif hover then
+	background = "#FF8700"
+	foreground = "#1C1B19"
+  end
+
+  local edge_foreground = background
+  local process_name = tab.active_pane.foreground_process_name
+  local pane_title = tab.active_pane.title
+  local exec_name = basename(process_name):gsub("%.exe$", "")
+  local title_with_icon
+
+  if exec_name == "nu" then
+	title_with_icon = NU_ICON .. " NuShell"
+  elseif exec_name == "pwsh" then
+	title_with_icon = PS_ICON .. " PS"
+  elseif exec_name == "cmd" then
+	title_with_icon = CMD_ICON .. " CMD"
+  elseif exec_name == "elvish" then
+	title_with_icon = ELV_ICON .. " Elvish"
+  elseif exec_name == "wsl" or exec_name == "wslhost" then
+	title_with_icon = WSL_ICON .. " WSL"
+  elseif exec_name == "nyagos" then
+	title_with_icon = NYA_ICON .. " " .. pane_title:gsub(".*: (.+) %- .+", "%1")
+  elseif exec_name == "yori" then
+	title_with_icon = YORI_ICON .. " " .. pane_title:gsub(" %- Yori", "")
+  elseif exec_name == "nvim" then
+	title_with_icon = VIM_ICON .. pane_title:gsub("^(%S+)%s+(%d+/%d+) %- nvim", " %2 %1")
+  elseif exec_name == "bat" or exec_name == "less" or exec_name == "moar" then
+	title_with_icon = PAGER_ICON .. " " .. exec_name:upper()
+  elseif exec_name == "fzf" or exec_name == "hs" or exec_name == "peco" then
+	title_with_icon = FUZZY_ICON .. " " .. exec_name:upper()
+  elseif exec_name == "btm" or exec_name == "ntop" then
+	title_with_icon = SUNGLASS_ICON .. " " .. exec_name:upper()
+  elseif exec_name == "python" or exec_name == "hiss" then
+	title_with_icon = PYTHON_ICON .. " " .. exec_name
+  elseif exec_name == "node" then
+	title_with_icon = NODE_ICON .. " " .. exec_name:upper()
+  elseif exec_name == "deno" then
+	title_with_icon = DENO_ICON .. " " .. exec_name:upper()
+  elseif exec_name == "bb" or exec_name == "cmd-clj" or exec_name == "janet" or exec_name == "hy" then
+	title_with_icon = LAMBDA_ICON .. " " .. exec_name:gsub("bb", "Babashka"):gsub("cmd%-clj", "Clojure")
+  else
+	title_with_icon = HOURGLASS_ICON .. " " .. exec_name
+  end
+  if pane_title:match("^Administrator: ") then
+	title_with_icon = title_with_icon .. " " .. ADMIN_ICON
+  end
+  local left_arrow = SOLID_LEFT_ARROW
+  if tab.tab_index == 0 then
+	left_arrow = SOLID_LEFT_MOST
+  end
+  local id = SUB_IDX[tab.tab_index+1]
+  local pid = SUP_IDX[tab.active_pane.pane_index+1]
+  local title = " " .. wezterm.truncate_right(title_with_icon, max_width-6) .. " "
+
+  return {
+	{Attribute={Intensity="Bold"}},
+	{Background={Color=edge_background}},
+	{Foreground={Color=edge_foreground}},
+	{Text=left_arrow},
+	{Background={Color=background}},
+	{Foreground={Color=foreground}},
+	{Text=id},
+	{Text=title},
+	{Foreground={Color=dim_foreground}},
+	{Text=pid},
+	{Background={Color=edge_background}},
+	{Foreground={Color=edge_foreground}},
+	{Text=SOLID_RIGHT_ARROW},
+	{Attribute={Intensity="Normal"}},
+  }
+end)
+
+wezterm.on(
+	"update-right-status",
+	function(window)
+		local date = wezterm.strftime("%Y-%m-%d %H:%M:%S ")
+		window:set_right_status(
+			wezterm.format(
+				{
+					{Text = date}
+				}
+			)
+		)
+	end
+)
+
+local default_prog = {"pwsh.exe"}
+
+return {
+	set_environment_variables = {
+		PATH = wezterm.executable_dir .. ";" .. os.getenv("PATH"),
+	 },
+	window_frame = window_frame, -- needed only if using fancy tab
+	window_background_opacity = 0.8,
+	launch_menu = launch_menu,
+	mouse_bindings = mouse_bindings,
+	disable_default_key_bindings = true,
+	default_prog = default_prog,
+	font = wezterm.font("Fira Code"),
+  colors = {
+	  tab_bar = {
+		  background = TAB_BAR_BG,
+	  },
+  },
+	  text_background_opacity = 0.95,
+
+	leader = { key="x", mods = "CTRL"},
+	  keys = {
+		{ key = "`", mods = "LEADER|CTRL",  action=wezterm.action{SendString="`"}},
+		{ key = "v", mods = "CTRL",  action=wezterm.action{PasteFrom = "Clipboard"}},
+		{ key = "-", mods = "LEADER",       action=wezterm.action{SplitVertical={domain="CurrentPaneDomain"}}},
+		{ key = "\\",mods = "LEADER",       action=wezterm.action{SplitHorizontal={domain="CurrentPaneDomain"}}},
+		{ key = "c", mods = "LEADER",       action=wezterm.action{SpawnTab="CurrentPaneDomain"}},
+		{key="h",mods = "LEADER", action=wezterm.action{ActivatePaneDirection="Left"}},
+		{key="j", mods = "LEADER",action=wezterm.action{ActivatePaneDirection="Up"}},
+		{key="k", mods = "LEADER",action=wezterm.action{ActivatePaneDirection="Down"}},
+		{key="l", mods = "LEADER",action=wezterm.action{ActivatePaneDirection="Right"}},
+		{key = ",", mods = "LEADER", action = "ShowLauncher"},
+		{key = "b", mods = "LEADER", action = "ShowTabNavigator"},
+		{ key = "f", mods = "LEADER", action = "QuickSelect" },
+		{ key = "\t", mods = "LEADER",       action="ActivateLastTab"},
+		{ key = "1", mods = "LEADER",       action=wezterm.action{ActivateTab=0}},
+		{ key = "2", mods = "LEADER",       action=wezterm.action{ActivateTab=1}},
+		{ key = "3", mods = "LEADER",       action=wezterm.action{ActivateTab=2}},
+		{ key = "4", mods = "LEADER",       action=wezterm.action{ActivateTab=3}},
+		{ key = "5", mods = "LEADER",       action=wezterm.action{ActivateTab=4}},
+		{ key = "6", mods = "LEADER",       action=wezterm.action{ActivateTab=5}},
+		{ key = "7", mods = "LEADER",       action=wezterm.action{ActivateTab=6}},
+		{ key = "8", mods = "LEADER",       action=wezterm.action{ActivateTab=7}},
+		{ key = "9", mods = "LEADER",       action=wezterm.action{ActivateTab=8}},
+		-- { key = "l", mods = "LEADER",       action=wezterm.action{EmitEvent="toggle-ligature"}},
+		{ key = "n", mods = "LEADER",       action=wezterm.action{ActivateTabRelative=1}},
+		{ key = "p", mods = "LEADER",       action=wezterm.action{ActivateTabRelative=-1}},
+		{ key = "&", mods = "LEADER|SHIFT", action=wezterm.action{CloseCurrentTab={confirm=true}}},
+		{ key = "x", mods = "LEADER",       action=wezterm.action{CloseCurrentPane={confirm=true}}},
+		{ key = "w", mods = "ALT", action = wezterm.action({ CopyTo = "Clipboard" }) },
+		{ key = "y", mods = "CTRL", action = wezterm.action({ PasteFrom = "Clipboard" }) },
+		{ key = "Tab", mods = "LEADER", action = wezterm.action({ ActivateTabRelative = 1 }) },
+   },
+
+}
+```
 
 
 
@@ -441,6 +728,54 @@ processes:
     restart: "always"
 ```
 
+#### neofetch
+
+能够获取当前的操作系统、环境信息、内存、CPU等信息
+
+macos安装
+
+```shell
+brew install neofetch
+```
+
+https://github.com/dylanaraps/neofetch/wiki/Installation
+
+
+
+#### sdkman
+
+包管理软件，类似于brew包管理
+
+https://sdkman.io/
+
+安装
+
+```shell
+curl -s "https://get.sdkman.io" | bash
+```
+
+
+
+#### teaxyz
+
+https://github.com/teaxyz/cli
+
+
+
+#### orbstack
+
+好用的镜像管理软件，替代docker desktop
+
+https://orbstack.dev/
+
+
+
+#### sshx
+
+https://github.com/ekzhang/sshx
+
+
+
 #### 汇总
 
 https://v2ex.com/t/862138#reply123
@@ -457,6 +792,18 @@ https://v2ex.com/t/862138#reply123
 
 
 
+#### tailspin
+
+日志查看工具
+
+https://github.com/bensadeh/tailspin
+
+#### wave
+
+多ssh连接管理工具
+
+https://www.waveterm.dev/download
+
 
 
 ### 翻译软件
@@ -469,7 +816,33 @@ https://github.com/ripperhe/Bob
 
 
 
+### 键盘管理
+
+#### Karabiner-Elements
+
+https://github.com/pqrs-org/Karabiner-Elements
+
+
+
 ### SwitchHosts
+
+
+
+### 浏览器控制
+
+#### choosy
+
+https://choosy.app/download/2.3.1
+
+#### browserosaurus
+
+https://browserosaurus.com/
+
+
+
+#### finicky
+
+https://github.com/johnste/finicky
 
 
 
@@ -498,6 +871,8 @@ Obsidian笔记的最大特色是采用一想法、一笔记的概念，可将每
 使用方法： https://medium.com/pm%E7%9A%84%E7%94%9F%E7%94%A2%E5%8A%9B%E5%B7%A5%E5%85%B7%E7%AE%B1/obsidian-%E4%BD%BF%E7%94%A8%E6%95%99%E5%AD%B8-%E7%B8%BD%E7%9B%AE%E9%8C%84-%E6%8C%81%E7%BA%8C%E6%9B%B4%E6%96%B0%E4%B8%AD-2d23dce3ef02
 
 介绍： https://vocus.cc/article/623d7411fd8978000174880b
+
+https://publish.obsidian.md/chinesehelp/01+2021%E6%96%B0%E6%95%99%E7%A8%8B/Vale%EF%BC%88%E8%AF%AD%E6%B3%95%E6%A3%80%E6%9F%A5%E6%8F%92%E4%BB%B6%EF%BC%89
 
 ### marta
 

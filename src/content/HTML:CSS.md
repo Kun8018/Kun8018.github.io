@@ -669,7 +669,7 @@ sitemap.xml是站点地图，百利而无一害，提交站点地图可以加速
 
 ### css为什么在body头部，js在末尾
 
-将css放在头部可以增加页面的性能。
+**加载顺序**
 
 CSS放头部，在加载html生成DOM tree的时候，就可以同时对DOM tree进行渲染。这样可以防止闪跳，白屏或者布局混乱。
 
@@ -866,6 +866,12 @@ customElements.define('user-card', class extends HTMLElement {
 然后浏览器执行”组合“：它从 light DOM 中获取元素并且渲染到 shadow DOM 中的对应插槽中。最后，正是我们想要的 —— 一个能被填充数据的通用组件。
 
 https://zh.javascript.info/slots-composition
+
+#### shadow dom的好处
+
+
+
+
 
 ### canvas绘图
 

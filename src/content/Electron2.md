@@ -642,3 +642,19 @@ pake和Nativefier类似，也是将web打包成mac app的技术，使用rust和t
 3. `npm run dev` 本地调试看看效果，此外可以打开 `main.rs` 中 devtools 两处注释（搜索 `_devtools`）进行容器调试，假如你不好适配沉浸式头部，可以将 `.with_titlebar_transparent(true)` 注释掉就好
 4. `npm run build` 运行即可打包，假如有打开 devtools 模式，记得注释掉
 
+
+
+## opensumi
+
+OpenSumi 定位是一款 `IDE 框架` ，基于 OpenSumi 你可以搭建出 Cloud 或 Desktop 端的 IDE 产品。OpenSumi 默认会提供以下能力
+
+- 基础功能模块，例如 FileTree、Editor、SCM 等
+- 提供丰富的自定义能力，包括集成、插件等形式
+- 兼容 VS Code 的插件系统，支持 LSP/DAP 等主流协议
+
+与之相对的，OpenSumi 目前不提供针对特定端的以下能力
+
+- Cloud IDE 场景下的容器 / 虚拟机管理
+- Desktop IDE 场景下的窗口管理
+
+https://opensumi.com/zh/docs/develop/basic-design/core-idea

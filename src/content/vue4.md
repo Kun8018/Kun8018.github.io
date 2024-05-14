@@ -751,7 +751,13 @@ export default {
 </style>
 ```
 
+### vue-demi
 
+跨越vue2和vue3的版本工具
+
+https://github.com/vueuse/vue-demi
+
+https://juejin.cn/post/7032860019880099847/
 
 ## Nuxt 3
 

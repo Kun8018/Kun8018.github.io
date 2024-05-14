@@ -485,6 +485,44 @@ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/st
 
 
 
+### tekton
+
+
+
+
+
+### zadig
+
+https://github.com/koderover/zadig
+
+Zadig 是 KodeRover 公司基于 Kubernetes 自主设计、研发的开源分布式持续交付 (Continuous Delivery) 产品，具备灵活易用的高并发工作流、面向开发者的云原生环境、高效协同的测试管理、强大免运维的模板库、客观精确的效能洞察以及云原生 IDE 插件等重要特性，为工程师提供统一的协作平面。Zadig 内置了 K8s YAML、Helm Chart、主机等复杂场景最佳实践，适用大规模微服务、高频高质量交付等场景。我们的目标是通过云原生技术的运用和工程产品赋能，打造极致、高效、愉悦的开发者工作体验，让工程师成为企业创新的核心引擎
+
+文档：https://docs.koderover.com/zadig/Zadig%20v1.17.0/install/helm-deploy/#%E5%89%8D%E7%BD%AE%E6%9D%A1%E4%BB%B6
+
+
+
+### Spinnaker
+
+https://spinnaker.io/docs/concepts/
+
+
+
+### Flux
+
+https://github.com/fluxcd/flux2
+
+https://moelove.info/2021/12/18/GitOps-%E5%BA%94%E7%94%A8%E5%AE%9E%E8%B7%B5%E7%B3%BB%E5%88%97-Flux-CD-%E5%8F%8A%E5%85%B6%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6/
+
+- 2016 年 10 月 28 日，[Flux single-user service](https://github.com/fluxcd/flux/releases/tag/pre-split) 版本发布。
+
+它奠定了 flux 的两个基调：
+
+- 集中式运行的服务
+
+- 以守护进程的方式，在自动模式下运行在 k8s 集群中
+
+  
+
 ## SonarQuebe
 
 扫描代码。检查代码

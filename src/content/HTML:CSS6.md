@@ -12,6 +12,14 @@ thumbnail:
 
 <!--more-->
 
+## serve-static
+
+静态页面服务
+
+https://github.com/expressjs/serve-static
+
+
+
 ## AMP
 
 AMP（加速移动页面）是一个由Google与Twitter合作开发的开源框架，它提供了一种直接的方式来创建轻量级的网页，以便用户即时使用，获得了极大改善的体验：内容更快，更具吸引力，更易于阅读。

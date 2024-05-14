@@ -525,6 +525,46 @@ class Header extends Component {
 
 Https://reactrouter.com
 
+### history
+
+react-router中使用的基础包
+
+安装
+
+```shell
+npm install history
+```
+
+使用
+
+```javascript
+import history from 'history';
+
+// Push a new entry onto the history stack.
+history.push("/home");
+
+// Push a new entry onto the history stack with a query string
+// and some state. Location state does not appear in the URL.
+history.push("/home?the=query", { some: "state" });
+
+// If you prefer, use a location-like object to specify the URL.
+// This is equivalent to the example above.
+history.push(
+  {
+    pathname: "/home",
+    search: "?the=query",
+  },
+  {
+    some: state,
+  }
+);
+
+// Go back to the previous history entry. The following
+// two lines are synonymous.
+history.go(-1);
+history.back();
+```
+
 
 
 ### nginx与webpack配置

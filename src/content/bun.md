@@ -24,7 +24,25 @@ curl -fsSL https://bun.sh/install | bash
 
 　　
 
-## 
+## elysiajs
+
+
+
+使用
+
+```javascript
+import { Elysia } from 'elysia'
+
+new Elysia()
+    .get('/', 'Hello World')
+    .get('/json', {
+        hello: 'world'
+    })
+    .get('/id/:id', ({ params: { id } }) => id)
+    .listen(3000)
+```
+
+
 
 　
 

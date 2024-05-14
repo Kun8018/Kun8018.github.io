@@ -14,6 +14,21 @@ thumbnail: https://s1.ax1x.com/2020/04/20/J1Iu4O.th.jpg
 
 ## 并发编程
 
+### 上下文Context
+
+上下文 [`context.Context`](https://draveness.me/golang/tree/context.Context) Go 语言中用来设置截止日期、同步信号，传递请求相关值的结构体。上下文与 Goroutine 有比较密切的关系，是 Go 语言中独特的设计，在其他编程语言中我们很少见到类似的概念
+
+[`context.Context`](https://draveness.me/golang/tree/context.Context) 是 Go 语言在 1.7 版本中引入标准库的接口 [1](https://draveness.me/golang/docs/part3-runtime/ch06-concurrency/golang-context/#fn:1)，该接口定义了四个需要实现的方法，其中包括：
+
+1. `Deadline` — 返回 [`context.Context`](https://draveness.me/golang/tree/context.Context) 被取消的时间，也就是完成工作的截止日期；
+2. `Done` — 返回一个 Channel，这个 Channel 会在当前工作完成或者上下文被取消后关闭，多次调用 `Done` 方法会返回同一个 Channel；
+3. `Err`— 返回`context.Context`结束的原因，它只会在`Done`方法对应的 Channel 关闭时返回非空的值；
+   1. 如果 [`context.Context`](https://draveness.me/golang/tree/context.Context) 被取消，会返回 `Canceled` 错误；
+   2. 如果 [`context.Context`](https://draveness.me/golang/tree/context.Context) 超时，会返回 `DeadlineExceeded` 错误；
+4. `Value` — 从 [`context.Context`](https://draveness.me/golang/tree/context.Context) 中获取键对应的值，对于同一个上下文来说，多次调用 `Value` 并传入相同的 `Key` 会返回相同的结果，该方法可以用来传递请求特定的数据；
+
+
+
 ### 协程
 
 一个应用程序是运行在机器上的一个进程；进程是一个运行在自己内存地址空间里的独立执行体。一个进程由一个或多个操作系统线程组成，这些线程其实是共享同一个内存地址空间的一起工作的执行体。几乎所有'正式'的程序都是多线程的，以便让用户或计算机不必等待，或者能够同时服务多个请求（如 Web 服务器），或增加性能和吞吐量（例如，通过对不同的数据集并行执行代码）。一个并发程序可以在一个处理器或者内核上使用多个线程来执行任务，但是只有同一个程序在某个时间点同时运行在多核或者多处理器上才是真正的并行。
@@ -239,6 +254,12 @@ Go语言的内存分配策略与第四章策略相似，该策略会将内存分
 多数架构上默认栈大小都在 2 ~ 4 MB 左右，极少数架构会使用 32 MB 作为默认大小，用户程序可以在分配的栈上存储函数参数和局部变量。然而这个固定的栈大小在某些场景下可能不是一个合适的值，如果一个程序需要同时运行几百个甚至上千个线程，那么这些线程中的绝大部分都只会用到很少的栈空间，而如果函数的调用栈非常深，固定的栈大小也无法满足用户程序的需求。
 
 Go 语言中的执行栈由 [`runtime.stack`](https://github.com/golang/go/blob/a38a917aee626a9b9d5ce2b93964f586bf759ea0/src/runtime/runtime2.go#L382) 结构体表示，该结构体中只包含两个字段，分别表示栈的顶部和栈的底部，每个栈结构体都表示范围 `[lo, hi)` 的内存空间
+
+
+
+## golang设计模式
+
+https://github.com/lee501/go-patterns
 
 
 

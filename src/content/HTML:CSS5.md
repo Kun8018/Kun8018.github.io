@@ -344,6 +344,188 @@ const FadeInButton = styled.button`
 `;
 ```
 
+### styled-system
+
+使用styled-components时可以使用props
+
+```shell
+npm i styled-system styled-components
+```
+
+在组件中使用
+
+```react
+import styled from 'styled-components'
+import { color } from 'styled-system'
+
+const Box = styled.div`
+  ${color}
+`
+
+export default Box
+
+<Box color="#fff" bg="tomato">
+  Tomato
+</Box>
+```
+
+
+
+### xstyled
+
+像使用tailwind一样使用styled-component，也支持emotion
+
+安装
+
+```shell
+npm install styled-components @xstyled/styled-components
+```
+
+使用
+
+```react
+// App.js
+import {
+  defaultTheme,
+  ThemeProvider,
+  Preflight,
+} from '@xstyled/styled-components'
+
+const theme = {
+  ...defaultTheme,
+  // Customize your theme here
+}
+
+export default function App() {
+  return (
+    <ThemeProvider theme={theme}>
+      <Preflight />
+      {/* ... */}
+    </ThemeProvider>
+  )
+}
+
+import { x } from '@xstyled/styled-components'
+
+function Button(props) {
+  return <x.button bg="blue-500" {...props} />
+}
+```
+
+使用emotion
+
+安装
+
+```shell
+npm install @emotion/react @emotion/styled @xstyled/emotion
+```
+
+使用
+
+```react
+// App.js
+import { defaultTheme, ThemeProvider, Preflight } from '@xstyled/emotion'
+
+const theme = {
+  ...defaultTheme,
+  // Customize your theme here
+}
+
+export default function App() {
+  return (
+    <ThemeProvider theme={theme}>
+      <Preflight />
+      {/* ... */}
+    </ThemeProvider>
+  )
+}
+
+import { x } from '@xstyled/emotion'
+
+function Button(props) {
+  return <x.button bg="blue-500" {...props} />
+}
+```
+
+https://xstyled.dev/docs/prop-types/
+
+### polished
+
+安装
+
+```shell
+npm install --save polished
+```
+
+
+
+## Styled-jsx
+
+在jsx中写样式
+
+```shell
+npm install --save styled-jsx
+```
+
+在babel配置中 添加
+
+```json
+{
+  "plugins": ["styled-jsx/babel"]
+}
+```
+
+使用
+
+```react
+export default () => (
+  <div>
+    <p>only this paragraph will get the style :)</p>
+
+    {/* you can include <Component />s here that include
+         other <p>s that don't get unexpected styles! */}
+
+    <style jsx>{`
+      p {
+        color: red;
+      }
+    `}</style>
+  </div>
+)
+```
+
+server端组件渲染
+
+```react
+import React from 'react'
+import ReactDOM from 'react-dom/server'
+import { StyleRegistry, useStyleRegistry } from 'styled-jsx'
+import App from './app'
+
+function Styles() {
+  const registry = useStyleRegistry()
+  const styles = registry.styles()
+  return <>{styles}</>
+}
+
+export default (req, res) => {
+  const app = ReactDOM.renderToString(<App />)
+  const html = ReactDOM.renderToStaticMarkup(
+    <StyleRegistry>
+      <html>
+        <head>
+          <Styles />
+        </head>
+        <body>
+          <div id="root" dangerouslySetInnerHTML={{ __html: app }} />
+        </body>
+      </html>
+    </StyleRegistry>
+  )
+  res.end('<!doctype html>' + html)
+}
+```
+
 
 
 ## vanilla-extract
@@ -791,6 +973,310 @@ const { critical, other } = collect(html, css);
 
 Linaria 是基于 CSS 变量的，大部分现代浏览器支持这个特性，但是对于 IE 11 以及以下，是不支持的，所以如果你需要支持 IE 11 ，也许 Linaria 不是你最好的选择
 
+## goober
+
+https://github.com/cristianbote/goober
+
+
+
+## treat.js
+
+https://github.com/seek-oss/treat
+
+## Pandacss
+
+pandacss是chakra UI使用的一个css框架，支持不同的框架，Nextjs、Solidjs、Vite、Vue、Remix、Svelte等
+
+安装panda
+
+```shell
+pnpm install -D @pandacss/dev
+
+pnpm panda init --postcss
+```
+
+在package.json中添加命令，构建panda
+
+```json
+{
+  "scripts": {
+    "prepare": "panda codegen",
+    ...
+  }
+}
+```
+
+修改src/index.css
+
+```json
+@layer reset, base, tokens, recipes, utilities
+```
+
+在组件中使用
+
+```typescript
+// main.tsx
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App.tsx";
+import "./index.css";
+
+ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+```
+
+在App.tsx中使用
+
+```typescript
+import { css } from "../styled-system/css";
+
+function App() {
+  return (
+    <div className={css({ fontSize: "2xl", fontWeight: "bold" })}>
+      Hello 🐼!
+    </div>
+  );
+}
+
+export default App;
+```
+
+Styled-system/css目录默认是panda构建的结果，运行一次构建，然后启用vite
+
+```shell
+pnpm panda codegen
+pnpm dev
+```
+
+Panda Css使用Cascade layer来控制css优先级
+
+层数固定为以下五层
+
+- reset 重置css
+- base 全局css
+- tokens 设计令牌的css变量
+- recipes类似一种封装
+- utlities单独定义的css
+
+图层的优先级顺序是 `@layer` 在 index.css 等 css 中定义的，所以你可以根据需要更改级联层顺序
+
+使用css函数在对象中写css属性是一种最简单的方法，而且类型安全
+
+对于事件, 在属性前面添加下划线
+
+```react
+<button className={css({ color: "red", _hover: { color: "blue"}})}>
+	Button
+</button>
+```
+
+写css的时候会有一些频繁出现的布局或者样式，我们更希望这种情况以模块的形式达到复用，pandacss提供了一些内置的方法，比如center
+
+```react
+import { center } from '../styled-system/patterns';
+
+function App() {
+	return (
+  	<div 
+      className={center({
+        bg: 'gray',
+        color: 'white',
+        inlineSize: '200px',
+        blockSize: '200px',
+      })}>
+    	text
+    </div>
+  )
+}
+```
+
+除了center之外PandaCss还提供了以下内置方法
+
+container 容器
+
+stack 垂直或水平布局容器
+
+hstack 水平布局容器
+
+vstack 垂直布局容器
+
+wrap 元素间距与换行
+
+aspectRatio 宽高比
+
+flex 弹性布局
+
+float 浮动
+
+grid 网格
+
+gridItem 网格子元素
+
+divider 分割线
+
+circle 圆形
+
+square 正方形
+
+Recipes
+
+Recipes主要用来封装组件样式，比如封装一个button组件的样式
+
+```react
+import { cva } from '../styled-system/css';
+
+export const button = cva({
+  base: {
+    display: "flex",
+    borderWidth: "1px",
+    borderColor: "gray",
+  },
+  variants: {
+    type: {
+      default: { color: "gray" },
+      danger: { color: "red", borderColor: "red" },
+    },
+    size: {
+      small: { padding: "8px", fontSize: "12px" },
+      large: { padding: "16px", fontSize: "16px" },
+    },
+  },
+  defaultVariants: {
+    type: "default",
+    size: "small",
+  },
+})
+```
+
+组件定义了两种类型 `default` 和 `danger`，两种大小 `small` 和 `large`。如果没有指定值，默认被设置为 `default` 和 `small`，并且在写代码的时候也会有提示
+
+在组件中使用
+
+```react
+import { hstack } from "../styled-system/patterns";
+import { button } from "./button.css";
+
+function App() {
+  return (
+    <>
+      <div className={hstack({ gap: "8px", padding: "16px" })}>
+        <button className={button({ size: "small", type: "default" })}>
+          Button
+        </button>
+        <button className={button({ size: "large", type: "default" })}>
+          Button
+        </button>
+        <button className={button({ size: "small", type: "danger" })}>
+          Button
+        </button>
+        <button className={button({ size: "large", type: "danger" })}>
+          Button
+        </button>
+        <button className={button()}>Button</button>
+      </div>
+    </>
+  );
+}
+```
+
+这仅仅是样式的封装，如果想要封装成组件，并将这些属性作为 props 使用的话，可以利用 `RecipeVariantProps` 提取类型
+
+```react
+import { ReactNode } from 'react';
+import { RecipeVariantProps } from '../styled-system/css';
+import { button } from './button.css';
+
+type Props = {
+  children: ReactNode;
+} & RecipeVariantProps<typeof button>;
+
+export const Button = ({ children, ...recipeVariantProps }: Props) => {
+  <button className={button(recipeVariantProps)}>{children}</button>;
+};
+```
+
+通过组件封装之后，使用组件就可以通过props使用了
+
+```react
+import { Button } from "./Button";
+
+function App() {
+  return (
+    <Button size="small" type="default">
+      Button
+    </Button>
+  );
+}
+```
+
+上面的方式都是通过 `className` 然后使用 Panda 生成的类来设计样式，类似 unocss、tailwindcss 这些 css 框架，除此之外，这些类在 Panda 中还可以作为一个 JSX 属性来使用
+
+在panda.config.js中添加指定的框架
+
+```javascript
+export default defineConfig({
+  ...
+  jsxFramework: 'react'
+})
+```
+
+然后通过引入 `styled`，使用 `styled.xxx` 创建 JSX 元素
+
+```react
+import { VStack, styled } from "../styled-system/jsx";
+
+function App() {
+  return (
+    <VStack gap="8px">
+      <styled.a href="https://example.com" color="red">
+        Link
+      </styled.a>
+      <styled.button type="button" color="blue">
+        Button
+      </styled.button>
+    </VStack>
+  );
+}
+
+export default App;
+```
+
+### typed-scss-modules
+
+根据scss文件生成类型系统
+
+```shell
+yarn add -D typed-scss-modules
+yarn typed-scss-modules src
+```
+
+创建一个config文件
+
+```javascript
+// typed-scss-modules.config.js
+
+// Example of a named export with some of the options sets.
+export const config = {
+  banner: "// customer banner",
+  exportType: "default",
+  exportTypeName: "TheClasses",
+  logLevel: "error",
+};
+
+// Example of a default export with some of the options sets.
+export default {
+  banner: "// customer banner",
+  exportType: "default",
+  exportTypeName: "TheClasses",
+  logLevel: "error",
+};
+```
+
+
+
 ## emotion
 
 安装
@@ -851,6 +1337,37 @@ npm install @picocss/pico
 
 ```shell
 npm install @stitches/react
+```
+
+
+
+## compiled
+
+安装
+
+```shell
+npm install @compiled/webpack-loader @compiled/react --save-dev
+```
+
+
+
+
+
+```react
+import { styled, ClassNames } from '@compiled/react';
+
+// Tie styles to an element
+<div css={{ color: 'purple' }} />
+
+// Create a component that ties styles to an element
+const StyledButton = styled.button`
+  color: ${(props) => props.color};
+`;
+
+// Use a component where styles are not necessarily tied to an element
+<ClassNames>
+  {({ css }) => children({ className: css({ fontSize: 12 }) })}
+</ClassNames>
 ```
 
 

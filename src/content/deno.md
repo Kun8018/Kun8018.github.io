@@ -20,6 +20,27 @@ github：https://github.com/Boscop/web-view
 
 This library provides a Rust binding to the original implementation of [webview](https://github.com/zserge/webview), a tiny cross-platform library to render web-based GUIs as desktop applications.
 
+
+
+## JSR
+
+Deno 搞了一个叫 [JSR](https://link.zhihu.com/?target=https%3A//jsr.io/) 的东西，全称是 JavaScript Registry，一个新的 JS 源，像 npm 一样。
+
+为什么有了 npm 还要做 JSR？
+
+- ESM 模块现在已经成为标准，CommonJS 正在逐渐被取代。
+- 越来越多的 Node 和浏览器之外的 JS 运行时出现，以 Node 为中心的 Registry 将会不再适用。
+- TS 目前已经成为事实标准，需要一个对 TS 支持更好的现代化 Registry。
+
+JSR 现在的特点：
+
+- 原生 TS 支持。开发者可以直接上传 TS 代码，对于像 Deno 这样原生支持 TS 的运行时，会直接使用 TS 文件。对于 Node 这样的缺乏 TS 原生支持的环境，JSR 会将代码自动转换为 JS 并生成 `.d.ts`，不需要开发者配置额外的构建步骤。同时在 JSR 的网站上自动根据 TS 类型和注释生成文档。
+- 只支持 ESM。不支持 CommonJS。
+- 跨运行时支持。JSR 不是为 Node 或 Deno 而生，而是为所有 JS 运行时而生。
+- 兼容 npm。JSR 做了个 npm 兼容层，可以很方便地在 Node 项目中使用。
+
+https://zhuanlan.zhihu.com/p/683025584
+
 ## Deno学习清单
 
 deno包下载排行：https://yoshixmk.github.io/deno-x-ranking/

@@ -14,6 +14,8 @@ Javascript第八篇，NodeJs第二篇，注重Node后端开发。
 
 ## npm
 
+### package.json
+
 `npm` 是 Node.js 标准的软件包管理器。
 
 在 2017 年 1 月时，npm 仓库中就已有超过 350000 个软件包，这使其成为世界上最大的单一语言代码仓库，并且可以确定几乎有可用于一切的软件包。
@@ -28,7 +30,9 @@ Javascript第八篇，NodeJs第二篇，注重Node后端开发。
 
 也可以通过运行以下命令安装特定的软件包
 
+```shell
 npm install package-name
+```
 
 通常会在此命令中看到更多标志：
 
@@ -68,7 +72,16 @@ npm run <task-name>
 }
 ```
 
-### npm包版本
+当依赖项的版本冲突时，使用 "resolutions" 字段可以告诉 npm 哪个版本应该被安装。这通常在你使用 monorepo 架构或者多个包之间有紧密关系时很有用
+
+```json
+"resolutions": {
+  "<package-name>": "<version-or-range>",
+  ...
+}
+```
+
+包版本
 
 如果 Node.js 软件包中有一件很棒的事情，那就是它们都同意使用语义版本控制作为版本编号
 
@@ -106,6 +119,10 @@ npm run <task-name>
 
 - 无符号: 仅接受指定的特定版本（例如 `1.2.1`）。
 - `latest`: 使用可用的最新版本
+
+lock.file
+
+
 
 ### npx
 
@@ -780,6 +797,77 @@ var config = {
 
 重启项目，这个时候再发布或者同步资源的时候，服务器本地目录不会有新发布或同步的包了，在 oss 对应的 bucket 里面能找到刚刚发布或者同步的资源。
 
+### wireit
+
+npm 脚本
+
+https://github.com/google/wireit
+
+
+
+### npm link
+
+npm link调试本地包
+
+https://juejin.cn/post/6987716839639875591
+
+#### yalc
+
+对`包开发者`而言，一种比 yarn/npm link `更好的开发流程`
+
+它的主要对标者就是 yarn/npm link，它主要解决了一些 yarn/npm link 本身存在的缺陷，满足了`包开发者`的实际需求。
+
+```shell
+npm i yalc -g
+# or
+yarn global add yalc
+```
+
+在被引用的包执行
+
+```shell
+yalc publish
+```
+
+在 yalc publish 后，它会逐一执行 npm 生命周期脚本，如：prepublish、prepare、prepublishOnly、prepack... 等。
+同时，你也可以通过 --no-script 禁用钩子钩动各种脚本
+
+在需要引用的包执行
+
+```shell
+yalc add <package>
+yalc remove good-ui
+```
+
+如果被引用的包需要更新
+
+```shell
+yalc publish --push
+# 简化为：
+yalc push
+```
+
+其他命令
+
+```shell
+yalc update good-ui # 更新依赖
+yalc remove --all # 移除当前包里的全部yalc依赖
+```
+
+### yarn-deduplicate
+
+清理yarn工具中的重复包
+
+https://github.com/scinos/yarn-deduplicat
+
+### renovate
+
+更新node_modules工具，支持github action、gitlab 
+
+https://github.com/renovatebot/renovate
+
+
+
 ## Node版本管理工具
 
 ### n
@@ -795,6 +883,18 @@ https://github.com/Schniz/fnm
 
 
 ### nvm
+
+https://github.com/1111mp/nvm-desktop
+
+
+
+### volta
+
+前端工具链管理
+
+https://docs.volta.sh/reference/fetch
+
+
 
 ## 常用方法
 

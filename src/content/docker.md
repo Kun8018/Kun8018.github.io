@@ -8,8 +8,6 @@ toc: true
 thumbnail: http://cdn.kunkunzhang.top/docker.png
 ---
 
-## 概述
-
 　　Docker容器部署
 
 <!--more-->
@@ -25,6 +23,38 @@ thumbnail: http://cdn.kunkunzhang.top/docker.png
 由于虚拟化在云计算时代的广泛使用，`Windows` 和 `MacOS` 也将虚拟化引入到了系统本身的实现中，这其中就包含了之前我们所提到的通过 `Hypervisor`实现虚拟化的功能。在 `Windows` 中，我们可以通过 `Hyper-V` 实现虚拟化，而在 `macOS` 中，我们可以通过 HyperKit 实现虚拟化
 
 `Docker for Windows` 和 `Docker for Mac` 这里利用了这两个操作系统提供的功能来搭建一个虚拟 `Linux` 系统，并在其之上安装和运行 `docker daemon`
+
+底层原理
+
+镜像是一种轻量级、可执行的独立软件包，用来打包软件运行环境和基于运行环境开发额软件，它包含某个软件所需要的所有内容，包括代码、运行时库、环境变量和配置文件
+
+UnionFS
+
+UnionFS（联合文件系统）：Union 文件系统（UnionFS）是一种分层、轻量级并且高性能的文件系统，它支持对文件系统的修改作为一次提交来一层层的叠加，同时可以将不同目录挂载到同一个虚拟文件系统下 (unite several directories into a single virtual filesystem)。Union 文件系统是 Docker 镜像的基础。镜像可以通过分层来进行继承，基于基础镜像（没有父镜像），可以制作各种具体的应用镜像。 **特性**：一次同时加载多个文件系统，但从外面看起来，只能看到一个文件系统，联合加载会把各层文件系统叠加起来，这样最终的文件系统会包含所有底层的文件和目录
+
+下载 docker 镜像时一层一层的其实就是联合文件系统的体现
+
+Docker镜像加载原理
+
+docker 的镜像实际上由一层一层的文件系统组成，这种层级的文件系统 UnionFS。 bootfs (boot file system) 主要包含 bootloader 和 kernel, bootloader 主要是引导加载 kernel, Linux 刚启动时会加载 bootfs 文件系统，在 Docker 镜像的最底层是 bootfs。这一层与我们典型的 Linux/Unix 系统是一样的，包含 boot 加载器和内核。当 boot 加载完成之后整个内核就都在内存中了，此时内存的使用权已由 bootfs 转交给内核，此时系统也会卸载 bootfs。
+
+rootfs (root file system) ，在 bootfs 之上。包含的就是典型 Linux 系统中的 /dev, /proc, /bin, /etc 等标准目录和文件。rootfs 就是各种不同的操作系统发行版，比如 Ubuntu，Centos 等等。
+
+平时我们安装虚拟机的 CentOs 都是好几个 G，为什么 docker 才几百 M
+
+对于一个精简的 OS，rootfs 可以很小，只需要包括最基本的命令、工具和程序库就可以了，因为底层直接用 Host 的 kernel，自己只需要提供 rootfs 就行了。由此可见对于不同的 linux 发行版，bootfs 基本是一致的，rootfs 会有差别，因此不同的发行版可以公用 bootfs。
+
+分层的理解
+
+下载 docker 镜像时一层一层的其实就是分层最直观的体现
+
+分层最大的一个好处就是 - 共享资源
+
+比如：有多个镜像都从相同的 base 镜像构建而来，那么 Docker Host 只需在磁盘上保存一份 base 镜像；同时内存中也只需加载一份 base 镜像，就可以为所有容器服务了。而且镜像的每一层都可以被共享。
+
+这时可能就有人会问了：如果多个容器共享一份基础镜像，当某个容器修改了基础镜像的内容，比如 /etc 下的文件，这时其他容器的 /etc 是否也会被修改？ 答案：不会！因为修改会被限制在单个容器内。
+
+
 
 ### Mac os
 
@@ -428,6 +458,12 @@ sudo docker commit -m "Configured" webapp
 
 我们发现提交容器更新后产生的镜像并没 `REPOSITORY` 和 `TAG` 的内容，也就是说，这个新的镜像还没有名字。
 
+#### 共享卷
+
+
+
+
+
 ## Docker-hub
 
 `Docker Hub` 是 `Docker` 官方建立的中央镜像仓库，除了普通镜像仓库的功能外，它内部还有更加细致的权限管理，支持构建钩子和自动构建，并且有一套精致的 Web 操作页面
@@ -544,6 +580,14 @@ docker-compose版本太老
 sudo reboot
 ```
 
+## dive
+
+https://github.com/wagoodman/dive
+
+查看镜像中每一层layer占用的体积
+
+
+
 ## 数据管理
 
 Docker虽然有很多优势，但也有很多弊端，其中显著的两点就是
@@ -559,6 +603,38 @@ Docker虽然有很多优势，但也有很多弊端，其中显著的两点就�
 - `Bind Mount` 能够直接将宿主操作系统中的目录和文件挂载到容器内的文件系统中，通过指定容器外的路径和容器内的路径，就可以形成挂载映射关系，在容器内外对文件的读写，都是相互可见的。
 - `Volume` 也是从宿主操作系统中挂载目录到容器内，只不过这个挂载的目录由 Docker 进行管理，我们只需要指定容器内的目录，不需要关心具体挂载到了宿主操作系统中的哪里。
 - `Tmpfs Mount` 支持挂载系统内存中的一部分到容器的文件系统里，不过由于内存和容器的特征，它的存储并不是持久的，其中的内容会随着容器的停止而消失
+
+匿名挂载
+
+通过如下命令启动容器
+
+```shell
+docker run -d -P --name nginx01 -v /etc/nginx nginx 
+```
+
+我们在通过查看下所有数据卷的情况
+
+```shell
+docker volume ls
+```
+
+由上图可以看到，VOLUME NAME 有的是随机生成的字符串，对于这种就是匿名挂载，因为 - v 的时候只写了容器内的路径看，而没有写容器外的路径
+
+具名挂载
+
+```shell
+docker run -d -P --name nginx02 -v juming-nginx:/etc/nginx nginx
+```
+
+我们通过具名挂载可以方便的找到我们的一个卷，大多数情况在使用的，不建议大家使用匿名挂载
+
+如何确定是具名挂载还是匿名挂载，还是指定路径挂载？
+
+-v 容器内路径 #匿名挂载
+
+-v 卷名：容器内路径 #具名挂载
+
+-v 主机路径：容器内路径 #指定路径挂载
 
 
 

@@ -49,6 +49,54 @@ func main() {
 
 
 
+### resty
+
+提供go restful api
+
+安装
+
+```go
+require github.com/go-resty/resty/v2 v2.11.0
+```
+
+使用
+
+```go
+import "github.com/go-resty/resty/v2"
+
+// Create a Resty Client
+client := resty.New()
+
+resp, err := client.R().
+      SetQueryParams(map[string]string{
+          "page_no": "1",
+          "limit": "20",
+          "sort":"name",
+          "order": "asc",
+          "random":strconv.FormatInt(time.Now().Unix(), 10),
+      }).
+      SetHeader("Accept", "application/json").
+      SetAuthToken("BC594900518B4F7EAC75BD37F019E08FBC594900518B4F7EAC75BD37F019E08F").
+      Get("/search_result")
+
+
+// Sample of using Request.SetQueryString method
+resp, err := client.R().
+      SetQueryString("productId=232&template=fresh-sample&cat=resty&source=google&kw=buy a lot more").
+      SetHeader("Accept", "application/json").
+      SetAuthToken("BC594900518B4F7EAC75BD37F019E08FBC594900518B4F7EAC75BD37F019E08F").
+      Get("/show_product")
+
+
+// If necessary, you can force response content type to tell Resty to parse a JSON response into your struct
+resp, err := client.R().
+      SetResult(result).
+      ForceContentType("application/json").
+      Get("v2/alpine/manifests/latest")
+```
+
+
+
 ### websocket
 
 安装go的websocket包
@@ -75,15 +123,22 @@ func handler(w http.ResponseWriter, r *http.Request) {
 }
 ```
 
-
-
-
-
 https://github.com/gorilla/websocket
 
 
 
+https://github.com/nhooyr/websocket
+
 ### rpc
+
+RPC (Remote Procedure Call，远程过程调用) 是一种计算机通信协议，允许调用不同进程空间的程序。RPC 的客户端和服务器可以在一台机器上，也可以在不同的机器上。程序员使用时，就像调用本地程序一样，无需关注内部的实现细节。
+
+不同的应用程序之间的通信方式有很多，比如浏览器和服务器之间广泛使用的基于 HTTP 协议的 Restful API。与 RPC 相比，Restful API 有相对统一的标准，因而更通用，兼容性更好，支持不同的语言。HTTP 协议是基于文本的，一般具备更好的可读性。但是缺点也很明显：
+
+- Restful 接口需要额外的定义，无论是客户端还是服务端，都需要额外的代码来处理，而 RPC 调用则更接近于直接调用。
+- 基于 HTTP 协议的 Restful 报文冗余，承载了过多的无效信息，而 RPC 通常使用自定义的协议格式，减少冗余报文。
+- RPC 可以采用更高效的序列化协议，将文本转为二进制传输，获得更高的性能。
+- 因为 RPC 的灵活性，所以更容易扩展和集成诸如注册中心、负载均衡等功能。
 
 Go 程序之间可以使用 `net/rpc` 包实现相互通信，这是另一种客户端-服务器应用场景。它提供了一种方便的途径，通过网络连接调用远程函数。当然，仅当程序运行在不同机器上时，这项技术才实用。`rpc` 包建立在 `gob` 包之上，实现了自动编码/解码传输的跨网络方法调用。
 
@@ -292,6 +347,15 @@ func main() {
 
 ## 数据库
 
+数据库几乎是所有 Web 服务不可或缺的一部分，在所有类型的数据库中，关系型数据库是我们在想要持久存储数据时的首要选择，不过因为关系型数据库的种类繁多，所以 Go 语言的标准库 [`database/sql`](https://golang.org/pkg/database/sql/) 就为访问关系型数据提供了通用的接口，这样不同数据库只要实现标准库中的接口，应用程序就可以通过标准库中的方法访问。
+
+结构化查询语言（Structured Query Language、SQL）是在关系型数据库系统中使用的领域特定语言（Domain-Specific Language、DSL），它主要用于处理结构化的数据[1](https://draveness.me/golang/docs/part4-advanced/ch09-stdlib/golang-database-sql/#fn:1)。作为一门领域特定语言，它由更加强大的表达能力，与传统的命令式 API 相比，它能够提供两个优点：
+
+1. 可以使用单个命令在数据库中访问多条数据；
+2. 不需要在查询中指定获取数据的方法；
+
+所有的关系型数据库都会提供 SQL 作为查询语言，应用程序可以使用相同的 SQL 查询在不同数据库中查询数据，
+
 Go官方提供了`database/sql`包来给用户进行和数据库打交道的工作，`database/sql`库实际只提供了一套操作数据库的接口和规范，例如抽象好的SQL预处理（prepare），连接池管理，数据绑定，事务，错误处理等等。官方并没有提供具体某种数据库实现的协议支持。
 
 和具体的数据库，例如MySQL打交道，还需要再引入MySQL的驱动，
@@ -357,441 +421,226 @@ ORM的目的就是屏蔽掉DB层，很多语言的ORM只要把你的类或结构
 
 说白了SQL Builder是sql在代码里的一种特殊方言，如果你们没有DBA但研发有自己分析和优化sql的能力，或者你们公司的DBA对于学习这样一些sql的方言没有异议。那么使用SQL Builder是一个比较好的选择，不会导致什么问题。
 
+### bun
 
-
-## Fiber
-
-fiber是受express启发，致力于最快的http框架
+golang的ORM https://github.com/uptrace/bun/
 
 安装
 
 ```shell
-go get -u github.com/gofiber/fiber/v2
+go get github.com/uptrace/bun@latest
 ```
 
 使用
 
 ```go
-func main() {
-    app := fiber.New()
-
-    // GET /api/register
-    app.Get("/api/*", func(c *fiber.Ctx) error {
-        msg := fmt.Sprintf("✋ %s", c.Params("*"))
-        return c.SendString(msg) // => ✋ register
-    })
-
-    // GET /flights/LAX-SFO
-    app.Get("/flights/:from-:to", func(c *fiber.Ctx) error {
-        msg := fmt.Sprintf("💸 From: %s, To: %s", c.Params("from"), c.Params("to"))
-        return c.SendString(msg) // => 💸 From: LAX, To: SFO
-    })
-
-    // GET /dictionary.txt
-    app.Get("/:file.:ext", func(c *fiber.Ctx) error {
-        msg := fmt.Sprintf("📃 %s.%s", c.Params("file"), c.Params("ext"))
-        return c.SendString(msg) // => 📃 dictionary.txt
-    })
-
-    // GET /john/75
-    app.Get("/:name/:age/:gender?", func(c *fiber.Ctx) error {
-        msg := fmt.Sprintf("👴 %s is %s years old", c.Params("name"), c.Params("age"))
-        return c.SendString(msg) // => 👴 john is 75 years old
-    })
-
-    // GET /john
-    app.Get("/:name", func(c *fiber.Ctx) error {
-        msg := fmt.Sprintf("Hello, %s 👋!", c.Params("name"))
-        return c.SendString(msg) // => Hello john 👋!
-    })
-
-    log.Fatal(app.Listen(":3000"))
-}
-```
-
-静态文件
-
-```go
-func main() {
-    app := fiber.New()
-
-    app.Static("/", "./public")
-    // => http://localhost:3000/js/script.js
-    // => http://localhost:3000/css/style.css
-
-    app.Static("/prefix", "./public")
-    // => http://localhost:3000/prefix/js/script.js
-    // => http://localhost:3000/prefix/css/style.css
-
-    app.Static("*", "./public/index.html")
-    // => http://localhost:3000/any/path/shows/index/html
-
-    log.Fatal(app.Listen(":3000"))
-}
-```
-
-中间件
-
-```go
-func main() {
-    app := fiber.New()
-
-    // Match any route
-    app.Use(func(c *fiber.Ctx) error {
-        fmt.Println("🥇 First handler")
-        return c.Next()
-    })
-
-    // Match all routes starting with /api
-    app.Use("/api", func(c *fiber.Ctx) error {
-        fmt.Println("🥈 Second handler")
-        return c.Next()
-    })
-
-    // GET /api/list
-    app.Get("/api/list", func(c *fiber.Ctx) error {
-        fmt.Println("🥉 Last handler")
-        return c.SendString("Hello, World 👋!")
-    })
-
-    log.Fatal(app.Listen(":3000"))
-}
-```
-
-代理
-
-```go
 import (
-    "github.com/gofiber/fiber/v2"
-    "github.com/gofiber/fiber/v2/middleware/recover"
+    "database/sql"
+    "github.com/uptrace/bun/driver/sqliteshim"
 )
 
-func main() {
-    app := fiber.New(fiber.Config{
-        EnableTrustedProxyCheck: true,
-        TrustedProxies: []string{"0.0.0.0", "1.1.1.1/30"}, // IP address or IP address range
-        ProxyHeader: fiber.HeaderXForwardedFor},
-    })
-
-    // ...
-
-    log.Fatal(app.Listen(":3000"))
+sqldb, err := sql.Open(sqliteshim.ShimName, "file::memory:?cache=shared")
+if err != nil {
+	panic(err)
 }
 ```
 
-websocket支持
+创建/删除表
 
 ```go
-app.Get("/ws", websocket.New(func(c *websocket.Conn) {
-  // Websocket logic
-  for {
-    mtype, msg, err := c.ReadMessage()
-    if err != nil {
-      break
-    }
-    log.Printf("Read: %s", msg)
+// Create users table.
+res, err := db.NewCreateTable().Model((*User)(nil)).Exec(ctx)
 
-    err = c.WriteMessage(mtype, msg)
-    if err != nil {
-      break
-    }
+// Drop users table.
+res, err := db.NewDropTable().Model((*User)(nil)).Exec(ctx)
+
+// Drop and create tables.
+err := db.ResetModel(ctx, (*User)(nil))
+```
+
+创建/更新/删除行
+
+```go
+// Insert a single user.
+user := &User{Name: "admin"}
+res, err := db.NewInsert().Model(user).Exec(ctx)
+
+// Insert multiple users (bulk-insert).
+users := []User{user1, user2}
+res, err := db.NewInsert().Model(&users).Exec(ctx)
+
+user := &User{ID: 1, Name: "admin"}
+res, err := db.NewUpdate().Model(user).Column("name").WherePK().Exec(ctx)
+
+user := &User{ID: 1}
+res, err := db.NewDelete().Model(user).WherePK().Exec(ctx)
+```
+
+查询
+
+```go
+// Select a user by a primary key.
+user := new(User)
+err := db.NewSelect().Model(user).Where("id = ?", 1).Scan(ctx)
+
+// Select first 10 users.
+var users []User
+err := db.NewSelect().Model(&users).OrderExpr("id ASC").Limit(10).Scan(ctx)
+```
+
+自动时间戳
+
+```go
+type User struct {
+	CreatedAt time.Time `bun:",nullzero,notnull,default:current_timestamp"`
+	UpdatedAt time.Time `bun:",nullzero,notnull,default:current_timestamp"`
+}
+
+type User struct {
+	CreatedAt time.Time `bun:",nullzero,notnull,default:current_timestamp"`
+	UpdatedAt bun.NullTime
+}
+```
+
+### gorm
+
+https://github.com/go-gorm/gorm
+
+安装
+
+```shell
+go get -u gorm.io/gorm
+go get -u gorm.io/driver/sqlite
+```
+
+查询
+
+```go
+// 获取第一条记录（主键升序）
+db.First(&user)
+// SELECT * FROM users ORDER BY id LIMIT 1;
+
+// 获取一条记录，没有指定排序字段
+db.Take(&user)
+// SELECT * FROM users LIMIT 1;
+
+// 获取最后一条记录（主键降序）
+db.Last(&user)
+// SELECT * FROM users ORDER BY id DESC LIMIT 1;
+
+result := db.First(&user)
+result.RowsAffected // 返回找到的记录数
+result.Error        // returns error or nil
+
+// 检查 ErrRecordNotFound 错误
+errors.Is(result.Error, gorm.ErrRecordNotFound)
+```
+
+关联表(一对一)
+
+```go
+// User 有一张 CreditCard，UserID 是外键
+type User struct {
+  gorm.Model
+  CreditCard CreditCard
+}
+
+type CreditCard struct {
+  gorm.Model
+  Number string
+  UserID uint
+}
+```
+
+关联表(一对多)
+
+```go
+// User 有多张 CreditCard，UserID 是外键
+type User struct {
+  gorm.Model
+  CreditCards []CreditCard
+}
+
+type CreditCard struct {
+  gorm.Model
+  Number string
+  UserID uint
+}
+```
+
+关联表(多对多)
+
+```go
+// User 拥有并属于多种 language，`user_languages` 是连接表
+type User struct {
+  gorm.Model
+  Languages []*Language `gorm:"many2many:user_languages;"`
+}
+
+type Language struct {
+  gorm.Model
+  Name string
+  Users []*User `gorm:"many2many:user_languages;"`
+}
+```
+
+
+
+使用示例
+
+```go
+package main
+
+import (
+  "gorm.io/gorm"
+  "gorm.io/driver/sqlite"
+)
+
+type Product struct {
+  gorm.Model
+  Code  string
+  Price uint
+}
+
+func main() {
+  db, err := gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
+  if err != nil {
+    panic("failed to connect database")
   }
-  log.Println("Error:", err)
-}))
-```
 
+  // Migrate the schema
+  db.AutoMigrate(&Product{})
 
+  // Create
+  db.Create(&Product{Code: "D42", Price: 100})
 
-## Iris
+  // Read
+  var product Product
+  db.First(&product, 1) // find product with integer primary key
+  db.First(&product, "code = ?", "D42") // find product with code D42
 
-安装
+  // Update - update product's price to 200
+  db.Model(&product).Update("Price", 200)
+  // Update - update multiple fields
+  db.Model(&product).Updates(Product{Price: 200, Code: "F42"}) // non-zero fields
+  db.Model(&product).Updates(map[string]interface{}{"Price": 200, "Code": "F42"})
 
-```shell
-go get github.com/kataras/iris/v12@master # or @v12.2.0-beta2
-```
-
-使用
-
-```go
-package main
-
-import "github.com/kataras/iris/v12"
-
-func main() {
-	app := iris.New()
-	app.Use(iris.Compression)
-
-	app.Get("/", func(ctx iris.Context) {
-		ctx.HTML("Hello <strong>%s</strong>!", "World")
-	})
-
-	app.Listen(":8080")
+  // Delete - delete product
+  db.Delete(&product, 1)
 }
 ```
 
 
 
-## Gin
+### xorm
 
-安装
 
-```go
-go get -u github.com/gin-gonic/gin
-```
 
-新建gin。go文件
+### bbolt
 
-```go
-package main
+go内嵌的key-value数据库
 
-import (
-	"github.com/gin-gonic/gin"
-)
-
-func main(){
-  g := gin.Default()
-  
-  g.GET("/hello",func(c *gin.Context){
-    c.JSON(200,gin.H{
-      "message":"hello world",
-    })
-  })
-  
-  g.Run();
-}
-```
-
-依赖导入，执行命令
-
-```go
-go mod init git-demo
-go mod tidy
-```
-
-启动命令
-
-```go
-go run gin.go
-```
-
-
-
-
-
-## GoFrame
-
-
-
-```go
-go get -u -v github.com/gogf/gf
-```
-
-
-
-## echo
-
-http服务框架 http://echo.topgoer.com/%E4%B8%AD%E9%97%B4%E4%BB%B6/%E4%BC%9A%E8%AF%9D.html
-
-安装
-
-```shell
-go get github.com/labstack/echo/v4
-```
-
-使用
-
-```go
-package main
-
-import (
-  "github.com/labstack/echo/v4"
-  "github.com/labstack/echo/v4/middleware"
-  "net/http"
-)
-
-func main() {
-  // Echo instance
-  e := echo.New()
-
-  // Middleware
-  e.Use(middleware.Logger())
-  e.Use(middleware.Recover())
-
-  // Routes
-  e.GET("/", hello)
-
-  // Start server
-  e.Logger.Fatal(e.Start(":1323"))
-}
-
-// Handler
-func hello(c echo.Context) error {
-  return c.String(http.StatusOK, "Hello, World!")
-}
-```
-
-### 路由
-
-基于 [radix tree](http://en.wikipedia.org/wiki/Radix_tree) ，Echo 的路由查询速度非常快。路由使用 [sync pool](https://golang.org/pkg/sync/#Pool) 来重用内存，实现无 GC 开销下的零动态内存分配。
-
-通过特定的 HTTP 方法，url 路径和一个匹配的处理程序 (handler) 可以注册一个路由。例如，下面的代码则展示了一个注册路由的例子：它包括 `Get` 的访问方式， `/hello` 的访问路径，以及发送 `Hello World` HTTP 响应的处理程序
-
-```go
-// 业务处理
-func hello(c echo.Context) error {
-      return c.String(http.StatusOK, "Hello, World!")
-}
-
-// 路由
-e.GET("/hello", hello)
-```
-
-你可以用 `Echo.Any(path string, h Handler)` 来为所有的 HTTP 方法发送注册 处理程序(handler)；如果仅需要为某个特定的方法注册路由，可使用 `Echo.Match(methods []string, path string, h Handler)`。
-
-Echo 通过 `func(echo.Context) error` 定义 handler 方法，其中 `echo.Context` 已经内嵌了 HTTP 请求和响应接口
-
-路由匹配的路径会按照固定路径 -参数路径-匹配所有的顺序
-
-```go
-e.GET("/users/:id", func(c echo.Context) error {
-    return c.String(http.StatusOK, "/users/:id")
-})
-
-e.GET("/users/new", func(c echo.Context) error {
-    return c.String(http.StatusOK, "/users/new")
-})
-
-e.GET("/users/1/files/*", func(c echo.Context) error {
-    return c.String(http.StatusOK, "/users/1/files/*")
-})
-```
-
-上面定义的路由将按下面的优先级顺序匹配:
-
-- `/users/new`
-- `/users/:id`
-- `/users/1/files/*`
-
-### 中间件
-
-中间件是一个函数，嵌入在HTTP 的请求和响应之间。它可以获得 `Echo#Context` 对象用来进行一些特殊的操作， 比如记录每个请求或者统计请求数。
-
-Action的处理在所有的中间件运行完成之后
-
-root level
-
-Before router
-
-`Echo#Pre()` 用于注册一个在路由执行之前运行的中间件，可以用来修改请求的一些属性。比如在请求路径结尾添加或者删除一个'/'来使之能与路由匹配
-
-下面的这几个内建中间件被注册在这一级别：
-
-- AddTrailingSlash
-- RemoveTrailingSlash
-- MethodOverride
-
-*注意*: 由于在这个级别路由还没有执行，所以这个级别的中间件不能调用任何 `echo.Context` 的 API
-
-After route
-
-大部分时间你将用到 `Echo#Use()` 在这个级别注册中间件。 这个级别的中间件运行在路由处理完请求之后，可以调用所有的 `echo.Context` API。
-
-下面的这几个内建中间件应该被注册在这一级别：
-
-- BodyLimit
-- Logger
-- Gzip
-- Recover
-- BasicAuth
-- JWTAuth
-- Secure
-- CORS
-- Static
-
-Group Level
-
-当在路由中创建一个组的时候，可以为这个组注册一个中间件。例如，给 admin 这个组注册一个 BasicAuth 中间件
-
-Route level
-
-当你创建了一个新的路由，可以选择性的给这个路由注册一个中间件。
-
-代理中间件
-
-Proxy 提供 HTTP / WebSocket 反向代理中间件。它使用已配置的负载平衡技术将请求转发到上游服务器。
-
-```go
-url1, err := url.Parse("http://localhost:8081")
-if err != nil {
-  e.Logger.Fatal(err)
-}
-url2, err := url.Parse("http://localhost:8082")
-if err != nil {
-  e.Logger.Fatal(err)
-}
-e.Use(middleware.Proxy(&middleware.RoundRobinBalancer{
-  Targets: []*middleware.ProxyTarget{
-    {
-      URL: url1,
-    },
-    {
-      URL: url2,
-    },
-  },
-}))
-```
-
-#### 常用中间件
-
-auth中间件
-
-```go
-e.Use(middleware.BasicAuth(func(username, password string, c echo.Context) (bool, error) {
-    if username == "joe" && password == "secret" {
-        return true, nil
-    }
-    return false, nil
-}))
-```
-
-
-
-重定向中间件
-
-
-
-日志
-
-Logger 中间件记录有关每个 HTTP 请求的信息。
-
-```
-e.Use(middleware.Logger())
-```
-
-Casbin Auth中间件
-
-[Casbin](https://github.com/casbin/casbin) 是 Go 下的强大而高效的开源访问控制库，它为基于各种模型的授权提供支持。到目前为止，Casbin 支持的访问控制模型如下：
-
-- ACL (访问控制列表)
-- 超级用户下的ACL
-- 没有用户的 ACL： 对于没有身份验证或用户登录的系统尤其有用。
-- 没有资源的ACL：过使用 write-article , read-log 等权限，某些方案可以应对一类资源而不是单个资源，它不控制对特定文章或日志的访问。
-- RBAC (基于角色的访问控制)
-- 具有资源角色的 RBAC： 用户和资源可以同时具有角色 (或组)。
-- 具有域 / 租户 (tenants) 的 RBAC ：用户可以针对不同的域 / 租户 (tenants) 具有不同的角色集。
-- ABAC (基于属性的访问控制)
-- RESTful
-- Deny-override：支持允许和拒绝授权，否认覆盖允许。
-
-
-
-
-
-### 错误处理
-
-Echo 提倡通过中间件或处理程序 (handler) 返回 HTTP 错误集中处理。集中式错误处理程序允许我们从统一位置将错误记录到外部服务，并向客户端发送自定义 HTTP 响应。
-
-你可以返回一个标准的 `error` 或者 `echo.*HTTPError`
+https://github.com/etcd-io/bbolt
 
 
 
@@ -803,85 +652,71 @@ https://github.com/pion/webrtc
 
 
 
-## 测试框架
+## webhook
 
-### ginkgo
+https://github.com/adnanh/webhook
+
+https://www.kandaoni.com/news/14421.html
+
+## Graphql
+
+https://github.com/graphql-go/graphql
+
+安装
+
+```shell
+go get github.com/graphql-go/graphql
+```
 
 使用
 
 ```go
+package main
+
 import (
-    . "github.com/onsi/ginkgo/v2"
-    . "github.com/onsi/gomega"
-    ...
+	"encoding/json"
+	"fmt"
+	"log"
+
+	"github.com/graphql-go/graphql"
 )
 
-Describe("Checking books out of the library", Label("library"), func() {
-    var library *libraries.Library
-    var book *books.Book
-    var valjean *users.User
-    BeforeEach(func() {
-        library = libraries.NewClient()
-        book = &books.Book{
-            Title: "Les Miserables",
-            Author: "Victor Hugo",
-        }
-        valjean = users.NewUser("Jean Valjean")
-    })
+func main() {
+	// Schema
+	fields := graphql.Fields{
+		"hello": &graphql.Field{
+			Type: graphql.String,
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				return "world", nil
+			},
+		},
+	}
+	rootQuery := graphql.ObjectConfig{Name: "RootQuery", Fields: fields}
+	schemaConfig := graphql.SchemaConfig{Query: graphql.NewObject(rootQuery)}
+	schema, err := graphql.NewSchema(schemaConfig)
+	if err != nil {
+		log.Fatalf("failed to create new schema, error: %v", err)
+	}
 
-    When("the library has the book in question", func() {
-        BeforeEach(func(ctx SpecContext) {
-            Expect(library.Store(ctx, book)).To(Succeed())
-        })
-
-        Context("and the book is available", func() {
-            It("lends it to the reader", func(ctx SpecContext) {
-                Expect(valjean.Checkout(ctx, library, "Les Miserables")).To(Succeed())
-                Expect(valjean.Books()).To(ContainElement(book))
-                Expect(library.UserWithBook(ctx, book)).To(Equal(valjean))
-            }, SpecTimeout(time.Second * 5))
-        })
-
-        Context("but the book has already been checked out", func() {
-            var javert *users.User
-            BeforeEach(func(ctx SpecContext) {
-                javert = users.NewUser("Javert")
-                Expect(javert.Checkout(ctx, library, "Les Miserables")).To(Succeed())
-            })
-
-            It("tells the user", func(ctx SpecContext) {
-                err := valjean.Checkout(ctx, library, "Les Miserables")
-                Expect(error).To(MatchError("Les Miserables is currently checked out"))
-            }, SpecTimeout(time.Second * 5))
-
-            It("lets the user place a hold and get notified later", func(ctx SpecContext) {
-                Expect(valjean.Hold(ctx, library, "Les Miserables")).To(Succeed())
-                Expect(valjean.Holds(ctx)).To(ContainElement(book))
-
-                By("when Javert returns the book")
-                Expect(javert.Return(ctx, library, book)).To(Succeed())
-
-                By("it eventually informs Valjean")
-                notification := "Les Miserables is ready for pick up"
-                Eventually(ctx, valjean.Notifications).Should(ContainElement(notification))
-
-                Expect(valjean.Checkout(ctx, library, "Les Miserables")).To(Succeed())
-                Expect(valjean.Books(ctx)).To(ContainElement(book))
-                Expect(valjean.Holds(ctx)).To(BeEmpty())
-            }, SpecTimeout(time.Second * 10))
-        })  
-    })
-
-    When("the library does not have the book in question", func() {
-        It("tells the reader the book is unavailable", func(ctx SpecContext) {
-            err := valjean.Checkout(ctx, library, "Les Miserables")
-            Expect(error).To(MatchError("Les Miserables is not in the library catalog"))
-        }, SpecTimeout(time.Second * 5))
-    })
-})
+	// Query
+	query := `
+		{
+			hello
+		}
+	`
+	params := graphql.Params{Schema: schema, RequestString: query}
+	r := graphql.Do(params)
+	if len(r.Errors) > 0 {
+		log.Fatalf("failed to execute graphql operation, errors: %+v", r.Errors)
+	}
+	rJSON, _ := json.Marshal(r)
+	fmt.Printf("%s \n", rJSON) // {"data":{"hello":"world"}}
+}
 ```
 
+### genqlient
 
+https://github.com/Khan/genqlient
 
 ## conc
 
@@ -940,6 +775,24 @@ func main() {
 ```
 
 https://github.com/sourcegraph/conc
+
+
+
+## 热更新
+
+### fresh
+
+https://github.com/gravityblast/fresh
+
+
+
+## 路由
+
+### gocraft/web
+
+https://github.com/gocraft/web
+
+go的路由和中间件
 
 
 
@@ -1056,58 +909,280 @@ func main() {
 
 https://czyt.tech/post/golang-expr-uncompleted-reference/
 
+### go-funk
 
+go的工具库函数
 
-## 微服务
-
-### eagle
-
-https://github.com/go-eagle/eagle
+https://github.com/thoas/go-funk
 
 
 
-## Monorepo
+### goph
 
-go的monorepo使用replace替换
+go的ssh连接客户端
 
-```go
-module github.com/earthly/earthly/examples/go-monorepo/services/one
-
-go 1.17
-
-require (
-  github.com/earthly/earthly/examples/go-monorepo/libs/hello v0.0.0
-  github.com/labstack/echo/v4 v4.6.3
-)
-
-replace github.com/earthly/earthly/examples/go-monorepo/libs/hello v0.0.0 => ../../libs/hello
+```shell
+go get github.com/melbahja/goph
 ```
 
-构建工具
+使用
 
-earthly
+```go
+package main
+
+import (
+	"log"
+	"fmt"
+	"github.com/melbahja/goph"
+)
+
+func main() {
+
+	// Start new ssh connection with private key.
+	auth, err := goph.Key("/home/mohamed/.ssh/id_rsa", "")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	client, err := goph.New("root", "192.1.1.3", auth)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// Defer closing the network connection.
+	defer client.Close()
+
+	// Execute your command.
+	out, err := client.Run("ls /tmp/")
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// Get your output as []byte.
+	fmt.Println(string(out))
+}
+
+// with private key
+auth, err := goph.Key("/home/mohamed/.ssh/id_rsa", "you_passphrase_here")
+if err != nil {
+	// handle error
+}
+
+client, err := goph.New("root", "192.1.1.3", auth)
+```
+
+### go-git
+
+go的git包
+
+```go
+// Clones the given repository in memory, creating the remote, the local
+// branches and fetching the objects, exactly as:
+Info("git clone https://github.com/go-git/go-billy")
+
+r, err := git.Clone(memory.NewStorage(), nil, &git.CloneOptions{
+    URL: "https://github.com/go-git/go-billy",
+})
+
+CheckIfError(err)
+
+// Gets the HEAD history from HEAD, just like this command:
+Info("git log")
+
+// ... retrieves the branch pointed by HEAD
+ref, err := r.Head()
+CheckIfError(err)
+
+
+// ... retrieves the commit history
+cIter, err := r.Log(&git.LogOptions{From: ref.Hash()})
+CheckIfError(err)
+
+// ... just iterates over the commits, printing it
+err = cIter.ForEach(func(c *object.Commit) error {
+	fmt.Println(c)
+	return nil
+})
+CheckIfError(err)
+```
+
+### envconfig
+
+获取环境变量
+
+https://github.com/kelseyhightower/envconfig
+
+
+
+### got
+
+比curl更快地下载，是go下载文件的工具包
+
+https://github.com/melbahja/got
+
+```go
+package main
+
+import "github.com/melbahja/got"
+
+func main() {
+
+	g := got.New()
+
+	err := g.Download("http://localhost/file.ext", "/path/to/save")
+
+	if err != nil {
+		// ..
+	}
+}
+```
+
+## gopsutil
+
+获取系统内存、cpu
+
+https://github.com/shirou/gopsutil
+
+使用
+
+```go
+package main
+
+import (
+    "fmt"
+
+    "github.com/shirou/gopsutil/v3/mem"
+    // "github.com/shirou/gopsutil/mem"  // to use v2
+)
+
+func main() {
+    v, _ := mem.VirtualMemory()
+
+    // almost every return value is a struct
+    fmt.Printf("Total: %v, Free:%v, UsedPercent:%f%%\n", v.Total, v.Free, v.UsedPercent)
+
+    // convert to JSON. String() is also implemented
+    fmt.Println(v)
+}
+```
+
+
+
+### cli工具
+
+https://github.com/urfave/cli
+
+使用
+
+```go
+package main
+
+import (
+    "fmt"
+    "log"
+    "os"
+
+    "github.com/urfave/cli/v2"
+)
+
+func main() {
+    app := &cli.App{
+        Name:  "greet",
+        Usage: "fight the loneliness!",
+        Action: func(*cli.Context) error {
+            fmt.Println("Hello friend!")
+            return nil
+        },
+    }
+
+    if err := app.Run(os.Args); err != nil {
+        log.Fatal(err)
+    }
+}
+```
+
+
+
+## go脚本
+
+### yaegi
+
+
+
+### tengo
 
 安装
 
 ```shell
-brew install earthly/earthly/earthly && earthly bootstrap
+go get github.com/d5/tengo/v2
 ```
 
-https://earthly.dev/
+使用
 
-## go-clean-arch
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/d5/tengo/v2"
+)
+
+func main() {
+	// create a new Script instance
+	script := tengo.NewScript([]byte(
+`each := func(seq, fn) {
+    for x in seq { fn(x) }
+}
+
+sum := 0
+mul := 1
+each([a, b, c, d], func(x) {
+    sum += x
+    mul *= x
+})`))
+
+	// set values
+	_ = script.Add("a", 1)
+	_ = script.Add("b", 9)
+	_ = script.Add("c", 8)
+	_ = script.Add("d", 4)
+
+	// run the script
+	compiled, err := script.RunContext(context.Background())
+	if err != nil {
+		panic(err)
+	}
+
+	// retrieve values
+	sum := compiled.Get("sum")
+	mul := compiled.Get("mul")
+	fmt.Println(sum, mul) // "22 288"
+}
+```
+
+其他脚本语言
+
+https://github.com/d5/tengo 下有介绍
 
 
 
-https://github.com/bxcodec/go-clean-arch
-
-
-
-## Node、Go、Python对比
-
-Go的语法简洁，是强语言类型，效率高，可直接被编译为机器码，
+### goja
 
 
 
 
 
+## 打包
+
+### ko
+
+ko可以轻松地打包go的程序为容器
+
+
+
+### distroless
+
+https://github.com/GoogleContainerTools/distroless

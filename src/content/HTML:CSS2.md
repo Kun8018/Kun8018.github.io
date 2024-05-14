@@ -40,16 +40,6 @@ background-size：设定背景图片的尺寸
 
 object-fit：指定可替换元素的内容应该如何适应到其使用的高度和宽度确定的框
 
-Text-decoration: line-through; 在文本上加横线表示划掉
-
-​							  dashed：虚线
-
-​							  underline: 下划线
-
-​							  wavy： 波浪线
-
-​							 overline： 上划线
-
  #### grid布局
 
 网格布局（Grid）是最强大的 CSS 布局方案
@@ -318,15 +308,41 @@ table-layout：auto：默认值
 
 ​                 fixed：宽度固定，截断超出的内容
 
-**文本**
+#### 文本属性
+
+Text-decoration: line-through; 在文本上加横线表示划掉
+
+​							  dashed：虚线
+
+​							  underline: 下划线
+
+​							  wavy： 波浪线
+
+​							 overline： 上划线
 
 letter-spacing：用于设置文本字符的间距表现
 
-属性：normal：按照当前字体的正常间距确定的
+​						属性：normal：按照当前字体的正常间距确定的
 
-或者指定宽度：1px，rem这样
+​						或者指定宽度：1px，rem这样
 
-text-transform:控制文本大小写 direction：书写方向 color:文本颜色
+text-transform:控制文本大小写 
+
+​							capitalize这个关键字强制每个单词的*首*字母转换为大写。其他的字符保留不变
+
+​							uppercase这个关键字强制所有字符被转换为大写。
+
+​							lowercase这个关键字强制所有字符被转换为小写。
+
+​							none这个关键字阻止所有字符的大小写被转换。
+
+​							full-width是一个关键字，它强制将字符（主要是表意文字和拉丁文字））-- 写在一个正方形内，使它们能够在通常的东亚文字（如中文或日文）中对齐。
+
+​							full-size-kana通常用于 [``](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/ruby) 注释文本，该关键字将所有小假名字符转换为等效的全尺寸假名
+
+direction：书写方向 
+
+color:文本颜色
 
 text-indent：规定文本首行的缩进 white-space：处理元素的空白如nowrap表示文本不会换行
 
@@ -347,6 +363,10 @@ text-shadow的参数：当阴影大于一个时要用逗号区别开阴影之间
 当所给的阴影大于一个时，阴影应用的顺序为从前到后, 第一个指定的阴影在顶部.
 
 Text-rendering: auto | optimizeSpeed | optimizeLegibility | geometricPrecision | inherit
+
+font-feature-settings控制 OpenType 字体中的高级印刷功能
+
+
 
 svg属性
 

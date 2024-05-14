@@ -14,6 +14,14 @@ thumbnail: https://cdn.kunkunzhang.top/redux.jpeg
 
 ## react库
 
+### React-filepond
+
+react上传文件组件
+
+https://github.com/pqina/react-filepond
+
+
+
 ### react-datasheet
 
 react中构建像excel一样功能的库
@@ -67,6 +75,51 @@ class App extends React.Component {
 var colors = tinycolor("#f00").analogous();
 
 colors.map(function(t) { return t.toHexString(); }); // [ "#ff0000", "#ff0066", "#ff0033", "#ff0000", "#ff3300", "#ff6600" ]
+```
+
+
+
+### react-chrono
+
+react的时间轴组件
+
+安装
+
+```shell
+## install with yarn
+yarn add react-chrono
+
+## or with npm
+npm install react-chrono
+```
+
+使用
+
+```react
+  import React from "react"
+  import { Chrono } from "react-chrono";
+
+  const Home = () => {
+    const items = [{
+      title: "May 1940",
+      cardTitle: "Dunkirk",
+      url: "http://www.history.com",
+      cardSubtitle:"Men of the British Expeditionary Force (BEF) wade out to..",
+      cardDetailedText: "Men of the British Expeditionary Force (BEF) wade out to..",
+      media: {
+        type: "IMAGE",
+        source: {
+          url: "http://someurl/image.jpg"
+        }
+      }
+    }, ...];
+
+    return (
+      <div style={{ width: "500px", height: "400px" }}>
+        <Chrono items={items} />
+      </div>
+    )
+  }
 ```
 
 
@@ -135,6 +188,8 @@ replayer.destroy();
 
 包含比较流行的icons
 
+包含antd icons、bootstrap icons、font awesome icons等图标
+
 安装
 
 ```shell
@@ -180,6 +235,46 @@ const Email = () => {
   );
 };
 ```
+
+
+
+### react-frame-component
+
+在iframe里面渲染react组件
+
+安装
+
+```shell
+npm install --save react-frame-component
+```
+
+使用
+
+```react
+import Frame from 'react-frame-component';
+
+const Header = ({ children }) => (
+  const iframeRef = React.useRef();
+
+  React.useEffect(() => {
+    // Use iframeRef for:
+    // - focus managing
+    // - triggering imperative animations
+    // - integrating with third-party DOM libraries
+    iframeRef.current.focus()
+  }, [])
+
+	return (
+    <Frame>
+      <h1>{children}</h1>
+    </Frame>
+  )
+);
+
+ReactDOM.render(<Header>Hello</Header>, document.body);
+```
+
+
 
 
 
@@ -719,60 +814,6 @@ i18next.use(LanguageDetector).init(i18nextOptions);
 
 
 
-### uuid
-
-uuid是通用唯一识别码(Universally Unique Identifier)的缩写。是一种软件建构辨准，亦为开发软件基金会组织在分布式计算环境领域的一部分。其目的是让分布式系统中的所有元素具有唯一的辨识信息，而不需要通过中央控制端来做辨识信息的指定。
-
-UUID由一组32位数的16进制数字构成。对于UUID，就算每纳秒产生一百万个UUID，要花100亿年才会将所有UUID用完。
-
-格式
-
-uuid32个16进制数字用连字号分成五组来显示，所以共有36个字符
-
-UUID版本通过M表示，当前规范有5个版本，可选值为1、2、3、4、5，这5个版本使用不同的算法，利用不同的信息产生UUID，各版本有各版本的优势，具体来说：
-
-uuid.v1()：创建版本1(时间戳)UUID
-
-uuid.v3()：创建版本3(md5命名空间)UUID
-
-uuid.v4()：创建版本4(随机)UUID
-
-uuid.v5()：创建版本5(带SHA-1的命名空间)IIOD
-
-安装
-
-```shell
-npm install uuid 
-```
-
-使用
-
-```javascript
-import { v4 as uuidv4} from 'uuid'
-
-uuidv4()
-```
-
-可以使用uuid进行验证登陆,未登陆状态下生产uuid
-
-```javascript
-let uuid = sessionStorage.getItem('uuid')
-if(!uuid){
-  sessionStorage.setItem('uuid')
-}
-
-if(getToken()){
-  sessionStorage.removeItem('uuid');
-}else {
-  let uuid = sessionStorage.getItem('uuid');
-  if(!uuid){
-    sessionStorage.setItem('uuid',uuidv4());
-  }
-}
-```
-
-
-
 ### K-bar
 
 k-bar可以给react部署的站点提供一个舒服的搜索框样式
@@ -861,6 +902,58 @@ function RenderResults() {
       }
     />
   );
+}
+```
+
+### uuid
+
+uuid是通用唯一识别码(Universally Unique Identifier)的缩写。是一种软件建构辨准，亦为开发软件基金会组织在分布式计算环境领域的一部分。其目的是让分布式系统中的所有元素具有唯一的辨识信息，而不需要通过中央控制端来做辨识信息的指定。
+
+UUID由一组32位数的16进制数字构成。对于UUID，就算每纳秒产生一百万个UUID，要花100亿年才会将所有UUID用完。
+
+格式
+
+uuid32个16进制数字用连字号分成五组来显示，所以共有36个字符
+
+UUID版本通过M表示，当前规范有5个版本，可选值为1、2、3、4、5，这5个版本使用不同的算法，利用不同的信息产生UUID，各版本有各版本的优势，具体来说：
+
+uuid.v1()：创建版本1(时间戳)UUID
+
+uuid.v3()：创建版本3(md5命名空间)UUID
+
+uuid.v4()：创建版本4(随机)UUID
+
+uuid.v5()：创建版本5(带SHA-1的命名空间)IIOD
+
+安装
+
+```shell
+npm install uuid 
+```
+
+使用
+
+```javascript
+import { v4 as uuidv4} from 'uuid'
+
+uuidv4()
+```
+
+可以使用uuid进行验证登陆,未登陆状态下生产uuid
+
+```javascript
+let uuid = sessionStorage.getItem('uuid')
+if(!uuid){
+  sessionStorage.setItem('uuid')
+}
+
+if(getToken()){
+  sessionStorage.removeItem('uuid');
+}else {
+  let uuid = sessionStorage.getItem('uuid');
+  if(!uuid){
+    sessionStorage.setItem('uuid',uuidv4());
+  }
 }
 ```
 
@@ -1149,6 +1242,14 @@ sticky上可以添加不同的属性
 
 
 
+### react-pro-sidebar
+
+侧边栏
+
+https://github.com/azouaoui-med/react-pro-sidebar
+
+
+
 ### crypto-browserify
 
 加密
@@ -1187,6 +1288,8 @@ class App extends Component {
     }
 }
 ```
+
+
 
 
 
@@ -1514,15 +1617,7 @@ const mySum = hfInstance.getCellValue({ col: 3, row: 0, sheet: 0 });
 console.log(mySum);
 ```
 
-### unimported
 
-检查当前代码系统中没有被引用的文件
-
-```shell
-$ npx unimported
-```
-
-https://www.npmjs.com/package/unimported
 
 ### why-did-you-render
 

@@ -695,6 +695,16 @@ packages: # 所有在 packages/ 子目录下的 package
 
 
 
+### moon
+
+https://github.com/moonrepo/moon
+
+#### proto
+
+https://moonrepo.dev/docs/proto
+
+
+
 ### 相关文章
 
 知乎字节巨老，有很多monorepo的文章/回答：https://www.zhihu.com/people/zhao-qing-90-84/posts

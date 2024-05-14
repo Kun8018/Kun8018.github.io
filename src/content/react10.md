@@ -14,7 +14,53 @@ thumbnail: https://cdn.kunkunzhang.top/redux.jpeg
 
 ## UI库
 
+### shadcn/ui
+
+shadcn/ui 并不是一个组件库，而是一个组件集合。你不需要将其安装为项目依赖项，而是通过复制粘贴到你的项目中。这种设计方式颠覆了传统组件库的设计理念，但它的好处是更容易控制代码，决定组件的构建和样式。
+
+shadcn/ui 可以在支持 React 的框架的项目中使用，例如 Next.js、Astro、Remix、Gatsby 等。下面通过 Vite 创建一个 React 项目来体验一下
+
+在react项目中添加shadcn-ui
+
+```shell
+npx shadcn-ui@latest init
+```
+
+这一步会生成 `components.json` 配置，以及 `src/components`、`src/lib` 两个文件夹，配置就已经完成了。
+
+*需要注意的是，按照原文档配置的导入路径应该是 `@/components` 和 `@/lib/utils`，按照这个生成的会直接在根目录生成 `@`目录，导致无法正常导入。* 我认为本意应该是要生成在 `src` 目录下的，CLI 工具并没有处理别名 `@`成正确目录。所以我把上面步骤中对 `@`别名定义都改成了 `src`。
+
+接下来，就可以导入组件使用啦。用 CLI 工具添加一个 `button` 组件
+
+```shell
+npx shadcn-ui@latest add button
+```
+
+这个命名会在 `src/components` 添加一个 `button` 组件代码，按常规代码导入即可使用
+
+```tsx
+import { Button } from "./components/ui/button"
+
+function App() {
+  return (
+    <Button>Click me</Button>
+  )
+}
+
+export default App
+```
+
+
+
 ### chakra-UI
+
+
+
+#### ark-UI
+
+基于zagjs的headless UI库
+
+https://ark-ui.com/docs/react/components/checkbox
 
 
 
@@ -59,6 +105,210 @@ tailwind的公司开源的UI库
 ### react-Aria
 
 React hooks组件库
+
+
+
+### mantine
+
+https://mantine.dev/
+
+使用
+
+```react
+import { Badge, Button, MantineProvider } from '@mantine/core';
+
+function Demo() {
+  return (
+    <MantineProvider theme={{
+      fontFamily: 'Greycliff CF, sans-serif',
+      colors: {
+        'ocean-blue': ['#7AD1DD', '#5FCCDB', '#44CADC', '#2AC9DE', '#1AC2D9', '#11B7CD', '#09ADC3', '#0E99AC', '#128797', '#147885'],
+        'bright-pink': ['#F0BBDD', '#ED9BCF', '#EC7CC3', '#ED5DB8', '#F13EAF', '#F71FA7', '#FF00A1', '#E00890', '#C50E82', '#AD1374'],
+      },
+    }}>
+      <Button color="ocean-blue">Ocean blue button</Button>
+      <Badge color="bright-pink" variant="filled">Bright pink badge</Badge>
+    </MantineProvider>
+  );
+}
+```
+
+### radix-ui
+
+安装
+
+```shell
+npm install @radix-ui/react-popover@latest -E
+```
+
+使用
+
+```react
+import React from 'react';
+import * as Popover from '@radix-ui/react-popover';
+import './styles.css';
+
+const PopoverDemo = () => (
+  <Popover.Root>
+    <Popover.Trigger className="PopoverTrigger">More info</Popover.Trigger>
+    <Popover.Portal>
+      <Popover.Content className="PopoverContent" sideOffset={5}>
+        Some more info…
+        <Popover.Arrow className="PopoverArrow" />
+      </Popover.Content>
+    </Popover.Portal>
+  </Popover.Root>
+);
+
+export default PopoverDemo;
+```
+
+#### shadcn-ui
+
+基于radix-ui和tailwindcss
+
+
+
+### float-ui
+
+安装
+
+```shell
+npm install @floating-ui/dom @floating-ui/react
+```
+
+使用
+
+```react
+
+```
+
+
+
+### tanstack
+
+#### query
+
+
+
+#### table
+
+安装
+
+```shell
+npm install @tanstack/react-table
+```
+
+
+
+#### router
+
+
+
+#### form
+
+安装
+
+```shell
+npm i @tanstack/react-form
+```
+
+使用
+
+```react
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import { useForm, FieldApi } from '@tanstack/react-form'
+
+function FieldInfo({ field }: { field: FieldApi<any, any> }) {
+  return (
+    <>
+      {field.state.meta.touchedError ? (
+        <em>{field.state.meta.touchedError}</em>
+      ) : null}{' '}
+      {field.state.meta.isValidating ? 'Validating...' : null}
+    </>
+  )
+}
+
+export default function App() {
+  const form = useForm({
+    // Memoize your default values to prevent re-renders
+    defaultValues: React.useMemo(
+      () => ({
+        firstName: '',
+        lastName: '',
+      }),
+      [],
+    ),
+    onSubmit: async (values) => {
+      // Do something with form data
+      console.log(values)
+    },
+  })
+
+  return (
+    <div>
+      <h1>Simple Form Example</h1>
+      {/* A pre-bound form component */}
+      <form.Form>
+        <div>
+          {/* A type-safe and pre-bound field component*/}
+          <form.Field
+            name="firstName"
+            validate={(value) => !value && 'A first name is required'}
+            validateAsyncOn="change"
+            validateAsyncDebounceMs={500}
+            validateAsync={async (value) => {
+              await new Promise((resolve) => setTimeout(resolve, 1000))
+              return (
+                value.includes('error') && 'No "error" allowed in first name'
+              )
+            }}
+            children={(field) => (
+              // Avoid hasty abstractions. Render props are great!
+              <>
+                <label htmlFor={field.name}>First Name:</label>
+                <input name={field.name} {...field.getInputProps()} />
+                <FieldInfo field={field} />
+              </>
+            )}
+          />
+        </div>
+        <div>
+          <form.Field
+            name="lastName"
+            children={(field) => (
+              <>
+                <label htmlFor={field.name}>Last Name:</label>
+                <input name={field.name} {...field.getInputProps()} />
+                <FieldInfo field={field} />
+              </>
+            )}
+          />
+        </div>
+        <form.Subscribe
+          selector={(state) => [state.canSubmit, state.isSubmitting]}
+          children={([canSubmit, isSubmitting]) => (
+            <button type="submit" disabled={!canSubmit}>
+              {isSubmitting ? '...' : 'Submit'}
+            </button>
+          )}
+        />
+      </form.Form>
+    </div>
+  )
+}
+
+const rootElement = document.getElementById('root')!
+ReactDOM.createRoot(rootElement).render(<App />)
+```
+
+#### virtual
+
+
+
+#### react-charts
 
 
 
@@ -916,6 +1166,67 @@ npm install formik --save
 
 
 
+### react-final-form
+
+安装
+
+```shell
+npm install --save final-form react-final-form
+```
+
+使用
+
+```react
+import { Form, Field } from 'react-final-form'
+
+const MyForm = () => (
+  <Form
+    onSubmit={onSubmit}
+    validate={validate}
+    render={({ handleSubmit }) => (
+      <form onSubmit={handleSubmit}>
+        <h2>Simple Default Input</h2>
+        <div>
+          <label>First Name</label>
+          <Field name="firstName" component="input" placeholder="First Name" />
+        </div>
+
+        <h2>An Arbitrary Reusable Input Component</h2>
+        <div>
+          <label>Interests</label>
+          <Field name="interests" component={InterestPicker} />
+        </div>
+
+        <h2>Render Function</h2>
+        <Field
+          name="bio"
+          render={({ input, meta }) => (
+            <div>
+              <label>Bio</label>
+              <textarea {...input} />
+              {meta.touched && meta.error && <span>{meta.error}</span>}
+            </div>
+          )}
+        />
+
+        <h2>Render Function as Children</h2>
+        <Field name="phone">
+          {({ input, meta }) => (
+            <div>
+              <label>Phone</label>
+              <input type="text" {...input} placeholder="Phone" />
+              {meta.touched && meta.error && <span>{meta.error}</span>}
+            </div>
+          )}
+        </Field>
+
+        <button type="submit">Submit</button>
+      </form>
+    )}
+  />
+)
+```
+
 ### Yup
 
 验证器，用在form上
@@ -946,7 +1257,148 @@ type User = InferType<typeof userSchema>;
 }*/
 ```
 
+### vest
 
+声明式form验证库
+
+使用
+
+```javascript
+import { create, test, enforce, only, warn, include, skipWhen } from "vest";
+import wait from "wait";
+
+const suite = create((data = {}, currentField) => {
+  only(currentField);
+  include("confirm").when("password");
+
+  test("username", "Username is required", () => {
+    enforce(data.username).isNotEmpty();
+  });
+  test("username", "Username is too short", () => {
+    enforce(data.username).longerThan(2);
+  });
+
+  test.memo(
+    "username",
+    "Username already taken",
+    () => {
+      return doesUserExist(data.username);
+    },
+    [data.username]
+  );
+
+  test("password", "Password is required", () => {
+    enforce(data.password).isNotEmpty();
+  });
+  test("password", "Password is too short", () => {
+    enforce(data.password).longerThan(2);
+  });
+  test("password", "Password is weak. maybe add a number", () => {
+    warn();
+    enforce(data.password).matches(/[0-9]/);
+  });
+
+  // This means that "confirm" will not fail
+  // before we start typing in it - even though it runs with "password"
+  skipWhen(!data.confirm,() => {
+    test("confirm", "Passwords do not match", () => {
+      enforce(data.confirm).equals(data.password);
+    });
+  });
+
+  // This test will only be evaluated once confirm had previous test runs
+  // so that it will not light up unnecessarily 
+  skipWhen(!suite.isTested("confirm"), () => {
+    test("confirm", "Please confirm the password", () => {
+      enforce(data.confirm).isNotEmpty();
+    });
+  })
+
+  test("tos", () => {
+    enforce(data.tos).isTruthy();
+  });
+});
+
+export default suite;
+
+async function doesUserExist(username) {
+  await wait(1000);
+
+  // fake taken username.
+  enforce(parseInt(btoa(username), 36) % 3).notEquals(0);
+}
+```
+
+引入组件中
+
+```javascript
+import React, { useState } from "react";
+import Input from "./components/Input";
+import Checkbox from "./components/Checkbox";
+import Submit from "./components/Submit";
+
+import classnames from "vest/classnames";
+import suite from "./suite";
+import "./styles.css";
+
+export default function Form() {
+  const [formstate, setFormstate] = useState({});
+  const [, setUserNameLoading] = useState(false);
+
+  const handleChange = (currentField, value) => {
+    const nextState = { ...formstate, [currentField]: value };
+    const result = suite(nextState, currentField);
+    setFormstate(nextState);
+
+    if (currentField === "username") {
+      setUserNameLoading(true);
+    }
+
+    result.done(() => {
+      setUserNameLoading(false);
+    });
+  };
+
+  const cn = classnames(suite.get(), {
+    invalid: "error",
+    valid: "success",
+    warning: "warning"
+  });
+
+  return (
+    <form onSubmit={e => e.preventDefault()}>
+      <Input
+        name="username"
+        onChange={handleChange}
+        messages={suite.getErrors("username")}
+        className={cn("username")}
+        pending={suite.isPending("username")}
+      />
+      <Input
+        name="password"
+        onChange={handleChange}
+        messages={suite
+          .getErrors("password")
+          .concat(suite.getWarnings("password"))}
+        className={cn("password")}
+      />
+      <Input
+        name="confirm"
+        onChange={handleChange}
+        messages={suite.getErrors("confirm")}
+        className={cn("confirm")}
+      />
+      <Checkbox
+        onChange={handleChange}
+        name="tos"
+        label="I have read and agreed to the terms of service"
+        className={cn("tos")}
+      />
+      <Submit disabled={!suite.isValid()} />
+    </form>
+  );
+}
+```
 
 ## 路由相关组件
 
@@ -1538,275 +1990,6 @@ clsx(['foo'], ['', 0, false, 'bar'], [['baz', [['hello'], 'there']]]);
 clsx('foo', [1 && 'bar', { baz:false, bat:null }, ['hello', ['world']]], 'cya');
 //=> 'foo bar hello world cya'
 ```
-
-
-
-### GraphQL
-
-Apollo是基于GraphQL的全栈解决方案集合，包括了apollo-client和apollo-server，从后端到前端提供了对应的lib使得开发GraphQL更加方便
-
-```toml
-apollo-boost 包含启动阿波罗客户端的所有依赖
-react-apollo 视图层面的集合
-graph-tag 解析查询语句
-graphql 也是解析查询语句
-```
-
-使用apollo-boost
-
-```react
-import ApolloClient from 'apollo-boost' 
-
-const client = new ApolloClient({
-    uri: 'http://localhost:5000/graphql'
-})
-
-import { ApolloProvider,Query } from 'react-apollo'
-import { Mutation,MutationFunc } from 'react-apollo'
-
-```
-
-#### @apollo/client
-
-安装preset包
-
-```shell
-# installing the preset package 
-npm install apollo-boost graphql-tag graphql --save
-```
-
-安装@apollo/client
-
-```shell
-# installing each piece independently 
-npm install apollo-client apollo-cache-inmemory apollo-link-http graphql-tag graphql --save
-```
-
-使用@apollo/client
-
-```react
-import ApolloClient from 'apollo-boost';
- 
-const client = new ApolloClient();
-
-import React, { ReactElement } from 'react';
-import {useQuery, gql } from '@apollo/client';
-
-const GET_AUTHOR = gql`
-	query Author($id: Int!) {
-		author(id: $id) {
-			id
-			firstName
-			lastName
-			posts {
-				title
-				author
-			}
-		}
-	}
-`
-
-export default function Home({}): ReactElement {
-  const {data, loading, refetch } = useQuery(GET_AUTHOR, { variables: {id: 1}});
-  return (
-  	<div>home</div>
-  )
-}
-```
-
-#### graphql-request
-
-node端可以使用graphql-request请求
-
-```shell
-npm add graphql-request grapghql
-```
-
-使用
-
-```react
-import { request, gql } from 'graphql-request'
-
-const query = gql`
-  {
-    company {
-      ceo
-    }
-    roadster {
-      apoapsis_au
-    }
-  }
-`
-
-request('https://api.spacex.land/graphql/', query).then((data) => console.log(data))
-
-import { request, GraphQLClient } from 'graphql-request'
-
-// Run GraphQL queries/mutations using a static function
-request(endpoint, query, variables).then((data) => console.log(data))
-
-// ... or create a GraphQL client instance to send requests
-const client = new GraphQLClient(endpoint, { headers: {} })
-client.request(query, variables).then((data) => console.log(data))
-```
-
-#### graphql-code-generate
-
-使用graphql-code-generate生成hooks代码
-
-安装graphql-code-generator命令行工具
-
-```shell
-yarn add graphql
-yarn add -D @graphql-codegen/cli
-```
-
-根据实际项目情况安装生成hooks的plugins
-
-```shell
-yarn add @graphql-codegen/typescript-react-apollo
-yarn add @graphql-codegen/typescript
-yarn add @graphql-codegen/typescript-operations
-```
-
-然后首先编写graphql文件
-
-```graphql
-mutation CreateAuthor($author: authorInput) {
-	createAuthor(author: $author)
-}
-
-query Author($id: Int!) {
-	author(id: $id) {
-		id
-		firstName
-		lastName
-		posts {
-			title
-			author
-		}
-	}
-}
-```
-
-再编写codegen的config文件
-
-```yaml
-overwrite: trues
-schema: ./schema.gql
-documents: 'scr/**/*.graphql'
-generates:
-	src/generated/graphql.tsx:
-		plugins:
-			- 'typescript'
-			- 'typescript-operations'
-			- 'typescript-react-apollo'
-		hooks:
-			afterOneFileWrite:
-				- prettier --write
-	schema.graphql:
-		plugins:
-			- 'schema-ast'
-		hooks:
-			 afterOneFileWrite:
-				- prettier --write
-```
-
-**`overwrite`** - 生成代码时覆盖文件的标志（`true`默认情况下）
-
- **`schema`（必需）** - 指向`GraphQLSchema`，可以通过本地文件路径、url等多种方式
-
- **`documents`** - 指向你的`GraphQL`文档：`query、 mutation、subscription、fragment` 
-
-**`generates`（必需）** - 一个映射，其中键表示生成代码的输出路径，值表示该特定文件的一组相关选项：
-
-配置package.json
-
-```json
-{
-  "scripts": {
-    "codegen": "graphql-codegen"
-  },
-}
-```
-
-#### apollo-upload-client
-
-graphql上传接口
-
-```shell
-npm install apollo-upload-client
-```
-
-使用
-
-```react
-import { gql, useMutation } from "@apollo/client";
-
-const MUTATION = gql`
-  mutation ($file: Upload!) {
-    uploadFile(file: $file) {
-      success
-    }
-  }
-`;
-
-function UploadFile() {
-  const [mutate] = useMutation(MUTATION);
-
-  function onChange({
-    target: {
-      validity,
-      files: [file],
-    },
-  }) {
-    if (validity.valid) mutate({ variables: { file } });
-  }
-
-  return <input type="file" required onChange={onChange} />;
-}
-```
-
-@graphql-ws
-
-graphql的websocket客户端
-
-```javascript
-import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
-import { createClient } from 'graphql-ws';
-
-const wsLink = new GraphQLWsLink(createClient({
-  url: 'ws://localhost:4000/subscriptions',
-  connectionParams: {
-    authToken: user.authToken,
-  },
-}));
-```
-
-React-apollo
-
-react中提供graphql上下文的组件
-
-```typescript
-import { ApolloProvider } from 'react-apollo';
-import { ApolloLink } from 'apollo-link';
-import ApolloClient from 'apollo-client';
-
-const App = () => {
-  client = new ApolloClient({
-      link: ApolloLink.from([onError(() => {}), new SchemaLink({ schema })]),
-      cache: cache || globalCache || new InMemoryCache(),
-    });
-  
-	return <ApolloProvider client={client}>
-    {children}
-  </ApolloProvider>;
-}
-```
-
-
-
-#### graph-tools
 
 
 

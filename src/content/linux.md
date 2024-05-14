@@ -8,7 +8,7 @@ toc: true
 thumbnail: https://s1.ax1x.com/2020/03/27/G9OI3V.th.jpg
 ---
 
-　　在我看来，Linux是一个对软件开发非常友好的操作系统。它去除了很多windows下的杂质，保留了非常干净的系统。Mac系统也是与它有很多相似的地方，才这样好用。
+　　在我看来，Linux是一个对软件开发非常友好的操作系统。它去除了很多windows下的复杂配置，保留了非常干净的系统。Mac系统也是与它有很多相似的地方，才这样好用。
 
 　　<!--more-->
 
@@ -394,7 +394,11 @@ vim /etc/sudoers
 username ALL=(ALL)  ALL
 ```
 
+切换到root用户
 
+```shell
+sudo su
+```
 
 
 
@@ -503,8 +507,6 @@ yum update
 
 
 
-
-
 ## Vim
 
 vim命令
@@ -518,6 +520,30 @@ vim命令
 :q! 不保存文件强制退出vim
 :e! 放弃所有修改，从上次保存文件开始再编辑命令历史
 ```
+
+
+
+## iowait
+
+在对系统性能进行优化时，一般会使用top命令来查看系统负载和系统中各个进程的运行情况
+
+```shell
+$top
+```
+
+Iowait是CPU在等待磁盘I/O请求完成时处于空闲状态的时间百分比。
+
+可以看出，如果系统处于iowait状态，必须满足两个条件：
+
+1.系统中存在等待I/O请求完成的进程
+
+2.系统当前正处于空闲状态，也就是没有可运行的进程
+
+**cpu 处于 iowait 状态时，仍然可以处理其他计算密集型任务。**
+
+**iowait 高，反映有大量 cpu 空闲时间在等待 IO。**
+
+**系统的 IO 瓶颈，需要结合其他工具 (比如 `iostat`) 综合判断。**
 
 
 
@@ -663,6 +689,27 @@ sudo yum install rpm-build
 
 
 
+### rsync
+
+rsync 是一个常用的 Linux 应用程序，用于文件同步
+
+它可以在本地计算机与远程计算机之间，或者两个本地目录之间同步文件（但不支持两台远程计算机之间的同步）。它也可以当作文件复制工具，替代 `cp` 和 `mv` 命令
+
+安装
+
+```shell
+# Debian
+$ sudo apt-get install rsync
+
+# Red Hat
+$ sudo yum install rsync
+
+# Arch Linux
+$ sudo pacman -S rsync
+```
+
+注意，传输的双方都必须安装 rsync
+
 
 
 ## Selinux
@@ -769,6 +816,20 @@ service httpd start
 service httpd restart
 service httpd stop
 ```
+
+## core dump
+
+Core 的意思是内存，Dump 的意思是扔出来，堆出来.
+
+开发和使用 Unix 程序时，有时程序莫名其妙的 down 了，却没有任何的提示 (有时候会提示 core dumped). 这时候可以查看一下有没有形如 core. 进程号的文件生成，这个文件便是操作系统把程序 down 掉时的内存内容扔出来生成的，它可以做为调试程序的参考.
+core dump 又叫核心转储，当程序运行过程中发生异常，程序异常退出时，由操作系统把程序当前的内存状况存储在一个 core 文件中，叫 core dump.
+
+gdb -c core 文件路径 [应用程序的路径]
+进去后输入 where 回车，就可以显示程序在哪一行当掉的，在哪个函数中.
+
+有时候程序 down 了，但是 core 文件却没有生成. core 文件的生成跟你当前系统的环境设置有关系，可以用下面的语句设置一下，然后再运行程序便成生成 core 文件.
+ulimit -c unlimited
+core 文件生成的位置一般于运行程序的路径相同，文件名一般为 core. 进程号
 
 
 

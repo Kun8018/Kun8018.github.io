@@ -1,5 +1,5 @@
 ---
-title: 云(一)
+title: k8s(一)
 date: 2020-03-0221:40:33
 categories: 技术博客
 tags:
@@ -68,6 +68,85 @@ thumbnail:
 
 随着 Kubernetes 的日趋成熟，“Kubernetes is becoming boring”，基于该 “操作系统” 之上构建的适用于不同场景的应用将成为新的发展方向，就像我们将石油开采出来后，提炼出汽油、柴油、沥青等等，所有的材料都将找到自己的用途，Kubernetes 也是，毕竟我们谁也不是为了部署和管理容器而用 Kubernetes，承载其上的应用才是价值之所在
 
+### OCI
+
+https://xuanwo.io/2019/08/06/oci-intro/
+
+OCI，[Open Container Initiative](https://www.opencontainers.org/)，是一个轻量级，开放的治理结构（项目），在 Linux 基金会的支持下成立，致力于围绕容器格式和运行时创建开放的行业标准。OCI 项目由 Docker，CoreOS（后来被 Red Hat 收购了，相应的席位被 Red Hat 继承）和容器行业中的其他领导者在 2015 年 6 月的时候启动。OCI 的技术委员会成员包括 Red Hat，Microsoft，Docker，[Cruise](https://getcruise.com/)，IBM，Google，Red Hat 和 SUSE，其中 Docker 公司有两名成员，且其中的一位是现任主席
+
+OCI 目前提出的规范有如下这些：
+
+| 名称                                                         | 版本       |
+| :----------------------------------------------------------- | :--------- |
+| [Runtime Specification](https://github.com/opencontainers/runtime-spec) | v1.0.1     |
+| [Image Format](https://github.com/opencontainers/image-spec) | v1.0.1     |
+| [Distribution Specification](https://github.com/opencontainers/distribution-spec) | v1.0.0-rc0 |
+
+其中 runtime 和 image 的规范都已经正式发布，而 distribution 的还在工作之中。runtime 规范中介绍了如何运行解压缩到磁盘上的 [`Filesystem Bundle`](https://github.com/opencontainers/runtime-spec/blob/master/bundle.md)。在 OCI 标准下，运行一个容器的过程就是下载一个 OCI 的镜像，将其解压到某个 `Filesystem Bundle` 中，然后某个 OCI Runtime 就会运行这个 Bundle。细节此处不再展开，感兴趣的同学可以直接阅读 Spec
+
+OCI in docker
+
+自从 2013 年 docker 发布之后，docker 项目本身逐渐成为了一个庞然大物。为了能够降低项目维护的成本，内部代码能够回馈社区，docker 公司提出了 “基础设施管道宣言” (Infrastructure Plumbing Manifesto)：
+
+- 只要有可能，重新使用现有的管道并提供改进：当您需要创建新的管道时，可以轻松地重复使用并提供改进。 这增加了可用组件的公共池，每个人都受益。
+- 遵循 UNIX 原则：几个简单的组件比一个复杂的组件要好
+- 定义标准接口：可用于将许多简单组件组合到更复杂的系统中
+
+docker 开始自行拆分自己项目中的管道代码并形成一个个新的开源项目：他们于 2014 年开源了 [libcontainer](https://github.com/docker/libcontainer)，并在随后的几年中陆续开源了 [libnetwork](https://github.com/docker/libnetwork), [notary](https://github.com/docker/notary), [hyperkit](https://github.com/docker/hyperkit) 等项目。在 OCI 项目启动后，docker 公司将 `libcontainer` 的实现移动到 [runC](https://github.com/opencontainers/runc) 并捐赠给了 OCI。此时，容器社区有了第一个 OCI Runtime 的参考实现。runC 是一个轻量可移植的容器运行时，包括了所有之前 docker 所使用的容器相关的与系统特性的代码，它的目标是：`make standard containers available everywhere`
+
+随后在 2016 年，docker 开源并将 [containerd](https://github.com/containerd/containerd) 捐赠给了 CNCF，containerd 几乎囊括了单机运行一个容器运行时所需要的一切：执行，分发，监控，网络，构建，日志等。为了能够支持多种 OCI Runtime，containerd 内部使用 `containerd-shim`，每启动一个容器都会创建一个新的 `containerd-shim` 进程，指定容器 ID，Bundle 目录，运行时的二进制（比如 runc）
+
+于是，现代 docker 启动一个标准化容器需要经历这样的流程：
+
+![img](https://xuanwo.io/2019/08/06/oci-intro/docker-to-oci.svg)
+
+OCI in k8s
+
+Kubernetes 最初只支持 docker 作为运行时，为了能够让 Kubernetes 变得更具有可扩展性，在 1.5 版本增加了 [CRI: the Container Runtime Interface](https://github.com/kubernetes/kubernetes/blob/242a97307b34076d5d8f5bbeb154fa4d97c9ef1d/docs/devel/container-runtime-interface.md)，在随后的演进中，CRI 被抽出来做成了独立的项目：https://github.com/kubernetes/cri-api/。
+
+CRI 是一套通过 protocol buffers 定义的 API
+
+kubelet 实现了 client 端，CRI shim 实现 server 端。只要实现了对应的接口，就能接入 k8s 作为 Container Runtime
+
+k8s 1.5 中自己实现了 [docker CRI shim](https://github.com/kubernetes/kubernetes/tree/release-1.5/pkg/kubelet/dockershim)，此时启动容器的流程如下：
+
+![img](https://xuanwo.io/2019/08/06/oci-intro/cri-docker.png)
+
+从 containerd 1.0 开始，为了能够减少一层调用的开销，containerd 开发了一个新的 daemon，叫做 CRI-Containerd，直接与 containerd 通信，从而取代了 dockershim：
+
+![img](https://xuanwo.io/2019/08/06/oci-intro/cri-containerd.png)
+
+但是这仍然多了一个独立的 daemon，从 containerd 1.1 开始，社区选择在 containerd 中直接内建 CRI plugin，通过方法调用来进行交互，从而减少一层 gRPC 的开销，最终的容器启动流程如下：
+
+![img](https://xuanwo.io/2019/08/06/oci-intro/containerd-built-in-plugin.png)
+
+最终的结果是 k8s 的 Pod 启动延迟得到了降低，CPU 和内存占用率都有不同程度的降低。
+
+但是这还不是终点，为了能够直接对接 OCI 的 runtime 而不是 containerd，社区孵化了 [CRI-O](https://github.com/cri-o/cri-o) 并加入了 CNCF。CRI-O 的目标是让 kubelet 与运行时直接对接，减少任何不必要的中间层开销。CRI-O 运行时可以替换为任意 OCI 兼容的 Runtime，镜像管理，存储管理和网络均使用标准化的实现，目前还在积极开发中，前途无量。
+
+基于OCI相关的开源项目
+
+**Runtime**
+
+- [opencontainers/runc](https://github.com/opencontainers/runc)：前面已经提到过很多次了，是 OCI Runtime 的参考实现。
+- [kata-containers/runtime](https://github.com/kata-containers/runtime)：容器标准反攻虚拟机，前身是 [clearcontainers/runtime](https://github.com/clearcontainers/runtime) 与 [hyperhq/runv](https://github.com/hyperhq/runv)，通过 [virtcontainers](https://github.com/kata-containers/runtime/tree/master/virtcontainers) 提供高性能 OCI 标准兼容的硬件虚拟化容器，Linux Only，且需要特定硬件。
+- [google/gvisor](https://github.com/google/gvisor)：gVisor 是一个 Go 实现的用户态内核，包含了一个 OCI 兼容的 Runtime 实现，目标是提供一个可运行非受信代码的容器运行时沙盒，目前是 Linux Only，其他架构可能会支持。
+
+**Image Build**
+
+- [moby/buildkit](https://github.com/moby/buildkit)：从 docker build 拆分出来的项目，支持自动 GC，多种输入和输出格式，并发依赖解析，分布式 Worker 和 Rootless 执行等特性
+- [genuinetools/img](https://github.com/genuinetools/img)：对 buildkit 的一层封装，单独的二进制，没有 daemon，支持 Rootless 执行，会自动创建 SUBUID，比 buildkit 使用起来更加容易
+- [uber/makisu](https://github.com/uber/makisu)：uber 开源的内部镜像构建工具，目标是在 Mesos 或 Kubernetes 上进行 Rootless 构建，支持的 Dockerfile 有些许不兼容，在非容器环境下运行会有问题，比如 [Image failed to build without modifyfs](https://github.com/uber/makisu/issues/233)
+- [GoogleContainerTools/kaniko](https://github.com/GoogleContainerTools/kaniko)：Google 出品，目标是 Daemon free build on Kubernetes，要求运行镜像 `gcr.io/kaniko-project/executor` 进行构建，直接在别的镜像中使用二进制可能会不工作，很蠢
+- [containers/buildah](https://github.com/containers/buildah)：开源组织 [Containers](https://github.com/containers) 推出的项目，目标是构建 OCI 容器镜像，Daemon free，支持 Rootless 构建
+
+**Tools**
+
+- [containers/skopeo](https://github.com/containers/skopeo)：这是一个用来查看容器镜像信息的工具，可以在不用下载到本地的前提下查看远端 Registry 中的镜像信息
+- [containers/libpod](https://github.com/containers/libpod)：二进制名为 `podman`，支持管理 Pod，容器，镜像和存储卷，命令行与 docker CLI 完全兼容，基本上能视为 docker CLI 的 drop-in replace，镜像部分的代码主要使用了 buildah，未来还会支持 cgroups v2，人类文明之光
+
+
+
 
 
 ## 技术名词概念
@@ -84,297 +163,241 @@ CPU“超分”是公有云（阿里云、华为云等）应用虚拟化技术�
 
 
 
-### 隔离技术与故障域
-
-故障域指的是当一个区域出现故障以后，它的受影响范围。例如在设计双活数据中心的时候，我们要设置故障域，那个故障域是A站点，哪个是B站点。A站点出现断电，受影响的最大范围只限于本站点，那么A站点就是一个故障域。当然，硬件层面的故障域还可以分得更细：比如一个数据中心内部，不同楼层是不同的故障域；同一个楼层，不同的机架也是不同的故障域。在故障域这个问题上，关键是看故障的类型如何定义
-
-而隔离技术就是限制故障域的。当然，应用级别的隔离术比硬件的隔离更为细致。其中包括
-
-1.线程隔离
-
-线程隔离主要指的是线程池隔离。根据前端的请求不同，把需求转发到不同的线程池中。
-
-2.进程隔离
-
-我们知道，交易和论坛都是电商系统很重要的两部分。在以前，一个电商系统如果不被拆分的情况下，交易请求和论坛请求都会访问同一个应用（一个或多个实例）。当系统拆分以后，论坛系统和交易系统是不同的应用，这样不仅做到了进程隔离，也提高了整体性能
-
-3.集群隔离
-
-集群隔离指的是，当电商系统某一个功能模块，单实例应用无法满足需求的时候，需要部署多个服务形成服务集群。
-
-4.机房隔离
-
-机房隔离是为了满足应用高可用的要求。每个机房的前端，可以通过DNS/负载均衡进行分流。或者在客户端的请求中，指明机房的分组标签。机房隔离是比较传统的隔离技术。
-
-5.读写隔离
-
-读写隔离又称读写分离。读写分为通常指的是数据库，如传统的RDBMS：Oracle DB、MySQL/Maria DB，以及缓存如：redis（key-value）、memcached（key-value）等。读写分离除了可以提高性能，还有一个好处是，当主集群出现问题的时候，如果没法写入数据，但用户客户从备集群读取数据。
-
-6.动静隔离
-
-大家都有网购的经历。网购的页面，有的是静态页面，有的是动态页面。例如：服装的图片是静态的，而附件界面是动态的。为了保证性能，电商通常将动态内容与静态资源分离，而一般静态资源放在CDN上
-
-7.爬虫隔离
-
-网络爬虫，大家可以理解为在网络上爬行的一直蜘蛛，互联网就比作一张大网，而爬虫便是在这张网上爬来爬去的蜘蛛咯，如果它遇到资源，那么它就会抓取下来。比如它在抓取一个网页，在这个网中他发现了一条道路，其实就是指向网页的超链接，那么它就可以爬到另一张网上来获取数据。这样，整个连在一起的大网对这之蜘蛛来说触手可及.
-
-在用户浏览网页的过程中，我们可能会看到许多好看的图片，我们会看到几张的图片以及百度搜索框，这个过程其实就是用户输入网址之后，经过 DNS [服务器](https://cloud.tencent.com/product/cvm?from=10680)，找到服务器主机，向服务器发出一个请求，服务器经过解析之后，发送给用户的浏览器 HTML、JS、CSS 等文件，浏览器解析出来，用户便可以看到形形色色的图片了.
-
-根据统计，很多网站的流程和正常流量访问比率可高达5:1，这种情况下，可以将爬虫路由到单独的集群
-
-8.热点隔离
-
-抢购、秒杀、开门红等业务，都属于热点。对于这种系统，应该造成独立的系统进行隔离，底层使用配置较高的硬件服务器、更好的网络带宽，并且加入多级缓存。
-
-9.资源隔离
-
-资源隔离是比较好理解发的。如CPU、内存、IO的隔离。这同样属于传统硬件隔离范畴。基本原则是，按照业务特点，业务区域。如CPU密集型的应用，底层服务器多配置主频高的处理器，大内存访问的应用，配置内存高的服务器。另外，对于到多数I/O访问量高的应用，通常使用SSD磁盘
-
-以一个电商的架构为例
-
-从最外端的Web UI开始，这是一个用node.js写的微服务。用于对外提供访问，接受用户的请求。接下来是CoolStore的GW,其实就是这套微服务的API Gateway，Spring boot书写。指向到CoolStore的GW的Hystrix和Turbine负责微服务的熔断。
-
-接下来的六个微服务，从左右往右：Rating Service、Review Service、Inventory Service、Catelog Service、Cart Service、Pricing Service。则是我们网购的时候，调用后端的微服务。其实也就是网购具体的应用。
-
-- Catelog Service，也就是目录服务 - JBoss  的Java应用程序，为零售产品提供产品和价格.
-- Cart Service,也就是购物车服务 - 在每个客户管理购物车的JDK上运行的Spring Boot应用程序
-- Inventory Service，也就是库存服务 - 在JBoss EAP 7和PostgreSQL上运行的Java EE应用程序，为零售产品提供库存和可用性数据
-- Pricing Service，也就是定价服务 -  JBoss BRMS产品定价业务规则应用
-- Review Service，也就是审查服务 - 在JDK上运行的WildFly Swarm服务，用于撰写和显示产品评论
-- Rating Service，也就是评级服务 - 在JDK上运行的Vert.x服务用于评级产品
-- Coolstore [API网关](https://cloud.tencent.com/product/apigateway?from=10680) - 在JDK上运行的Spring Boot + Camel应用程序作为后端服务的API网关。
-- Web UI  - 在Node.js容器中运行的基于AngularJS和PatternFly的前端。也就是客户访问电商的界面展示。
-
-Rating Service、Review Service、Inventory Service、Catelog Service这四个微服务，都有自己的数据库。这其实正是符合微服务的share as little as possible原则。即说微服务应该尽量设计成边界清晰不重叠，数据独享不共享。实现所谓的“高内聚、低耦合”。这样有助于实现独立可部署
-
-在这个案例中，前文提到的：线程隔离、进程隔离、集群隔离、读写隔离、爬虫隔离、机房隔离、热点隔离、资源隔离都已经可以实现。而动静隔离只要前面增加CDN即可。
-
-线程隔离：客户端发起不同的请求，CoolStore的网关根据请求的类型，查分发送到不同的微服务。如有的用户是浏览购物记录，有的是查价格，有的看评论等等。
-
-进程隔离：各个后台微服务之间，就是进程隔离。
-
-集群隔离：每个后台的微服务都是一个service，每个service都可以有多个Pod，也就是多个应用实例，组成应用集群。
-
-读写隔离：将微服务后端的数据库按照读写分离的方式部署到容器中即可。
-
-爬虫隔离：可以将其作为微服务进行部署。
-
-机房隔离：PaaS架构搭建的时候，可以跨机房。对不同机房的[物理服务器](https://cloud.tencent.com/product/cpm?from=10680)打label即可。这样部署容器的时候，就可以将一个应用不同的容器实例跨机房。
-
-热点隔离：电商里，web-ui、评论等容易出现热点的微服务，可以通过打标签的方式，部署到配置高的服务器上。
-
-资源隔离：与机房隔离类似，通过对服务器打标签，在部署微服务的时候，可以将不同的服务部署到不同的物理服务器上，实现资源隔离。
-
-所以说，微服务很适合互联网架构，而容器很适合微服务。在容器化的微服务中，API网关是个很重要的角色。在微服务中，API网关很多时候需要引入hystrix这个熔断器。
-
-### 容灾与容错
-
-容灾：是指系统冗余部署，当一处由于意外停止工作，整个系统应用还可以正常工作。
-
-容错：是指在运行中出现错误（如上下游故障或概率性失败）仍可正常提供服务。
-
-可用性：描述的是系统可提供服务的时间长短。用公式来说就是A=MTBF/(MTBF+MTTR)，即正常工作时间/(正常工作时间+故障时间)。
-
-可靠性：描述的是系统指定时间单位内无故障的次数。比如：一年365天，以天为单位来衡量。有天发生了故障，哪怕只有1秒，这天算不可靠。其他没有故障的是可靠的。
-
-稳定性：这个业界没有明确的定义，我的理解是：在受到各种干扰时仍然能够提供符合预期的服务的能力。
-
-从要求的严格程度上：可用性<可靠性<稳定性。
-
-可用性和可靠性更侧重于容灾，而对稳定性同时包含容灾和容错。
-
-服务容错的难点在于存在未知和不可预测。所以对服务容错要处理两个问题：发现和解决。
-
-
-
 ### 虚拟化
 
+虚拟化（技术）是一种资源管理技术，是将计算机的各种实体资源（CPU、内存、磁盘空间、网络适配器等），予以抽象、转换后呈现出来并可供分割、组合为一个或多个电脑配置环境。
 
+对于一台计算机，我们可以简单的划分为三层：从下到上依次是物理硬件层，操作系统层、应用程序层
 
-#### VNC与noVNC
+1974年，两位计算机科学家Gerald Popek 和 Robert Goldberg发表了一篇重要的论文 **《虚拟化第三代体系结构的正式要求》**，在这篇论文中提出了虚拟化的三个基本条件：
 
-VNC (Virtual Network Console)是虚拟网络控制台的缩写，分为server端和client端两部分，分别部署完成后在server端简单的配置即可使用，基于TCP的通信。noVNC项目是通过取消VNC Client的安装，直接通过浏览器访问noVNC，然后由noVNC间接访问VNC server来达到client web化。从上面部署方式看到，VNC server仍然保留且没有任何修改，处理的始终是TCP流量，但是浏览器和noVNC之间是在http基础上使用WebSocket交互，由于VNC server 无法处理websocket流量，因此引入了 [websockify](https://link.zhihu.com/?target=https%3A//github.com/novnc/websockify) ，noVNC的姐妹项目，负责把WebSocket流量转换为普通的TCP流，使VNC server正常工作。noVNC其实是一个HTML形式的APP，[websockify](https://link.zhihu.com/?target=https%3A//github.com/novnc/websockify)并充当了一个mini web server的角色，当浏览器访问时，会通过网络加载运行noVNC。
+- `等价性`：程序在本地计算机执行和在虚拟机中执行应该表现出一样的结果（不包括执行时间的差异）
+- `安全性`：虚拟机彼此隔离，与宿主计算机隔离
+- `性能`：绝大多数情况下虚拟机中的代码指令应该直接在物理CPU中执行，少部分特殊指令可由VMM参与。
 
-noVNC 作为一个高性能，开源的项目，被集成到众多公司，项目的控制面板功能当中，例如VMware 的VM console, PVE 等，当然你也可以集成到任何个人的web项目中，来增加基于web的远程控制的功能。
+那如何实现对计算机底层的物理资源的虚拟化分割呢？在计算机技术的发展历史上，出现了两种著名的方案，分别是I型虚拟化和II型虚拟化
 
-安装vnc server
+Type I: 直接凌驾于硬件之上，构建出多个隔离的操作系统环境
 
-vncserver是用来实现远程桌面连接的，比如说你由两台机器PC1：192.168.1.101和PC2：192.168.1.102，如果你想在PC1上访问PC2的桌面，就需要在PC2上安装vncserver，然后在PC1上通过vncviewer或noVNC访问PC2。下面以tigervnc-server为例来介绍一下vncserver的安装和使用。
+Type II: 依赖于宿主操作系统，在其上构建出多个隔离的操作系统环境
 
-安装
+我们熟知的VMware事实上有两个产品线，一个是VMware ESXi，直接安装在裸金属之上，不需要额外的操作系统，属于第一类虚拟化。另一个是我们普通用户更加熟知的VMware WorkStation，属于第二类虚拟化。
 
-```shell
-yum -y install tigervnc-server
-```
+如何实现
 
-安装完后，查看vncserver的配置文件：
+一个典型的做法是——`陷阱 & 模拟`技术
 
-```shell
-[root@mycentos liushaolin]# rpm -qc tigervnc-server
-/etc/sysconfig/vncservers
-```
+什么意思？**简单来说就是正常情况下直接把虚拟机中的代码指令放到物理的CPU上去执行，一旦执行到一些敏感指令，就触发异常，控制流程交给VMM，由VMM来进行对应的处理，以此来营造出一个虚拟的计算机环境。**
 
-启动vnc server
+不过这一经典的虚拟化方案在Intel x86架构上却遇到了问题
 
-```shell
-vncserver
-或
-vncserver :n
-```
+全虚拟化：VMware 二进制翻译技术
 
-这里的n就是sessionnumber，不指定的话默认为1，第一次启动时会提示输入密码，以后也可以使用vncpasswd命令修改密码。**VNC的默认端口号是5900，而远程桌面连接端口号则是5900+n**。如果使用“vncserver :1”命令启动VNC Server，那么端口应该是5901。
+不同于8086时代16位实地址工作模式，x86架构进入32位时代后，引入了保护模式、虚拟内存等一系列新的技术。同时为了安全性隔离了应用程序代码和操作系统代码，其实现方式依赖于x86处理器的工作状态。
 
-```shell
-vncserver -list[root@mycentos liushaolin]# vncserver -list
+这就是众所周知的x86处理器的Ring0-Ring3四个“环”。
 
-TigerVNC server sessions:
+操作系统内核代码运行在最高权限的Ring0状态，应用程序工作于最外围权限最低的Ring3状态，剩下的Ring1和Ring2主流的操作系统都基本上没有使用。
 
-X DISPLAY #	PROCESS ID
-:1		5918
-:3		7726
-```
+这里所说的权限，有两个层面的约束：
 
-安装noVNC
+- 能访问的内存空间
+- 能执行的特权指令
 
-```shell
-$git clone https://github.com/kanaka/noVNC
-$cd noVNC
-$./utils/launch.sh --vnc localhost:5901
-```
+来关注一下第二点，特权指令。
 
-启动launch脚本，会输出如下信息：
+CPU指令集中有一些特殊的指令，用于进行硬件I/O通信、内存管理、中断管理等等功能，这一些指令只能在Ring0状态下执行，被称为特权指令。这些操作显然是不能让应用程序随便执行的。处于Ring3工作状态的应用程序如果尝试执行这些指令，CPU将自动检测到并抛出异常。
 
-```shell
-WebSocket server settings:
-  - Listen on :6080
-  - Flash security policy server
-  - Web server. Web root: /root/noVNC
-  - No SSL/TLS support (no cert file)
-  - proxying from :6080 to localhost:5901
+回到我们的主题虚拟化技术上面来，如同前面的定义所言，虚拟化是将计算资源进行逻辑或物理层面的切割划分，构建出一个个独立的执行环境。
 
+按照我们前面所说的`陷阱 & 模拟`手段，可以让虚拟机中包含操作系统在内的程序统一运行在低权限的Ring3状态下，一旦虚拟机中的操作系统进行内存管理、I/O通信、中断等操作时，执行特权指令，从而触发异常，物理机将异常派遣给VMM，由VMM进行对应的模拟执行。
 
-Navigate to this URL:
+这本来是一个实现虚拟化很理想的模式，不过x86架构的CPU在这里遇到了一个跨不过去的坎。
 
-    http://localhost:6080/vnc.html?host=localhost&port=6080
-```
+到底是什么问题呢？
 
-这时，访问`http://localhost:6080/vnc.html?host=localhost&port=6080`或`http://localhost:6080/vnc.html`，然后输入Host地址，端口号，密码，token，其中密码和token有的话需要输入，然后连接即可。当然你可以从PC1的浏览器中输入PC2的IP地址访问。
+回顾一下前面描绘的理想模式，要这种模式能够实现的前提是执行敏感指令的时候**能够触发异常**，让VMM有机会介入，去模拟一个虚拟的环境出来。
 
-https://vosamo.github.io/2016/07/noVNC%E7%9A%84%E4%BD%BF%E7%94%A8%E4%B9%8B%E4%B8%80/
+但现实是，x86架构的CPU指令集中有那么一部分指令，它不是特权指令，Ring3状态下也能够执行，但这些指令对于虚拟机来说却是敏感的，不能让它们直接执行。一旦执行，没法触发异常，VMM也就无法介入，虚拟机就**露馅儿**了！
 
-https://github.com/novnc/noVNC
+这结果将导致虚拟机中的代码指令出现无法预知的错误，更严重的是影响到真实物理计算机的运行，虚拟化所谓的安全隔离、等价性也就无从谈起。
 
-### 服务发现
+怎么解决这个问题，让x86架构CPU也能支持虚拟化呢？
 
-假设我们写的代码会调用 REST API 或者 Thrift API 的服务。为了完成一次请求，代码需要知道服务实例的网络位置（IP 地址和端口）。
+VMware和QEMU走出了两条不同的路。
 
-运行在物理硬件上的传统应用中，服务实例的网络位置是相对固定的，代码能从一个偶尔更新的配置文件中读取网络位置。
+VMware创造性的提出了一个**二进制翻译技术**。VMM在虚拟机操作系统和宿主计算机之间扮演一个桥梁的角色，将虚拟机中的要执行的指令“翻译”成恰当的指令在宿主物理计算机上执行，以此来模拟执行虚拟机中的程序。你可以简单理解成Java虚拟机执行Java字节码的过程，不同的是Java虚拟机执行的是字节码，而VMM模拟执行的就是CPU指令。
 
-对于基于云端的、现代化的微服务应用而言，这却是一大难题。将容器应用部署到集群时，其服务地址是由集群系统动态分配的。那么，当我们需要访问这个服务时，如何确定它的地址呢？这时就需要服务发现（Service Discovery）了
+另外值得一提的是，为了提高性能，也并非所有的指令都是模拟执行的，VMware在这里做了不少的优化，对一些“安全”的指令，就让它直接执行也未尝不可。所以VMware的二进制翻译技术也融合了部分的直接执行。
 
-服务分**服务提供者**（Service Provider）和**服务消费者**（Service Consumer），如果要提供海量服务能力，单一的服务实例显然是不够的，如果要提供成千上万种服务，则需要有一个地方记录服务名到服务实例列表的映射，所以，有必要引入一个新的角色：**服务中介**，服务中介维护一个**服务注册表**（Service Registry），可以把注册表理解为**服务字典**，key是服务名，value是服务提供实例列表；**服务注册表是联系服务提供者和服务消费者的桥梁**，它维护服务提供者的最新网络位置等信息，也是服务发现最核心的部分。
+对于虚拟机中的操作系统，VMM需要完整模拟底层的硬件设备，包括处理器、内存、时钟、I/O设备、中断等等，换句话说，VMM用纯软件的形式“模拟”出一台计算机供虚拟机中的操作系统使用。
 
+这种完全模拟一台计算机的技术也称为**全虚拟化**，这样做的好处显而易见，虚拟机中的操作系统感知不到自己是在虚拟机中，代码无需任何改动，直接可以安装。而缺点也是可以想象：完全用软件模拟，转换翻译执行，性能堪忧！
 
+而QEMU则是完全软件层面的“模拟”，乍一看和VMware好像差不多，不过实际本质是完全不同的。VMware是将原始CPU指令序列翻译成经过处理后的CPU指令序列来执行。而QEMU则是完全模拟执行整个CPU指令集，更像是“解释执行”，两者的性能不可同日而语。
 
-服务发现有两大模式：客户端发现模式和服务端发现模式。
+半虚拟化：Xen内核定制修改
 
-客户端发现模式
+既然有全虚拟化，那与之相对的也就有半虚拟化，前面说了，由于敏感指令的关系，全虚拟化的VMM需要捕获到这些指令并完整模拟执行这个过程，实现既满足虚拟机操作系统的需要，又不至于影响到物理计算机。
 
-使用客户端发现模式时，客户端决定相应服务实例的网络位置，并且对请求实现负载均衡。客户端查询服务注册表，后者是一个可用服务实例的数据库；然后使用负载均衡算法从中选择一个实例，并发出请求。
+但说来简单，这个模拟过程实际上相当的复杂，涉及到大量底层技术，并且如此模拟费时费力。
 
-服务实例的网络位置在启动时被记录到服务注册表，等实例终止时被删除。服务实例的注册信息通常使用心跳机制来定期刷新。
+而试想一下，如果把操作系统中所有执行敏感指令的地方都改掉，改成一个接口调用（**HyperCall**），接口的提供方VMM实现对应处理，省去了捕获和模拟硬件流程等一大段工作，性能将获得大幅度提升。
 
-客户端发现模式优缺点兼有。
+这就是**半虚拟化**，这项技术的代表就是**Xen**，一个诞生于2003年的开源项目。
 
-- 这一模式相对直接，除了服务注册外，其它部分无需变动。此外，由于客户端知晓可用的服务实例，能针对特定应用实现智能负载均衡，比如使用哈希一致性。
-- 这种模式的一大缺点就是客户端与服务注册绑定，要针对服务端用到的每个编程语言和框架，实现客户端的服务发现逻辑。
+这项技术一个最大的问题是：需要修改操作系统源码，做相应的适配工作。这对于像Linux这样的开源软件还能接受，充其量多了些工作量罢了。但对于Windows这样闭源的商业操作系统，修改它的代码，无异于痴人说梦。
 
-服务端发现模式
+硬件辅助虚拟化 VT/AMD-v
 
-客户端通过负载均衡器向某个服务提出请求，负载均衡器查询服务注册表，并将请求转发到可用的服务实例。
+折腾来折腾去，全都是因为x86架构的CPU天然不支持经典虚拟化模式，软件厂商不得不想出其他各种办法来在x86上实现虚拟化。
 
-Kubernetes 和 Marathon 这样的部署环境会在每个集群上运行一个代理，将代理用作服务端发现的负载均衡器。客户端使用主机 IP 地址和分配的端口通过代理将请求路由出去，向服务发送请求。代理将请求透明地转发到集群中可用的服务实例。
+如果进一步讲，CPU本身增加对虚拟化的支持，那又会是一番怎样的情况呢？
 
-服务端发现模式兼具优缺点。
+在软件厂商使出浑身解数来实现x86平台的虚拟化后的不久，各家处理器厂商也看到了虚拟化技术的广阔市场，纷纷推出了硬件层面上的虚拟化支持，正式助推了虚拟化技术的迅猛发展。
 
-- 它最大的优点是客户端无需关注发现的细节，只需要简单地向负载均衡器发送请求，这减少了编程语言框架需要完成的发现逻辑。并且如上文所述，某些部署环境免费提供这一功能。
-- 这种模式也有缺点。除非负载均衡器由部署环境提供，否则会成为一个需要配置和管理的高可用系统组件。
+这其中为代表的就是Intel的VT系列技术和AMD的AMD-v系列技术
 
-对比客户端发现模式，使用服务端发现模式的客户端本地不保存服务实例列表，客户端不做负载均衡，这个负载均衡器既承担了服务发现的角色，又承担了网关的角色，所以经常叫**API网关服务器**。
+硬件辅助虚拟化细节较为复杂，简单来说，新一代CPU在原先的Ring0-Ring3四种工作状态之下，再引入了一个叫工作模式的概念，有`VMX root operation` 和 `VMX non-root operation` 两种模式，每种模式都具有完整的Ring0-Ring3四种工作状态，前者是VMM运行的模式，后者是虚拟机中的OS运行的模式。
 
-因为负载均衡器是中心式的，所以它也必须是一个集群，单个实例不足以支撑高并发访问，针对负载均衡器本身的服务发现和负载均衡通常借助DNS。
+VMM运行的层次，有些地方将其称为Ring -1，VMM可以通过CPU提供的编程接口，配置对哪些指令的劫持和捕获，从而实现对虚拟机操作系统的掌控
 
-Http服务器，Nginx、Nginx Plus就是此类服务端发现模式的负载均衡器。
+换句话说，原先的VMM为了能够掌控虚拟机中代码的执行，不得已采用“中间人”来进行翻译执行，现在新的CPU告诉VMM：不用那么麻烦了，你提前告诉我你对哪些指令哪些事件感兴趣，我在执行这些指令和发生这些事件的时候就通知你，你就可以实现掌控了。完全由硬件层面提供支持，性能自然高了不少。
 
-**优点**
+上面只是硬件辅助虚拟化技术的一个简单理解，实际上还包含更多的要素，提供了更多的便利给VMM，包括内存的虚拟、I/O的虚拟等等，让VMM的设计开发工作大大的简化，VMM不再需要付出昂贵的模拟执行成本，整体虚拟化的性能也有了大幅度的提升。
 
-- 服务发现对于服务消费者是透明的，服务消费者与注册表解耦，服务发现功能的更新对客户端无感知。
-- 服务消费者只需要向负载均衡器发送请求，不需要为每种服务消费者的编程语言和框架，开发服务发现逻辑SDK。
+VMware从5.5版本开始引入对硬件辅助虚拟化的支持，随后在2011年的8.0版本中正式全面支持。于是乎，我们在创建虚拟机的时候，可以选择要使用哪一种虚拟化引擎技术，是用原先的二进制翻译执行，还是基于硬件辅助虚拟化的新型技术。
 
-**缺点**
+同一时期的XEN从3.0版本也加入对硬件辅助虚拟化的支持，从此基于XEN的虚拟机中也能够运行Windows系统了
 
-- 由于所有请求都要经负载均衡器转发，所以负载均衡器有可能成为新的性能瓶颈。
-- 负载均衡器（服务网关）是中心式的，而中心式的架构会有稳定性的隐忧。
-- 因为负载均衡器转发请求，所以**RT**会比客户端直连模式高。
+KVM_QEMU
 
+有了硬件辅助虚拟化的加持，虚拟化技术开始呈现井喷之势。VirtualBox、Hyper-V、KVM等技术如雨后春笋般接连面世。这其中在云计算领域声名鹊起的当属开源的KVM技术了。
 
+KVM全称**for Kernel-based Virtual Machine**，意为基于内核的虚拟机。
 
-## 云端IDE
+在虚拟化底层技术上，KVM和VMware后续版本一样，都是基于硬件辅助虚拟化实现。不同的是VMware作为独立的第三方软件可以安装在Linux、Windows、MacOS等多种不同的操作系统之上，而KVM作为一项虚拟化技术已经集成到Linux内核之中，可以认为Linux内核本身就是一个HyperVisor，这也是KVM名字的含义，因此该技术只能在Linux服务器上使用
 
-传统上，[软件开发](https://thenewstack.io/category/development/)是（而且在很大程度上仍然是）在个人机器上使用集成开发环境（IDE）工具，如 VSCode、JetBrains、Eclipse 等完成。虽然这种 “离线” 开发的模式在早期运作得非常好，但人们很快就注意到，这种方法并非完美。
+KVM技术常常搭配QEMU一起使用，称为KVM-QEMU架构。前面提到，在x86架构CPU的硬件辅助虚拟化技术诞生之前，QEMU就已经采用全套软件模拟的办法来实现虚拟化，只不过这种方案下的执行性能非常低下。
 
-首先，合作起来很麻烦，因为写好的代码必须上传到网上供进一步审查。这样写出来的代码的可移植性也并不总是有保证，因为有各种各样的操作系统和其他限制条件，需要它来实现最佳的功能。
+KVM本身基于硬件辅助虚拟化，仅仅实现CPU和内存的虚拟化，但一台计算机不仅仅有CPU和内存，还需要各种各样的I/O设备，不过KVM不负责这些。这个时候，QEMU就和KVM搭上了线，经过改造后的QEMU，负责外部设备的虚拟，KVM负责底层执行引擎和内存的虚拟，两者彼此互补，成为新一代云计算虚拟化方案的宠儿
 
-正如开发者和技术记者 [Owen Williams](https://char.gd/blog/author/owen) 去年 [在他的博客 Charged 上](https://char.gd/blog/2020/github-codespaces-means-your-computer-doesnt-matter-anymore)写道：“在设备之间同步你的文档和照片是微不足道的…… 这样你就可以在任何地方把它们调出来，但开发者工具仍然停留在过去 —— 每台笔记本电脑或 PC 都要单独配置，使你的环境设置得恰到好处。”
+容器技术
 
-随着大流行期间越来越多的分布式团队和更多的敏捷工作方式，引入能够让开发人员在任何地方保持生产力的工具变得至关重要。这为什么会有 [Gitpod](https://thenewstack.io/gitpod-open-sources-a-holistic-ide/)、[GitHub Codespaces](https://thenewstack.io/this-week-in-programming-github-codespaces-portable-dev-environment/)、Replit 等基于云端 IDE 出现。
+前面谈到的无论是基于翻译和模拟的全虚拟化技术、半虚拟化技术，还是有了CPU硬件加持下的全虚拟化技术，其虚拟化的目标都是一台完整的计算机，拥有底层的物理硬件、操作系统和应用程序执行的完整环境。
 
-云端IDE的优点：
+为了让虚拟机中的程序实现像在真实物理机器上运行“近似”的效果，背后的HyperVisor做了大量的工作，付出了“沉重”的代价。
 
-使用云端 IDE 无需担心配置
+虽然HyperVisor做了这么多，但你有没有问过虚拟机中的程序，这是它想要的吗？或许HyperVisor给的太多，而目标程序却说了一句：你其实可以不用这样辛苦。
 
-由于开发环境完全在浏览器上运行，因此不再需要梳理安装页面和弄清楚需要安装哪个软件包。
+确实存在这样的情况，虚拟机中的程序说：我只是想要一个单独的执行执行环境，不需要你费那么大劲去虚拟出一个完整的计算机来
 
-硬件的选择并不重要
+这样做的好处是什么？
 
-基于云的集成开发环境消除了（好吧，几乎是！）开始进行网络开发的障碍。在任何支持现代网络浏览器都可以运行，你甚至不需要在不同的机器上从头开始重新配置一切。
+虚拟出一台计算机的成本高还是只虚拟出一个隔离的程序运行环境的成本高？答案很明显是前者。一台物理机可能同时虚拟出10台虚拟机就已经开始感到乏力了，但同时虚拟出100个虚拟的执行环境却还是能够从容应对，这对于资源的充分利用可是有巨大的好处。
 
-在任何地方工作和协作都很容易
+近几年大火的容器技术正是在这样的指导思想下诞生的。
 
-这些工具具有高度可定制的工作空间，可以在团队 / 个人层面上进行优化，它们不仅促进了更好的合作，而且完全消除了 “在我的机器上可以运行 " 这种太过普遍的情况。鉴于这些主要的优点，很明显基于云的 IDE 已经获得了发展势头。
+不同于虚拟化技术要完整虚拟化一台计算机，容器技术更像是操作系统层面的虚拟化，它只需要虚拟出一个操作系统环境。
 
-于云的 IDE 的许多缺点都与扩展问题有关，因为这些工具仍然处于成熟的早期阶段。以下是早期采用者可能会遇到的一些关键问题。
+**LXC**技术就是这种方案的一个典型代表，全称是LinuX Container，通过Linux内核的**Cgroups**技术和**namespace**技术的支撑，隔离操作系统文件、网络等资源，在原生操作系统上隔离出一个单独的空间，将应用程序置于其中运行，这个空间的形态上类似于一个容器将应用程序包含在其中，故取名容器技术。
 
-性能可能是不平衡的
+举个不是太恰当的比喻，一套原来是三居室的房子，被二房东拿来改造成三个一居室的套间，每个一居室套间里面都配备了卫生间和厨房，对于住在里面的人来说就是一套完整的住房。
 
-由于云上的资源是由需求不稳定的消费者共享的，因此肯定有机会出现性能不一致的情况，特别是在对网络延迟、容量或整体产品的故障造成问题的情况下，更是如此。
+如今各个大厂火爆的**Docker**技术底层原理与LXC并不本质区别，甚至在早期Docker就是直接基于LXC的高层次封装。Docker在LXC的基础上更进一步，将执行执行环境中的各个组件和依赖打包封装成独立的对象，更便于移植和部署。
 
-故障的来源可能很难识别和解决
+容器技术的好处是轻量，所有隔离空间的程序代码指令不需要翻译转换，就可以直接在CPU上执行，大家底层都是同一个操作系统，通过软件层面上的逻辑隔离形成一个个单独的空间。
 
-当你不知道根本原因时，很难修复一个问题，总的来说，这可能会导致此类产品的早期采用者有一个令人沮丧的体验。
+容器技术的缺点是安全性不如虚拟化技术高，毕竟软件层面的隔离比起硬件层面的隔离要弱得多。隔离环境系统和外面的主机共用的是同一个操作系统内核，一旦利用内核漏洞发起攻击，程序突破容器限制，实现逃逸，危及宿主计算机，安全也就不复存在
 
-大项目可能更适合使用离线 IDE
+超轻虚拟化 firecracker
 
-到今天为止，已经观察到一些初期问题，用户[抱怨平均负载过高](https://github.com/gitpod-io/gitpod/issues/5992)。对于大型开发项目，所需的数据传输和处理量将是巨大的。虽然它可能不会扼杀基于云的 IDE 的资源，但由于其实用性，在这种情况下，离线替代方案肯定是更佳选择。
+虚拟完整的计算机隔离性好但太过笨重，简单的容器技术又因为太过轻量纯粹靠软件隔离不够安全，有没有一个折中的方案同时兼具两者的优点，实现既轻量又安全呢？
 
-供应商锁定会限制工具的可用性
+近年来，一种**超轻虚拟化**的思想开始流行开来，亚马逊推出的**firecracker**就是一个典型的代表。
 
-另一个需要考虑的方面是当涉及到基于云端 IDE 时，工具包的可用性。大量的工具可以在本地与 IDE 配对使用。但是，对于基于云端 IDE，开发者被限制在供应商提供的集成选择上，这对于那些需要更广泛工具包的人来说可能是限制性的。
+firecracker将虚拟化技术的强隔离性和容器技术的轻量性进行融合，提出了一个`microVM`的概念，底层通过KVM虚拟化技术实现各个microVM的强隔离，而隔离的虚拟机中运行的是一个个精简版的微型操作系统，砍掉了大量无用的功能，专为容器设计的微型OS。
 
-云端 IDE 需要 WiFi
+超轻虚拟化如今成为一个新的浪潮，除了AWS的firecracker，谷歌的gVisor, Intel主导的NEMU也在向这个领域开始发力。
 
-最后一点往往被忽略，基于云的 IDE 在与真正强大的桌面 IDE 相媲美之前还有很长的路要走，这些 IDE 允许降低对 WiFi 等外部因素的依赖性。即使正在实施各种变通办法，其可靠性水平也远远不能与桌面 IDE 提供的离线体验相比。
+#### KVM
 
+基于内核的虚拟机（KVM）是一种软件功能，您可以将其安装在物理 Linux 机器上以创建虚拟机。虚拟机是一种软件应用程序，可作为另一台实体计算机中的独立计算机使用。虚拟机与实体计算机共享 CPU 周期、网络带宽和内存等资源。KVM 是 Linux 操作系统组件，它为 Linux 上的虚拟机提供原生支持。自 2007 年以来，它已在 Linux 发行版中推出。 
 
+KVM的特点
 
-## 云工具
+KVM 是 Linux 的一部分。Linux 也是 KVM 的一部分。Linux 有的，KVM 全都有。然而，KVM 的某些特点让它成为了企业的首选虚拟机监控程序
 
-腾讯HiFlow：https://hiflow.tencent.com/
+安全防护
 
+KVM 利用[安全增强型 Linux（SELinux）](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/5/html/deployment_guide/rhlcommon-appendix-0005)和安全虚拟化（sVirt）组合来加强虚拟机的安全性和隔离性。SELinux 在虚拟机周围建立安全边界。sVirt 则扩展 SELinux 的功能，使强制访问控制 （MAC）安全机制应用到客户虚拟机，并且预防手动标记错误。
 
+存储空间
 
-## 云原生资源
+KVM 能够使用 Linux 支持的任何存储，包括某些本地磁盘和[网络附加存储（NAS）](https://www.redhat.com/zh/topics/data-storage/network-attached-storage)。还可以利用多路径 I/O 来增强存储并提供冗余能力。KVM 还支持共享文件系统，因此虚拟机镜像可以由多个主机共享。磁盘镜像支持精简置备，可以按需分配存储，不必预先备妥一切。
 
-国内云原生社区： https://cloudnative.to/
+硬件支持
 
-国外云原生社区：cncf
+KVM 可以使用多种多样的认证 Linux 兼容硬件平台。由于硬件供应商经常助力内核开发，所以 Linux 内核中通常能快速采用最新的硬件功能。
+
+内存管理
+
+KVM 继承了 Linux 的内存管理功能，包括非统一内存访问和内核同页合并。虚拟机的内存可以交换，也可通过大型宗卷支持来提高性能，还可由磁盘文件共享或支持。
+
+实时迁移
+
+KVM 支持实时迁移，也就是能够在物理主机之间移动运行中的虚拟机，而不会造成服务中断。虚拟机保持开机状态，网络连接保持活跃，各个应用也会在虚拟机重新定位期间正常运行。KVM 也会保存虚拟机的当前状态，从而存储下来供日后恢复。
+
+性能和可扩展性
+
+KVM 继承了 Linux 的性能，针对客户机和请求数量的增长进行扩展，满足负载的需求。KVM 可让要求最苛刻的应用工作负载实现虚拟化，而这也是许多企业虚拟化设置的基础，如数据中心和私有云等（通过 [OpenStack®](https://www.redhat.com/zh/topics/openstack)）
+
+调度和资源控制
+
+在 KVM 模型中，虚拟机是一种 Linux 进程，由内核进行调度和管理。通过 Linux 调度程序，可对分配给 Linux 进程的资源进行精细的控制，并且保障特定进程的服务质量。在 KVM 中，这包括完全公平的调度程序、控制组、网络命名空间和实时扩展。
+
+更低延迟，更高优先级
+
+Linux 内核提供实时扩展，允许基于虚拟机的应用以更低的延迟、更高的优先级来运行（相对于裸机恢复）。内核也将需要长时间计算的进程划分为更小的组件，再进行相应的调度和处理。
+
+运行
+
+KVM 将 Linux 转变为 1 类(裸机恢复)虚拟机监控程序。所有虚拟机监控程序都需要一些操作系统层面的组件才能运行虚拟机，如内存管理器、进程调度程序、输入/输出(I/O)堆栈、设备驱动程序、安全管理器以及网络堆栈等。由于 KVM 是 Linux 内核的一部分，因此所有这些组件它都有。每个虚拟机都像普通的 Linux 进程一样实施，由标准的 Linux 调度程序进行调度，并且使用专门的虚拟硬件，如网卡、图形适配器、CPU、内存和磁盘等。
+
+安装KVM的前提条件
+
+1、确定机器有VT
+
+终端输入命令： grep vmx /proc/cpuinfo (INTEL芯片)
+
+grep svm /proc/cpuinfo (AMD芯片)
+
+不知道芯片的生产厂商则输入：egrep '(vmx|svm)' /proc/cpuinfo
+
+如果flags: 里有vmx 或者svm就说明支持VT；如果没有任何的输出，说明你的cpu不支持，将无法成功安装KVM虚拟机。
+
+2、确保BIOS里开启VT
+
+Intel(R) Virtualization Tech [Enabled]
+
+如有必要，还需在BIOS中开启VT-d
+
+3、确保内核版本较新，支持KVM
+
+用uname -r查看内核版本，如果在2.6.20以下的linux版本，需升级内核。
+
+启用KVM
+
+在安装 Linux 内核以后，您需要在 Linux 设备上安装以下额外的软件组件：
+
+- 主机内核模块
+- 特定于处理器的模块
+- 仿真器
+- 一系列用于扩展 KVM 功能和性能的其他 Linux 程序包
+
+一旦加载，服务器管理员会通过命令行工具或图形用户界面创建虚拟机。然后，KVM 启动虚拟机作为独立的 Linux 进程。虚拟机监控器会为每台虚拟机分配虚拟内存、存储、网络、CPU 和资源。
+
+管理KVM
+
+若不借助[管理工具](https://www.linux-kvm.org/page/Management_Tools)，单一工作站上部署的少数虚拟机尚且可以手动管理。大型企业则必须使用与虚拟环境和底层物理硬件对接的[虚拟化管理](https://www.redhat.com/zh/topics/virtualization/what-is-virtualization-management)软件，来简化资源管理、增强数据分析并简化运营
+
