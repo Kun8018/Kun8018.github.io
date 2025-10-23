@@ -190,6 +190,85 @@ const store = createStore(
 export default store
 ```
 
+redux-observable
+
+在redux中使用rxjs的中间件。`redux-observable` 的核心就是 `Epics` ，它是一个函数，接收一个 `action` (plain object) ，返回一个 `action` 流，它是一个 `Observable` 对象
+
+创建一个epic
+
+```javascript
+const pingReducer = (state = { isPinging: false }, action) => {
+  switch (action.type) {
+    case 'PING':
+      return { isPinging: true };
+
+    case 'PONG':
+      return { isPinging: false };
+
+    default:
+      return state;
+  }
+};
+
+//请求 epic
+import { ofType, ActionsObservable } from "redux-observable";
+import { throwError } from "rxjs";
+import { switchMap, map, catchError } from "rxjs/operators";
+import { ajax } from "rxjs/ajax";
+import { getType } from "typesafe-actions";
+import { userActions } from "@actions";
+
+const url = "https://api.github.com/users/soraping";
+
+export const userEpic = (action$: ActionsObservable<any>) =>
+  action$.pipe(
+    ofType(getType(userActions.getGitHubUser)),
+    switchMap(() => {
+      return ajax.getJSON(url).pipe(
+        map(res => userActions.setUserInfo(res)),
+        catchError(err => throwError(err))
+      );
+    })
+  );
+```
+
+设置中间件
+
+```javascript
+//root.js
+import { combineEpics } from 'redux-observable';
+import { combineReducers } from 'redux';
+import ping, { pingEpic } from './ping';
+import users, { fetchUserEpic } from './users';
+
+export const rootEpic = combineEpics(
+  pingEpic,
+  fetchUserEpic
+);
+
+export const rootReducer = combineReducers({
+  ping,
+  users
+});
+// store.js
+import { createStore, applyMiddleware } from 'redux';
+import { createEpicMiddleware } from 'redux-observable';
+import { rootEpic, rootReducer } from './modules/root';
+
+const epicMiddleware = createEpicMiddleware();
+
+export default function configureStore() {
+  const store = createStore(
+    rootReducer,
+    applyMiddleware(epicMiddleware)
+  );
+
+  epicMiddleware.run(rootEpic);
+
+  return store;
+}
+```
+
 
 
 redux-logger
@@ -202,9 +281,84 @@ redux-persist
 
 实现数据持久化，自动存入localStorage，配置略麻烦
 
+```shell
+npm install redux-persist
+```
+
+使用
+
+```react
+import { createStore } from 'redux'
+import { persistStore, persistReducer } from 'redux-persist'
+import storage from 'redux-persist/lib/storage' // defaults to localStorage for web
+
+import rootReducer from './reducers'
+
+const persistConfig = {
+  key: 'root',
+  storage,
+}
+
+const persistedReducer = persistReducer(persistConfig, rootReducer)
+
+export default () => {
+  let store = createStore(persistedReducer)
+  let persistor = persistStore(store)
+  return { store, persistor }
+}
+```
+
+redux-action
+
+redux action工具库
+
+```shell
+npm install --save redux-actions
+```
+
+使用
+
+```javascript
+import { createActions, handleActions, combineActions } from 'redux-actions';
+
+const defaultState = { counter: 10 };
+
+const { increment, decrement } = createActions({
+  INCREMENT: (amount = 1) => ({ amount }),
+  DECREMENT: (amount = 1) => ({ amount: -amount })
+});
+
+const reducer = handleActions(
+  {
+    [combineActions(increment, decrement)]: (
+      state,
+      { payload: { amount } }
+    ) => {
+      return { ...state, counter: state.counter + amount };
+    }
+  },
+  defaultState
+);
+
+export default reducer;
+```
+
+Redux-promise
+
+```javascript
+import promiseMiddleware from 'redux-promise';
+
+createAction('FETCH_THING', async id => {
+  const result = await somePromise;
+  return result.someValue;
+});
+```
+
+
+
 ### Hooks
 
-react-edux最新版本([7.1](https://react-redux.js.org/api/hooks#using-hooks-in-a-react-redux-app)版本))也引入了Hooks风格的Api
+react-redux最新版本([7.1](https://react-redux.js.org/api/hooks#using-hooks-in-a-react-redux-app)版本))也引入了Hooks风格的Api
 
 首先还是通过createStore将state存入store
 
@@ -270,6 +424,10 @@ Https://cn.redux.js.org
 
 
 
+### reselect
+
+
+
 ### redux-undo
 
 可以撤销redux的状态，便于管理redux中的state
@@ -332,6 +490,10 @@ createAsyncThunk: 接受一个 action type string 和一个返回 promise 的函
 
 createEntityAdapter: 生成一组可重用的 reducers 和 selectors，以管理存储中的规范化数据
 createSelector 组件 来自 Reselect 库，为了易用再导出。
+
+### typesafe-actions
+
+https://github.com/piotrwitek/typesafe-actions
 
 ### 原生js调用redux
 
@@ -551,13 +713,148 @@ Computed values
 
 某个 state 发生变化时，需要自动计算的值。比如说单价变化，总价的计算
 
-Reactions
+```javascript
+import { makeObservable, observable, computed, autorun } from "mobx"
+
+class OrderLine {
+    price = 0
+    amount = 1
+
+    constructor(price) {
+        makeObservable(this, {
+            price: observable,
+            amount: observable,
+            total: computed
+        })
+        this.price = price
+    }
+
+    get total() {
+        console.log("Computing...")
+        return this.price * this.amount
+    }
+}
+```
+
+Reaction & autorun
 
 Reactions 和 Computed 类似，都是 state 变化后触发。但它不是去计算值，而是会产生副作用，比如 console、网络请求、react dom 更新等。mobx 提供了三个函数用于自定义 reactions。
 
+```javascript
+const person = observable({
+    age: 20
+}) 
+// autorun 里面的函数会立即执行一次，当 age 变化的时候会再次执行一次
+autorun(() => {
+    console.log("age", person.age);
+})
+person.age = 21;
+// 输出：
+// age 20
+// age 21
+```
+
+错误用法
+
+错误地修改了可观察对象的引用
+
+```javascript
+let person = observable({
+    age: 20
+})
+// 不会起作用
+autorun(() => {
+    console.log("age", person.age);
+})
+person = observable({
+    age: 21
+})
+```
+
+observer
+
+Mobx-React 中提供了一个 `observer` 方法，这个方法主要是改写了 React 的 `render` 函数，当监听到 `render` 中依赖属性变化的时候就会重新渲染组件，这样就可以做到高性能更新。
+
+```javascript
+@observer
+class App extends Component {
+    @observable count = 0;
+    @action 
+    increment = () => {
+        this.count++;
+    }
+    render() {
+        <h1 onClick={this.increment}>{ this.count }</h1>
+    }
+}
+```
+
 Actions
 
+### 使用
 
+```react
+import { observable, autorun } from "mobx"
+
+const todos = observable([
+    { title: "Spoil tea", completed: true },
+    { title: "Make coffee", completed: false }
+])
+
+autorun(() => {
+    console.log(
+        "Remaining:",
+        todos
+            .filter(todo => !todo.completed)
+            .map(todo => todo.title)
+            .join(", ")
+    )
+})
+// 打印: 'Remaining: Make coffee'
+
+todos[0].completed = false
+// 打印: 'Remaining: Spoil tea, Make coffee'
+
+todos[2] = { title: "Take a nap", completed: false }
+// 打印: 'Remaining: Spoil tea, Make coffee, Take a nap'
+
+todos.shift()
+// 打印: 'Remaining: Make coffee, Take a nap'
+```
+
+### hooks
+
+在react函数组件中使用mobx
+
+store
+
+```react
+import { action, observable } from 'mobx';
+
+class Store {
+    @observable
+    count = 1;
+    
+    @action
+    setCount = () => {
+        this.count++;
+    }
+}
+export const store = new Store();
+```
+
+注入store
+
+```react
+import React from 'react';
+import { useObserver, useLocalStore } from 'mobx-react';
+import {store} from './store';
+
+function Demo1() {
+    const localStore = useLocalStore(() => store);
+    return useObserver(() => <div onClick={localStore.setCount}>{localStore.count}</div>)
+}
+```
 
 ### mobx的object与map区别
 
@@ -604,6 +901,49 @@ mobx异步action不需要配置，redux则需要中间件redux-sage或者redux-t
 2.可扩展性、可维护性。mobx不适用于大型项目，需要手动约定规范
 
 https://github.com/sunyongjian/blog/issues/28
+
+### mobx-state-tree
+
+基于mobx的状态管理
+
+```react
+import { types, onSnapshot } from "mobx-state-tree"
+
+const Todo = types
+    .model("Todo", {
+        title: types.string,
+        done: false
+    })
+    .actions((self) => ({
+        toggle() {
+            self.done = !self.done
+        }
+    }))
+
+const Store = types.model("Store", {
+    todos: types.array(Todo)
+})
+
+// create an instance from a snapshot
+const store = Store.create({
+    todos: [
+        {
+            title: "Get coffee"
+        }
+    ]
+})
+
+// listen to new snapshots
+onSnapshot(store, (snapshot) => {
+    console.dir(snapshot)
+})
+
+// invoke action that modifies the tree
+store.todos[0].toggle()
+// prints: `{ todos: [{ title: "Get coffee", done: true }]}`
+```
+
+
 
 ## Recoil
 
@@ -887,6 +1227,119 @@ demo地址：https://Xrr2016.github.io/rematch-todoså
 
 
 
+## sigi
+
+https://lyn.one/2020/02/15/Sigi%20framework%20introduction
+
+虽然 `Sigi` 源码已经尽量精简了，但是由于依赖了 `RxJS` 的大量特性，所以 `Sigi` 加上其依赖之后的体积 `gzip` 之后也达到了 `16k` 左右(`immer ~ 6.29kb`, `rxjs ~ 6.8kb`, `sigi ~ 2.96kb`)。但如果你在大型项目中使用，`Sigi` 高度的抽象和强大的功能一定能给你省下超过这个体积许多的**业务代码体积**
+
+`Sigi` 的核心借鉴了 `Redux` 的设计，所有的高层次的概念都是基于 `Action/Reducer/Side effect` 封装而成。在业务代码中我们的 `API` 设计理念跟 `Redux` 也比较类似，强制让业务的 `Dispatcher/Reducer/Side effect` 的代码分开编写，保持逻辑的干净。而在彻底的分离背后，我们也保持了逻辑的连贯。与大多数 `Redux` 封装不一样的是，`Sigi`的 `dispatch props` 可以通过 `TypeScript` 提供的的 `jump to definition` 功能直接跳转到 `dispatcher` 对应的逻辑
+
+编写Module
+
+```javascript
+import { Module, EffectModule, Reducer, Effect, Action } from '@sigi/core'
+import { Observable } from 'rxjs'
+import {
+  exhaustMap,
+  takeUntil,
+  map,
+  tap,
+  startWith,
+  endWith,
+} from 'rxjs/operators'
+
+import { HttpClient } from './http.service'
+
+interface AppState {
+  loading: boolean
+  list: string[] | null
+}
+
+@Module('App')
+export class AppModule extends EffectModule<AppState> {
+  defaultState: AppState = {
+    list: null,
+    loading: false,
+  }
+
+  constructor(private readonly httpClient: HttpClient) {
+    super()
+  }
+
+  @Reducer()
+  cancel(state: AppState) {
+    return { ...state, ...this.defaultState }
+  }
+
+  @Reducer()
+  setLoading(state: AppState, loading: boolean) {
+    return { ...state, loading }
+  }
+
+  @Reducer()
+  setList(state: AppState, list: string[]) {
+    return { ...state, list }
+  }
+
+  @Effect()
+  fetchList(payload$: Observable<void>): Observable<Action> {
+    return payload$.pipe(
+      exhaustMap(() => {
+        return this.httpClient.get(`/resources`).pipe(
+          tap(() => {
+            console.info('Got response')
+          }),
+          map((response) => this.getActions().setList(response)),
+          startWith(this.getActions().setLoading(true)),
+          endWith(this.getActions().setLoading(false)),
+          takeUntil(this.getAction$().cancel),
+        )
+      }),
+    )
+  }
+}
+```
+
+使用
+
+```javascript
+// index.tsx
+import 'reflect-metadata'
+import React from 'react'
+import { render } from 'react-dom'
+import { useEffectModule } from '@sigi/react'
+import { initDevtool } from '@sigi/devtool'
+
+import { AppModule } from './app.module'
+
+function App() {
+  const [state, dispatcher] = useEffectModule(AppModule)
+
+  const loading = state.loading ? <div>loading</div> : null
+
+  const list = (state.list || []).map((value) => <li key={value}>{value}</li>)
+  return (
+    <div>
+      <h1>Hello CodeSandbox</h1>
+      <button onClick={dispatcher.fetchList}>fetchList</button>
+      <button onClick={dispatcher.cancel}>cancel</button>
+      {loading}
+      <ul>{list}</ul>
+    </div>
+  )
+}
+
+const rootElement = document.getElementById('app')
+render(<App />, rootElement)
+
+initDevtool()
+```
+
+
+
+
+
 ## jotai
 
 `Jotai` 是一个原始且灵活的 `React` 状态管理库
@@ -1164,8 +1617,6 @@ export function Toggle() {
   )
 }
 ```
-
-
 
 
 
@@ -1708,8 +2159,6 @@ https://github.com/heluxjs/helux?tab=readme-ov-file
 
 
 
-
-
 ## react-query
 
 React Query 无疑是管理服务器状态的最佳库之一。它非常好用，**开箱即用，无需配置**，并且可以随着应用的增长而根据自己的喜好**进行定制**。
@@ -1788,7 +2237,32 @@ render(<App />, document.getElementById('root'))
 
  缓存机制
 
+### Query Key Factory
 
+`Query Key Factory` 包的功能说明：
+
+1. @tanstack/query 的类型安全查询密钥管理，具有自动完成功能。
+2. 专注于编写和使查询无效而无需记住的麻烦
+3. 您如何为特定查询设置密钥！ 这个库会处理剩下的事情。
+
+```javascript
+import { createQueryKeyStore } from '@lukemorales/query-key-factory'
+
+export const queryKeys = createQueryKeyStore({
+  users: null,
+  todos: {
+    detail: (todoId: string) => [todoId],
+    list: (filters: TodoFilters) => ({
+      queryKey: [{ filters }],
+      queryFn: (ctx) => api.getTodos({ filters, page: ctx.pageParam }),
+    }),
+  },
+})
+```
+
+### react-query-kit
+
+https://github.com/HuolalaTech/react-query-kit
 
 ## rtk-query
 

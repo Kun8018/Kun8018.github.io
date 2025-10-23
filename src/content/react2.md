@@ -1256,6 +1256,49 @@ export const useTabList = () => {
 
 
 
+#### 获取组件props
+
+当我们在封装一个高阶组件时，常常需要用到原组件的props类型，然后添加上新的props。比如在react-native中，当需要使用Image组件，封装一个可以自动获取图片宽高的ResizeImage组件时，我们需要先获得Image组件的所有props的类型，然后使用联合类型创建一个ResizeImage的props类型
+
+`React.ComponentProps<typeof Image>`，这样我们就可以愉快的创造一个新的props类型，而不丢失Image原有的props类型啦！ stackoverflow上还有这样一种解决方法：`type PropsOf<C> = C extends (props: infer P) => any ? P : never`
+
+#### 拆分context
+
+如果 Context value 中包含了多个 state，那么我们可以把它们按照相关性拆分成多个 Context，这样可以避免不必要的 re-render
+
+```react
+const Component = () => {
+  const [data, setData] = useState();
+  const [data1, setData1] = useState();
+  return (
+    <DataContext.Provider value={data}>
+      <Data1Context.Provider value={data1}>
+        <Child />
+      </Data1Context.Provider>
+    </DataContext.Provider>
+  );
+};
+```
+
+#### 实现类型selector的功能
+
+如果我们想实现一个类似于 redux 的 useSelector 的功能，只有在 Context 中的某个值发生变化的时候，才会触发 re-render，我们可以通过高阶组件来实现
+
+```react
+const withSelector = (selector) => (Component) => {
+  const MemoComponent = React.memo(Component);
+  return (props) => {
+    const value = useContext(selector.context);
+    const selectedValue = selector.selector(value);
+    return <MemoComponent {...props} {...selectedValue} />;
+  };
+};
+```
+
+withSelector(selector) 返回了一个 高阶组件，这个高阶组件在 selector.context 发生变化的时候，会触发 re-render，然后通过 selector.selector 来选择需要的值，然后传递给 Component 的 memo 版本，所以 Component 只在需要的值变化后，才会 re-render
+
+
+
 ## HOC与render Props
 
 ### 包装强化组件的方式

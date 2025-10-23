@@ -50,6 +50,18 @@ function App() {
 export default App
 ```
 
+#### roadmap-ui
+
+使用shadcn-ui构建的roadmap类的图表
+
+https://github.com/haydenbleasel/roadmap-ui?tab=readme-ov-file
+
+#### 21st
+
+shadcn-ui blocks
+
+https://github.com/serafimcloud/21st
+
 
 
 ### chakra-UI
@@ -132,6 +144,12 @@ function Demo() {
   );
 }
 ```
+
+### core-ui
+
+https://github.com/coreui/coreui-react/
+
+
 
 ### radix-ui
 
@@ -326,7 +344,39 @@ amazon推出的UI组件库
 
 https://developer.microsoft.com/en-us/fluentui#/controls/web/button
 
+### magicUI
 
+react动画ui实现
+
+https://magicui.design/
+
+
+
+### lukachoui
+
+https://ui.lukacho.com/components/accordion
+
+
+
+### hyperui
+
+https://github.com/markmead/hyperui
+
+
+
+### material-tailwind
+
+https://github.com/creativetimofficial/material-tailwind?tab=readme-ov-file
+
+
+
+### aceternityui
+
+https://ui.aceternity.com/components/animated-modal
+
+### motion-primitives
+
+https://motion-primitives.com/docs/text-shimmer
 
 ## 拖动库
 
@@ -993,418 +1043,13 @@ console.log(md.render("# Remarkable rulezz!"));
 
 https://juejin.cn/post/6844903782342459400
 
-## Form组件
 
-### react-hook-form
-
-简单好看的react form表单
-
-安装
-
-```shell
-npm install react-hook-form
-```
-
-使用
-
-```react
-import React from 'react';
-import { useForm } from 'react-hook-form';
-
-function App() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-  const onSubmit = (data) => console.log(data);
-
-  return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <input {...register('firstName')} /> {/* register an input */}
-      <input {...register('lastName', { required: true })} />
-      {errors.lastName && <p>Last name is required.</p>}
-      <input {...register('age', { pattern: /\d+/ })} />
-      {errors.age && <p>Please enter number for age.</p>}
-      <input type="submit" />
-    </form>
-  );
-}
-```
-
-### redux-form
-
-使用redux中的state管理form
-
-```shell
-npm install --save redux-form
-```
-
-使用
-
-创建form的reducer
-
-```react
-import { createStore, combineReducers } from 'redux'
-import { reducer as formReducer } from 'redux-form'
-
-const rootReducer = combineReducers({
-  // ...your other reducers here
-  // you have to pass formReducer under 'form' key,
-  // for custom keys look up the docs for 'getFormState'
-  form: formReducer
-})
-```
-
-使用reducer
-
-```react
-import React from 'react'
-import { Field, reduxForm } from 'redux-form'
-
-let ContactForm = props => {
-  const { handleSubmit } = props
-  return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="firstName">First Name</label>
-        <Field name="firstName" component="input" type="text" />
-      </div>
-      <div>
-        <label htmlFor="lastName">Last Name</label>
-        <Field name="lastName" component="input" type="text" />
-      </div>
-      <div>
-        <label htmlFor="email">Email</label>
-        <Field name="email" component="input" type="email" />
-      </div>
-      <button type="submit">Submit</button>
-    </form>
-  )
-}
-
-ContactForm = reduxForm({
-  // a unique name for the form
-  form: 'contact'
-})(ContactForm)
-```
-
-在外部的组件中使用该form组件
-
-```react
-import React from 'react'
-import ContactForm from './ContactForm'
-
-class ContactPage extends React.Component {
-  submit = values => {
-    // print the form values to the console
-    console.log(values)
-  }
-  render() {
-    return <ContactForm onSubmit={this.submit} />
-  }
-}
-```
-
-
-
-### Formik
-
-安装
-
-```shell
-npm install formik --save
-```
-
-使用
-
-```react
- // Render Prop
- import React from 'react';
- import { Formik, Form, Field, ErrorMessage } from 'formik';
- 
- const Basic = () => (
-   <div>
-     <h1>Any place in your app!</h1>
-     <Formik
-       initialValues={{ email: '', password: '' }}
-       validate={values => {
-         const errors = {};
-         if (!values.email) {
-           errors.email = 'Required';
-         } else if (
-           !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-         ) {
-           errors.email = 'Invalid email address';
-         }
-         return errors;
-       }}
-       onSubmit={(values, { setSubmitting }) => {
-         setTimeout(() => {
-           alert(JSON.stringify(values, null, 2));
-           setSubmitting(false);
-         }, 400);
-       }}
-     >
-       {({ isSubmitting }) => (
-         <Form>
-           <Field type="email" name="email" />
-           <ErrorMessage name="email" component="div" />
-           <Field type="password" name="password" />
-           <ErrorMessage name="password" component="div" />
-           <button type="submit" disabled={isSubmitting}>
-             Submit
-           </button>
-         </Form>
-       )}
-     </Formik>
-   </div>
- );
- 
- export default Basic;
-```
-
-
-
-### react-final-form
-
-安装
-
-```shell
-npm install --save final-form react-final-form
-```
-
-使用
-
-```react
-import { Form, Field } from 'react-final-form'
-
-const MyForm = () => (
-  <Form
-    onSubmit={onSubmit}
-    validate={validate}
-    render={({ handleSubmit }) => (
-      <form onSubmit={handleSubmit}>
-        <h2>Simple Default Input</h2>
-        <div>
-          <label>First Name</label>
-          <Field name="firstName" component="input" placeholder="First Name" />
-        </div>
-
-        <h2>An Arbitrary Reusable Input Component</h2>
-        <div>
-          <label>Interests</label>
-          <Field name="interests" component={InterestPicker} />
-        </div>
-
-        <h2>Render Function</h2>
-        <Field
-          name="bio"
-          render={({ input, meta }) => (
-            <div>
-              <label>Bio</label>
-              <textarea {...input} />
-              {meta.touched && meta.error && <span>{meta.error}</span>}
-            </div>
-          )}
-        />
-
-        <h2>Render Function as Children</h2>
-        <Field name="phone">
-          {({ input, meta }) => (
-            <div>
-              <label>Phone</label>
-              <input type="text" {...input} placeholder="Phone" />
-              {meta.touched && meta.error && <span>{meta.error}</span>}
-            </div>
-          )}
-        </Field>
-
-        <button type="submit">Submit</button>
-      </form>
-    )}
-  />
-)
-```
-
-### Yup
-
-验证器，用在form上
-
-使用
-
-```react
-import { object, string, number, date, InferType } from 'yup';
-
-let userSchema = object({
-  name: string().required(),
-  age: number().required().positive().integer(),
-  email: string().email(),
-  website: string().url().nullable(),
-  createdOn: date().default(() => new Date()),
-});
-
-// parse and assert validity
-const user = await userSchema.validate(await fetchUser());
-
-type User = InferType<typeof userSchema>;
-/* {
-  name: string;
-  age: number;
-  email?: string | undefined
-  website?: string | null | undefined
-  createdOn: Date
-}*/
-```
-
-### vest
-
-声明式form验证库
-
-使用
-
-```javascript
-import { create, test, enforce, only, warn, include, skipWhen } from "vest";
-import wait from "wait";
-
-const suite = create((data = {}, currentField) => {
-  only(currentField);
-  include("confirm").when("password");
-
-  test("username", "Username is required", () => {
-    enforce(data.username).isNotEmpty();
-  });
-  test("username", "Username is too short", () => {
-    enforce(data.username).longerThan(2);
-  });
-
-  test.memo(
-    "username",
-    "Username already taken",
-    () => {
-      return doesUserExist(data.username);
-    },
-    [data.username]
-  );
-
-  test("password", "Password is required", () => {
-    enforce(data.password).isNotEmpty();
-  });
-  test("password", "Password is too short", () => {
-    enforce(data.password).longerThan(2);
-  });
-  test("password", "Password is weak. maybe add a number", () => {
-    warn();
-    enforce(data.password).matches(/[0-9]/);
-  });
-
-  // This means that "confirm" will not fail
-  // before we start typing in it - even though it runs with "password"
-  skipWhen(!data.confirm,() => {
-    test("confirm", "Passwords do not match", () => {
-      enforce(data.confirm).equals(data.password);
-    });
-  });
-
-  // This test will only be evaluated once confirm had previous test runs
-  // so that it will not light up unnecessarily 
-  skipWhen(!suite.isTested("confirm"), () => {
-    test("confirm", "Please confirm the password", () => {
-      enforce(data.confirm).isNotEmpty();
-    });
-  })
-
-  test("tos", () => {
-    enforce(data.tos).isTruthy();
-  });
-});
-
-export default suite;
-
-async function doesUserExist(username) {
-  await wait(1000);
-
-  // fake taken username.
-  enforce(parseInt(btoa(username), 36) % 3).notEquals(0);
-}
-```
-
-引入组件中
-
-```javascript
-import React, { useState } from "react";
-import Input from "./components/Input";
-import Checkbox from "./components/Checkbox";
-import Submit from "./components/Submit";
-
-import classnames from "vest/classnames";
-import suite from "./suite";
-import "./styles.css";
-
-export default function Form() {
-  const [formstate, setFormstate] = useState({});
-  const [, setUserNameLoading] = useState(false);
-
-  const handleChange = (currentField, value) => {
-    const nextState = { ...formstate, [currentField]: value };
-    const result = suite(nextState, currentField);
-    setFormstate(nextState);
-
-    if (currentField === "username") {
-      setUserNameLoading(true);
-    }
-
-    result.done(() => {
-      setUserNameLoading(false);
-    });
-  };
-
-  const cn = classnames(suite.get(), {
-    invalid: "error",
-    valid: "success",
-    warning: "warning"
-  });
-
-  return (
-    <form onSubmit={e => e.preventDefault()}>
-      <Input
-        name="username"
-        onChange={handleChange}
-        messages={suite.getErrors("username")}
-        className={cn("username")}
-        pending={suite.isPending("username")}
-      />
-      <Input
-        name="password"
-        onChange={handleChange}
-        messages={suite
-          .getErrors("password")
-          .concat(suite.getWarnings("password"))}
-        className={cn("password")}
-      />
-      <Input
-        name="confirm"
-        onChange={handleChange}
-        messages={suite.getErrors("confirm")}
-        className={cn("confirm")}
-      />
-      <Checkbox
-        onChange={handleChange}
-        name="tos"
-        label="I have read and agreed to the terms of service"
-        className={cn("tos")}
-      />
-      <Submit disabled={!suite.isValid()} />
-    </form>
-  );
-}
-```
 
 ## 路由相关组件
 
 ### wouter
 
-```javascript
+```react
 import { Link, Route } from "wouter";
 
 const App = () => (
@@ -1422,7 +1067,7 @@ const App = () => (
 
 hooks
 
-```javascript
+```react
 import { useRoute } from "wouter";
 import { Transition } from "react-transition-group";
 
@@ -1436,7 +1081,7 @@ const AnimatedRoute = () => {
 
 
 
-```javascript
+```react
 import { useLocation } from "wouter";
 
 const CurrentLocation = () => {
@@ -1453,7 +1098,7 @@ const CurrentLocation = () => {
 
 使用
 
-```javascript
+```react
 import { useState, useEffect } from "react";
 import { Router, Route } from "wouter";
 import { useLocationProperty, navigate } from "wouter/use-location";
@@ -1633,549 +1278,97 @@ React 的思想希望理想状态下的函数都不包含副作用，用户界�
 
 形式上 api.start(...) 的调用方式与 React 曾经通用的类组件范式 this.setState(...) 很相近。并且两者对值的更新都是需要通过内部调度决定时机，而不一定立刻作用到位。无关于 react-spring 的实际实现，这样做好处在于内部还可以将 “*动画逻辑代码的执行”* 和 “*实际的渲染绘制帧”* 的时机解绑，也就是说每秒 60 帧的动画实际可以只运行十几次动画逻辑，每次运行之间间隔的动画绘制可以通过 transtions 机制或是补间算法进行计算，来做到进一步的性能优化。
 
-### react-motion
-
-
-
-## 功能组件
-
-### echarts-for-react
-
-安装
-
-```shell
-npm install --save echarts-for-react
-```
-
-使用
+react-spring与rxjs配合使用
 
 ```react
-import React from 'react';
-import ReactECharts from 'echarts-for-react';  // or var ReactECharts = require('echarts-for-react');
+import { useEffect } from 'react'
+import { animated, useSpring } from '@react-spring/web'
+import { fromEvent, map } from 'rxjs'
 
-<ReactECharts
-  option={this.getOption()}
-  notMerge={true}
-  lazyUpdate={true}
-  theme={"theme_name"}
-  onChartReady={this.onChartReadyCallback}
-  onEvents={EventsDict}
-  opts={}
-/>
-```
+const Components = () => {
+  const divIns = useRef<HTMLDivElement | null>(null)
+  const from = useRef<{
+    x?: number
+    y?: number
+  }>({})
+  
+   useEffect(() => {
+    let subscriptionLeave: any = null
+    let subscriptionEnter: any = null
+    if (divIns.current) {
+      const enter$ = fromEvent<React.MouseEvent>(divIns.current, 'mouseenter').pipe(
+        map((event) => ({
+          mouseX: event.clientX,
+          mouseY: event.clientY,
+        })),
+      )
+      const leave$ = fromEvent<React.MouseEvent>(divIns.current as HTMLDivElement, 'mouseleave')
 
+      subscriptionEnter = enter$.subscribe(({ mouseX, mouseY }) => {
+        if (divIns.current) {
+          const containerRect = divIns.current.getBoundingClientRect()
 
+          const containerCenterX = containerRect.left + containerRect.width / 2
+          const containerCenterY = containerRect.top + containerRect.height / 2
+          const deltaX = mouseX - containerCenterX
+          const deltaY = mouseY - containerCenterY
 
-### react-fiber-traverse
+          // 计算鼠标相对于容器的位置，决定遮罩层的动画起始位置
+          let direction
 
-在fiber树中返回react node
+          if (Math.abs(deltaX) > Math.abs(deltaY)) {
+            direction = deltaX > 0 ? 'right' : 'left'
+          } else {
+            direction = deltaY > 0 ? 'down' : 'up'
+          }
 
-安装
+          if (direction === 'left') {
+            from.current = { x: -containerRect.width, y: 0 }
+            api.start({
+              from: from.current,
+              to: { x: 0, y: 0, opacity: 1 },
+            })
+          }
+          if (direction === 'right') {
+            from.current = { x: containerRect.width, y: 0 }
+            api.start({
+              from: from.current,
+              to: { x: 0, y: 0, opacity: 1 },
+            })
+          }
+          if (direction === 'up') {
+            from.current = { y: -containerRect.height, x: 0 }
+            api.start({
+              from: from.current,
+              to: { x: 0, y: 0, opacity: 1 },
+            })
+          }
 
-```shell
-npm install react-fiber-traverse --save
-```
+          if (direction === 'down') {
+            from.current = { y: containerRect.height, x: 0 }
+            api.start({
+              from: from.current,
+              to: { x: 0, y: 0, opacity: 1 },
+            })
+          }
+        }
+      })
 
-使用
-
-```jsx
-import React from "react";
-import { render } from "react-dom";
- 
-import { findNodeByComponentName, Utils } from "react-fiber-traverse";
- 
-// Sample component
-// Say, if SomeComponentName looks like this -
-function SomeComponentName() {
-  return <div>Some text</div>;
-}
- 
-// Render component
-const rootElement = document.getElementById("root");
-render(<SomeComponentName />, rootElement);
- 
-// Get root node
-const rootFiberNode = Utils.getRootFiberNodeFromDOM(rootElement);
- 
-// Get component node
-const someFiberNode = findNodeByComponentName(
-  rootFiberNode,
-  "SomeComponentName"
-); // <- returns FiberNode for first usage of 'SomeComponentName'
- 
-console.log(someFiberNode.child.stateNode); // <- returns reference to the div
-console.log(someFiberNode.child.stateNode.innerText); // <- returns 'Some text'
-```
-
-
-
-### @monaco-editor/react
-
-在页面内插入文本编辑器，可以提供代码高亮、错误提示等功能
-
-```shell
-npm install @monaco-editor/react 
-```
-
-使用
-
-```javascript
-import Editor, { DiffEditor, useMonaco, loader } from "@monaco-editor/react";
-
-function App() {
-  const editorRef = useRef(null);
-
-  useEffect(() => {
-    if (monaco) {
-      console.log("here is the monaco isntance:", monaco);
+      subscriptionLeave = leave$.subscribe((event: React.MouseEvent) => {
+        api.start({
+          to: { ...from.current, opacity: 0 },
+          from: { x: 0, y: 0 },
+        })
+      })
     }
-  }, [monaco]);
-  
-  function handleEditorWillMount(monaco) {
-    // here is the monaco instance
-    // do something before editor is mounted
-    monaco.languages.typescript.javascriptDefaults.setEagerModelSync(true);
-  }
-  
-  function handleEditorDidMount(editor, monaco) {
-    editorRef.current = editor; 
-  }
-  
-  function handleEditorChange(value, event) {
-    console.log("here is the current model value:", value);
-  }
-  
-  function showValue() {
-    alert(editorRef.current.getValue());
-  }
 
-  return (
-   <>
-     <button onClick={showValue}>Show value</button>
-     <Editor
-       height="90vh"
-       defaultLanguage="javascript"
-       defaultValue="// some comment"
-       beforeMount={handleEditorWillMount}
-       onMount={handleEditorDidMount}
-			 onChange={handleEditorChange}
-     />
-   </>
-  );
-}
-
-const rootElement = document.getElementById("root");
-ReactDOM.render(<App />, rootElement);
-```
-
-
-
-### react-router-cache-route
-
-路由缓存
-
-```javascript
-import React from 'react'
-import { HashRouter as Router, Route } from 'react-router-dom'
-import CacheRoute, { CacheSwitch } from 'react-router-cache-route'
-
-import List from './views/List'
-import Item from './views/Item'
-
-const App = () => (
-  <Router>
-    <CacheSwitch>
-      <CacheRoute exact path="/list" component={List} />
-      <Route exact path="/item/:id" component={Item} />
-      <Route render={() => <div>404 Not Found</div>} />
-    </CacheSwitch>
-  </Router>
-)
-
-export default App
-```
-
-### react-keep-alive
-
-保持当前页面的组件不被卸载
-
-安装
-
-```shell
-npm install --save react-keep-alive
-```
-
-使用
-
-```react
-import React from 'react';
-import ReactDOM from 'react-dom';
-import {
-  Provider,
-  KeepAlive,
-} from 'react-keep-alive';
-import Test from './views/Test';
-
-ReactDOM.render(
-  <Provider>
-    <KeepAlive name="Test">
-      <Test />
-    </KeepAlive>
-  </Provider>,
-  document.getElementById('root'),
-);
-```
-
-
-
-### react-activation
-
-React-activation类似于vue中的keep-alive，实现组件缓存
-
-```javascript
-// App.js
-
-import React, { useState } from 'react'
-import KeepAlive from 'react-activation'
-
-function Counter() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <div>
-      <p>count: {count}</p>
-      <button onClick={() => setCount(count => count + 1)}>Add</button>
-    </div>
-  )
-}
-
-function App() {
-  const [show, setShow] = useState(true)
-
-  return (
-    <div>
-      <button onClick={() => setShow(show => !show)}>Toggle</button>
-      {show && (
-        <KeepAlive>
-          <Counter />
-        </KeepAlive>
-      )}
-    </div>
-  )
-}
-
-export default App
-```
-
-可以在组件缓存或者卸载时做一些回调
-
-```javascript
-import KeepAlive, { useActivate, useUnactivate, withActivation } from 'react-activation'
-
-@withActivation
-class TestClass extends Component {
-  ...
-  componentDidActivate() {
-    console.log('TestClass: componentDidActivate')
-  }
-
-  componentWillUnactivate() {
-    console.log('TestClass: componentWillUnactivate')
-  }
-  ...
-}
-...
-function TestFunction() {
-  useActivate(() => {
-    console.log('TestFunction: didActivate')
-  })
-
-  useUnactivate(() => {
-    console.log('TestFunction: willUnactivate')
-  })
-  ...
-}
-...
-function App() {
-  ...
-  return (
-    {show && (
-      <KeepAlive>
-        <TestClass />
-        <TestFunction />
-      </KeepAlive>
-    )}
-  )
+    return () => {
+      subscriptionLeave && subscriptionLeave.unsubscribe()
+      subscriptionEnter && subscriptionEnter.unsubscribe()
+    }
+  }, [api])
 }
 ```
-
-
-
-### classnames
-
-当react原生动态添加多个className时就会报错，这时我们就可以利用classnames库添加多个className,这也是react官方推荐使用
-
-安装
-
-```shell
-npm install classnames --save
-```
-
-支持动态导入
-
-```react
-import classnames from 'classnames'
-
-<div className=classnames({
-    'class1': true,
-    'class2': true
-    )>
-</div>    
-```
-
-支持class动态传入变量，或者传入数组
-
-```react
-import classNames from 'classnames';
-
-render() {
-  const classStr = classNames({
-    'class1': true,
-    'class2': this.props.isCompleted,
-    'class3': !this.props.isCompleted
-    [a]: this.props.isCompleted
-  });
-  return (<div className={classStr}></div>);
-}
-```
-
-### clsx
-
-和classnames功能一样 但是体积更小
-
-安装
-
-```shell
-npm install --save clsx
-```
-
-使用
-
-```react
-import clsx from 'clsx';
-// or
-import { clsx } from 'clsx';
-
-// Strings (variadic)
-clsx('foo', true && 'bar', 'baz');
-//=> 'foo bar baz'
-
-// Objects
-clsx({ foo:true, bar:false, baz:isTrue() });
-//=> 'foo baz'
-
-// Objects (variadic)
-clsx({ foo:true }, { bar:false }, null, { '--foobar':'hello' });
-//=> 'foo --foobar'
-
-// Arrays
-clsx(['foo', 0, false, 'bar']);
-//=> 'foo bar'
-
-// Arrays (variadic)
-clsx(['foo'], ['', 0, false, 'bar'], [['baz', [['hello'], 'there']]]);
-//=> 'foo bar baz hello there'
-
-// Kitchen sink (with nesting)
-clsx('foo', [1 && 'bar', { baz:false, bat:null }, ['hello', ['world']]], 'cya');
-//=> 'foo bar hello world cya'
-```
-
-
-
-
-
-### react-hot-loader
-
-React-Hot-Loader 使用了 Webpack HMR API，针对 React 框架实现了对单个 component 的热替换，并且能够保持组件的 state。
-React-Hot-Loader 在编译时会在每一个 React component 外封装一层，每一个这样的封装都会注册自己的 module.hot.accept 回调，它们会监听每一个 component 的更新，在当前 component 代码更新时只替换自己的模块，而不是整个替换 root component。
-同时，React-Hot-Loader 对 component 的封装还会代理 component 的 state，所以当 component 替换之后依然能够保持之前的 state。
-
-安装
-
-```shell
-npm install --save-dev react-hot-loader
-```
-
- hot-loader 是基于 webpack-dev-server，所以还得安装 webpack-dev-server
-
-```shell
-npm install --save-dev webpack-dev-server
-```
-
-首先还是要让 webpack-dev-server 打开。
-
-```javascript
-var webpack = require('webpack');
-var WebpackDevServer = require('webpack-dev-server');
-var config = require('./webpack.config');
-
-new WebpackDevServer(webpack(config), {
-  publicPath: config.output.publicPath,
-  hot: true,
-  historyApiFallback: true
-}).listen(3000, 'localhost', function (err, result) {
-  if (err) {
-    return console.log(err);
-  }
-
-  console.log('Listening at http://localhost:3000/')
-});
-```
-
-然后在 webpack 的配置文件里添加 react-hot-loader。
-
-```javascript
-var webpack = require('webpack');
-
-module.exports = {
-  // 修改 entry
-  entry: [
-    // 写在入口文件之前
-    "webpack-dev-server/client?http://0.0.0.0:3000",
-    "webpack/hot/only-dev-server",
-    // 这里是你的入口文件
-    "./src/app.js",
-  ],
-  output: {
-    path: __dirname,
-    filename: "build/js/bundle.js",
-    publicPath: "/build"
-  },
-  module: {
-    loaders: [
-      {
-        test: /\.jsx?$/,
-        exclude: /node_modules/,
-        // 在这里添加 react-hot，注意这里使用的是loaders，所以不能用 query，应该把presets参数写在 babel 的后面
-        loaders: ['react-hot', 'babel?presets[]=react,presets[]=es2015']
-      }
-    ]
-  },
-  // 添加插件
-  plugins: [
-    new webpack.HotModuleReplacementPlugin()
-  ]
-```
-
-
-
-### react-hot-toast
-
-全屏的通知组件
-
-安装
-
-```shell
-npm install react-hot-toast
-```
-
-使用
-
-```react
-import toast, { Toaster } from 'react-hot-toast';
-
-const notify = () => toast('Here is your toast.');
-
-const App = () => {
-  return (
-    <div>
-      <button onClick={notify}>Make me a toast</button>
-      <Toaster />
-    </div>
-  );
-};
-```
-
-
-
-### remotion
-
-用react写video
-
-使用
-
-```react
-import { useCurrentFrame } from "remotion";
- 
-export const MyVideo = () => {
-  const frame = useCurrentFrame();
- 
-  return (
-    <div
-      style={{
-        flex: 1,
-        textAlign: "center",
-        fontSize: "7em",
-      }}
-    >
-      The current frame is {frame}.
-    </div>
-  );
-};
-```
-
-配置帧数
-
-```react
-import { useVideoConfig } from "remotion";
- 
-export const MyVideo = () => {
-  const { fps, durationInFrames, width, height } = useVideoConfig();
- 
-  return (
-    <div
-      style={{
-        flex: 1,
-        textAlign: "center",
-        fontSize: "7em",
-       }}
-      >
-      This {width}px x {height}px video is {durationInFrames / fps} seconds long.
-    </div>
-  );
-};
-```
-
-### react-player
-
-react视频播放组件，比原生的h5 video标签好用
-
-安装
-
-```shell
-npm install react-player # or yarn add react-player
-```
-
-使用
-
-```react
-import React, {useEffect} from 'react'
-import ReactPlayer from 'react-player'
-
-const App = () => {
-  
-  useEffect(() => {
-    ReactPlayer.canPlay(url)
-  },[url])
-
-  return <ReactPlayer url={url} light="xxx.jpg" onReady={} onError={} />
-}
-```
-
-https://cookpete.com/react-player/
-
-
 
 
 
@@ -2183,57 +1376,256 @@ https://cookpete.com/react-player/
 
 
 
-### uuid
+### motion/react
 
-uuid是通用唯一识别码(Universally Unique Identifier)的缩写。是一种软件建构辨准，亦为开发软件基金会组织在分布式计算环境领域的一部分。其目的是让分布式系统中的所有元素具有唯一的辨识信息，而不需要通过中央控制端来做辨识信息的指定。
+https://github.com/motiondivision/motion
 
-UUID由一组32位数的16进制数字构成。对于UUID，就算每纳秒产生一百万个UUID，要花100亿年才会将所有UUID用完。
+framer-motion
 
-格式
+滚动视差
 
-uuid32个16进制数字用连字号分成五组来显示，所以共有36个字符
+```react
+import { LoremIpsum } from "./components/LoremIpsum";
+import { motion, useScroll } from "framer-motion";
 
-UUID版本通过M表示，当前规范有5个版本，可选值为1、2、3、4、5，这5个版本使用不同的算法，利用不同的信息产生UUID，各版本有各版本的优势，具体来说：
+export default function App() {
+  const { scrollYProgress } = useScroll();
 
-uuid.v1()：创建版本1(时间戳)UUID
+  return (
+    <>
+      <motion.div
+        className="progress-bar"
+        style={{ scaleX: scrollYProgress }}
+      />
+      <h1>
+        <code>useScroll</code> demo
+      </h1>
+      <LoremIpsum />
+    </>
+  );
+}
+```
 
-uuid.v3()：创建版本3(md5命名空间)UUID
+`useScroll` 返回 4 个值
 
-uuid.v4()：创建版本4(随机)UUID
+1、scrollX：目标容器在 x 轴方向的滚动位置，以像素为单位
 
-uuid.v5()：创建版本5(带SHA-1的命名空间)IIOD
+2、scrollXProgress：定义的偏移量的滚动位置，这个值在 0 ~ 1` 之间变化，记录的是滚动位置与偏移总量之间的比值
+
+3、scrollY：目标容器在 y 轴方向的滚动位置，以像素为单位
+
+4、scrollYProgress：定义的偏移量的滚动位置，这个值在 0 ~ 1` 之间变化，记录的是滚动位置与偏移总量之间的比值
+
+### react-transition-group
+
+```react
+import { Transition } from 'react-transition-group';
+import { useRef } from 'react';
+
+const duration = 300;
+
+const defaultStyle = {
+  transition: `opacity ${duration}ms ease-in-out`,
+  opacity: 0,
+}
+
+const transitionStyles = {
+  entering: { opacity: 1 },
+  entered:  { opacity: 1 },
+  exiting:  { opacity: 0 },
+  exited:  { opacity: 0 },
+};
+
+function Fade({ in: inProp }) {
+  const nodeRef = useRef(null);
+  return (
+    <Transition nodeRef={nodeRef} in={inProp} timeout={duration}>
+      {state => (
+        <div ref={nodeRef} style={{
+          ...defaultStyle,
+          ...transitionStyles[state]
+        }}>
+          I'm a fade Transition!
+        </div>
+      )}
+    </Transition>
+  );
+}
+```
+
+### react-bits
+
+https://github.com/DavidHDev/react-bits
+
+
+
+### gsap
+
+https://github.com/greensock/GSAP?tab=readme-ov-file
+
+
+
+## Icons
+
+### react-icons
+
+包含比较流行的icons
+
+包含antd icons、bootstrap icons、font awesome icons等图标
 
 安装
 
 ```shell
-npm install uuid 
+npm install react-icons --save
+```
+
+使用
+
+```react
+import { FaBeer } from 'react-icons/fa';
+
+class Question extends React.Component {
+    render() {
+        return <h3> Lets go for a <FaBeer />? </h3>
+    }
+}
+```
+
+https://github.com/react-icons/react-icons
+
+### iconify
+
+
+
+### RemixIcon
+
+https://github.com/Remix-Design/RemixIcon
+
+
+
+### hero-icons
+
+https://heroicons.com/outline
+
+
+
+## 国际化
+
+### react-intl-universal
+
+不建议使用react-intl，而使用React-intl-universal实现
+
+建立英文和中文语言包,可以是json或者js文件
+
+```javascript
+const en_US = {
+  'hello':'nihao',
+  'name': 'zhangsan',
+  'age': '30',
+  'changelang': 'qiehuanyuyan',
+}
+
+export default en_US
+```
+
+中文包
+
+```js
+const zh_CN = {
+  'hello':'nihao',
+  'name': 'zhangsan',
+  'age': '30',
+  'changelang': 'qiehuanyuyan',
+}
+
+export default zh_CN
+```
+
+使用
+
+```react
+import intl from 'react-intl-universal'
+import cn from '../../assets/locals/zh-CN'
+import us from '../../assets'
+
+class IntlExample extends React.Component{
+  constructor(){
+    super();
+    this.locals = {
+      'zh_CN': cn,
+      'en_US': us
+    }
+    this.state = {
+      intl: cn
+    }
+  }
+  
+  componentDidMount() {
+    this.initLocale();
+  }
+  initLocale(locale="zh_CN"){
+    
+  }
+}
+```
+
+
+
+### i18next-browser-languargeDetecter
+
+检测浏览器的语言
+
+安装
+
+```shell
+npm install i18next-browser-languagedetector
 ```
 
 使用
 
 ```javascript
-import { v4 as uuidv4} from 'uuid'
+import i18next from 'i18next';
+import LanguageDetector from 'i18next-browser-languagedetector';
 
-uuidv4()
+i18next.use(LanguageDetector).init(i18nextOptions);
 ```
 
-可以使用uuid进行验证登陆,未登陆状态下生产uuid
+### react-i18next
 
-```javascript
-let uuid = sessionStorage.getItem('uuid')
-if(!uuid){
-  sessionStorage.setItem('uuid')
-}
+react国际化包
 
-if(getToken()){
-  sessionStorage.removeItem('uuid');
-}else {
-  let uuid = sessionStorage.getItem('uuid');
-  if(!uuid){
-    sessionStorage.setItem('uuid',uuidv4());
-  }
-}
+安装
+
+```shell
+npm install react-i18next
 ```
+
+使用
+
+```react
+import { useTranslation } from 'react-i18next';
+
+const { i18n, t } = useTranslation();
+
+i18n.changeLanguage(language).catch(() => {});
+<html>{t('a')}</html>
+```
+
+与react-intl对比
+
+React-i18next初始化的时候需要将初始化配置放置在初始化文件（i18n.js）中，然后将初始化文件(i18n.js)通过import的方式引入到入口文件中即可。当然也可以通过I18nextProvider将i18n往下传递到各子组件。React-intl提供的是context api初始化方案，需要将初始化配置放在IntlProvider组件中，并且将入口文件的组件（如<App />)作为IntlProvider的子组件来使用；
+
+React-i18next提供了切换语言的接口(i18n.changeLanguage)，react-intl则需要对切换做一些封装的工作；
+
+React-i18next提供了三种方式进行国际化操作（render props、hook和hoc)， react-intl提供了api（intl.formatMessage()）和组件(<FormattedMessage />)两种方式进行国际化；
+
+React-i18next的语言资源文件为json格式，react-intl为js格式，同时支持变量传值；
+
+React-i18next有很多插件可以使用比如检测当前系统语言，从后端获取数据等；
+
+React-intl除文本翻译外还提供日期、时间和金额的国际化支持；
+
+
 
 
 

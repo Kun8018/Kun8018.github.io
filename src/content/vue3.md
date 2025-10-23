@@ -16,6 +16,14 @@ thumbnail: https://cdn.kunkunzhang.top/vue3.png
 
 clipboard-polyfill xgplayer qrcode
 
+### vuese
+
+https://github.com/vuese/vuese?tab=readme-ov-file
+
+vue组件文档
+
+
+
 ### vue-i18n-next
 
 https://github.com/intlify/vue-i18n-next
@@ -999,3 +1007,108 @@ new Vue({
 ### vue-pure-admin
 
 https://github.com/pure-admin/vue-pure-admin
+
+
+
+### vue-office
+
+office文档预览预览组件，包括docx、excel、pdf和ppt
+
+```shell
+#docx文档预览组件
+npm install @vue-office/docx vue-demi@0.14.6
+
+#excel文档预览组件
+npm install @vue-office/excel vue-demi@0.14.6
+
+#pdf文档预览组件
+npm install @vue-office/pdf vue-demi@0.14.6
+
+#pptx文档预览组件
+npm install @vue-office/pptx vue-demi@0.14.6
+```
+
+使用
+
+```vue
+<template>
+    <vue-office-docx
+        :src="docx"
+        style="height: 100vh;"
+        @rendered="rendered"
+    />
+</template>
+
+<script>
+//引入VueOfficeDocx组件
+import VueOfficeDocx from '@vue-office/docx'
+//引入相关样式
+import '@vue-office/docx/lib/index.css'
+
+export default {
+    components:{
+        VueOfficeDocx
+    },
+    data(){
+        return {
+            docx: 'http://static.shanhuxueyuan.com/test6.docx' //设置文档网络地址，可以是相对地址
+        }
+    },
+    methods:{
+        rendered(){
+            console.log("渲染完成")
+        }
+    }
+}
+</script>
+```
+
+### tres
+
+vue+threejs
+
+https://github.com/Tresjs/tres
+
+```shell
+pnpm install @tresjs/core three
+```
+
+
+
+
+
+## 大屏
+
+### vueDataV
+
+https://github.com/jackchen0120/vueDataV?tab=readme-ov-file
+
+
+
+### DataV
+
+https://github.com/DataV-Team/Datav
+
+
+
+### v-charts
+
+https://github.com/ElemeFE/v-charts
+
+
+
+### vue-echarts
+
+https://github.com/ecomfe/vue-echarts#readme
+
+
+
+### vue-chartjs
+
+https://github.com/apertureless/vue-chartjs
+
+
+
+### big-screen
+
+https://github.com/L-noodle/vue-big-screen

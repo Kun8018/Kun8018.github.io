@@ -25,7 +25,33 @@ thumbnail: https://s1.ax1x.com/2020/03/28/GAF779.jpg
 <p align="center">你才25岁，你可以成为任何你想要成为的人</p>
 <p align="right">--《步履不停》</p>
 
+<p align="center">我始终相信</p>
+<p align="center">开始在内心生活得更严肃的人</p>
+<p align="center">也会在外表上开始生活得更朴素</p>
+<p align="center">在一个奢华浪费的年代</p>
+<p align="center">我希望能向世界表明</p>
+<p align="center">人类真正需要的东西是非常之微少的</p>
+<p align="right">--海明威 https://tv.cctv.com/2019/03/03/ARTIqdVP8b1RK1uUSpIFXg51190303.shtml</p>
 
+
+
+<p align="center">我没有问题</p>
+<p align="center">我想说的是，世界杯决赛要来了。</p>
+<p align="center">我们每个人都想赢得冠军</p>
+<p align="center">但我想告诉你</p>
+<p align="center">不管结果如何，有些东西没人能从你这里夺走</p>
+<p align="center">你征服了每一个阿根廷人，我是认真的</p>
+<p align="center">没有一个孩子没有你的球衣，我也不是之前那个人了</p>
+<p align="center">我有很多关于你的故事要讲</p>
+<p align="center">你在我们所有人生命中都留下了印记，这正是我不得不说的</p>
+<p align="center">对我而言，这比世界杯更加重要，没人可以从你身上夺走这一切</p>
+<p align="center">这是对你的感谢，为这样一个幸福的时刻，你让我们这么多人活着。</p>
+<p align="center">我希望你把这放在心上</p>
+<p align="center">因为我相信比世界杯更重要的，你已经拥有</p>
+<p align="center">所以</p>
+<p align="center">谢谢你，队长</p>
+
+<p align="right">--Sofi Martinez</p>
 
 <p align="center">西班牙的球员完全不用为此感到抱歉，</p>
 <p align="center">因为他们已经到过很多人无法企及的高度</p>
@@ -277,5 +303,5 @@ thumbnail: https://s1.ax1x.com/2020/03/28/GAF779.jpg
 
 
 
-
+https://www.butterfly-global.com/en/column/detail/20250417.html
 

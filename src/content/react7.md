@@ -48,6 +48,49 @@ obj.a //999
 
 一般的解法就是使用「深拷贝」(deep copy)而非浅拷贝(shallow copy)，来避免被修改,但是这样造成了 CPU和内存的浪费.
 
+如果我们创建的state是一个一般数据类型，他就是一个不可变的值，如果需要改变我们需要重新创建一个state去覆盖它；但是如果我们的state是一个对象，我们在原对象上对其进行修改；有时候你会发现并不触发render，所以这里我们需要传入一个新的不可变对象。一般来讲直接用解决深拷贝的问题的方法就能解决；但是这种方式并不被官方推荐；因此我们需要借助immutable.js或者immer.js去生成一个不可变对象
+
+```react
+import react, {useState} from 'react'
+export default function IndexPage() {
+    const [list, setList] = useState([
+        {
+            id:1,
+            value:'大饼'
+        },
+        {
+            id:2,
+            value:'豆浆'
+        },
+    ]);
+  	// 改变对象后不会rerender
+    const add = ()=>{
+        list.push({
+            id:3,
+            value:'油条'
+        })
+        console.log(list.length)
+        setList(list)
+    }
+    
+    // 改变对象后会rerender
+    const add = ()=>{
+        setList([...list,{
+            id:3,
+            value:'油条'
+        }])
+    }
+    return (
+      <div>
+          {list.map(item=><div key={item.id}>{item.value}</div>)}
+          <button onClick={add}>add</button>
+      </div>
+  );
+}
+```
+
+在这个案例中运行并点击你会发现，我们通过方法list的对象方法push给list插入一条值改变list的值，控制台会输出list的长度为3，然后我们将list传给setList并运行，但是我们的界面依旧没改变，依旧为运行前的大饼和豆浆；那是因为我们并没有创建一个新值覆盖原有的list只是在原对象上进行修改；而react并不能监听到这个变化；所以导致页面没有更新；所以需要去改变原来的list进行覆盖
+
 immutable可以很好地解决这些问题
 
 Immutable Data 就是一旦创建，就不能再被更改的数据。对 Immutable 对象的任何修改或添加删除操作都会返回一个新的 Immutable 对象。Immutable 实现的原理是 Persistent Data Structure（持久化数据结构），也就是使用旧数据创建新数据时，要保证旧数据同时可用且不变。同时为了避免 deepCopy 把所有节点都复制一遍带来的性能损耗，Immutable 使用了 Structural Sharing（结构共享），即如果对象树中一个节点发生变化，只修改这个节点和受它影响的父节点，其它节点则进行共享。
@@ -328,7 +371,34 @@ https://immerjs.github.io/immer/update-patterns
 
 ## rxjs
 
+https://rxjs-cn.github.io/learn-rxjs-operators/recipes/http-polling.md
+
+https://github.com/btroncone/learn-rxjs
+
 rxjs是一个库，它通过使用observable序列来编写异步和基于事件的程序。它提供了核心类型Observable，附属类型(observer、schedulers、subjects)和类似于数组的操作符(map、filter、reduce、every)等，这些操作符可以把异步事件作为集合来处理
+
+- 异步常见问题
+  - 竞态条件 (Race Condition)
+    - 当多次发送请求时， 请求先后顺序就会影响到最终接收到的结果不同
+  - 内存泄漏 (Memory Leak)
+    - 例如页面初始化时有对 DOM 注册监听事件，而没有在适当的时机点把监听的事件移除，就有可能造成 Memory Leak。比如说在 A 页面监听 body 的 scroll 事件，但页面切换时，没有把 scroll 的监听事件移除
+  - 复杂的状态 (Complex State)
+    - 当有异步时，应用程式的状态就会变得非常复杂！比如说一个列表需要有权限才能看见具体的数据，首先需要获取这个列表数据，然后在根据用户的权限去展示数据，用户也可能翻页进行快速操作，这些都是异步执行，这时就会各种复杂的状态需要处理
+  - 异常处理 (Exception Handling)
+    - JavaScript 的 try/catch 可以捕捉同步的异常处理，但异步的就没这么容易，尤其当我们的异步行为很复杂时，这个问题就愈加明显。
+
+无法统一的写法
+
+- 我们除了要面对异步会遇到的各种问题外，还要烦恼很多不同的 api 写法，
+  - DOM Events
+  - XMLHttpRequest
+  - fetch
+  - WebSockets
+  - Server Send Events
+  - Service Worker
+  - Node Stream
+  - Timer
+- 上面列的 api 都是异步的，但他们都有各自的 api 及写法。如果我们使用 rxjs，上面所有的 api 就可以透过 rxjs 来处理，能用同样的 api 来操作
 
 可以把rxjs当作用来处理事件的lodash
 
@@ -345,6 +415,40 @@ Operator(操作符)：
 Subject(主体)：
 
 Scheduler(调度器)：
+
+
+
+Rxjs中包含两个基本概念：Observable和Observer
+
+Observable作为被观察者，是一个可调用的未来值或事件的集合，支持异步或者同步数据流
+
+Observer作为观察者，是一个回调函数的集合，他知道如何去监听由Observable提供的值
+
+Observer与Observable之间是观察者模式，Observer通过Observable提供的subscribe方法订阅，Observable通过Observer提供的next方法向Observer发布事件
+
+在Rxjs中，Observer除了有next方法来接收Observable的事件外，还提供了另外的两个方法：error方法和complete方法，来完成异常和完成状态，这个就是迭代器模式，类似于ES6中的Iterator遍历器
+
+```react
+import { Observable } from 'rxjs'
+
+const observer = {
+  next: (value) => console.log(value);
+  error: err => console.error('Observer got an error' + err);
+	complete: () => console.log('Observer got a complete notification')
+}
+
+const observable = new Observable (function(observer) {
+  observer.next('a');
+  observer.next('b');
+  observer.complete();
+  
+  observer.next('c')
+})
+
+const subscription = observable.subscribe(observer)
+```
+
+### 
 
 ### 安装
 
@@ -377,9 +481,102 @@ require('rxjs/add/operator/map')
 Observable.of(1,2,3).map(x => x+ '!!!');//等等
 ```
 
-### 注册事件
+### 使用
 
-常规写法
+转换为observables
+
+```React
+// 来自一个或多个值
+Rx.Observable.of('foo', 'bar');
+
+// 来自数组
+Rx.Observable.from([1,2,3]);
+
+// 来自事件
+Rx.Observable.fromEvent(document.querySelector('button'), 'click');
+
+// 来自 Promise
+Rx.Observable.fromPromise(fetch('/users'));
+
+// 来自回调函数(最后一个参数得是回调函数，比如下面的 cb)
+// fs.exists = (path, cb(exists))
+var exists = Rx.Observable.bindCallback(fs.exists);
+exists('file.txt').subscribe(exists => console.log('Does file exist?', exists));
+
+// 来自回调函数(最后一个参数得是回调函数，比如下面的 cb)
+// fs.rename = (pathA, pathB, cb(err, result))
+var rename = Rx.Observable.bindNodeCallback(fs.rename);
+rename('file.txt', 'else.txt').subscribe(() => console.log('Renamed!'));
+
+// RxJS v6+
+import { timer, range, interval } from 'rxjs';
+
+// 1秒后发出0，然后结束，因为没有提供第二个参数
+const source = timer(1000);
+
+const source = range(1, 10);
+// 输出: 1,2,3,4,5,6,7,8,9,10
+const example = source.subscribe(val => console.log(val));
+
+const source = interval(1000);
+// 数字: 0,1,2,3,4,5....
+const subscribe = source.subscribe(val => console.log(val));
+```
+
+直接创建observables
+
+```javascript
+var myObservable = new Rx.Subject();
+myObservable.subscribe(value => console.log(value));
+myObservable.next('foo');
+
+var myObservable = Rx.Observable.create(observer => {
+  observer.next('foo');
+  setTimeout(() => observer.next('bar'), 1000);
+});
+myObservable.subscribe(value => console.log(value));
+```
+
+控制流
+
+```javascript
+// 输入 "hello world"
+var input = Rx.Observable.fromEvent(document.querySelector('input'), 'input');
+
+// 过滤掉小于3个字符长度的目标值
+input.filter(event => event.target.value.length > 2)
+  .map(event => event.target.value)
+  .subscribe(value => console.log(value)); // "hel"
+
+// 延迟事件
+input.delay(200)
+  .map(event => event.target.value)
+  .subscribe(value => console.log(value)); // "h" -200ms-> "e" -200ms-> "l" ...
+
+// 每200ms只能通过一个事件
+input.throttleTime(200)
+  .map(event => event.target.value)
+  .subscribe(value => console.log(value)); // "h" -200ms-> "w"
+
+// 停止输入后200ms方能通过最新的那个事件
+input.debounceTime(200)
+  .map(event => event.target.value)
+  .subscribe(value => console.log(value)); // "o" -200ms-> "d"
+
+// 在3次事件后停止事件流
+input.take(3)
+  .map(event => event.target.value)
+  .subscribe(value => console.log(value)); // "hel"
+
+// 直到其他 observable 触发事件才停止事件流
+var stopStream = Rx.Observable.fromEvent(document.querySelector('button'), 'click');
+input.takeUntil(stopStream)
+  .map(event => event.target.value)
+  .subscribe(value => console.log(value)); // "hello" (点击才能看到)
+
+```
+
+事件常规写法
 
 ```javascript
 var button = document.querySelector('button')
@@ -393,8 +590,6 @@ var button = document.querySelector('button')
 Rx.observable.fromEvent(button,'click')
   .subscribe(()=> console.log('click'))
 ```
-
-### 操作变量
 
 常规写法是非纯函数，状态管理较乱
 
@@ -433,36 +628,748 @@ input.plunk('data').distinct()
 input.plunk('data').
 ```
 
-### 观察者模式与迭代器模式
+### 组合操作符
 
-Rxjs中包含两个基本概念：Observable和Observer
+merge: 将多个 observables 转换成单个 observable 
 
-Observable作为被观察者，是一个可调用的未来值或事件的集合，支持异步或者同步数据流
+```javascript
+import { mapTo } from 'rxjs/operators';
+import { interval, merge } from 'rxjs';
 
-Observer作为观察者，是一个回调函数的集合，他知道如何去监听由Observable提供的值
+// 每2.5秒发出值
+const first = interval(2500);
+// 每2秒发出值
+const second = interval(2000);
+// 每1.5秒发出值
+const third = interval(1500);
+// 每1秒发出值
+const fourth = interval(1000);
 
-Observer与Observable之间是观察者模式，Observer通过Observable提供的subscribe方法订阅，Observable通过Observer提供的next方法向Observer发布事件
+// 从一个 observable 中发出输出值
+const example = merge(
+  first.pipe(mapTo('FIRST!')),
+  second.pipe(mapTo('SECOND!')),
+  third.pipe(mapTo('THIRD')),
+  fourth.pipe(mapTo('FOURTH'))
+);
+// 输出: "FOURTH", "THIRD", "SECOND!", "FOURTH", "FIRST!", "THIRD", "FOURTH"
+const subscribe = example.subscribe(val => console.log(val));
+```
 
-在Rxjs中，Observer除了有next方法来接收Observable的事件外，还提供了另外的两个方法：error方法和complete方法，来完成异常和完成状态，这个就是迭代器模式，类似于ES6中的Iterator遍历器
+mergeAll: 收集并订阅所有的 observables
 
-```react
-import { Observable } from 'rxjs'
+```javascript
+import { map, mergeAll } from 'rxjs/operators';
+import { of } from 'rxjs';
 
-const observer = {
-  next: (value) => console.log(value);
-  error: err => console.error('Observer got an error' + err);
-	complete: () => console.log('Observer got a complete notification')
+const myPromise = val =>
+  new Promise(resolve => setTimeout(() => resolve(`Result: ${val}`), 2000));
+// 发出 1,2,3
+const source = of(1, 2, 3);
+
+const example = source.pipe(
+  // 将每个值映射成 promise
+  map(val => myPromise(val)),
+  // 发出 source 的结果
+  mergeAll()
+);
+
+/*
+  输出:
+  "Result: 1"
+  "Result: 2"
+  "Result: 3"
+*/
+const subscribe = example.subscribe(val => console.log(val));
+```
+
+zip **zip** 操作符会订阅所有内部 observables，然后等待每个发出一个值。一旦发生这种情况，将发出具有相应索引的所有值。这会持续进行，直到至少一个内部 observable 完成
+
+```javascript
+import { delay } from 'rxjs/operators';
+import { of, zip } from 'rxjs';
+
+const sourceOne = of('Hello');
+const sourceTwo = of('World!');
+const sourceThree = of('Goodbye');
+const sourceFour = of('World!');
+// 一直等到所有 observables 都发出一个值，才将所有值作为数组发出
+const example = zip(
+  sourceOne,
+  sourceTwo.pipe(delay(1000)),
+  sourceThree.pipe(delay(2000)),
+  sourceFour.pipe(delay(3000))
+);
+// 输出: ["Hello", "World!", "Goodbye", "World!"]
+const subscribe = example.subscribe(val => console.log(val));
+```
+
+startWith: 发出给定的第一个值
+
+```javascript
+import { startWith } from 'rxjs/operators';
+import { of } from 'rxjs';
+
+// 发出 (1,2,3)
+const source = of(1, 2, 3);
+// 从0开始
+const example = source.pipe(startWith(0));
+// 输出: 0,1,2,3
+const subscribe = example.subscribe(val => console.log(val));
+```
+
+pairwise: 将前一个值和当前值作为数组发出
+
+```javascript
+import { pairwise, take } from 'rxjs/operators';
+import { interval } from 'rxjs';
+
+// 返回: [0,1], [1,2], [2,3], [3,4], [4,5]
+interval(1000)
+  .pipe(
+    pairwise(),
+    take(5)
+  )
+  .subscribe(console.log);
+```
+
+race: 使用首先发出值的 observable
+
+```javascript
+import { mapTo } from 'rxjs/operators';
+import { interval } from 'rxjs/observable/interval';
+import { race } from 'rxjs/observable/race';
+
+// 接收第一个发出值的 observable
+const example = race(
+  // 每1.5秒发出值
+  interval(1500),
+  // 每1秒发出值
+  interval(1000).pipe(mapTo('1s won!')),
+  // 每2秒发出值
+  interval(2000),
+  // 每2.5秒发出值
+  interval(2500)
+);
+// 输出: "1s won!"..."1s won!"...etc
+const subscribe = example.subscribe(val => console.log(val));
+```
+
+concat: 按照顺序，前一个 observable 完成了再订阅下一个 observable 并发出值
+
+```javascript
+import { concat } from 'rxjs/operators';
+import { of } from 'rxjs';
+
+// 发出 1,2,3
+const sourceOne = of(1, 2, 3);
+// 发出 4,5,6
+const sourceTwo = of(4, 5, 6);
+// 先发出 sourceOne 的值，当完成时订阅 sourceTwo
+const example = sourceOne.pipe(concat(sourceTwo));
+// 输出: 1,2,3,4,5,6
+const subscribe = example.subscribe(val =>
+  console.log('Example: Basic concat:', val)
+);
+```
+
+concatAll: 收集 observables，当前一个完成时订阅下一个
+
+```javascript
+import { map, concatAll } from 'rxjs/operators';
+import { of, interval } from 'rxjs';
+
+// 每2秒发出值
+const source = interval(2000);
+const example = source.pipe(
+  // 为了演示，增加10并作为 observable 返回
+  map(val => of(val + 10)),
+  // 合并内部 observables 的值
+  concatAll()
+);
+// 输出: 'Example with Basic Observable 10', 'Example with Basic Observable 11'...
+const subscribe = example.subscribe(val =>
+  console.log('Example with Basic Observable:', val)
+);
+```
+
+
+
+```javascript
+// RxJS v6+
+import { timer, combineLatest } from 'rxjs';
+
+// timerOne 在1秒时发出第一个值，然后每4秒发送一次
+const timerOne = timer(1000, 4000);
+// timerTwo 在2秒时发出第一个值，然后每4秒发送一次
+const timerTwo = timer(2000, 4000);
+// timerThree 在3秒时发出第一个值，然后每4秒发送一次
+const timerThree = timer(3000, 4000);
+
+// 当一个 timer 发出值时，将每个 timer 的最新值作为一个数组发出
+const combined = combineLatest(timerOne, timerTwo, timerThree);
+
+const subscribe = combined.subscribe(latestValues => {
+  // 从 timerValOne、timerValTwo 和 timerValThree 中获取最新发出的值
+    const [timerValOne, timerValTwo, timerValThree] = latestValues;
+  /*
+      示例:
+    timerOne first tick: 'Timer One Latest: 1, Timer Two Latest:0, Timer Three Latest: 0
+    timerTwo first tick: 'Timer One Latest: 1, Timer Two Latest:1, Timer Three Latest: 0
+    timerThree first tick: 'Timer One Latest: 1, Timer Two Latest:1, Timer Three Latest: 1
+  */
+    console.log(
+      `Timer One Latest: ${timerValOne},
+     Timer Two Latest: ${timerValTwo},
+     Timer Three Latest: ${timerValThree}`
+    );
+  }
+);
+```
+
+
+
+### 转换操作符
+
+expand：递归调用提供的函数
+
+```javascript
+import { interval, of } from 'rxjs';
+import { expand, take } from 'rxjs/operators';
+
+// 发出 2
+const source = of(2);
+const example = source.pipe(
+  // 递归调用提供的函数
+  expand(val => {
+    // 2,3,4,5,6
+    console.log(`Passed value: ${val}`);
+    // 3,4,5,6
+    return of(1 + val);
+  }),
+  // 用5次
+  take(5)
+);
+```
+
+map对每个值投射处理函数
+
+```javascript
+import { from } from 'rxjs';
+import { map } from 'rxjs/operators';
+
+// 发出 (1,2,3,4,5)
+const source = from([1, 2, 3, 4, 5]);
+// 每个数字加10
+const example = source.pipe(map(val => val + 10));
+// 输出: 11,12,13,14,15
+const subscribe = example.subscribe(val => console.log(val));
+```
+
+Mapto: 将每个发出值映射成常量
+
+```javascript
+import { fromEvent } from 'rxjs';
+import { mapTo } from 'rxjs/operators';
+
+// 发出每个页面点击
+const source = fromEvent(document, 'click');
+// 将所有发出值映射成同一个值
+const example = source.pipe(mapTo('GOODBYE WORLD!'));
+// 输出: (click)'GOODBYE WORLD!'...
+const subscribe = example.subscribe(val => console.log(val));
+```
+
+concatMap: 将值映射成内部 observable，并按顺序订阅和发出
+
+`concatMap` 和 [`mergeMap`](https://rxjs-cn.github.io/learn-rxjs-operators/operators/transformation/mergemap.html) 之间的区别。 因为 `concatMap` 之前前一个内部 observable 完成后才会订阅下一个， source 中延迟 2000ms 值会先发出。 对比的话， [`mergeMap`](https://rxjs-cn.github.io/learn-rxjs-operators/operators/transformation/mergemap.html) 会立即订阅所有内部 observables， 延迟少的 observable (1000ms) 会先发出值，然后才是 2000ms 的 observable 
+
+```javascript
+import { of } from 'rxjs';
+import { concatMap, delay, mergeMap } from 'rxjs/operators';
+
+// 发出延迟值
+const source = of(2000, 1000);
+// 将内部 observable 映射成 source，当前一个完成时发出结果并订阅下一个
+const example = source.pipe(
+  concatMap(val => of(`Delayed by: ${val}ms`).pipe(delay(val)))
+);
+// 输出: With concatMap: Delayed by: 2000ms, With concatMap: Delayed by: 1000ms
+const subscribe = example.subscribe(val =>
+  console.log(`With concatMap: ${val}`)
+);
+
+// 展示 concatMap 和 mergeMap 之间的区别
+const mergeMapExample = source
+  .pipe(
+    // 只是为了确保 meregeMap 的日志晚于 concatMap 示例
+    delay(5000),
+    mergeMap(val => of(`Delayed by: ${val}ms`).pipe(delay(val)))
+  )
+  .subscribe(val => console.log(`With mergeMap: ${val}`));
+```
+
+mergeMap: 映射成 observable 并发出值
+
+```javascript
+import { of } from 'rxjs';
+import { mergeMap } from 'rxjs/operators';
+
+// 发出 'Hello'
+const source = of('Hello');
+// 映射成 observable 并将其打平
+const example = source.pipe(mergeMap(val => of(`${val} World!`)));
+// 输出: 'Hello World!'
+const subscribe = example.subscribe(val => console.log(val));
+```
+
+concatMapTo 当前一个 observable 完成时订阅提供的 observable 并发出值
+
+```javascript
+import { of, interval } from 'rxjs';
+import { concatMapTo, delay, take } from 'rxjs/operators';
+
+// 每2秒发出值
+const sampleInterval = interval(500).pipe(take(5));
+const fakeRequest = of('Network request complete').pipe(delay(3000));
+// 前一个完成才会订阅下一个
+const example = sampleInterval.pipe(concatMapTo(fakeRequest));
+// 结果
+// 输出: Network request complete...3s...Network request complete'
+const subscribe = example.subscribe(val => console.log(val));
+```
+
+pluck 选择observable中的属性发出
+
+```javascript
+import { from } from 'rxjs';
+import { pluck } from 'rxjs/operators';
+
+const source = from([{ name: 'Joe', age: 30 }, { name: 'Sarah', age: 35 }]);
+// 提取 name 属性
+const example = source.pipe(pluck('name'));
+// 输出: "Joe", "Sarah"
+const subscribe = example.subscribe(val => console.log(val));
+```
+
+Scan: 随着时间的推移进行归并
+
+```javascript
+import { interval } from 'rxjs';
+import { scan, map, distinctUntilChanged } from 'rxjs/operators';
+
+// 累加数组中的值，并随机发出此数组中的值
+const scanObs = interval(1000)
+  .pipe(
+    scan((a, c) => [...a, c], []),
+    map(r => r[Math.floor(Math.random() * r.length)]),
+    distinctUntilChanged()
+  )
+  .subscribe(console.log);
+```
+
+switchmap: 映射成 observable，完成前一个内部 observable，发出值
+
+```javascript
+import { timer, interval } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+
+// 立即发出值， 然后每5秒发出值
+const source = timer(0, 5000);
+// 当 source 发出值时切换到新的内部 observable，发出新的内部 observable 所发出的值
+const example = source.pipe(switchMap(() => interval(500)));
+// 输出: 0,1,2,3,4,5,6,7,8,9...0,1,2,3,4,5,6,7,8
+const subscribe = example.subscribe(val => console.log(val))
+```
+
+partition: 通过过滤条件将一个observable分成两个
+
+```javascript
+import { from, merge } from 'rxjs';
+import { partition, map } from 'rxjs/operators';
+
+const source = from([1, 2, 3, 4, 5, 6]);
+// 第一个值(events)返回 true 的数字集合，第二个值(odds)是返回 false 的数字集合
+const [evens, odds] = source.pipe(partition(val => val % 2 === 0));
+/*
+  输出:
+  "Even: 2"
+  "Even: 4"
+  "Even: 6"
+  "Odd: 1"
+  "Odd: 3"
+  "Odd: 5"
+*/
+const subscribe = merge(
+  evens.pipe(map(val => `Even: ${val}`)),
+  odds.pipe(map(val => `Odd: ${val}`))
+).subscribe(val => console.log(val));
+```
+
+### 过滤操作符
+
+first 发出第一个值或第一个通过给定表达式的值
+
+```javascript
+import { from } from 'rxjs';
+import { first } from 'rxjs/operators';
+
+const source = from([1, 2, 3, 4, 5]);
+// 没有参数则发出第一个值
+const example = source.pipe(first());
+// 输出: "First value: 1"
+const subscribe = example.subscribe(val => console.log(`First value: ${val}`));
+
+const source = from([1, 2, 3, 4, 5]);
+// 没有值通过的话则发出默认值
+const example = source.pipe(first(val => val > 5, 'Nothing'));
+// 输出: 'Nothing'
+const subscribe = example.subscribe(val => console.log(val));
+```
+
+Last 根据提供的表达式，在源 observable 完成时发出它的最后一个值
+
+```javascript
+const source = from([1, 2, 3, 4, 5]);
+// 发出最后一个偶数
+const exampleTwo = source.pipe(last(num => num % 2 === 0));
+// 输出: "Last to pass test: 4"
+const subscribeTwo = exampleTwo.subscribe(val =>
+  console.log(`Last to pass test: ${val}`)
+);
+```
+
+takeUntil: 发出值，直到提供的 observable 发出值，它便完成
+
+```javascript
+import { interval, timer } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+
+// 每1秒发出值
+const source = interval(1000);
+// 5秒后发出值
+const timer$ = timer(5000);
+// 当5秒后 timer 发出值时， source 则完成
+const example = source.pipe(takeUntil(timer$));
+// 输出: 0,1,2,3
+const subscribe = example.subscribe(val => console.log(val));
+```
+
+takewhile 发出值，直到提供的表达式结果为 false
+
+```javascript
+import { of } from 'rxjs';
+import { takeWhile } from 'rxjs/operators';
+
+// 发出 1,2,3,4,5
+const source = of(1, 2, 3, 4, 5);
+// 允许值发出直到 source 中的值大于4，然后便完成
+const example = source.pipe(takeWhile(val => val <= 4));
+// 输出: 1,2,3,4
+const subscribe = example.subscribe(val => console.log(val));
+```
+
+distinct：过滤重复元素
+
+```javascript
+import { of } from 'rxjs';
+import { distinct } from 'rxjs/operators';
+
+of(1, 2, 3, 4, 5, 1, 2, 3, 4, 5)
+  .pipe(distinct())
+  // OUTPUT: 1,2,3,4,5
+  .subscribe(console.log);
+```
+
+
+
+### 错误处理
+
+catchError: 捕获拒绝的promise
+
+```javascript
+import { timer, from, of } from 'rxjs';
+import { mergeMap, catchError } from 'rxjs/operators';
+
+// 创建立即拒绝的 Promise
+const myBadPromise = () =>
+  new Promise((resolve, reject) => reject('Rejected!'));
+// 1秒后发出单个值
+const source = timer(1000);
+// 捕获拒绝的 promise，并返回包含错误信息的 observable
+const example = source.pipe(
+  mergeMap(_ =>
+    from(myBadPromise()).pipe(catchError(error => of(`Bad Promise: ${error}`)))
+  )
+);
+// 输出: 'Bad Promise: Rejected'
+const subscribe = example.subscribe(val => console.log(val));
+```
+
+retry: 如果发生错误，以指定次数重试 observable 序列
+
+```javascript
+import { interval, of, throwError } from 'rxjs';
+import { mergeMap, retry } from 'rxjs/operators';
+
+// 每1秒发出值
+const source = interval(1000);
+const example = source.pipe(
+  mergeMap(val => {
+    // 抛出错误以进行演示
+    if (val > 5) {
+      return throwError('Error!');
+    }
+    return of(val);
+  }),
+  // 出错的话可以重试2次
+  retry(2)
+);
+```
+
+Retrywhen: 当发生错误时，基于自定义的标准来重试 observable 序列
+
+```javascript
+const source = interval(1000);
+const example = source.pipe(
+  map(val => {
+    if (val > 5) {
+      // 错误将由 retryWhen 接收
+      throw val;
+    }
+    return val;
+  }),
+  retryWhen(errors =>
+    errors.pipe(
+      // 输出错误信息
+      tap(val => console.log(`Value ${val} was too high!`)),
+      // 5秒后重启
+      delayWhen(val => timer(val * 1000))
+    )
+  )
+);
+```
+
+### 多播
+
+多播是一个术语，它用来描述由单个 observable 发出的每个通知会被多个观察者所接收的情况。一个 observable 是否具备多播的能力取决于它是热的还是冷的
+
+- 如果通知的生产者是观察者订阅 observable 时创建的，那么 observable 就是冷的。例如，[`timer`](http://cn.rx.js.org/class/es6/Observable.js~Observable.html#static-method-timer) observable 就是冷的，每次订阅时都会创建一个新的定时器。
+- 如果通知的生产者不是每次观察者订阅 observable 时创建的，那么 observable 就是热的。例如，使用 [`fromEvent`](http://cn.rx.js.org/class/es6/Observable.js~Observable.html#static-method-fromEvent) 创建的 observable 就是热的，产生事件的元素存在于 DOM 之中，它不是观察者订阅时所创建的。
+
+冷的 observables 是单播的，每个观察者所接收到的通知都是来自不同的生产者，生产者是观察者订阅时所创建的。
+
+热的 observables 是多播的，每个观察者所接收到的通知都是来自同一个生产者。
+
+有些时候，需要冷的 observable 具有多播的行为，RxJS 引入了 `Subject` 类使之成为可能
+
+Subject 即是 observable，又是 observer (观察者)。通过使用观察者来订阅 subject，然后 subject 再订阅冷的 observable，可以让冷的 observable 变成热的。这是 RxJS 引入 subjects 的主要用途
+
+```javascript
+import { Observable } from "rxjs/Observable";
+import { Subject } from "rxjs/Subject";
+import "rxjs/add/observable/defer";
+import "rxjs/add/observable/of";
+
+const source = Observable.defer(() => Observable.of(
+  Math.floor(Math.random() * 100)
+));
+
+function observer(name: string) {
+  return {
+    next: (value: number) => console.log(`observer ${name}: ${value}`),
+    complete: () => console.log(`observer ${name}: complete`)
+  };
 }
 
-const observable = new Observable (function(observer) {
-  observer.next('a');
-  observer.next('b');
-  observer.complete();
-  
-  observer.next('c')
-})
+const subject = new Subject<number>();
+subject.subscribe(observer("a"));
+subject.subscribe(observer("b"));
+source.subscribe(subject);
+```
 
-const subscription = observable.subscribe(observer)
+要让 `source` 变成多播的，需要观察者订阅 subject，然后 subject 再订阅 `source` 。`source` 只会看到一个订阅 ( subscription )，它也只生成一个包含随机数的 `next` 通知和一个 `complete` 通知。Subject 会将这些通知发送给它的观察者
+
+多播相关的方法
+
+publish：共享源 observable 并通过调用 connect 方法使其变成热的
+
+```javascript
+import { interval } from 'rxjs';
+import { publish, tap } from 'rxjs/operators';
+
+// 每1秒发出值
+const source = interval(1000);
+const example = source.pipe(
+  // 副作用只会执行1次
+  tap(_ => console.log('Do Something!')),
+  // 不会做任何事直到 connect() 被调用
+  publish()
+);
+
+/*
+  source 不会发出任何值直到 connect() 被调用
+  输出: (5秒后)
+  "Do Something!"
+  "Subscriber One: 0"
+  "Subscriber Two: 0"
+  "Do Something!"
+  "Subscriber One: 1"
+  "Subscriber Two: 1"
+*/
+const subscribe = example.subscribe(val =>
+  console.log(`Subscriber One: ${val}`)
+);
+const subscribeTwo = example.subscribe(val =>
+  console.log(`Subscriber Two: ${val}`)
+);
+
+// 5秒后调用 connect，这会使得 source 开始发出值
+setTimeout(() => {
+  example.connect();
+}, 5000);
+```
+
+multicast：使用提供 的 Subject 来共享源 observable
+
+```javascript
+import { Subject, interval } from 'rxjs';
+import { take, tap, multicast, mapTo } from 'rxjs/operators';
+
+// 每2秒发出值并只取前5个
+const source = interval(2000).pipe(take(5));
+
+const example = source.pipe(
+  // 因为我们在下面进行了多播，所以副作用只会调用一次
+  tap(() => console.log('Side Effect #1')),
+  mapTo('Result!')
+);
+
+
+// 使用 subject 订阅 source 需要调用 connect() 方法
+const multi = example.pipe(multicast(() => new Subject()));
+/*
+  多个订阅者会共享 source 
+  输出:
+  "Side Effect #1"
+  "Result!"
+  "Result!"
+  ...
+*/
+const subscriberOne = multi.subscribe(val => console.log(val));
+const subscriberTwo = multi.subscribe(val => console.log(val));
+// 使用 subject 订阅 source
+multi.connect();
+```
+
+Share:在多个订阅者间共享源 observable
+
+```javascript
+// RxJS v6+
+import { timer } from 'rxjs';
+import { tap, mapTo, share } from 'rxjs/operators';
+
+// 1秒后发出值
+const source = timer(1000);
+// 输出副作用，然后发出结果
+const example = source.pipe(
+  tap(() => console.log('***SIDE EFFECT***')),
+  mapTo('***RESULT***')
+);
+
+/*
+  ***不共享的话，副作用会执行两次***
+  输出: 
+  "***SIDE EFFECT***"
+  "***RESULT***"
+  "***SIDE EFFECT***"
+  "***RESULT***"
+*/
+const subscribe = example.subscribe(val => console.log(val));
+const subscribeTwo = example.subscribe(val => console.log(val));
+
+// 在多个订阅者间共享 observable
+const sharedExample = example.pipe(share());
+/*
+   ***共享的话，副作用只执行一次***
+  输出:
+  "***SIDE EFFECT***"
+  "***RESULT***"
+  "***RESULT***"
+*/
+const subscribeThree = sharedExample.subscribe(val => console.log(val));
+const subscribeFour = sharedExample.subscribe(val => console.log(val));
+```
+
+shareReplay: 共享源 observable 并重放指定次数的发出
+
+当有副作用或繁重的计算时，你不希望在多个订阅者之间重复执行时，会使用 `shareReplay` 。 当你知道流的后来订阅者也需要访问之前发出的值，`shareReplay` 在这种场景下也是有价值的。 这种在订阅过程中重放值的能力是区分 [`share`](https://rxjs-cn.github.io/learn-rxjs-operators/operators/multicasting/share.html) 和 `shareReplay` 的关键
+
+```javascript
+// 使用 subject 模拟 url 的变化
+const routeEnd = new Subject<{data: any, url: string}>();
+
+// 提取 url 并与后来订阅者共享
+const lastUrl = routeEnd.pipe(
+  pluck('url'),
+  share()
+);
+
+// 起始订阅者是必须的
+const initialSubscriber = lastUrl.subscribe(console.log);
+
+// 模拟路由变化
+routeEnd.next({data: {}, url: 'my-path'});
+
+// 没有任何输出
+const lateSubscriber = lastUrl.subscribe(console.log);
+```
+
+### 工具函数
+
+delay 根据给定时间延迟发出值
+
+```javascript
+import { of, merge } from 'rxjs';
+import { mapTo, delay } from 'rxjs/operators';
+
+// 发出一项
+const example = of(null);
+// 每延迟一次输出便增加1秒延迟时间
+const message = merge(
+  example.pipe(mapTo('Hello')),
+  example.pipe(
+    mapTo('World!'),
+    delay(1000)
+  ),
+  example.pipe(
+    mapTo('Goodbye'),
+    delay(2000)
+  ),
+  example.pipe(
+    mapTo('World!'),
+    delay(3000)
+  )
+);
+// 输出: 'Hello'...'World!'...'Goodbye'...'World!'
+const subscribe = message.subscribe(val => console.log(val));
+```
+
+Delaywhen 延迟发出值，延迟时间由提供函数决定
+
+```javascript
+import { interval, timer } from 'rxjs';
+import { delayWhen } from 'rxjs/operators';
+
+// 每1秒发出值
+const message = interval(1000);
+// 5秒后发出值
+const delayForFiveSeconds = () => timer(5000);
+// 5秒后，开始发出 interval 延迟的值
+const delayWhenExample = message.pipe(delayWhen(delayForFiveSeconds));
+// 延迟5秒后输出值
+// 例如， 输出: 5s....1...2...3
+const subscribe = delayWhenExample.subscribe(val => console.log(val));
 ```
 
 
@@ -670,9 +1577,43 @@ console.log('And now we are here.');
 
 rxjs中有一些操作符可以让监听强制为异步的方式，例如 observeOn。
 
-
-
 https://www.jianshu.com/p/273e7ab02fa1
+
+### observable hook
+
+连接 RxJS Observable 与 React 组件。
+
+安装
+
+```shell
+npm install observable-hooks rxjs react
+```
+
+在 observable-hooks 中我们可以用 [`useObservableState`](https://observable-hooks.js.org/zh-cn/api/#useobservablestate) 或 [`useObservableEagerState`](https://observable-hooks.js.org/zh-cn/api/#useobservableeagerstate)
+
+使用
+
+```react
+import { pluckFirst, useObservableCallback } from 'observable-hooks'
+
+function App(props) {
+  const flag$ = useObservable(pluckFirst, [props.flag])
+
+  const [onChange, textChange$] = useObservableCallback(
+    event$ => event$.pipe(
+      withLatestFrom(flag$),
+      map(([event, flag]) => {
+        return {
+          text: event.currentTarget.value,
+          flag
+        }
+      })
+    )
+  )
+}
+```
+
+
 
 ## cyclejs
 

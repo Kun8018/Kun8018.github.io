@@ -96,6 +96,39 @@ https://www.qikqiak.com/k8strain2/logging/loki/logql/#:~:text=%E5%8F%97PromQL%20
 
 而日志流选择器后面的**日志管道**是可选的，日志管道是一组阶段表达式，它们被串联在一起应用于所过滤的日志流，每个表达式都可以过滤、解析和改变日志行内容以及各自的标签。
 
+## rsyslog
+
+Rsyslog的全称是 rocket-fast system for log，它提供了高性能，高安全功能和模块化设计。rsyslog能够接受从各种各样的来源，将其输入，输出的结果到不同的目的地。rsyslog可以提供超过每秒一百万条消息给目标文件。
+
+**特点：**
+
+- 多线程
+- 可以通过许多协议进行传输UDP，TCP，SSL，TLS，RELP；
+- 直接将日志写入到数据库;
+- 支持加密协议：ssl，tls，relp
+- 强大的过滤器，实现过滤日志信息中任何部分的内容
+- 自定义输出格式；
+
+**配置文件：**
+
+配置文件/etc/rsyslog.conf主要有3个部分
+
+- MODULES ：模块
+- GLOBAL DRICTIVES :全局设置
+- RULES：规则
+
+使用rsyslog实现日志转发
+
+https://blog.csdn.net/qq_21137441/article/details/105581064
+
+https://cloud.tencent.com/developer/article/1418490
+
+## flume
+
+
+
+
+
 ## M3
 
 prometheus的go版本

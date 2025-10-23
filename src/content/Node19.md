@@ -308,3 +308,12 @@ Appwrite 的容器化服务器只需要一行指令就可以运行。您可以�
 启动 Appwrite 服务器的最简单方法是运行我们的 docker-compose 文件。在运行安装命令之前，请确保您的机器上安装了 [Docker](https://dockerdocs.cn/get-docker/index.html)：
 
 https://appwrite.io/docs/quick-starts
+
+
+
+## lagon
+
+serverless 函数式部署平台
+
+https://github.com/lagonapp/lagon
+

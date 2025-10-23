@@ -276,8 +276,8 @@ count与setCount与class中的this.state.count和this.setstate类似，唯一的
 
 ```jsx
 const [state,setState] = useState(() => {
-    const initialState= someExpensiveComputation(props);
-    return initialState;
+  const initialState= someExpensiveComputation(props);
+  return initialState;
 })
 ```
 
@@ -317,7 +317,23 @@ setLists([...arr]);
 
 #### useState与setState的异同
 
-setState会自动合并，不同的useState不会
+同步执行时，setState会自动合并state，不同的useState不会
+
+```react
+// 初始值a = 1，输出 a = 3
+function handleClickWithoutPromise() {
+  setA((a) => a + 1)
+  setA((a) => a + 1)
+}
+
+// 初始值a = 1，输出a = 2
+const handleClickWithoutPromise = () => {
+  this.setState({a: this.state.a + 1})
+  this.setState({a: this.state.a + 1})
+}
+```
+
+
 
 #### forceupdate
 
@@ -350,20 +366,30 @@ const FC = (initContent) => {
 
 
 
+#### useState为什么返回数组
+
+与解构有关
+
+对象的解构与数组有一个重要的不同。数组的元素是按次序排列的，变量的取值由它的位置决定，比如上面的`a`对应的就是数组的第一项`1`；而对象的属性没有次序；数组解构时的变量可以是任意名称，不会影响它的取值，而对象解构的变量必须与属性同名，才能取到正确的值。
+
+对象需要重命名，数组不需要
+
+
+
 #### batchUpdates()
 
 手动批量更新
 
-hook中的useState和this.setState已经做了批量更新了
+在react事件中，hook中的useState和this.setState已经做了批量更新了，比如onClick
 
 但是 批量更新在某些情况下会失效，造成多次渲染 ，例如 setTimeout,Promise.then (fn), fetch 回调，xhr 网络回调等，如下例子会渲染 3 次
 
 为了避免此类情况发生，我们需要引入 unstable_batchedUpdates 进行手动合并，如下
 
 ```react
-handerClick=()=>{
+const handerClick=()=>{
     setTimeout(() => {
-        unstable_batchedUpdates(()=>{
+        ReactDOM.unstable_batchedUpdates(()=>{
             this.setState({ a:a+1 })
             this.setState({ b:b+1 })
             this.setState({ c:c+1 })
@@ -373,7 +399,7 @@ handerClick=()=>{
 
  const handerClick = () => {
     Promise.resolve().then(()=>{
-        unstable_batchedUpdates(()=>{
+        ReactDOM.unstable_batchedUpdates(()=>{
             setB( { ...b } ) 
             setC( c+1 ) 
             setA( a+1 )
@@ -498,6 +524,19 @@ const BlinkyRender = () => {
 
 ReactDOM.render(<BlinkyRender />, document.querySelector("#root"));
 ```
+
+#### 执行顺序
+
+1. **首次渲染（Mounting）**
+   - `useState` 被调用，并初始化状态。
+   - 组件渲染完成。
+   - `useEffect` 被调用（通常是第一次渲染后，如果依赖项数组为空则只执行一次）。
+2. **更新（Updating）**
+   - 当状态改变，触发组件更新时。
+   - `useState` 被再次调用，返回新的状态值。
+   - 组件开始重新渲染。
+   - 组件渲染完成（在浏览器更新 DOM 后）。
+   - `useEffect` 再次被调用（在浏览器渲染完成后执行，但会优先于 `useLayoutEffect`）。 
 
 
 

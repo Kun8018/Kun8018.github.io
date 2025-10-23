@@ -90,6 +90,14 @@ testCppMethod(str: String, num: number): void {
 this.testCppMethod('ConardLi',123);
 ```
 
+### pushjs
+
+桌面通知推送。https://github.com/Nickersoft/push.js
+
+https://github.com/ttsvetko/HTML5-Desktop-Notifications
+
+https://github.com/alexgibson/notify.js
+
 
 
 ## js-brige

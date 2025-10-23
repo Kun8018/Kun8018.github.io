@@ -483,6 +483,26 @@ ServerAliveInterval 5
 
 
 
+## 文件夹
+
+/bin: /bin目录包含了引导启动所需的命令或普通用户可能用的命令(可能在引导启动后)。这些命 令都是二进制文件的可执行程序(bin是binary的简称)，多是系统中重要的系统文件。
+
+/sbin: /sbin目录类似/bin ，也用于存储二进制文件。因为其中的大部分文件多是系统管理员使用的基本的系统程序，所以虽然普通用户必要且允许时可以使用，但一般不给普通用户使 用。
+
+/usr/bin：集中了几乎所有用户命令，是系统的软件库。另有些命令在/bin或/usr/local/bin中
+
+/usr/sbin：包括了根文件系统不必要的系统管理命令，例如多数服务程序。
+
+/usr/include：包含了c语言的头文件，这些文件多以.h结尾，用来描述c 语言程序中用到的数据结构、子过程和常量。为了保持一致性，这实际上应该放在/usr/lib下，但习惯上一直沿用了这 个名字。
+
+/usr/local：本地安装的软件和其他文件放在这里。这与/usr很相似。用户 可能会在这发现一些比较大的软件包，如tex、emacs等。
+
+/dev目录包括所有设备的设备文件。设备文件用特定的约定命名，这在设备列表中说明。设备文件在安装时由系 统产生，以后可以用/dev/makedev描述。/dev/makedev.local 是系统管理员为本地设备文件(或连接)写的描述文稿(即如一些非标准设备驱动不是标准makedev 的一部分)。下面简要介绍/dev下 一些常用文件。
+
+/lib目录是根文件系统上的程序所需的共享库，存放了根文件系统程序运行所需的共享文件。 这些文件包含了可被许多程序共享的代码，以避免每个程序都包含有相同的子程序的副本，故可以使得可执行文件变得更小，节省空间。
+
+
+
 ## 增加CPU占有率
 
 ```shell
@@ -710,7 +730,36 @@ $ sudo pacman -S rsync
 
 注意，传输的双方都必须安装 rsync
 
+### axel
 
+https://github.com/axel-download-accelerator/axel?tab=readme-ov-file
+
+
+
+### rclone
+
+Rclone是一款的命令行工具，支持在不同对象存储、网盘间同步、上传、下载数据。
+
+常用的rclone命令有：
+
+- rclone config - 以控制会话的形式添加rclone的配置，配置保存在.rclone.conf文件中。
+- rclone copy - 将文件从源复制到目的地址，跳过已复制完成的。
+- rclone sync - 将源数据同步到目的地址，只更新目的地址的数据。
+- rclone move - 将源数据移动到目的地址。
+- rclone delete - 删除指定路径下的文件内容。
+- rclone purge - 清空指定路径下所有文件数据。
+- rclone mkdir - 创建一个新目录。
+- rclone rmdir - 删除空目录。
+- rclone check - 检查源和目的地址数据是否匹配。
+- rclone ls - 列出指定路径下所有的文件以及文件大小和路径。
+- rclone lsd - 列出指定路径下所有的目录/容器/桶。
+- rclone lsl - 列出指定路径下所有文件以及修改时间、文件大小和路径。
+- rclone md5sum - 为指定路径下的所有文件产生一个md5sum文件。
+- rclone sha1sum - 为指定路径下的所有文件产生一个sha1sum文件。
+- rclone size - 获取指定路径下，文件内容的总大小。.
+- rclone version - 查看当前版本。
+- rclone cleanup - 清空remote。
+- rclone dedupe - 交互式查找重复文件，进行删除/重命名操作。
 
 ## Selinux
 

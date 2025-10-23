@@ -331,19 +331,19 @@ Lerna 有两种管理项目的模式：
 
 learn为我们提供了以下命令：
 
-- lerna publish
+- lerna publish: 选择Patch会更新的子包中的package.json的version更改为指定版本.lerna会自动生成git tag(版本标签)上传github上, 和自动上传npm的版本号(对应更新的子包)
 - lerna version
-- lerna bootstrap
+- lerna bootstrap: 安装package子项目的依赖
 - lerna list
 - lerna changed
-- lerna diff
-- lerna exec
+- lerna diff: 查看包的本地修改
+- lerna exec:在每个子包/某个子包下面执行命令行  `lerna exec --scope @xxx/utils rm -rf node_modules/`
 - lerna run
 - lerna init
-- lerna add
-- lerna clean
+- lerna add: 安装依赖，所有package目录下的子项目都会安装到
+- lerna clean: 清空package子项目的node_modules
 - lerna import
-- lerna link
+- lerna link: 添加的包地址指向本地子包
 - lerna create
 - lerna info
 
@@ -702,6 +702,12 @@ https://github.com/moonrepo/moon
 #### proto
 
 https://moonrepo.dev/docs/proto
+
+### monorepo模版仓库
+
+https://github.com/haydenbleasel/next-forge
+
+配置了pnpm、turbo、nextjs，开箱即用
 
 
 

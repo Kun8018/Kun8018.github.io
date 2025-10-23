@@ -168,11 +168,7 @@ Koa的中间件很像Express的中间件，也是对HTTP请求进行处理的函
 
 `app.use`方法的参数就是中间件，它是一个Generator函数，最大的特征就是function命令与参数之间，必须有一个星号。Generator函数的参数next，表示下一个中间件。
 
-
-
-
-
-### 洋葱模型
+#### 洋葱模型
 
 实例
 
@@ -217,6 +213,8 @@ app.listen(3000)
 ```
 
 #### 源码koa-compose
+
+Koa.js中间件引擎是有koa-compose模块来实现的，也就是Koa.js实现洋葱模型的核心引擎。
 
 koa中比较重要的点：
 
@@ -379,9 +377,103 @@ router.post('/post/result',async (ctx,next)=>{
 })
 ```
 
+#### 错误处理
+
+Koa-json-error
+
+Koa在发生未被`try...catch`捕获的错误时，会触发`error`事件。
+
+你可以通过`app.on('error', ...)`来监听这个事件，以便在发生错误时执行特定操作。
+
+- **注意**：:如果错误被`try...catch`捕获，`error`事件不会自动触发。这时，需要在`catch`块中手动调用`ctx.app.emit('error', err, ctx)`来通知错误监听器，如上文中间件示例所示。
+
+```javascript
+// ------------------
+// 使用 koa-json-error 做统一错误处理
+
+// 导入 koa-json-error 中间件
+const error = require("koa-json-error");
+// 注册中间件（高级用法）
+app.use(
+  error({
+    // 将默认的错误信息，重新格式化再返回
+    format: (err) => {
+      // code: 状态码
+      // message: 错误信息
+      // result：错误堆栈（这个堆栈信息在生产环境中 是不能暴露给用户的（前端），非常危险
+      // 错误堆栈有详细的文件名称、目录结构、代码行等敏感信息，仅用于开发环境方便调试使用
+      return { code: err.status, message: err.message, result: err.stack };
+    },
+    // err：原生的 error
+    // obj：通过上边 format 格式化后返回的结果
+    postFormat: (err, obj) => {
+      // 通过解构赋值 将 result 单独提取处理
+      // 剩余的部分 放到 rest 中（剩余参的用法）
+      const { result, ...rest } = obj;
+      // 如果是生产环境：不返回错误堆栈信息，开发环境：返回错误堆栈
+      return process.env.NODE_ENV == "production" ? rest : obj;
+    },
+  })
+);
+```
+
+错误中间件
+
+```javascript
+const Koa = require('koa');
+const app = new Koa();
+
+// 错误处理中间件 (放在最前面)
+app.use(async (ctx, next) => {
+  try {
+    await next();
+  } catch (err) {
+    // 捕获错误，可以进行日志记录、返回错误信息等
+    console.error('捕获到的错误:', err);
+    ctx.status = err.statusCode || 500;
+    ctx.body = {
+      message: err.message || '服务器内部错误'
+    };
+    // 手动触发error事件，以便app.on('error')监听器能接收到
+    ctx.app.emit('error', err, ctx);
+  }
+});
+
+// 其他中间件
+app.use(async (ctx, next) => {
+  // 这里可能会抛出错误
+  ctx.throw(500, '发生了一个错误');
+});
+
+// 监听error事件
+app.on('error', (err, ctx) => {
+  console.error('Error event listener:', err, ctx);
+  // 可以在这里进行更复杂的错误处理，如发送告警
+});
+
+app.listen(3000);
+```
+
+ctx.throw()方法
+
+Koa提供了`ctx.throw()`方法用于抛出HTTP错误，它会设置响应状态码和错误消息，并中断中间件链
+
+```javascript
+app.use(async (ctx, next) => {
+  if (someCondition) {
+    ctx.throw(400, '请求参数错误'); // 抛出400错误
+  }
+  await next();
+});
+```
+
+
+
+
+
 ### 日志
 
-### koa-logger
+#### koa-logger
 
 这个库比较简单，记录请求的基本信息，比如请求的方法、URl、用时等。作为中间件中使用，注意：推荐放在所有的中间件之前，这个跟 koa 的洋葱模型有关。假如不是第一个，计算时间会不准确。
 
@@ -392,7 +484,7 @@ app.use(logger());
 
 默认情况下，日志是通过 `console` 的方式直接输出到控制台中，假如我们需要对日志做自定义的操作，比如写入到日志文件中等。可以通过类似完成
 
-### koa-log4js
+#### koa-log4js
 
 `koa-logger` 比较轻量，也暴露了相对灵活的接口。但在实际业务中使用，我个人推荐使用 `koa-log4js`。主要理由如下：
 
@@ -638,6 +730,74 @@ Request.js、Response.js ： 这两部分就是对原生的res、req的一些操
 - 构造request、response、context对象
 - 中间件机制和剥洋葱模型的实现
 - 错误捕获和错误处理
+
+#### 依赖库
+
+##### parseurl
+
+在 koa 中只有四处引用到 parseurl 库，用于处理 request 中 path 和 querystring 的 getter 和 setter 方法
+
+fastparse 内部逻辑很简单，本质还是调用 url.parse 实现的，不过这里有一个优化，当解析 `/` 开头的路径时，如果没有特殊字符这里可以直接返回字符串，不会进行进一步 parse 逻辑
+
+https://juejin.cn/post/7029355416907677727
+
+##### encodeurl和escape-html
+
+[encodeurl](https://link.juejin.cn/?target=https%3A%2F%2Fgithub.com%2Fpillarjs%2Fencodeurl%2F) 用于 redirect 中 Location 的设置，当重定向时，response header 中有 Location 属性，值是一个 Url，在 koa 中此 url 使用 encodeurl 库进行编码
+
+[escape-html](https://link.juejin.cn/?target=https%3A%2F%2Fgithub.com%2Fcomponent%2Fescape-html) 库，从名字可以看出这是一个过滤 html 字符串的工具，在浏览器中为了防止 XSS，对于从用户侧接收到的数据都要进行 escape 处理，这里 koa 中也是这个用途。在 redirect 逻辑中有这样一段代码：
+
+
+
+##### type-is和content-disposition
+
+[type-is](https://link.juejin.cn/?target=https%3A%2F%2Fgithub.com%2Fjshttp%2Ftype-is) 也是一个和 content-type 有关的库，koa 中 request 和 response 下面的 is 方法是调用 type-is 库实现的，这个库做的事情是判断当前请求或响应的 content-type 是否属于某种类型
+
+
+
+##### acceptes、content-type和cache-content-type
+
+在 koa request 上导出的四个方法：accepts、acceptsEncodings、acceptsCharsets、acceptsLanguages，用来判断请求方是否接受某一种类型数据，可以不传参数，也可以传递 1 或多个参数，也可以使用数组，如果传入多个返回符合条件的第一个，其内部都是通过 [accepts](https://link.juejin.cn?target=https%3A%2F%2Fgithub.com%2Fjshttp%2Faccepts) 库实现的
+
+accept 相关信息都位于 http request header 上，分别对应属性 accept、accept-encoding、accept-charset、accept-language，因此 accepts 接收 req 对象作为参数，在 accepts 内部依赖了 [negotiator](https://link.juejin.cn?target=https%3A%2F%2Fgithub.com%2Fjshttp%2Fnegotiator) 库，header 信息的处理逻辑在 negotiator 库内部处理。
+
+先看 accepts 中的逻辑，首先是参数处理，未传递参数时直接返回对应的 header 信息，对于有参数场景会统一转换为数组，这样传入 negotiator 时统一按照数组来处理。在 negotiator 内部是一系列格式转化逻辑，包括大小写转化、通配符处理等，最终会返回最优解数组。accepts 收到结果后返回数组第一项内容
+
+```javascript
+Accepts.prototype.types = function (types_) { 
+    var types = types_ // support flattened arguments
+    if (types && !Array.isArray(types)) {
+        types = new Array(arguments.length)
+        for (var i = 0; i < types.length; i++) {
+            types[i] = arguments[i]
+        }
+    } // no types, return all requested types
+    if (!types || types.length === 0) {
+        return this.negotiator.mediaTypes()
+    } // no accept header, return first given type
+    if (!this.headers.accept) {
+        return types[0]
+    }
+    var mimes = types.map(extToMime)
+    var accepts = this.negotiator.mediaTypes(mimes.filter(validMime))
+    var first = accepts[0]
+    return first ? types[mimes.indexOf(first)] : false
+}
+```
+
+[content-type](https://link.juejin.cn?target=https%3A%2F%2Fgithub.com%2Fjshttp%2Fcontent-type) 是一个用来解析 header 中 content-type 信息的库，在 koa 中 request 的 charset 方法使用到了这个库的 parse 方法，用来获取 content-type 的 charset 字段信息。content-type 库源码很短，导出了 parse 和 format 两个方法，内部的核心逻辑是使用正则表达式进行字符串匹配，
+
+cache-content-type 也是 koa 依赖的一个和 content-type 处理有关的库，虽然名字看上去应该是给 content-type 库添加了缓存，但打开 readme 就会看到它其实是带缓存的 mime-types 库，前面在处理请求中的 accept 时用到了 mime-types，与之对应的，响应 header 中 content-type 的属性值也应该是 mime 类型，因此在 koa 中，response 下面 type 属性的 setter 方法中使用了 cache-content-type 库来查询 mime 类型并为 response header 的 Content-Type 属性设值
+
+这就是 cache-content-type 的全部源代码，内容很少，就是在调用 mime-types 库的基础上添加了缓存，这里的缓存逻辑在 [ylru](https://link.juejin.cn?target=https%3A%2F%2Fgithub.com%2Fnode-modules%2Fylru) 库中，最大缓存数为 100，基于 LRU 算法实现过期淘汰。LRU（Least Recently Used）是最近最少使用的意思，是一种很常用的缓存淘汰策略，在操作系统的页面置换算法中有使用到。对算法感兴趣可以阅读 ylru 源码
+
+##### cookies
+
+
+
+##### koa-compose
+
+
 
 
 

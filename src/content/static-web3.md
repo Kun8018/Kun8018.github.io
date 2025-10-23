@@ -1,16 +1,16 @@
 ---
-title: astro.js
-date: 2020-08-02 21:40:33
-categories: 技术博客
+title: 静态站点(三)-astro
+date: 2020-03-06 21:40:33
+categories: IT
 tags:
-    - IT
+    - IT,Web，IOS
 toc: true
-thumbnail: http://cdn.kunkunzhang.top/gatsbyjs.png
+thumbnail: 
 ---
 
-　　Astro 是一个现代的静态网站生成工具. 与Next.js、Gatsby.js、vuepress等SSR或者静态网站相比最大的特点是可以实现局部渲染，从而实现高效加载，同时能保证网站seo等，是非常好的静态网站生成工具
+Astro 是一个现代的静态网站生成工具. 与Next.js、Gatsby.js、vuepress等SSR或者静态网站相比最大的特点是可以实现局部渲染，从而实现高效加载，同时能保证网站seo等，是非常好的静态网站生成工具		
 
-<!--more-->   
+<!--more-->
 
 ## Astro的特点
 
@@ -94,3 +94,32 @@ Islands 架构模型早在 2019 年就被提出来了，并在 2021 年被 Preac
 这种写法不会在浏览器添加任何的 JS 代码。但有时我们需要在组件中绑定一些交互事件，那么这时就需要`激活孤岛组件`了，在使用组件时加上`client:load`指令即可
 
 Astro 除了支持本身 Astro 语法之外，也支持 Vue、React 等框架，可以通过插件的方式来导入。在构建的时候，Astro 只会打包并注入 Islands 组件的代码，并且在浏览器渲染，分别调用不同框架(Vue、React)的渲染函数完成各个 Islands 组件的 hydrate 过程
+
+
+
+## mintlify
+
+https://github.com/mintlify/starter
+
+https://starter.mintlify.com/essentials/settings
+
+
+
+## Eleventy
+
+https://github.com/11ty/eleventy 静态站点生成模板
+
+
+
+## 网站搜索
+
+### typesense
+
+https://github.com/typesense/typesense
+
+
+
+## fumadoc
+
+https://fumadocs.dev/showcase
+

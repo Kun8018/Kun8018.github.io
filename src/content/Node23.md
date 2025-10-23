@@ -12,6 +12,45 @@ thumbnail: http://cdn.kunkunzhang.top/javascript.png
 
 <!--more-->
 
+## diff
+
+比较js中对象、字符串等的不同
+
+
+
+## microdiff
+
+比较js中对象的不同
+
+```javascript
+import diff from "microdiff";
+
+const obj1 = {
+	originalProperty: true,
+};
+const obj2 = {
+	originalProperty: true,
+	newProperty: "new",
+};
+
+console.log(diff(obj1, obj2));
+// [{type: "CREATE", path: ["newProperty"], value: "new"}]
+```
+
+## deep-diff
+
+
+
+## deep-object-diff
+
+比较js中对象的不同, 可以按不同方式使用
+
+```javascript
+import { diff, addedDiff, deletedDiff, updatedDiff, detailedDiff } from 'deep-object-diff';
+```
+
+
+
 ## Protobufjs
 
 在js中使用protobuf这种数据结构。protobuf.js是基于ByteBuffer.js的Protocol Buffers纯JavaScript实现，主要功能是解析.proto文件，构建Message类，编码解码。
@@ -361,6 +400,22 @@ https://github.com/umami-software/umami
 
 
 
+## path-to-regexp
+
+**该方法的作用是把字符串转为正则表达式**
+
+我们在vue-router中，react-router或koa-router中，我们经常做路由匹配像这种格式的 /foo/:id 这样的，或者其他更复杂的路由匹配，都能支持，那么这些路由背后是怎么做的呢？其实它就是依赖于 path-to-regexp.js的。
+
+```javascript
+var pathToRegexp = require('path-to-regexp')
+
+var re = pathToRegexp('/foo/:bar')
+console.log(re);
+// /^/foo/((?:[^/]+?))(?:/(?=$))?$/i
+```
+
+
+
 ## handlebars.js
 
 Handlebars 是一种简单的 **模板语言**。
@@ -655,3 +710,69 @@ npm -g install madge
 madge ./src/index.js
 ```
 
+## mswjs
+
+Mock api 工具
+
+安装
+
+```shell
+npm install msw@latest --save-dev
+```
+
+使用
+
+```javascript
+// src/mocks/handlers.js
+import { http, HttpResponse } from 'msw'
+ 
+export const handlers = [
+  // Intercept "GET https://example.com/user" requests...
+  http.get('https://example.com/user', () => {
+    // ...and respond to them using this JSON response.
+    return HttpResponse.json({
+      id: 'c7b3d8e0-5e0b-4b0f-8b3a-3b9f4b3d3b3d',
+      firstName: 'John',
+      lastName: 'Maverick',
+    })
+  }),
+]
+```
+
+
+
+## Icon
+
+https://github.com/lucide-icons/lucide
+
+
+
+## fast-grid
+
+表格组件
+
+https://github.com/gabrielpetersson/fast-grid/
+
+
+
+## autofit
+
+https://auto-plugin.github.io/index/autofit.js/close.html
+
+
+
+## lottery
+
+自动抽奖程序
+
+https://github.com/moshang-ax/lottery
+
+
+
+### wechatsync
+
+
+
+## foresightjs
+
+https://foresightjs.com/

@@ -568,8 +568,6 @@ https://github.com/charliermarsh/ruff#installation-and-usage
 pip install pre-commit
 ```
 
-
-
 https://pre-commit.com/
 
 

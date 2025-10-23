@@ -76,6 +76,10 @@ npm install postcss postcss-loader autoprefixer cssnano postcss-cssnext
 
 
 
+### lightningcss
+
+https://github.com/parcel-bundler/lightningcss
+
 
 
 ## css module
@@ -1528,6 +1532,36 @@ export default function Header() {
 }
 ```
 
+### tailwind插件
+
+tailwindcss/container-queries
+
+Tailwind 团队的另一个插件 tailwindcss/container-queries 在 Tailwind CSS 中添加了一个新的很酷的 CSS 功能，称为容器查询。容器查询类似于媒体查询，但不是检查屏幕大小，而是检查容器的大小。如果您想根据容器的大小更改网站的布局，这将非常有用
+
+https://tailwindcss.com/docs/plugins#container-queries
+
+[tailwindcss-animate](https://github.com/jamiebuilds/tailwindcss-animate)
+
+tailwindcss-animate 将动画类名添加到 Tailwind CSS。使用这个插件比在 `tailwind.config.js` 文件中添加自己的动画要容易得多。您所要做的就是安装它并将 `animate-<animation-name>` 类添加到您的元素中
+
+https://github.com/jamiebuilds/tailwindcss-animate
+
+tailwindcss-typography
+
+为您的所有文本内容添加默认样式。
+
+https://github.com/tailwindlabs/tailwindcss-typography
+
+Tailwindcss-forms
+
+为form添加默认的样式
+
+tailwindcss-3d 
+
+https://github.com/sambauers/tailwindcss-3d
+
+tailwindcss-3d 向 Tailwind CSS 添加了 3D 变换。如果您想对元素进行 3D 转换，这将非常有用。tailwindcss-3d 插件的好处是实用程序类是独立的。您可以单独对 `x, y, z` 轴使用实用程序类
+
 ### typewind
 
 typewind支持类型安全地使用tailwind，并且是零运行时
@@ -1567,9 +1601,119 @@ export default function Button() {
 
 如果你已经熟悉了 [Tailwind CSS](https://tailwindcss.com/docs)，可以把 Windi CSS 看作是**按需供应的** Tailwind 替代方案，它为你提供了更快的加载体验，**完美兼容 Tailwind v2.0**，并且拥有很多额外的酷炫功能。
 
-## twin
 
 
+### tailwind-variants
+
+把tailwind的样式组合成变量
+
+安装
+
+```shell
+yarn add tailwind-variants
+# or
+npm i tailwind-variants
+```
+
+使用
+
+```react
+import {tv} from "tailwind-variants";
+
+const button = tv({
+  base: "font-medium bg-blue-500 text-white rounded-full active:opacity-80",
+  variants: {
+    color: {
+      primary: "bg-blue-500 text-white",
+      secondary: "bg-purple-500 text-white",
+    },
+    size: {
+      sm: "text-sm",
+      md: "text-base",
+      lg: "px-4 py-3 text-lg",
+    },
+  },
+  compoundVariants: [
+    {
+      size: ["sm", "md"],
+      class: "px-3 py-1",
+    },
+  ],
+  defaultVariants: {
+    size: "md",
+    color: "primary",
+  },
+});
+
+return <button className={button({size: "sm", color: "secondary"})}>Click me</button>;
+```
+
+
+
+### cva
+
+控制变体样式，结合tailwind
+
+安装
+
+```shell
+npm i class-variance-authority
+```
+
+使用
+
+```javascript
+// components/button.ts
+import { cva } from "class-variance-authority";
+ 
+const button = cva(["font-semibold", "border", "rounded"], {
+  variants: {
+    intent: {
+      primary: [
+        "bg-blue-500",
+        "text-white",
+        "border-transparent",
+        "hover:bg-blue-600",
+      ],
+      // **or**
+      // primary: "bg-blue-500 text-white border-transparent hover:bg-blue-600",
+      secondary: [
+        "bg-white",
+        "text-gray-800",
+        "border-gray-400",
+        "hover:bg-gray-100",
+      ],
+    },
+    size: {
+      small: ["text-sm", "py-1", "px-2"],
+      medium: ["text-base", "py-2", "px-4"],
+    },
+  },
+  compoundVariants: [
+    {
+      intent: "primary",
+      size: "medium",
+      class: "uppercase",
+      // **or** if you're a React.js user, `className` may feel more consistent:
+      // className: "uppercase"
+    },
+  ],
+  defaultVariants: {
+    intent: "primary",
+    size: "medium",
+  },
+});
+ 
+button();
+// => "font-semibold border rounded bg-blue-500 text-white border-transparent hover:bg-blue-600 text-base py-2 px-4 uppercase"
+ 
+button({ intent: "secondary", size: "small" });
+// => "font-semibold border rounded bg-white text-gray-800 border-gray-400 hover:bg-gray-100 text-sm py-1 px-2"
+```
+
+
+
+### twin
 
 ```react
 import React from 'react'
@@ -1600,6 +1744,67 @@ export default App
 
 也可以直接
 
+### tailwind-merge
+
+用来处理 tailwind 样式冲突问题，它可以让写在后面的样式覆盖前面的样式
+
+使用
+
+```react
+import { twMerge } from 'tailwind-merge'
+
+twMerge('px-2 py-1 bg-red hover:bg-dark-red', 'p-3 bg-[#B91C1C]')
+// → 'hover:bg-dark-red p-3 bg-[#B91C1C]'
+```
+
+### tailwindcss-motion
+
+tailwind动画插件
+
+```shell
+npm i -D tailwindcss-motion
+
+export default {
+  theme: {
+      extend: {}, 
+  },
+  plugins: [require('tailwindcss-motion')], 
+};
+```
+
+https://github.com/romboHQ/tailwindcss-motion
+
+
+
+## restyle
+
+零配置的react样式运行时
+
+```react
+import { styled } from "restyle";
+
+const Button = styled("button", {
+  padding: "0.5rem 1rem",
+  borderRadius: "4px",
+  backgroundColor: "blue",
+  color: "white",
+});
+
+export default function Page() {
+  return (
+    <Button
+      css={{
+        paddingInline: "0.8rem",
+        backgroundColor: "pink",
+      }}
+      onClick={() => alert()}
+    >
+      Click me!
+    </Button>
+  );
+}
+```
+
 
 
 ## purgecss
@@ -1625,6 +1830,34 @@ const purgeCSSResults = await new PurgeCSS().purge({
 });
 ```
 
+## AnimXYZ
 
+**AnimXYZ** 是一个基于 CSS 的动画工具库，专注于为网站提供灵活、高效的动画解决方案。
 
- 
+ 通过 CSS 变量的使用，AnimXYZ 能够实现几乎无限的动画效果，极大地简化了开发流程。它支持 Vue、React、SCSS 和纯 CSS，适用于各种前端项目
+
+特点：
+
+1.组合性：AnimXYZ 的最大特点是其强大的组合性。开发者可以通过简单的类名组合来创建复杂的动画效果。例如，将渐隐（fade）、缩放（small）和从顶部掉落（up）组合起来，只需在元素标签上添加 `xyz="fade small up"` 即可。这种直观的命名方式使得动画的创建变得异常简单。
+
+2.高度定制化。通过 CSS 变量，开发者可以轻松调整动画的各项参数，如延迟、持续时间、迭代次数等。例如，可以通过 `--xyz-translate-y: 42%;` 来调整动画的位移距离。这种高度的定制化能力使得 AnimXYZ 能够满足各种复杂的动画需求。
+
+3.即插即用。AnimXYZ 不仅支持纯 HTML 和 CSS 项目，还提供了与 Vue 和 React 的集成组件，使得在现代前端框架中使用动画变得更加便捷。无论是通过 npm 安装，还是通过 CDN 引入，AnimXYZ 都能轻松集成到你的项目中。
+
+4.嵌套与交错。AnimXYZ 支持嵌套动画和交错动画，开发者可以轻松实现元素列表的正序和倒序交错效果，同时与父级元素的动画同步。这种功能在制作复杂的动画场景时非常有用。
+
+5.高性能。AnimXYZ 的性能表现非常出色。基础功能仅需 2.68kB，包含实用工具时为 11.4kB。它通过硬件加速策略和动态负载均衡，确保动画的流畅性和高效性。
+
+6.代码量少。使用 AnimXYZ，开发者无需为每个动画需求编写自定义关键帧。通过简单的类名和属性配置，即可实现复杂的动画效果，大大减少了开发时间和代码量
+
+**AnimXYZ** 还提供了多种实用工具，如：
+
+**xyz-none**：禁用元素的动画。
+
+**xyz-none-all**：禁用元素及其子元素的动画。
+
+**xyz-absolute**：在动画期间将元素设置为绝对定位。
+
+**xyz-paused**：暂停元素的动画。
+
+**xyz-paused-all**：暂停元素及其子元素的动画。

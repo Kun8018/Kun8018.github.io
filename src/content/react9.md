@@ -323,11 +323,40 @@ const App = () => {
 }
 ```
 
+### react-typescript-cheatsheet
+
+https://react-typescript-cheatsheet.netlify.app/docs/basic/setup
+
 
 
 ## react库
 
 ### recompose
+
+Recompose 是一个为函数式组件和高阶组件开发的 React 工具库。可以把它当做 React 的 Lodash
+
+在 Recompose 中，我们可以使用 `withState` 增强型组件来设置组件内的 `state`，并且使用 `withHandlers` 增强型组件来设置组件的事件处理函数
+
+```react
+import { compose, withState, withHandlers } from 'recompose';
+
+export default compose(
+  withState('isVisible', 'toggleVis', false),  
+  withHandlers({
+    toggleVisibility: ({ toggleVis, isVisible }) => {
+     return (event) => {
+       return toggleVis(!isVisible);
+     };
+    },
+  })
+  withProps(({ isVisible }) => {
+    return {
+      title: isVisible ? 'This is the visible title' : 'This is the default title',
+      message: isVisible ? 'Hello I am Visible' : 'I am not visible yet, click the button!',
+    };
+  })
+)(Presentation);
+```
 
 
 
@@ -674,7 +703,7 @@ Upload
 
 ```
 
-Table
+#### Table
 
 `antd` 的 `table` 组件，`table` 的 `columns` 有一个属性叫做 `align`，它的使用是控制当前列是居左、居中、居右的。
 
@@ -728,7 +757,9 @@ const checkTipVisible = (visible: boolean) => {
 </Tooltip>
 ```
 
-Form
+#### Form
+
+##### shouldUpdate
 
 在form.item中可以使用shouldUpdate包一层，然后将Form传入item的回调函数中
 
@@ -821,7 +852,7 @@ const handleSubmit = async () => {
 
 
 
-namePath
+##### namePath
 
 在form.item的name中使用数组，能够把不同的表单放到同一个对象中，而不是普通的key-value
 
@@ -857,7 +888,7 @@ namePath可以进行嵌套，输出对象数组的表单项
 
 
 
-自定义表单组件
+##### 自定义表单组件
 
 表单组件不一定非要input、select，也可以自己通过form.item填充，取值的时候使用get和set就比较方便
 
@@ -943,7 +974,35 @@ const app = () => {
 }
 ```
 
-Modal
+##### antd3
+
+getFieldDecorator存在于antd的3.x版本，4.x摒弃了getFieldDecorator
+
+```react
+<FormItem label="确认密码">
+  {getFieldDecorator('r_confirmPassword')(
+    <Input type="password" placeholder="请再次输入您的密码" />
+  )}
+</FormItem>
+```
+
+validateFields触发form校验，默认不会校验已经校验过的，如果需要全部校验的话，加force参数
+
+```javascript
+validateFields((errors, values) => {
+  // ...
+});
+validateFields(['field1', 'field2'], (errors, values) => {
+  // ...
+});
+validateFields(['field1', 'field2'], options, (errors, values) => {
+  // ...
+});
+```
+
+
+
+#### Modal
 
 如果在Modal的content中使用国际化，需要使用Modal的hooks
 

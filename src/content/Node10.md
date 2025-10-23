@@ -346,109 +346,6 @@ type T = Static<typeof T>                            // type T = {
                                                      // }
 ```
 
-### zod
-
-静态类型检查接口
-
-安装
-
-```shell
-npm install zod       # npm
-yarn add zod          # yarn
-bun add zod           # bun
-pnpm add zod          # pnpm
-```
-
-基础类型
-
-```typescript
-import { z } from "zod";
-
-// primitive values
-z.string();
-z.number();
-z.bigint();
-z.boolean();
-z.date();
-z.symbol();
-
-// empty types
-z.undefined();
-z.null();
-z.void(); // accepts undefined
-
-// catch-all types
-// allows any value
-z.any();
-z.unknown();
-
-// never type
-// allows no values
-z.never();
-```
-
-自定义类型错误校验函数和错误提示
-
-```typescript
-z.string().min(5, { message: "Must be 5 or more characters long" });
-z.string().max(5, { message: "Must be 5 or fewer characters long" });
-z.string().length(5, { message: "Must be exactly 5 characters long" });
-z.string().email({ message: "Invalid email address" });
-z.string().url({ message: "Invalid url" });
-z.string().uuid({ message: "Invalid UUID" });
-z.string().startsWith("https://", { message: "Must provide secure URL" });
-z.string().endsWith(".com", { message: "Only .com domains allowed" });
-z.string().datetime({ message: "Invalid datetime string! Must be UTC." });
-```
-
-错误提示
-
-```typescript
-const name = z.string({
-  required_error: "Name is required",
-  invalid_type_error: "Name must be a string",
-});
-```
-
-数字类型自带校验函数
-
-```typescript
-z.number().gt(5);
-z.number().gte(5); // alias .min(5)
-z.number().lt(5);
-z.number().lte(5); // alias .max(5)
-
-z.number().int(); // value must be an integer
-
-z.number().positive(); //     > 0
-z.number().nonnegative(); //  >= 0
-z.number().negative(); //     < 0
-z.number().nonpositive(); //  <= 0
-
-z.number().multipleOf(5); // Evenly divisible by 5. Alias .step(5)
-
-z.number().finite(); // value must be finite, not Infinity or -Infinity
-```
-
-强制类型转换
-
-```typescript
-const schema = z.coerce.string();
-schema.parse("tuna"); // => "tuna"
-schema.parse(12); // => "12"
-schema.parse(true); // => "true"
-
-z.coerce.boolean().parse("tuna"); // => true
-z.coerce.boolean().parse("true"); // => true
-z.coerce.boolean().parse("false"); // => true
-z.coerce.boolean().parse(1); // => true
-z.coerce.boolean().parse([]); // => true
-
-z.coerce.boolean().parse(0); // => false
-z.coerce.boolean().parse(undefined); // => false
-z.coerce.boolean().parse(null); // => false
-```
-
 
 
 ### tsup
@@ -464,6 +361,44 @@ npm i tsup -D
 ```shell
 tsup src/index.ts src/cli.ts
 ```
+
+#### 用tsup打包typescript
+
+`Tsup` 可以快速打包 `typescript` 库，无需任何配置，并且基于[esbuild](https://link.juejin.cn/?target=https%3A%2F%2Fesbuild.github.io%2F)进行打包，打包 `ts` 文件速度毫秒级，方便又高效
+
+tsup同时支持tsup.config.ts、tsup.config.js、tsup.config.cjs、tsup.config.json四个文件
+
+```javascript
+import { defineConfig } from 'tsup'
+
+export default defineConfig({
+  // 入口文件 或者可以使用 entryPoints 底层是 esbuild
+  entry: ['src/index.ts'],
+  
+  // 打包类型  支持以下几种 'cjs' | 'esm' | 'iife'
+  format: ["cjs", "esm"],
+
+  // 生成类型文件 xxx.d.ts
+  dts: false,
+
+  // 代码分割 默认esm模式支持 如果cjs需要代码分割的话就需要配置为 true
+  splitting: false,
+
+  // sourcemap 
+  sourcemap: false,
+
+  // 每次打包先删除dist
+  clean: true,
+});
+```
+
+### unbuild
+
+js打包工具
+
+https://github.com/unjs/unbuild?tab=readme-ov-file
+
+
 
 ### ts-morgh
 
@@ -524,6 +459,79 @@ type optional = Object.Optional<{id: number, name: string}, "name">
 ### utility-types
 
 一些工具类型
+
+### effect
+
+ts包
+
+原有代码
+
+```typescript
+const divide = (a: number, b: number): number => {
+  if (b === 0) {
+    throw new Error("Cannot divide by zero")
+  }
+  return a / b
+}
+```
+
+使用effect
+
+```typescript
+import { Effect } from "effect"
+ 
+const divide = (a: number, b: number): Effect.Effect<number, Error, never> =>
+  b === 0
+    ? Effect.fail(new Error("Cannot divide by zero"))
+    : Effect.succeed(a / b)
+```
+
+或者
+
+```typescript
+import { Effect } from "effect"
+ 
+const result1 = Effect.runSyncExit(Effect.succeed(1))
+console.log(result1)
+/*
+Output:
+{
+  _id: "Exit",
+  _tag: "Success",
+  value: 1
+}
+*/
+ 
+const result2 = Effect.runSyncExit(Effect.fail("my error"))
+console.log(result2)
+/*
+Output:
+{
+  _id: "Exit",
+  _tag: "Failure",
+  cause: {
+    _id: "Cause",
+    _tag: "Fail",
+    failure: "my error"
+  }
+}
+*/
+
+import { Effect, Console, Schedule, Fiber } from "effect"
+ 
+const program = Effect.repeat(
+  Console.log("running..."),
+  Schedule.spaced("200 millis")
+)
+ 
+const fiber = Effect.runFork(program)
+ 
+setTimeout(() => {
+  Effect.runFork(Fiber.interrupt(fiber))
+}, 500)
+```
+
+
 
 ### tsconfig-path
 

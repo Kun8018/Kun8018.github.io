@@ -109,3 +109,8 @@ sudo bash -c "$(curl -fsSL https://raw.githubusercontent.com/trojan-gfw/trojan-q
  为了让伪装更正常，配置文件中的 `remote_addr` 和 `remote_port` 请认真填写。如果使用默认的 127.0.0.1 和 80，请运行以下命令安装Nginx并放行80端口：
 
 https://itlanyan.com/trojan-tutorial/
+
+## clash pro
+
+https://clash.wiki/configuration/rules.html#domain-%E5%9F%9F%E5%90%8D
+

@@ -121,7 +121,29 @@ js引擎和UI渲染引擎是互斥的。当其中一个线程执行时，另一�
 
 这就是react 15 stack reconciler所面临的问题，即hs对主线程的超时占用。stack reconciler是一个同步的递归过程。使用的是js引擎自身的函数调用栈。它会一直执行到栈空为止。所以当react在渲染组件时，从开始到渲染完整个过程是一气呵成的，如果渲染的组件比较庞大，js执行会占据主线程较长时间，导致页面响应度变差。
 
+在React15及以前，Reconciler采用递归的方式创建虚拟DOM，**递归过程是不能中断的**。如果组件树的层级很深，递归会占用线程很多时间，递归更新时间超过了16ms，用户交互就会卡顿。
+
+React16将递归的无法中断的更新重构为**异步的可中断更新**，由于曾经用于递归的虚拟DOM数据结构已经无法满足需要。于是，全新的 **Fiber 架构**应运而生。
+
 而且所有任务按照先后顺序被执行，没有区分优先级。这样就会导致优先级比较高的任务无法被执行。
+
+从v15到v16，React团队花了两年时间将源码架构中的Stack Reconciler重构为Fiber Reconciler。
+
+链表相比顺序结构数据格式的**好处**就是：
+
+1. 操作更高效，比如顺序调整、删除，只需要改变节点的指针指向就好了。
+2. 不仅可以根据当前节点找到下一个节点，在多向链表中，还可以找到他的父节点或者兄弟节点。
+
+但链表也不是完美的，**缺点**就是：
+
+1. 比顺序结构数据更占用空间，因为每个节点对象还保存有指向下一个对象的指针。
+2. 不能自由读取，必须找到他的上一个节点。
+
+#### vue需要fiber吗
+
+在vue中，一切影响页面内容的数据都应该是响应式的，vue通过拦截响应式数据的修改，知道哪些组件应该被修改。不需要遍历所有子树。vue的diff算法是对组件内部的diff，如果存在子组件，会判断子组件上与渲染相关的属性是否发生变化，无需变化的化则复用原本的DOM，不会处理子组件。 模板语法让vue能够进行更好地编译时分析，提高优化过程的效率，react缺少这部分，无法识别哪些是静态节点，哪些是动态节点。
+
+
 
 #### fiber架构中的基本概念
 
@@ -1189,5 +1211,104 @@ const VisibilityObserverChildren = ({callback,children}) =>{
 }
 ```
 
+### react-scan
 
+在构建大型 React 应用程序时，性能问题常常困扰开发者，主要原因是重复渲染。`React Scan` 是一个自动检测并高亮显示导致性能问题的渲染工具，帮助开发者精准定位需要修复的组件。文章介绍了 React 重复渲染的几种情况，包括引用类型导致的重新渲染、组件不必要的更新和组件内部状态的频繁变动，并提供了 React Scan 的安装和使用方法。还介绍了一些常见的优化性能的方法，如使用 `React.memo`、`useCallback` 和 `useMemo`、以及合理使用 `shouldComponentUpdate` 和 `PureComponent`。
+
+安装
+
+```shell
+npm install react-scan
+```
+
+使用
+
+```react
+import { scan } from 'react-scan'; // 在 react 之前引入
+import React from 'react';
+
+scan({
+  enabled: true,
+  log: true, // 将渲染信息记录到控制台（默认: false）
+});
+```
+
+自动扫描应用中的渲染
+
+```javascript
+scan({
+  enabled: true, // 启用/禁用扫描
+  includeChildren: true, // 包括应用了 withScan 的组件的子组件
+  playSound: true, // 启用/禁用戈伊格计数器音效
+  log: false, // 将渲染记录到控制台
+  showToolbar: true, // 显示工具栏
+  renderCountThreshold: 0, // 渲染次数阈值，仅显示渲染多于此值的组件
+  report: false, // 向 getReport() 报告数据
+  onCommitStart: () => {}, // 提交开始时的回调
+  onRender: (fiber, render) => {}, // 渲染时的回调
+  onCommitFinish: () => {}, // 提交完成时的回调
+  onPaintStart: (outline) => {}, // 绘制开始时的回调
+  onPaintFinish: (outline) => {}, // 绘制完成时的回调
+});
+```
+
+扫描指定组件
+
+```react
+function Component(props) {
+  // ...
+}
+
+withScan(Component, {
+  enabled: true, // 启用/禁用扫描
+  includeChildren: true, // 包括应用了 withScan 的组件的子组件
+  playSound: true, // 启用/禁用戈伊格计数器音效
+  log: false, // 将渲染记录到控制台
+  showToolbar: true, // 显示工具栏
+  renderCountThreshold: 0, // 渲染次数阈值，仅显示渲染多于此值的组件
+  report: false, // 向 getReport() 报告数据
+  onCommitStart: () => {}, // 提交开始时的回调
+  onRender: (fiber, render) => {}, // 渲染时的回调
+  onCommitFinish: () => {}, // 提交完成时的回调
+  onPaintStart: (outline) => {}, // 绘制开始时的回调
+  onPaintFinish: (outline) => {}, // 绘制完成时的回调
+});
+```
+
+获取报告
+
+```javascript
+scan({ report: true });
+
+const report = getReport();
+
+for (const component in report) {
+  const { count, time } = report[component];
+  console.log(`${component} rendered ${count} times, took ${time}ms`);
+}
+```
+
+设置扫描选项
+
+```javascript
+
+function Component(props) {
+  // ...
+}
+
+setOptions({
+  enabled: true, // 启用/禁用扫描
+  includeChildren: true, // 包括应用了 withScan 的组件的子组件
+  playSound: true, // 启用/禁用戈伊格计数器音效
+  log: false, // 将渲染记录到控制台
+  showToolbar: true, // 显示工具栏
+  renderCountThreshold: 0, // 渲染次数阈值，仅显示渲染多于此值的组件
+  report: false, // 向 getReport() 报告数据
+  onCommitStart: () => {}, // 提交开始时的回调
+  onRender: (fiber, render) => {}, // 渲染时的回调
+  onCommitFinish: () => {}, // 提交完成时的回调
+  onPaintStart: (outline) => {}, // 绘制开始时的回调
+  onPaintFinish: (outline) => {}, // 绘制完成时的回调
+});
+```
 

@@ -439,6 +439,41 @@ https://github.com/jlord/git-it
 
 
 
+## git-chglog
+
+基于git自动生成release tag
+
+https://github.com/git-chglog/git-chglog?tab=readme-ov-file
+
+安装
+
+```shell
+brew tap git-chglog/git-chglog
+brew install git-chglog
+```
+
+
+
+## git-extras
+
+https://github.com/tj/git-extras
+
+
+
+## git-lfs
+
+管理大文件版本
+
+安装
+
+```shell
+brew install git-lfs
+```
+
+https://github.com/git-lfs/git-lfs
+
+
+
 ## vale
 
 格式化工具
@@ -474,6 +509,14 @@ git open
 https://github.com/extrawurst/gitui
 
 很好用
+
+
+
+## gitbutler
+
+git客户端
+
+https://github.com/gitbutlerapp/gitbutler
 
 
 

@@ -16,6 +16,20 @@ https://github.com/jackfrued/Python-100-Days
 
 ## Python库
 
+### mamba
+
+包管理器
+
+```shell
+brew install micromamba
+```
+
+### conda
+
+https://github.com/conda-forge/miniforge
+
+
+
 ### paramiko
 
 https://github.com/paramiko/paramiko
@@ -72,11 +86,65 @@ python linter
 
 https://astral.sh/ruff
 
+
+
 ### psutil
 
 获取系统内存、cpu、磁盘等信息
 
 https://github.com/giampaolo/psutil
+
+
+
+### rich
+
+Python终端脚本展示优化
+
+安装
+
+```shell
+python -m pip install rich
+```
+
+使用
+
+```python
+from rich import print
+
+print("Hello, [bold magenta]World[/bold magenta]!", ":vampire:", locals())
+```
+
+
+
+### markItdown
+
+把pdf、doc等文档转换为markdown
+
+https://github.com/microsoft/markitdown
+
+
+
+### logging
+
+日志模块
+
+```python
+import logging
+
+# 配置日志
+logging.basicConfig(level=logging.INFO)  # 设置最低日志级别
+logging.debug('这是调试信息')    # 不会显示（默认级别为 INFO）
+logging.info('这是普通信息')     # INFO 级别
+logging.warning('这是警告信息')  # WARNING 级别
+logging.error('这是错误信息')    # ERROR 级别
+logging.critical('这是严重错误') # CRITICAL 级别
+```
+
+
+
+### nodezator
+
+https://github.com/IndieSmiths/nodezator?tab=readme-ov-file
 
 
 
@@ -192,6 +260,111 @@ except InvalidTokenError:
 
 在默认情况下，Django将session的数据序列化后保存在关系型数据库中，在Django 1.6以后的版本中，默认的序列化数据的方式是JSON序列化，而在此之前一直使用Pickle序列化。JSON序列化和Pickle序列化的差别在于前者将对象序列化为字符串（字符形式），而后者将对象序列化为字节串（二进制形式），因为安全方面的原因，JSON序列化成为了目前Django框架默认序列化数据的方式，这就要求在我们保存在session中的数据必须是能够JSON序列化的，否则就会引发异常。还有一点需要说明的是，使用关系型数据库保存session中的数据在大多数时候并不是最好的选择，因为数据库可能会承受巨大的压力而成为系统性能的瓶颈，在后面的章节中我们会告诉大家如何将session保存到缓存服务中以提升系统的性能。
 
+## Robyn
+
+https://github.com/sparckles/robyn
+
+Robyn 是一款令人兴奋的异步 Python Web 框架，其核心运行时基于 Rust 构建，这使得它在性能方面拥有显著优势
+
+Robyn 的核心竞争力在于其 Rust 运行时。Rust 作为一门注重内存安全和性能的系统编程语言，为 Robyn 提供了坚实的底层支撑。这使得 Robyn 能够处理大量的并发请求，并保持极低的延迟，在 TechEmpower 基准测试中表现出色。这种架构选择，让 Robyn 能够充分利用多核处理器的优势，实现真正的多核扩展性，在高负载场景下依然保持高效稳定的运行
+
+Robyn 提供了简洁直观的 API，即使是 Python 新手也能快速上手。只需几行代码，你就可以创建一个简单的 Web 服务器
+
+```python
+from robyn import Robyn
+
+app = Robyn(__file__)
+
+@app.get("/")
+async def h(request):
+    return "Hello, world!"
+
+app.start(port=8080)
+```
+
+Robyn 并非只是一个简单的 Web 服务器，它还提供了许多高级特性，例如：
+
+- • **异步功能支持:** 充分利用 Python 的异步特性，提升服务器的并发处理能力。
+- • **动态 URL 路由:** 灵活地定义 URL 路径和相应的处理函数。
+- • **OpenAPI 自动生成:** 方便地生成 API 文档，便于开发者理解和使用 API。
+- • **中间件支持:** 方便地扩展服务器功能，例如日志记录、身份验证等。
+- • **内置表单数据处理:** 简化表单数据的处理过程。
+- • **依赖注入:** 方便地管理和注入依赖项，提高代码的可维护性和可测试性。
+- • **热重载:** 在开发过程中，修改代码后无需重启服务器，加快开发速度。
+- • **WebSocket 支持:** 支持实时双向通信，构建实时应用。
+- • **直接 Rust 集成:** 允许开发者直接使用 Rust 代码扩展 Robyn 的功能
+
+
+
+## Falcon
+
+Falcon是一个极简主义的ASGI/WSGI框架，专为构建高可靠性、高性能的REST API和微服务而设计。它注重性能、正确性和可扩展性，在处理高并发请求方面表现出色。不同于其他Python Web框架，Falcon摒弃了繁琐的依赖和不必要的抽象，提供了一个简洁、高效的开发体验。
+
+Falcon的设计哲学是“大道至简”，力求在保持高效率的同时，尽量减少不必要的组件和功能。这使得它具有以下几个关键优势：
+
+- **闪电般的速度:** Falcon以其卓越的性能而闻名。它在基准测试中常常超越Django和Flask等流行框架，尤其是在结合PyPy解释器时，性能提升更为显著。Falcon的快速响应能力使其成为构建高并发API的理想选择。
+- **极致的可靠性:** Falcon注重稳定性和向后兼容性。框架本身经过严格测试，并尽可能避免引入破坏性变更。其对标准库的依赖性最小化，降低了安全风险，并减少了因依赖冲突导致的问题。
+- **灵活的定制性:** Falcon赋予开发者极高的自由度，允许对API的各个方面进行精细化的控制。它不强制使用特定的架构模式或开发流程，开发者可以根据自身需求选择合适的工具和方法。
+- **简洁易用的API:** Falcon的API设计简洁明了，易于学习和使用。其清晰的文档和大量的示例代码，让开发者能够快速上手，并专注于业务逻辑的实现。
+- **支持 ASGI 和 WSGI:** Falcon 同时支持 ASGI 和 WSGI 规范，能够与各种现代化的异步服务器和传统的同步服务器兼容，扩展性极强。
+
+使用
+
+```python
+import falcon
+
+class ThingsResource:
+    def on_get(self, req, resp):
+        resp.text = "Hello, Falcon!"
+
+app = falcon.App()
+app.add_route('/things', ThingsResource())
+```
+
+Falcon 提供了强大的中间件机制，允许开发者在请求处理过程中插入自定义逻辑，例如身份验证、日志记录和数据转换等。 它还提供了一套灵活的错误处理机制，方便开发者处理各种异常情况
+
+
+
+## Flet
+
+客户端全栈项目
+
+https://github.com/flet-dev/flet
+
+```python
+import flet
+from flet import IconButton, Page, Row, TextField, icons
+
+def main(page: Page):
+    page.title = "Flet counter example"
+    page.vertical_alignment = "center"
+
+    txt_number = TextField(value="0", text_align="right", width=100)
+
+    def minus_click(e):
+        txt_number.value = str(int(txt_number.value) - 1)
+        page.update()
+
+    def plus_click(e):
+        txt_number.value = str(int(txt_number.value) + 1)
+        page.update()
+
+    page.add(
+        Row(
+            [
+                IconButton(icons.REMOVE, on_click=minus_click),
+                txt_number,
+                IconButton(icons.ADD, on_click=plus_click),
+            ],
+            alignment="center",
+        )
+    )
+
+flet.app(target=main)
+```
+
+
+
 
 
 ## Redis
@@ -229,6 +402,55 @@ https://github.com/psycopg/psycopg2
 ### psycopg
 
 https://github.com/psycopg/psycopg
+
+
+
+## OCR
+
+### Surya
+
+安装
+
+```shell
+pip install surya-ocr
+```
+
+https://github.com/VikParuchuri/surya
+
+
+
+## GUI
+
+### textual
+
+```python
+from textual.app import App, ComposeResult
+from textual.widgets import Footer, Header
+
+
+class StopwatchApp(App):
+    """A Textual app to manage stopwatches."""
+
+    BINDINGS = [("d", "toggle_dark", "Toggle dark mode")]
+
+    def compose(self) -> ComposeResult:
+        """Create child widgets for the app."""
+        yield Header()
+        yield Footer()
+
+    def action_toggle_dark(self) -> None:
+        """An action to toggle dark mode."""
+        self.theme = (
+            "textual-dark" if self.theme == "textual-light" else "textual-light"
+        )
+
+
+if __name__ == "__main__":
+    app = StopwatchApp()
+    app.run()
+```
+
+
 
 ## 大数据
 

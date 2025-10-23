@@ -185,6 +185,47 @@ type Buz = FunctionReturnType<(name: string, other: string) => boolean>; // bool
 
 ## 函数重载与方法重载
 
+### 联合类型的使用
+
+有一个函数在处理两种类型的数据时使用同一套逻辑，所以你希望复用，比如
+
+```typescript
+function getDataByID(ID: string):DataType {
+  // TODO: 通过单个ID获取单个用户信息
+}
+
+function getDataByIDS(IDS: string[]):DataTypep[] {
+  // TODO: 通过多个ID获取多个用户信息
+}
+
+// 合并变成下面的函数
+function getData(ID: string | string[]):DataType|DataTypep[] {
+  // TODO: 通过单个或者许多ID获取单个或者多个用户信息
+  // 此时函数体变为
+  let data;
+  if(Array.isArray(ID)) {
+    return data as DataType[]
+  }
+  return data as DataType
+}
+```
+
+此时调用函数时，ts会返回两种类型，因为需要再进行类型断言才能进行下一步处理
+
+```typescript
+const data = getData(['xxx']) as DataType[]
+```
+
+重载可以实现精准返回类型
+
+```typescript
+function getData(ID: string): DataType;
+function getData(ID: string[]): DataType[];
+function getData(ID: string | string[]):DataType|DataTypep[] {
+  // TODO: 通过单个或者许多ID获取单个或者多个用户信息
+}
+```
+
 js 因为是动态类型，本身不需要支持重载，直接对参数进行类型判断即可，但是ts为了保证类型安全，支持了函数签名的类型重载
 
 如在JavaScript中：
@@ -267,6 +308,31 @@ const result = calculator.add('Semlinker', ' Kakuqo');
 ```
 
 当 TypeScript 编译器处理函数重载时，它会查找重载列表，尝试使用第一个重载定义。 如果匹配的话就使用这个。 因此，在定义重载的时候，一定要把最精确的定义放在最前面。另外在 Calculator 类中，`add(a: Combinable, b: Combinable){ }` 并不是重载列表的一部分，因此对于 add 成员方法来说，我们只定义了四个重载方法。
+
+### declare关键字实现重载
+
+```typescript
+declare function pickCard(x: { suit: string; card: number }[]): number;
+declare function pickCard(x: number): number;
+```
+
+### 总结
+
+**函数重载的主要意义：**
+
+1. **灵活的参数处理**：
+   - 允许一个函数接受不同类型或不同数量的参数。
+   - 例如，一个处理用户事件的函数可能需要接受字符串类型的事件名（如点击事件）或对象类型的事件数据（如得分事件），函数重载可以精确地定义这些不同的情况。
+2. **更精确的类型检查**：
+   - 通过定义不同的重载签名，TypeScript 编译器可以在调用函数时，根据实际传入的参数，进行严格的类型匹配和检查。
+   - 这有助于在编译阶段捕获潜在的类型错误，防止在运行时出现意外行为。
+3. **提高代码的可读性和可维护性**：
+   - 重载使得函数的接口更加清晰，明确了函数在不同输入下的行为和返回值类型。
+   - 用户在使用函数时，能够更直观地理解如何正确调用函数，从而提升开发效率和代码的可维护性
+
+
+
+
 
 ## 声明语句与声明文件、声明合并
 
@@ -813,47 +879,7 @@ npm install --save-dev eslint-plugin-simple-import-sort
 }
 ```
 
-
-
-### Prettier 
-
-ESLint 包含了一些代码格式的检查，比如空格、分号等。但前端社区中有一个更先进的工具可以用来格式化代码，那就是 [Prettier](https://prettier.io/)。
-
-Prettier 聚焦于代码的格式化，通过语法分析，重新整理代码的格式，让所有人的代码都保持同样的风格。
-
-安装Prettier
-
-```shell
-npm install --save-dev prettier
-```
-
-然后创建一个 `prettier.config.js` 文件，里面包含 Prettier 的配置项。Prettier 的配置项很少，这里我推荐大家一个配置规则，作为参考：
-
-```js
-// prettier.config.js or .prettierrc.js
-module.exports = {
-    printWidth: 100,  		   // 一行最多 100 字符
-    tabWidth: 4,      			 // 使用 4 个空格缩进
-    useTabs: false,  				 // 不使用缩进符，而使用空格
-    semi: true,      			   // 行尾需要有分号
-    singleQuote: true,			 // 使用单引号
-    quoteProps: 'as-needed', // 对象的 key 仅在必要时用引号
-    jsxSingleQuote: false,   // jsx 不使用单引号，而使用双引号
-    trailingComma: 'none',   // 末尾不需要逗号
-    bracketSpacing: true,    // 大括号内的首尾需要空格
-    jsxBracketSameLine: false,// jsx 标签的反尖括号需要换行
-    arrowParens: 'always',   // 箭头函数，只有一个参数的时候，也需要括号
-    rangeStart: 0,           // 每个文件格式化的范围是文件的全部内容
-    rangeEnd: Infinity,
-    requirePragma: false,    // 不需要写文件开头的 @prettier
-    insertPragma: false,     // 不需要自动在文件开头插入 @prettier
-    proseWrap: 'preserve',   // 使用默认的折行标准
-    htmlWhitespaceSensitivity: 'css',// 根据显示样式决定 html 要不要折行
-    endOfLine: 'lf'          // 换行符使用 lf
-};
-```
-
-### Es-lint支持tsx
+#### 支持tsx
 
 如果需要同时支持对 tsx 文件的检查，则需要对以上步骤做一些调整：
 
@@ -894,6 +920,109 @@ npm install --save-dev eslint-plugin-react
     ],
     "typescript.tsdk": "node_modules/typescript/lib"
 }
+```
+
+
+
+#### eslint9
+
+改进点：
+
+1.ESLint v9 与时俱进，放弃了对 Node.js v18.18.0 以下版本的支持。
+
+2.在旧版本的 ESLint 中，可以使用它作代码风格约束，例如：尾随逗号，空格，空行等。这些规则可以让我们的代码风格一致，但是这些规则却与 ESLint 的核心功能有点相悖
+因为 ESLint 主要的点是分析代码的语法错误而不应该是风格错误，所以风格检查有点画蛇添足了，况且现在有更加快速且强大的 `prettier`来做代码风格约束，所以 ESLint 的风格约束是时候放弃了
+
+以前使用 `extends`来组合规则，现在使用数组的每一项来组合，所以 ESLint 官方才新出品了 `@eslint/js`包来导出 ESLint 默认规则。
+而且，这会导致以前的 `eslint`的其他社区规范文件需要发布适用于 v9 版本的新规则。不过好在 ESLint 官方已经想到了这个问题，他们提供了一个 `@eslint/eslintrc`包，用于将现有的插件和预设转换为符合新版本规范的代码
+
+```javascript
+import { FlatCompat } from "@eslint/eslintrc";
+import path from "path";
+import { fileURLToPath } from "url";
+
+// mimic CommonJS variables -- not needed if using CommonJS
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const compat = new FlatCompat({
+    baseDirectory: __dirname
+});
+
+export default [
+    // mimic ESLintRC-style extends
+    ...compat.extends("standard", "example"),
+
+    // mimic environments
+    ...compat.env({
+        es2020: true,
+        node: true
+    }),
+
+    // mimic plugins
+    ...compat.plugins("airbnb", "react"),
+
+    // translate an entire config
+    ...compat.config({
+        plugins: ["airbnb", "react"],
+        extends: "standard",
+        env: {
+            es2020: true,
+            node: true
+        },
+        rules: {
+            semi: "error"
+        }
+    })
+];
+```
+
+
+
+3.全新的配置文件：ESLint v9 采用全新的配置文件：
+
+- eslint.config.js
+- eslint.config.mjs
+- eslint.config.cjs
+
+其他的更新点：https://juejin.cn/post/7355096015583920128#heading-3
+
+### Prettier 
+
+ESLint 包含了一些代码格式的检查，比如空格、分号等。但前端社区中有一个更先进的工具可以用来格式化代码，那就是 [Prettier](https://prettier.io/)。
+
+Prettier 聚焦于代码的格式化，通过语法分析，重新整理代码的格式，让所有人的代码都保持同样的风格。
+
+安装Prettier
+
+```shell
+npm install --save-dev prettier
+```
+
+然后创建一个 `prettier.config.js` 文件，里面包含 Prettier 的配置项。Prettier 的配置项很少，这里我推荐大家一个配置规则，作为参考：
+
+```js
+// prettier.config.js or .prettierrc.js
+module.exports = {
+    printWidth: 100,  		   // 一行最多 100 字符
+    tabWidth: 4,      			 // 使用 4 个空格缩进
+    useTabs: false,  				 // 不使用缩进符，而使用空格
+    semi: true,      			   // 行尾需要有分号
+    singleQuote: true,			 // 使用单引号
+    quoteProps: 'as-needed', // 对象的 key 仅在必要时用引号
+    jsxSingleQuote: false,   // jsx 不使用单引号，而使用双引号
+    trailingComma: 'none',   // 末尾不需要逗号
+    bracketSpacing: true,    // 大括号内的首尾需要空格
+    jsxBracketSameLine: false,// jsx 标签的反尖括号需要换行
+    arrowParens: 'always',   // 箭头函数，只有一个参数的时候，也需要括号
+    rangeStart: 0,           // 每个文件格式化的范围是文件的全部内容
+    rangeEnd: Infinity,
+    requirePragma: false,    // 不需要写文件开头的 @prettier
+    insertPragma: false,     // 不需要自动在文件开头插入 @prettier
+    proseWrap: 'preserve',   // 使用默认的折行标准
+    htmlWhitespaceSensitivity: 'css',// 根据显示样式决定 html 要不要折行
+    endOfLine: 'lf'          // 换行符使用 lf
+};
 ```
 
 ### style-lint

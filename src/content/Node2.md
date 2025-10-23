@@ -517,6 +517,41 @@ File的属性：
 - File.size：文件大小（单位字节）
 - File.type：文件的 MIME 类型
 
+#### DomParser
+
+用原生JavaScript将字符串解析为DOM对象，主要方法包括`DOMParser API`、`innerHTML属性`、`createRange().createContextualFragment()`**。其中，**`DOMParser API` 是一个非常强大的解析器，它允许我们将任何含有HTML或XML的字符串解析成一个真正的DOM节点。
+
+DOMParser API是解析XML或HTML字符串为DOM文档的标准方法。首先，你需要创建一个`DOMParser`的实例，然后使用它的`parseFromString`方法将字符串解析为一个`Document`对象。该方法接受两个参数：字符串本身和内容类型（如`text/html`或`application/xml`）
+
+```javascript
+let parser = new DOMParser();
+let doc = parser.parseFromString('<div>Hello World</div>', 'text/html');
+
+let domNode = doc.body.firstChild;
+```
+
+另一种常见的方法是使用元素的`innerHTML`属性。你可以创建一个临时的DOM元素（如`div`），并将其`innerHTML`属性设置为你的字符串。这将导致浏览器解析字符串并将其作为DOM节点放入临时元素中
+
+```javascript
+let tempDiv = document.createElement('div');
+tempDiv.innerHTML = '<p>This is a paragraph</p>';
+
+let domNode = tempDiv.firstChild;
+```
+
+这种方法的优势在于其简易性和对旧浏览器的良好兼容性。使用`innerHTML`可以快速地将字符串转换成DOM节点，然而，它可能不适合处理非常复杂或特定格式（如XML）的字符串
+
+```javascript
+let range = document.createRange();
+let frag = range.createContextualFragment('<ul><li>Item 1</li><li>Item 2</li></ul>');
+
+document.body.appendChild(frag);
+```
+
+
+
+
+
 ### FormData
 
 表单（`<form>`）用来收集用户提交的数据，发送到服务器。比如，用户提交用户名和密码，让服务器验证，就要通过表单。表单提供多种控件，让开发者使用
@@ -969,3 +1004,39 @@ Intersection Observer API就是解决这个问题，可以自动观察判断元�
 
 
 #### Web share
+
+
+
+### 跨tab通信
+
+为了实现跨窗口通信，它应该需要具备以下能力：
+
+1. **数据传输能力**：能够将数据从一个窗口发送到另一个窗口，以及接收来自其他窗口的数据。
+2. **实时性**：能够实现实时或近实时的数据传输，以便及时更新不同窗口的内容。
+3. 安全性：确保通信过程中的数据安全，防止恶意窃取或篡改通信数据。当然，这个不是本文讨论的重点，但是是实际应用中不应该忽视的一个重点。
+
+## Broadcast Channel()
+
+Broadcast Channel 是一个较新的 Web API，用于在不同的浏览器窗口、标签页或框架之间**实现跨窗口通信**。它基于发布-订阅模式，允许一个窗口发送消息，并由其他窗口接收。
+
+其核心步骤如下：
+
+1. 创建一个 BroadcastChannel 对象：在发送和接收消息之前，首先需要在每个窗口中创建一个 BroadcastChannel 对象，使用相同的频道名称进行初始化。
+2. 发送消息：通过 BroadcastChannel 对象的 postMessage() 方法，可以向频道中的所有窗口发送消息。
+3. 接收消息：通过监听 BroadcastChannel 对象的 message 事件，可以在窗口中接收到来自其他窗口发送的消息。
+
+同时，Broadcast Channel 遵循浏览器的同源策略。这意味着只有在同一个协议、主机和端口下的窗口才能正常进行通信。如果窗口不满足同源策略，将无法互相发送和接收消息。
+
+核心逻辑在于：
+
+- `createBroadcastChannel()` 函数用于创建一个 BroadcastChannel 对象，并设置消息处理函数。
+- `sendMessage(data)` 函数用于向 BroadcastChannel 发送消息。
+- `handleMessage(event)` 函数用于处理接收到的消息。
+- `resizeEventBind()` 函数用于监听窗口大小变化事件，并在事件发生时获取当前元素的位置信息，并通过 `sendMessage()` 函数发送位置信息到 BroadcastChannel。
+- `getCurPos()` 函数用于计算当前元素相对于显示器窗口右上角的距离。
+
+在 `onMounted()` 生命周期钩子中，调用了 `createBroadcastChannel()` 和 `resizeEventBind()` 函数，用于在组件挂载后执行相关的初始化操作。
+
+这样，当我们同时打开两个窗口，移动其中一个窗口，就可以向另外一个窗口发生当前窗口希望传递过去的信息，在本例子中就是 `#j-main` 元素距离显示器右上角的距离。
+
+https://www.cnblogs.com/coco1s/p/17861360.html

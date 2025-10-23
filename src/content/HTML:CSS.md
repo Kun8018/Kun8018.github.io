@@ -384,6 +384,16 @@ test.dataset.my = 'Byron';
 
 
 
+#### href和src的区别
+
+`href`是Hypertext Reference的缩写，表示超文本引用。它用于在当前元素和文档之间建立链接。常见的使用场景包括：link、a等元素。例如，当我们在link元素中使用href属性来链接CSS文件时，浏览器会识别该文档为CSS文档，并行下载该文档，同时**不会停止**对当前文档的处理。
+
+`src`是source的缩写，表示资源的来源。它用于将指向的内容嵌入到文档中当前标签所在的位置。常见的使用场景包括：img、script、iframe等元素。例如，当我们在script元素中使用src属性来链接JavaScript文件时，浏览器在解析到该元素时，**会暂停**浏览器的渲染，直到该资源加载完毕
+
+`src`用于替换当前元素，而`href`用于在当前文档和引用资源之间建立联系
+
+
+
 ### 自闭合标签与闭合标签的区别
 
 
@@ -688,6 +698,12 @@ javascript加载后会立即执行，同时会阻塞后面的资源加载。（j
 `js的执行是依赖css样式`的。即只有css样式全部下载完成后才会执行js。
 
 因为如果脚本的内容是获取元素的样式，宽高等CSS控制的属性，浏览器是需要计算的，也就是依赖于CSS。浏览器无法感知脚本内容到底是什么，为避免样式获取错误，因而只好等前面所有的样式下载完后，再执行JS。也就是说，**如果有外链css，那么js的执行时需要等待外链css下载完**。
+
+#### capojs
+
+检查head中的标签是否合理
+
+https://rviscomi.github.io/capo.js/user/validation/
 
 
 
@@ -1000,5 +1016,7 @@ Value：数值、非必须，非负数
 </html>
 ```
 
+### choices
 
+https://github.com/Choices-js/Choices
 

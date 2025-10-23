@@ -42,6 +42,18 @@ tsx file.js
 
 相比于ts-node，tsx使用esbuild编译ts文件
 
+#### jiti
+
+直接运行nodejs中的ts文件
+
+```shell
+npx jiti ./index.ts
+```
+
+
+
+
+
 #### tslib
 
 `tslib`: 一个运行时类型支持库，可以帮助 TypeScript 编译器生成更优化的 JavaScript 代码。在使用一些高级 TypeScript 特性（例如 `async/await`）时，可能需要引入 `tslib`

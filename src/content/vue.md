@@ -15,7 +15,7 @@ thumbnail: http://cdn.kunkunzhang.top/vue.jpeg
 
 ## 安装
 
-预安装node
+安装node
 
 安装vue
 
@@ -60,12 +60,12 @@ Vue.use(VueRouter)
 
 const router = new VueRouter[{
     routes[
-    {
-    path:'/',
-    name'home',//命名路由方便进行操作
-    component:home,
-	}
-    ]
+        {
+        path:'/',
+        name'home',//命名路由方便进行操作
+        component:home,
+      }
+   ]
 }]
 
 export default router
@@ -144,13 +144,29 @@ component:About,
 
 ### 动态路由
 
-路由携带参数
+对路由的添加通常是通过 `routes` 选项来完成的，但是在某些情况下，你可能想在应用程序已经运行的时候添加或删除路由。
 
-```vue
-this.$router.push(name:'',params:{})
+动态路由主要通过两个函数实现。`router.addRoute()` 和 `router.removeRoute()`。它们**只**注册一个新的路由，也就是说，如果新增加的路由与当前位置相匹配，就需要你用 `router.push()` 或 `router.replace()` 来**手动导航**，才能显示该新路由
+
+```javascript
+router.addRoute({ path: '/about', name: 'about', component: About })
+// 删除路由
+router.removeRoute('about')
 ```
 
-this方法指向当前的vue实例
+如果你决定在导航守卫内部添加或删除路由，你不应该调用 `router.replace()`，而是通过返回新的位置来触发重定向
+
+```javascript
+router.beforeEach(to => {
+  if (!hasNecessaryRoute(to)) {
+    router.addRoute(generateRoute(to))
+    // 触发重定向
+    return to.fullPath
+  }
+})
+```
+
+
 
 ### 路由懒加载
 
@@ -207,6 +223,44 @@ this.$router.push({'path:'home'})
 this.$router.replace({path:'news'})
 ```
 
+路由携带参数
+
+```vue
+this.$router.push(name:'',params:{})
+```
+
+this方法指向当前的vue实例
+
+
+
+### 路由守卫
+
+```javascript
+router.beforeEach((to, from, next) => {
+  // 遍历路由表
+  const match = router.options.routes.some(route => {
+    return route.path === to.path;
+  });
+  // 如果没有匹配的路由
+  if (!match) {
+    next('/404'); // 重定向到404页面
+  } else {
+    next();
+  }
+});
+```
+
+也可以在路由表中实现
+
+```javascript
+const routes = [
+  // ... 其他路由
+  { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFoundComponent }
+]
+```
+
+
+
 
 
 ## 生命周期函数
@@ -242,6 +296,15 @@ beforeCreate(){
 	})
 },
 ```
+
+Dom渲染在Mounted周期已经完成了
+
+Created表示完成数据观测、属性和方法的运算和初始化事件，此时$el属性还未显示出来
+
+默认加载的时候先computed再watch，不执行methods；等触发某一事件后，则是：先methods再watch。
+methods方法有一定的触发条件，如click等
+
+init reactivity是晚于beforeCreate但是早于created的。 **watch加了immediate: true，应当同init reactivity周期一同执行，会早于created执行**
 
 
 
@@ -517,6 +580,8 @@ https://www.yuque.com/loway/zh3lby/wzgzti
 
 父子组件通信：props/$emit
 
+若子组件使用$emit('say')派发事件，父组件可使用@say监听
+
 父组件向子组件传递值：子组件中定义props，父组件调用子组件时通过使用props的值传递到自组件，每当父组件中的值更新时子组件中的props也会自动更新。同时你也可以为props提供一些类型检查、设置默认值等，验证不满足时会发出警告。子组件的非父组件传递数据（自有数据）定义在data中
 
 子组件向父组件传递值：子组件使用this.$emit(param)调用父组件的方法。在父组件调用中$on 事件进行监听，自组件传回值则调用对应方法。
@@ -628,8 +693,6 @@ provide/inject会让组件数据层级关系变的混乱的缘故，但在开发
 ```
 
 复杂系统使用vuex，相当于单独维护的数据
-
-
 
 ### 插槽
 
@@ -1049,6 +1112,8 @@ v-model用在表单<input>、<textarea>、<select>上创建双向数据绑定，
 
 v-model会直接将vue实例的数据作为数据来源，所以绑定时确保在data选项中声明，绑定时不需要this参数
 
+对input使用v-model, 实际上是指定其:value和:input
+
 ## 过滤器
 
 在组件的选项中定义本地的过滤器,使用时与computed类似，用于将外部传来的值进行处理，用于一些常见的文本格式化。
@@ -1164,6 +1229,8 @@ export default {
 ## Vuex状态管理
 
 对于大型应用，由于状态零散地分布在许多组件中，复杂度会逐渐增长，尤其对于多个视图依赖同一状态，或者来自不同视图需要变更同一状态。vue提供vuex解决状态管理问题。
+
+vuex是一个状态管理模式，通过mutations和actions改变状态，只能用于vue
 
 安装
 
@@ -1423,6 +1490,52 @@ export const useStore({
     }
   }
 })
+```
+
+
+
+#### pinia-colada
+
+vue的查询和修改接口hooks
+
+```vue
+<script lang="ts" setup>
+import { useRoute } from 'vue-router'
+import { useMutation, useQuery, useQueryCache } from '@pinia/colada'
+import { patchContact, getContactById } from '~/api/contacts'
+
+const route = useRoute()
+const queryCache = useQueryCache()
+
+const { data: contact, isPending } = useQuery({
+  // unique key for the query in the cache
+  key: () => ['contacts', route.params.id],
+  query: () => getContactById(route.params.id),
+})
+
+const { mutate: updateContact, isLoading } = useMutation({
+  mutation: patchContact,
+  async onSettled({ id }) {
+    // invalidate the query to refetch the data of the query above
+    await queryCache.invalidateQueries({ key: ['contacts', id], exact: true })
+  },
+})
+</script>
+
+<template>
+  <section>
+    <p v-if="isPending">
+      Loading...
+    </p>
+    <ContactCard
+      v-else
+      :key="contact.id"
+      :contact="contact"
+      :is-updating="isLoading"
+      @update:contact="updateContact"
+    />
+  </section>
+</template>
 ```
 
 

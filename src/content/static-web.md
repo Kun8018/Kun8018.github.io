@@ -1,16 +1,20 @@
 ---
-title: Gatsbyjs
-date: 2020-08-02 21:40:33
-categories: 技术博客
+title: 静态站点
+date: 2020-03-06 21:40:33
+categories: IT
 tags:
-    - IT、小程序、H5App
+    - IT,Web，IOS
 toc: true
-thumbnail: http://cdn.kunkunzhang.top/gatsbyjs.png
+thumbnail: 
 ---
 
-　　Gatsbyjs是基于react的现代化网站生成工具。利用React+GraphQL快速产生多页面应用。传统的快速博客如hexo、jeklly是基于restful的静态网站页面，如果博客数量较多时首屏加载页面比较慢。基于这样的考虑，换用gatsbyjs。
+​		静态站点即原始的html，即使在react、vue、solid等各式各样的SPA框架大行其道的今天，静态站点也拥有其独特的优势，即加载速度快、友好的seo、部署快、安全性高。但是区别于传统的html、css、js开发和复杂的SSR，基于各种框架的SSG框架是新时代更加快捷的开发静态站点的方式，因此单独整理在一系列文章中
 
-<!--more-->   
+<!--more-->
+
+## Gatsby
+
+Gatsbyjs是基于react的现代化网站生成工具。利用React+GraphQL快速产生多页面应用。传统的快速博客如hexo、jeklly是基于restful的静态网站页面，如果博客数量较多时首屏加载页面比较慢。基于这样的考虑，换用gatsbyjs。
 
 ## 安装
 
@@ -544,3 +548,41 @@ const linkPrefetchStrategy = function(url) {
 3. 点击链接，经过前面两个双保险，此时该链接所需数据已经大概率在本地了，所以页面可以大概率被瞬间显示出来
 
 从上面的分析过程和一些截图中也可以看出，gatsby 还做了一些其它工作来让页面能尽快加载出来，比如将 js 和 css 进行了 split，对每个页面的 js 和 css 也进行了 prefetch，不过一般情况下大部分 markdown 页面的 js 和 css 是一样的，这部分 js 和 css 会在浏览第一个 markdown 页面时就被下载，后面浏览其它页面就不用再下载了
+
+## ByteMd
+
+### 安装
+
+https://github.com/bytedance/bytemd
+
+
+
+```react
+import gfm from '@bytemd/plugin-gfm'
+import { Editor, Viewer } from '@bytemd/react'
+
+const plugins = [
+  gfm(),
+  // Add more plugins here
+]
+
+const App = () => {
+  const [value, setValue] = useState('')
+
+  return (
+    <Editor
+      value={value}
+      plugins={plugins}
+      onChange={(v) => {
+        setValue(v)
+      }}
+    />
+  )
+}
+```
+
+
+
+## Nextra
+
+https://github.com/shuding/nextra

@@ -194,8 +194,6 @@ cd ~/.ssh
 ls
 ```
 
-
-
 运行ssh-agent
 
 ```shell
@@ -695,8 +693,6 @@ git stash drop [stash_id] ## 删除一个存储的进度，如果不执行stash_
 git stash clear ## 删除所有存储进度
 ```
 
-
-
 `git cherry-pick`：挑选某个分支的提交并作为一个新的提交引入到你当前分支上。
 
 默认cherry-pick只挑选单次的commit，如果想转移多个commit，使用命令git cherry-pick commitid1...commitid100
@@ -793,6 +789,36 @@ git mv -f [file] [newfile]
 ```shell
 git reset --soft HEAD@{1}
 ```
+
+git bisect: 用来查找哪一次代码提交引入了错误。
+
+它的原理很简单，就是将代码提交的历史，按照两分法不断缩小定位。所谓 "两分法"，就是将代码历史一分为二，确定问题出在前半部分，还是后半部分，不断执行这个过程，直到范围缩小到某一次代码提交。
+
+```shell
+git bisect start [终点] [起点]
+```
+
+"终点" 是最近的提交，"起点" 是更久以前的提交。它们之间的这段历史，就是差错的范围。
+
+如果没有问题，使用 `git bisect good` 命令，标识本次提交没有问题。Git 就自动切换到后半段的中点（第 76 次提交）。
+
+查完之后使用`git bisect reset`退出查错模式就可以了
+
+`git rev-parse`: `git rev-parse` 是一条多用途的命令，它的主要职能是解析Git中的"名字"（如分支名、标签名、commit ID等）到对应的SHA-1哈希值
+
+在`git rev-parse`命令中，`rev`用来表示待解析的“Git修订”的参数。这个参数可以是任何能够唯一标识一个Git对象的标识符。
+
+作为参数，`rev`可以是以下几种形式之一：
+
+- `commit`：提交的哈希，可以是完整的SHA-1哈希值，也可以是部分哈希值。
+- `branch`：分支名，包括主分支（如`master`）或其他创建的分支名称。
+- `tag`：标签名，用来标识特定的提交。
+- `HEAD`：指向当前分支的引用。
+- `@`：指向当前分支的引用。
+- `commit^`：某个提交的父提交。
+- `commit~n`：某个提交的前第n个祖先提交
+
+
 
 ## worktree
 
@@ -1166,6 +1192,12 @@ Husky 支持如下几种格式配置：
 Husky 不支持服务端 hooks。
 
 包括 `pre-receive`、`update`、`post-receive`
+
+报错
+
+对于 `liux` 或者 `macos` 系统中，可能会出现 **因为没有将钩子 '.husky/pre-commit' 设置为可执行 钩子被忽略。** 的错误。这是因为当前的文件没有执行权限，只需要执行`chmod +x .husky/pre-commit`更改文件为可执行即可
+
+
 
 ### commitizen
 

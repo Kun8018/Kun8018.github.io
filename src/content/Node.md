@@ -46,6 +46,18 @@ var a = 1;
 a = 1;
 ```
 
+如下面的问题
+
+```javascript
+(function (){
+  var a = b = 5;
+})()
+console.log(b) // 5
+console.log(a) // undefined
+// a声明在函数作用域内，函数执行完毕后清空了局部作用域中的变量，即函数外部访问不到了，所以打印a 是undefined
+// b在函数中未声明，此时会跳出函数的作用域，进入全局作用域并被自动声明，对应是window.b = 5;所以后续打印b是5
+```
+
 如果一个变量没有声明就直接使用，JavaScript 会报错，告诉你变量未定义
 
 ```javascript
@@ -92,6 +104,8 @@ console.log(a);
 a = 1;
 ```
 
+
+
 #### let、const、var区别
 
 主要是let和const、let和var区别
@@ -120,15 +134,24 @@ sayHi();
 
 //题2
 for (var i=0;i<3;i++){
-   setTimeout(()=>console.log(i),1);
+   setTimeout(()=> console.log(i),1);
 }
 
 for (let i=0;i<3;i++){
    setTimeout(()=>console.log(i),1);
 }
+
+for (let i=0;i<3;i++){
+  const value = i;
+  setTimeout(()=>console.log(value),1);
+}
+
+for (var i=0;i<3;i++){
+   setTimeout(console.log(i),1);
+}
 //题1输出：undefined 和 refence error。var的变量会在创建阶段就被设置好，但是定义语句在console之后，因此为undefined；
 //let和const不会被初始化，因此会出现暂时性死区，因此会抛出一个reference error的错误
-//题2输出：3 3 3 和 0 1 2
+//题2输出：3 3 3 和 0 1 2 和 0 1 2
 ```
 
 
@@ -238,6 +261,49 @@ parseInt('1000',2)  //8
 isNaN方法用来判断一个值是否为NaN
 
 isFinite方法返回一个布尔值，判断一个值是否是正常的数值
+
+```javascript
+isNaN(NaN); // true
+isNaN('A String'); // true
+isNaN(undefined); // true
+isNaN({}); // true
+Number.isNaN(NaN); // true
+Number.isNaN('A String'); // false
+Number.isNaN(undefined); // false
+Number.isNaN({}); // false
+```
+
+在 JavaScript 中，value一共有七种type
+
+1. null
+2. undefined
+3. boolean
+4. number
+5. string
+6. object
+7. symbol (ES6新增)
+
+那么，variable是什么呢？就是我们平时 `var` 之后的声明的那个东西。
+
+type, value, variable 之间的关系可以这么说：variable是存放value的容器，而value是有着type概念的
+
+isNaN: 只要不是number就会返回 true。
+
+Number.isNaN: 只有在isNaN的情况下才会返回true
+
+```javascript
+// Number.isNaN 的polyfill
+if (!Number.isNaN) {
+  Number.isNaN = function(n) {
+    return (
+      typeof n === "number" &&
+      window.isNaN( n )
+    );
+  };
+}
+```
+
+
 
 **经典面试题**
 

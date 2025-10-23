@@ -211,4 +211,9 @@ $ sudo apt-get upgrade
 
 6. #### 使用 Canonical 实时补丁服务来更新 Linux 内核
 
-7. 
+
+
+## rpm-ostree
+
+同为 fedora 系统，fcos 也使用 yum/dnf 源，只不过把包管理工具从 dnf 变成了具有事务能力的 rpm-ostree
+

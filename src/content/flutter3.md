@@ -652,14 +652,27 @@ MaterialApp(
 
 ### bloc
 
+bloc是一个典型的观察者模式，我们以counter bloc举例，在A,B页面都存在观察者，它们监听的是同一个广播流，当我们pop B页面，回到A页面这个操作不会出现任何问题，而当我们再次进入B页面的时候却发现，它显示了初始值0，而不是我们想要的value，只有等我们再次按下按钮时，它才能刷新获得实际的value。
+
 https://github.com/felangel/bloc
 
 
 
 ### Rx-dart
 
-bloc是一个典型的观察者模式，我们以counter bloc举例，在A,B页面都存在观察者，它们监听的是同一个广播流，当我们pop B页面，回到A页面这个操作不会出现任何问题，而当我们再次进入B页面的时候却发现，它显示了初始值0，而不是我们想要的value，只有等我们再次按下按钮时，它才能刷新获得实际的value。
-
 ReactiveX的dart 实现——**RxDart**，它极大的扩展了Stream的功能,能够让我们在使用bloc的时候更加游刃有余。
 
 https://juejin.cn/post/6844903700733886471
+
+### GetX
+
+[Get](https://so.csdn.net/so/search?q=Get&spm=1001.2101.3001.7020) 有两种不同的状态管理器：简单状态管理器（我们称之为 GetBuilder）和反应式状态管理器（GetX/Obx）
+
+使用 Get 进行响应式编程与使用 setState 一样简单
+
+Getx是一种在Flutter中使用的状态管理框架，它提供了许多便利的功能，包括路由、依赖注入、状态管理等，以下是一些Getx的使用场景和详细的举例：
+
+1. 路由管理：Getx可以帮助我们在Flutter中管理路由，例如可以使用Get.to方法来实现页面跳转，使用Get.back()方法来返回上一个页面，使用Get.offAll()方法来关闭所有页面等等。
+
+
+

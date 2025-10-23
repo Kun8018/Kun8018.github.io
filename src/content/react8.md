@@ -151,7 +151,7 @@ module.exports = {
 
 ### CRACO
 
-**C**reate **R**eact **A**pp **C**onfiguration **O**verride修改cra配置的一个包
+**C**reate **R**eact **A**pp **C**onfiguration **O**verride。修改cra配置的一个包
 
 安装
 
@@ -673,6 +673,40 @@ module.exports = {
     // Important: return the modified config
     return config
   },
+}
+```
+
+### next-view-transitions
+
+nextjs的动画
+
+https://github.com/shuding/next-view-transitions
+
+使用
+
+```react
+import { ViewTransitions } from 'next-view-transitions'
+
+export default function Layout({ children }) {
+  return (
+    <ViewTransitions>
+      <html lang='en'>
+        <body>
+          {children}
+        </body>
+      </html>
+    </ViewTransitions>
+  )
+}
+
+import { Link } from 'next-view-transitions'
+
+export default function Component() {
+  return (
+    <div>
+      <Link href='/about'>Go to /about</Link>
+    </div>
+  )
 }
 ```
 
@@ -1207,6 +1241,34 @@ app配置
 
 
 
+## waku
+
+小型的react框架
+
+https://waku.gg/
+
+```react
+// client component
+'use client';
+
+import { useState } from 'react';
+
+export const Counter = () => {
+  const [count, setCount] = useState(0);
+
+  return (
+    <>
+      <div>Count: {count}</div>
+      <button onClick={() => setCount((c) => c + 1)}>Increment</button>
+    </>
+  );
+};
+```
+
+
+
+
+
 ## refine
 
 **refine 是一个基于 React 的快速框架✨网络应用程序的开发。它消除了** CRUD 操作所需的重复性任务，并为身份验证 **、**访问控制**、**路由**、**网络**、**状态管理**和 **i18n** 等关键部分提供了行业标准解决方案。
@@ -1332,29 +1394,6 @@ interface ICategory {
 ```
 
 
-
-## React18
-
-### 并发模式
-
-useTransition是React中用于挂起的hook
-
-```react
-const [startTransition, isPending] = useTransition({ timeoutMs: 3000 });
-
-<button disabled={isPending}
-  startTransition(()=>{
-   	<fetch Calls 
-  })>
-</button>
-{isPending? "Loading": null}
-```
-
-
-
-### 为获取数据的Suspense
-
-Suspense使组件能够在渲染之前等待一段预定的时间
 
 
 

@@ -828,3 +828,21 @@ export {bar};
 
 因为函数具有提升作用，在执行`import {bar} from './b'`时，函数`foo`就已经有定义了，所以`b.mjs`加载的时候不会报错。这也意味着，如果把函数`foo`改写成函数表达式，也会报错。
 
+#### import函数
+
+`import()`函数在[ES2020提案](https://link.juejin.cn?target=https%3A%2F%2Fgithub.com%2Ftc39%2Fproposal-dynamic-import) 中引入，他可以异步动态加载模块，`import()`函数与所加载的模块没有静态连接关系，这点也是与`import`语句不相同之一。import函数的返回值是promise对象，可以使用`.then`和`.catch`方法进行接收数据处理，`import()`加载模块成功以后，这个模块会作为一个对象，当作`then`方法的参数。因此，可以使用对象解构赋值的语法，获取输出接口。，其允许模块路径动态生成。`import`函数可以放在任何地方，因为它是运行时执行的，什么时候执行到它，就什么时候进行指定模块的加载，所以它可以在条件语句和函数中进行动态的加载
+
+比如vue项目路由按需加载
+
+```javascript
+{
+    path:'/xxx'
+    name:'/XXX'
+    component:()=>import(../xxx/xxx.vue)
+}
+```
+
+Webpack懒加载
+
+https://webpack.docschina.org/api/module-methods/#import-
+

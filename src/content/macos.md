@@ -339,13 +339,19 @@ https://github.com/starship/starship
 
 #### tabby
 
-
+卡
 
 #### tmux
 
 
 
 #### fishshell
+
+
+
+#### wrap
+
+最好用的终端。性能好，智能
 
 
 
@@ -776,6 +782,26 @@ https://github.com/ekzhang/sshx
 
 
 
+#### zoxide
+
+命令行，cd工具
+
+https://github.com/ajeetdsouza/zoxide?tab=readme-ov-file
+
+#### autojump
+
+cd工具
+
+https://github.com/wting/autojump
+
+#### ghostty
+
+终端，zig写的，性能应该不错
+
+https://github.com/ghostty-org/ghostty
+
+
+
 #### 汇总
 
 https://v2ex.com/t/862138#reply123
@@ -798,6 +824,8 @@ https://v2ex.com/t/862138#reply123
 
 https://github.com/bensadeh/tailspin
 
+
+
 #### wave
 
 多ssh连接管理工具
@@ -805,6 +833,54 @@ https://github.com/bensadeh/tailspin
 https://www.waveterm.dev/download
 
 
+
+#### fd
+
+查找文件名的工具
+
+https://github.com/sharkdp/fd
+
+```shell
+> cd /etc
+> fd '^x.*rc$'
+X11/xinit/xinitrc
+X11/xinit/xserverrc
+```
+
+#### ripgrep
+
+
+
+#### sliver-searcher
+
+https://github.com/ggreer/the_silver_searcher
+
+
+
+#### typos
+
+https://github.com/crate-ci/typos
+
+检查拼写错误的工具
+
+#### mkcert
+
+本地https开发工具
+
+使用
+
+```shell
+brew install mkcert
+
+# 将 mkcert 添加到本地根 CA，仅在本地生效
+mkcert -install
+
+# 进入 certificates 应用证书目录
+cd apps/client/certificates
+
+# 为网站生成一个由 mkcert 签名的证书
+mkcert local.imile-inc.com
+```
 
 ### 翻译软件
 
@@ -874,9 +950,33 @@ Obsidian笔记的最大特色是采用一想法、一笔记的概念，可将每
 
 https://publish.obsidian.md/chinesehelp/01+2021%E6%96%B0%E6%95%99%E7%A8%8B/Vale%EF%BC%88%E8%AF%AD%E6%B3%95%E6%A3%80%E6%9F%A5%E6%8F%92%E4%BB%B6%EF%BC%89
 
-### marta
+### 文件管理
+
+#### marta
 
 比原生更好用的文件夹管理软件
+
+
+
+#### yazi
+
+https://github.com/sxyazi/yazi
+
+Yazi采用了完全异步的I/O操作设计，就像给终端装上了"小马达"。你可以同时执行多个操作，比如一边预览高清图片，一边执行文件搜索，界面依然流畅如水。最新发布的0.4.0版本更是带来了53项新特性和12处性能优化，让整体体验更上一层楼。
+
+
+
+### 文件分享
+
+#### localsend
+
+https://github.com/localsend/localsend
+
+
+
+#### fastsend
+
+https://github.com/ShouChenICU/FastSend
 
 
 

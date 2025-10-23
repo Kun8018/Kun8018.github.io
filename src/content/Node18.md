@@ -166,6 +166,18 @@ https://github.com/mercurius-js/mercurius
 
 
 
+## nitro
+
+node Server 
+
+```shell
+yarn dlx giget@latest nitro nitro-app --install
+```
+
+
+
+
+
 ## feathersjs
 
 创建feathers项目

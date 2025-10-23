@@ -864,7 +864,15 @@ app.use(
 
 https://half90.top/2022/07/13/graphql-gong-ji-mian-zong-jie/#toc-heading-19
 
+支持批查询的GraphQL允许客户端同时发送多条独立的查询语句，类型主要有两种：json列表批查询、基于名称的批查询：
 
+- 控制查询的资源占用；
+
+在 GraphQL 中，存在一个称为**查询成本分析**的概念，它将权重值分配给解析成本高于其他字段的字段。使用此功能，我们可以创建一个上限阈值来拒绝昂贵的查询。或者，可以实现缓存功能以避免在短时间内重复相同的请求。
+
+- 非必要无需开启批处理查询
+
+嵌套查询：检查深度
 
 ### postgraphile
 
@@ -876,5 +884,78 @@ npx postgraphile -c 'postgres://user:pass@localhost/mydb' --watch --enhance-grap
 
 
 
-### 
+### n+1问题和dataloader缓存
+
+https://github.com/graphql/dataloader
+
+看下面的搜索语句，查找图书列表，以及每本图书的名字、图书作者的 id 和图书作者的名字。
+
+这一条查询语句究竟做了什么查询呢
+
+```graphql
+{
+  books{
+    name
+    author{
+      id
+      name
+    }
+  }
+}
+```
+
+1. 查询图书图书列表。（1 次请求）
+2. 遍历图书列表中的每一本书，查询每本图书的作者。 （n个作者就有 n次请求）
+
+在上面的例子中可以看到，如果图书列表有 8 本书，
+
+一条请求语句总共进行了 1 + 8 = 9 次请求。
+
+一条简单的请求语句就对数据库进行了 9 次查询，如果 author 下又对每个 author 创作的图书列表进行请求，那么对数据库的请求次数就会以[乘数](https://zhida.zhihu.com/search?content_id=108057678&content_type=Article&match_order=1&q=乘数&zhida_source=entity)形式增加。
+
+**这就是 graphql 的 n + 1 问题**
+
+如果我们把每次请求的作者 id 收集起来，一并去查找作者信息，就只需要对数据库进行一次请求就可以拿到数据了。**这也就是使用 dataloader 时 callback 所做的事情**
+
+在执行每次请求时候对请求数据的参数进行缓存，在 js 的当前事件循环收集所有参数，在 process.nextTick 拿着所有参数去进行[数据处理](https://zhida.zhihu.com/search?content_id=108057678&content_type=Article&match_order=1&q=数据处理&zhida_source=entity)。
+
+```shell
+npm install --save dataloader
+```
+
+为每一次请求创建一个新的 dataloader 实例，请求结束后实例被垃圾回收
+
+```javascript
+const AuthorLoader = () => new Dataloader(authCallback)
+
+app.use('/graphql', expressGraphQL({
+    schema,
+    graphiql: true,
+    context: {
+        loaders: {
+            AuthorLoader: AuthorLoader()
+        }
+    }
+}))
+
+const BookType = new GraphQLObjectType({
+    name: 'Book',
+    description: 'This represents a book written by an author',
+    fields: () => ({
+        id: { type: GraphQLNonNull(GraphQLInt) },
+        name: { type: GraphQLNonNull(GraphQLString) },
+        authorId: { type: GraphQLNonNull(GraphQLInt) },
+        author: {
+            type: AuthorType,
+            resolve: async (book, args, ctx, info) => {
+                let { loaders } = ctx
+                let { AuthorLoader } = loaders
+                return await AuthorLoader.load(book.authorId)
+            }
+        }
+    })
+})
+```
+
+
 

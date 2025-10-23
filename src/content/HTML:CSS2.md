@@ -490,6 +490,22 @@ absolute参照位置是离当前元素最近的定位方式为fixed,absolute,rel
 
 小模块里使用overflow，页面主要布局使用:after伪元素
 
+#### 父元素opacity0.5
+
+设置父元素`opacity：0.5`，子元素不设置`opacity`，子元素会受到父元素`opacity`的影响，也会有`0.5`的透明度。
+
+设置父元素`opacity：0.5`，即使设置子元素`opacity：1`，子元素的`opacity：1`也是在父元素的`opacity：0.5`的基础上设置的，因此子元素的`opacity`还是`0.5`。
+
+用background：rgba为背景 透明度前三个值为颜色rgb 最后一个值表示透明度和opacity用法一致，这样设置不会对子元素产生影响
+
+```css
+background: rgba(245,245,245,0.5);
+```
+
+
+
+
+
 ### 写法分类
 
 原生css有四种：

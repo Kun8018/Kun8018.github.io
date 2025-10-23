@@ -292,171 +292,37 @@ table.push(
 console.log(table.toString());
 ```
 
-### madge
-
-
-
-### dependency-cruiser
-
-https://github.com/sverweij/dependency-cruiser
-
-
-
-## 功能模块
-
-### through2
-
-https://github.com/rvagg/through2
-
-基于node的stream流包了一层，避免使用问题
-
-```javascript
-fs.createReadStream('ex.txt')
-  .pipe(through2(function (chunk, enc, callback) {
-    for (let i = 0; i < chunk.length; i++)
-      if (chunk[i] == 97)
-        chunk[i] = 122 // swap 'a' for 'z'
-
-    this.push(chunk)
-
-    callback()
-   }))
-  .pipe(fs.createWriteStream('out.txt'))
-  .on('finish', () => doSomethingSpecial())
-```
-
-
-
-### tsoa
-
-基于Node生成标准的Open Api接口
+### cac
 
 安装
 
 ```shell
-yarn add tsoa express
-yarn add -D typescript @types/node @types/express
-```
-
-配置tsoa.json
-
-```json
-{
-  "entryFile": "src/app.ts",
-  "noImplicitAdditionalProperties": "throw-on-extras",
-  "controllerPathGlobs": ["src/**/*Controller.ts"],
-  "spec": {
-    "outputDirectory": "build",
-    "specVersion": 3
-  },
-  "routes": {
-    "routesDir": "build"
-  }
-}
-```
-
-定义controller
-
-```typescript
-import {
-  Body,
-  Controller,
-  Get,
-  Path,
-  Post,
-  Query,
-  Route,
-  SuccessResponse,
-} from "tsoa";
-import { User } from "./user";
-import { UsersService, UserCreationParams } from "./usersService";
-
-@Route("users")
-export class UsersController extends Controller {
-  @Get("{userId}")
-  public async getUser(
-    @Path() userId: number,
-    @Query() name?: string
-  ): Promise<User> {
-    return new UsersService().get(userId, name);
-  }
-
-  @SuccessResponse("201", "Created") // Custom success response
-  @Post()
-  public async createUser(
-    @Body() requestBody: UserCreationParams
-  ): Promise<void> {
-    this.setStatus(201); // set return status 201
-    new UsersService().create(requestBody);
-    return;
-  }
-}
-```
-
-
-
-### semver
-
-语义化控制版本包
-
-```shell
-npm install semver
-```
-
-用法
-
-```javascript
-const semver = require('semver')
- 
-semver.clean(' =v1.1.1 ')；// 1.1.1，解析版本号，忽略版本号前面的符号
- 
-semver.valid('1.1.1'); // true，版本号是否合法
-semver.valid('a.b.c'); // false
- 
-semver.satisfies('1.2.4', '1.2.3 - 1.2.5'); // true, 判断版本是否在某个范围
-
-semver.gt('1.2.3', '9.8.7') // false
-semver.lt('1.2.3', '9.8.7') // true
-semver.minVersion('>=1.0.0') // '1.0.0'
-```
-
-
-
-### graceful-fs
-
-
-
-### archiver
-
-有时候我们需要将一些文件压缩打包成zip格式或tar格式的压缩包，也有可能需要将目录进行打包。在[Node](https://so.csdn.net/so/search?q=Node&spm=1001.2101.3001.7020).js中就可以用到`archiver`这个第三方包来进行操作。
-
-```shell
-npm install archiver --save
+yarn add cac
 ```
 
 使用
 
 ```javascript
-// 第一步，导入必要的模块
-const fs = require('fs');
-const archiver = require('archiver');
+// examples/basic-usage.js
+const cli = require('cac')()
 
-// 第二步，创建可写流来写入数据
-const output = fs.createWriteStream(__dirname + "/hello.zip");// 将压缩包保存到当前项目的目录下，并且压缩包名为test.zip
-const archive = archiver('zip', {zlib: {level: 9}});// 设置压缩等级
+cli.option('--type [type]', 'Choose a project type', {
+  default: 'node',
+})
+cli.option('--name <name>', 'Provide your name')
 
-// 第三步，建立管道连接
-archive.pipe(output);
+cli.command('lint [...files]', 'Lint files').action((files, options) => {
+  console.log(files, options)
+})
 
-// 第四步，压缩指定文件
-var stream = fs.createReadStream(__dirname + "/hello.txt");// 读取当前目录下的hello.txt
-archive.append(stream, {name: 'hello.txt'});
+// Display help message when `-h` or `--help` appears
+cli.help()
+// Display version number when `-v` or `--version` appears
+// It's also used in help message
+cli.version('0.0.0')
 
-// 第五步，完成压缩
-archive.finalize();
+cli.parse()
 ```
-
-
 
 ### commander.js
 
@@ -659,6 +525,241 @@ const chalk = require('chalk');
 console.log(chalk.red.bold.bgWhite('Hello World'));
 ```
 
+### signale
+
+命令行高亮。https://github.com/klaudiosinani/signale/blob/master/docs/readme.zh_CN.md#interactive
+
+Signale 的核心是可扩展和可配置的，可将其用于日志记录、状态报告以及处理其他 Node 模块和应用的输出渲染方式。
+
+使用
+
+```javascript
+const signale = require('signale');
+
+signale.success('Operation successful');
+signale.debug('Hello', 'from', 'L59');
+signale.pending('Write release notes for %s', '1.2.0');
+signale.fatal(new Error('Unable to acquire lock'));
+signale.watch('Recursively watching build directory...');
+signale.complete({prefix: '[task]', message: 'Fix issue #59', suffix: '(@klauscfhq)'});
+```
+
+### colorette
+
+控制台字体颜色和样式
+
+```javascript
+import { blue, bold, underline } from "colorette"
+
+console.log(
+  blue("I'm blue"),
+  bold(blue("da ba dee")),
+  underline(bold(blue("da ba daa")))
+)
+```
+
+### consola
+
+```typescript
+// ESM
+import { consola, createConsola } from "consola";
+
+// CommonJS
+const { consola, createConsola } = require("consola");
+
+consola.info("Using consola 3.0.0");
+consola.start("Building project...");
+consola.warn("A new version of consola is available: 3.0.1");
+consola.success("Project built!");
+consola.error(new Error("This is an example error. Everything is fine!"));
+consola.box("I am a simple box");
+await consola.prompt("Deploy to the production?", {
+  type: "confirm",
+});
+```
+
+
+
+
+
+### madge
+
+
+
+### dependency-cruiser
+
+https://github.com/sverweij/dependency-cruiser
+
+
+
+## 功能模块
+
+### through2
+
+https://github.com/rvagg/through2
+
+基于node的stream流包了一层，避免使用问题
+
+```javascript
+fs.createReadStream('ex.txt')
+  .pipe(through2(function (chunk, enc, callback) {
+    for (let i = 0; i < chunk.length; i++)
+      if (chunk[i] == 97)
+        chunk[i] = 122 // swap 'a' for 'z'
+
+    this.push(chunk)
+
+    callback()
+   }))
+  .pipe(fs.createWriteStream('out.txt'))
+  .on('finish', () => doSomethingSpecial())
+```
+
+
+
+### tsoa
+
+基于Node生成标准的Open Api接口
+
+安装
+
+```shell
+yarn add tsoa express
+yarn add -D typescript @types/node @types/express
+```
+
+配置tsoa.json
+
+```json
+{
+  "entryFile": "src/app.ts",
+  "noImplicitAdditionalProperties": "throw-on-extras",
+  "controllerPathGlobs": ["src/**/*Controller.ts"],
+  "spec": {
+    "outputDirectory": "build",
+    "specVersion": 3
+  },
+  "routes": {
+    "routesDir": "build"
+  }
+}
+```
+
+定义controller
+
+```typescript
+import {
+  Body,
+  Controller,
+  Get,
+  Path,
+  Post,
+  Query,
+  Route,
+  SuccessResponse,
+} from "tsoa";
+import { User } from "./user";
+import { UsersService, UserCreationParams } from "./usersService";
+
+@Route("users")
+export class UsersController extends Controller {
+  @Get("{userId}")
+  public async getUser(
+    @Path() userId: number,
+    @Query() name?: string
+  ): Promise<User> {
+    return new UsersService().get(userId, name);
+  }
+
+  @SuccessResponse("201", "Created") // Custom success response
+  @Post()
+  public async createUser(
+    @Body() requestBody: UserCreationParams
+  ): Promise<void> {
+    this.setStatus(201); // set return status 201
+    new UsersService().create(requestBody);
+    return;
+  }
+}
+```
+
+
+
+### semver
+
+语义化控制版本包
+
+```shell
+npm install semver
+```
+
+用法
+
+```javascript
+const semver = require('semver')
+ 
+semver.clean(' =v1.1.1 ')；// 1.1.1，解析版本号，忽略版本号前面的符号
+ 
+semver.valid('1.1.1'); // true，版本号是否合法
+semver.valid('a.b.c'); // false
+ 
+semver.satisfies('1.2.4', '1.2.3 - 1.2.5'); // true, 判断版本是否在某个范围
+
+semver.gt('1.2.3', '9.8.7') // false
+semver.lt('1.2.3', '9.8.7') // true
+semver.minVersion('>=1.0.0') // '1.0.0'
+```
+
+
+
+### graceful-fs
+
+
+
+### archiver
+
+有时候我们需要将一些文件压缩打包成zip格式或tar格式的压缩包，也有可能需要将目录进行打包。在[Node](https://so.csdn.net/so/search?q=Node&spm=1001.2101.3001.7020).js中就可以用到`archiver`这个第三方包来进行操作。
+
+```shell
+npm install archiver --save
+```
+
+使用
+
+```javascript
+// 第一步，导入必要的模块
+const fs = require('fs');
+const archiver = require('archiver');
+
+// 第二步，创建可写流来写入数据
+const output = fs.createWriteStream(__dirname + "/hello.zip");// 将压缩包保存到当前项目的目录下，并且压缩包名为test.zip
+const archive = archiver('zip', {zlib: {level: 9}});// 设置压缩等级
+
+// 第三步，建立管道连接
+archive.pipe(output);
+
+// 第四步，压缩指定文件
+var stream = fs.createReadStream(__dirname + "/hello.txt");// 读取当前目录下的hello.txt
+archive.append(stream, {name: 'hello.txt'});
+
+// 第五步，完成压缩
+archive.finalize();
+```
+
+
+
+### change-case
+
+操作字符串大小写
+
+```javascript
+import * as changeCase from "change-case";
+
+changeCase.camelCase("TEST_VALUE"); //=> "testValue"
+```
+
+https://github.com/blakeembrey/change-case/tree/main/packages/change-case
+
 
 
 ### process
@@ -709,6 +810,28 @@ setTimeout(() => {
 }, 1000);
 ```
 
+### minimist
+
+```javascript
+var argv = require('minimist')(process.argv.slice(2));
+console.log(argv);
+
+// shell
+$ node example/parse.js -x 3 -y 4 -n5 -abc --beep=boop foo bar baz
+{ _: [ 'foo', 'bar', 'baz' ],
+  x: 3,
+  y: 4,
+  n: 5,
+  a: true,
+  b: true,
+  c: true,
+  beep: 'boop' }
+```
+
+
+
+
+
 ### dangerjs
 
 做一些危险操作时进行提示
@@ -738,6 +861,32 @@ if (docs.edited) {
 if (app.modified && !tests.modified) {
   warn("You have app changes without tests.")
 }
+```
+
+
+
+### consola
+
+https://github.com/unjs/consola
+
+在命令行输出
+
+```javascript
+// ESM
+import { consola, createConsola } from "consola";
+
+// CommonJS
+const { consola, createConsola } = require("consola");
+
+consola.info("Using consola 3.0.0");
+consola.start("Building project...");
+consola.warn("A new version of consola is available: 3.0.1");
+consola.success("Project built!");
+consola.error(new Error("This is an example error. Everything is fine!"));
+consola.box("I am a simple box");
+await consola.prompt("Deploy to the production?", {
+  type: "confirm",
+});
 ```
 
 
@@ -911,6 +1060,33 @@ app.use(
     changeOrigin: true,
   })
 )
+```
+
+配置参数
+
+```javascript
+// proxy 中间件的选择项
+var options = {
+      target: 'http://www.example.org', // 目标服务器 host
+      changeOrigin: true,               // 默认false，是否需要改变原始主机头为目标URL
+      ws: true,                         // 是否代理websockets
+      pathRewrite: {
+          '^/api/old-path' : '/api/new-path',     // 重写请求，比如我们源访问的是api/old-path，那么请求会被解析为/api/new-path
+          '^/api/remove/path' : '/path'           // 同上
+      },
+      router: {
+          // 如果请求主机 == 'dev.localhost:3000',
+          // 重写目标服务器 'http://www.example.org' 为 'http://localhost:8000'
+          'dev.localhost:3000' : 'http://localhost:8000'
+      }
+      onProxyReq: fixRequestBody,
+      onError(err) {
+        MiscLogger.warn('Proxy upgrade center.', 'upgrade center', err);
+      },
+      proxyTimeout: 0 // 超时时间,
+      timeout: 0,
+      secure: false,
+  };
 ```
 
 http-proxy-middleware 对于post请求不会转发body，需要写一个处理函数

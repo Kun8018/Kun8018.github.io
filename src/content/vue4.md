@@ -247,7 +247,7 @@ const unwrapped = isRef(foo) ? foo.value : foo
 
 返回的 readonly 对象，一旦修改就会在 console 有 warning 警告。程序还是会照常运行，不会报错。
 
-8.watch函数
+#### watch函数和watcheffect函数
 
 watch 函数用来侦听特定的数据源，并在回调函数中执行副作用。默认情况是惰性的，也就是说仅在侦听的源数据变更时才执行回调。
 
@@ -314,8 +314,6 @@ watch(
 );
 ```
 
-
-
 停止监听
 
 ```javascript
@@ -328,8 +326,6 @@ setTimeout(()=>{
     stopWatchRoom()
 }, 3000)
 ```
-
-9.watcheffect函数
 
 watcheffect与watch的区别：
 
@@ -361,6 +357,26 @@ watchEffect(() => {
   )
 })
 ```
+
+停止监听
+
+```javascript
+import { ref, watchEffect } from 'vue';
+
+export default {
+  setup() {
+    const count = ref(0);
+
+    const stop = watchEffect(() => {
+      console.log('count 的值是:', count.value);
+    });
+
+    stop(); // 停止监听
+  }
+};
+```
+
+
 
 #### 自定义hook
 
@@ -514,6 +530,31 @@ Vue3将`slot`和`slot-scope`进行了合并同意使用。 Vue3.0 中`v-slot`：
     <div v-for="item in data">{{item}}</div>
 </template>
 ```
+
+### toRef和toRefs
+
+- `toRef`：将对象的某个属性转换为 `ref`。
+- `toRefs`：将整个响应式对象的所有属性转换为 `ref`
+
+```vue
+import { reactive, toRef, toRefs } from 'vue';
+
+export default {
+  setup() {
+    const state = reactive({ name: 'Vue 3', age: 3 });
+    const nameRef = toRef(state, 'name'); // 单个属性
+    const stateRefs = toRefs(state); // 所有属性
+
+    return { nameRef, stateRefs };
+  }
+};
+```
+
+
+
+
+
+
 
 ### 异步组件
 
@@ -758,6 +799,10 @@ export default {
 https://github.com/vueuse/vue-demi
 
 https://juejin.cn/post/7032860019880099847/
+
+
+
+
 
 ## Nuxt 3
 

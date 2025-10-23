@@ -12,6 +12,30 @@ thumbnail: https://cdn.kunkunzhang.top/redux.jpeg
 
 <!--more-->
 
+## SSR
+
+### react api
+
+### react dom api
+
+renderToReadableStream: 将 React 树渲染到 [可读网络流。](https://web.nodejs.cn/en-US/docs/Web/API/ReadableStream)
+
+```javascript
+const stream = await renderToReadableStream(reactNode, options?)
+```
+
+renderToPipeableStream: 将 React 树渲染为可管道 [Node.js 流。](https://nodejs.cn/api/stream.html)
+
+`renderToStaticMarkup` 将非交互式 React 树渲染为 HTML 字符串
+
+```react
+const html = renderToStaticMarkup(reactNode, options?)
+```
+
+### 
+
+
+
 ## wasm-react
 
 在react项目中使用wasm

@@ -176,6 +176,64 @@ axios.post('/user', {                  //        post是用对象传值
 
 想学习几个模块或者模板的使用并非难事，对于想从事前端开发的人来说，强调更懂vue底层原理。此部分也是vue的面试题
 
+### 编译器
+
+编译器的目标是创建渲染函数，渲染函数执行后得到VNode树
+
+若没有el选项，vm.$mount(dom)可将Vue实例挂载于指定元素上
+
+
+
+### h函数
+
+Vue 的 `h()` 函数（现名为 `createVNode`）和React 的 `createElement()` 函数都是用于创建虚拟DOM 节点的底层API，它们在概念和功能上非常相似，都是将字符串标签（或组件）、属性/props 以及子节点组合成一个VNode 对象。主要区别在于实现细节，例如React 的 `createElement` 会对创建的虚拟节点进行安全处理，而Vue 的 `h()` 函数则不会
+
+共同点
+
+- **作用相同**：
+
+  两者都用于在代码中手动创建虚拟节点，并在编译后生成相应的DOM 元素。
+
+- **接收参数**：
+
+  都接受三个主要的参数：
+
+  - 第一个参数是标签名（字符串）或组件。
+  - 第二个参数是属性或props 对象。
+  - 第三个参数是子节点。
+
+- **JSX 编译**：
+
+  在编译JSX/TSX 语法时，编译器会自动将JSX 表达式转换成对 `createElement()` 或 `h()` 函数的调用。
+
+Vue `h()` 函数（`createVNode`）
+
+- **名称变化**：
+
+  在Vue 3 中，`h()` 函数已被重命名为 `createVNode()`，但功能保持不变。
+
+- **安全性**：
+
+  Vue 的 `h()` 函数不会像React 的 `createElement` 那样对 `script` 标签执行特殊处理，因此直接使用 `h()` 创建的 `<script>` 元素会执行其中的代码。
+
+- **使用场景**：
+
+  通常在需要编写自定义渲染函数或使用JSX/TSX 进行模板开发时直接调用。﻿
+
+React `createElement()` API
+
+- **安全机制**：
+
+  React 的 `createElement` 会在返回值中添加一个特殊的Symbol 属性 `$$typeof`，以防止XSS 攻击。
+
+- **处理方式**：
+
+  对于 `script` 标签，React 会进行特殊处理，确保其代码不会被执行。
+
+- **使用场景**：
+
+  在编写React 组件的渲染函数时使用，或者配合JSX/TSX 语法
+
 ### mini Vue
 
 vue由三大模块组成
@@ -296,13 +354,21 @@ Reflect是一个内置对象，不是一个函数对象不可构造，它提供�
 
 https://mp.weixin.qq.com/s/FAPzNAAzta9TkZh4BnJbjQ
 
+
+
+### v-if、v-show区别
+
+`v-if`是动态的向 DOM 树内添加或者删除 DOM 元素，初始为假的时候不会生成对应的 `VNODE`；`v-show`是通过设置 DOM 元素的display样式属性控制显隐，DOM 元素一开始就会被渲染。这导致了`v-if`有更高的切换消耗；`v-show`有更高的初始渲染消耗。故而`v-if`适合不大可能改变的场景，比如根据用户权限展示的元素，用户没有权限就没有必要渲染对应的DOM了；`v-show`适合频繁切换的场景，比如折叠面板
+
+
+
 ### diff算法
 
 Vue diff 算法就是用来比较新老 virtal DOM 的差别，然后尽可能少的调用 api 来操作真实 DOM。
 
 patch比对新旧节点后，为 DOM 进行打补丁操作。
 
-
+patching算法首先进行同级比较，可能执行的操作是节点的增加、删除和更新
 
 
 
@@ -313,6 +379,8 @@ patch比对新旧节点后，为 DOM 进行打补丁操作。
 构建自定义模版
 
 ### 响应式原理data、props
+
+data属性可以在created、beforeMount、mounted生命周期中获取到
 
 在组件`new Vue()`后的执行`vm._init()`初始化过程中，当执行到`initState(vm)`时就会对内部使用到的一些状态，如`props`、`data`、`computed`、`watch`、`methods`分别进行初始化，再对`data`进行初始化的最后有这么一句：
 
@@ -370,7 +438,7 @@ https://juejin.cn/post/6844903911669628941
 
 ### computed、watch、data异同
 
-computed与watch异同
+computed与watcher异同
 
 1.watch监听是`vm.data`的一个属性，它的getter不需另做处理，而computed监听是一个新的属性，它需要被代理到`vm`实例上，并且getter需要重新创建
 
@@ -378,9 +446,63 @@ computed与watch异同
 
 3.computed对计算属性的值有缓存处理，只要依赖的`vm.data`属性值不变，重复取值，不会重复计算
 
+Vue中所有DOM的更新都是异步更新。所以watcher也是异步更新。若data中的某属性多次发生变化，watcher仅会进入更新队列一次
+
+
+
 data与computed异同
 
 data与computed的最核心的区别在于data中的属性并不会随着赋值变量的改动而改动，而computed会
+
+### computed与watch、watchEffect的区别
+
+**`computed` 和 `watch` 的区别**：
+
+- **`computed`**：
+  - `computed` 是一个计算属性，它依赖于一个或多个响应式数据，并根据这些依赖自动计算一个新的派生值。
+  - `computed` 的结果会被缓存，只有当依赖的响应式数据发生变化时，才会重新计算结果。
+  - `computed` 的值是同步获取的，可以像访问普通属性一样使用，不需要显式地调用函数。
+- **`watch`**：
+  - `watch` 用于观察一个或多个数据的变化，并在数据变化时执行指定的回调函数。
+  - `watch` 的回调函数是异步执行的，默认情况下在数据变化后的下一个事件循环周期中执行。
+  - `watch` 可以用于监听多个数据的变化，也可以执行一些异步操作，比如发起网络请求或执行动画等
+
+1. **`watch` 和 `watchEffect` 的区别**：
+   - **`watch`**：
+     - `watch` 需要显式地指定要观察的响应式数据，并在回调函数中处理数据变化。
+     - `watch` 的回调函数接收两个参数，新值和旧值，以便你可以比较它们的差异。
+     - `watch` 可以监听多个数据，通过配置选项来进行更复杂的操作。
+   - **`watchEffect`**：
+     - `watchEffect` 是一个更简化的 API，它会自动追踪在其内部使用的响应式数据，并在这些数据变化时自动运行回调函数。
+     - `watchEffect` 的回调函数不需要显式地指定要观察的数据，它会自动检测依赖并运行。
+     - `watchEffect` 的回调函数不接收新值和旧值，因为它只关心执行代码块时的数据状态。
+
+简单地讲，`computed` 用于计算派生值，`watch` 用于执行自定义操作以响应数据变化，而 `watchEffect` 用于执行具有副作用的代码块。你可以根据具体的需求选择使用其中的一个或多个
+
+React的`useMemo`和Vue的`computed`：
+
+| 特性     | React `useMemo`                  | Vue `computed`             |
+| -------- | -------------------------------- | -------------------------- |
+| 定义方式 | 钩子函数                         | 组件选项                   |
+| 缓存机制 | 依赖项数组内元素变化触发重新计算 | 响应式依赖变化触发重新计算 |
+| 使用场景 | 函数组件                         | 选项API或组合API的组件     |
+| 执行时机 | 组件渲染过程中                   | 依赖变化时                 |
+| 适用性   | 适用于函数组件                   | 适用于所有Vue组件          |
+| 性能优化 | 减少不必要的计算                 | 减少不必要的计算和渲染     |
+| 易用性   | 需要理解Hooks机制                | 直观，易于理解和使用       |
+
+下面的表格详细对比了React中的`useEffect`和Vue中的`watch`：
+
+| 特性     | React `useEffect`               | Vue `watch`                      |
+| -------- | ------------------------------- | -------------------------------- |
+| 功能     | 执行副作用操作                  | 观察数据变化并执行响应           |
+| 参数     | 副作用函数和依赖项数组          | 观察的数据和对应的回调函数       |
+| 执行时机 | 组件渲染到屏幕后                | 指定的数据变化时                 |
+| 清理机制 | 返回一个清理函数                | 在`beforeUnmount`钩子中清理      |
+| 使用场景 | 数据获取、订阅、定时器、更新DOM | 观察响应式数据变化、执行异步操作 |
+| 依赖管理 | 通过依赖项数组管理              | 直接在`watch`对象中声明          |
+
+
 
 ### v-bind原理
 
@@ -714,7 +836,9 @@ route.push
 
 ### vue.$nextTick原理
 
-vue的nextTick方法的实现原理了：
+vm.$nextTick可以确保获得dom异步更新的结果。nextTick在vue发展的不同版本中，针对各种渲染和dom事件问题进行了多次调整。宏/微任务，甚至两种并行。在最新版本 2.6.12 中稳定为 **微任务**。
+
+vue的nextTick方法的实现原理：
 
 vue用异步队列的方式来控制DOM更新和nextTick回调先后执行
 
@@ -734,7 +858,7 @@ MessageChannel的onmessage回调也是microtask，但也是个新API，面临兼
 
 ### vuex实现原理
 
-Vuex是一个专为Vue服务，用于管理页面数据状态、提供统一数据操作的生态系统。它集中于MVC模式中的Model层，规定所有的数据操作必须通过 `action - mutation - state change` 的流程来进行，再结合Vue的数据视图双向绑定特性来实现页面的展示更新
+Vuex是一个专为Vue服务，用于管理页面数据状态、提供统一数据操作的生态系统。它集中于MVC模式中的Model层，规定所有的数据操作必须通过 `action - mutation - state change` 的流程来进行，再结合Vue的数据视图双向绑定特性来实现页面的展示更新。
 
 统一的页面状态管理以及操作处理，可以让复杂的组件交互变得简单清晰，同时可在调试模式下进行时光机般的倒退前进操作，查看数据改变过程，使code debug更加方便。
 
@@ -755,6 +879,14 @@ Vuex的state状态是响应式，是借助vue的data是响应式，将state存�
 ### 组件keep-alive实现原理
 
 
+
+### 各种变量
+
+可以通过this.$parent 查找当前组件的父组件
+
+可以通过this.$refs查找命名子组件
+
+可以通过$root查找根组件，并可配合children遍历全部组件
 
 
 
@@ -1257,6 +1389,25 @@ iphone x等机型底部存在指示条，指示条的操作区域与页面底部
 
 
 
+## vexip-ui
+
+vue3组件库
+
+
+
 ## uni-UI
 
 https://github.com/dcloudio/uni-ui
+
+
+
+## radix-vue
+
+https://www.radix-vue.com/overview/installation.html
+
+
+
+## shadcn-vue
+
+https://github.com/unovue/shadcn-vue
+

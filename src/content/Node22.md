@@ -619,6 +619,42 @@ _.inRange(3,2,4) //true
 _.random(0,5)
 ```
 
+## Radash
+
+工具库
+
+Radash 的特点是：
+
+- 它是用 Typescript 编写的
+- 源码中使用的语法更加的新
+- 提供了一些 Lodash 没有的实用方法
+
+
+
+## object-path
+
+操作对象的库
+
+```javascript
+var obj = {
+  a: {
+    b: "d",
+    c: ["e", "f"],
+    '\u1200': 'unicode key',
+    'dot.dot': 'key'
+  }
+};
+
+var objectPath = require("object-path");
+//get deep property
+objectPath.get(obj, "a.b");  //returns "d"
+objectPath.get(obj, ["a", "dot.dot"]);  //returns "key"
+objectPath.get(obj, 'a.\u1200');  //returns "unicode key"
+
+//get the first non-undefined value
+objectPath.coalesce(obj, ['a.z', 'a.d', ['a','b']], 'default');
+```
+
 
 
 ## byte.js
@@ -628,6 +664,34 @@ https://www.npmjs.com/package/bytes?activeTab=readme
 https://github.com/visionmedia/bytes.js
 
 格式化byte
+
+
+
+## big.js
+
+
+
+## bignumberjs
+
+
+
+## decimaljs
+
+`bignumber.js` 可能更适合金融类应用，因为用户不用担心丢失精度，除非使用了涉及除法的操作。
+
+对于科学类应用来说，`decimal.js` 可能更好，因为它可以更有效的处理非常小或者非常大的数值。例如，它没有 `bignumber.js` 的限制，即当将一个小指数值和一个大指数值相加时，`bignumber.js` 将使用完全精度来操作，时间上来看不可行。
+
+如上所述，`decimal.js` 还支持非整数次幂、三角函数、exp、ln、log 方法。这些额外的方法使得 `decimal.js` 比 `bignumber.js` 大得多。
+
+- `big.js` 最小最简；便于使用；精度采用小数位；精度仅适用除法；4 种舍入模式。
+- `bignumber.js` 配置选项；NaN；Infinity；精度采用小数位；精度仅适用于除法；随机数字；进制转换；9 种舍入模式；模模式；模幂运算。
+- `decimal.js` 配置选项；NaN；Infinity；非整数次幂，exp，ln，log；三角函数；精度采用有效数字；所有操作均采取精度；随机数字；9 种舍入模式；模模式；二进制，八进制，十六进制；二进制指数符号
+
+
+
+`bignumber.js` 和 `decimal.js` 也支持其它进制的计算，并支持前缀，比如十六进制的 `0x`。`decimal.js` 还可以使用二进制指数表示法处理二进制、八进制和十六进制
+
+
 
 ## fullpage.js
 
@@ -829,6 +893,39 @@ dates.sort(compareAsc)
 由于momentjs不再维护，因此寻找别的js时间库进行时间操作。
 
 dayjs对时间的操作
+
+dayjs大部分api都跟momentjs一致
+
+### 一周
+
+dayjs的一周默认是从周日到周六，因此如果用dayjs的`startOf('week')`和`endOf('week')`分别取到周日和周六，需要先判断选到的那天是周六还是周日，进行转换
+
+```javascript
+const time = dayjs(value).weekday() === 0 ? dayjs(value).subtract(1, 'day') : dayjs(value);
+
+const startTime = time.startOf('week').add(1, 'day').format('YYYY-MM-DD 00:00:00');
+const endTime = time.endOf('week').add(1, 'day').format('YYYY-MM-DD 23:59:59'),
+```
+
+### 格式化时间段
+
+
+
+
+
+## luxon
+
+安装
+
+```shell
+npm install --save luxon
+```
+
+使用
+
+```javascript
+dt = DateTime.now();
+```
 
 
 
@@ -1090,13 +1187,9 @@ let table = marked(md);
 
 
 
-
-
-
-
 ## gray-matter
 
-将对象转换为文件
+将对象转换为markdown文件
 
 安装
 

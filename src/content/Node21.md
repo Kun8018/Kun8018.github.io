@@ -841,18 +841,6 @@ function onRemoteAdd(err, addRemoteResult) {}
 
 
 
-## yjs
-
-在不同tab间共享数据
-
-https://github.com/yjs/yjs
-
-### slate-yjs
-
-https://github.com/BitPhinix/slate-yjs/
-
-
-
 ## pace.js
 
 

@@ -659,6 +659,8 @@ Problem binding to port 80:Could not bind to IPv4 or IPv6
 
 因为nginx占用80端口，需要先停掉nginx进行操作，执行自动更新时也需要停掉nginx
 
+#### mkcert
+
 
 
 #### openssl
@@ -781,7 +783,27 @@ http {
 vim /etc/nginx/nginx.conf
 ```
 
+#### logstash/Doris收集日志
 
+https://hezhiqiang8909.gitbook.io/java/docs/javatool/elastic/elastic-logstash
+
+Logstash 可以传输和处理你的日志、事务或其他数据，然后交给es检索。
+
+Logstash 有两个必要元素：`input` 和 `output` ，一个可选元素：`filter`
+
+这三个元素，分别代表 Logstash 事件处理的三个阶段：输入 > 过滤器 > 输出
+
+- input 负责从数据源采集数据。
+- filter 将数据修改为你指定的格式或内容。
+- output 将数据传输到目的地。
+
+在实际应用场景中，通常输入、输出、过滤器不止一个。Logstash 的这三个元素都使用插件式管理方式，用户可以根据应用需要，灵活的选用各阶段需要的插件，并组合使用。
+
+- `**logstash.yml**`：logstash 的默认启动配置文件
+- `**jvm.options**`：logstash 的 JVM 配置文件。
+- `**startup.options**` (Linux)：包含系统安装脚本在 `/usr/share/logstash/bin` 中使用的选项为您的系统构建适当的启动脚本。安装 Logstash 软件包时，系统安装脚本将在安装过程结束时执行，并使用 `startup.options` 中指定的设置来设置用户，组，服务名称和服务描述等选项。
+
+Doris: https://199604.com/3220
 
 ### 性能
 
@@ -888,6 +910,63 @@ nginx网页配置工具
 github：https://github.com/cym1102/nginxWebUI
 
 https://www.nginxwebui.cn/product.html
+
+
+
+#### nginx-proxy-manager
+
+https://github.com/NginxProxyManager/nginx-proxy-manager
+
+
+
+#### nginx-ui
+
+在实际使用nginx-proxy-manage过程中也存在一些缺点和局限性：
+
+- **不支持负载均衡：**Nginx Proxy Manager虽然基于Nginx，但它不支持Nginx的负载均衡功能。
+- **不支持中文界面：**Nginx Proxy Manager的用户界面默认是英文，目前没有中文版本。
+
+一个Nginx Web用户界面，提供了一个简单、强大且快速的方式来管理Nginx配置。支持实时监控服务器指标、在线编辑配置、自动部署和续期Let's Encrypt证书、查看Nginx日志等功能，并且具备响应式设计，支持国际化，使用Go和Vue.js构建，旨在提供一种直观且高效的Nginx管理体验。
+
+特点：
+
+**服务器指标在线统计：**实时监控CPU使用率、内存使用率、平均负载和磁盘使用情况。
+
+**在线ChatGPT助手：**在平台内直接获得AI驱动的ChatGPT帮助。
+
+**一键部署和自动续期：**轻松一键部署和自动续期Let's Encrypt证书。
+
+**在线编辑网站配置：**使用Nginx UI提供的Nginx配置编辑器（Nginx的区块编辑器）或Ace代码编辑器（支持Nginx配置语法高亮）在线编辑配置。
+
+**在线查看Nginx日志：**直接在线访问和查看Nginx日志。
+
+**自动测试和重新加载配置：**自动测试配置文件并在保存更改后自动重新加载Nginx。
+
+**多语言支持：**支持英语、简体中文和繁体中文等，满足了不同用户的语言需求
+
+**Web终端：**提供基于Web的终端以便管理。
+
+**暗黑模式：**支持暗黑模式，提供更舒适的用户体验。
+
+响应式网页设计：通过响应式设计在任何设备上享受无缝体验。
+
+docker安装
+
+```shell
+docker run -dit \  --name=nginx-ui \  --restart=always \  -e TZ=Asia/Shanghai \  -v /mnt/user/appdata/nginx:/etc/nginx \  -v /mnt/user/appdata/nginx-ui:/etc/nginx-ui \  -v /var/www:/var/www \  -p 8080:80 -p 8443:443 \  uozi/nginx-ui:latest
+```
+
+脚本安装
+
+```shell
+bash <(curl -L -s https://mirror.ghproxy.com/https://raw.githubusercontent.com/0xJacky/nginx-ui/master/install.sh) install -r https://mirror.ghproxy.com/
+```
+
+
+
+https://github.com/0xJacky/nginx-ui
+
+
 
 ### nginx配置生成工具
 
