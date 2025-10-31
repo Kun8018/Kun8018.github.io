@@ -402,7 +402,29 @@ https://github.com/unjs/unbuild?tab=readme-ov-file
 
 ### ts-morgh
 
+`ts-morph` 是一个功能强大的 TypeScript 工具库，它对 TypeScript 编译器的 API 进行了封装，提供更加友好的 API 接口。可以轻松地访问 AST，完成各种类型的代码操作，例如重构、生成、检查和分析等。
 
+```typescript
+import { Project } from "ts-morph";
+
+const project = new Project({});
+// 创建 ts 文件
+const myClassFile = project.createSourceFile(
+  "./sourceFiles/MyClass.ts",
+  "export class MyClass {}"
+);
+// 保存在本地
+myClassFile.save();
+
+// 获取源文件
+const sourceFiles = project.getSourceFiles();
+// 提供 filePath 获取源文件
+const personFile = project.getSourceFile("Models/Person.ts");
+// 根据条件 获取满足条件的源文件
+const fileWithFiveClasses = project.getSourceFile(
+  (f) => f.getClasses().length === 5
+);
+```
 
 ### ts-ast-viewer
 

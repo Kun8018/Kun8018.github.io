@@ -1380,6 +1380,29 @@ workaround方式
 
 
 
+#### react 19
+
+由于 React 19 调整了 `react-dom` 的导出方式，导致 antd 无法直接使用 `ReactDOM.render` 方法。因而使用 antd 会遇到以下问题：
+
+- 波纹特效无法正常工作
+- `Modal`、`Notification`、`Message` 等组件的静态方法无效（hooks 调用方式不受影响）
+
+因而需要通过兼容配置，使 antd 在 React 19 中正常工作。
+
+```shell
+npm install @ant-design/v5-patch-for-react-19 --save
+```
+
+使用, 直接引入
+
+```react
+import '@ant-design/v5-patch-for-react-19';
+```
+
+
+
+
+
 ### XRender
 
 

@@ -12,8 +12,6 @@ thumbnail: http://cdn.kunkunzhang.top/docker.png
 
 <!--more-->
 
-
-
 ## Containerd
 
 作为接替 Docker 运行时的 Containerd 在早在 Kubernetes1.7 时就能直接与 Kubelet 集成使用，只是大部分时候我们因熟悉 Docker，在部署集群时采用了默认的 dockershim。在 `V1.24` 起的版本的 kubelet 就彻底移除了 `dockershim`，改为默认使用 `Containerd` 了，当然也可以使用 `cri-dockerd` 适配器来将 `Docker Engine` 与 Kubernetes 集成
@@ -91,6 +89,29 @@ ln -s /opt/k8s/nerdctl/nerdctl /usr/local/bin/nerdctl
 docker.io/library/nginx:alpine:                                                   resolved       |++++++++++++++++++++++++++++++++++++++|
 index-sha256:bead42240255ae1485653a956ef41c9e458eb077fcb6dc664cbc3aa9701a05ce:    done           |++++++++++++++++++++++++++++++++++++++| manifest-sha256:ce6ca11a3fa7e0e6b44813901e3289212fc2f327ee8b1366176666e8fb470f24: done           |++++++++++++++++++++++++++++++++++++++| config-sha256:7ce0143dee376bfd2937b499a46fb110bda3c629c195b84b1cf6e19be1a9e23b:   done           |++++++++++++++++++++++++++++++++++++++| elapsed: 5.3 s                                                                    total:  3.1 Ki (606.0 B/s)                                       6e489777d2f73dda8a310cdf8da9df38353c1aa2021d3c2270b30eff1806bcf8
 ```
+
+## dumb-init
+
+容器化环境中，往往直接运行应用程序，而缺少初始化系统（如 systemd、sysvinit 等）。这可能需要应用程序来处理系统信号，接管子进程，进而导致容器无法停止、产生僵尸进程等问题。
+
+对于开发人员来说，希望在容器中运行的进程和普通进程行为一致，这样才能大大降低容器化迁移的成本，而无须让开发人员关注容器初始化和退出的流程。
+
+归功于 Linux 的名字空间（namespace），从容器中看，由容器创建的第一个进程 pid 为 1。而对于 Linux 来说，pid 为 1 的进程，有着特殊的使命：
+
+1. 传递信号，确保子进程完全退出
+2. 等待子进程退出
+
+另一个问题是等待子进程退出。前面提到过，init 进程另一个任务，是需要接管子进程，确保其能正常退出。但是一般应用程序，不会考虑实现接管进程功能。当应用程序进程在容器中运行时，其子进程创建的子进程，就有可能成为僵尸进程。
+
+dumb-init 解决了上述两个问题：向子进程代理发送信号和接管子进程。
+
+默认情况下，dumb-init 会向子进程的进程组发送其收到的信号。原因也很简单，前面已经提到过，像 bash 这样的应用，自己接收到信号之后，不会向子进程发送信号。当然，dumb-init 也可以通过设置环境变量`DUMB_INIT_SETSID=0`来控制只向它的直接子进程发送信号。
+
+```docker
+docker run my_container dumb-init python -c 'while True: pass'
+```
+
+
 
 
 

@@ -1185,6 +1185,171 @@ module federation 是 webpack5 提出的新特性，含义为模块联邦。主�
 
 
 
+## modernjs
+
+**Modern.js 是一个基于 React 的渐进式 Web 开发框架**。在字节跳动内部，我们将 Modern.js 封装为上层框架，并支撑了数千个 Web 应用的研发。
+
+Modern.js 能为开发者提供极致的**开发体验（Development Experience）**，让应用拥有更好的**用户体验（User Experience）**。
+
+在开发 React 应用过程中，开发者通常需要去为某些功能去设计实现方案，或是使用其他的库、框架来解决这些问题。Modern.js 支持 React 应用所需要的所有配置和工具，并内置**额外的功能和优化**。开发者可以使用 React 构建应用的 UI，然后逐步采用 Modern.js 的功能来解决常见的应用需求，如路由、数据获取、状态管理等
+
+它主要包含以下特性：
+
+- 🚀 **Rust 构建**：提供双构建工具支持，轻松切换到 Rspack 构建工具，编译飞快。
+- 🪜 **渐进式**：使用最精简的模板创建项目，通过生成器逐步开启插件功能，定制解决方案。
+- 🏠 **一体化**：开发与生产环境 Web Server 逻辑一致，CSR 和 SSR 同构开发，函数即接口的 API 服务调用。
+- 📦 **开箱即用**：默认 TS 支持，内置构建、ESLint、调试工具，全功能可测试。
+- 🌏 **周边生态**：自研状态管理、微前端、模块打包等周边需求。
+- 🕸 **约定式路由**：使用基于文件约定的路由，帮助开发者快速搭建应用。
+
+`@modern-js/app-tools` npm 包，它是 Modern.js 框架的核心包，主要提供以下能力：
+
+- 提供 `modern dev`, `modern build` 等常用的 CLI 命令。
+- 集成 Modern.js Core，提供配置解析、插件加载等能力。
+- 集成 Rsbuild，提供构建能力。
+- 集成 Modern.js Server，提供开发和生产服务器相关能力。
+
+`@modern-js/app-tools` 是基于 Modern.js 的插件体系实现的，本质上是一个插件，因此你需要在配置文件的 `plugins` 字段中注册 `appTools`
+
+```javascript
+import { appTools, defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig({
+  plugins: [appTools()],
+});
+```
+
+配置`modern.config.ts` 文件
+
+```javascript
+import { appTools, defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig({
+  runtime: {
+    router: true,
+  },
+  server: {
+    ssr: true,
+  },
+  plugins: [
+    appTools({
+      bundler: 'rspack', // Set to 'webpack' to enable webpack
+    }),
+  ],
+});
+```
+
+### store
+
+定义model
+
+```typescript
+import { model } from '@modern-js/runtime/model';
+
+type State = {
+  items: {
+    avatar: string;
+    name: string;
+    email: string;
+    archived?: boolean;
+  }[];
+  pending: boolean;
+  error: null | Error;
+};
+
+export default model<State>('contacts').define({
+  state: {
+    items: [],
+    pending: false,
+    error: null,
+  },
+  computed: {
+    archived: ({ items }: State) => items.filter(item => item.archived),
+  },
+  actions: {
+    archive(draft, payload) {
+      const target = draft.items.find(item => item.email === payload)!;
+      if (target) {
+        target.archived = true;
+      }
+    },
+  },
+});
+```
+
+使用
+
+`useModel` 是 Modern.js 提供的 hooks API。可以在组件中提供 Model 中定义的 state，或通过 actions 调用 Model 中定义的 side effect 与 action，从而改变 Model 的 state。
+
+Model 是业务逻辑，是计算过程，本身不创建也不持有状态。只有在被组件用 hooks API 使用后，才在指定的地方创建状态
+
+```javascript
+import { Helmet } from '@modern-js/runtime/head';
+import { useModel } from '@modern-js/runtime/model';
+import { useLoaderData } from '@modern-js/runtime/router';
+import { List } from 'antd';
+import { name, internet } from 'faker';
+import Item from '../components/Item';
+import contacts from '../models/contacts';
+
+function Index() {
+  const { data } = useLoaderData() as LoaderData;
+  const [{ items }, { archive, setItems }] = useModel(contacts);
+  if (items.length === 0) {
+    setItems(data);
+  }
+
+  return (
+    <div className="container lg mx-auto">
+      <Helmet>
+        <title>All</title>
+      </Helmet>
+      <List
+        dataSource={items}
+        renderItem={info => (
+          <Item
+            key={info.name}
+            info={info}
+            onArchive={() => {
+              archive(info.email);
+            }}
+          />
+        )}
+      />
+    </div>
+  );
+}
+
+export default Index;
+```
+
+数据获取
+
+```react
+import { useLoaderData } from '@modern-js/runtime/router';
+import type { LoaderData } from './page.data';
+
+function Index() {
+  const { data } = useLoaderData() as LoaderData;
+
+  return (
+    <div className="container lg mx-auto">
+      <Helmet>
+        <title>All</title>
+      </Helmet>
+      <List
+        dataSource={data}
+        renderItem={info => <Item key={info.name} info={info} />}
+      />
+    </div>
+  );
+}
+
+export default Index;
+```
+
+
+
 ## redwoodjs
 
 基于GraphQL、prisma、fastify和react的全栈开发框架

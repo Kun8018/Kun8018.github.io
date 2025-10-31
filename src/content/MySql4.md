@@ -299,3 +299,13 @@ https://github.com/milvus-io/milvus
 在pg数据库中插入向量
 
 https://github.com/pgvector/
+
+
+
+## Navicat
+
+https://zhuanlan.zhihu.com/p/664606241
+
+https://mp.weixin.qq.com/s?__biz=Mzg3ODA5ODY3MQ==&mid=2247498853&idx=1&sn=e638f7282e61c94d1f6069160d3712cb&chksm=cf1a5de5f86dd4f362cd5ad378d1624f19efb3d092c00f3d80926a5b3d59c38e15df200364d0&token=608821632&lang=zh_CN#rd
+
+https://github.com/yhan219/navicat_reset_mac?tab=readme-ov-file

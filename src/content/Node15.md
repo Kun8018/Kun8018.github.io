@@ -1,5 +1,5 @@
 ---
-title: NodeJs开发（二）
+title: NodeJs开发（五）
 date: 2021-01-20 21:40:33
 categories: IT
 tags:
@@ -379,6 +379,14 @@ https://github.com/OptimalBits/bull
 
 
 
+#### bullmq
+
+基于redis的消息队列框架
+
+https://github.com/taskforcesh/bullmq
+
+
+
 #### pg-boss
 
 安装
@@ -494,13 +502,81 @@ https://github.com/redpanda-data/redpanda
 
 
 
-### 定时任务
+#### kafka
+
+使用
+
+```typescript
+import { Kafka, Consumer, Producer, EachBatchPayload, logLevel, EachMessagePayload } from 'kafkajs';
+
+this.kafka = new Kafka({
+  clientId: cfg.clientId ?? 'card-message-client',
+  brokers: cfg.brokers,
+  ssl: {
+    rejectUnauthorized: true,
+    ca: fs
+      .readFileSync(caPath, 'utf8')
+      .split(/(?=-----BEGIN CERTIFICATE-----)/g)
+      .map((v) => v.trim())
+      .filter(Boolean),
+  },
+  sasl: {
+    mechanism: 'plain',
+    username: cfg.sasl.username,
+    password: cfg.sasl.password,
+  },
+  connectionTimeout: cfg.connectionTimeout ?? 10_000,
+  requestTimeout: cfg.requestTimeout ?? 30_000,
+  logLevel: logLevel.INFO,
+});
+
+/* -------- producer -------- */
+this.producer = this.kafka.producer();
+await this.producer.connect();
+this.logger.log('[Kafka] Producer 已连接');
+
+/* -------- consumer -------- */
+this.consumer = this.kafka.consumer({
+  groupId: cfg.groupId ?? 'card-message-group',
+  sessionTimeout: cfg.sessionTimeout ?? 30_000,
+  heartbeatInterval: cfg.heartbeatInterval ?? 3_000,
+  retry: { retries: 8 },
+});
+
+await this.consumer.connect();
+await this.consumer.subscribe({
+  topic: cfg.topic,
+  fromBeginning: false,
+});
+
+this.consumer.run({
+  eachMessage: async ({ topic, partition, message, heartbeat }: EachMessagePayload) => {
+    const content = JSON.parse(message.value?.toString() ?? '{}');
+    this.logger.log(`[Kafka] 消费 offset=${message.offset}`);
+
+    const heartbeatInterval = setInterval(() => heartbeat(), 1000);
+    await this.messageService.seedCardMessage(
+      content.receive,
+      content.template_id,
+      content.message_type,
+      content.template_variable,
+    );
+    await heartbeat();
+  })
+})
+```
+
+
+
+
+
+### 定时任务/任务队列
 
 #### node-cron
 
 安装
 
-```
+```shell
 npm install cron 
 ```
 
@@ -536,7 +612,28 @@ job.isBusy(); 		// Indicates if the job is currently busy doing work (true or fa
 job.getPattern(); 	// Returns the original pattern string
 ```
 
+#### machinery
 
+我们在使用某些APP时，登陆系统后一般会收到一封邮件或者一个短信提示我们在某个时间某某地点登陆了。而邮件或短信都是在我们已经登陆后才收到，这里就是采用的异步机制
+
+假设我们现在采用同步的方式实现，用户在登录时，首先会去检验一下账号密码是否正确，验证通过后去给用户发送登陆提示信息，假如在这一步出错了，那么就会导致用户登陆失败，这样是大大影响用户的体验感的，一个登陆提示的优先级别并不是很高，所以我们完全可以采用异步的机制实现，即使失败了也不会影响用户的体验。
+
+任务队列有着广泛的应用场景，比如大批量的计算任务，当有大量数据插入，通过拆分并分批插入任务队列，从而实现串行链式任务处理或者实现分组并行任务处理，提高系统鲁棒性，提高系统并发度；或者对数据进行预处理，定期的从后端存储将数据同步到到缓存系统，从而在查询请求发生时，直接去缓存系统中查询，提高查询请求的响应速度。适用任务队列的场景有很多，这里就不一一列举了。回归本文主题，既然我们要学习`machinery`，就要先了解一下他都有哪些特性呢？
+
+- 任务重试机制
+- 延迟任务支持
+- 任务回调机制
+- 任务结果记录
+- 支持Workflow模式：Chain，Group，Chord
+- 多Brokers支持：Redis, AMQP, AWS SQS
+- 多Backends支持：Redis, Memcache, AMQP, MongoDB
+
+任务队列，简而言之就是一个放大的生产者消费者模型，用户请求会生成任务，任务生产者不断的向队列中插入任务，同时，队列的处理器程序充当消费者不断的消费任务。基于这种框架设计思想，我们来看下machinery的简单设计结构图例
+
+- Sender：业务推送模块，生成具体任务，可根据业务逻辑中，按交互进行拆分；
+- Broker：存储具体序列化后的任务，machinery中目前支持到Redis, AMQP,和SQS；
+- Worker：工作进程，负责消费者功能，处理具体的任务；
+- Backend：后端存储，用于存储任务执行状态的数据；
 
 ### 加解密包
 
@@ -723,6 +820,41 @@ if (process.env.NODE_ENV !== 'production') {
   }));
 }
 ```
+
+根据时间分割日志，我们需要换别的 Transport ，`winston`提供了很多[transport](https://link.juejin.cn?target=https%3A%2F%2Fgithub.com%2Fwinstonjs%2Fwinston%2Fblob%2FHEAD%2Fdocs%2Ftransports.md%23winston-core),感兴趣的可以点进去看下。我们这里使用`DailyRotateFile`来分割日志
+
+我们首先要安装`npm install winston-daily-rotate-file -S`,然后导入就可以使用了
+
+```typescript
+import winston from "winston";
+import "winston-daily-rotate-file";
+const { format, transports } = winston;
+const logger = winston.createLogger({
+  level: "debug",
+  format: format.simple(),
+  transports: [
+    new transports.Console(),
+    new transports.DailyRotateFile({
+      level: "debug",
+      dirname: "logs",
+      filename: "index-%DATE%.log",
+      datePattern: "YYYY-MM-DD-HH-mm",
+      maxSize: 1024,
+    }),
+  ],
+});
+
+logger.info("cxkhtw");
+logger.debug("cxkhtw");
+logger.warn("cxkhtw");
+logger.info("cxkhtw");
+```
+
+#### log4js
+
+
+
+
 
 ### 性能
 

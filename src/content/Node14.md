@@ -1,5 +1,5 @@
 ---
-title: NodeJs开发（二）
+title: NodeJs开发（四）
 date: 2021-01-20 21:40:33
 categories: IT
 tags:
@@ -567,6 +567,156 @@ lorem.generateSentences(5);
 lorem.generateParagraphs(7);
 ```
 
+### fast-glob
+
+https://juejin.cn/post/7229169602420801593
+
+全局扫描所有文件的工具，[fast-glob](https://link.juejin.cn?target=https%3A%2F%2Fgithub.com%2Fmrmlnc%2Ffast-glob)，速度非常快的 `glob` 工具库。
+
+`glob` 是什么？是一种语法概念，允许使用者通过 “通配符” 来匹配目录和文件，像在nodejs或者webpack plugin里经常遇到的 `**/*.js` `src/**/package.json` 都属于这种语法。`fast-glob` 则是一款速度非常快的`glob` 工具库。
+
+首先需要安装包：`npm install fast-glob`，因为有很多第三方包已经包含了此依赖，所以如果有包含的，也可以不用单独安装，可以通过`npm ls fast-glob`来检查是否包含
+
+```typescript
+import glob from 'fast-glob';
+
+async function scan() {
+    const files = await glob(['src/**/*.{js,jsx,json}']);
+    for (const file of files) {
+        const fileName = file.split('/').reverse()[0];
+        const content = fs.readFileSync(file, 'utf-8');
+        console.log(file, fileName, content);
+    }
+}
+```
+
+替换组件写法
+
+```typescript
+// scan.mjs
+import glob from 'fast-glob';
+import fs from 'fs';
+
+const results = [];
+async function scan() {
+    const files = await glob(['src/**/*.{js,jsx,json}']);
+    for (const file of files) {
+        const content = fs.readFileSync(file, 'utf-8');
+        const lines = content.split('\r\n');
+        let codes = [];
+        let linenum = 0;
+        let length = 0;
+
+        lines.forEach((line, i) => {
+            const text = line.trim();
+            if (text.startsWith('<CommonButton')) {
+                length = line.indexOf('<CommonButton')
+                codes.push(line.slice(length));
+                linenum = i + 1;
+            }
+            else if (codes.length > 0) {
+                codes.push(line.slice(length));
+            }
+            if (codes.length > 0 && text.endsWith('/>')) {
+                const all = codes.join(' ');
+                const isNotView = !all.includes(' view ') && !all.includes(' view={true} '); // match noview || `view={false}` || `view={xx}`
+                const isMultiple = all.includes('multiple') && !all.includes(' multiple={false} '); // match `multiple` `multiple={true}` || `multiple={xx}`
+                if (isNotView && isMultiple) {
+                    results.push({ file: file.slice(3), line: linenum, code: codes });
+                }
+                codes = [];
+            }
+        });
+    }
+
+    fs.writeFileSync('./result.json', JSON.stringify(results, null, 2), { encoding: 'utf8' }, (err) => {
+        if (err) throw err;
+    });
+}
+await scan();
+```
+
+
+
+
+
+### 其他应用
+
+#### 飞书sdk
+
+```shell
+npm install @larksuiteoapi/node-sdk
+```
+
+使用
+
+```javascript
+import * as lark from '@larksuiteoapi/node-sdk';
+
+const client = new lark.Client({
+    appId: 'app id',
+    appSecret: 'app secret',
+    appType: lark.AppType.SelfBuild,
+    domain: lark.Domain.Feishu,
+});
+
+const res = await client.im.message.create({
+    params: {
+        receive_id_type: 'chat_id',
+    },
+    data: {
+        receive_id: 'receive_id',
+        content: JSON.stringify({text: 'hello world'}),
+        msg_type: 'text',
+  },
+});
+```
+
+#### 阿里云sdk
+
+访问凭证
+
+安装
+
+```shell
+npm install @alicloud/credentials
+```
+
+使用
+
+```typescript
+const Credential = require('@alicloud/credentials');
+const { RuntimeOptions } = require('@alicloud/tea-util');
+
+const runtime = new RuntimeOptions({
+  // 设置http代理
+  httpProxy: "http://xx.xx.xx.xx:8089",
+  // 设置https代理
+  httpsProxy: "https://xxx.xxx.xxx.xxx:9999",
+  // 设置非代理地址
+  noProxy: '127.0.0.1,localhost',
+});
+
+const credentialsConfig = new Credential.Config({
+    type: 'sts',
+    // 设置accessKeyId值，此处已从环境变量中获取accessKeyId为例。
+    accessKeyId: process.env.ALIBABA_CLOUD_ACCESS_KEY_ID,
+    // 设置accessKeySecret值，此处已从环境变量中获取accessKeySecret为例。
+    accessKeySecret: process.env.ALIBABA_CLOUD_ACCESS_KEY_SECRET,
+    // 设置securityToken值，此处已从环境变量中获取securityToken为例。
+    securityToken: process.env.ALIBABA_CLOUD_SECURITY_TOKEN,
+});
+const cred = new Credential.default(credentialsConfig);
+
+const cfg = new OpenApiConfig({
+      credential: cred as any,
+      ...(isAccountEp ? {} : { regionId: regionId || base.regionId }),
+    } as any);
+
+```
+
+通过`@alicloud/tea-util`库的RuntimeOptions类中的 **ignoreSSL** 参数来设置是否启用SSL/TLS证书校验。例如，在测试环境中，您可以将**ignoreSSL**设置为`true`，以忽略证书校验进行临时测试。
+
 
 
 ### websocket
@@ -822,7 +972,7 @@ Schema.prisma是prisma主要的配置文件，配置主要分为：
 
 3.data model的定义
 
-```javascript
+```prisma
 datasource db {
   provider = "sqlite"
   url = "file:dev.db"
@@ -984,6 +1134,50 @@ for await (const event of liveQuery) {
 
 https://www.prisma.io/data-platform/accelerate
 
+##### 性能优化
+
+https://juejin.cn/post/7426545445876957222#heading-7
+
+1.使用数据库连接池
+
+和 `mysql2` 一样，Prisma 也支持数据库连接池管理。连接池通过在一组预先建立的数据库连接中重用连接，可以减少连接建立的开销，显著提高数据库的性能。
+
+Prisma 默认使用数据库连接池，但需要确保你的数据库支持这一功能，并且配置得当。例如，PostgreSQL、MySQL 等数据库都支持连接池
+
+`connection_limit` 参数控制连接池中同时允许的最大连接数。你可以根据应用的并发负载来调整这个数值，过高可能导致数据库服务器压力过大，过低可能导致等待时间增加
+
+2.避免N+1查询问题
+
+在处理数据库关系时，N+1 查询问题常常成为性能瓶颈。Prisma 提供了**预加载（`include` 或 `select`）**的功能，允许一次性加载相关数据，从而避免多次查询造成的性能损耗。
+
+3.缓存查询结果
+
+对于经常查询但结果不经常变化的数据，可以使用缓存来减少查询次数。Next.js 支持服务器端的缓存策略，你可以结合 Redis 等缓存工具，将查询结果缓存一段时间。
+
+```javascript
+import Redis from 'ioredis';
+import prisma from './prisma';
+
+const redis = new Redis();
+
+export default async function getUsers() {
+  const cachedUsers = await redis.get('users');
+
+  if (cachedUsers) {
+    return JSON.parse(cachedUsers); // 返回缓存数据
+  }
+
+  const users = await prisma.user.findMany();
+  
+  await redis.set('users', JSON.stringify(users), 'EX', 3600); // 缓存数据，1 小时过期
+  return users;
+}
+```
+
+Prisma6
+
+
+
 #### Sequelize
 
 安装
@@ -1101,6 +1295,8 @@ npm install typeorm reflect-metadata --save
 import "reflect-metadata";
 ```
 
+##### 实体
+
 通过使用 `TypeORM` 你的 `models` 看起来像这样
 
 ```typescript
@@ -1121,6 +1317,109 @@ export class User {
   age: number;
 }
 ```
+
+实体是一个映射到数据库表（或使用 MongoDB 时的集合）的类。 你可以通过定义一个新类来创建一个实体，并用`@Entity()`来标记
+
+基本实体由列和关系组成。 每个实体**必须**有一个主列@PrimaryGeneratedColumn。`@PrimaryGeneratedColumn()` 创建一个主列，该值将使用自动增量值自动生成。 它将使用`auto-increment` /`serial` /`sequence`创建`int`列（取决于数据库）。 你不必在保存之前手动分配其值，该值将会自动生成
+
+标有`@Column`的每个实体类属性都将映射到数据库表列
+
+有几种特殊的列类型可以使用：
+
+- `@CreateDateColumn` 是一个特殊列，自动为实体插入日期。无需设置此列，该值将自动设置。
+- `@UpdateDateColumn` 是一个特殊列，在每次调用实体管理器或存储库的`save`时，自动更新实体日期。无需设置此列，该值将自动设置。
+- `@VersionColumn` 是一个特殊列，在每次调用实体管理器或存储库的`save`时自动增长实体版本（增量编号）。无需设置此列，该值将自动设置
+
+@Index 此装饰器允许你为特定列创建数据库索引。 它还允许你将列或列标记为唯一。 此装饰器可以应用于列或实体本身。 单列索引时使用或多列索引时使用。
+
+`@Unique`此装饰器允许你为特定列创建数据库唯一约束。 该装饰器只能应用于实体本身。
+
+TypeORM 支持所有最常用的数据库支持的列类型。 列类型是特定于数据库类型的 - 这为数据库架构提供了更大的灵活性。 你可以将列类型指定为`@Column`的第一个参数 或者在`@Column`的列选项中指定
+
+`mysql`/`mariadb`的列类型
+
+`int`, `tinyint`, `smallint`, `mediumint`, `bigint`, `float`, `double`, `dec`, `decimal`, `numeric`, `date`, `datetime`, `timestamp`, `time`, `year`, `char`, `varchar`, `nvarchar`, `text`, `tinytext`, `mediumtext`, `blob`, `longtext`, `tinyblob`, `mediumblob`, `longblob`, `enum`, `json`, `binary`, `geometry`, `point`, `linestring`, `polygon`, `multipoint`, `multilinestring`, `multipolygon`, `geometrycollection`
+
+`postgres`的列类型
+
+`int`, `int2`, `int4`, `int8`, `smallint`, `integer`, `bigint`, `decimal`, `numeric`, `real`, `float`, `float4`, `float8`, `double precision`, `money`, `character varying`, `varchar`, `character`, `char`, `text`, `citext`, `hstore`, `bytea`, `bit`, `varbit`, `bit varying`, `timetz`, `timestamptz`, `timestamp`, `timestamp without time zone`, `timestamp with time zone`, `date`, `time`, `time without time zone`, `time with time zone`, `interval`, `bool`, `boolean`, `enum`, `point`, `line`, `lseg`, `box`, `path`, `polygon`, `circle`, `cidr`, `inet`, `macaddr`, `tsvector`, `tsquery`, `uuid`, `xml`, `json`, `jsonb`, `int4range`, `int8range`, `numrange`, `tsrange`, `tstzrange`, `daterange`, `geometry`, `geography`
+
+##### 关系
+
+一对一是一种 A 只包含一个 B 实例，而 B 只包含一个 A 实例的关系
+
+将`@OneToOne`添加到`profile`并将目标关系类型指定为`Profile`。 我们还添加了`@JoinColumn`，这是必选项并且只能在关系的一侧设置。 你设置`@JoinColumn`的哪一方，哪一方的表将包含一个"relation id"和目标实体表的外键
+
+同样，`@JoinColumn`必须仅设置在关系的一侧且必须在数据库表中具有外键的一侧
+
+同样，关系可以是单向的和双向的。 单向是仅在一侧与关系装饰器的关系。 双向是与关系两侧的装饰者的关系
+
+注意，反向关系没有`@JoinColumn`。 `@JoinColumn`必须只在关系的一侧且拥有外键的表上
+
+
+
+多对多是一种 A 包含多个 B 实例，而 B 包含多个 A 实例的关系
+
+`@JoinTable()`是`@ManyToMany`关系所必需的。 你必须把`@JoinTable`放在关系的一个（拥有）方面
+
+我们只是创建了双向关系。 注意，反向关系没有`@JoinTable`。 `@JoinTable`必须只在关系的一边
+
+`@JoinTable` 装饰器可接收一个 **对象参数**，包括以下常用配置：
+
+- `name`：可选，关系中间表表名，若不设置，则 [**`TypeORM`**](https://link.juejin.cn?target=https%3A%2F%2Ftypeorm.io%2F) 会根据两个关联的实体按照规则自动生成。
+- `joinColumn`：可选，设置 **主实体** 的外键列，如 `Role` 的 `id` 列，以及中间表存储该列数据的列名称（`roleId`），作用同 [`@JoinColumn`](https://link.juejin.cn?target=https%3A%2F%2Ftypeorm.io%2Frelations%23joincolumn-options) 装饰器。
+- `inverseJoinColumn`：可选，设置 **从实体** 的外键列，如 `Auth` 的 `id` 列，以及中间表存储该列数据的列名称（`authId`），作用同 [`@JoinColumn`](https://link.juejin.cn?target=https%3A%2F%2Ftypeorm.io%2Frelations%23joincolumn-options) 装饰器。
+
+```typescript
+@JoinTable({
+  name: 'application_organizations',
+  joinColumn: {
+    name: 'application_id',
+    referencedColumnName: 'id',
+  },
+  inverseJoinColumn: {
+    name: 'organization_id',
+    referencedColumnName: 'id',
+  },
+})
+```
+
+
+
+可以指定几个选项：
+
+- `eager: boolean` - 如果设置为 true，则在此实体上使用`find *` 或`QueryBuilder`时，将始终使用主实体加载关系
+- `cascade: boolean` - 如果设置为 true，则将插入相关对象并在数据库中更新。
+- `onDelete: "RESTRICT"|"CASCADE"|"SET NULL"` - 指定删除引用对象时外键的行为方式
+- `primary: boolean` - 指示此关系的列是否为主列。
+- `nullable: boolean` -指示此关系的列是否可为空。 默认情况下是可空。
+- `orphanedRowAction: "nullify" | "delete"` - 将子行从其父行中删除后，确定该子行是孤立的（默认值）还是删除的
+
+```typescript
+@OneToMany(() => MaterialCommonAttachment, (attachment) => attachment.mechanismScriptsFilesMaterial, {
+  cascade: true,
+  onDelete: 'CASCADE',
+})
+```
+
+关联查询
+
+调用查询类 `api`，如 `Repository.find`，在 `FindOptions` 参数中指定 `relations` 配置项
+
+```typescript
+const roleRepository = dataSource.getRepository(Role)
+const roles = await roleRepository.find({
+    relations: {
+        authorizations: true,
+    },
+})
+```
+
+或者借助 `leftJoinAndSelect` api 添加左连接查询
+
+
+
+##### find和Repository
 
 逻辑操作
 
@@ -1164,6 +1463,54 @@ createConnection(/*...*/)
   .catch(error => console.log(error));
 ```
 
+Repository
+
+`Repository`就像`EntityManager`一样，但其操作仅限于具体实体。
+
+你可以通过`getRepository（Entity）`，`Connection＃getRepository`或`EntityManager＃getRepository`访问存储库。
+
+```typescript
+import { getRepository } from "typeorm";
+import { InjectRepository } from '@nestjs/typeorm';
+import { User } from "./entity/User";
+
+const userRepository = getRepository(User); // 你也可以通过getConnection().getRepository()或getManager().getRepository() 获取
+const user = await userRepository.findOne(1);
+user.name = "Umed";
+await userRepository.save(user)
+
+export class InitializationService implements OnModuleInit {
+  constructor(
+    @InjectRepository(BaseOrganizations, 'main')
+    private readonly organizationRepository: Repository<BaseOrganizations>,
+  ) {}
+  
+  let organization = await this.organizationRepository.findOne({
+      where: { tenantKey: tenantKey },
+    });
+
+    if (!organization) {
+      this.logger.log(`创建组织: ${tenantKey}`);
+      organization = this.organizationRepository.create({
+        id: 'fb48d52e-27bc-4024-9e39-447db3333040',
+        apaasId: '1842860125227016',
+        tenantKey: tenantKey,
+        fName: '仙工智能',
+        avatarOrigin:
+          'https://s1-imfile.feishucdn.com/static-resource/v1/v3_00bk_98f4834b-56d5-42c7-abbd-be03c1da66dg~?image_size=noop&cut_type=&quality=&format=png&sticker_format=.webp',
+      });
+      organization = await this.organizationRepository.save(organization);
+      this.logger.log(`组织创建成功: ${organization.fName}`);
+    }
+}
+```
+
+有三种类型的存储库：
+
+- `Repository` - 任何实体的常规存储库。
+- `TreeRepository` - 用于树实体的`Repository`的扩展存储库（比如标有`@ Tree`装饰器的实体）。有特殊的方法来处理树结构。
+- `MongoRepository` - 具有特殊功能的存储库，仅用于 MongoDB。
+
 queryBuilder
 
 `QueryBuilder`是 TypeORM 最强大的功能之一 ，它允许你使用优雅便捷的语法构建 SQL 查询，执行并获得自动转换的实体。
@@ -1176,29 +1523,47 @@ const firstUser = await connection
   .getOne();
 ```
 
-Repository
-
-`Repository`就像`EntityManager`一样，但其操作仅限于具体实体。
-
-你可以通过`getRepository（Entity）`，`Connection＃getRepository`或`EntityManager＃getRepository`访问存储库。
+创建querybuilder的几种方式
 
 ```typescript
-import { getRepository } from "typeorm";
-import { User } from "./entity/User";
+// 使用connection
+import { getConnection } from "typeorm";
 
-const userRepository = getRepository(User); // 你也可以通过getConnection().getRepository()或getManager().getRepository() 获取
-const user = await userRepository.findOne(1);
-user.name = "Umed";
-await userRepository.save(user);
+const user = await getConnection()
+  .createQueryBuilder()
+  .select("user")
+  .from(User, "user")
+  .where("user.id = :id", { id: 1 })
+  .getOne();
+
+// 使用entity manager
+import { getManager } from "typeorm";
+
+const user = await getManager()
+  .createQueryBuilder(User, "user")
+  .where("user.id = :id", { id: 1 })
+  .getOne();
+
+// 使用repository
+import { getRepository } from "typeorm";
+
+const user = await getRepository(User)
+  .createQueryBuilder("user")
+  .where("user.id = :id", { id: 1 })
+  .getOne();
 ```
 
-有三种类型的存储库：
 
-- `Repository` - 任何实体的常规存储库。
-- `TreeRepository` - 用于树实体的`Repository`的扩展存储库（比如标有`@ Tree`装饰器的实体）。有特殊的方法来处理树结构。
-- `MongoRepository` - 具有特殊功能的存储库，仅用于 MongoDB。
 
-迁移
+##### 迁移
+
+一旦上线生产环境，你将需要将模型更改同步到数据库中。 通常在数据库中获取数据后，使用`synchronize：true`进行生产模式同步是不安全的。
+
+```shell
+typeorm migration:create -n PostRefactoring
+```
+
+
 
 
 
@@ -1237,6 +1602,57 @@ TypeORM 附带 4 种不同类型的记录器：
     logger: "file"
 }
 ```
+
+##### datamapper
+
+使用 Active Record 方法，你可以在模型本身内定义所有查询方法，并使用模型方法保存、删除和加载对象。
+
+简单来说，Active Record 模式是一种在模型中访问数据库的方法。 你可以在[Wikipedia](https://en.wikipedia.org/wiki/Active_record_pattern)上查看有关 Active Record 模式的更多信息。
+
+所有 active-record 实体都必须扩展`BaseEntity`类，它提供了与实体一起使用的方法
+
+使用 Data Mapper 方法，你可以在名为"repositories"的单独类中定义所有查询方法，并使用存储库保存、删除和加载对象。 在数据映射器中，你的实体非常笨，它们只是定义了相应的属性，并且可能有一些很笨的方法。
+
+简单来说，数据映射器是一种在存储库而不是模型中访问数据库的方法
+
+
+
+##### 订阅发布
+
+订阅实体。实体有修改时触发逻辑
+
+```javascript
+@EventSubscriber()
+export class PostSubscriber implements EntitySubscriberInterface<Post> {
+  /**
+   * 表示此订阅者仅侦听Post事件。
+   */
+  listenTo() {
+    return Post;
+  }
+
+  /**
+   * 插入post之前调用。
+   */
+  beforeInsert(event: InsertEvent<Post>) {
+    console.log(`BEFORE POST INSERTED: `, event.entity);
+  }
+}
+```
+
+https://typeorm.bootcss.com/listeners-and-subscribers#%E8%AE%A2%E9%98%85%E8%80%85
+
+##### 和prisma对比
+
+https://kuizuo.me/blog/with-prisma-dont-use-typeorm/#prisma-%E7%94%9F%E6%80%81
+
+
+
+#### mikro-orm
+
+https://github.com/mikro-orm/mikro-orm
+
+
 
 #### Knex
 

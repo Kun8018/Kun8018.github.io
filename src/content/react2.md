@@ -1299,6 +1299,110 @@ withSelector(selector) 返回了一个 高阶组件，这个高阶组件在 sele
 
 
 
+### 服务端组件
+
+服务器组件可以在构建时运行，来从文件系统中读取文件，或者获取静态内容，这种情况下，不需要 Web 服务器。例如，你可能会想从内容管理系统（Content Management System/CMS）中读取静态的数据。
+
+如果不使用服务器组件，通常会在客户端通过一个 Effect 来获取静态数据
+
+这种模式意味着用户需要下载并解析额外 75K（压缩后）大小的包，还要在页面加载后等待第二次获取数据的请求，做这些仅仅是为了渲染静态内容，而这些内容在整个页面的生命周期内都不会改变。
+
+使用服务器组件，你可以在构建时一次性渲染这些组件
+
+```react
+import marked from 'marked'; // 不会包括在 bundle 中
+import sanitizeHtml from 'sanitize-html'; // 不会包括在 bundle 中
+
+async function Page({page}) {
+  // 注意: 会在应用构建的 **渲染过程中** 加载
+  const content = await file.readFile(`${page}.md`);
+
+  return <div>{sanitizeHtml(marked(content))}</div>;
+}
+```
+
+渲染的输出接着可以被服务端渲染（SSR）成 HTML 并上传至 CDN。当应用加载时，客户端不会看到原始的 `Page` 组件，也不会看到用于渲染 markdown 且体积较大的包。客户端只会看到最终渲染出来的 HTML 内容
+
+服务器组件也可以在请求页面时在 Web 服务器上运行，从而让你不需要建立 API 就可以访问数据层。这类服务器组件在应用打包之前被渲染，并且可以将数据和 JSX 作为 props 传递给客户端组件。
+
+如果不使用服务器组件，通常会在客户端的 Effect 里获取动态数据：
+
+```react
+// bundle.js
+function Note({id}) {
+  const [note, setNote] = useState('');
+  // 注意: 在第一次渲染 **之后** 加载。
+  useEffect(() => {
+    fetch(`/api/notes/${id}`).then(data => {
+      setNote(data.note);
+    });
+  }, [id]);
+
+  return (
+    <div>
+      <Author id={note.authorId} />
+      <p>{note}</p>
+    </div>
+  );
+}
+
+function Author({id}) {
+  const [author, setAuthor] = useState('');
+  // 注意: 在 Note 渲染 **之后** 加载。
+  // 造成昂贵的客户端-服务器瀑布
+  useEffect(() => {
+    fetch(`/api/authors/${id}`).then(data => {
+      setAuthor(data.author);
+    });
+  }, [id]);
+
+  return <span>By: {author.name}</span>;
+}
+
+// api
+import db from './database';
+
+app.get(`/api/notes/:id`, async (req, res) => {
+  const note = await db.notes.get(id);
+  res.send({note});
+});
+
+app.get(`/api/authors/:id`, async (req, res) => {
+  const author = await db.authors.get(id);
+  res.send({author});
+});
+```
+
+使用服务器组件，你可以在组件中读取数据并渲染
+
+```react
+import db from './database';
+
+async function Note({id}) {
+  // 注意: 在 **渲染时** 加载。
+  const note = await db.notes.get(id);
+  return (
+    <div>
+      <Author id={note.authorId} />
+      <p>{note}</p>
+    </div>
+  );
+}
+
+async function Author({id}) {
+  // 注意: 在 Note **之后** 加载，
+  // 如果服务器组件和数据库在同一个位置（例如在同一台服务器上），这里读取数据的加载速度会很快。
+  const author = await db.authors.get(id);
+  return <span>By: {author.name}</span>;
+}
+```
+
+打包器接着会整合数据、渲染服务器组件并和动态客户端组件一起打成一个包。接着可以选择将这个包进行服务端渲染（SSR）以创建初始的 HTML 页面。当页面加载时，浏览器不会看到原始的 `Note` 和 `Author` 组件，只有渲染后的输出才会发送到客户端
+
+由于服务器组件不会发给浏览器，所以它们不能使用交互的 API，例如 `useState`。要给服务器组件添加交互性，你可以使用 `"use client"` 指令把他们和客户端组件组合在一起
+
+
+
 ## HOC与render Props
 
 ### 包装强化组件的方式

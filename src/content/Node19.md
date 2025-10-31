@@ -1,5 +1,5 @@
 ---
-title: NodeJs开发（五） 
+title: NodeJs开发（九） 
 date: 2021-1-23 21:40:33
 categories: IT
 tags:
@@ -11,6 +11,207 @@ thumbnail: http://cdn.kunkunzhang.top/nestjs.png
   Node的seveless服务
 
 <!--more-->
+
+## Fastify.js
+
+高效的服务器意味着更低的基础设施成本、更好的负载响应能力和用户满意度。 在不牺牲安全验证和便捷开发的前提下，如何知道服务器正在处理尽可能多的请求，又如何有效地处理服务器资源？
+
+Fastify 是一个 web 开发框架，其设计灵感来自 Hapi 和 Express，致力于以最少的开销和强大的插件结构提供最佳的开发体验。据我们所知，它是这个领域里速度最快的 web 框架之一。
+
+Fastify 已经实现的主要功能及原理：
+
+- **高性能：** 据我们所知，Fastify 是这一领域中最快的 web 框架之一，另外，取决于代码的复杂性，Fastify 最多可以处理每秒 3 万次的请求。
+- **可扩展：** Fastify 通过其提供的钩子（hook）、插件和装饰器（decorator）提供完整的可扩展性。
+- **基于 Schema：** 即使这不是强制性的，我们仍建议使用 [JSON Schema](http://json-schema.org/) 来做路由（route）验证及输出内容的序列化，Fastify 在内部将 schema 编译为高效的函数并执行。
+- **日志：** 日志是非常重要且代价高昂的。我们选择了最好的日志记录程序来尽量消除这一成本，这就是 [Pino](https://github.com/pinojs/pino)!
+- **对开发人员友好：** 框架的使用很友好，帮助开发人员处理日常工作，并且不牺牲性能和安全性。
+- **支持 TypeScript：** 我们努力维护一个 [TypeScript](https://www.typescriptlang.org/) 类型声明文件，以便支持不断成长的 TypeScript 社区
+
+安装
+
+```shell
+npm i fastify --save
+```
+
+创建服务
+
+```javascript
+// ESM
+import Fastify from 'fastify'
+const fastify = Fastify({
+  logger: true
+})
+// CommonJs
+const fastify = require('fastify')({
+  logger: true
+})
+
+fastify.get('/', async (request, reply) => {
+  return { hello: 'world' }
+})
+
+const start = async () => {
+  try {
+    await fastify.listen(3000)
+  } catch (err) {
+    fastify.log.error(err)
+    process.exit(1)
+  }
+}
+start()
+```
+
+### 序列化json
+
+Fastify 对 JSON 提供了优异的支持，极大地优化了解析 JSON body 与序列化 JSON 输出的过程。
+在 schema 的选项中设置 `response` 的值，能够加快 JSON 的序列化 (没错，这很慢！)
+
+```javascript
+const opts = {
+  schema: {
+    response: {
+      200: {
+        type: 'object',
+        properties: {
+          hello: { type: 'string' }
+        }
+      }
+    }
+  }
+}
+
+fastify.get('/', opts, async (request, reply) => {
+  return { hello: 'world' }
+})
+```
+
+一旦指明了 schema，序列化的速度就能达到原先的 2-3 倍。这么做同时也保护了潜在的敏感数据不被泄露，因为 Fastify 仅对 schema 里出现的数据进行序列化
+
+### content-type
+
+Fastify 原生只支持 `'application/json'` 和 `'text/plain'` content type。默认的字符集是 `utf-8`。如果你需要支持其他的 content type，你需要使用 `addContentTypeParser` API。*默认的 JSON 或者纯文本解析器也可以被更改或删除。*
+
+*注：假如你决定用 `Content-Type` 自定义 content type，UTF-8 便不再是默认的字符集了。请确保如下包含该字符集：`text/html; charset=utf-8`。*
+
+和其他的 API 一样，`addContentTypeParser` 被封装在定义它的作用域中了。这就意味着如果你定义在了根作用域中，那么就是全局可用，如果你定义在一个插件中，那么它只能在那个作用域和子作用域中可用
+
+
+
+### 日志
+
+日志默认关闭，你可以在创建 Fastify 实例时传入 `{ logger: true }` 或者 `{ logger: { level: 'info' } }` 选项来开启它。要注意的是，日志无法在运行时启用。为此，我们使用了 [abstract-logging](https://www.npmjs.com/package/abstract-logging)。
+
+Fastify 专注于性能，因此使用了 [pino](https://github.com/pinojs/pino) 作为日志工具。默认的日志级别为 `'info'`
+
+开启日志
+
+```javascript
+const fastify = require('fastify')({
+  logger: true
+})
+
+fastify.get('/', options, function (request, reply) {
+  request.log.info('Some info about the current request')
+  reply.send({ hello: 'world' })
+})
+```
+
+你还可以提供自定义的日志实例。将实例传入，取代配置选项即可。提供的示例必须实现 Pino 的接口，换句话说，便是拥有下列方法： `info`、`error`、`debug`、`fatal`、`warn`、`trace`、`child`
+
+```javascript
+const log = require('pino')({ level: 'info' })
+const fastify = require('fastify')({ logger: log })
+
+log.info('does not have request information')
+
+fastify.get('/', function (request, reply) {
+  request.log.info('includes request information, but is the same logger instance as `log`')
+  reply.send({ hello: 'world' })
+})
+```
+
+[Pino](https://getpino.io/) 支持低开销的日志修订，以隐藏特定内容。 举例来说，出于安全方面的考虑，我们也许想在 HTTP header 的日志中隐藏 `Authorization` 这一个 header
+
+```javascript
+const fastify = Fastify({
+  logger: {
+    stream: stream,
+    redact: ['req.headers.authorization'],
+    level: 'info',
+    serializers: {
+      req (request) {
+        return {
+          method: request.method,
+          url: request.url,
+          headers: request.headers,
+          hostname: request.hostname,
+          remoteAddress: request.ip,
+          remotePort: request.socket.remotePort
+        }
+      }
+    }
+  }
+})
+```
+
+### graphQL
+
+#### mercurius
+
+https://github.com/mercurius-js/mercurius
+
+
+
+## thinkjs
+
+
+
+## nitro
+
+node Server 
+
+```shell
+yarn dlx giget@latest nitro nitro-app --install
+```
+
+
+
+
+
+## feathersjs
+
+创建feathers项目
+
+```shell
+npm create feathers@pre feathers-chat
+```
+
+启动项目
+
+```shell
+npm run compile
+npm run migrate
+npm start
+```
+
+使用
+
+```javascript
+import type { Application, Id, NullableId, Params } from '@feathersjs/feathers'
+
+class MyService {
+  async find(params: Params) {}
+  async get(id: Id, params: Params) {}
+  async create(data: any, params: Params) {}
+  async update(id: NullableId, data: any, params: Params) {}
+  async patch(id: NullableId, data: any, params: Params) {}
+  async remove(id: NullableId, params: Params) {}
+  async setup(path: string, app: Application) {}
+  async teardown(path: string, app: Application) {}
+}
+```
+
+
 
 ## firebase
 

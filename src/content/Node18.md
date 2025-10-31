@@ -1,5 +1,5 @@
 ---
-title: NodeJs开发（五） 
+title: NodeJs开发（八） 
 date: 2021-1-23 21:40:33
 categories: IT
 tags:
@@ -11,207 +11,6 @@ thumbnail: http://cdn.kunkunzhang.top/nestjs.png
 万万万万万万没想到会来到第十一篇，第十一篇写Nest和Nodejs游戏框架
 
 <!--more-->
-
-## Fastify.js
-
-高效的服务器意味着更低的基础设施成本、更好的负载响应能力和用户满意度。 在不牺牲安全验证和便捷开发的前提下，如何知道服务器正在处理尽可能多的请求，又如何有效地处理服务器资源？
-
-Fastify 是一个 web 开发框架，其设计灵感来自 Hapi 和 Express，致力于以最少的开销和强大的插件结构提供最佳的开发体验。据我们所知，它是这个领域里速度最快的 web 框架之一。
-
-Fastify 已经实现的主要功能及原理：
-
-- **高性能：** 据我们所知，Fastify 是这一领域中最快的 web 框架之一，另外，取决于代码的复杂性，Fastify 最多可以处理每秒 3 万次的请求。
-- **可扩展：** Fastify 通过其提供的钩子（hook）、插件和装饰器（decorator）提供完整的可扩展性。
-- **基于 Schema：** 即使这不是强制性的，我们仍建议使用 [JSON Schema](http://json-schema.org/) 来做路由（route）验证及输出内容的序列化，Fastify 在内部将 schema 编译为高效的函数并执行。
-- **日志：** 日志是非常重要且代价高昂的。我们选择了最好的日志记录程序来尽量消除这一成本，这就是 [Pino](https://github.com/pinojs/pino)!
-- **对开发人员友好：** 框架的使用很友好，帮助开发人员处理日常工作，并且不牺牲性能和安全性。
-- **支持 TypeScript：** 我们努力维护一个 [TypeScript](https://www.typescriptlang.org/) 类型声明文件，以便支持不断成长的 TypeScript 社区
-
-安装
-
-```shell
-npm i fastify --save
-```
-
-创建服务
-
-```javascript
-// ESM
-import Fastify from 'fastify'
-const fastify = Fastify({
-  logger: true
-})
-// CommonJs
-const fastify = require('fastify')({
-  logger: true
-})
-
-fastify.get('/', async (request, reply) => {
-  return { hello: 'world' }
-})
-
-const start = async () => {
-  try {
-    await fastify.listen(3000)
-  } catch (err) {
-    fastify.log.error(err)
-    process.exit(1)
-  }
-}
-start()
-```
-
-### 序列化json
-
-Fastify 对 JSON 提供了优异的支持，极大地优化了解析 JSON body 与序列化 JSON 输出的过程。
-在 schema 的选项中设置 `response` 的值，能够加快 JSON 的序列化 (没错，这很慢！)
-
-```javascript
-const opts = {
-  schema: {
-    response: {
-      200: {
-        type: 'object',
-        properties: {
-          hello: { type: 'string' }
-        }
-      }
-    }
-  }
-}
-
-fastify.get('/', opts, async (request, reply) => {
-  return { hello: 'world' }
-})
-```
-
-一旦指明了 schema，序列化的速度就能达到原先的 2-3 倍。这么做同时也保护了潜在的敏感数据不被泄露，因为 Fastify 仅对 schema 里出现的数据进行序列化
-
-### content-type
-
-Fastify 原生只支持 `'application/json'` 和 `'text/plain'` content type。默认的字符集是 `utf-8`。如果你需要支持其他的 content type，你需要使用 `addContentTypeParser` API。*默认的 JSON 或者纯文本解析器也可以被更改或删除。*
-
-*注：假如你决定用 `Content-Type` 自定义 content type，UTF-8 便不再是默认的字符集了。请确保如下包含该字符集：`text/html; charset=utf-8`。*
-
-和其他的 API 一样，`addContentTypeParser` 被封装在定义它的作用域中了。这就意味着如果你定义在了根作用域中，那么就是全局可用，如果你定义在一个插件中，那么它只能在那个作用域和子作用域中可用
-
-
-
-### 日志
-
-日志默认关闭，你可以在创建 Fastify 实例时传入 `{ logger: true }` 或者 `{ logger: { level: 'info' } }` 选项来开启它。要注意的是，日志无法在运行时启用。为此，我们使用了 [abstract-logging](https://www.npmjs.com/package/abstract-logging)。
-
-Fastify 专注于性能，因此使用了 [pino](https://github.com/pinojs/pino) 作为日志工具。默认的日志级别为 `'info'`
-
-开启日志
-
-```javascript
-const fastify = require('fastify')({
-  logger: true
-})
-
-fastify.get('/', options, function (request, reply) {
-  request.log.info('Some info about the current request')
-  reply.send({ hello: 'world' })
-})
-```
-
-你还可以提供自定义的日志实例。将实例传入，取代配置选项即可。提供的示例必须实现 Pino 的接口，换句话说，便是拥有下列方法： `info`、`error`、`debug`、`fatal`、`warn`、`trace`、`child`
-
-```javascript
-const log = require('pino')({ level: 'info' })
-const fastify = require('fastify')({ logger: log })
-
-log.info('does not have request information')
-
-fastify.get('/', function (request, reply) {
-  request.log.info('includes request information, but is the same logger instance as `log`')
-  reply.send({ hello: 'world' })
-})
-```
-
-[Pino](https://getpino.io/) 支持低开销的日志修订，以隐藏特定内容。 举例来说，出于安全方面的考虑，我们也许想在 HTTP header 的日志中隐藏 `Authorization` 这一个 header
-
-```javascript
-const fastify = Fastify({
-  logger: {
-    stream: stream,
-    redact: ['req.headers.authorization'],
-    level: 'info',
-    serializers: {
-      req (request) {
-        return {
-          method: request.method,
-          url: request.url,
-          headers: request.headers,
-          hostname: request.hostname,
-          remoteAddress: request.ip,
-          remotePort: request.socket.remotePort
-        }
-      }
-    }
-  }
-})
-```
-
-### graphQL
-
-#### mercurius
-
-https://github.com/mercurius-js/mercurius
-
-
-
-## thinkjs
-
-
-
-## nitro
-
-node Server 
-
-```shell
-yarn dlx giget@latest nitro nitro-app --install
-```
-
-
-
-
-
-## feathersjs
-
-创建feathers项目
-
-```shell
-npm create feathers@pre feathers-chat
-```
-
-启动项目
-
-```shell
-npm run compile
-npm run migrate
-npm start
-```
-
-使用
-
-```javascript
-import type { Application, Id, NullableId, Params } from '@feathersjs/feathers'
-
-class MyService {
-  async find(params: Params) {}
-  async get(id: Id, params: Params) {}
-  async create(data: any, params: Params) {}
-  async update(id: NullableId, data: any, params: Params) {}
-  async patch(id: NullableId, data: any, params: Params) {}
-  async remove(id: NullableId, params: Params) {}
-  async setup(path: string, app: Application) {}
-  async teardown(path: string, app: Application) {}
-}
-```
-
-
 
 ## Nestjs
 
@@ -316,12 +115,10 @@ import { Injectable } from '@nestjs/common';
 $ nest g co cats
 ```
 
-
-
 实例
 
 ```js
-import { Controller ,Get，Post} from '@nestjs/common'
+import { Controller ,Get，Post, Req} from '@nestjs/common'
 
 @Controller('cats')
 export class CatsController {
@@ -330,14 +127,18 @@ export class CatsController {
         return 'this is a cat';
     }
     @Get
-    findAll(): string {
+    findAll(@Req() request: Request): string {
         return 'this return all cats';
     }
 }
 
 ```
 
+当向该端点发起 GET 请求时，Nest 会将请求路由到用户定义的 `findAll()` 方法。请注意，此处选择的方法名称完全是任意的。虽然我们必须声明一个方法来绑定路由，但 Nest 不会对方法名称赋予任何特定含义。
+
 Nest还提供其他端点装饰器@Put()、@Delete()、@Patch()、
+
+
 
 #### 状态码
 
@@ -371,6 +172,57 @@ create() {
 
 当您需要接受**动态数据**作为请求的一部分时，
 
+### 提供者
+
+Providers 是 `Nest` 的一个基本概念。许多基本的 `Nest` 类可能被视为 provider - `service`,`repository`, `factory`, `helper` 等等。
+
+定义一个service为provider
+
+```typescript
+export interface Cat {
+ name: string;
+ age: number;
+ breed: string;
+}
+
+import { Injectable } from '@nestjs/common';
+import { Cat } from './interfaces/cat.interface';
+
+@Injectable()
+export class CatsService {
+ private readonly cats: Cat[] = [];
+
+ create(cat: Cat) {
+   this.cats.push(cat);
+ }
+
+ findAll(): Cat[] {
+   return this.cats;
+ }
+}
+
+// 在controller中消费提供者
+import { Controller, Get, Post, Body } from '@nestjs/common';
+import { CreateCatDto } from './dto/create-cat.dto';
+import { CatsService } from './cats.service';
+import { Cat } from './interfaces/cat.interface';
+
+@Controller('cats')
+export class CatsController {
+ constructor(private catsService: CatsService) {}
+
+ @Post()
+ async create(@Body() createCatDto: CreateCatDto) {
+   this.catsService.create(createCatDto);
+ }
+
+ @Get()
+ async findAll(): Promise<Cat[]> {
+   return this.catsService.findAll();
+ }
+}
+```
+
 
 
 ### 模块化
@@ -379,16 +231,30 @@ nest把controller、service、pipe等打包成内部的功能块，每个模块�
 
 在nest中通过@Module装饰器声明一个模块，每个nest程序至少有一个模块，即根模块，根模块是Nest开始安排应用程序树的地方
 
-@module()装饰器接受哦一个描述模块属性的对象
+@module()装饰器接受一个描述模块属性的对象
 
-```js
-provider 
-controller
-imports 
-exports
-```
+| 属性        |                                                              |
+| ----------- | ------------------------------------------------------------ |
+| providers   | 将由 Nest 注入器实例化,且至少可在本模块内共享的提供者        |
+| controllers | 本模块中定义的需要实例化的控制器集合                         |
+| imports     | 导入模块的列表，这些模块导出了本模块所需的提供者             |
+| exports     | 本模块提供的 providers 子集，这些提供者应可供导入本模块的其他模块使用。可以使用提供者本身或其令牌（provide 值） |
 
 把模块到处就能在其他任意模块中重复使用，模块导出时可以导出他们的内部提供者，也可以再导出自己导入的模块
+
+```typescript
+import { Module } from '@nestjs/common';
+import { CatsController } from './cats.controller';
+import { CatsService } from './cats.service';
+
+@Module({
+ controllers: [CatsController],
+ providers: [CatsService],
+})
+export class CatsModule {}
+```
+
+
 
 #### 全局模块
 
@@ -412,9 +278,19 @@ import { CatsService } from './cats.service'
 export class CatModule {}
 ```
 
-### 提供者
 
-Providers 是 `Nest` 的一个基本概念。许多基本的 `Nest` 类可能被视为 provider - `service`,`repository`, `factory`, `helper` 等等。
+
+### 生命周期事件
+
+生命周期事件发生在应用程序启动和关闭过程中。Nest 会在以下每个生命周期事件中调用模块、提供者和控制器上已注册的生命周期钩子方法
+
+| 生命周期钩子方法             | 触发钩子方法调用的生命周期事件                               |
+| ---------------------------- | ------------------------------------------------------------ |
+| onModuleInit()               | 当宿主模块的依赖项已解析完成时调用。                         |
+| onApplicationBootstrap()     | 在所有模块初始化完成但尚未开始监听连接时调用。               |
+| onModuleDestroy()*           | 在接收到终止信号（例如 SIGTERM）后调用。                     |
+| beforeApplicationShutdown()* | 在所有 onModuleDestroy() 处理程序完成（Promise 已解决或拒绝）后调用；一旦完成（Promise 已解决或拒绝），所有现有连接将被关闭（调用了 app.close()）。 |
+| onApplicationShutdown()*     | 在连接关闭后调用（app.close() 解析完成时）。                 |
 
 
 
@@ -438,7 +314,23 @@ Providers 是 `Nest` 的一个基本概念。许多基本的 `Nest` 类可能被
 
 nest的中间件和express的语言，可以直接使用express的中间件
 
+```javascript
+import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
+import { LoggerMiddleware } from './common/middleware/logger.middleware';
+import { CatsModule } from './cats/cats.module';
+import { CatsController } from './cats/cats.controller';
 
+@Module({
+ imports: [CatsModule],
+})
+export class AppModule implements NestModule {
+ configure(consumer: MiddlewareConsumer) {
+   consumer
+     .apply(LoggerMiddleware)
+     .forRoutes(CatsController);
+ }
+}
+```
 
 #### 管道
 
@@ -502,6 +394,23 @@ const app = await NestFactory.create(AppModule);
 app.useGlobalGuards(new RolesGuard());
 ```
 
+**授权**是守卫的绝佳应用场景，因为特定路由应当仅在调用者（通常是已认证的特定用户）拥有足够权限时才可用。我们将要构建的 `AuthGuard` 假设用户已通过认证（因此请求头中附带了令牌）。它将提取并验证令牌，利用提取的信息来判断是否允许该请求继续执行
+
+```typescript
+import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
+import { Observable } from 'rxjs';
+
+@Injectable()
+export class AuthGuard implements CanActivate {
+ canActivate(
+   context: ExecutionContext,
+ ): boolean | Promise<boolean> | Observable<boolean> {
+   const request = context.switchToHttp().getRequest();
+   return validateRequest(request);
+ }
+}
+```
+
 
 
 
@@ -526,9 +435,51 @@ app.useGlobalGuards(new RolesGuard());
 
 #### 异常处理/过滤器
 
+标准异常
+
+Nest 提供了一个内置的 `HttpException` 类，该类从 `@nestjs/common` 包中导出。对于基于 HTTP REST/GraphQL API 的典型应用程序，最佳实践是在发生某些错误条件时发送标准的 HTTP 响应对象
+
+例如，在 `CatsController` 中，我们有一个 `findAll()` 方法（一个 `GET` 路由处理程序）。假设这个路由处理程序由于某种原因抛出了异常。
+
+```javascript
+@Get()
+async findAll() {
+ try {
+   await this.service.findAll()
+ } catch (error) {
+   throw new HttpException({
+     status: HttpStatus.FORBIDDEN,
+     error: 'This is a custom message',
+   }, HttpStatus.FORBIDDEN, {
+     cause: error
+   });
+ }
+}
+```
+
+`HttpException` 构造函数接收两个必选参数来决定响应内容：
+
+- `response` 参数定义了 JSON 响应体，可以是如下所述的 `string` 或 `object` 类型。
+- `status` 参数定义了 [HTTP 状态码](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status)
+
+默认情况下，JSON 响应体包含两个属性：
+
+- `statusCode`：默认为 `status` 参数中提供的 HTTP 状态码
+- `message`：基于 `status` 的 HTTP 错误简短描述
+
+若要仅覆盖 JSON 响应体中的消息部分，请在 `response` 参数中传入字符串。若要覆盖整个 JSON 响应体，则在 `response` 参数中传入对象。Nest 会将该对象序列化后作为 JSON 响应体返回。
+
+第二个构造参数 `status` 应为有效的 HTTP 状态码。最佳实践是使用从 `@nestjs/common` 导入的 `HttpStatus` 枚举。
+
+还存在**第三个**构造参数（可选）——`options`，可用于提供错误[原因](https://nodejs.org/en/blog/release/v16.9.0/#error-cause) 。该 `cause` 对象不会被序列化到响应对象中，但对日志记录很有帮助，能提供引发 `HttpException` 的内部错误的有价值信息
+
+多数情况下，您无需编写自定义异常，直接使用内置的 Nest HTTP 异常即可（详见下一节）。如需创建定制化异常，最佳实践是建立**异常层级结构** ，让自定义异常继承基础 `HttpException` 类。通过这种方式，Nest 能识别您的异常并自动处理错误响应
+
+虽然基础的（内置）异常过滤器能自动处理许多情况，但您可能希望对异常层进行**完全控制** 。例如，您可能希望基于某些动态因素添加日志记录或使用不同的 JSON 模式。 **异常过滤器**正是为此目的而设计。它们让您可以精确控制流程以及返回给客户端的响应内容
+
 内置的 Exception filters 负责处理整个应用程序中的所有抛出的异常，也是 Nestjs 中在 response 前，最后能捕获异常的机会。
 
-```js
+```javascript
 import { ExceptionFilter, Catch, ArgumentsHost } from '@nestjs/common';
 
 @Catch()
@@ -770,7 +721,7 @@ npm i --save-dev @types/socket.io
 
 
 
-### JWT认证
+### passport/JWT认证
 
 通过用户认证可以判断该访问角色的合法性和权限。通常认证要么基于 Session，要么基于 Token。这里就以基于 Token 的 JWT（JSON Web Token） 方式进行用户认证。
 
@@ -779,6 +730,167 @@ $ npm install --save @nestjs/passport passport @nestjs/jwt passport-jwt
 ```
 
 创建`jwt.strategy.ts`，用来验证 token，当 token 有效时，允许进一步处理请求，否则返回`401(Unanthorized)`
+
+首先概述适用于**任何** Passport 策略的流程。将 Passport 视为一个迷你框架会很有帮助，其精妙之处在于它将认证过程抽象为几个基本步骤，您可以根据所实现的策略进行定制。它之所以像框架，是因为您通过提供定制参数（作为普通 JSON 对象）和回调函数形式的自定义代码来配置它，Passport 会在适当时机调用这些回调函数。`@nestjs/passport` 模块将这个框架封装成 Nest 风格的包，使其易于集成到 Nest 应用中。下面我们将使用 `@nestjs/passport`，但先来看看**原生 Passport** 的工作原理。
+
+在原生的 Passport 中，您需要通过提供两样东西来配置策略：
+
+1. 一组特定于该策略的选项。例如，在 JWT 策略中，您可能需要提供一个用于签名令牌的密钥。
+2. "验证回调"，即您告诉 Passport 如何与用户存储（管理用户账户的地方）进行交互的地方。在此处，您需要验证用户是否存在（和/或创建新用户）以及其凭证是否有效。Passport 库期望此回调在验证成功时返回完整的用户对象，失败时返回 null（失败定义为用户未找到，或在 passport-local 策略中密码不匹配）。
+
+使用 `@nestjs/passport` 时，您通过扩展 `PassportStrategy` 类来配置 Passport 策略。通过在子类中调用 `super()` 方法传递策略选项（上述第 1 项），可选择传入选项对象。通过子类中实现 `validate()` 方法来提供验证回调（上述第 2 项）。
+
+
+
+### cls
+
+在复杂系统中，每一个请求过来，我们会调用不同的异步服务(db, fs，微服务等等)，调用过程中如果某一环节出现问题，如何去做链路追踪，或者说如何获取到原始的请求上下文。
+
+在 JAVA/C++ 等多线程服务中，可以通过 TLS(Thread-local storage，线程局部存储)获取请求上下文，但是在 node 这种单线程事件驱动的系统中，如何去请求获取请求上下文。
+
+但是在 node 中，这样的全局变量会被下一个请求复写，导致出现异常时拿到的请求上下文并不是我们想要的那个请求。
+
+另外一个方案是通过在不同服务中透传原始请求，这样的确可以解决问题，但是会引进很多冗余代码，当系统庞大之后，不好扩展
+
+CLS 就是解决上述问题的一个社区方案，全称 `Continuation Local Storage`
+
+CLS 的工作方式类似于 TLS，其基于 node 的回调链而不是线程。换句话说，CLS 可以在 node 这个异步调用链中获取到同一个上下文信息
+
+CLS 中有两个结构概念分别为
+
+1. namespace 命名空间，理论上一个应用分配一个 namespace
+2. context 上下文，namespace 通过一个数组存储多个 context
+
+每次执行 `namespace.run` 都会生成一个上下文，CLS 通过 `process.addAsyncListener` 监听异步事件。在创建异步事件的时候将当前上下文传入，执行异步事件时，检出传入的上下文，异步事件执行结束销毁上下文。 `process.addAsyncListener` 是 [node v0.11 版本的 API](https://link.juejin.cn?target=https%3A%2F%2Fnodejs.org%2Fdocs%2Fv0.11.11%2Fapi%2Fprocess.html%23process_process_addasynclistener_callbacksobj_userdata)，当前已废弃，可以使用社区实现的 polyfill [async-listener](https://link.juejin.cn?target=https%3A%2F%2Fgithub.com%2Fothiym23%2Fasync-listener)。
+
+由于单线程事件驱动的特性，node 无法通过类似线程局部变量的方式跟踪收到请求后的全链路，通过传参的方式跟踪变量过于冗余繁杂，社区给出的方案是引入请求上下文，维护一个上下文的容器，一个请求对对应一个上下文，监听异步资源，在异步执行过程中切换上下文实现全链路追踪
+
+异步本地存储 (Async Local Storage)
+
+`AsyncLocalStorage` 是一个 [Node.js API](https://nodejs.org/api/async_context.html#async_context_class_asynclocalstorage)（基于 `async_hooks` API），它提供了一种无需显式传递函数参数就能在应用中传播本地状态的替代方案。这类似于其他语言中的线程本地存储。
+
+异步本地存储的核心思想是我们可以用 `AsyncLocalStorage#run` 调用*包装*某些函数调用。所有在被包装调用内执行的代码都能访问相同的 `store`，且每个调用链都将拥有唯一的存储空间。
+
+在 NestJS 上下文中，这意味着如果我们能在请求生命周期中找到某个位置来包装请求的剩余代码，就能访问和修改仅对该请求可见的状态，这可以作为 REQUEST 作用域提供程序的替代方案，并解决其部分局限性
+
+async_hooks
+
+async hooks 是 node v8 引入的新特性，通过 async_hooks.createHook(callbacks)创建每个异步事件 `init`, `before`, `after`, `destory` 的生命周期
+
+通过 asyncHooks 可以非常方便的追逐异步事件
+
+```javascript
+const async_hooks = require('async_hooks')
+const fs = require('fs')
+let indent = 0
+async_hooks
+  .createHook({
+    init(asyncId, type, triggerAsyncId) {
+      const eid = async_hooks.executionAsyncId()
+      const indentStr = '├' + '─'.repeat(indent) + ' '
+      fs.writeSync(
+        process.stdout.fd,
+        `${indentStr}${type}(${asyncId}):` +
+          ` trigger: ${triggerAsyncId} execution: ${eid}\n`
+      )
+    },
+    before(asyncId) {
+      const indentStr = '├' + '─'.repeat(indent) + ' '
+      fs.writeSync(process.stdout.fd, `${indentStr}before:  ${asyncId}\n`)
+      indent += 2
+    },
+    after(asyncId) {
+      indent -= 2
+      const indentStr = '├' + '─'.repeat(indent) + ' '
+      fs.writeSync(process.stdout.fd, `${indentStr}after:  ${asyncId}\n`)
+    },
+    destroy(asyncId) {
+      const indentStr = '├' + '─'.repeat(indent) + ' '
+      fs.writeSync(process.stdout.fd, `${indentStr}destroy:  ${asyncId}\n`)
+    },
+  })
+  .enable()
+
+require('net')
+  .createServer(() => {})
+  .listen(8080, () => {
+    // Let's wait 10ms before logging the server started.
+    setTimeout(() => {
+      console.log('>>>', async_hooks.executionAsyncId())
+    }, 10)
+  })
+```
+
+[nestjs-cls](https://github.com/Papooch/nestjs-cls) 包相比直接使用原生 `AsyncLocalStorage`（`CLS` 是 *continuation-local storage* 的缩写）提供了多项开发者体验改进。它将实现抽象为一个 `ClsModule`，为不同传输方式（不仅限于 HTTP）提供多种初始化 `store` 的方法，同时还支持强类型。
+
+在根模块中导入 `ClsModule`
+
+```javascript
+@Module({
+  imports: [
+    // Register the ClsModule,
+    ClsModule.forRoot({
+      middleware: {
+        // automatically mount the
+        // ClsMiddleware for all routes
+        mount: true,
+        // and use the setup method to
+        // provide default store values.
+        setup: (cls, req) => {
+          cls.set('userId', req.headers['x-user-id']);
+        },
+      },
+    }),
+  ],
+  providers: [CatsService],
+  controllers: [CatsController],
+})
+export class AppModule {}
+```
+
+在模块中使用
+
+```javascript
+@Injectable()
+export class CatsService {
+  constructor(
+    // We can inject the provided ClsService instance,
+    private readonly cls: ClsService,
+    private readonly catsRepository: CatsRepository,
+  ) {}
+
+  getCatForUser() {
+    // and use the "get" method to retrieve any stored value.
+    const userId = this.cls.get('userId');
+    return this.catsRepository.getForUser(userId);
+  }
+}
+```
+
+
+
+### axios
+
+[Axios](https://github.com/axios/axios) 是一个功能丰富的 HTTP 客户端包，被广泛使用。Nest 封装了 Axios 并通过内置的 `HttpModule` 暴露它。`HttpModule` 导出了 `HttpService` 类，该类提供了基于 Axios 的方法来执行 HTTP 请求。该库还将生成的 HTTP 响应转换为 `Observables`
+
+安装过程完成后，要使用 `HttpService`，首先需要导入 `HttpModule`
+
+```javascript
+@Module({
+  imports: [HttpModule],
+  providers: [CatsService],
+})
+export class CatsModule {}
+
+@Injectable()
+export class CatsService {
+  constructor(private readonly httpService: HttpService) {}
+
+  findAll(): Observable<AxiosResponse<Cat[]>> {
+    return this.httpService.get('http://localhost:3000/cats');
+  }
+}
+```
 
 
 
@@ -907,15 +1019,63 @@ export class SharedModule {}
 
 
 
+### redis
+
+@nestjs-modules/ioredis
+
+使用
+
+```typescript
+// redis.module.ts
+import { Module } from '@nestjs/common';
+import { RedisService } from './redis.service';
+import { RedisModule as BaseRedisModule } from '@nestjs-modules/ioredis';
+import { ConfigService } from '@nestjs/config';
+import { getBaseConfig } from 'src/common/config';
+
+@Module({
+  imports: [
+    BaseRedisModule.forRootAsync({
+      useFactory: (configService: ConfigService) => ({
+        type: 'single',
+        url: getBaseConfig(configService).redis.url,
+      }),
+      inject: [ConfigService],
+    }),
+  ],
+  providers: [RedisService],
+  exports: [RedisService],
+})
+export class RedisModule {}
+
+// redis.service.ts
+import { Injectable } from '@nestjs/common';
+import { InjectRedis } from '@nestjs-modules/ioredis';
+import Redis from 'ioredis';
+import { ConfigService } from '@nestjs/config';
+import { createHash } from 'crypto';
+import { getBaseConfig } from 'src/common/config';
+
+@Injectable()
+export class RedisService {
+  constructor(
+    @InjectRedis() private readonly redis: Redis,
+    private readonly configService: ConfigService,
+  ) {}
+}
+```
+
+
+
 ### ORM
 
 通过ORM可以使用面向对象编程的方式操作关系型数据库。Java中通常会有DAO(data access object，数据访问对象)层，DAO包含了各种数据库的操作方法，通过DAO对数据进行相关的操作。DAO的主要作用是分离数据层与业务层，避免业务层与数据层耦合。
 
-在nestjs中，使用typeORM作为DAO层，支持MySQL、MariaDB、MongoDB、NoSQL、SQLite、Postgres、CockroachDB、Oracle。
+为方便使用，Nest 原生提供了与 TypeORM 和 Sequelize 的深度集成，分别通过 `@nestjs/typeorm` 和 `@nestjs/sequelize` 包实现（本章将介绍这些内容），以及与 Mongoose 的集成通过 `@nestjs/mongoose` 包（详见[本章](https://docs.nestjs.cn/techniques/mongodb) ）。这些集成提供了额外的 NestJS 专属特性，如模型/仓库注入、可测试性和异步配置，使访问所选数据库更加便捷。，支持MySQL、MariaDB、MongoDB、NoSQL、SQLite、Postgres、CockroachDB、Oracle。
 
 安装库
 
-```javascript
+```shell
 $ npm install --save @nestjs/typeorm
 ```
 
@@ -964,6 +1124,13 @@ export class UserService{
 
 ```
 
+`forRoot()` 方法支持 [TypeORM](https://typeorm.io/data-source-options#common-data-source-options) 包中 `DataSource` 构造函数公开的所有配置属性。此外，还支持以下描述的若干额外配置属性。
+
+| `retryAttempts`    | 数据库连接尝试次数（默认：10）           |
+| ------------------ | ---------------------------------------- |
+| `retryDelay`       | 连接重试间隔时间（毫秒）（默认：3000）   |
+| `autoLoadEntities` | 若为 true，实体将自动加载（默认：false） |
+
 #### Mongo
 
 安装包
@@ -995,7 +1162,7 @@ yarn add @nestjs/typeorm typeorm mongodb
 
 安装包
 
-```js
+```shell
 npm install --save typeorm mysql
 ```
 
@@ -1123,6 +1290,233 @@ export class CatsController {
   }
 }
 ```
+
+#### 装饰器
+
+所有可用的 OpenAPI 装饰器都带有 `Api` 前缀，以区别于核心装饰器。以下是导出的装饰器完整列表，并标注了每个装饰器可应用的层级。
+
+|                                                         |             |
+| ------------------------------------------------------- | ----------- |
+| @ApiBasicAuth()                                         | 方法/控制器 |
+| @ApiBearerAuth()                                        | 方法/控制器 |
+| @ApiBody()                                              | 方法        |
+| @ApiConsumes()                                          | 方法/控制器 |
+| @ApiCookieAuth()                                        | 方法/控制器 |
+| @ApiExcludeController()                                 | 控制器      |
+| @ApiExcludeEndpoint()                                   | 方法        |
+| @ApiExtension()                                         | 方法        |
+| @ApiExtraModels()                                       | 方法/控制器 |
+| @ApiHeader()                                            | 方法/控制器 |
+| @ApiHideProperty()                                      | 模型        |
+| @ApiOAuth2()                                            | 方法/控制器 |
+| @ApiOperation()                                         | 方法        |
+| @ApiParam()                                             | 方法/控制器 |
+| @ApiProduces()                                          | 方法/控制器 |
+| @ApiSchema()                                            | 模型        |
+| @ApiProperty{ description: '所属分组', maxLength: 50 }) | 模型        |
+| @ApiPropertyOptional()                                  | 模型        |
+| @ApiQuery()                                             | 方法/控制器 |
+| @ApiResponse()                                          | 方法/控制器 |
+| @ApiSecurity()                                          | 方法/控制器 |
+| @ApiTags()                                              | 方法/控制器 |
+| @ApiCallbacks()                                         | 方法/控制器 |
+
+
+
+### 其他工具
+
+#### 类型校验和转换器(序列化)
+
+验证发送到 Web 应用程序的任何数据的正确性是最佳实践。为了自动验证传入请求，Nest 提供了几个开箱即用的管道：
+
+- `ValidationPipe`
+- `ParseIntPipe`
+- `ParseBoolPipe`
+- `ParseArrayPipe`
+- `ParseUUIDPipe`
+
+`ValidationPipe` 利用了强大的 [class-validator](https://github.com/typestack/class-validator) 包及其声明式验证装饰器。`ValidationPipe` 提供了一种便捷的方法来强制执行所有传入客户端负载的验证规则，其中特定规则通过每个模块中本地类/DTO 声明中的简单注解来声明。
+
+自动验证
+
+```typescript
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
+  app.useGlobalPipes(new ValidationPipe());
+  await app.listen(process.env.PORT ?? 3000);
+}
+bootstrap();
+```
+
+Nest 提供了内置功能来帮助确保这些操作能够以简单直接的方式完成。`ClassSerializerInterceptor` 拦截器利用强大的 [class-transformer](https://github.com/typestack/class-transformer) 包，提供了一种声明式且可扩展的对象转换方式。其基本操作是获取方法处理程序返回的值，并应用 [class-transformer](https://github.com/typestack/class-transformer) 中的 `instanceToPlain()` 函数。在此过程中，它可以应用实体/DTO 类上由 `class-transformer` 装饰器表达的规则，如下所述。
+
+```typescript
+@SerializeOptions({
+  excludePrefixes: ['_'],
+})
+@Get()
+findOne(): UserEntity {
+  return new UserEntity();
+}
+
+@Transform(({ value }) => value.name)
+role: RoleEntity;
+```
+
+#### 环境变量
+
+`NestJS`很贴心的帮我做了环境变量配置的工作，提供了`@nestjs/config`包来进行环境变量的配置
+
+```shell
+npm install @nestjs/config --save
+```
+
+使用
+
+```typescript
+import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+​
+@Module({
+  imports: [ConfigModule.forRoot({这里放置配置信息})],
+})
+export class AppModule {}
+```
+
+默认情况下，这样配置之后，系统会解析项目根目录下的`.env`文件，提取其中的`key/value`对信息，并附加到`process.env`对象中，后面可以通过`ConfigService`获取到这些`key/value`值，一个简单的`.env`示例如下
+
+默认情况下直接找的是根目录下的`.env`文件，我们也可以自定义，自定义接收一个数组，如果有重复定义的变量，那么谁在前谁生效
+
+```typescript
+ConfigModule.forRoot({
+  isGlobal: true,
+  envFilePath: ['.env.development.local', '.env.development'],
+});
+```
+
+使用yaml
+
+```shell
+$ npm i js-yaml
+$ npm i -D @types/js-yaml
+```
+
+https://juejin.cn/post/7177407436381388858#heading-8
+
+#### 循环依赖
+
+循环依赖指的是两个类相互依赖的情况。例如，类 A 需要类 B，而类 B 也需要类 A。在 Nest 中，模块之间以及提供者之间都可能出现循环依赖。
+
+虽然应尽可能避免循环依赖，但有时无法完全避免。针对这种情况，Nest 提供了两种解决提供者间循环依赖的方法。使用前向引用
+
+```javascript
+@Injectable()
+export class CatsService {
+ constructor(
+   @Inject(forwardRef(() => CommonService))
+   private commonService: CommonService,
+ ) {}
+}
+
+@Injectable()
+export class CommonService {
+ constructor(
+   @Inject(forwardRef(() => CatsService))
+   private catsService: CatsService,
+ ) {}
+}
+```
+
+#### 任务调度
+
+任务调度允许您安排任意代码（方法/函数）在固定日期/时间、按重复间隔或在指定间隔后执行一次。在 Linux 领域，这通常由操作系统层面的 [cron](https://en.wikipedia.org/wiki/Cron) 等包处理。对于 Node.js 应用，有多个包可模拟类似 cron 的功能。Nest 提供了 `@nestjs/schedule` 包，它与流行的 Node.js[cron](https://github.com/kelektiv/node-cron) 包集成。
+
+安装
+
+```shell
+$ npm install --save @nestjs/schedule
+```
+
+使用, 要激活任务调度功能，请将 `ScheduleModule` 导入根模块 `AppModule`，并运行如下所示的 `forRoot()` 静态方法
+
+```javascript
+import { Module } from '@nestjs/common';
+import { ScheduleModule } from '@nestjs/schedule';
+
+@Module({
+ imports: [
+   ScheduleModule.forRoot()
+ ],
+})
+export class AppModule {}
+```
+
+`.forRoot()` 调用会初始化调度器并注册应用中所有声明式的 [cron 任务](https://docs.nestjs.cn/techniques/techniques/task-scheduling#声明式-cron-任务) 、 [超时任务](https://docs.nestjs.cn/techniques/techniques/task-scheduling#声明式超时) 和 [间隔任务](https://docs.nestjs.cn/techniques/techniques/task-scheduling#声明式间隔任务) 。注册过程发生在 `onApplicationBootstrap` 生命周期钩子触发时，确保所有模块都已加载并声明了计划任务
+
+#### bullMq
+
+安装
+
+```shell
+$ npm install --save @nestjs/bullmq bullmq
+```
+
+使用
+
+```typescript
+import { Processor, WorkerHost } from '@nestjs/bullmq';
+import { Job } from 'bullmq';
+
+@Processor('audio')
+export class AudioConsumer extends WorkerHost {
+  async process(job: Job<any, any, string>): Promise<any> {
+    let progress = 0;
+    for (let i = 0; i < 100; i++) {
+      await doSomething(job.data);
+      progress += 1;
+      await job.updateProgress(progress);
+    }
+    return {};
+  }
+}
+```
+
+#### 静态资源
+
+为了提供静态内容服务（如单页应用 SPA），我们可以使用 [`@nestjs/serve-static`](https://www.npmjs.com/package/@nestjs/serve-static) 包中的 `ServeStaticModule` 模块
+
+使用
+
+```typescript
+import { Module } from '@nestjs/common';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
+
+@Module({
+  imports: [
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'client'),
+    }),
+  ],
+  controllers: [AppController],
+  providers: [AppService],
+})
+export class AppModule {}
+```
+
+
+
+#### 健康检查
+
+Terminus 集成提供了**就绪性/存活状态**健康检查功能。在复杂的后端架构中，健康检查至关重要。简而言之，在 Web 开发领域，健康检查通常由一个特殊地址组成，例如 `https://my-website.com/health/readiness` 。您的服务或基础设施组件（如 [Kubernetes](https://kubernetes.io/)）会持续检查该地址。根据对该地址 `GET` 请求返回的 HTTP 状态码，当收到"不健康"响应时，服务将采取相应措施。由于"健康"或"不健康"的定义因服务类型而异，**Terminus** 集成通过一组**健康指标**为您提供支持。
+
+例如，如果您的 Web 服务器使用 MongoDB 存储数据，了解 MongoDB 是否仍在运行将是关键信息。在这种情况下，您可以使用 `MongooseHealthIndicator`。如果配置正确（稍后会详细介绍），您的健康检查地址将根据 MongoDB 是否运行返回健康或不健康的 HTTP 状态码
+
+https://docs.nestjs.cn/recipes/terminus#typeorm-%E5%81%A5%E5%BA%B7%E6%8C%87%E6%A0%87
+
+
 
 ### 热重载
 

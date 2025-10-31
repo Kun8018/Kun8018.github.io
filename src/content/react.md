@@ -1314,3 +1314,33 @@ function Page({commentsPromise}) {
 
 https://juejin.cn/post/7361611938474688562#heading-15
 
+
+
+### 其他
+
+`ReactDOM.render` 已于 [2022年3月 (v18.0.0)](https://reactjs.ac.cn/blog/2022/03/08/react-18-upgrade-guide) 被弃用。在 React 19 中，我们将移除 `ReactDOM.render`，您需要迁移到使用 [`ReactDOM.createRoot`](https://reactjs.ac.cn/reference/react-dom/client/createRoot)。
+
+`ReactDOM.hydrate` 已于 [2022年3月 (v18.0.0)](https://reactjs.ac.cn/blog/2022/03/08/react-18-upgrade-guide) 被弃用。在 React 19 中，我们将移除 `ReactDOM.hydrate`，您需要迁移到使用 [`ReactDOM.hydrateRoot`](https://reactjs.ac.cn/reference/react-dom/client/hydrateRoot)。
+
+```react
+// Before
+import {render} from 'react-dom';
+
+render(<App />, document.getElementById('root'));
+
+// After
+import {createRoot} from 'react-dom/client';
+
+const root = createRoot(document.getElementById('root'));
+
+root.render(<App />);
+
+// Before
+import {hydrate} from 'react-dom';
+hydrate(<App />, document.getElementById('root'));
+
+// After
+import {hydrateRoot} from 'react-dom/client';
+hydrateRoot(document.getElementById('root'), <App />);
+```
+

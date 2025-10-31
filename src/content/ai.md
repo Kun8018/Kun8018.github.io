@@ -593,6 +593,60 @@ RAGFlow通过深度文档理解技术，结合先进的大语言模型，完美�
 
 
 
+### vikingdb
+
+使用
+
+```typescript
+import { Signer } from '@volcengine/openapi';
+import type { RequestObj } from '@volcengine/openapi/lib/base/types';
+
+interface Options {
+  pathname: string
+  method: 'GET' | 'POST'
+  body?: string // json 字符串，当且仅当 post 请求
+  region: 'cn-beijing' | 'cn-shanghai'
+  params?: Record<string, any> // 当且仅当 get 请求
+}
+
+function signer({ pathname, method, body, region, params }: Options) {
+  const requestObj: RequestObj = {
+   region, 
+   headers: {
+     Accept: 'application/json',
+     'Content-Type': 'application/json'
+   },
+   method,
+   body,
+   pathname,
+   params,
+ }
+
+  const signer = new Signer(requestObj, 'air')
+    signer.addAuthorization({
+      accessKeyId: 'ak', // 替换为用户 ak
+      secretKey: 'sk', // 替换为用户 sk
+ })
+ return requestObj.headers
+}
+
+import { Injectable } from '@nestjs/common';
+import { vikingdb } from '@volcengine/openapi';
+
+@Injectable()
+export class VolcengineService {
+  public service = new vikingdb.VikingdbService({
+    ak: 'xxx',
+    sk: 'xxx',
+    region: 'cn-shanghai',
+  });
+}
+```
+
+
+
+
+
 ## 协同工具
 
 ### Vibe-kanban

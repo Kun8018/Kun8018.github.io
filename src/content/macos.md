@@ -1040,6 +1040,10 @@ kill -QUIT 53536
 
 
 
+### office
+
+https://github.com/alsyundawy/Microsoft-Office-For-MacOS
+
 
 
 ## 保护电池，减少循环

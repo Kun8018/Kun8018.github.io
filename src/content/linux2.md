@@ -372,6 +372,46 @@ upstream bakend{ #定义负载均衡设备的Ip及设备状态
 
 https://www.kawabangga.com/posts/5301
 
+#### sticky
+
+Sticky就是基于cookie的一种负载均衡解决方案，它是通过基于cookie实现客户端与后端服务器的会话保持, 在一定条件下可以保证同一个客户端访问的都是同一个后端服务器。请求来了，服务器发个cookie，并说：下次来带上，直接来找我。
+
+Sticky是nginx的一个模块，它是基于cooki e的一种nginx的负载均衡解决方案，通过分发和识别cookie，来使同一个客户端的请求落在同一台服务器上，默认标识名为route
+
+- 1.客户端首次发起访问请求，nginx接收后，发现请求头没有cookie，则以轮询方式将请求分发给后端服务器。
+- 2.后端服务器处理完请求，将响应数据返回给nginx。
+- 3.此时nginx生成带route的cookie，返回给客户端。route的值与后端服务器对应，可能是明文，也可能是md5、sha1等Hash值
+- 4.客户端接收请求，并保存带route的cookie。
+- 5.当客户端下一次发送请求时，会带上route，nginx根据接收到的cookie中的route值，转发给对应的后端服务器。
+
+下载sticky
+
+```shell
+wget https://bitbucket.org/nginx-goodies/nginx-sticky-module-ng/get/master.tar.gz
+tar xf master.tar.gz
+
+#把此模块放进nginx/module目录下,名称太长，重命名一下
+mkdir /usr/local/nginx/module
+mv nginx-goodies-nginx-sticky-module-ng-08a395c66e42 /usr/local/nginx/module/nginx-sticky-module
+```
+
+配置
+
+```nginx
+upstream backend {
+    sticky name=ngx_cookie expires=6h;
+    server 192.168.31.240:8080 weight=3 max_fails=3 fail_timeout=10s;
+    server 192.168.31.241:8080 weight=3 max_fails=3 fail_timeout=10s;
+    server 192.168.31.242:8080 weight=6 max_fails=3 fail_timeout=10s;
+    server 192.168.31.243:8080;
+    server 192.168.31.244:8080 down;
+}
+```
+
+
+
+
+
 ### 支持CORS跨域
 
 nginx配置做跨域处理--添加请求头
@@ -734,6 +774,120 @@ server {
     }
 }
 ```
+
+### SSE/Websocket配置
+
+要配置 [Nginx](https://zhida.zhihu.com/search?content_id=237303570&content_type=Article&match_order=1&q=Nginx&zhida_source=entity) 以支持大模型的流式输出，特别是使用 [SSE](https://zhida.zhihu.com/search?content_id=237303570&content_type=Article&match_order=1&q=SSE&zhida_source=entity) (Server-Sent Events)，你需要确保 Nginx 能够处理 [HTTP 流式连接](https://zhida.zhihu.com/search?content_id=237303570&content_type=Article&match_order=1&q=HTTP+流式连接&zhida_source=entity)
+
+```nginx
+# 定义变量用于处理 WebSocket 的 Upgrade 和 Connection 请求头：
+map $http_upgrade $connection_upgrade {
+    default upgrade;
+    ''  close;
+}
+
+server {
+    listen 80;
+    server_name 192.168.1.9;
+
+    # 处理静态文件的路径
+    location /static/ {
+        alias /home/staticfiles/;
+    }
+    
+    # 正常的接口请求转发到后端
+    location / {
+        proxy_pass http://127.0.0.1:8000;  # 转发到后端
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+    
+    # 转发 SSE 请求
+    location ~ ^/sse/ {  # 匹配以 /sse/ 开头的路径
+        proxy_pass http://127.0.0.1:8000;  # 配置代理的后端服务器地址
+        proxy_http_version 1.1; # 设置 HTTP 版本，SSE 需要 HTTP/1.1
+        proxy_set_header Connection ''; # 保持连接活性，不发送连接关闭的信号
+        proxy_buffering off;  #不对 SSE 响应进行缓冲，直接透传给客户端
+        proxy_cache off; # 关闭代理缓存
+        proxy_read_timeout 3600s;  # 设置代理读取服务器响应的超时时间
+        proxy_send_timeout 3600s;
+        proxy_connect_timeout 1h;  # 设置客户端连接的超时时间
+        proxy_set_header Host $host; # 配置代理传递的头部，确保 Host 头部正确传递
+        proxy_set_header X-Accel-Buffering no; # 设置代理的响应头部，保持传输编码为 chunked
+        add_header Cache-Control no-cache;
+        # add_header X-Accel-Buffering "no";
+        chunked_transfer_encoding on; # 启用分块传输编码
+        gzip off;
+                
+        
+        # 设置跨域资源共享 (CORS)，如果你的客户端和服务器不在同一个域上
+        add_header 'Access-Control-Allow-Origin' '*' always;
+        add_header 'Access-Control-Allow-Credentials' 'true' always;
+        add_header 'Access-Control-Allow-Methods' 'GET, OPTIONS' always;
+        add_header 'Access-Control-Allow-Headers' 'Origin,Authorization,Accept,X-Requested-With' always;
+        if ($request_method = 'OPTIONS') {
+            # 如果请求方法为 OPTIONS，则返回 204 (无内容)
+            add_header 'Access-Control-Allow-Origin' '*';
+            add_header 'Access-Control-Allow-Methods' 'GET, OPTIONS';
+            add_header 'Access-Control-Allow-Headers' 'Origin,Authorization,Accept,X-Requested-With';
+            add_header 'Access-Control-Max-Age' 1728000;
+            add_header 'Content-Type' 'text/plain charset=UTF-8';
+            add_header 'Content-Length' 0;
+            return 204;
+        }
+    }
+    
+    # 转发 WebSocket 请求
+    location ^~ /ws/ {
+        proxy_pass http://127.0.0.1:8000;  # 转发到 ASGI 服务器
+        # 保证连接不会超时
+        proxy_read_timeout 300s;
+        proxy_send_timeout 300s;
+        proxy_connect_timeout 3600s;
+    
+        # 转发 WebSocket 请求头
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    
+        # WebSocket 特有配置
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection $connection_upgrade;
+    
+        # 可选: 传递 Authorization 头部，如果需要身份验证
+        # proxy_set_header Authorization $http_authorization;
+    }
+}
+```
+
+
+
+### 水平扩容
+
+动态水平扩容是Nginx的一个重要特性，它允许在运行时根据需求动态地增加或减少服务器的处理能力。
+
+Nginx的动态水平扩容基于其模块化架构和事件驱动的处理方式。Nginx由多个模块组成，每个模块负责特定的功能，如请求处理、[负载均衡](https://cloud.baidu.com/product/blb.html)等。这种模块化设计使得Nginx能够灵活地扩展其功能，通过添加或删除模块来适应不同的需求。
+
+事件驱动的架构使得Nginx能够高效地处理大量并发连接。它采用非阻塞IO模型，能够同时处理数万个并发连接，而不会因为单个连接的延迟而影响整体性能。这种架构使得Nginx能够在不增加服务器硬件的情况下，通过增加工作进程数量来提高处理能力。
+
+要实现Nginx的动态水平扩容，通常需要以下几个步骤：
+
+1. 配置负载均衡器：首先，需要在Nginx之前配置一个负载均衡器，如HAProxy或Consul。负载均衡器负责将客户端请求分发到不同的服务器上。通过配置负载均衡器，可以轻松地添加或减少服务器实例，实现动态扩容。
+2. 配置Nginx服务器：在每个Nginx服务器上，需要配置反向代理和负载均衡。通过配置代理模块，如ngx_http_proxy_module，可以将客户端请求转发到后端的应用服务器上。同时，通过配置负载均衡算法，如轮询或IP哈希，可以确保请求被均匀地分发到各个应用服务器上。
+3. 监控和自动扩容：要实现动态水平扩容，需要监控服务器的性能指标，如CPU使用率、内存消耗和请求延迟等。当这些指标超过预设阈值时，可以自动触发扩容操作。通过编写脚本或使用第三方工具，可以自动增加或减少Nginx服务器实例的数量，以满足需求。
+
+在实现Nginx的动态水平扩容时，需要注意以下几点：
+
+1. 选择合适的负载均衡器：根据实际需求选择适合的负载均衡器，如HAProxy适用于高可用性场景，Consul适用于服务发现和负载均衡。
+2. 配置健康检查：为了确保请求能够正确地分发到健康的应用服务器上，需要配置负载均衡器的健康检查功能。这样可以避免将请求转发到故障服务器上。
+3. 优化Nginx配置：根据实际场景优化Nginx的配置，如调整工作进程数量、开启keepalive连接等，以提高服务器的处理能力和性能。
+4. 监控和分析：建立完善的监控体系和分析机制，以便及时发现和解决性能瓶颈和问题。通过收集和分析[日志](https://cloud.baidu.com/product/bls.html)数据，可以深入了解服务器的运行状况和用户行为。
+
+
 
 ### 缓冲优化
 

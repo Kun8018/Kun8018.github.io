@@ -9,6 +9,22 @@ toc: true
 thumbnail: 
 ---
 
+## 江浙沪
+
+上海交大：
+
+马道林：https://mpi.sjtu.edu.cn/people.html
+
+谷国迎：https://softrobotics.sjtu.edu.cn/lab%20members.html
+
+
+
+## 广深
+
+中大吴嘉宁：
+
+
+
 ## 港/澳/新加坡
 
 澳门大学：
@@ -28,6 +44,8 @@ https://sites.google.com/view/huikonglab/home
 https://bbs.gter.net/forum.php?mod=forumdisplay&fid=1131&page=1
 
 港城大：https://www.cityu.edu.hk/mne/people/academic-staff/prof-lu-jian
+
+港中文：labren 任洪亮：http://www.labren.org/mm/
 
 
 
@@ -97,6 +115,12 @@ Bristol Robotics Laboratory （布里斯托机器人实验室）
 机器学习，程光亮教授：https://sites.google.com/view/guangliangcheng/homepage
 
 机器人：杨辰光教授：
+
+
+
+## 北京
+
+北大：中國科學院院士段慧玲
 
 
 
