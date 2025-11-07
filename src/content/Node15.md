@@ -635,6 +635,47 @@ job.getPattern(); 	// Returns the original pattern string
 - Worker：工作进程，负责消费者功能，处理具体的任务；
 - Backend：后端存储，用于存储任务执行状态的数据；
 
+
+
+#### agenda
+
+Agenda 是基于 node 的一个轻量级任务调度类库，它的优势在于轻量级、持久化、使用简单。
+
+Agenda 引入mongodb从而实现持久化 。Agenda 将所有的任务（job）存储到[mongodb](https://zhida.zhihu.com/search?content_id=2565813&content_type=Article&match_order=2&q=mongodb&zhida_source=entity)中，对于使用mongodb做数据库的项目有天然优势。
+
+在 Agenda 启动时会将预定义好的 processors 遍历一遍，从mongodb中查询出符合条件 job（这里的 job 可能不止一条）。对于遍历查询出来的job：如果时间已到或者已经是过去时间，那么立即执行；如果时间还未到，那么就延迟执行。
+
+```javascript
+const mongoConnectionString = 'mongodb://127.0.0.1/agenda';
+
+const agenda = new Agenda({ db: { address: mongoConnectionString } });
+
+// Or override the default collection name:
+// const agenda = new Agenda({db: {address: mongoConnectionString, collection: 'jobCollectionName'}});
+
+// or pass additional connection options:
+// const agenda = new Agenda({db: {address: mongoConnectionString, collection: 'jobCollectionName', options: {ssl: true}}});
+
+// or pass in an existing mongodb-native MongoClient instance
+// const agenda = new Agenda({mongo: myMongoClient});
+
+agenda.define('delete old users', async job => {
+	await User.remove({ lastLogIn: { $lt: twoDaysAgo } });
+});
+
+(async function () {
+	// IIFE to give access to async/await
+	await agenda.start();
+
+	await agenda.every('3 minutes', 'delete old users');
+
+	// Alternatively, you could also do:
+	await agenda.every('*/3 * * * *', 'delete old users');
+})();
+```
+
+
+
 ### 加解密包
 
 #### node-rsa

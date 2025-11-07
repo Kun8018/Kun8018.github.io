@@ -17,6 +17,10 @@ thumbnail:
 
 谷国迎：https://softrobotics.sjtu.edu.cn/lab%20members.html
 
+南大苏州：
+
+司晨阳：https://chenyangsi.top/#publications  https://zhuanlan.zhihu.com/p/29424201230
+
 
 
 ## 广深
