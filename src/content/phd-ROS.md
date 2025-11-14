@@ -237,11 +237,110 @@ https://moveit.ai/
 
 ## Gazebo
 
+使用docker安装Gazebo
+
+```dockerfile
+# 使用官方的ROS镜像作为基础镜像
+FROM ros:noetic-ros-base
+
+# 添加ROS源
+RUN echo "deb http://packages.ros.org/ros/ubuntu focal main" > /etc/apt/sources.list.d/ros1-latest.list
+
+# 导入ROS的公钥
+RUN apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
+
+# 更新apt包列表
+RUN apt-get update
+
+# 安装 RViz 和其他 ROS 工具
+RUN apt-get install -y \
+    ros-noetic-rviz \
+    ros-noetic-xacro \
+    ros-noetic-joint-state-publisher-gui \
+    ros-noetic-robot-state-publisher
+
+# 安装 Gazebo 11 和相关的开发包
+RUN apt-get install -y \
+    gazebo11 \
+    libgazebo11-dev
+
+# 安装 Gazebo ROS 包
+RUN apt-get install -y \
+    ros-noetic-gazebo-ros-pkgs \
+    ros-noetic-gazebo-ros-control
+
+# 设置容器的主命令为bash终端
+CMD ["/bin/bash"]
+```
+
+使用 Gazebo 时，了解其基本概念非常重要，这有助于你更好地理解和使用这个仿真平台。以下是 Gazebo 的一些基本概念及其简短的解释：
+
+1. **模型（Models）**: 模型是 Gazebo 中的基本构建块，它们代表物理对象，如机器人、建筑物或其他任何物体。每个模型都有与之相关的几何、视觉和物理属性。
+2. **世界（Worlds）**: 世界是模型存在和交互的环境。它包括一系列的模型，以及描述这些模型如何相互作用的物理属性（例如，重力和摩擦）。
+3. **插件（Plugins）**: 插件允许用户扩展 Gazebo 的功能。通过编写插件，用户可以创建新的物理引擎、传感器模型、控制器等。
+4. **传感器（Sensors）**: 传感器是模拟真实世界传感器的虚拟设备，例如相机、雷达或激光雷达。它们可以感知仿真世界中的其他模型和环境。
+5. **视觉和物理属性**: 模型在 Gazebo 中具有视觉和物理属性。视觉属性决定模型看起来如何，而物理属性（例如质量和惯性）决定模型如何在仿真环境中运动。
+6. **通信接口（Communication Interfaces）**: Gazebo 提供了一些通信接口，如 ROS（机器人操作系统）集成，以便用户可以控制和监视仿真。
+
+开始使用 Gazebo 之前，熟悉其用户界面和基本功能是很重要的。这将帮助你更高效地使用这个工具。下面是 Gazebo 用户界面和基本功能的简要概述：
+
+1. **主界面**: Gazebo 的主界面包含了一个视图窗口，显示了你的仿真世界。你可以通过鼠标和键盘控制来旋转、平移和缩放视图。
+2. **工具栏**: 位于主界面顶部的工具栏提供了许多常用功能的快捷方式，如启动/暂停仿真、重置仿真、保存世界等。
+3. **模型库**: 通过模型库，你可以浏览和插入预先创建的模型到你的世界中。你也可以保存自己创建的模型到模型库中。
+4. **插件和控件**: Gazebo 支持多种插件和控件，让你能够自定义用户界面并添加新功能。
+5. **属性面板**: 属性面板显示了当前选定对象的属性和设置。你可以在这里修改模型、传感器和其他对象的属性。
+6. **主题和布局**: Gazebo 允许你通过更改主题和布局来自定义界面的外观和布局。
+7. **日志和错误输出**: 通过日志窗口，你可以查看仿真的日志输出和任何错误或警告。
+
+在 Gazebo 中，模型库提供了一种方便的方式来访问和共享仿真模型。你可以从模型库中加载预先创建的模型，也可以将自己创建的模型保存到模型库中。以下是如何从 Gazebo 的模型库中加载基本模型的步骤：
+
+1. **打开模型库**: 在 Gazebo 的主界面中，点击左侧选项卡中的 `Insert` 来打开模型库。
+2. **浏览和选择模型**: 在模型库窗口中，你可以看到一个模型列表。这些模型可能是本地保存的，也可能是从在线模型库加载的。点击你想要的模型，例如 `ground_plane` 或 `sun`。
+3. **加载模型**: 选择你想要的模型后，点击“插入”按钮，或者直接拖拽模型到仿真窗口中。模型会被加载到你的仿真世界中。
+4. **保存世界** (可选): 如果你想保存包含新模型的世界，可以通过菜单 `File` -> `Save World As...` 来保存你的世界到一个新文件。
+
+编写控制程序
+
+```python
+#!/usr/bin/env python3
+
+import rospy
+from geometry_msgs.msg import Wrench
+
+def apply_force():
+    # Initialize the node
+    rospy.init_node('force_applier', anonymous=True)
+    
+    # Create a publisher to send force commands
+    pub = rospy.Publisher('/force', Wrench, queue_size=10)
+    
+    # Create a Wrench message to send force and torque commands
+    cmd = Wrench()
+    cmd.force.x = 0.0
+    cmd.force.y = 0.0
+    cmd.force.z = 0.0
+    cmd.torque.x = 0.0
+    cmd.torque.y = 0.0
+    cmd.torque.z = 0.6  # Apply a torque of 0.6 N*m about the z-axis
+    
+    rate = rospy.Rate(10)  # 10 Hz
+    while not rospy.is_shutdown():
+        # Publish the command
+        pub.publish(cmd)
+        rate.sleep()
+
+if __name__ == '__main__':
+    try:
+        apply_force()
+    except rospy.ROSInterruptException:
+        pass
+```
+
 
 
 ## Rviz
 
-
+http://tr-ros-tutorial.readthedocs.io/zh-cn/latest/_source/simulation/gazebo_and_rviz.html
 
 
 
@@ -386,6 +485,27 @@ setuptools.Extension类有几个重要的构造参数（详见[API文档](https:
 - extra_link_args：其实传给 gcc 的额外的链接参数（生成动态链接库）
 - define_macros：定义宏
 - undef_macros：取消定义宏
+
+
+
+## 英伟达机器人
+
+NVIDIA Isaac GR00T 是一个用于构建机器人基础模型和数据管道的研发平台，旨在加速智能、适应性机器人的创建。
+
+  Isaac GR00T N1.5，这是 Isaac GR00T N1 的首次重大更新，Isaac GR00T N1 是全球首个用于广义人形机器人推理和技能的开放基础模型。该跨具体化模型能够处理多模态输入（包括语言和图像），以便在各种环境中执行操作任务。它可以通过后期训练适应特定的具体化、任务和环境。
+
+https://mp.weixin.qq.com/s/rI104nFvr3iyVZKwnqyDrg?click_id=15
+
+
+
+NVIDIA Isaac Sim 是一个强大的机器人开发仿真平台，支持与 ROS2 和深度学习应用的无缝集成。本指南将介绍如何在 Isaac Sim 中使用 API 独立模式设置 LeRobot。该方法无需 GUI 即可完全控制机器人仿真。
+
+确保已安装以下内容：
+
+- Isaac Sim 4.5.0
+- 系统上配置好 ROS2 Humble
+- 有效的机器人 USD 模型（lerobot.usd）
+- 安装所需依赖（numpy、pxr、omni.graph.core、isaacsim.core.api 等）
 
 
 

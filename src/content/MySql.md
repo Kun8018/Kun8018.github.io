@@ -22,6 +22,62 @@ https://mp.weixin.qq.com/s/JQCtqM6aep3jtgiRL_9J5g
 
 无论在 MySQL 中选择了哪个存储引擎，所有的 MySQL 表都会在硬盘上创建一个 `.frm` 文件用来描述表的格式或者说定义；`.frm` 文件的格式在不同的平台上都是相同的。
 
+### 子查询
+
+子查询指一个查询语句嵌套在另一个查询语句内部的查询，内部的查询是外部查询的条件，这个特性从MySQL4.1开始引入。
+
+SQL中子查询的使用大大增强了SELECT查询的能力，因为很多时候查询需要从结果集中获取数据，或者需要从同一个表中先计算得出一个数据结果，然后与这个数据结果（可能是某个标量，也可能是某个集合）进行比较。
+
+```sql
+SELECT -- 主查询
+    select_list
+FROM
+    table
+WHERE
+    expr operator > (SELECT -- 子查询
+            select_list
+        FROM
+            table);
+```
+
+子查询(内查询)在主查询之前执行完成。
+
+子查询的结果被主查询(外查询)使用。
+
+注意事项：
+
+- 子查询要包含在括号内
+- 将子查询放在比较条件的右侧
+- 单行操作符对应单行子查询，多行操作符对应多行子查询
+
+在应用程序中使用子查询后，SQL语句的查询性能变得非常糟糕
+
+```sql
+SELECT driver_id FROM driver where driver_id in (SELECT driver_id FROM driver where _create_date > '2016-07-25 00:00:00');
+```
+
+可以看到上面的SQL语句变成了相关子查询，通过EXPLAIN EXTENDED 和 SHOW WARNINGS命令，可以看到如下结果：
+
+```sql
+select `northwind`.`driver`.`driver_id` AS `driver_id` from `northwind`.`driver` where <in_optimizer>(`northwind`.`driver`.`driver_id`,<exists>(select 1 from `northwind`.`driver` where ((`northwind`.`driver`.`_create_date` > '2016-07-25 00:00:00') and (<cache>(`northwind`.`driver`.`driver_id`) = `northwind`.`driver`.`driver_id`))))
+
+```
+
+如果查询的两个表大小相当，那么用in和exists差别不大。 如果两个表中一个较小，一个是大表，则子查询表大的用exists，子查询表小的用in：  例如：表A（小表），表B（大表） 1： select * from A where cc in (select cc from B) 效率低，用到了A表上cc列的索引； select * from A where exists(select cc from B where cc=A.cc) 效率高，用到了B表上cc列的索引。  相反的 2： select * from B where cc in (select cc from A) 效率高，用到了B表上cc列的索引； select * from B where exists(select cc from A where cc=B.cc) 效率低，用到了A表上cc列的索引。
+
+#### SEMI JOIN策略
+
+优化器会识别出需要子查询的IN语句以便从区域表返回每个区域键的一个实例。这就导致了MySQL会以半连接的方式执行SELECT语句，所以全局表中每个区域只会有一个实例与记录相匹配。
+
+半连接和常规连接之间存在两个非常重要的区别：
+
+- 在半连接中，内表不会导致重复的结果。
+- 此操作不会有内表中的字段添加到结果中去。
+
+因此，半连接的结果常常是来自外表记录的一个子集。从有效性上看，半连接的优化在于有效的消除了来自内表的重复项，MySQL应用了四个不同的半连接执行策略用来去重。
+
+
+
 ### 索引
 
 索引是数据库中非常非常重要的概念，它是存储引擎能够快速定位记录的秘密武器，对于提升数据库的性能、减轻数据库服务器的负担有着非常重要的作用；**索引优化是对查询性能优化的最有效手段**，它能够轻松地将查询的性能提高几个数量级。

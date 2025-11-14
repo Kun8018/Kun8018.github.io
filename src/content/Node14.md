@@ -1315,6 +1315,9 @@ export class User {
 
   @Column()
   age: number;
+  
+  @Column({ type: 'json', nullable: true, comment: '差异列表 [{field, from, to}]' })
+  diff: Array<{ field: string; from: any; to: any }> | null;
 }
 ```
 
@@ -1511,6 +1514,34 @@ export class InitializationService implements OnModuleInit {
 - `TreeRepository` - 用于树实体的`Repository`的扩展存储库（比如标有`@ Tree`装饰器的实体）。有特殊的方法来处理树结构。
 - `MongoRepository` - 具有特殊功能的存储库，仅用于 MongoDB。
 
+也可以使用数据源
+
+```javascript
+const entityManager = dataSource.manager;
+const user = new User();
+user.name = 'John Doe';
+await entityManager.save(user);
+
+const userRepository = dataSource.getRepository(User);
+const user = await userRepository.findOne({ where: { name: 'John Doe' } });
+
+const queryRunner = dataSource.createQueryRunner();
+await queryRunner.connect();
+await queryRunner.startTransaction();
+try {
+  const user = new User();
+  user.name = 'John Doe';
+  await queryRunner.manager.save(user);
+  await queryRunner.commitTransaction();
+} catch (error) {
+  await queryRunner.rollbackTransaction();
+} finally {
+  await queryRunner.release();
+}
+```
+
+
+
 queryBuilder
 
 `QueryBuilder`是 TypeORM 最强大的功能之一 ，它允许你使用优雅便捷的语法构建 SQL 查询，执行并获得自动转换的实体。
@@ -1641,6 +1672,12 @@ export class PostSubscriber implements EntitySubscriberInterface<Post> {
 ```
 
 https://typeorm.bootcss.com/listeners-and-subscribers#%E8%AE%A2%E9%98%85%E8%80%85
+
+##### 外键约束错误
+
+enum增加枚举
+
+
 
 ##### 和prisma对比
 

@@ -603,6 +603,20 @@ sudo apt-get install libimagequant-dev
 
 
 
+## gpu-component
+
+https://github.com/longbridge/gpui-component
+
+基于rust的桌面端框架
+
+
+
+## Valdi
+
+https://github.com/Snapchat/Valdi
+
+
+
 ## React Native Desktop
 
 

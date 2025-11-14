@@ -1518,6 +1518,36 @@ https://docs.nestjs.cn/recipes/terminus#typeorm-%E5%81%A5%E5%BA%B7%E6%8C%87%E6%A
 
 
 
+#### cli
+
+在终端执行`npm i -g @nestjs/cli`，全局安装Nest的脚手架`nestjs/cli`
+
+```shell
+npm i -g @nestjs/cli
+nest new project-name
+```
+
+在`.nest-cli.json`里有如下内容
+
+```json
+ {
+   "$schema": "https://json.schemastore.org/nest-cli",
+   "collection": "@nestjs/schematics",
+   "sourceRoot": "src",
+   "compilerOptions": {
+     "deleteOutDir": true
+   }
+ }
+```
+
+这是一个`json`配置的对象，首先`$schema`字段是个`JSON Schema`文件的地址，可以用来验证本JSON 文件是否符合预期的格式和规范。我们可以复制它的值到浏览器里，里面会有每个字段的详细解释。
+
+其次`collection`字段指定了`schematic` 集合，这种集合是一种集合了多种自动化任务的`schema`形式工具集。这里使用了 `@nestjs/schematics`，表示使用`Nest.js` 的 `schematics` 集合来生成代码和配置项目。我们可以通过执行`npm show @nestjs/schematics --json`查看具体信息。
+
+接着是`sourceRoot`，它指定了项目源代码的根目录，默认是`src`。
+
+最后是`compilerOptions`，它是一个编译选项集合的对象，这里声明的`deleteOutDir`属性的值为`true`，表示每次删掉之前的编译目录。而编译目录的位置就在根目录下的`tsconfig.json`文件的`outDir`字段里指定。
+
 ### 热重载
 
 在开发的时候，运行`npm run start:dev`的时候，是进行全量编译，如果项目比较大，全量编译耗时会比较长，这时候我们可以利用 webpack 来帮我们做增量编译，这样会大大增加开发效率。

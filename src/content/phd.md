@@ -133,7 +133,7 @@ frontiers in heat and mass transfer Q3 老板发过
 
 https://link.springer.com/book/10.1007/978-981-99-8498-5
 
-### 机器人领域主要期刊
+## 机器人领域主要期刊
 
 一区：**Science Robotics**、**Soft Robotics**
 
@@ -187,15 +187,57 @@ https://link.springer.com/book/10.1007/978-981-99-8498-5
 
 https://zhuanlan.zhihu.com/p/457055314
 
+## 跨领域顶刊
 
+### 中国科学杂志社
 
-### 清华分区
+National Science Review https://www.zhihu.com/question/58741679
 
-https://www.sist.tsinghua.edu.cn/4-2023.pdf
+Medicine Plus
 
+SCIENTIA SINICA Mathematica
 
+SCIENTIA SINICA Chimica
 
-## Science子刊
+SCIENTIA SINICA Vitae
+
+SCIENTIA SINICA Terrae
+
+SCIENTIA SINICA Technologica
+
+SCIENTIA SINICA Informationis
+
+SCIENTIA SINICA Physica, Mechanica & Astronomica
+
+Chinese Science Bulletin
+
+SCIENCE CHINA Mathematics
+
+SCIENCE CHINA Chemistry
+
+SCIENCE CHINA Life Sciences
+
+SCIENCE CHINA Earth Sciences
+
+SCIENCE CHINA Technological Sciences
+
+SCIENCE CHINA Information Sciences
+
+SCIENCE CHINA Physics, Mechanics & Astronomy
+
+Science Bulletin
+
+SCIENCE CHINA Materials
+
+National Science Review
+
+National Science Open
+
+Journal of Energy Chemistry
+
+Security and Safety
+
+### Science子刊
 
 **Science子刊名：**
 
@@ -209,11 +251,7 @@ https://www.sist.tsinghua.edu.cn/4-2023.pdf
 
 （5）2016年的新子期刊：《Science Immunology》（免疫学）
 
-
-
-
-
-## Nature子刊
+### Nature子刊
 
 **Nature子刊名**
 
@@ -271,7 +309,9 @@ https://www.sist.tsinghua.edu.cn/4-2023.pdf
 
 （6）Cell Stem Cell：2007年创刊。干细胞领域、再生医学。
 
-s
+### 清华分区
+
+https://www.sist.tsinghua.edu.cn/4-2023.pdf
 
 
 
@@ -562,76 +602,6 @@ A[1..3] #  [7 9 6]
 ```
 
 
-
-## 软体机器人
-
-### RecurDyn仿真
-
-https://recurdyn.cn/product/professional.html
-
-**RecurDyn/Professional**是RecurDyn软件最核心基础的组成构件（基本包），其包括：提供动力学仿真求解分析所许的前/后处理器 **Modeler**，模拟和分析动力学系统的求解器 **MFBD Solver**，另外还包括一个完整的定制化开发环境 **ProcessNet**。
-
-用户可在前处理中将机械系统整个随时间变化的运动过程以视频动画的形式查看；后处理可以获取仿真结果数据并自动生成随时间变化的运动曲线。另外，用户透过RecurDyn/Professional才能使用RecurDyn软件内各式各样的工具包与接口模块；透过工具包向RecurDyn/Professional添加功能，如用于特殊应用领域图形用户界面（建模方便）和求解方法（解算迅速）
-
-**主要特点**
-
-- 快速可靠的机械系统仿真
-- 熟悉的用户界面：类似于CAD和Windows本地化
-- 强大的2D/3D接触模拟
-- MFBD多柔性体动力学
-- 使用工具包自动建模
-
-RecurDyn/Modeler是RecurDyn的心脏，拥有简单直观的图形用户界面。它具有多体动力学分析的前处理与后处理的完整环境。利用RecurDyn/Modeler进行建模，设置模型参数和数据，启动和控制求解器，通过绘图和动画展示模拟结果，以及导出数据结果文件。RecurDyn/Modeler允许使用简单的鼠标和键盘命令以图形化方式创建模型，从而直观地定位物体，定义运动副，力元素，接触和其他因素。
-
-- 几何模型可以直接从CAD导入到RecurDyn/Modeler当中
-
-- 在图形用户界面中可以使用建模工具建立几何模型。支持的CAD文件格式包括：
-
-  - Parasolid (.x_t, .x_b, .xmt_txt, .xmt_bin)
-  - STEP (.step, .stp)
-  - ACIS (.sat)
-  - IGES (.igs)
-  - CATIA (.CATPart, CATProduct)
-  - Shell (.shl)
-  - STL (.stl)
-
-  （* STEP，CATIA，ACIS和IGES导入功能，每个都需要额外购买软件）
-
-RecurDyn/Modeler可以通过多样的模块化工具包扩展用途，包括柔性体，媒介传输系统如打印机和卷绕型介质传输，汽车跟踪等。
-
-RecurDyn/Solver是同类中领先的多体动力学求解器。RecurDyn/Solver在先进的计算和数值技术的基础上，拥有快速，稳定的求解速度，即使系统中包含有非常复杂的接触条件。RecurDyn/Professional中的RecurDyn/Solver用于求解刚体系统，可以通过工具包提供其他功能。例如，RecurDyn可以通过扩展工具包来模拟柔性体，介质传输系统如打印机，流体弹性动力套管，机电一体化控制系统。RecurDyn/Solver将这些系统合成一个耦合的方程组，同时求解而不是通过联合仿真，这使得RecurDyn/Solver更快更强大。RecurDyn/Solver在求解刚体系统时提供隐式的广义-α方法，和DASSl用于求解微分方程的数值积分。RecurDyn/Solver既可以提供静力学分析和动力学分析。
-
-- 预分析
-- 静力学分析
-- 动力学分析
-- 利用相对坐标求解递归方程
-- DASSl / 隐式的广义-α/ 广义-α积分器
-
-Recurdyn/ProcessNet内置在RecurDyn/Professional中，是一个强大的，基于脚本定制的环境。Recurdyn/ProcessNet允许用户为Recurdyn/Modeler创建自己的图形用户界面，可以操作模型数据，创建自定义的对话框和用户界面，自动化任务，以及封装领域内知识和最佳时间成果。Recurdyn/ProcessNet可以访问和操作预处理数据和后处理数据。Recurdyn/ProcessNet使用Microsoft.NET作为脚本环境。脚本可以使用C#，Visual Basic创建。通过Recurdyn/ProcessNet，用户可以大大扩展RecurDyn/Professional的功能，以满足独特，个性化的需求。
-
-RecurDyn/Professional 中包含的一些其它功能
-
-- Contact
-
-  RecurDyn/Professional包括一系列的接触元素。接触元素可以分为各种类型。广义接触类型通常用于一般几何形状的过程接触。广义接触类型中用于三维情况，以及可以过度到二维接触的情况的接触类型可以提高计算效率。原始接触类型提供了简单形状之间的接触分析能力，例如盒，球，圆台，圆柱体以及基本形状。原始接触类型对于基本几何形状与分析形状的情况是非常有效的。此外，各种工具包扩展了接触类型库，增加了针对于这些特定工具包的接触技术。
-
-- Subsystem
-
-  子系统是元件，运动副，力元素，接触以及其他因素的集合。子系统可以被导入到其他模型或另一个子系统当中。子系统可以独立计算。这样可以允许将模型的元素分组重复使用来简化建模。
-
-- Sensor
-
-  RecurDyn/Professional包含可在模型内用于许多目的的传感器功能，例如用于帮助分析结果或向机电一体化控制系统模拟提供输入。软件中包含各种不同的传感器。例如，用于测量物体几何特征之间距离的传感器，用于判断物体是否在指定区域的传感器，用于指示物体上特定点的位置，速度，加速度的传感器。
-
-- Expressions
-
-  RecurDyn允许用户编写在模型模拟期间执行和评估的简单表达式。表达式是诸如sin(5*time) 的文本字符串，在RecurDyn中可以用于多种目的，例如指定物体的位置随时间变化，指定反作用力，或创建用户定义的约束方程。表达式直接在RecurDyn/Modeler中编写，并为用户提供了一种非常简单并强大的方法来控制模型的各部分或生成可在模拟后分析的数据。
-
-
-
-## 具身智能
-
-具身智能指南：https://github.com/TianxingChen/Embodied-AI-Guide
 
 
 
