@@ -176,6 +176,22 @@ npm install -g @musistudio/claude-code-router
 
 
 
+#### skills
+
+简单来说，技能就是怎么做；MCP 是有什么工具、有什么功能。
+
+技能的话，主要是经验、最佳实践、流程的封装，而 MCP 是连接与交互的协议，主要是 API 调用、数据读写和工具等。
+
+Skills主要是 Markdown 文件和一些脚本文件，优势在于渐进式加载，不需要服务器资源，适用性好；MCP 主要是客户端和服务端的架构，启动时加载所有工具定义，集成外部功能，Tokens 消耗更高，使用起来更复杂。
+
+两者是互补的关系，Agent 可以通过 Skills 获取知识，通过 MCP 拓展功能
+
+https://github.com/anthropics/skills
+
+react skill https://github.com/vercel-labs/agent-skills/tree/main
+
+open skills https://github.com/numman-ali/openskills
+
 ### cursor
 
 Cursor 能解决非常多基础问题，包括我自己也已经习惯了使用 Cursor 替代 VS Code 完成日常工作。它很好用，但并不神秘，**本质上就是在传统 IDE 基础上，搭配足够好的交互与足够好的 LLM**，从而超越传统 IDE。交互方面，它在 VS Code 基础上，补充提供了：
@@ -344,6 +360,12 @@ https://www.augmentcode.com/install/vscode
 ### open-lovable
 
 https://github.com/firecrawl/open-lovable?tab=readme-ov-file
+
+## 视频生成
+
+### 万相2.6
+
+
 
 ## 终端
 

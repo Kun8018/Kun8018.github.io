@@ -78,6 +78,22 @@ https://www.bilibili.com/video/BV1MGrzYYEuZ/?trackid=web_pegasus_1.router-web-pe
 
 美元潮汐：https://www.bilibili.com/video/BV1i98MzVEkJ/?spm_id_from=333.1007.tianma.5-3-17.click&vd_source=e898668a475e6de0272851f4a5fc6328
 
+万科债券到期：
+
+https://www.bilibili.com/video/BV1GkSWB1Ek6/?spm_id_from=333.1391.0.0&vd_source=e898668a475e6de0272851f4a5fc6328
+
+https://www.bilibili.com/video/BV1d5SsBXEkF/?spm_id_from=333.1391.0.0&vd_source=e898668a475e6de0272851f4a5fc6328
+
+https://www.bilibili.com/video/BV1bwSJB4EWq/?spm_id_from=333.1391.0.0&vd_source=e898668a475e6de0272851f4a5fc6328
+
+房地产：
+
+
+
+## 美债
+
+https://www.bilibili.com/video/BV1ArgCz6Ezu/?trackid=web_pegasus_0.router-web-pegasus-2356061-wm294.1764688141364.107&track_id=pbaes.VJlIR_6jg-9-ncaXD9i4ebvDx-5xamq9MASFtSYzQMflyl5KLW6_9-AboQOF2DRmoCg_WknWv5w4NXDCbpi0t2WnZv667kVk-J1oK2LWKUpVjb8bDB9oG4utvmY029Jg2KsIzV8aVELhxaB6FSbabq75IpsoRwWixIWUu8_p0bguyYHepy3IbI42GKnFXgKZ&caid=__CAID__&resource_id=__RESOURCEID__&source_id=5637&request_id=1764688141396q172a27a136a199q8187&from_spmid=__FROMSPMID__&creative_id=645756101&linked_creative_id=699229848&vd_source=e898668a475e6de0272851f4a5fc6328
+
 
 
 ## 社会融资

@@ -63,6 +63,24 @@ https://github.com/simular-ai/Agent-S?tab=readme-ov-file
 
 
 
+### opencode
+
+https://opencode.ai/docs
+
+
+
+### openwork
+
+https://openwork.software/#features
+
+
+
+### chatDev
+
+https://github.com/OpenBMB/ChatDev/blob/main/README-zh.md
+
+
+
 ## LLM
 
 ### langchain

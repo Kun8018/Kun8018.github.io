@@ -808,6 +808,32 @@ https://v2ex.com/t/862138#reply123
 
 
 
+### vpn
+
+#### wireguard
+
+安装
+
+```shell
+## 纯命令行 安装后，主要使用 wg 和 wg-quick 命令
+brew install wireguard wireguard-tools
+
+## 可视化工具
+brew install --cask wireguard
+
+## 启动
+sudo wg-quick up /path/to/your/config.conf
+
+## 关闭
+sudo wg-quick down /path/to/your/config.conf
+```
+
+访问 WireGuard 官网下载页面：**https://www.wireguard.com/install/**
+
+
+
+
+
 ### 命令行工具
 
 #### fig

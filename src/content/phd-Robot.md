@@ -8,9 +8,121 @@ toc: true
 thumbnail: 
 ---
 
-
-
 <!--more-->
+
+## 机器人实验室/科研团队
+
+香港大学 mmlab/opendrivelab https://opendrivelab.com/publications  https://mmlab.hk/member   顶级团队 https://github.com/OpenDriveLab/UniVLA。  和上海人工智能实验室有深度合作，在上海创智学院也有任职 李弘扬。与稚晖君也有合作 https://github.com/OpenDriveLab/AgiBot-World。https://lihongyang.info/  实验室人员：https://yhyang-myron.github.io/
+
+浙大流体动力与机电系统国家重点实验室：http://sklofp.zju.edu.cn/skl/
+
+邹俊：邹俊研究小站  https://mp.weixin.qq.com/s/om0yqxboZeJwl_H-agXkrA
+
+浙大 graspLab: https://grasplab2022.github.io/
+
+Fast-lab:https://space.bilibili.com/257271972
+
+熊蓉：https://www.zjubh.com/home/yjzx/yjzx2/cate_id/24.html
+
+方斌：https://ccf.org.cn/cirac2024/speaker_d_2114
+
+北京大学前沿计算中心 王一周。王鹤：https://cfcs.pku.edu.cn/ https://space.bilibili.com/28217340
+
+北京大学 人工智能研究院 仉尚航 https://www.bilibili.com/video/BV16YrhBxEfS/?spm_id_from=333.1007.tianma.8-1-27.click&vd_source=e898668a475e6de0272851f4a5fc6328   https://www.shanghangzhang.com/about-me
+
+北大博士毕业生 https://cypypccpy.github.io/ 
+
+北大仿生设计实验室 https://en.ibdl.pku.edu.cn/research/publications/index.htm
+
+宾夕法尼亚大学工程学院：https://www.grasp.upenn.edu/
+
+UC伯克利：https://bair.berkeley.edu/about
+
+南科大周博宇：https://robotics-star.com/ https://zhuanlan.zhihu.com/p/681286732
+
+北航副院长 文力 https://softrobotics.buaa.edu.cn/
+
+清华 赵慧婵
+
+清华 交叉信息研究院老师：
+
+https://zhuanlan.zhihu.com/p/474615424
+
+https://yang-gao.weebly.com/publications.html   https://jialeihuang.github.io/  同一团队
+
+https://zhuanlan.zhihu.com/p/1934048726348981419 tealab
+
+贵州大学 MFPIR: 多模态与智能感知实验室 杨静老师
+
+博士生：
+
+交大：
+
+https://alvinwen428.github.io/
+
+https://www.cs.sjtu.edu.cn/~wang-xb/
+
+https://www.mvig.org/index.html 
+
+穆姚 写的很详细 https://scalelab-sjtu.github.io/embodied_guide.html
+
+吕峻
+
+opai人员：https://xingyu-lin.github.io/
+
+吕江然 https://jiangranlv.github.io/
+
+陈嘉毅  https://jychen18.github.io/
+
+王乾旭 Zekun Qi： https://qizekun.github.io/sofar/
+
+德州libero团队 https://libero-project.github.io/main
+
+上海ai lab IDC组 https://sheldontsui.github.io/  https://zhaoyanglyu.github.io/
+
+​	https://internrobotics.shlab.org.cn/aboutus.html
+
+上科大：https://sist.shanghaitech.edu.cn/2025/1009/c2858a1115684/page.htm
+
+哥伦比亚大学/纽约大学：https://venkyp.com/。   https://raunaqb.com/
+
+卡内基梅隆大学：https://iamlab-cmu.github.io/publications/  https://scholar.google.com/citations?user=_tbXjP4AAAAJ&hl=en 
+
+宾夕法尼亚大学 grasp lab  https://www.grasp.upenn.edu/role/faculty/  史建波
+
+清华 视觉实验室 https://fundamentalvision.github.io/publications/ 孔涛  https://jifengdai.org/ 代季峰
+
+哈工大 袁晗 https://homepage.hit.edu.cn/yuanhan
+
+南大苏州/仙林 高阳团队 https://cs.nju.edu.cn/rl/papers.htm
+
+
+
+苏黎世联邦理工。rsl。https://rsl.ethz.ch/the-lab.html
+
+麻省理工 https://interactive.mit.edu/research/
+
+南洋理工大学 RCC https://www.ntu.edu.sg/rrc
+
+北航 https://leonhlj.github.io/
+
+字节跳动。seed xiaoma  https://yusufma03.github.io/
+
+德国航空航天中心（DLR, Deutsches Zentrum für Luft- und Raumfahrt）https://www.dlr.de/en/rm/about-us/institute
+
+德国卡尔研究中心  https://mbreuss.github.io/
+
+ http://joschu.net/ 
+
+普林斯顿大学 https://pixl.cs.princeton.edu/labs.php
+
+
+
+## 人工智能老师/实验室/团队
+
+南大苏州校区 https://lsk-robot.github.io/
+
+
 
 ## 机器人运动学
 
@@ -143,6 +255,28 @@ RecurDyn/Professional 中包含的一些其它功能
 
 
 
+### 高性能驱动器
+
+电活性聚合物因其柔韧性、响应快、质轻等优势，在软体机器人、生物医学设备等领域具有广泛应用前景。然而，EAP 材料长期以来面临一个根本性矛盾：**高变形能力**（大应变）通常要求材料具有低模量；**高输出力**（高刚度）则要求材料具有高模量。传统方法如引入大体积单体单元（如 CTFE）或使用介电弹性体虽能提升变形能力，但往往以牺牲刚度为代价，导致输出力不足、易发生电击穿或机械失稳。Tailoring conductive nanofiller alignment for high actuation strain and output force in electroactive polymers。该研究提出并验证了一种**通过电场调控导电纳米填料取向**的策略，成功解决了电活性聚合物在执行器中**高变形能力与高输出力之间的固有矛盾**。
+
+
+
+### 绳驱动机器人
+
+Adaptive-Interaction-Based Online Reconfiguration of Cable-Driven Parallel Robots - **IEEE Transactions on Robotics**。该研究提出了一种**基于自适应交互的在线重构策略**，用于提升缆驱并联机器人在物理人机交互任务中的动态性能。传统刚性机器人存在**工作空间有限、安全性差、负载能力受限**等问题。
+
+缆驱并联机器人因其**轻质、柔性、大工作空间和高负载能力**，成为pHRI的理想平台。现有方法的局限-**被动策略**（如串联弹性驱动器）和**主动策略**（如阻抗/导纳控制）虽能提升柔顺性，但存在**结构复杂、控制难度大、适应性有限**等问题。
+
+现有重构策略多关注**任务轨迹优化**，缺乏对**动态交互意图**的响应能力。
+
+
+
+### 感知
+
+https://mp.weixin.qq.com/s/hyHsWrRCucSxe1jNRW76Iw
+
+
+
 ### 相关论文
 
 哈尔滨工业大学机器人技术与系统全国重点实验室的**谢晖教授团队**受到这种现象的启发，**开发出了能够模仿鱼群行为的微型机器人集群系统，这些“小鱼”不仅能够像自然界鱼群一样自由游动，未来还能在体内病灶处高效精准递送药物** https://mp.weixin.qq.com/s/VD9dYnjn-J_UydR6kKrU9w
@@ -191,21 +325,15 @@ Jianfeng Zhang, Huazhong University of Science and Technology, Science Robotics,
 
 ## 人形机器人/具身智能
 
-具身智能指南：https://github.com/TianxingChen/Embodied-AI-Guide
-
-### VLA
-
-**Vision-Language-Action Models for Robotics: A Review Towards Real-World Applications**
-
-
-
-
-
 ### 相关论文
 
 https://mp.weixin.qq.com/s/1XK9A5chRFuI2BxxftsiTA 来自东京大学、牛津大学和德克萨斯大学奥斯汀分校的研究人员对机器人领域的视觉-语言-动作 (VLA) 模型进行了全面、全栈式的综述，系统化了它们的演变、架构、训练策略以及实际应用挑战。该综述旨在标准化理解并指导通用机器人系统的发展。
 
 谭建荣 综述 https://mp.weixin.qq.com/s/F_KcKG2uwCQqabqQj50_PQ
+
+
+
+benchmark平台：https://robochallenge.ai/home
 
 
 
@@ -233,6 +361,8 @@ https://mp.weixin.qq.com/s/1XK9A5chRFuI2BxxftsiTA 来自东京大学、牛津大
 
 Dexonomy突破机器人灵巧抓取新极限：该方法的出发点是为每种手型和抓取类型仅需一个由人工标注的抓取模板，通过两阶段流程实现抓取合成：首先对物体位姿进行采样与优化以适配手部模板，随后在物理仿真环境中对手部姿态进行局部微调以进一步贴合物体。为了验证合成抓取的质量，论文提出了一种接触感知的控制策略，使手部能够在每个接触点上施加合适的力
 
+http://byte-dexter.github.io/gr-dexter/
+
 
 
 ## 微型机器人(磁驱动机器人)
@@ -248,3 +378,7 @@ Multichamber magnetic capsule robot for selective liquidsampling and drug delive
 蒙特利尔理工学院的Sylvain Martel 操作载药纳米机器人
 
 香港中文大学深圳 在Nature Machine Intelligence发表文章 Active Exploration and Reconstruction of Vascular Networks Using Microrobot Swarms 引入磁性微型机器人集群作为载体，开发了复杂三维腔道的主动探测与结构重建策略，在磁场主动引导下可以实现精准、完整的三维血管网络成像，重建完整血管网络的三维结构，可以大幅提升全场景造影效果，帮助医生精准定位病变血管内的血栓、狭窄部位以及渗漏点，是后续精准介入治疗的技术基础
+
+哈尔滨工业大学常晓丛团队开发出一种温度响应微型机器人（TRM）并结合磁驱动技术、热致变色材料与多层感知机（MLP）回归模型，首次实现复杂受限环境下 160℃~240℃的离线高温定量检测，有望为工业领域内狭小非透明空间的温度监测提供全新技术手段与解决方案。相关研究以 “Temperature-Responsive Microrobot for High-Temperature Sensing in Constrained Environments” 为题，发表在*Research*上。哈尔滨工业大学常晓丛等提出一种温度响应微型机器人(Temperature-Responsive Microrobot, TRM)，它能在狭小曲折的高温区域中运动、感知温度，并能将感知的温度信息带出复杂多孔环境，可以实现160℃-240 ℃的离线温度测量，为复杂受限环境的高温检测提供全新思路，并进行了概念性说明（图1）
+
+Thermal and Magnetic Dual-Responsive Catheter-Assisted Shape Memory Microrobots for Multistage Vascular Embolization。 导管在复杂血管中导航，如急转弯或多次U型转弯，对于血管栓塞术来说仍然具有挑战性。在此，我们提出了一种针对难以到达血管的新型多阶段血管栓塞策略，该策略将未系绳的游泳形状记忆磁性微机器人（SMMs）从先前的导管释放到血管分叉处。SMMs由含磁性颗粒的有机凝胶制成，确保生物相容性、放射不透性、血栓形成以及快速的热磁响应。 SMM 最初是直径0.5毫米的线性形状，在20°C时插入导管中。在38°C的血液温度下，SMMs在2秒内从导管推出进入血液后，会转变为预定的螺旋形状。SMMs能够在狭窄和迂曲的血管中灵活游动，并利用旋转磁场的螺旋推进实现逆流运动。此外，我们在活体兔子中验证了这种多阶段血管栓塞术，完成了100厘米的行程，并在2分钟内实现了肾动脉栓塞。4周后，SMMs仍保持栓塞位置，肾脏体积减少了36% 深圳中科院徐天天团队 《Research》

@@ -29,3 +29,5 @@ UIC: IEEE Ubiquitous Intelligence and Computing (UIC) 是智能系统与普适�
 同济大学设计学院：https://tjdi.tongji.edu.cn/TeacherDetail.do?id=5874&lang=
 
 港广科：https://www.mingmingfan.com/
+
+深大 熊卫丹 https://dianaxiong.github.io/

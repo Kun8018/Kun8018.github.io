@@ -8,8 +8,6 @@ toc: true
 thumbnail: http://cdn.kunkunzhang.top/ros-logo.jpg
 ---
 
-## 机器人控制
-
 　　其实现在看起来，ROS并不难，不管是配置的文件，或者是编程语言都不是新的，只是把它们整合成一个机器人控制系统里。但是我当时要学习的东西很多，所处的环境特殊，自己又毫无心情，所以并没有深入学习，真是非常遗憾。
 
 ![image-20250804151818947](/Users/kun/Library/Application Support/typora-user-images/image-20250804151818947.png)
@@ -39,8 +37,8 @@ rtos与嵌入式linux的区别：
 
 **实时性对比：**
 
-- **嵌入式RTOS**：**硬实时（μs级响应）**，中断延迟通常<10μs。具有强实时性，采用抢占式多任务调度算法，能确保关键任务在严格的时间期限内完成，响应时间可预测，适用于对实时性要求极高的场景，如工业自动化控制、航空航天等。
-- **嵌入式Linux**：Linux是作为通用操作系统开发的，其内核在实时处理能力上先天不足，需通过**CONFIG_PREEMPT_RT**补丁优化实时性，**默认软实时（延迟>50μs）**，。虽然经过实时补丁等改进可实现一定的实时性，但本质上是**分时操作系统**，其内核不是专门为实时性设计，在处理高实时性任务时，响应时间存在不确定性，一般用于对实时性要求不苛刻的场景。
+- **嵌入式RTOS**：**硬实时（μs级响应）**，中断延迟通常<10μs。具有强实时性，采用抢占式多任务调度算法，能确保关键任务在严格的时间期限内完成，响应时间可预测，适用于对实时性要求极高的场景，如工业自动化控制、航空航天等
+- **嵌入式Linux**：Linux是作为通用操作系统开发的，其内核在实时处理能力上先天不足，需通过**CONFIG_PREEMPT_RT**补丁优化实时性，**默认软实时（延迟>50μs）**，。虽然经过实时补丁等改进可实现一定的实时性，但本质上是**分时操作系统**，其内核不是专门为实时性设计，在处理高实时性任务时，响应时间存在不确定性，一般用于对实时性要求不苛刻的场景
 
 2. 内核架构
 
@@ -344,6 +342,8 @@ http://tr-ros-tutorial.readthedocs.io/zh-cn/latest/_source/simulation/gazebo_and
 
 
 
+
+
 ## ROS2
 
 ![image-20250922091934131](/Users/kun/Library/Application Support/typora-user-images/image-20250922091934131.png)
@@ -377,6 +377,54 @@ ros2使用colcon作为构建系统
 - **ROS 2**：C++和Python使用共享的底层客户端库API（`rclcpp`和`rclpy`），确保不同语言下的功能一致性。
 
 
+
+## rosbag
+
+rosbag 是 ROS（Robot Operating System）中的一种数据记录与回放工具，用来保存和重放机器人运行时产生的各种消息数据。简单来说，它就像“黑匣子”，能把机器人运行时的传感器、话题消息、控制指令等全部记录下来，方便后期调试和复现实验。
+
+```shell
+## 记录
+ros2 bag record /turtle1/cmd_vel
+
+## 回放
+ros2 bag play rosbag2_2025_09_18-13_01_53/
+```
+
+
+
+## RQT
+
+rqt 是 ROS 官方提供的一个基于 Qt 的 GUI 框架，本质上是一个 插件管理和可视化平台。
+
+它的设计理念是：ROS 系统是分布式的，节点、话题、服务、参数等很多，调试和监控光靠命令行不直观，因此需要一个统一的 图形化工具箱 来观察和操作。
+
+
+
+
+
+## sim2real
+
+https://zhuanlan.zhihu.com/p/106216904
+
+sim2real的全称是simulation to reality，是强化学习的一个分支，同时也属于[transfer learning](https://zhida.zhihu.com/search?content_id=111733960&content_type=Article&match_order=1&q=transfer+learning&zhida_source=entity)的一种。主要解决的问题是机器人领域中，直接让机器人或者机械臂在现实环境中与环境进行交互、采样时，会出现以下两个比较严重的问题：
+
+- 采样效率太低（在用强化学习算法解决机器人相关问题时，所需要的样本量一般会达到上千万，在现实环境中采集如此数量级的样本要耗费几个月的时间）
+- 安全问题 （由于强化学习需要通过智能体在环境中进行大范围的随机采样来进行试错，因而在某些时刻其做出的行为可能会损伤机器人自身，例如手臂转动角度过大或者避障任务中由于碰撞造成的不可逆损伤等等；也可能会损害周围的环境甚至生物）
+
+但是如果我们在模拟器中进行强化学习算法的训练，以上两个问题均可迎刃而解。但是，这里同样会存在一个问题，由于模拟器对于物理环境的建模都是存在误差的，因而在模拟环境中学习到的最优策略是否可以直接在现实环境中应用呢？答案往往是否定的，我们把这个问题称为 “reality gap”。而sim2real的工作就是去尝试解决这个问题。
+
+这里值得注意的一点是，虽然这个方向叫做sim2real，其实其中的所有的算法都可以直接应用在sim2sim，real2real等的任务中。
+
+sim2real中的典型工作大致可以分为以下五类：
+
+- **[Domain Adaption](https://zhida.zhihu.com/search?content_id=111733960&content_type=Article&match_order=1&q=Domain+Adaption&zhida_source=entity)** 主要是通过学习一个模拟环境以及现实环境共同的状态到隐变量空间的映射，在模拟环境中，使用映射后的状态空间进行算法的训练；因而在迁移到现实环境中时，同样将状态映射到隐含空间后，就可以直接应用在模拟环境训练好的模型了。
+- **[Progressive Network](https://zhida.zhihu.com/search?content_id=111733960&content_type=Article&match_order=1&q=Progressive+Network&zhida_source=entity)** 利用一类特殊的Progressive Neural Network来进行sim2real。其主要思想类似于cumulative learning，从简单任务逐步过渡到复杂任务（这里可以认为模拟器中的任务总是要比现实任务简单的）。
+- **Inverse Dynamic Model** 通过在现实环境中学习一个逆转移概率矩阵来直接在现实环境中应用模拟环境中训练好的模型。
+- **Domain Randomization** 对模拟环境中的视觉信息或者物理参数进行随机化，例如对于避障任务，智能体在一个墙壁颜色、地板颜色等等或者摩擦力、大气压强会随机变化的模拟环境中进行学习。
+
+
+
+ Towards Adapting Deep Visuomotor Representations from Simulated to Real Environments[arXiv 2015] Eric Tzeng, Coline Devin, Judy Hoffman, Chelsea Finn, Xingchao Peng, Sergey Levine, Kate Saenko, Trevor DarrellLearning Invariant Feature Spaces to Transfer Skills with Reinforcement Learning [arXiv 2017] Abhishek Gupta, Coline Devin, YuXuan Liu, Pieter Abbeel, Sergey LevineSim-to-Real Robot Learning from Pixels with Progressive Nets [arXiv 2016]  Andrei A. Rusu Deepmind.Transfer from Simulation to Real World through Learning Deep Inverse Dynamics Model[arXiv 2016] Paul Christiano, Zain Shah, Igor Mordatch, Jonas Schneider, Trevor Blackwell, Joshua Tobin, Pieter Abbeel, and Wojciech ZarembaSim-to-Real Transfer of Robotic Control with Dynamics Randomization [ICRA 2018] Xue Bin Peng, Marcin Andrychowicz, Wojciech Zaremba, and Pieter AbbeelDomain Randomization for Transferring Deep Neural Networks from Simulation to the Real World [IROS 2017] Josh Tobin, Rachel Fong, Alex Ray, Jonas Schneider, Wojciech Zaremba, Pieter Abbeel
 
 
 
@@ -488,73 +536,6 @@ setuptools.Extension类有几个重要的构造参数（详见[API文档](https:
 
 
 
-## 英伟达机器人
-
-NVIDIA Isaac GR00T 是一个用于构建机器人基础模型和数据管道的研发平台，旨在加速智能、适应性机器人的创建。
-
-  Isaac GR00T N1.5，这是 Isaac GR00T N1 的首次重大更新，Isaac GR00T N1 是全球首个用于广义人形机器人推理和技能的开放基础模型。该跨具体化模型能够处理多模态输入（包括语言和图像），以便在各种环境中执行操作任务。它可以通过后期训练适应特定的具体化、任务和环境。
-
-https://mp.weixin.qq.com/s/rI104nFvr3iyVZKwnqyDrg?click_id=15
-
-
-
-NVIDIA Isaac Sim 是一个强大的机器人开发仿真平台，支持与 ROS2 和深度学习应用的无缝集成。本指南将介绍如何在 Isaac Sim 中使用 API 独立模式设置 LeRobot。该方法无需 GUI 即可完全控制机器人仿真。
-
-确保已安装以下内容：
-
-- Isaac Sim 4.5.0
-- 系统上配置好 ROS2 Humble
-- 有效的机器人 USD 模型（lerobot.usd）
-- 安装所需依赖（numpy、pxr、omni.graph.core、isaacsim.core.api 等）
-
-
-
-## 视觉
-
-手眼标定
-
-https://mp.weixin.qq.com/s/HOX-VZ_BwGd7dmGy8F3Z4w
-
-
-
-## 机器人实验室/科研团队
-
-浙大流体动力与机电系统国家重点实验室：http://sklofp.zju.edu.cn/skl/
-
-邹俊：邹俊研究小站  https://mp.weixin.qq.com/s/om0yqxboZeJwl_H-agXkrA
-
-Fast-lab:https://space.bilibili.com/257271972
-
-熊蓉：https://www.zjubh.com/home/yjzx/yjzx2/cate_id/24.html
-
-方斌：https://ccf.org.cn/cirac2024/speaker_d_2114
-
-北京大学前沿计算中心 王一周。王鹤：https://cfcs.pku.edu.cn/ https://space.bilibili.com/28217340
-
-宾夕法尼亚大学工程学院：https://www.grasp.upenn.edu/
-
-UC伯克利：https://bair.berkeley.edu/about
-
-南科大周博宇：https://robotics-star.com/ https://zhuanlan.zhihu.com/p/681286732
-
-博士生：
-
-交大：https://alvinwen428.github.io/
-
-opai人员：https://xingyu-lin.github.io/
-
-吕江然 https://jiangranlv.github.io/
-
-https://jychen18.github.io/
-
-
-
-## 协作机器人
-
-https://www.galbot.com/
-
-https://www.sharpa.com/
-
 
 
 ## 机器人资讯
@@ -611,8 +592,12 @@ Research Rabbit是一款实用的科研工具。 **它能依据你输入的文�
 
 
 
-## b站资源
+## 资源
 
 1.胡月居：https://www.bilibili.com/video/BV16B4y1Q7jQ?spm_id_from=333.788.videopod.episodes&bvid=BV16B4y1Q7jQ&vd_source=e898668a475e6de0272851f4a5fc6328&p=2   https://www.guyuehome.com/Bubble/index
 
 2.鱼香ros：https://www.bilibili.com/video/BV1GW42197Ck?spm_id_from=333.788.recommend_more_video.1&vd_source=e898668a475e6de0272851f4a5fc6328
+
+公众号：
+
+Depth-Sensing

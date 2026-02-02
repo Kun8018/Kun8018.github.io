@@ -26,7 +26,26 @@ brew install micromamba
 
 ### conda
 
+
+
+### miniforge
+
 https://github.com/conda-forge/miniforge
+
+Miniforge 是一个轻量级、社区驱动的包和环境管理器，它是 **Conda** 的一个精简发行版，旨在提供一种比 Anaconda 更小的安装包，并使用 **[conda-forge](https://www.google.com/search?q=conda-forge&oq=miniforge是什么&gs_lcrp=EgZjaHJvbWUyCQgAEEUYORiABDIKCAEQABiABBiiBDIKCAIQABiABBiiBDIKCAMQABiABBiiBDIKCAQQABiABBiiBNIBCDE0MzJqMGo3qAIAsAIA&sourceid=chrome&ie=UTF-8&mstk=AUtExfC-o0aXLarOYSkYN-o6-mIuUEEt4TZ7WMuFqV8T7SE_p8VUzslA0FW9a80S8S7Q2j9otgn389ninGJcHL0fGAJM5nLzfLu6ypkvkKjuYos3goW2DzXEdRFqvufGGUW4zUbgVreyBcRQz5dJVUI_Apt9NDR0ZJgEbaA9zU3OvIF8v3YXVKbr1S123RcCcR8pmFXIZH83fM8GWRg3bDqiHFIfJw03qXBoOywfsoK-le7JL86IqC54seQXtMZ39-Z1FRtiDoBTadSsHBQuAVGMkEOU&csui=3&ved=2ahUKEwj1qfqn3KKRAxVHdvUHHfH6DEIQgK4QegQIARAB)** 作为默认的包源。它的主要优点是灵活性和效率高，特别适合那些不需要预装大量库的用户，例如数据科学家或开发者
+
+主要特点
+
+- **轻量级**: Miniforge 不包含 Anaconda 的预装包集合，只提供核心的 `conda` 包管理器，用户可以根据自己的需求安装所需的库和工具，从而节省磁盘空间和安装时间。
+- **社区驱动**: 由 conda-forge 社区维护，默认使用 conda-forge 作为软件源，提供了一个庞大且活跃的开源软件包集合。
+- **跨平台和多架构**: 支持多种平台，如 Windows、macOS 和 Linux，并对多种 CPU 架构有良好支持，特别是对 Apple Silicon (M1/M2/M3) 等 ARM 架构设备。
+- **灵活性**: 用户可以自由选择安装的工具，例如可以选择基于 PyPy 的版本（Miniforge-pypy3）或集成 Mamba（Mambaforge）以获得更快的包管理速度。 
+
+与 Anaconda 和 Miniconda 的区别
+
+- **Miniforge** 和 **Miniconda** 都是 Anaconda 的轻量级版本。
+- **Miniforge** 最大的不同在于它默认使用 `conda-forge` 渠道，而 **Miniconda** 则使用 `defaults` 渠道（由 Anaconda 维护）。
+- 对于希望避开 Anaconda 庞大安装包的用户来说，Miniforge 是一种轻量级的替代方案
 
 
 
@@ -145,6 +164,76 @@ logging.critical('这是严重错误') # CRITICAL 级别
 ### nodezator
 
 https://github.com/IndieSmiths/nodezator?tab=readme-ov-file
+
+
+
+### pickle
+
+pickle 名词是**泡菜**，动词是**腌渍**的意思。可以理解为把东西腌起来保存成文件，要用的时候读出来洗洗再用。
+
+python的pickle模块实现了基本的**数据序列化和反序列化**
+
+序列化对象可以在磁盘上保存对象，并在需要的时候读取出来。任何对象都可以执行序列化操作。
+
+**pickling**是将Python对象层次结构转换为字节流的过程。
+
+**unpickling**是反向操作，从而将字节流（来自二进制文件或类似字节的对象）转换回对象层次结构
+
+优点：
+
+pickle提供了一个简单的**持久化**功能。可以将对象以文件的形式**存放在磁盘上**。
+
+通过pickle模块的序列化操作我们能够将程序中运行的对象信息保存到文件中去，**永久存储**。
+
+python中**几乎所有的数据类型**（列表，字典，集合，类等）都可以用pickle来序列化。
+
+**没有外部标准强加的限制**，例如JSON或XDR（不能代表指针共享）。
+
+默认情况下，pickle数据格式使用**相对紧凑的二进制**表示。如果需要最佳尺寸特征，则可以有效地压缩数据。
+
+pickle可以**表示极其庞大的Python类型**（其中许多是自动的，通过巧妙地使用Python的内省工具；复杂的案例可以通过实现特定的对象API来解决）。
+
+通过pickle模块的反序列化操作，我们能够从文件中创建上一次程序保存的对象。
+
+缺点：
+
+pickle模块只能在python中使用，**仅限于传输的两端都是python的情况**，且需要尽量保持两端的版本一致。
+非Python程序可能无法重建pickled Python对象。
+
+pickle序列化后的数据，**可读性差**，人一般无法识别
+
+与JSON的区别
+
+1.JSON是一种文本序列化格式（它输出unicode文本，虽然大部分时间它被编码utf-8），而pickle是二进制序列化格式。
+
+2、JSON是人类可读的，而pickle则不是。
+
+3、JSON是可互操作的，并且在Python生态系统之外广泛使用，而pickle是特定于Python的。
+
+默认情况下，JSON只能表示Python内置类型的子集，而**不能表示自定义类**
+
+主要特点：
+
+- **二进制格式**：保存Python对象的内存状态
+- **Python专用**：主要用于Python程序间数据交换
+- **保持对象结构**：保存完整的类实例、函数等复杂对象
+
+常见用途：
+
+1. **保存机器学习模型**（scikit-learn、TensorFlow/PyTorch的检查点）
+2. **存储预处理数据**（特征工程结果、数据集）
+3. **缓存计算结果**（避免重复计算）
+4. **保存程序状态**
+
+### npz文件
+
+文件是NumPy库创建的一种压缩存档文件，用于**存储一个或多个NumPy数组**，它本质上是一个压缩的ZIP文件，方便高效地打包和传输大量数值数据，主要在Python科学计算、数据分析和机器学习中应用，可以用`numpy.load()`函数轻松加载
+
+**主要特点**
+
+- **多数组存储**：可以把多个相关的数组保存在一个`.npz`文件中.
+- **压缩**：使用`np.savez_compressed()`可以生成压缩的`.npz`文件，节省存储空间.
+- **便捷**：方便了数据集的分享、备份和管理
 
 
 
