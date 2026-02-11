@@ -179,6 +179,16 @@ Edward Adelson团队一篇用Gelsight操作绳子的论文获得了2020年RSS这
 
 比如TactoFind：在视觉感知缺失、对象形状事先未知且对象可以自由移动的场景中进行对象检索的问题，例如从抽屉中取出物体。
 
+##### 人员
+
+https://www.duyipai.me/
+
+
+
+##### 相关论文
+
+https://zhuanlan.zhihu.com/p/1987884045833615002
+
 
 
 ### 世界模型
@@ -200,6 +210,8 @@ https://zhuanlan.zhihu.com/p/19751920966
 https://wm-po.github.io/
 
 
+
+李飞飞：https://vision-x-nyu.github.io/thinking-in-space.github.io/
 
 ### 相关论文
 
@@ -486,6 +498,12 @@ class ACTConfig(PreTrainedConfig):
 浙大博士生
 
 https://github.com/Tavish9/any4lerobot
+
+
+
+#### xlerobot
+
+https://xlerobot.readthedocs.io/en/latest/
 
 
 

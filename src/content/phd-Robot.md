@@ -82,7 +82,7 @@ opai人员：https://xingyu-lin.github.io/
 
 ​	https://internrobotics.shlab.org.cn/aboutus.html
 
-上科大：https://sist.shanghaitech.edu.cn/2025/1009/c2858a1115684/page.htm
+上科大：https://sist.shanghaitech.edu.cn/2025/1009/c2858a1115684/page.htm https://star-center.shanghaitech.edu.cn/labs.html
 
 哥伦比亚大学/纽约大学：https://venkyp.com/。   https://raunaqb.com/
 
@@ -100,7 +100,11 @@ opai人员：https://xingyu-lin.github.io/
 
 苏黎世联邦理工。rsl。https://rsl.ethz.ch/the-lab.html
 
-麻省理工 https://interactive.mit.edu/research/
+麻省理工
+
+ https://interactive.mit.edu/research/
+
+https://mcube.mit.edu/people.html mcube 做触觉传感器的
 
 南洋理工大学 RCC https://www.ntu.edu.sg/rrc
 
