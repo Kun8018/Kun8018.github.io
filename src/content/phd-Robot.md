@@ -14,6 +14,8 @@ thumbnail:
 
 香港大学 mmlab/opendrivelab https://opendrivelab.com/publications  https://mmlab.hk/member   顶级团队 https://github.com/OpenDriveLab/UniVLA。  和上海人工智能实验室有深度合作，在上海创智学院也有任职 李弘扬。与稚晖君也有合作 https://github.com/OpenDriveLab/AgiBot-World。https://lihongyang.info/  实验室人员：https://yhyang-myron.github.io/
 
+港大mars https://mars.hku.hk/index.html
+
 浙大流体动力与机电系统国家重点实验室：http://sklofp.zju.edu.cn/skl/
 
 邹俊：邹俊研究小站  https://mp.weixin.qq.com/s/om0yqxboZeJwl_H-agXkrA
@@ -39,6 +41,8 @@ Fast-lab:https://space.bilibili.com/257271972
 UC伯克利：https://bair.berkeley.edu/about
 
 南科大周博宇：https://robotics-star.com/ https://zhuanlan.zhihu.com/p/681286732
+
+大湾区大学： https://email-lab.github.io/#featured  https://jeffery-zhou.github.io/
 
 北航副院长 文力 https://softrobotics.buaa.edu.cn/
 
@@ -107,6 +111,8 @@ opai人员：https://xingyu-lin.github.io/
 https://mcube.mit.edu/people.html mcube 做触觉传感器的
 
 南洋理工大学 RCC https://www.ntu.edu.sg/rrc
+
+东京大学jsklab  http://www.jsk.t.u-tokyo.ac.jp/information.html。https://www.wkentaro.com/ mujin公司
 
 北航 https://leonhlj.github.io/
 
@@ -186,6 +192,29 @@ Joint-space 可以保证运动速度的平滑，但是运动位姿的轨迹可�
 牛顿-欧拉方程描述了刚体的组合平移和旋转动力。传统上，[牛顿-欧拉方程](https://zhida.zhihu.com/search?content_id=190538889&content_type=Article&match_order=3&q=牛顿-欧拉方程&zhida_source=entity)是使用列向量和矩阵将刚体的欧拉两个运动定律组合成一个具有 6 个分量的单个方程。这些定律将刚体重心的运动与作用在刚体上的力和扭矩（或[力矩](https://zhida.zhihu.com/search?content_id=190538889&content_type=Article&match_order=1&q=力矩&zhida_source=entity)）之和联系起来。
 
 对于原点与物体质心重合的坐标系，可以用[矩阵](https://zhida.zhihu.com/search?content_id=190538889&content_type=Article&match_order=2&q=矩阵&zhida_source=entity)形式表示为
+
+
+
+### 逆向运动学Inverse Kinematics，IK
+
+逆向运动学（Inverse Kinematics，IK）是求解机器人的关节角度，使得机器人末端执行器（如机械臂的手爪或末端工具）达到某个期望的位置和姿态的过程。一般来说，逆向运动学是给定末端执行器的期望位置和姿态，通过计算得到关节的角度或位置
+
+对于一个典型的串联机械臂，假设有 n个自由度（关节数）。机器人的末端执行器的位置和姿态可以通过前向运动学函数来表示，即通过关节的角度或位置计算末端执行器的位置和姿态：
+
+这里 是前向运动学函数的逆运算。由于逆向运动学通常没有解析解（尤其是对于多自由度的机械臂），因此通常需要通过数值方法求解，例如：
+
+1. **[牛顿-拉夫森法](https://zhida.zhihu.com/search?content_id=251950763&content_type=Article&match_order=1&q=牛顿-拉夫森法&zhida_source=entity)（Newton-Raphson method）**
+2. **[雅可比矩阵](https://zhida.zhihu.com/search?content_id=251950763&content_type=Article&match_order=1&q=雅可比矩阵&zhida_source=entity)法（Jacobian method）**
+3. **基于优化的方法（如[梯度下降法](https://zhida.zhihu.com/search?content_id=251950763&content_type=Article&match_order=1&q=梯度下降法&zhida_source=entity)）**
+
+更新关节角度的公式通过雅可比矩阵来实现误差的线性化，利用牛顿-拉夫森法迭代更新关节角度。每次迭代的步骤如下：
+
+1. 计算当前的末端执行器位置与目标位置之间的误差。
+2. 计算雅可比矩阵，描述关节角度变化对末端执行器位置的影响。
+3. 使用雅可比矩阵的逆或伪逆来计算关节角度的增量。
+4. 更新关节角度，并检查误差是否足够小，决定是否继续迭代。
+
+位置误差通常指的是目标位置和当前物体（或机器人末端执行器）位置之间的差异。在机器人逆向运动学（IK）求解中，通常希望计算物体末端执行器（如机械臂的末端）当前位置与目标位置之间的误差
 
 
 

@@ -237,6 +237,44 @@ pickle序列化后的数据，**可读性差**，人一般无法识别
 
 
 
+### gizeh
+
+`pip gizeh` 通常是指使用 Python 的包管理工具 `pip` 来安装名为 **Gizeh** 的库。Gizeh 是一个基于 Cairo 的轻量级、简单易用的 Python **矢量图形处理库**。它常用于生成 2D 矢量图形、制作动画，并能很好地与 MoviePy 等视频处理库集成。 
+
+- **主要功能：** 生成 2D 形状（圆、矩形、线等）、图形变换、制作动画。
+- **安装命令：** 通常使用 `pip install gizeh` 进行安装。
+- **用途：** 适合需要通过代码生成精细矢量图形或动画的场景
+
+```python
+import gizeh
+
+# 创建一个表面
+surface = gizeh.Surface(width=200, height=200) 
+# 画一个圆
+circle = gizeh.circle(r=30, xy=(100,100), fill=(1,0,0))
+circle.draw(surface)
+# 保存图像
+surface.get_npimage()
+surface.write_png("circle.png")
+```
+
+[MoviePy](https://zhida.zhihu.com/search?content_id=539137611&content_type=Answer&match_order=1&q=MoviePy&zhida_source=entity)是一个用于视频剪辑和处理的Python库。用于视频剪辑、连接、标题插入、视频合成、视频处理和添加一些效果。MoviePy 可以与最常见的音频和视频格式结合使用。但是，MoviePy 不能与网络摄像头或实时视频一起使用。此外还受到 Windows、MacOS 和 Linux 的支持。
+
+它提供了许多基本的用法，可以用来实现各种视频剪辑。例如，可以用它来合并多个视频文件，添加音频轨道和字幕，截取视频中的片段，以及调整视频的速度和大小等。
+
+一些基本的moviepy用法包括：
+
+- 从视频文件中读取视频并创建[VideoFileClip](https://zhida.zhihu.com/search?content_id=539137611&content_type=Answer&match_order=1&q=VideoFileClip&zhida_source=entity)对象
+- 对视频进行裁剪，旋转，拉伸等转换
+- 合并多个视频文件或VideoFileClip对象
+- 添加文字，图片，音频或其他视频片段
+- 使用多种淡入淡出效果
+- 将视频保存到本地文件
+
+通过使用moviepy，您可以轻松实现各种视频剪辑，包括制作短片，创建视频蒙太奇，添加标题和水印，添加背景音乐等。
+
+安装 MoviePy 将自动检测 ImageMagick
+
 ## Django入门
 
 ### Django版本与python版本对应关系

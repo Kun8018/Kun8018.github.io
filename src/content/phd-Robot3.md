@@ -12,546 +12,426 @@ thumbnail:
 
 ## 具身智能
 
-### tensorflow
+### leRobot
 
-#### 初始化
 
-tf.compat.v1 里“初始化”相关的东西主要分两类：会话中一次性执行的初始化器（返回一个 op，需要 sess.run），以及为变量提供初始值的“初始器”（传给 get_variable/Variable 的 initializer 参数）
 
-会话级初始化器（运行一次以初始化图中的对象）
+#### 可视化
 
-- global_variables_initializer() / initializers.global_variables()
-  初始化所有“全局变量”（模型参数等，Variable 被加入 GLOBAL_VARIABLES 集合）。
+https://github.com/huggingface/lerobot-dataset-visualizer
 
-- local_variables_initializer() / initializers.local_variables()
-  初始化所有“局部变量”（常用于指标、临时计数等，加入 LOCAL_VARIABLES 集合）。
 
-- variables_initializer(var_list) / initializers.variables(var_list)
-  按需初始化指定变量列表。
 
-- tables_initializer() / initializers.tables()
-  初始化查找表（tf.lookup 等），不初始化变量。
+#### 录制
 
-- 兼容别名（已弃用，但在 compat.v1 仍可用）
+lerobot record是关键核心流程，其包括了数据的采集和模型推理两部分。
 
-  - initialize_all_variables() ≡ global_variables_initializer()
-  - initialize_local_variables() ≡ local_variables_initializer()
-  - initialize_variables(var_list) ≡ variables_initializer(var_list)
-  - initialize_all_tables() ≡ tables_initializer()
-
-- 辅助检查
-
-  - report_uninitialized_variables(var_list=None)
-    返回未初始化变量的名字（sess.run 后得到字符串列表），用于排查。
-
-  - assert_variables_initialized(var_list=None)
-    断言变量已初始化，未初始化则抛错
-
-    sess.run(tf.compat.v1.global_variables_initializer())
-
-  - sess.run([tf.compat.v1.local_variables_initializer(), tf.compat.v1.tables_initializer()])
-
-变量初始值“初始器”（传给变量创建时的 initializer）
-
-- constant_initializer(value=0)
-  常量初值。
-- zeros_initializer() / ones_initializer()
-  全 0 / 全 1。
-- random_uniform_initializer(minval=0.0, maxval=1.0, seed=None, dtype=None)
-  区间均匀分布。
-- random_normal_initializer(mean=0.0, stddev=1.0, seed=None, dtype=None)
-  正态分布。
-- truncated_normal_initializer(mean=0.0, stddev=1.0, seed=None, dtype=None)
-  截断正态（去除远离均值的尾部）。
-- orthogonal_initializer(gain=1.0, seed=None)
-  正交矩阵初始化（常用于线性层/卷积核）。
-- identity_initializer(gain=1.0)
-  单位矩阵（仅适用于方阵形状）。
-- uniform_unit_scaling_initializer(factor=1.0, seed=None, dtype=tf.float32)
-  单位尺度均匀分布（v1 经典初始化器）
-- 方差缩放初始化，把权重按 fan_in/fan_out 计算出尺度，再用均匀或正态分布采样。它们的等价关系与公式如下（fan_in=输入通道数，fan_out=输出通道数；Dense 的 [in, out]，Conv2D 的 [kh, kw, inC, outC] 则 fan_in=kh*kw*inC，fan_out=kh*kw*outC）
-  - tf.compat.v1.glorot_normal_initializer()（Xavier/Glorot Normal）
-    - 分布：截断正态（truncated normal）
-    - 标准差：stddev = sqrt(2 / (fan_in + fan_out))
-    - 适用：tanh、sigmoid、线性等非 ReLU 激活常用
-  - tf.compat.v1.glorot_uniform_initializer()（Xavier/Glorot Uniform）
-    - 分布：均匀
-    - 范围：[-limit, limit]，limit = sqrt(6 / (fan_in + fan_out))
-    - 适用：同上
-  - tf.compat.v1.keras.initializers.he_normal()（Kaiming/He Normal）
-    - 分布：正态（Keras实现为未截断的 normal）
-    - 标准差：stddev = sqrt(2 / fan_in)
-    - 适用：ReLU/LeakyReLU/ELU 等 ReLU 系列激活
-  - tf.compat.v1.keras.initializers.he_uniform()（Kaiming/He Uniform）
-    - 分布：均匀
-    - 范围：[-limit, limit]，limit = sqrt(6 / fan_in)
-    - 适用：同上
-  - tf.compat.v1.keras.initializers.lecun_normal()
-    - 分布：正态
-    - 标准差：stddev = sqrt(1 / fan_in)
-    - 适用：SELU（自归一化网络）推荐；也可用于线性/softsign 等
-  - tf.compat.v1.keras.initializers.lecun_uniform()
-    - 分布：均匀
-    - 范围：[-limit, limit]，limit = sqrt(3 / fan_in)
-    - 适用：同上
-
-- “xavier_*”就是“glorot_*”的别称；TF 提供的是 glorot_*。
-- TF v1 的 glorot_normal 使用截断正态（更稳一些）；Keras 的 he/lecun normal 用未截断正态。
-- 选择建议：
-  - ReLU 系列：he_normal / he_uniform
-  - tanh/sigmoid/线性：glorot_normal / glorot_uniform
-  - SELU：lecun_normal（配合 AlphaDropout）
-
-#### layer
-
-tf.compat.v1.layers 是 TF1 的“简易层”API（已弃用，TF2 请用 tf.keras.layers）。里面主要是两类：函数式层（返回张量）和对应的层类
-
-tf.keras.layers
-
-核心与形状
-
-- Input/InputLayer：定义输入张量
-- Dense：全连接
-- Activation：独立激活
-- Lambda：自定义运算
-- Flatten、Reshape、Permute、RepeatVector
-- Dropout、SpatialDropout1D/2D/3D、GaussianDropout、GaussianNoise、AlphaDropout
-- ActivityRegularization
-- Masking（基于掩码的序列填充忽略）
-
-卷积与转置卷积
-
-- Conv1D/2D/3D
-- SeparableConv2D（深度可分离卷积）
-- DepthwiseConv2D（纯深度卷积）
-- Conv2DTranspose/Conv3DTranspose（反卷积/上采样）
-- Conv1DTranspose（部分 TF2 版本提供，2.9+）
-
-池化
-
-- MaxPooling1D/2D/3D、AveragePooling1D/2D/3D
-- GlobalMaxPooling1D/2D/3D、GlobalAveragePooling1D/2D/3D
-
-归一化与标准化
-
-- BatchNormalization
-- LayerNormalization
-- 说明：Group/Instance Norm 不在核心 Keras，通常用 tensorflow_addons.layers.GroupNormalization/InstanceNormalization
-
-嵌入与注意力
-
-- Embedding
-- Attention、AdditiveAttention
-- MultiHeadAttention（Transformer 常用）
-
-序列与循环网络
-
-- RNN（通用容器）
-- SimpleRNN、GRU、LSTM
-- Bidirectional、TimeDistributed（包装器）
-- ConvLSTM2D（时空卷积 LSTM）
-
-合并/运算层
-
-- Add、Subtract、Multiply、Average、Maximum、Minimum、Concatenate、Dot
-
-采样/几何变换/边界
-
-- UpSampling1D/2D/3D
-- ZeroPadding1D/2D/3D、Cropping1D/2D/3D
-- Resizing（尺寸缩放，插值）、Rescaling（数值缩放）
-
-预处理（可在模型内端到端使用）
-
-- Numeric: Normalization、Discretization、CategoryEncoding
-- Lookup: StringLookup、IntegerLookup、Hashing
-- 图像: Rescaling、Resizing、CenterCrop、RandomFlip、RandomRotation、RandomZoom、RandomTranslation、RandomContrast
-- 文本: TextVectorization
-
-### pytorch
-
-- torch：张量与基础运算、设备管理（CPU/GPU）、随机数、保存/加载
-- torch.nn：模型构建（Module、层、Loss）
-- torch.nn.functional：函数式 API（无状态的激活/卷积/损失等）
-- torch.optim：优化器（SGD、Adam 等）
-- torch.utils.data：Dataset、DataLoader
-- torch.cuda：CUDA 相关（设备查询、显存等）
-
-
-
-### rlhf
-
-https://huggingface.co/blog/zh/rlhf
-
-过去几年里各种 LLM 根据人类输入提示 (prompt) 生成多样化文本的能力令人印象深刻。然而，对生成结果的评估是主观和依赖上下文的，例如，我们希望模型生成一个有创意的故事、一段真实的信息性文本，或者是可执行的代码片段，这些结果难以用现有的基于规则的文本生成指标 (如 [BLEU](https://en.wikipedia.org/wiki/BLEU) 和 [ROUGE](https://en.wikipedia.org/wiki/ROUGE_(metric))) 来衡量。除了评估指标，现有的模型通常以预测下一个单词的方式和简单的损失函数 (如交叉熵) 来建模，没有显式地引入人的偏好和主观意见。
-
-如果我们 **用生成文本的人工反馈作为性能衡量标准，或者更进一步用该反馈作为损失来优化模型**，那不是更好吗？这就是 RLHF 的思想：使用强化学习的方式直接优化带有人类反馈的语言模型。RLHF 使得在一般文本数据语料库上训练的语言模型能和复杂的人类价值观对齐
-
-RLHF 是一项涉及多个模型和不同训练阶段的复杂概念，这里我们按三个步骤分解：
-
-1. 预训练一个语言模型 (LM) ；
-2. 聚合问答数据并训练一个奖励模型 (Reward Model，RM) ；
-3. 用强化学习 (RL) 方式微调 LM
-
-RLHF的训练分为两个关键阶段：
-
-1. **奖励模型训练**：根据人类提供的偏好数据构建奖励函数，这个奖励函数为每个生成的响应分配一个分数。
-2. **策略优化**：通过强化学习算法优化语言模型，使生成的内容能够最大化奖励函数的输出。
-
-在这种背景下，RLHF有以下几个核心需求：
-
-- **稳定性和效率**：语言模型参数通常高达数十亿甚至更多，训练中的不稳定性会导致训练崩溃或结果不可用。
-- **对[KL散度](https://zhida.zhihu.com/search?content_id=251181114&content_type=Article&match_order=1&q=KL散度&zhida_source=entity)的控制**：语言模型需要在优化奖励函数的同时，保持与初始参考策略的相似性，以避免生成质量的退化。
-- **高效的采样和更新**：算法需要在有限的计算资源下，对复杂策略进行高效更新
-
-https://github.com/huggingface/trl
-
-https://github.com/CarperAI/trlx
-
-https://github.com/allenai/RL4LMs
-
-https://github.com/facebookresearch/Pearl
-
-https://github.com/BVLC/caffe    https://caffe.berkeleyvision.org/
-
-https://github.com/Farama-Foundation/Gymnasium
-
-
-
-#### RL算法
-
-https://zhuanlan.zhihu.com/p/10791831521
-
-DQN,
-
-DQN适用于离散动作空间的强化学习问题，其目标是学习一个近似的Q值函数。Q值函数的更新公式为：
-
-在DQN中，动作是离散的，通常使用-贪婪策略进行选择。然而，LLM（Large Language Models）的输出是连续概率分布，无法直接适配离散动作的Q学习方法。要应用DQN，需要对动作空间进行离散化，但这会引入近似误差，导致生成质量下降。
-
-同时，DQN存在样本效率较低和收敛性不稳定的问题，在RLHF的大规模复杂任务中会放大这些缺点
-
-PPO, 
-
-SAC **Soft Actor-Critic**
-
-- Off-policy算法
-- 最大化熵（鼓励探索）
-- 双Critic网络（减少过估计）
-- 连续动作空间
-
-DDPG
-
-PPO是一种基于信任区域的强化学习算法，它通过限制策略更新的幅度，在稳定性和效率之间找到了平衡。以下是PPO在RLHF中的核心优势：
-
-1. **策略更新的稳定性** PPO通过引入裁剪的目标函数（clipped objective），限制新旧策略的相对熵（KL散度）。这一机制能够有效防止策略更新过大导致的训练不稳定性。在RLHF中，这一点尤为重要，因为奖励模型本身可能带有噪声或不确定性
-
-MC、TD、SARSA、Q-learning、DQN、REINFORCE、PPO、SAC、TD3……这些名字听起来像是完全不同的东西。但其实，它们都在回答同一个问题：**怎么让智能体学会做决策**。
-
-后来我发现，如果你用”三个问题”来看这些算法，它们就不再是一堆孤立的名字，而是有清晰脉络的一个体系：
-
-1. **它在学什么？**（状态价值、动作价值、还是策略）
-2. **它的学习目标从哪来？**（真实回报 vs 估计值）
-3. **数据能不能重复用？**（on-policy vs off-policy）
-
-https://www.infyai.cn/2025/12/28/rl-algorithms-unified-framework/#DQN%EF%BC%9AQ-learning-%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C-%E7%A8%B3%E5%AE%9A%E5%99%A8
-
-#### tianshou
-
-https://github.com/thu-ml/tianshou
-
-
-
-#### rlinf
-
-https://github.com/RLinf/RLinf/tree/main
-
-
-
-#### trl
-
-https://github.com/huggingface/trl
-
-### SFT
-
-精选博主： https://www.zhihu.com/people/yilan-zhong-shan-xiao-29-98/posts
-
-现在的大模型在进行预训练时大部分都采用了[GPT](https://zhida.zhihu.com/search?content_id=232733945&content_type=Article&match_order=1&q=GPT&zhida_source=entity)的预训练任务，即 [Next token prediction](https://zhida.zhihu.com/search?content_id=232733945&content_type=Article&match_order=1&q=Next+token+prediction&zhida_source=entity)。
-
-- **Token**：在NLP中，一个“token”可以是一个词、一个字或一个标点符号。例如，句子“我爱北京”被切分成三个tokens: “我”, “爱” 和 “北京”。
-- **Prediction**：预测是指根据模型的当前输入，猜测接下来应该出现的token是什么。
-
-在训练过程中，模型通过大量的文本数据来学习文本之间的模式和结构。例如，模型会看到成千上万次的“我爱X”这样的模式，其中X可以是各种不同的词。通过这样的训练，模型会学会哪些词最有可能出现在“我爱”之后。
-
-要理解清楚这一训练过程，最主要的就是搞清楚**预训练的数据怎么构造，数据怎么喂给模型，模型输出的是什么，以及如何计算loss**。
-
-假设现在有一个用来预训练的数据集
-
-```text
-你知道什么是预训练吗？
-```
-
-假设经过分词后
-
-```text
-你: 9
-知道: 3
-什么: 6
-是: 4
-预训练: 2
-吗: 1
-？: 5
-```
-
-原来的数据变为如下序列，后面补了三个0（假设我们希望最大序列长度是10）
-
-```text
-9 3 6 4 2 1 5 0 0 0
-```
-
-预测下一个token就类似于9预测3，93预测6，以此类推，但是如果这样拆成很多个数据段其实比较低效，因此就可以考虑**移位**来构造数据，即
-
-- 模型输入X为 `9 3 6 4 2 1 5 0 0 0`
-- 模型输出targets为 `3 6 4 2 1 5 0 0 0 0`
-
-这样就可以一次性把整条序列喂给模型，计算一次就包含了个预测下一个token的损失了。注意这里模型的设计是有讲究的，我们**不能让输入看到后面的词**（如果看得到的话就没必要进行预测了），也就是“你”在模型内看不到“知道”，“你 知道”在模型内看不到“什么”，这个可以通过注意力机制实现，不是本文的关注点，这里就不展开了
-
-现在模型的输入的维度为，第一维为batch_size，然后经过embedding层后变为，这里假设embedding的维度为768。
-
-记住**进入transfomer前后数据的维度不会发生变化，把transfomer当作一个黑盒**，也就是[transformer](https://zhida.zhihu.com/search?content_id=232733945&content_type=Article&match_order=1&q=transformer&zhida_source=entity)(X)的维度还是，接下来就是基于它来进行预测了，因为要预测哪个词，词的可能情况就是词表的大小，所以做的就是一个**分类任务**，预测下一个token是词表中的哪一个（词表中的每一个词当作一个类别）
-
-为了完成分类任务，需要对transformer的输出做一个映射，**映射到跟词表一样大**，也就需要定义这样一个线性变换
+如果是数据采集模式，命令启动如下
 
 ```shell
-output_layer = nn.Linear(768, vocab_size, bias=False)
+python -m lerobot.record \
+    --robot.disable_torque_on_disconnect=true \
+    --robot.type=so101_follower \
+    --robot.port=/dev/ttyACM0 \
+    --robot.id=R12252801 \
+    --robot.cameras="{ handeye: {type: opencv, index_or_path: 6, width: 640, height: 480, fps: 30}, fixed: {type: opencv, index_or_path: 0, width: 640, height: 480, fps: 30}}" \
+    --teleop.type=so101_leader \
+    --teleop.port=/dev/ttyACM1 \
+    --teleop.id=R07252608 \
+    --dataset.repo_id=${HF_USER}/record-07271148\
+    --dataset.num_episodes=10 \
+    --dataset.reset_time_s=5 \
+    --dataset.push_to_hub=false \
+    --dataset.single_task="Grab the cube" \
+    --display_data=true
 ```
 
-然后`logits=output_layer(transformer(X))`的维度就是`(1,10,vocab_size)`，接下来就可以计算loss了，具体来说就是计算logits（模型预测）与targets（真实标签）之间的[交叉熵损失](https://zhida.zhihu.com/search?content_id=232733945&content_type=Article&match_order=1&q=交叉熵损失&zhida_source=entity)，同时忽略了填充值对应的损失。
+如果是模型推理模式，则命令如下
 
 ```shell
-loss = F.cross_entropy(logits.view(-1, logits.size(-1)), targets.view(-1), ignore_index=0)
+python -m lerobot.record  \
+  --robot.type=so101_follower \
+  --robot.disable_torque_on_disconnect=true \
+  --robot.port=/dev/ttyACM0 \
+--robot.cameras="{ handeye: {type: opencv, index_or_path: 6, width: 640, height: 480, fps: 30}, fixed: {type: opencv, index_or_path: 0, width: 640, height: 480, fps: 30}}" \
+  --robot.id=R12252801 \
+  --display_data=false \
+  --dataset.single_task="Put brick into the box" \
+  --policy.path=outputs/weigh_07280842/pretrained_model \
+  --dataset.episode_time_s=240  \
+  --dataset.repo_id=${HF_USER}/eval_so101_07271148
 ```
 
-Supervised fine-tuning
+主要的区别是如果是采集模式需要使用–teleop参数启动遥控机器，如果是模型推理模式则不需要启动遥控机器，但是需要指定模型路径–policy.path，本质上就是机器人的动作指令来源于哪里，要么来之遥控器的，要么来自模型推理出来的。
 
-“有监督微调”意味着使用有标签的数据来调整一个已预训练好的语言模型（LLM），使其更适应某一特定任务。通常LLM的预训练是无监督的，但微调过程往往是有监督的
+可以看出整个录制流程主要围绕机器设备、遥控设备、模型、数据集四个要素进行展开。
 
-当进行有监督微调时，模型权重会根据与真实标签的差异进行调整。通过这个微调过程，模型能够捕捉到标签数据中特定于某一任务的模式和特点。使得模型更加精确，更好地适应某一特定任务。
+- 机器：有SO101Follower、LeKiwi等机器，都继承Robot类。通过命令行参数robot.type调用make_robot_from_config函数选择创建具体的实例设备，函数返回的还是Robot但是指向的是具体的机器实例如SO101Follower，利用了多态的特性做到了解耦，如果要新添机器时，只需要参考SO101Follower添加一个新的设备即可。在创建机器实例时传递RobotConfig参数，这个参数依旧是抽象基类，其继承了draccus.ChoiceRregistry，通过命令行参数robot.type选择注册具体的配置如SO101FollowerConfig。
+- 遥控：用于控制机器，常用于数据的采集。这里同样通过命令行参数teleop.type调用make_teleoperator_from_config函数选择创建具体的设备实例，创建实例时需要传递TeleoperatorConfig参数，其也是一个抽象基类，基于命令选择注册实例化的配置类参数，如SO101LeaderConfig。
+- 模型：模型用于决策推理动作，其和遥控二选一，如果指定了遥控了，模型就不需要指定了。通用使用了机器、遥控的解耦机制，具体的实例化为ACT或DiffusionPolicy等。
+- 数据：通过参数dataset.xxx将参数构建为DataRecordConfig类，然后将其中的信息传递给LeRobotDataset
 
-以一个简单的例子来说，你有一个已经预训练好的LLM。当输入“我不能登录我的账号，我该怎么办？”时，它可能简单地回答：“尝试使用‘忘记密码’功能来重置你的密码。”
 
-这个回答很直接，适用于一般问题，但如果是客服场景，可能就不太合适了。一个好的客服回答应该更有同情心，并且可能不会这么直接，甚至可能包含联系信息或其他细节。这时候，有监督微调就显得非常重要了。
 
-经过有监督微调后，你的模型可以提供更加符合特定指导原则的答案。例如，经过一系列专业的培训示例后，你的模型可以更有同情心地回答客服问题。
+RecordConfig中有几个关键的成员，分别是RobotConfig，DatasetRrcordConfig、TeleoperatorConfig、PreTrainedConfig。其中除了DatasetRrcordConfig外的其他几个都是继承draccus.ChoiceRegistry 和 abc.ABC，是一个抽象基类，需通过注册的子类（如特定机器人型号的配置类）实例化，种设计既保证了配置的结构化（继承 abc.ABC），又支持灵活的子类选择（通过 draccus.ChoiceRegistry 实现配置注册与解析）。
 
-接下来我们还是从数据到模型输出，计算loss的步骤来看看SFT的实现原理。
+- RobotConfig 控制硬件接口，确保机器人正确连接和数据采集；
+- DatasetRecordConfig 控制数据存储，定义数据集格式和元信息；
+- TeleoperatorConfig 和 PreTrainedConfig 控制机器人行为，分别对应手动和自动控制模式。
 
-首先还是来看看数据怎么构造，SFT的每一条样本一般由两部分组成，也就是prompt（instruction）+ answer，比如：
+RobotConfig 是抽象基类（ABC），仅定义所有机器共有的通用配置字段，如id、calibration_dir。其继承了draccus.ChoiceRegistry实现了不同机器人型号的动态注册与选择
 
-- prompt: `翻译以下句子: What is pretrain`
-- answer: `什么是预训练`
+DatasetRecordConfig 是数据集录制任务的参数容器，被嵌套在 RecordConfig 中（作为 RecordConfig.dataset 字段），最终通过 parser.wrap() 装饰器从命令行参数解析生成实例
 
-也就是我们要给模型提供一些类似于问答形式的答案来学习，有了前面预训练的经验后，SFT其实就很好理解的，它本质上也在做next token prediction，只是我们更希望模型关注answer部分的预测，这可以通过生成一个`mask`向量来屏蔽不希望计算loss的部分，下面就是数据构造的一个示意：做的事情就是拼接prompt和answer，并在answer两侧添加一个开始和结束的符号，算一下prompt/instruction的长度，以及后面需要pad的长度，然后生成一个mask向量，answer部分为1，其他部分为0
+TeleoperatorConfig 是远程遥控操作器（如手柄、键盘、 leader 机器人）的抽象配置基类，用于定义所有遥操作器共有的通用配置字段和动态选择机制。它与RobotConfig类似，同样继承了draccus.ChoiceRegistry 实现了注册机制，其具体的子类又继承TeleoperatorConfig
+
+用户通过-teleop.type指定来实例化具体的操作设备，如–teleop.type=so101_leader时，具体的流程如下。
+
+- 框架通过 draccus.ChoiceRegistry 查找注册名称为 so101_leader 的子类（如 SO101LeaderConfig）；
+- 实例化该子类，接收命令行参数（如 –teleop.port=/dev/ttyACM0）并初始化特有字段（如 port）；
+- 最终通过 TeleoperatorConfig 基类引用（如 cfg.teleop）传入 make_teleoperator_from_config 函数，创建具体遥操作器实例
+
+PreTrainedConfig是所有策略模型如ACT,TDMPC的抽象配置类，定义了策略训练/推理所需的通用参数，特征规范、设备配置及Hugging Face Hub交互机制。它通过 dataclass、draccus.ChoiceRegistry 和 abc.ABC 实现“配置标准化”“多策略兼容”和“Hub 集成”，是策略初始化的核心参数载体。
+
+- draccus.ChoiceRegistry：通用跟前面的RobotConfig类似，支持动态子类注册，允许子类（如 SACConfig、TDMPCConfig）作为“策略选项”注册，支持通过 –policy.type=sac 动态选择。
+- HubMixin：Hugging Face Hub 交互混入类，提供 from_pretrained（从 Hub/本地加载配置）和 _save_pretrained（保存配置到 Hub/本地）方法，实现策略配置的共享与复用。
+- abc.ABC：抽象基类，包含未实现的抽象方法（如 get_optimizer_preset），强制子类必须实现核心逻辑，确保策略配置的完整性。
+
+https://www.laumy.tech/2332.html/lerobot%e6%95%b0%e6%8d%ae%e9%87%87%e9%9b%86%e4%b8%8e%e6%a8%a1%e5%9e%8b%e6%b5%8b%e8%af%95/
+
+#### 学习率调度器
+
+学习率调度器（Learning Rate Scheduler）是深度学习训练中动态调整**优化器学习率的工具**（注意是在优化器的基础上动态调整学习率），通过优化收敛过程提升模型性能。
+
+学习率（η）控制梯度更新步长，参数更新量 = -η × 梯度。过大步长导致震荡，过小则陷入局部最优或训练缓慢，固定学习率易导致训练初期震荡或后期收敛缓慢，调度器在训练期间自适应调整初期较高学习率加速收敛，中期稳定探索最优解，后期精细调优避免震荡。
+
+以下是常见的学习率调度器
+
+- StepLR：每隔固定epoch将学习率乘以衰减因子（如step_size=10, gamma=0.5）。
+- ExponentialLR：每epoch按指数衰减（lr = lr × gamma）。
+- CosineAnnealingLR：按余弦曲线周期下降：η = η_min + 0.5×(η_max – η_min)×(1 + cos(π×t/T_max))。
+- OneCycleLR：分两阶段：线性升温至峰值，再退火至极小值。
+- PowerLR：基于幂律关系调整，与批次大小和token数量无关。
+
+LRSchedulerConfig是学习率调度器配置的核心抽象，通过抽象接口定义+配置注册机制，实现了学习率调度策略的统一管理与灵活扩展。
+
+其同样继承了abc.ABC标记为抽象基类，强制子类事项build抽象方法，同时继承draccus.ChoiceRegistry提供子类注册机制，通过 @LRSchedulerConfig.register_subclass(“名称”) 将子类与调度器类型绑定（如 “diffuser” → DiffuserSchedulerConfig），支持配置驱动的动态实例化。同时使用了@dataclass 装饰器自动生成构造函数、**repr** 等方法，简化调度器超参数的定义与管理。
+
+其核心属性只有一个num_warmup_steps表示学习率预热步数。预热是深度学习训练的常见技巧（尤其在 Transformer 等模型中），将其作为基类字段可避免子类重复定义。也是几乎所有学习率调度器的基础参数，用于控制“预热阶段”（学习率从低到高线性增长的步数），避免训练初期因高学习率导致的不稳定。
+
+其只有两个方法type和build，type是用于获取子类注册调度器类型名称进而匹配到对应子类，而build的方法是强制子类实现。
+
+lerobot的学习率调度实现了3个DiffuserSchedulerConfig、VQBeTSchedulerConfig、CosineDecayWithWarmupSchedulerConfig子类
+
+在lerobot中，启动训练是可以通过参数来实例化使用哪些调度器，如下。
+
+- –scheduler.type=diffuser指定使用diffuser调度类。
+- –scheduler.num_warmup_steps=1000指定预热步数。
+- –scheduler.num_warmup_steps=0.5指定余弦衰减周期。
+
+#### 策略优化器
+
+优化器的就是更新计算参数的，根据损失函数的梯度方向调整模型权重和偏置值，公式为：新参数 = 旧参数 – 学习率 × 梯度。通过迭代逐步逼近最优解。在文章https://www.laumy.tech/2050.html我们已经探讨过常用的优化算法。
+
+接下来我们再来从PyTorch使用的角度复习一下。torch.optim 是 PyTorch 官方优化器模块，提供了 SGD、Adam、AdamW 等主流优化算法的实现，所有的优化器都继承自基类 torch.optim.Optimizer。其核心作用是如下：
+
+- 自动化参数更新：根据反向传播计算的梯度，按特定优化策略（如 Adam 的自适应学习率）更新模型参数。
+- 统一接口抽象：通过 Optimizer 基类封装不同算法，提供一致的使用流程（zero_grad() 清空梯度 → step() 更新参数）。
+
+在Pytorch中优化器统一封装成torch.optim接口调用，可以有以下优势。
+
+- 避免重复实现复杂算法：无需手动编写 Adam 的动量、二阶矩估计等逻辑，直接调用成熟接口。
+- 灵活支持训练需求：支持单/多参数组优化（如不同模块用不同学习率）、学习率调度、梯度清零等核心训练逻辑。
+- 工程化与可维护性：通过统一接口管理超参数（lr、weight_decay），便于实验对比与代码复用。
+
+
 
 ```python
-input_id=prompt+[bos]+answer+[eos]
-context_length = input_id.index(bos)
-mask_position = context_length - 1
-pad_len = max_length - len(input_id)
-input_id = input_id + [pad] * pad_len
-loss_mask = [0]*context_length+[1]*(len(input_id[mask_position+1:])) + [0]*pad_len
+import torch
+from torch import nn, optim
+
+# 1. 定义模型（示例：简单线性层）
+model = nn.Linear(in_features=10, out_features=2)
+
+# 2. 初始化优化器：传入模型参数 + 超参数
+optimizer = optim.Adam(
+    params=model.parameters(),  # 待优化参数（PyTorch 参数迭代器）
+    lr=1e-3,                    # 学习率（核心超参数）
+    betas=(0.9, 0.999),         # Adam 动量参数（控制历史梯度影响）
+    weight_decay=0.01           # 权重衰减（L2 正则化，可选）
+)
+
+# 模拟输入数据（batch_size=32，特征维度=10）
+inputs = torch.randn(32, 10)
+targets = torch.randn(32, 2)  # 模拟目标值
+
+# 训练循环
+for epoch in range(10):
+    # ① 清空过往梯度（必须！否则梯度累积导致更新异常）
+    optimizer.zero_grad()
+
+    # ② 前向传播 + 计算损失
+    outputs = model(inputs)
+    loss = nn.MSELoss()(outputs, targets)  # 均方误差损失
+
+    # ③ 反向传播计算梯度 + 优化器更新参数
+    loss.backward()  # 自动计算所有可训练参数的梯度
+    optimizer.step()  # 根据梯度更新参数
+
+    print(f"Epoch {epoch}, Loss: {loss.item():.4f}")
+    
+# 定义参数组（不同模块用不同学习率）
+optimizer = optim.Adam([
+    {
+        "params": model.backbone.parameters(),  # backbone 参数
+        "lr": 1e-5  # 小学习率微调
+    },
+    {
+        "params": model.head.parameters(),       # 任务头参数
+        "lr": 1e-3  # 大学习率更新
+    }
+], betas=(0.9, 0.999))  # 公共超参数（所有组共享）
 ```
 
-构造好输入后，**token转为embedding，经过transformer的过程跟之前预训练完全一样**，也就是我们又得到了一个维度是`(1,10,vocab_size)`的输出`logits=output_layer(transformer(X))`，进一步就可以**计算answer部分的loss**了，其实就是通过mask把不希望考虑的地方乘以0，保留answer部分loss
+loss是损失，通过调用loss.backward()进行反向传播Pytorch就自动把梯度计算好保存了，然后调用关键的一部optimizer.step()就可以执行参数更新了（即新参数=旧参数-学习率*梯度），需要注意的是，在调用loss.backward()进行反向传播计算梯度时，要先调用optimizer.zero_grad()把之前的梯度值情况，因此每计算一次梯度都是被保存，不情况会导致梯度累积
+
+
+
+#### ACT算法
+
+https://zhuanlan.zhihu.com/p/1921873980442280840
+
+传统的机器算法过程是观测关节位置J1经过模型预测动作A2然后执行，观测到J2预测数A3，观测到J3遇到A4依次类推，这样就有一个问题，假设预测出的A2跟实际相比偏差就比较大那么对应的观测到的J2就偏离比较大。如果要连续预测K步，就要连续采集K步，缺点就是误差会累积同时预测效率也比较低。那么对于ACT算法是怎么进行优化的了
+
+ACT算法是一下观测连续的K个动作，然后预测出K个动作，这样相对于传统算法效率就提升了K倍。同时也可以解决累积误差，计时K个连续的动作中，有某个动作偏差比较大，但是整体经过模型就会弱化不至于累积。假设K是10 ，简单举个例子理解过程，T0时刻观测到J1数据（开始时只有一个数据），模型直接预测数10个动作序列，等机器按顺序依次执行完这10个动作后，模型下一次就直接把这10个动作当做输入然后预测下一批的10个动作，依次类推
+
+基于transformer的动作分块（ACT）架构。分为训练模式和测试模式。
+
+当为训练模式是，ACT为左图的编码器+右图的解码器。左图可以理解为一个CVAE的编码器，将关节序列、动作序列、CLS经过transformer编码压缩为风格变量Z。然后将Z再加上采集的摄像头数据、关节序列作为输入给到右边的解码器最终输出动作序列。
+
+当为测试模式时，左图丢弃不再，只需要使用右图的部分，输入为摄像头数据、关节序列、Z（被简单设置为0，表示先验的平均值）。可以这么理解Z为CVAE模型中的风格，经过训练后，Z已经让模型的参数定型，在后续的测试过程中就不需要了，因为参数已经固定了就不用了。
+
+动作分块Action Chunking机制，传统机器人每执行一步都要重新观测环境（如拍摄一张照片），走一步采集一步预测一步，而ACT采用的是”分块执行”策略。
+
+具体就是累积到每K步观测一次（如K=100），然后一次性输出K个动作序列，执行这就可以按顺序执行这组K个动作序列。
+
+动作分块也可以理解为决策频率进行了压缩，传统的单步策略需每一步观测环境并生成动作（如T次决策），而ACT是每K步观测一次，一次性生成后续K个动作序列（决策点将至T/K个），例如若K=10,1000步的任务仅需100次决策，效率提升了10倍
+
+将各个动作组合在一起并作为一个单元的执行，从而使起存储和执行更有效率，直观地讲一组动作可以对应抓住糖果包装纸的一角或将电池插入插槽，在实现中将块大小固定为K，每K步agent会收到一次观测然后预测生成K个动作然后机器按顺序执行。如上图所示假设K为4，t=0时刻策略观测到4个动作，然后就会生成4个动作序列，让机器按顺序执行；紧接着到t=4这个时刻，策略又观测到4个动作，生成4个预测动作机器按这个4个动作顺序执行。
+
+#### ACT实现
 
 ```python
-loss = F.cross_entropy(logits.view(-1, logits.size(-1)), Y.view(-1), ignore_index=0,reduce=False)
-loss_mask = loss_mask.view(-1)
-loss = torch.sum(loss*loss_mask)/loss_mask.sum()
+@PreTrainedConfig.register_subclass("act")
+@dataclass
+class ACTConfig(PreTrainedConfig):
+    # 输入/输出结构
+    chunk_size: int = 100  # 动作块长度（每次预测的动作序列长度）
+    n_action_steps: int = 100  # 每次策略调用执行的动作步数（≤ chunk_size）
+    temporal_ensemble_coeff: float | None = None  # 时序集成系数（None表示禁用）
+
+    # VAE配置
+    use_vae: bool = True  # 是否启用VAE（增强动作多样性）
+    latent_dim: int = 32  # 潜在空间维度
+    kl_weight: float = 10.0  # KL散度损失权重
+
+    # Transformer配置
+    dim_model: int = 512  # Transformer隐藏维度
+    n_heads: int = 8  # 注意力头数
+    n_encoder_layers: int = 4  # 编码器层数
+    n_decoder_layers: int = 1  # 解码器层数（原始实现bug，仅用第1层）
+
+    # 视觉Backbone
+    vision_backbone: str = "resnet18"  # 图像特征提取网络
+    ......
 ```
 
-有了loss，进行反向传播更新模型参数就OK啦
 
-#### 什么情况下需要微调
 
-语言风格有要求 比如ai恋爱 ai面试
+#### anytoLerobot
 
-#### 微调方式
+浙大博士生
 
-**全模型微调（Full Fine-Tuning）**
+https://github.com/Tavish9/any4lerobot
 
-- **含义**：在预训练模型的基础上，**对所有参数** 进行进一步训练，使其适应特定任务。
-- **优点**：通常效果最好，模型能充分适应新数据。
-- **缺点**：计算量大、容易过拟合、需要大量标注数据。
 
-**冻结部分参数微调（Partial Fine-Tuning / Layer Freezing）**
 
-- **含义**：只训练模型的部分层（通常是靠近输出的几层），而**冻结（不更新）** 其他层的参数。
-- **优点**：减少计算量、降低过拟合风险、适合数据量较小的场景。
-- **缺点**：可能不如全模型微调灵活
+#### xlerobot
 
-**轻量化微调（Parameter-Efficient Fine-Tuning, PEFT）**
+https://xlerobot.readthedocs.io/en/latest/
 
-- **含义**：通过引入少量可训练参数（如适配器模块、LoRA、Prefix Tuning等），在保持预训练参数不变的情况下进行微调。
-- **优点**：大大减少训练参数和内存占用，适合大模型微调。
-- **缺点**：效果可能略低于全模型微调。
 
-**渐进微调（Progressive Fine-Tuning）**
 
-- **含义**：分阶段、渐进地解冻并训练模型的不同部分（例如从顶层到底层逐步解冻）。
-- **优点**：平衡训练效率和模型性能，避免一次性全参数训练带来的过拟合。
-- **缺点**：训练流程更复杂，需要更多调优。
+### Aloha
 
-**多任务微调（Multi-Task Fine-Tuning）**
+https://zhuanlan.zhihu.com/p/707610493
 
-- **含义**：同时使用多个相关任务的数据进行微调，使模型能同时适应多个任务。
-- **优点**：提升模型的泛化能力和鲁棒性，避免单任务过拟合。
-- **缺点**：任务之间可能存在冲突，需要精心设计任务权重或架构。
 
-科研用1就行
 
-https://github.com/huggingface/peft
+### openpi
 
-```
-from peft import PeftModel
+https://github.com/Physical-Intelligence/openpi
 
-device = torch.accelerator.current_accelerator().type if hasattr(torch, "accelerator") else "cuda"
-model_id = "Qwen/Qwen2.5-3B-Instruct"
-tokenizer = AutoTokenizer.from_pretrained(model_id)
-model = AutoModelForCausalLM.from_pretrained(model_id, device_map=device)
-model = PeftModel.from_pretrained(model, "qwen2.5-3b-lora")
 
-inputs = tokenizer("Preheat the oven to 350 degrees and place the cookie dough", return_tensors="pt")
-outputs = model.generate(**inputs.to(device), max_new_tokens=50)
-print(tokenizer.decode(outputs[0], skip_special_tokens=True))
-```
 
-| 你的情况             | 推荐方法           | 理由                         |
-| :------------------- | :----------------- | :--------------------------- |
-| **数据量小（<1k）**  | 冻结+LoRA          | 防止过拟合，高效利用参数     |
-| **数据量大（>10k）** | 全微调或LoRA       | 全微调效果最好，LoRA性价比高 |
-| **计算资源有限**     | QLoRA              | 单卡微调大模型的唯一选择     |
-| **需要多任务能力**   | 多任务微调+LoRA    | 共享表示，任务特定适配       |
-| **快速实验迭代**     | LoRA/Prompt Tuning | 训练快，切换方便             |
-| **生产部署**         | LoRA（合并后）     | 无推理开销，性能接近全微调   |
+### robosuite
 
-#### transformers
+🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟
 
-目前各种Pretraining的Transformer模型层出不穷，虽然这些模型都有开源代码，但是它们的实现各不相同，我们在对比不同模型时也会很麻烦。[Huggingface Transformer](https://huggingface.co/transformers/)能够帮我们跟踪流行的新模型，并且提供统一的代码风格来使用BERT、XLNet和GPT等等各种不同的模型。而且它有一个[模型仓库](https://huggingface.co/models)，所有常见的预训练模型和不同任务上fine-tuning的模型都可以在这里方便的下载。截止目前，最新的版本是4.5.0
+https://github.com/ARISE-Initiative/robosuite
 
-Huggingface Transformer 4.5.0需要安装Tensorflow 2.0+ **或者** PyTorch 1.1.0+
 
-Transformers的目的是为了：
 
-- 帮助NLP研究者进行大规模的transformer模型
-- 帮助工业界的使用者微调模型并且不是到生产环境
-- 帮助工程师下载预训练模型并且解决实际问题
+#### libero
 
-使用预训练模型最简单的方法就是使用pipeline函数，它支持如下的任务：
+https://zhuanlan.zhihu.com/p/658683732
 
-- 情感分析(Sentiment analysis)：一段文本是正面还是负面的情感倾向
-- 文本生成(Text generation)：给定一段文本，让模型补充后面的内容
-- 命名实体识别(Name entity recognition)：识别文字中出现的人名地名的命名实体
-- 问答(Question answering)：给定一段文本以及针对它的一个问题，从文本中抽取答案
-- 填词(Filling masked text)：把一段文字的某些部分mask住，然后让模型填空
-- 摘要(Summarization)：根据一段长文本中生成简短的摘要
-- 翻译(Translation)：把一种语言的文字翻译成另一种语言
-- 特征提取(Feature extraction)：把一段文字用一个向量来表示
+https://github.com/Lifelong-Robot-Learning/LIBERO
 
-https://fancyerii.github.io/2021/05/11/huggingface-transformers-1/
+Libero搭建了一个全新的机器人持续模仿学习环境LIBERO，针对机器人持续学习问题中持续学习算法、网络架构、任务顺序、任务空间/目标/物体变化、语言嵌入、预训练等众多因素耦合导致的难以分析的问题，我们提出使用程序化生成的环境（Procedurally Generated Environments）来解耦地分析各个因素在机器人持续学习训练时带来的影响，为之后的领域内工作提供一个较为全面的实验环境
 
 
 
-### parquet
+### robomimic
 
-Parquet 是一种开源的列式存储文件格式，用于高效存储和分析大数据。与传统的行式存储格式（如 CSV 或 JSON）不同，Parquet 将同一列的数据存储在一起，从而提高了查询性能，并能通过先进的压缩和编码技术降低存储成本。它在 Hadoop 生态系统中被广泛使用，并被 [Apache Spark](https://www.ibm.com/cn-zh/think/topics/parquet)、[Apache Hive](https://www.infoq.cn/article/tsp7pghp8dcbhsdhaxds) 等多种大数据处理框架所支持和采用
+🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟
 
-随着大模型AI的进一步发展，我们需要存储和处理的数据量呈指数级增长，寻找存储各种数据风格的最佳方式依然是最大的挑战之一。
+https://github.com/ARISE-Initiative/robomimic
 
-相信现在几乎已经没有人还会认为关系数据库是依然是唯一数据存储处理方式。
 
-比如说抖音的视频和直播等信息，其原始数据通常是无法实现以传统（关系）数据库方式存储的，或者以传统方式存储它们需要大量的精力和时间，同时会增加总体数据的分析时间。
 
-即使我们还在以某种方式坚持传统方法，结构化方式存储数据，但我们需要设计复杂且耗时的 ETL 工作负载来将这些数据移动到企业数据仓库中。
+### RT1/RT2/RTX
 
-这种架构方式使得数据分析从业人员，可能被分为两类，一类人主要每天接触 Python负责处理转换数据到关系型数仓，一类主要接触SQL针对关系型数据库进行分析
+https://robotics-transformer-x.github.io/
 
-可以说最近几年 Parquet 已经被认为是当今存储数据的事实上的标准了，它主要有以下几个优势：
 
-1. **数据压缩：**通过应用各种编码和压缩算法，Parquet 文件可减少内存消耗，减少存储数据的体积。
-2. **[列式存储](https://zhida.zhihu.com/search?content_id=239272919&content_type=Article&match_order=1&q=列式存储&zhida_source=entity)：**快速数据读取操作在数据分析工作负载中至关重要，列式存储是快速读取的关键要求。
-3. **与语言无关：**开发人员可以使用不同的编程语言来操作 Parquet 文件中的数据。
-4. **开源格式：**这意味着您不会被特定供应商锁定
-5. **支持复杂数据类型**
 
-我们已经提到过 Parquet 是一种基于列的存储格式。
+### GR1/GR2/GR3/GR-Dexter
 
-然而，要了解使用 Parquet 文件格式的好处，我们首先需要区分基于行和基于列的数据存储方式。
+https://zhuanlan.zhihu.com/p/1005149740
 
-在传统的基于行的存储中，数据存储为行序列
+https://gr2-manipulation.github.io/
 
-现在我们举例OLAP数据分析中的一个场景，用户可能会问的一些常见问题：
+https://byte-dexter.github.io/gr-dexter/
 
-- 我们卖了多少个球？
-- 有多少美国用户购买了 T 恤？
-- 客户 Maria Adams 的总消费金额是多少？
-- 1 月 2 日我们有多少销售额？
 
-为了能够回答这些问题，引擎必须从头到尾扫描每一行！
 
-因此，为了回答这个问题：有多少美国用户购买了 T 恤，引擎必须执行以下操作
+### PI-zero
 
-本质上，我们只需要两列中的信息：产品（T 恤）和国家/地区（美国），但引擎将会扫描所有五列数据！
+https://www.physicalintelligence.company/blog/pi0
 
-这不是我们想要的最有效的解决方案。
+**利用在互联网数据训练的VLM+[action expert](https://zhida.zhihu.com/search?content_id=257894023&content_type=Article&match_order=1&q=action+expert&zhida_source=entity) 组成一个VLA模型，这里结合开源+内部的机器人数据训练得到异构本体foundation model，然后可以在不同的本体/特定的任务上post-training，以完成多任务的泛化或某种复杂任务的灵巧操作**
 
-现在让我们看看列存储是如何工作的，是否如您可能猜想的那样
+Pre-training：这里有面向于具身智能的专用数据集，如open x-embodiment dataset和 pi cross-embodiment robot datasets，使用这些数据进行训练，已经包含了大量场景的机器人操作数据（论文把这一步也叫pre-training,其实也没问题），这个阶段后会得到一个foundation model，也就是一个可以统一所有任务/本体的基础模型，这样的模型具备初步的泛化性，但不一定专门用于在任何一项操作任务上实现高性能。
 
-如上图所示，在这种情况下，每一列都是一个单独的实体 - 这意味着，每一列在物理上都与其他列分开的！
+Post-training（fine-tuning）：根据上一个阶段的foundation model，进行ft, 这里分为两类任务的post-traing数据，以提高模型在某种任务表现的专门数据，包含unseen tasks（未见任务）、high dexterity task （高灵巧任务），包括20 多项任务
 
-回到我们之前的业务问题：引擎现在可以只扫描查询所需的列（产品和国家/地区），同时跳过不必要扫描的列。
+VLM：视觉语言大模型，这里用的[PaliGemma](https://zhida.zhihu.com/search?content_id=257894023&content_type=Article&match_order=1&q=PaliGemma&zhida_source=entity)，这里主要是指代在使用大量互联网文本图像数据上去预训练VLM
 
-在大多数情况下，这种数据跳过应该会提高分析查询的性能。
+PaliGemma： 2024 年 Google I/O 活动上发布（今年2025I/O刚举办大家感兴趣也可以去看看），它是一种基于两个模型的组合多模态模型：**视觉模型 SigLIP 和大型语言模型 Gemma**，这意味着该模型是 [Transformer 解码器](https://zhida.zhihu.com/search?content_id=257894023&content_type=Article&match_order=1&q=Transformer+解码器&zhida_source=entity)和 Vision Transformer 图像编码器的组合。它将图像和文本作为输入，并生成文本作为输出，支持多种语言。
 
-好的，但在Parquet诞生之前，列式存储早已经出现
+Action Expert：接受VLM输出，专门输出action的网络，这里使用的flow matching，是VLA中 action的重要组成部分。
 
-实际上我们在OLAP场景中，主要关心两个概念：
+Open X-Embodiment dataset :是一个由 DeepMind 创建并开源的超大规模机器人数据集，汇集了来自 22 种不同机器人类型的数据. RT-2也这个数据集上训练的，简称OXE dataset
 
-1. **投影**
-2. **谓词**
+Pi cross-embodiment robot datasets：pi0公司自己采集的本体数据集，一共7 种不同机器人配置，和 68 个任务的不同数据，长度为1w个小时。cross-embodiment robot 也可以理解为异构本体，不同的机器人类型具有**不同的配置空间和动作表示**，包括**固定基座的单臂和双臂**系统，以及**移动机械手**。自动驾驶中也有类似的事情，不同相机安装角度、型号、个数都算是某种程度的异构。（**在具身智能领域有一个专门的词汇即“通用数据”**）
 
-投影是指SQL 语言中的**SELECT**语句 - 查询需要哪些列。回到之前的示例，我们只需要“产品”和“国家/地区”列，因此引擎可以跳过扫描其余的列。
 
-谓词是指SQL 语言中的**WHERE**子句 – 哪些行满足查询中定义的条件。在我们的例子中，我们只对 T 恤感兴趣，因此引擎可以完全跳过扫描第 2 行组，其中“产品”列中的所有值都等于袜子！
 
-让我们暂停总结分析一下，因为我希望您认识到各种类型的存储在引擎需要执行的工作方面的差异：
+https://zhuanlan.zhihu.com/p/1907535034941965833
 
-- 行存储——引擎需要扫描所有 5 列和所有 6 行
-- 列存储 – 引擎需要扫描 2 列和所有 6 行
-- 具有行组的列存储 – 引擎需要扫描 2 列和 4 行
+https://zhuanlan.zhihu.com/p/1910755399646287695
 
-显然，这是一个过于简化的示例，只有 6 行和 5 列，您绝对看不到这三种存储选项之间的性能差异。然而，在现实生活中，当您处理大量数据时，差异就会变得更加明显。
+https://zhuanlan.zhihu.com/c_1907131586568251035
 
-**现在，最急切的问题是：Parquet 是如何“知道”要跳过/扫描哪个行组？**
 
-**Parquet 文件包含元数据**
 
-这意味着，每个 Parquet 文件都包含“有关数据的数据”，例如特定行组内特定列中的最小值和最大值等信息。
+https://io-ai.tech/platform/guides/Pipeline/LeRobot/Pi0/
 
-此外，每个 Parquet 文件都包含一个页脚，其中保存有关格式版本、架构信息、列元数据等信息。[您可以在此处](https://link.zhihu.com/?target=https%3A//parquet.apache.org/docs/file-format/metadata/)找到有关 Parquet 元数据类型的更多详细信息。
+https://modelers.csdn.net/680e0968a5baf817cf496e7f.html
 
-为了优化性能并消除不必要的数据结构（行组和列），引擎首先需要“熟悉”数据，因此它首先读取元数据。
+https://zhuanlan.zhihu.com/p/1919100548071788918
 
-虽然这个操作不算慢，但还是需要一定的时间，因此，如果您从多个小型 Parquet 文件中查询数据，查询性能可能会降低，因为引擎必须从每个文件中读取元数据。
 
-因此，您最好将多个较小的文件合并为一个较大的文件（但仍然不要太大)
 
-那么什么是“大”，什么是“小”呢，这里没有单一的“黄金”数字，因为这和任务的处理瓶颈是相关的，一般我们建议[单个 Parquet 文件的大小至少应为几百 MB](https://link.zhihu.com/?target=https%3A//www.youtube.com/watch%3Fv%3DRxjMibOx__A)。
+### 遥操作与模仿学习
 
-当说数据湖文件组织格式所提供能力时，主要是 Parquet 文件的版本控制。它还存储事务日志，以便跟踪应用于 Parquet 文件的所有更改。这也称为[ACID 兼容事务](https://link.zhihu.com/?target=https%3A//www.ibm.com/docs/en/cics-ts/5.4%3Ftopic%3Dprocessing-acid-properties-transactions)。
+https://zhuanlan.zhihu.com/p/1897200096430518846
 
-由于它不仅支持 ACID 事务，还支持时间旅行（回滚、审计跟踪等）和 DML（数据操作语言）语句，例如 INSERT、UPDATE 和 DELETE，等数据仓库的行为，所以又被叫做“data warehouse on the data lake”
 
-https://zhuanlan.zhihu.com/p/680143641
 
+https://github.com/tonyzhaozh/aloha
 
+#### gello
 
+https://github.com/wuphilipp/gello_software
+
+https://zhuanlan.zhihu.com/p/720266031
+
+
+
+### 睿尔曼
+
+#### 开发文档
+
+https://github.com/RealManRobot/ros2_rm_robot
+
+https://develop.realman-robotics.com/robot4th/ros2/gazebo/
+
+
+
+#### 数据集
+
+https://huggingface.co/datasets/RealSourceData/RealSource-World
+
+
+
+### wandb
+
+https://github.com/wandb/wandb
+
+
+
+### rerun
+
+https://github.com/rerun-io/rerun
+
+https://rerun.io/
+
+
+
+### lance
+
+https://github.com/lance-format/lance
+
+https://lance.org/
+
+
+
+### SMOLVLA
+
+https://huggingface.co/blog/smolvla
+
+https://huggingface.co/lerobot/smolvla_base
+
+https://smolvla.net/index_en
+
+https://www.laumy.tech/2743.html/lerobot-smolvla%e7%ad%96%e7%95%a5/
+
+https://www.laumy.tech/2780.html/smolvla%e7%ad%96%e7%95%a5server%e4%b8%8eclient%e5%88%86%e7%a6%bb%e9%83%a8%e7%bd%b2%e5%ae%9e%e8%b7%b5/
+
+
+
+
+
+
+
+### 长学习
+
+https://www.nature.com/articles/s42256-025-00983-2
+
+
+
+### 其他数据集
+
+涂鸦数据集：https://github.com/googlecreativelab/quickdraw-dataset

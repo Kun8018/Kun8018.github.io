@@ -67,6 +67,106 @@ https://github.com/xiaomi-mlab/Orion 小米VLA 框架
 
 #### VLA与VLM
 
+过去，机器人操作的研究总在 “模块化陷阱” 里打转：视觉识别、语言解析、动作控制各成一派，像被割裂的齿轮，很难协同运转。直到大型 VLMs 的出现 —— 这些在海量图文数据上 “吃透” 视觉与语言关联的模型，不仅能看懂图片里的细节、理解人类指令的深意，还能把这种 “理解” 转化为机器人能执行的动作逻辑。于是，基于大型 VLM 的 [VLA 模型](https://zhida.zhihu.com/search?content_id=262266538&content_type=Article&match_order=1&q=VLA+模型&zhida_source=entity)应运而生：它像给机器人装了 “通感大脑”，既能通过视觉捕捉环境动态，又能通过语言锚定任务目标，最终生成连贯、灵活的操作动作。比如让它 “把红色马克杯放到笔记本旁的书架上”，它能自动完成 “找杯子 - 判断位置 - 规划移动路径” 的全流程，甚至应对杯子被书本挡住的突发情况
+
+不过，这个快速发展的领域也藏着不少 “迷雾”：有人把 VLA 模型拆成多个模块，有人追求 “端到端” 的统一架构；数据集要么是模拟环境的 “理想数据”，要么是真实世界的 “零散样本”；更别提大家对 “如何让机器人记住过往动作、完成长期任务”“怎样让模型在不同机器人上通用” 这些问题，还没形成统一答案。
+
+为了理清这些脉络，哈尔滨工业大学（深圳）的研究者们撰写了这篇《Large VLM-based Vision-Language-Action Models for Robotic Manipulation: A Survey》。它不仅是首个系统梳理 “大型 VLM + 机器人操作” 的综述，更像一张 “领域地图”—— 从 VLA 模型的定义、两种核心架构（单体式 / 分层式），到如何结合强化学习、从人类视频里学技能，再到未来要突破的 4D 感知、记忆机制等方向，都被清晰地呈现出来
+
+传统方法依赖分离的视觉编码器、语言模块与规划器（如CLIPort用CLIP做语义接地、RT-1用CNN+独立语言嵌入），泛化性差，难以处理未知物体或模糊指令
+
+以RT-2为代表，将机器人动作离散化为文本token，与VLM（PaLM-E/PaLI-X）共训练，实现“视觉-语言-动作”统一建模；后续OpenVLA（7B参数开源模型）、π₀（流匹配架构）进一步提升泛化性与可访问性。
+
+**现有综述的不足**
+
+- 多单独聚焦VLMs或机器人操作，缺乏对“VLMs与机器人操作交叉领域”的深入分析
+- 未聚焦“预训练VLM作为基础组件”的主流范式
+- 因覆盖自动驾驶、农业等多领域，稀释了机器人操作特有的实时控制、传感器噪声鲁棒性等挑战
+- 仅关注文本LLM的任务规划，未解决VLM在视觉感知与动作接地的核心问题
+
+VLA模型的定义与分类
+
+**定义**：满足两个核心条件的模型：① 利用大型VLM理解视觉观测与自然语言指令；② 执行直接/间接服务于机器人动作生成的推理过程。
+
+**核心分类**：根据“系统整合粒度”与“认知分解显式性”，分为两大类：
+
+- **单体模型（Monolithic）**：将感知、语言理解、动作生成整合于单一/双系统架构，无显式中间表示；
+- **分层模型（Hierarchical）**：显式分离“规划”与“执行”，通过人类可解释的中间表示（如子任务、关键点、程序）连接规划器与策略器。
+
+基于VLM的两大类大型VLA模型的比较。单体模型在单系统或双系统架构中集成了感知、语言理解和动作生成，后者包含了一个额外的动作专家。相反，分层模型通过可解释的中间输出（例如，子任务、关键点、程序、功能支持）将规划与策略执行解耦
+
+单体模型（Monolithic Models）
+
+单系统模型（Single-system Models）
+
+**核心思想**：视觉感知、语言指令、机器人状态输入统一模型，通过自回归/并行解码输出动作，架构简洁且无复杂模块通信
+
+**三大研究方向**：
+
+- **经典范式：自回归解码**
+
+**方法：**将连续动作空间离散化为token序列，VLM 自回归生成动作token，再通过解令牌器转换为可执行动作。
+
+**代表技术：**
+
+RT-2 ：以PaLM-E/PaLI-X为VLM骨干，训练互联网视觉语言数据与机器人轨迹，将动作视为语言任务，显著提升语义理解与泛化性；
+
+RT-2-X ：在RT-2基础上，用Open X-Embodiment（OXE）跨机器人数据集微调，提升技能迁移能力；
+
+OpenVLA ：用DINOv2+SigLIP替代大参数视觉编码器，基于LLaMA2-7B，在真实机器人演示数据上微调，开源且性能优异。
+
+- **模型性能增强**
+
+**感知模态扩展**：加入3D（Leo Agent 用PointNet++处理点云、SpatialVLA通过深度估计生成3D坐标）、4D（TraceVLA叠加运动轨迹、4D-VLA 整合3D坐标与历史关键帧）、触觉/听觉（VTLA融合触觉、VLAS 用Whisper提取语音）；
+
+**推理能力提升**：引入思维链（ECoT生成推理链、CoT-VLA 预测像素级子目标观测）、分层闭环控制（LoHoVLA 处理长程任务）
+
+**泛化性优化**：统一动作空间（UniAct定义通用动作码本）、可逆训练（ReVLA恢复视觉编码器预训练状态以减少灾难性遗忘）、多模态融合（FuSe 用自然语言对齐触觉/听觉）。
+
+**代表技术**：Leo Agent 、TraceVLA、CoT-VLA、UniAct、VTLA 。
+
+- **推理效率优化**
+
+**方法：**从架构、参数、解码策略三方面降低推理开销。
+
+**架构优化**：动态层跳过（MoLe-VLA用STAR路由器选择关键LLM层）、早期退出（DeeR-VLA 通过输出一致性判断是否终止推理）、Mamba架构（RoboMamba 实现Transformer的推理速度的三倍）；
+
+**参数优化**：模型压缩（BitVLA 用‘1-bit’权重、NORA 设计小参数模型）；
+
+**解码加速**：并行解码（PD-VLA 将自回归转为不动点迭代、RoboFlamingo 用独立MLP动作头）、投机解码（Spec-VLA速度提升1.42倍）、动作复用（FlashVLA稳定场景下跳过推理）。
+
+**代表技术**：RoboMamba、DeeR-VLA 、BitVLA 、PD-VLA 、FlashVLA
+
+双系统模型（Dual-system Models）
+
+**核心思想**：分离“高层推理（System 2：VLM骨干）”与“低层动作生成（System 1：动作专家）”，平衡推理精度与实时性，无显式中间表示（区别于分层模型）。
+
+**两大研究方向**：
+
+- **级联式（Cascade-based）**
+
+**方法：**System 2处理多模态输入生成 latent 认知表示，再传递给System 1解码为动作，串行执行。
+
+**代表技术**：
+
+DP-VLA ：用OpenVLA为System 2，Behavioral Cloning Transformer为System 1，兼顾效率与性能；
+
+HiRT：System 2低频运行（理解场景），轻量级System 1高频控制，适配动态环境；
+
+TriVLA ：新增“世界动态感知模块”（System 3），补充静态感知的不足
+
+- **并行式（Parallel-based）**
+
+**方法：**System 2与System 1并行运行，通过共享注意力/交叉注意力交互信息。
+
+**代表技术：**
+
+π₀ ：以PaliGemma为预训练VLM（System 2），训练流匹配（Flow Matching）动作专家（System 1），支持零样本泛化；
+
+SmolVLA ：冻结轻量级SmolVLM-2（System 2），仅训练下游流匹配Transformer（System 1），提升效率；
+
+ForceVLA ：在π₀基础上加入MoE结构的力感知模块，优化接触密集型操纵
+
 
 
 #### TVLA
@@ -191,6 +291,100 @@ https://zhuanlan.zhihu.com/p/1987884045833615002
 
 
 
+#### CLIP
+
+2021年见证了vision transformer的大爆发，随着谷歌提出ViT之后，一大批的vision transformer的工作席卷计算机视觉任务。除了vision transformer，另外一个对计算机视觉影响比较大的工作就是Open AI在2021年1月份发布的[DALL-E](https://link.zhihu.com/?target=https%3A//openai.com/blog/dall-e/)和[CLIP](https://link.zhihu.com/?target=https%3A//openai.com/blog/clip/)，这两个都属于结合图像和文本的多模态模型，其中**DALL-E是基于文本来生成模型的模型**，而**CLIP是用文本作为监督信号来训练可迁移的视觉模型**，这两个工作也像ViT一样带动了一波新的研究高潮。这篇文章将首先介绍CLIP的原理以及如何用CLIP实现[zero-shot分类](https://zhida.zhihu.com/search?content_id=197796243&content_type=Article&match_order=1&q=zero-shot分类&zhida_source=entity)，然后我们将讨论CLIP背后的动机，最后文章会介绍CLIP的变种和其它的一些应用场景
+
+CLIP的英文全称是**Contrastive Language-Image Pre-training**，即**一种基于对比文本-图像对的预训练方法或者模型**。CLIP是一种基于对比学习的多模态模型，与CV中的一些对比学习方法如moco和simclr不同的是，CLIP的训练数据是文本-图像对：一张图像和它对应的文本描述，这里希望通过对比学习，模型能够学习到文本-图像对的匹配关系。如下图所示，CLIP包括两个模型：**Text Encoder**和**Image Encoder**，其中Text Encoder用来提取文本的特征，可以采用NLP中常用的text transformer模型；而Image Encoder用来提取图像的特征，可以采用常用CNN模型或者vision transformer
+
+这里对提取的文本特征和图像特征进行对比学习。对于一个包含个文本-图像对的训练batch，将个文本特征和个图像特征两两组合，CLIP模型会预测出个可能的文本-图像对的相似度，这里的相似度直接**计算文本特征和图像特征的余弦相似性（cosine similarity）**，即上图所示的矩阵。这里共有个正样本，即真正属于一对的文本和图像（矩阵中的对角线元素），而剩余的个文本-图像对为负样本，那么CLIP的训练目标就是最大个正样本的相似度，同时最小化个负样本的相似度
+
+为了训练CLIP，OpenAI从互联网收集了共**4个亿的文本-图像对**，论文称之为**WebImageText**，如果按照文本的单词量，它和训练GPT-2的WebText规模类似，如果从数量上对比的话，它还比谷歌的[JFT-300M数据集](https://zhida.zhihu.com/search?content_id=197796243&content_type=Article&match_order=1&q=JFT-300M数据集&zhida_source=entity)多一个亿，所以说这是一个很大规模的数据集。CLIP虽然是多模态模型，但它主要是用来**训练可迁移的视觉模型**。论文中Text Encoder固定选择一个包含63M参数的text transformer模型，而Image Encoder采用了两种的不同的架构，一是常用的CNN架构ResNet，二是基于transformer的ViT，其中ResNet包含5个不同大小的模型：**ResNet50**，**ResNet101**，**RN50x4**，**RN50x16**和**RNx64**（后面三个模型是按照EfficientNet缩放规则对ResNet分别增大4x，16x和64x得到），而ViT选择3个不同大小的模型：**ViT-B/32**，**ViT-B/16**和**ViT-L/14**。所有的模型都训练32个epochs，采用AdamW优化器，而且训练过程采用了一个**较大的batch size：32768**。由于数据量较大，最大的ResNet模型RN50x64需要在592个V100卡上训练18天，而最大ViT模型ViT-L/14需要在256张V100卡上训练12天，可见要训练CLIP需要耗费多大的资源。对于ViT-L/14，还在336的分辨率下额外finetune了一个epoch来增强性能，论文发现这个模型效果最好，记为**ViT-L/14@336**，论文中进行对比实验的CLIP模型也采用这个
+
+**为什么是CLIP，即CLIP这篇工作的motivation**。 在计算机视觉领域，最常采用的迁移学习方式就是先在一个较大规模的数据集如ImageNet上预训练，然后在具体的下游任务上再进行微调。这里的预训练是基于有监督训练的，需要大量的数据标注，因此成本较高。近年来，出现了一些基于自监督的方法，这包括基于对比学习的方法如MoCo和SimCLR，和基于图像掩码的方法如MAE和BeiT，自监督方法的好处是不再需要标注。但是无论是有监督还是自监督方法，它们在迁移到下游任务时，还是需要进行有监督微调，而无法实现zero-shot。对于有监督模型，由于它们在预训练数据集上采用固定类别数的分类器，所以在新的数据集上需要定义新的分类器来重新训练。对于自监督模型，代理任务往往是辅助来进行表征学习，在迁移到其它数据集时也需要加上新的分类器来进行有监督训练。但是NLP领域，基于自回归或者语言掩码的预训练方法已经取得相对成熟，而且预训练模型很容易直接zero-shot迁移到下游任务，比如OpenAI的GPT-3。这种差异一方面是由于文本和图像属于两个完全不同的模态，另外一个原因就是NLP模型可以采用从互联网上收集的大量文本。那么问题来了：**能不能基于互联网上的大量文本来预训练视觉模型？**
+
+其实之前已经有一些工作研究用文本来作为监督信号来训练视觉模型，比如16年的工作[Learning Visual Features from Large Weakly Supervised Data](https://link.zhihu.com/?target=https%3A//arxiv.org/abs/1511.02251)将这转化成一个多标签分类任务来预测图像对应的文本的bag of words；17年的工作[Learning Visual N-Grams from Web Data](https://link.zhihu.com/?target=https%3A//arxiv.org/abs/1612.09161)进一步扩展了这个方法来预测n-grams。最近的一些工作采用新的模型架构和预训练方法来从文本学习视觉特征，比如[VirTex](https://link.zhihu.com/?target=https%3A//arxiv.org/abs/2006.06666)基于transformer的语言模型，[ICMLM](https://link.zhihu.com/?target=https%3A//arxiv.org/abs/2008.01392)基于语言掩码的方法，[ConVIRT](https://link.zhihu.com/?target=https%3A//arxiv.org/abs/2010.00747)基于对比学习的方法。整体来看，这方面的工作不是太多，这主要是因为这些方法难以实现较高的性能，比如17年的那篇工作只在ImageNet上实现了11.5%的zero-shot性能，这远远低于ImageNet上的SOTA。另外，还有另外的是一个方向，就是基于文本弱监督来提升性能，比如谷歌的[BiT](https://link.zhihu.com/?target=https%3A//arxiv.org/abs/1912.11370)和[ViT](https://link.zhihu.com/?target=https%3A//arxiv.org/abs/2010.11929)基于JFT-300M数据集来预训练模型在ImageNet上取得SOTA，JFT-300M数据集是谷歌从互联网上收集的，通过一些自动化的手段来将web text来转化成18291个类别，但是存在一定的噪音。虽然谷歌基于JFT-300M数据集取得了较好的结果，但是这些模型依然采用固定类别的softmax分类器进行预训练，这大大限制了它的迁移能力和扩展性
+
+**谷歌的弱监督方法和之前的方法的一个重要的区别在于规模，或者说算力和数据的规模不同**。JFT-300M数据量达到了上亿级别，而且谷歌用了强大的算力来进行预训练。而VirTex，ICMLM和ConVIRT只在10万级别的数据上训练了几天。为了弥补数据上的差异，OpenAI从网上收集了4亿的数据来实验。但是新的问题来了：采用什么样的方法来训练。OpenAI首先尝试了VirTex模型，即联合训练一个CNN和文本transformer来预测图像的文本（image caption），但是发现这种方法的训练效率（用ImageNet数据集上的zero-shot性能来评估）还不如直接预测bag of words，如下图所示，两者的训练效率能相差3倍。如果进一步采用[ConVIRT](https://link.zhihu.com/?target=https%3A//arxiv.org/abs/2010.00747)，即基于对比学习的方法，训练效率可以进一步提升4倍。之所出现这个差异，这不难理解，训练数据所包含的文本-图像对是从互联网收集来的，它们存在一定的噪音，就是说文本和图像可能并不完全匹配，这个时候适当的降低训练目标，反而能取得更好的收敛。而从任务难度来看：Transformer Language Model > Bag of Words Prediction > Bag of Words Contrastive (CLIP)。由于训练数据量和模型计算量较大，训练效率成为一个至关重要的因素。这就是作者最终选择对比学习的方法来训练的原因
+
+基于文本来搜索图像是CLIP最能直接实现的一个应用，其实CLIP也是作为DALL-E的排序模型，即从生成的图像中选择和文本相关性较高的
+
+CLIP是基于文本-图像对来做的，但是它可以扩展到文本-视频，比如[VideoCLIP](https://link.zhihu.com/?target=https%3A//arxiv.org/abs/2109.14084)就是将CLIP应用在视频领域来实现一些zero-shot视频理解任务。
+
+CLIP可以用在指导图像编辑任务上，[HairCLIP](https://link.zhihu.com/?target=https%3A//arxiv.org/abs/2112.05142)这篇工作用CLIP来定制化修改发型
+
+CLIP还可以应用在图像生成上，比如[StyleCLIP](https://link.zhihu.com/?target=https%3A//arxiv.org/abs/2103.17249)这篇工作用CLIP实现了文本引导的StyleGAN
+
+华为的工作[MVP](https://link.zhihu.com/?target=https%3A//arxiv.org/abs/2203.05175)更是采用CLIP来进行视觉自监督训练
+
+##### siglip
+
+在最近一些知名的开源多模态大模型中，视觉编码器模块有两个重要的身影，一个是**[InternViT-6B](https://zhida.zhihu.com/search?content_id=246959003&content_type=Article&match_order=1&q=InternViT-6B&zhida_source=entity)**（对应的MLLM有**InternVL2、InternVL1.5**等），另一个是**SigLIP-400M**（对应的MLLM有**LLaVA-OneVision、MiniCPM-Llama3-V2.5、LLaVA-Next-Qwen-32B、WeMM、LLaVA-Next-Interleave-7B-DPO**等）
+
+https://github.com/google-research/big_vision
+
+我们提出了**一种简单的两两Sigmoid损失函数用于语言-图像预训练（SigLIP）**。不同于采用softmax归一化的标准对比学习，**Sigmoid损失仅在图像-文本对上操作，并不需要全局视图来对两两相似度进行归一化**。**Sigmoid损失同时允许进一步扩大批量大小，同时在较小的批量大小下表现更佳**。结合锁定图像调优，仅使用四块[TPUv4](https://zhida.zhihu.com/search?content_id=246959003&content_type=Article&match_order=1&q=TPUv4&zhida_source=entity)芯片，我们训练了一个SigLiT模型，在两天内实现了84.5%的ImageNet零样本准确性。**批量大小与损失函数的解耦进一步使我们能够研究示例与对以及负例对正例比率的影响**。最终，**我们将批量大小推向极端，高达一百万，并发现增大批量大小的好处迅速减弱，一个更为合理的32k的批量大小就已足够**
+
+利用从网络上找到的图像-文本对的弱监督进行对比预训练，正逐渐成为获取通用计算机视觉骨干网络的首选方法，慢慢取代在大型标记多类别数据集上的预训练。**其核心思想是使用配对数据同时学习图像和文本的对齐表示空间。开创性工作CLIP [36] 和 ALIGN [23] 在大规模上证实了这种方法的可行性**，随后，许多大型图像-文本数据集私有地 [59, 13, 21, 49] 和公开地 [40, 6, 15, 7, 41] 变得可用。
+
+**预训练这类模型的标准做法利用了图像-文本对比目标。它对匹配（正例）图像-文本对的图像和文本嵌入进行对齐，同时确保不相关（反例）图像-文本对在嵌入空间中不相似**。这是**通过应用基于softmax的批级对比损失实现的，该损失分别对所有图像和所有文本的两两相似度分数进行归一化两次**。softmax的朴素实现在数值上不稳定；通常通过**在应用softmax之前减去最大输入值来稳定它 [18]，这需要在整个批次上再做一次遍历**。
+
+在本文中，我们提出了一个更简单的替代方案：**Sigmoid损失。它不需要在全批上进行任何操作，因此极大地简化了分布式损失的实现并提高了效率**。此外，它**在概念上将批量大小与任务定义解耦**。我们在多种设置下比较了提出的Sigmoid损失与标准softmax损失。具体而言，我们研究了基于Sigmoid的损失与图像-文本学习的两种突出方法：**CLIP** [36] 和 **LiT** [59]，我们分别称之为Sigmoid语言图像预训练（**SigLIP**）和Sigmoid LiT（**SigLiT**）
+
+我们发现，**当批量大小小于16k时，Sigmoid损失的表现显著优于softmax损失。随着训练批量大小的增长，两者差距缩小**。重要的是，**Sigmoid损失是对称的，只需要一次遍历，且典型实现所需的内存比softmax损失少**。这使得在一百万的批量大小下成功训练SigLiT模型成为可能。然而，**我们发现对于softmax和Sigmoid，性能随批量大小增长而饱和**。好消息是，一个合理的批量大小，即**32k，足以用于图像-文本预训练。这一结论同样适用于超过100种语言的多语种SigLIP训练。**
+
+在**表1**中，我们列出了图像-文本预训练的设置，这些设置需要适度数量的TPUv4芯片进行训练。**SigLiT出人意料地高效，在四个芯片上仅一天就能达到ImageNet上79.7%的零样本准确率。SigLIP从头开始的更苛刻训练，使用32个TPUv4芯片在5天内达到73.4%的零样本准确率**。这与先前的工作如FLIP [30] 和 CLIP [36] 相比具有优势，它们分别需要大约5天和10天在256个TPUv3核心上。在SigLIP中微调预训练的视觉骨干网络，**如表1所示，我们发现禁用预训练骨干网络上的权重衰减会导致更好的结果（详情见图4）**。
+
+我们希望我们的工作能为使新兴的语言-图像预训练领域更加普及铺平道路。
+
+https://zhuanlan.zhihu.com/p/714731384
+
+
+
+#### DINO-v3
+
+2025年8月14日Meta重磅发布[DINO v3](https://zhida.zhihu.com/search?content_id=261832367&content_type=Article&match_order=1&q=DINO+v3&zhida_source=entity)。官方报道：吞下17亿张图片，Meta最强巨兽DINO-v3 7B参数超级视觉大模型开源
+
+DINO v3跟DINO v2的架构和预训练策略几乎完全一样：MIM（来自于iBOT的特征预测型MIM）+自蒸馏（来自于DINO v1）+多分辨率裁剪数据增强（来自于SwAV）+寄存器token（VitNeedReg）。并且加了一些额外的技术，使得能够有效训练超大模型，且训练得到的密集特征更有效 作者：Dezeming 链接：https://zhuanlan.zhihu.com/p/1940400858836742367 来源：知乎 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
+传统深度学习依赖大量人工标注数据，而自监督学习通过从数据本身生成监督信号（如图像块的关系、时序连续性等），彻底摆脱了这一限制。不局限于特定任务或领域，同一算法可处理多样数据（如自然图像、航拍图像等），为通用视觉表征学习铺平道路。模型和数据集规模可自由扩展，无需标注成本，适合大规模训练
+
+**DINOv3的核心创新在于：（1）数据与模型规模的协同优化，**通过精心设计的数据清洗、多样化和增强策略，确保大规模数据的质量。优化模型结构（ViT）以适应超大规模训练，平衡计算效率与表征能力。**（2）[Gram锚定](https://zhida.zhihu.com/search?content_id=261832367&content_type=Article&match_order=1&q=Gram锚定&zhida_source=entity)**（Gram Anchoring，做过卷积网络风格迁移的朋友有没有回想到~）**，**在长周期训练中，密集特征图（dense feature maps）易出现退化（如信息丢失或过度平滑）。通过Gram矩阵（捕捉特征间高阶统计量）锚定特征分布，稳定训练并提升特征质量。这一方法首次系统性解决了该长期存在的问题。**（3）后处理策略（Post-hoc Strategies）。**多分辨率适配支持灵活调整输入图像分辨率，适应不同计算需求。提供不同规模的模型变体（如小型到巨型），适配多样部署场景。**（4）ViT骨干也进行了改进**，使用了axial RoPE位置编码，并且进行了位置编码正则化来避免位置伪影。
+
+DINOv3的性能优势：（1）通用视觉基础模型：在无需微调的情况下，超越以往自监督/弱监督模型（如DINOv2、MoCo等）和领域专用模型（如ImageNet预训练模型）的性能。（2）密集特征质量：生成的高质量密集特征可直接用于分割、检测等任务，显著优于先前方法。（3）开源模型套件：提供不同规模的预训练模型（如Small到Large），推动社区在资源受限或高性能场景中的应用。 
+
+**规模化过程中的三大具体问题：（1）无标注数据集的效用性问题，**如何从无标注数据集中筛选“有用”数据？互联网爬取的原始数据包含噪声（模糊图像、重复内容、无关文本等），直接训练会降低模型效率。**(2) 训练调度的不确定性，[余弦退火调度](https://zhida.zhihu.com/search?content_id=261832367&content_type=Article&match_order=1&q=余弦退火调度&zhida_source=entity)（Cosine Schedule）**需预设总训练步数（优化终点），但在超大规模数据集（如数十亿图像）上难以提前确定最优步数（数据量过大时可能需动态调整），固定调度可能导致欠拟合或过拟合。**(3) 长周期训练中的特征退化，**当模型参数量超过ViT-Large（3亿参数）且训练时间延长时，早期阶段特征质量提升，但后续**相似度图（Patch Similarity Maps）**显示特征逐渐退化（如过度平滑或丢失局部细节）。图像块之间的相似度趋于一致，失去判别性。根本原因在于优化目标与特征密度间的矛盾（如过度依赖全局一致性而忽略局部差异），大规模模型的优化轨迹具有复杂性（梯度噪声累积、损失曲面平坦化）。
+
+这些问题导致单纯扩大DINOv2的规模（数据量、参数量）无法持续提升性能，甚至可能有害
+
+ViT的密集特征天生具有全局感受野，而CNN的密集特征受限于局部感受野。简单来说，你的ViT输出的图像特征是密集特征，以用于下游任务。但有可能学习到的每个patch的特征不是很有“独特性”，即所有patch的特征区分度很小，就不利于后续下游任务。
+
+**余弦退火调度**是一种用于深度学习优化的学习率调整策略，其核心思想是让学习率随着训练过程按余弦函数的形式从初始值平滑衰减到接近零。这种调度方式在训练大规模模型时表现优异，尤其在自监督学习Transformer模型中广泛应用。
+
+**相似性图**（Patch Similarity Maps）就是通过计算图像所有局部块（patch）特征之间的相似性（如余弦相似度），生成一个对称矩阵（或热力图），反映模型对图像内部结构的理解程度。
+
+https://zhuanlan.zhihu.com/p/1940400858836742367
+
+
+
+#### 其他先进领域
+
+代表性的VLA方法分为四个高级类别：基于强化学习、无训练、从人类视频中学习和基于世界模型的方法
+
+基于强化学习（RL-based Methods）
+
+**核心思想**：通过在线交互（实时优化）或离线轨迹（预收集数据）优化VLA策略，解决奖励稀疏、样本效率低问题。
+
+**代表技术：**
+
+奖励设计：VLA-RL 训练机器人过程奖励模型（RPRM）、ReWiND 以“目标进度”为奖励、Grape用VLM生成反馈奖励；
+
+训练范式：ReWiND（离线IQL+在线SAC）、HIL-SERL（人类在环干预）、ConRFT （离线Cal-ConRFT+在线HIL-ConRFT）；
+
+数据引擎：RLDG （训练专家策略后蒸馏到基础模型）、iRe-VLA（在线RL收集轨迹+SFT迭代优化）
+
+
+
 ### 世界模型
 
 世界模型能够根据当前输入预测未来观测或潜在表征。其前向预测能力在VLA系统中变得越来越重要，可支持规划、推理和控制功能
@@ -256,422 +450,4 @@ https://github.com/franzesegiovanni
 
 
 人机控制franka： https://github.com/franzesegiovanni/franka_human_friendly_controllers?tab=readme-ov-file
-
-### leRobot
-
-
-
-#### 可视化
-
-https://github.com/huggingface/lerobot-dataset-visualizer
-
-
-
-#### 录制
-
-lerobot record是关键核心流程，其包括了数据的采集和模型推理两部分。
-
-如果是数据采集模式，命令启动如下
-
-```shell
-python -m lerobot.record \
-    --robot.disable_torque_on_disconnect=true \
-    --robot.type=so101_follower \
-    --robot.port=/dev/ttyACM0 \
-    --robot.id=R12252801 \
-    --robot.cameras="{ handeye: {type: opencv, index_or_path: 6, width: 640, height: 480, fps: 30}, fixed: {type: opencv, index_or_path: 0, width: 640, height: 480, fps: 30}}" \
-    --teleop.type=so101_leader \
-    --teleop.port=/dev/ttyACM1 \
-    --teleop.id=R07252608 \
-    --dataset.repo_id=${HF_USER}/record-07271148\
-    --dataset.num_episodes=10 \
-    --dataset.reset_time_s=5 \
-    --dataset.push_to_hub=false \
-    --dataset.single_task="Grab the cube" \
-    --display_data=true
-```
-
-如果是模型推理模式，则命令如下
-
-```shell
-python -m lerobot.record  \
-  --robot.type=so101_follower \
-  --robot.disable_torque_on_disconnect=true \
-  --robot.port=/dev/ttyACM0 \
---robot.cameras="{ handeye: {type: opencv, index_or_path: 6, width: 640, height: 480, fps: 30}, fixed: {type: opencv, index_or_path: 0, width: 640, height: 480, fps: 30}}" \
-  --robot.id=R12252801 \
-  --display_data=false \
-  --dataset.single_task="Put brick into the box" \
-  --policy.path=outputs/weigh_07280842/pretrained_model \
-  --dataset.episode_time_s=240  \
-  --dataset.repo_id=${HF_USER}/eval_so101_07271148
-```
-
-主要的区别是如果是采集模式需要使用–teleop参数启动遥控机器，如果是模型推理模式则不需要启动遥控机器，但是需要指定模型路径–policy.path，本质上就是机器人的动作指令来源于哪里，要么来之遥控器的，要么来自模型推理出来的。
-
-可以看出整个录制流程主要围绕机器设备、遥控设备、模型、数据集四个要素进行展开。
-
-- 机器：有SO101Follower、LeKiwi等机器，都继承Robot类。通过命令行参数robot.type调用make_robot_from_config函数选择创建具体的实例设备，函数返回的还是Robot但是指向的是具体的机器实例如SO101Follower，利用了多态的特性做到了解耦，如果要新添机器时，只需要参考SO101Follower添加一个新的设备即可。在创建机器实例时传递RobotConfig参数，这个参数依旧是抽象基类，其继承了draccus.ChoiceRregistry，通过命令行参数robot.type选择注册具体的配置如SO101FollowerConfig。
-- 遥控：用于控制机器，常用于数据的采集。这里同样通过命令行参数teleop.type调用make_teleoperator_from_config函数选择创建具体的设备实例，创建实例时需要传递TeleoperatorConfig参数，其也是一个抽象基类，基于命令选择注册实例化的配置类参数，如SO101LeaderConfig。
-- 模型：模型用于决策推理动作，其和遥控二选一，如果指定了遥控了，模型就不需要指定了。通用使用了机器、遥控的解耦机制，具体的实例化为ACT或DiffusionPolicy等。
-- 数据：通过参数dataset.xxx将参数构建为DataRecordConfig类，然后将其中的信息传递给LeRobotDataset
-
-
-
-RecordConfig中有几个关键的成员，分别是RobotConfig，DatasetRrcordConfig、TeleoperatorConfig、PreTrainedConfig。其中除了DatasetRrcordConfig外的其他几个都是继承draccus.ChoiceRegistry 和 abc.ABC，是一个抽象基类，需通过注册的子类（如特定机器人型号的配置类）实例化，种设计既保证了配置的结构化（继承 abc.ABC），又支持灵活的子类选择（通过 draccus.ChoiceRegistry 实现配置注册与解析）。
-
-- RobotConfig 控制硬件接口，确保机器人正确连接和数据采集；
-- DatasetRecordConfig 控制数据存储，定义数据集格式和元信息；
-- TeleoperatorConfig 和 PreTrainedConfig 控制机器人行为，分别对应手动和自动控制模式。
-
-RobotConfig 是抽象基类（ABC），仅定义所有机器共有的通用配置字段，如id、calibration_dir。其继承了draccus.ChoiceRegistry实现了不同机器人型号的动态注册与选择
-
-DatasetRecordConfig 是数据集录制任务的参数容器，被嵌套在 RecordConfig 中（作为 RecordConfig.dataset 字段），最终通过 parser.wrap() 装饰器从命令行参数解析生成实例
-
-TeleoperatorConfig 是远程遥控操作器（如手柄、键盘、 leader 机器人）的抽象配置基类，用于定义所有遥操作器共有的通用配置字段和动态选择机制。它与RobotConfig类似，同样继承了draccus.ChoiceRegistry 实现了注册机制，其具体的子类又继承TeleoperatorConfig
-
-用户通过-teleop.type指定来实例化具体的操作设备，如–teleop.type=so101_leader时，具体的流程如下。
-
-- 框架通过 draccus.ChoiceRegistry 查找注册名称为 so101_leader 的子类（如 SO101LeaderConfig）；
-- 实例化该子类，接收命令行参数（如 –teleop.port=/dev/ttyACM0）并初始化特有字段（如 port）；
-- 最终通过 TeleoperatorConfig 基类引用（如 cfg.teleop）传入 make_teleoperator_from_config 函数，创建具体遥操作器实例
-
-PreTrainedConfig是所有策略模型如ACT,TDMPC的抽象配置类，定义了策略训练/推理所需的通用参数，特征规范、设备配置及Hugging Face Hub交互机制。它通过 dataclass、draccus.ChoiceRegistry 和 abc.ABC 实现“配置标准化”“多策略兼容”和“Hub 集成”，是策略初始化的核心参数载体。
-
-- draccus.ChoiceRegistry：通用跟前面的RobotConfig类似，支持动态子类注册，允许子类（如 SACConfig、TDMPCConfig）作为“策略选项”注册，支持通过 –policy.type=sac 动态选择。
-- HubMixin：Hugging Face Hub 交互混入类，提供 from_pretrained（从 Hub/本地加载配置）和 _save_pretrained（保存配置到 Hub/本地）方法，实现策略配置的共享与复用。
-- abc.ABC：抽象基类，包含未实现的抽象方法（如 get_optimizer_preset），强制子类必须实现核心逻辑，确保策略配置的完整性。
-
-https://www.laumy.tech/2332.html/lerobot%e6%95%b0%e6%8d%ae%e9%87%87%e9%9b%86%e4%b8%8e%e6%a8%a1%e5%9e%8b%e6%b5%8b%e8%af%95/
-
-#### 学习率调度器
-
-学习率调度器（Learning Rate Scheduler）是深度学习训练中动态调整**优化器学习率的工具**（注意是在优化器的基础上动态调整学习率），通过优化收敛过程提升模型性能。
-
-学习率（η）控制梯度更新步长，参数更新量 = -η × 梯度。过大步长导致震荡，过小则陷入局部最优或训练缓慢，固定学习率易导致训练初期震荡或后期收敛缓慢，调度器在训练期间自适应调整初期较高学习率加速收敛，中期稳定探索最优解，后期精细调优避免震荡。
-
-以下是常见的学习率调度器
-
-- StepLR：每隔固定epoch将学习率乘以衰减因子（如step_size=10, gamma=0.5）。
-- ExponentialLR：每epoch按指数衰减（lr = lr × gamma）。
-- CosineAnnealingLR：按余弦曲线周期下降：η = η_min + 0.5×(η_max – η_min)×(1 + cos(π×t/T_max))。
-- OneCycleLR：分两阶段：线性升温至峰值，再退火至极小值。
-- PowerLR：基于幂律关系调整，与批次大小和token数量无关。
-
-LRSchedulerConfig是学习率调度器配置的核心抽象，通过抽象接口定义+配置注册机制，实现了学习率调度策略的统一管理与灵活扩展。
-
-其同样继承了abc.ABC标记为抽象基类，强制子类事项build抽象方法，同时继承draccus.ChoiceRegistry提供子类注册机制，通过 @LRSchedulerConfig.register_subclass(“名称”) 将子类与调度器类型绑定（如 “diffuser” → DiffuserSchedulerConfig），支持配置驱动的动态实例化。同时使用了@dataclass 装饰器自动生成构造函数、**repr** 等方法，简化调度器超参数的定义与管理。
-
-其核心属性只有一个num_warmup_steps表示学习率预热步数。预热是深度学习训练的常见技巧（尤其在 Transformer 等模型中），将其作为基类字段可避免子类重复定义。也是几乎所有学习率调度器的基础参数，用于控制“预热阶段”（学习率从低到高线性增长的步数），避免训练初期因高学习率导致的不稳定。
-
-其只有两个方法type和build，type是用于获取子类注册调度器类型名称进而匹配到对应子类，而build的方法是强制子类实现。
-
-lerobot的学习率调度实现了3个DiffuserSchedulerConfig、VQBeTSchedulerConfig、CosineDecayWithWarmupSchedulerConfig子类
-
-在lerobot中，启动训练是可以通过参数来实例化使用哪些调度器，如下。
-
-- –scheduler.type=diffuser指定使用diffuser调度类。
-- –scheduler.num_warmup_steps=1000指定预热步数。
-- –scheduler.num_warmup_steps=0.5指定余弦衰减周期。
-
-#### 策略优化器
-
-优化器的就是更新计算参数的，根据损失函数的梯度方向调整模型权重和偏置值，公式为：新参数 = 旧参数 – 学习率 × 梯度。通过迭代逐步逼近最优解。在文章https://www.laumy.tech/2050.html我们已经探讨过常用的优化算法。
-
-接下来我们再来从PyTorch使用的角度复习一下。torch.optim 是 PyTorch 官方优化器模块，提供了 SGD、Adam、AdamW 等主流优化算法的实现，所有的优化器都继承自基类 torch.optim.Optimizer。其核心作用是如下：
-
-- 自动化参数更新：根据反向传播计算的梯度，按特定优化策略（如 Adam 的自适应学习率）更新模型参数。
-- 统一接口抽象：通过 Optimizer 基类封装不同算法，提供一致的使用流程（zero_grad() 清空梯度 → step() 更新参数）。
-
-在Pytorch中优化器统一封装成torch.optim接口调用，可以有以下优势。
-
-- 避免重复实现复杂算法：无需手动编写 Adam 的动量、二阶矩估计等逻辑，直接调用成熟接口。
-- 灵活支持训练需求：支持单/多参数组优化（如不同模块用不同学习率）、学习率调度、梯度清零等核心训练逻辑。
-- 工程化与可维护性：通过统一接口管理超参数（lr、weight_decay），便于实验对比与代码复用。
-
-
-
-```python
-import torch
-from torch import nn, optim
-
-# 1. 定义模型（示例：简单线性层）
-model = nn.Linear(in_features=10, out_features=2)
-
-# 2. 初始化优化器：传入模型参数 + 超参数
-optimizer = optim.Adam(
-    params=model.parameters(),  # 待优化参数（PyTorch 参数迭代器）
-    lr=1e-3,                    # 学习率（核心超参数）
-    betas=(0.9, 0.999),         # Adam 动量参数（控制历史梯度影响）
-    weight_decay=0.01           # 权重衰减（L2 正则化，可选）
-)
-
-# 模拟输入数据（batch_size=32，特征维度=10）
-inputs = torch.randn(32, 10)
-targets = torch.randn(32, 2)  # 模拟目标值
-
-# 训练循环
-for epoch in range(10):
-    # ① 清空过往梯度（必须！否则梯度累积导致更新异常）
-    optimizer.zero_grad()
-
-    # ② 前向传播 + 计算损失
-    outputs = model(inputs)
-    loss = nn.MSELoss()(outputs, targets)  # 均方误差损失
-
-    # ③ 反向传播计算梯度 + 优化器更新参数
-    loss.backward()  # 自动计算所有可训练参数的梯度
-    optimizer.step()  # 根据梯度更新参数
-
-    print(f"Epoch {epoch}, Loss: {loss.item():.4f}")
-    
-# 定义参数组（不同模块用不同学习率）
-optimizer = optim.Adam([
-    {
-        "params": model.backbone.parameters(),  # backbone 参数
-        "lr": 1e-5  # 小学习率微调
-    },
-    {
-        "params": model.head.parameters(),       # 任务头参数
-        "lr": 1e-3  # 大学习率更新
-    }
-], betas=(0.9, 0.999))  # 公共超参数（所有组共享）
-```
-
-loss是损失，通过调用loss.backward()进行反向传播Pytorch就自动把梯度计算好保存了，然后调用关键的一部optimizer.step()就可以执行参数更新了（即新参数=旧参数-学习率*梯度），需要注意的是，在调用loss.backward()进行反向传播计算梯度时，要先调用optimizer.zero_grad()把之前的梯度值情况，因此每计算一次梯度都是被保存，不情况会导致梯度累积
-
-
-
-#### ACT算法
-
-https://zhuanlan.zhihu.com/p/1921873980442280840
-
-传统的机器算法过程是观测关节位置J1经过模型预测动作A2然后执行，观测到J2预测数A3，观测到J3遇到A4依次类推，这样就有一个问题，假设预测出的A2跟实际相比偏差就比较大那么对应的观测到的J2就偏离比较大。如果要连续预测K步，就要连续采集K步，缺点就是误差会累积同时预测效率也比较低。那么对于ACT算法是怎么进行优化的了
-
-ACT算法是一下观测连续的K个动作，然后预测出K个动作，这样相对于传统算法效率就提升了K倍。同时也可以解决累积误差，计时K个连续的动作中，有某个动作偏差比较大，但是整体经过模型就会弱化不至于累积。假设K是10 ，简单举个例子理解过程，T0时刻观测到J1数据（开始时只有一个数据），模型直接预测数10个动作序列，等机器按顺序依次执行完这10个动作后，模型下一次就直接把这10个动作当做输入然后预测下一批的10个动作，依次类推
-
-基于transformer的动作分块（ACT）架构。分为训练模式和测试模式。
-
-当为训练模式是，ACT为左图的编码器+右图的解码器。左图可以理解为一个CVAE的编码器，将关节序列、动作序列、CLS经过transformer编码压缩为风格变量Z。然后将Z再加上采集的摄像头数据、关节序列作为输入给到右边的解码器最终输出动作序列。
-
-当为测试模式时，左图丢弃不再，只需要使用右图的部分，输入为摄像头数据、关节序列、Z（被简单设置为0，表示先验的平均值）。可以这么理解Z为CVAE模型中的风格，经过训练后，Z已经让模型的参数定型，在后续的测试过程中就不需要了，因为参数已经固定了就不用了。
-
-动作分块Action Chunking机制，传统机器人每执行一步都要重新观测环境（如拍摄一张照片），走一步采集一步预测一步，而ACT采用的是”分块执行”策略。
-
-具体就是累积到每K步观测一次（如K=100），然后一次性输出K个动作序列，执行这就可以按顺序执行这组K个动作序列。
-
-动作分块也可以理解为决策频率进行了压缩，传统的单步策略需每一步观测环境并生成动作（如T次决策），而ACT是每K步观测一次，一次性生成后续K个动作序列（决策点将至T/K个），例如若K=10,1000步的任务仅需100次决策，效率提升了10倍
-
-将各个动作组合在一起并作为一个单元的执行，从而使起存储和执行更有效率，直观地讲一组动作可以对应抓住糖果包装纸的一角或将电池插入插槽，在实现中将块大小固定为K，每K步agent会收到一次观测然后预测生成K个动作然后机器按顺序执行。如上图所示假设K为4，t=0时刻策略观测到4个动作，然后就会生成4个动作序列，让机器按顺序执行；紧接着到t=4这个时刻，策略又观测到4个动作，生成4个预测动作机器按这个4个动作顺序执行。
-
-#### ACT实现
-
-```python
-@PreTrainedConfig.register_subclass("act")
-@dataclass
-class ACTConfig(PreTrainedConfig):
-    # 输入/输出结构
-    chunk_size: int = 100  # 动作块长度（每次预测的动作序列长度）
-    n_action_steps: int = 100  # 每次策略调用执行的动作步数（≤ chunk_size）
-    temporal_ensemble_coeff: float | None = None  # 时序集成系数（None表示禁用）
-
-    # VAE配置
-    use_vae: bool = True  # 是否启用VAE（增强动作多样性）
-    latent_dim: int = 32  # 潜在空间维度
-    kl_weight: float = 10.0  # KL散度损失权重
-
-    # Transformer配置
-    dim_model: int = 512  # Transformer隐藏维度
-    n_heads: int = 8  # 注意力头数
-    n_encoder_layers: int = 4  # 编码器层数
-    n_decoder_layers: int = 1  # 解码器层数（原始实现bug，仅用第1层）
-
-    # 视觉Backbone
-    vision_backbone: str = "resnet18"  # 图像特征提取网络
-    ......
-```
-
-
-
-#### anytoLerobot
-
-浙大博士生
-
-https://github.com/Tavish9/any4lerobot
-
-
-
-#### xlerobot
-
-https://xlerobot.readthedocs.io/en/latest/
-
-
-
-### Aloha
-
-https://zhuanlan.zhihu.com/p/707610493
-
-
-
-### openpi
-
-https://github.com/Physical-Intelligence/openpi
-
-
-
-### robosuite
-
-🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟
-
-https://github.com/ARISE-Initiative/robosuite
-
-
-
-#### libero
-
-https://zhuanlan.zhihu.com/p/658683732
-
-https://github.com/Lifelong-Robot-Learning/LIBERO
-
-Libero搭建了一个全新的机器人持续模仿学习环境LIBERO，针对机器人持续学习问题中持续学习算法、网络架构、任务顺序、任务空间/目标/物体变化、语言嵌入、预训练等众多因素耦合导致的难以分析的问题，我们提出使用程序化生成的环境（Procedurally Generated Environments）来解耦地分析各个因素在机器人持续学习训练时带来的影响，为之后的领域内工作提供一个较为全面的实验环境
-
-
-
-### robomimic
-
-🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟
-
-https://github.com/ARISE-Initiative/robomimic
-
-
-
-### RT1/RT2/RTX
-
-https://robotics-transformer-x.github.io/
-
-
-
-### GR1/GR2/GR3/GR-Dexter
-
-https://zhuanlan.zhihu.com/p/1005149740
-
-https://gr2-manipulation.github.io/
-
-https://byte-dexter.github.io/gr-dexter/
-
-
-
-### PI-zero
-
-https://www.physicalintelligence.company/blog/pi0
-
-**利用在互联网数据训练的VLM+[action expert](https://zhida.zhihu.com/search?content_id=257894023&content_type=Article&match_order=1&q=action+expert&zhida_source=entity) 组成一个VLA模型，这里结合开源+内部的机器人数据训练得到异构本体foundation model，然后可以在不同的本体/特定的任务上post-training，以完成多任务的泛化或某种复杂任务的灵巧操作**
-
-Pre-training：这里有面向于具身智能的专用数据集，如open x-embodiment dataset和 pi cross-embodiment robot datasets，使用这些数据进行训练，已经包含了大量场景的机器人操作数据（论文把这一步也叫pre-training,其实也没问题），这个阶段后会得到一个foundation model，也就是一个可以统一所有任务/本体的基础模型，这样的模型具备初步的泛化性，但不一定专门用于在任何一项操作任务上实现高性能。
-
-Post-training（fine-tuning）：根据上一个阶段的foundation model，进行ft, 这里分为两类任务的post-traing数据，以提高模型在某种任务表现的专门数据，包含unseen tasks（未见任务）、high dexterity task （高灵巧任务），包括20 多项任务
-
-VLM：视觉语言大模型，这里用的[PaliGemma](https://zhida.zhihu.com/search?content_id=257894023&content_type=Article&match_order=1&q=PaliGemma&zhida_source=entity)，这里主要是指代在使用大量互联网文本图像数据上去预训练VLM
-
-PaliGemma： 2024 年 Google I/O 活动上发布（今年2025I/O刚举办大家感兴趣也可以去看看），它是一种基于两个模型的组合多模态模型：**视觉模型 SigLIP 和大型语言模型 Gemma**，这意味着该模型是 [Transformer 解码器](https://zhida.zhihu.com/search?content_id=257894023&content_type=Article&match_order=1&q=Transformer+解码器&zhida_source=entity)和 Vision Transformer 图像编码器的组合。它将图像和文本作为输入，并生成文本作为输出，支持多种语言。
-
-Action Expert：接受VLM输出，专门输出action的网络，这里使用的flow matching，是VLA中 action的重要组成部分。
-
-Open X-Embodiment dataset :是一个由 DeepMind 创建并开源的超大规模机器人数据集，汇集了来自 22 种不同机器人类型的数据. RT-2也这个数据集上训练的，简称OXE dataset
-
-Pi cross-embodiment robot datasets：pi0公司自己采集的本体数据集，一共7 种不同机器人配置，和 68 个任务的不同数据，长度为1w个小时。cross-embodiment robot 也可以理解为异构本体，不同的机器人类型具有**不同的配置空间和动作表示**，包括**固定基座的单臂和双臂**系统，以及**移动机械手**。自动驾驶中也有类似的事情，不同相机安装角度、型号、个数都算是某种程度的异构。（**在具身智能领域有一个专门的词汇即“通用数据”**）
-
-
-
-https://zhuanlan.zhihu.com/p/1907535034941965833
-
-https://zhuanlan.zhihu.com/p/1910755399646287695
-
-https://zhuanlan.zhihu.com/c_1907131586568251035
-
-
-
-https://io-ai.tech/platform/guides/Pipeline/LeRobot/Pi0/
-
-https://modelers.csdn.net/680e0968a5baf817cf496e7f.html
-
-https://zhuanlan.zhihu.com/p/1919100548071788918
-
-
-
-### 遥操作与模仿学习
-
-https://zhuanlan.zhihu.com/p/1897200096430518846
-
-
-
-https://github.com/tonyzhaozh/aloha
-
-#### gello
-
-https://github.com/wuphilipp/gello_software
-
-https://zhuanlan.zhihu.com/p/720266031
-
-
-
-### 睿尔曼
-
-#### 开发文档
-
-https://github.com/RealManRobot/ros2_rm_robot
-
-https://develop.realman-robotics.com/robot4th/ros2/gazebo/
-
-
-
-#### 数据集
-
-https://huggingface.co/datasets/RealSourceData/RealSource-World
-
-
-
-### wandb
-
-https://github.com/wandb/wandb
-
-
-
-### rerun
-
-https://github.com/rerun-io/rerun
-
-https://rerun.io/
-
-
-
-### lance
-
-https://github.com/lance-format/lance
-
-https://lance.org/
-
-
-
-### SMOLVLA
-
-https://huggingface.co/blog/smolvla
-
-https://huggingface.co/lerobot/smolvla_base
-
-https://smolvla.net/index_en
-
-https://www.laumy.tech/2743.html/lerobot-smolvla%e7%ad%96%e7%95%a5/
-
-https://www.laumy.tech/2780.html/smolvla%e7%ad%96%e7%95%a5server%e4%b8%8eclient%e5%88%86%e7%a6%bb%e9%83%a8%e7%bd%b2%e5%ae%9e%e8%b7%b5/
-
-
-
-
-
-
-
-### 长学习
-
-https://www.nature.com/articles/s42256-025-00983-2
 
