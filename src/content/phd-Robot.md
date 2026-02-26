@@ -12,9 +12,11 @@ thumbnail:
 
 ## 机器人实验室/科研团队
 
-香港大学 mmlab/opendrivelab https://opendrivelab.com/publications  https://mmlab.hk/member   顶级团队 https://github.com/OpenDriveLab/UniVLA。  和上海人工智能实验室有深度合作，在上海创智学院也有任职 李弘扬。与稚晖君也有合作 https://github.com/OpenDriveLab/AgiBot-World。https://lihongyang.info/  实验室人员：https://yhyang-myron.github.io/
+香港大学 mmlab/opendrivelab https://opendrivelab.com/publications  https://mmlab.hk/member   顶级团队 https://github.com/OpenDriveLab/UniVLA。  和上海人工智能实验室有深度合作，在上海创智学院也有任职 李弘扬。与稚晖君也有合作 https://github.com/OpenDriveLab/AgiBot-World。https://lihongyang.info/  实验室人员：https://yhyang-myron.github.io/ 牛牛牛
 
 港大mars https://mars.hku.hk/index.html
+
+斯坦福大学reallab：https://real.stanford.edu/lab.html。牛牛牛
 
 浙大流体动力与机电系统国家重点实验室：http://sklofp.zju.edu.cn/skl/
 
@@ -84,7 +86,9 @@ opai人员：https://xingyu-lin.github.io/
 
 上海ai lab IDC组 https://sheldontsui.github.io/  https://zhaoyanglyu.github.io/
 
-​	https://internrobotics.shlab.org.cn/aboutus.html
+上海ai lab robotics组https://internrobotics.shlab.org.cn/aboutus.html
+
+https://github.com/InternRobotics https://internrobotics.github.io/internvla-m1.github.io/
 
 上科大：https://sist.shanghaitech.edu.cn/2025/1009/c2858a1115684/page.htm https://star-center.shanghaitech.edu.cn/labs.html
 

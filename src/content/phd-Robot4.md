@@ -463,6 +463,88 @@ https://fancyerii.github.io/2021/05/11/huggingface-transformers-1/
 
 
 
+### umi(Universal Manipulation Interface)
+
+https://umi-gripper.github.io/
+
+过去两年，机器人操作这条线有点像2020年之前的大模型世界：模型层面已经有了很强的模板（Diffusion Policy、各种[VLA](https://zhida.zhihu.com/search?content_id=267316009&content_type=Article&match_order=1&q=VLA&zhida_source=entity)、[RDT](https://zhida.zhihu.com/search?content_id=267316009&content_type=Article&match_order=1&q=RDT&zhida_source=entity)），真正卡住的反而是——怎么稳定、便宜、大规模地收"人类教机器"的数据。
+
+传统两条路各有硬伤：
+
+**纯teleop路径**：人在远程操控真实机械臂，优点是动作空间对齐、可直接部署，但缺点也很致命——硬件贵、搭建复杂、实时性差、难scale。一套双臂teleop系统动辄几十万美元，还需要专门的实验室空间。
+
+**纯人类视频路径**：直接从YouTube、Ego4D这类视频里学，数据量巨大，但没有显式动作、形态差异大，embodiment gap和[observation gap](https://zhida.zhihu.com/search?content_id=267316009&content_type=Article&match_order=1&q=observation+gap&zhida_source=entity)都很严重。机器人看着人类做饭的视频，根本不知道该输出什么动作指令。
+
+UMI（Universal Manipulation Interface）本质上是在回答一个问题：能不能让"人类在真实世界随手做事"变成**直接可用**的机器人训练数据，同时又不用动真实机器人？
+
+这条线从最初的UMI，演化出了[Fast-UMI](https://zhida.zhihu.com/search?content_id=267316009&content_type=Article&match_order=1&q=Fast-UMI&zhida_source=entity)、[MV-UMI](https://zhida.zhihu.com/search?content_id=267316009&content_type=Article&match_order=1&q=MV-UMI&zhida_source=entity)、[DexUMI](https://zhida.zhihu.com/search?content_id=267316009&content_type=Article&match_order=1&q=DexUMI&zhida_source=entity)、[ActiveUMI](https://zhida.zhihu.com/search?content_id=267316009&content_type=Article&match_order=1&q=ActiveUMI&zhida_source=entity)一整个家族，基本把"手部操作"这块的数据接口打磨得很成熟了
+
+UMI的核心设计可以概括成三句话：
+
+**第一，手持3D打印夹爪+GoPro**。手里拿的是一个平行夹爪（软指尖），扳机控制开合，夹爪前面挂一台GoPro，配超广角鱼眼镜头，还在两边贴了物理小镜子，直接在一张图里搞出多视角"隐式双目"。整套东西完全可以装进背包，去哪儿都能收数据。
+
+**第二，只用"手腕相机"对齐人和机器人**。人演示时是"GoPro+夹爪"的第一视角，真机部署时，在机器人末端挂同样的GoPro+夹爪，看出去的画面几乎一模一样。这就把人类和机器人统一到同一个观察空间，极大减小了embodiment gap。
+
+**第三，用Diffusion Policy学"相对轨迹+延迟补偿"**。UMI把从[视觉SLAM](https://zhida.zhihu.com/search?content_id=267316009&content_type=Article&match_order=1&q=视觉SLAM&zhida_source=entity)+[IMU](https://zhida.zhihu.com/search?content_id=267316009&content_type=Article&match_order=1&q=IMU&zhida_source=entity)估出来的6DoF末端轨迹，转成"相对轨迹"，不依赖绝对世界坐标，在训练和部署时都显式建模传感、推理、执行延迟，保证真实机器人动作和当时的视觉是对齐的。Policy本身用的是Diffusion Policy，一口气预测一个短时轨迹段，天然适合多模态的人类数据。
+
+效果上，一代UMI已经能做到：动态、双臂、长时序的真实任务（比如倒饮料、切菜、复杂装配），只要换训练数据就能换任务，同一套数据可以零样本迁移到不同自由度的机械臂上，成功率在OOD环境里还能保持在70%左右
+
+**关键insight**：UMI不是在做"更强的网络"，而是把"人类如何用手和世界交互"这件事装进了一个**高保真、低摩擦的接口**里，再交给一个足够强的生成式policy去拟合。
+
+3 工程化进阶：从实验室demo到数据工厂▸▸
+
+一代UMI虽然好用，但在工程上还有两个痛点：依赖基于视频的SLAM+IMU，部署流程不够"傻瓜"，只有手腕视角，复杂场景下的视觉上下文仍然有限。于是就有了两条演化支线。
+
+**Fast-UMI**干的事情很直接：把UMI做成真正可扩散的工程系统。用更通用的跟踪模块和标定方式取代原来对特定相机/SLAM的依赖，明确把"人类手持设备"和"机器人端"全流程打通，做成硬件无关pipeline，顺带开源了一套包含多类任务的数据集，直接为VLA/Diffusion Policy提供训练燃料。
+
+它的意义不在于提出新算法，而在于：把"UMI这种接口"从一篇论文demo，变成**任何团队都能复现&改造&堆数据**的基础设施。对于后续做manipulation foundation model的团队，这是非常关键的一步
+
+**MV-UMI**（Multi-View UMI）解决的是另一个问题：Wrist-only视角对齐了人和机器人，但**上下文严重受限**。那能不能在不引入观察空间gap的前提下，再加一个环境视角？
+
+它的做法很巧：人演示时，同时录制手腕视角（和UMI一样）和顶视/侧视第三人称相机，然后对第三人称视频做两件事——用SAM-2把人整块segment掉，用静态背景帧做inpainting，把人抹掉，只留下场景和被操作物体。训练时，policy输入的是"手腕视角+去人后的第三人称视角"。
+
+这样一来，机器人部署时也可以用第三人称视角（甚至可以再做一次inpainting去掉机器人本体），两边视觉分布保持一致，但模型获得了远比wrist-only更完整的环境上下文，特别适合长时序、多物体任务。论文里在严重依赖上下文的任务上，性能提升可以做到接近50%量级
+
+UMI系列最有意思的一支是DexUMI：直接把"人手"变成universal manipulation interface。
+
+大致思路可以理解为：**硬件侧**，人戴一个手部外骨骼，一边做各种高自由度操作（抓、捏、转、拧），外骨骼实时测量每根手指的关节角，甚至还能提供一定的力反馈。**软件侧**，通过几何映射+约束优化，把人手的高维关节空间映射到机器人手（比如Allegro hand、其他五指手）的可行姿态，同时在视频层面做"手替换"：对原始人手视频做inpainting，用高保真的机器人手渲染替换掉人手，避免视觉domain gap。
+
+**学习侧**，在两套真实机器人手上做实验，任务包括旋转物体、精细抓取等高难度dexterous任务，实验里平均成功率能做到86%左右。
+
+从设计哲学上看，DexUMI和一代UMI是同一种思路：把"人自然的控制通道"（这里是手）当成黄金标准，用一套硬件+软件把它**映射进机器人可执行的动作空间**。差别在于：UMI处理的是"平行夹爪+末端6DoF"，更适合日常工具型操作，DexUMI直接打到高自由度dexterous hand，针对的是精细抓取和复杂操作。
+
+这一支线给"通用手部操作基础模型"补上了最难的一块——**精细接触操作的数据接口**
+
+ActiveUMI：告诉机器人"看哪里"和"怎么动手"一样重要▸▸
+
+UMI系列还有一条非常符合直觉，但之前基本没人系统做好的方向：ActiveUMI。
+
+问题非常朴素：人在做复杂任务时，手在动，头也在动。传统UMI只把"手"映射给机器人，**忽略了"头怎么动"这个信号**。
+
+ActiveUMI就是在把这件事补上：**数据采集**用VR头显+双手控制器，人戴VR头显+手持控制器，在一个虚拟环境里操作"虚拟机械臂"，系统同时记录双手控制器的6DoF轨迹（对应双机械臂末端）、头显的6DoF轨迹（对应机器人"头/摄像头"的pose）。
+
+**机器人侧**，两只机械臂做双臂操作，第三只机械臂专门拿着"头部相机"，训练出一个policy，不仅预测双臂动作，还预测"头往哪里看"。
+
+**学习到的是"注意力模式"**。模型学到的不是一个固定相机，而是："在人类做rope boxing/折衣服/关工具箱/放瓶子的过程中，**头是怎么转的**"。部署时，机器人可以主动移动视角去消除遮挡、检查抓取结果，真正具备了active perception。
+
+实验结果很直观：同样一套任务，UMI（仅腕部摄像）平均成功率26%，加一个固定顶视摄像头42%，ActiveUMI（主动控制头部视角）能到~70%。换到新环境，ActiveUMI还能在OOD场景维持56%的成功率，而UMI baseline掉到6%。
+
+更有意思的是数据混合实验：大量ActiveUMI数据+少量真实teleop轨迹（1%级别），在复杂的折衣服任务上，成功率可以从80%拉到95%。这基本说明了一件事：**"廉价、可扩展"的UMI/ActiveUMI数据+"少量昂贵"的teleop数据，是一个非常稳的组合**
+
+如果把现在机器人界各种"数据接口"放在一起看，会发现一个清晰的谱系：**手持接口**（UMI/Fast-UMI/MV-UMI/ActiveUMI系列）、**外骨骼接口**（Airexo/Airexo-2/DexOp/Nuexo等上肢exoskeleton，用整条手臂甚至身体作为接口）、**全身VR接口**（TWIST/[TWIST2](https://zhida.zhihu.com/search?content_id=267316009&content_type=Article&match_order=1&q=TWIST2&zhida_source=entity)、OmniH2O这类基于VR+全身追踪的人形数据采集系统）。
+
+UMI系列的独特之处在于三点：
+
+**第一，完全robot-free的in-the-wild数据路径**。手持设备本身就是一个"机器人末端代理"，收数据时完全不需要真实机器人，极大降低了扩展成本。你可以带着UMI夹爪去厨房、去车库、去任何地方收集数据，而传统teleop必须在机器人旁边操作。
+
+**第二，观察/动作空间都是"机器人视角"**。Wrist camera+末端6DoF/轨迹，天然容易映射到真实机械臂，这让它非常适合作为通用VLA/Diffusion Policy的data back-end。
+
+**第三，从"如何动手"逐步扩展到"如何看+如何动手"**。MV-UMI引入了多视角静态上下文，ActiveUMI进一步引入了"人类头部运动"这一attention信号
+
+https://zhuanlan.zhihu.com/p/1980925297101653137
+
+https://umi-ft.github.io/
+
 ### parquet
 
 Parquet 是一种开源的列式存储文件格式，用于高效存储和分析大数据。与传统的行式存储格式（如 CSV 或 JSON）不同，Parquet 将同一列的数据存储在一起，从而提高了查询性能，并能通过先进的压缩和编码技术降低存储成本。它在 Hadoop 生态系统中被广泛使用，并被 [Apache Spark](https://www.ibm.com/cn-zh/think/topics/parquet)、[Apache Hive](https://www.infoq.cn/article/tsp7pghp8dcbhsdhaxds) 等多种大数据处理框架所支持和采用

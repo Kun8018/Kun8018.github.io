@@ -761,6 +761,41 @@ Rclone是一款的命令行工具，支持在不同对象存储、网盘间同�
 - rclone cleanup - 清空remote。
 - rclone dedupe - 交互式查找重复文件，进行删除/重命名操作。
 
+#### lrzsz
+
+能秒级安装，安装即用，不需要任何的配置，就能方便快捷的在 Linux 和 Windows 之间传输文件
+
+它就是Linux中上传下载的工具 `lrzsz` ，这个工具使用了 XMODEM、YMODEM 和 ZMODEM 文件传输协议来实现文件的上传和下载的，目前主流的SSH连接工具 ( SecureCRT、XShell 等 ) 都支持这些协议
+
+```shell
+yum install -y lrzsz
+
+[root@ecs-centos-7 ~]# sz --v
+sz (lrzsz) 0.12.20
+[root@ecs-centos-7 ~]# rz --v
+rz (lrzsz) 0.12.20
+```
+
+当在 Linux 上执行 `rz` 命令之后，弹出选择发送文件窗口时，默认选择文件的目录就是上面设置的上传目录
+
+- 下载目录
+
+在 Linux 上执行 `sz a.txt` 命令之后，Linux 上的文件`a.txt`默认的本地下载目录就是上面设置的下载目录
+
+- Xmodem
+
+Xmodem 是一种古老的传输协议, 传输速度较慢，但由于使用了CRC错误侦测方法，传输的准确率可高达99.6%。
+
+- Ymodem
+
+这是Xmodem的改良版，使用了1024位区段传送，速度比Xmodem要快
+
+- Zmodem
+
+Zmodem采用了串流式（streaming）传输方式，传输速度较快，而且还具有自动改变区段大小和断点续传、快速错误侦测等功能。这是目前最流行的文件传输协议。
+
+上面几种传输协议，目前Zmodem 是使用得最多的，下面介绍的 rz/sz 命令就是使用该传输协议的，命令中的 z 表示使用 Zmodem协议
+
 ## Selinux
 
 安全增强型 Linux（SELinux）是一种采用安全架构的 [Linux® 系统](https://www.redhat.com/zh/topics/linux/what-is-linux)，它能够让管理员更好地管控哪些人可以访问系统。它最初是作为 [Linux 内核](https://www.redhat.com/zh/topics/linux/what-is-the-linux-kernel)的一系列补丁，由美国国家安全局（NSA）利用 Linux 安全模块（LSM）开发而成。
