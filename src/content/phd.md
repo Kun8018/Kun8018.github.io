@@ -394,6 +394,32 @@ https://www.bilibili.com/opus/836384755681329369
 
 
 
+## 好刊
+
+https://mp.weixin.qq.com/s/vCRBtwOiTJg-N0VokdPR4A
+
+
+
+## 学术成就
+
+高被引科学家：2025年11月12日，科睿唯安（Clarivate Analytics）发布了**2025年度“全球高被引科学家”**（Highly Cited Researchers）名单
+
+全球前2%科学家：
+
+11月13日，科睿唯安公司发布了最新一期ESI（Essential Science Indicators，基本科学指标数据库）数据，西交利物浦大学化学学科首次进入ESI全球前1%行列
+
+
+
+## 国内顶尖实验室
+
+顶尖学校的顶尖实验室：https://mp.weixin.qq.com/s/3QbzzCxuYilQIRTQWSxB3Q
+
+公众号：鹿鸣观山海
+
+
+
+
+
 ## 翻译插件
 
 read-frog: https://github.com/mengxi-ream/read-frog
