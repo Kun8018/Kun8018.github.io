@@ -545,6 +545,20 @@ https://zhuanlan.zhihu.com/p/1980925297101653137
 
 https://umi-ft.github.io/
 
+
+
+### cot
+
+**机器人必须能够在广泛的现实场景中进行泛化**一直是机器人领域的一个长期关注点。RT-X、RT-1、Octo、CrossFormer 这些都是在大量多样化机器人数据集训练的，明显提高了泛化能力
+
+https://zhuanlan.zhihu.com/p/1943972298639013811
+
+https://www.zhihu.com/tardis/zm/art/670907685?source_id=1003
+
+uc伯克利有人在做 https://ecot-lite.github.io/。https://verityw.github.io/
+
+
+
 ### parquet
 
 Parquet 是一种开源的列式存储文件格式，用于高效存储和分析大数据。与传统的行式存储格式（如 CSV 或 JSON）不同，Parquet 将同一列的数据存储在一起，从而提高了查询性能，并能通过先进的压缩和编码技术降低存储成本。它在 Hadoop 生态系统中被广泛使用，并被 [Apache Spark](https://www.ibm.com/cn-zh/think/topics/parquet)、[Apache Hive](https://www.infoq.cn/article/tsp7pghp8dcbhsdhaxds) 等多种大数据处理框架所支持和采用

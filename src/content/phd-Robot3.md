@@ -354,6 +354,14 @@ https://zhuanlan.zhihu.com/p/1919100548071788918
 
 
 
+Pi 0.6
+
+https://github.com/MINT-SJTU/Evo-RL
+
+https://www.pi.website/research/memory
+
+
+
 ### 遥操作与模仿学习
 
 https://zhuanlan.zhihu.com/p/1897200096430518846
@@ -367,6 +375,20 @@ https://github.com/tonyzhaozh/aloha
 https://github.com/wuphilipp/gello_software
 
 https://zhuanlan.zhihu.com/p/720266031
+
+
+
+Open-TeleVision：具有沉浸式主动视觉反馈的远程操作
+
+https://zhuanlan.zhihu.com/p/720858221
+
+
+
+其他现有方案
+
+https://docs.galaxea-dynamics.com/zh/Guide/R1Pro/vr_teleop/ros2/R1Pro_VR_Teleop_Usage_Tutorial_ros2/
+
+https://wiki.pndbotics.com/teleoperation/teleoperation/ 
 
 
 

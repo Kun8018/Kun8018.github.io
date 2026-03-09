@@ -718,6 +718,8 @@ A[1..3] #  [7 9 6]
 
 美的ai研究院： 小红书号 企鹅Penguin 小红书号5622293839
 
+地平线机器人：https://horizonrobotics.github.io/robot_lab/holobrain/   林天威 https://wzmsltw.github.io/ 安亭
+
 ## 最后
 
 最后我想感谢16年5月的一个晚上，我和张伟光、梁宏业、陈一波四个同学窝在当时新建的阴暗的科学楼地下室一层一起复习，畅谈人生，那是通向本文的起点。

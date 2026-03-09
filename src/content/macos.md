@@ -908,6 +908,14 @@ cd apps/client/certificates
 mkcert local.imile-inc.com
 ```
 
+ftp软件
+
+#### cyberduck
+
+https://cyberduck.io/
+
+
+
 ### 翻译软件
 
 #### Bob

@@ -18,6 +18,8 @@ thumbnail:
 
 斯坦福大学reallab：https://real.stanford.edu/lab.html。牛牛牛
 
+斯坦福 SVL lab https://svl.stanford.edu/ 
+
 浙大流体动力与机电系统国家重点实验室：http://sklofp.zju.edu.cn/skl/
 
 邹俊：邹俊研究小站  https://mp.weixin.qq.com/s/om0yqxboZeJwl_H-agXkrA
@@ -30,9 +32,11 @@ Fast-lab:https://space.bilibili.com/257271972
 
 方斌：https://ccf.org.cn/cirac2024/speaker_d_2114
 
-北京大学前沿计算中心 王一周。王鹤：https://cfcs.pku.edu.cn/ https://space.bilibili.com/28217340
+北京大学前沿计算中心 王一周。王鹤：https://cfcs.pku.edu.cn/ https://space.bilibili.com/28217340 银河通用
 
 北京大学 人工智能研究院 仉尚航 https://www.bilibili.com/video/BV16YrhBxEfS/?spm_id_from=333.1007.tianma.8-1-27.click&vd_source=e898668a475e6de0272851f4a5fc6328   https://www.shanghangzhang.com/about-me
+
+北大前沿计算中心。董豪 https://zsdonghao.github.io/   普林斯顿大学 丁子涵  https://quantumiracle.github.io/webpage/   和智元有合作
 
 北大博士毕业生 https://cypypccpy.github.io/ 
 
@@ -58,6 +62,16 @@ https://yang-gao.weebly.com/publications.html   https://jialeihuang.github.io/  
 
 https://zhuanlan.zhihu.com/p/1934048726348981419 tealab
 
+清华叉院。陈建宇教授 ISRlab   https://group.iiis.tsinghua.edu.cn/~isrlab/ 星动纪元 牛牛牛
+
+https://www.mengdixu.me/ 徐梦迪 海外经历丰富 牛牛牛 
+
+mentoring
+
+- [Xilun Zhang](https://xilunzhangrobo.github.io/) (Master, CMU → PhD, Stanford)
+- [Shiqi Liu](https://shiqiliu-67.github.io/) (Master, CMU → PhD, CMU)
+- [Ziang Cao](https://zi-ang-cao.github.io/) (Undergrad, UPitt → Master, Stanford)
+
 贵州大学 MFPIR: 多模态与智能感知实验室 杨静老师
 
 博士生：
@@ -68,21 +82,19 @@ https://alvinwen428.github.io/
 
 https://www.cs.sjtu.edu.cn/~wang-xb/
 
-https://www.mvig.org/index.html 
+卢策吾 https://www.mvig.org/index.html 
 
 穆姚 写的很详细 https://scalelab-sjtu.github.io/embodied_guide.html
 
-吕峻
+赵波 https://www.bozhao.me/
 
-opai人员：https://xingyu-lin.github.io/
+吕峻
 
 吕江然 https://jiangranlv.github.io/
 
 陈嘉毅  https://jychen18.github.io/
 
 王乾旭 Zekun Qi： https://qizekun.github.io/sofar/
-
-德州libero团队 https://libero-project.github.io/main
 
 上海ai lab IDC组 https://sheldontsui.github.io/  https://zhaoyanglyu.github.io/
 
@@ -91,12 +103,6 @@ opai人员：https://xingyu-lin.github.io/
 https://github.com/InternRobotics https://internrobotics.github.io/internvla-m1.github.io/
 
 上科大：https://sist.shanghaitech.edu.cn/2025/1009/c2858a1115684/page.htm https://star-center.shanghaitech.edu.cn/labs.html
-
-哥伦比亚大学/纽约大学：https://venkyp.com/。   https://raunaqb.com/
-
-卡内基梅隆大学：https://iamlab-cmu.github.io/publications/  https://scholar.google.com/citations?user=_tbXjP4AAAAJ&hl=en 
-
-宾夕法尼亚大学 grasp lab  https://www.grasp.upenn.edu/role/faculty/  史建波
 
 清华 视觉实验室 https://fundamentalvision.github.io/publications/ 孔涛  https://jifengdai.org/ 代季峰
 
@@ -107,12 +113,6 @@ https://github.com/InternRobotics https://internrobotics.github.io/internvla-m1.
 
 
 苏黎世联邦理工。rsl。https://rsl.ethz.ch/the-lab.html
-
-麻省理工
-
- https://interactive.mit.edu/research/
-
-https://mcube.mit.edu/people.html mcube 做触觉传感器的
 
 南洋理工大学 RCC https://www.ntu.edu.sg/rrc
 
@@ -129,6 +129,30 @@ https://mcube.mit.edu/people.html mcube 做触觉传感器的
  http://joschu.net/ 
 
 普林斯顿大学 https://pixl.cs.princeton.edu/labs.php
+
+哥伦比亚大学/纽约大学：https://venkyp.com/。   https://raunaqb.com/
+
+卡内基梅隆大学：https://iamlab-cmu.github.io/publications/  https://scholar.google.com/citations?user=_tbXjP4AAAAJ&hl=en 
+
+卡内基梅隆大学 lecar lab： https://lecar-lab.github.io/people.html safe ai lab  https://safeai-lab.github.io/
+
+加拿大 https://sfumars.com/people/
+
+宾夕法尼亚大学 grasp lab  https://www.grasp.upenn.edu/role/faculty/  史建波
+
+德州libero团队 https://libero-project.github.io/main
+
+opai人员：https://xingyu-lin.github.io/
+
+麻省理工
+
+ https://interactive.mit.edu/research/
+
+https://mcube.mit.edu/people.html mcube 做触觉传感器的
+
+https://web.mit.edu/sparklab/people.html spark lab
+
+uc 伯克利 https://rail.eecs.berkeley.edu/   https://people.eecs.berkeley.edu/~svlevine/
 
 
 
