@@ -44,8 +44,6 @@ Fast-lab:https://space.bilibili.com/257271972
 
 宾夕法尼亚大学工程学院：https://www.grasp.upenn.edu/
 
-UC伯克利：https://bair.berkeley.edu/about
-
 南科大周博宇：https://robotics-star.com/ https://zhuanlan.zhihu.com/p/681286732
 
 大湾区大学： https://email-lab.github.io/#featured  https://jeffery-zhou.github.io/
@@ -128,7 +126,13 @@ https://github.com/InternRobotics https://internrobotics.github.io/internvla-m1.
 
  http://joschu.net/ 
 
+UC伯克利：https://bair.berkeley.edu/about. 世界上最棒的AI研究团队
+
+密歇根大学 安娜堡： https://ywyeli.com/    https://web.eecs.umich.edu/~stellayu/    https://soft.robotics.umich.edu/team/。强强强。 https://aisenginn.github.io/
+
 普林斯顿大学 https://pixl.cs.princeton.edu/labs.php
+
+哈佛大学计算机器人实验室  https://computationalrobotics.seas.harvard.edu/
 
 哥伦比亚大学/纽约大学：https://venkyp.com/。   https://raunaqb.com/
 

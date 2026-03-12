@@ -16,19 +16,21 @@ thumbnail:
 
 
 
-## RSS 2025
+## RSS 2026
 
 
 
-## ICRL 2025
+## ICRL 2026
 
 
 
-## ICRA 2025
+## ICRA 2026
+
+https://computationalrobotics.seas.harvard.edu/SkillComposition/
 
 
 
-## IROS 2025
+## IROS 2026
 
 
 
@@ -36,7 +38,16 @@ thumbnail:
 
 看到一篇文章是pi0团队的成员写的 描述了2025年机器学习的困境和展望 对比了robot learning和LLM 训练的区别： https://www.pi.website/blog/partner?v=1
 
+LeRobot v0.5.0： https://mp.weixin.qq.com/s/C911DKMJHICGKYbA661MOg?scene=1&click_id=152
+
+论文网站模版：https://github.com/nerfies/nerfies.github.io?tab=readme-ov-file
+
 
 
 ## 创意
 
+做难的事情更容易想
+
+柔性物体。 https://ieeexplore.ieee.org/document/7139725/authors#authors    https://www.bilibili.com/video/BV1a3AyzeEFy?buvid=XU4B61843F7FBF5FEB5357FE1B6611B4176EE&from_spmid=main.space-contribution.0.0&is_story_h5=false&mid=Rp1LgRK4xskPUvSL%2FP8FlA%3D%3D&plat_id=116&share_from=ugc&share_medium=android&share_plat=android&share_session_id=d7c745b4-9b04-4b40-a838-865e0d44c23a&share_source=WEIXIN&share_tag=s_i&spmid=united.player-video-detail.0.0&timestamp=1773228020&unique_k=9Inez5v&up_id=357509887
+
+细状物体
