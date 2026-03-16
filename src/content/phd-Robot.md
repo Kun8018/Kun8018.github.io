@@ -92,7 +92,7 @@ https://www.cs.sjtu.edu.cn/~wang-xb/
 
 陈嘉毅  https://jychen18.github.io/
 
-王乾旭 Zekun Qi： https://qizekun.github.io/sofar/
+王乾旭 Zekun Qi： https://qizekun.github.io/sofar/。visionXlab https://yangxue.site/ 
 
 上海ai lab IDC组 https://sheldontsui.github.io/  https://zhaoyanglyu.github.io/
 

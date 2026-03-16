@@ -28,6 +28,8 @@ thumbnail:
 
 https://computationalrobotics.seas.harvard.edu/SkillComposition/
 
+https://robotcontrolstack.github.io/
+
 
 
 ## IROS 2026
@@ -41,6 +43,14 @@ https://computationalrobotics.seas.harvard.edu/SkillComposition/
 LeRobot v0.5.0： https://mp.weixin.qq.com/s/C911DKMJHICGKYbA661MOg?scene=1&click_id=152
 
 论文网站模版：https://github.com/nerfies/nerfies.github.io?tab=readme-ov-file
+
+Why 计算机
+
+arxiv: https://mp.weixin.qq.com/s/62QUkMnZlJOlj19ym92QlA. 在arxiv网站上。只有数学 物理和计算机
+
+价值观  有一次和同事聊天。才确实感觉到自己 did do different things
+
+pusht： https://zhuanlan.zhihu.com/p/1917198794505827261
 
 
 

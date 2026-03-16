@@ -67,7 +67,9 @@ https://github.com/simular-ai/Agent-S?tab=readme-ov-file
 
 https://opencode.ai/docs
 
+#### on-my-opencode
 
+https://github.com/alvinunreal/oh-my-opencode-slim
 
 ### openwork
 
